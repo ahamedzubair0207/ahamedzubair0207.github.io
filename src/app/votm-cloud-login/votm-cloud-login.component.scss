@@ -1,0 +1,37 @@
+#login-page-container {
+	text-align: center;	
+	display:grid;
+	align-items: center;
+	width: 100vw;
+	height: 100vh;
+	background-color: #231f20;
+}
+
+#login-form {
+	border-radius: 4px;
+	margin-top: 5px;
+	padding-top: 2px;
+	text-align: center;
+	justify-items: center;
+	align-items: center;	
+	padding-bottom: 3px;
+}
+
+.login-inp{
+	color: white;
+	text-align: center;
+	justify-items: center;
+	align-items: center;
+}
+
+.modal-content{
+	background-color: #231f20;
+	height: 352px;
+	width: 610px;
+}
+.btn-link{
+	color:white;
+}
+.modal-heading h2{
+	color:#ffffff;
+}

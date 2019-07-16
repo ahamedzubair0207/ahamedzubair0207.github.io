@@ -6,7 +6,7 @@
   <ul class="list-unstyled components">
       
     <li *ngFor="let eachItem of menuItems" [ngClass]="{ 'active' : eachItem.id == activeItem , 'super-admin' : eachItem.id == 'super' }">
-      <a  routerLink="{{eachItem.url}}" (click)="activeItem = eachItem.id" data-toggle="collapse" aria-expanded="false">
+      <a *ngIf="eachItem.enabled" routerLink="{{eachItem.url}}" (click)="activeItem = eachItem.id" data-toggle="collapse" aria-expanded="false" data-toggle="tooltip" data-placement="right" title="{{eachItem.name}}">
           <i [ngClass]="eachItem.icon"></i>
           <span class="icon-text">{{eachItem.name}}</span>
       </a>
