@@ -1,3 +1,66 @@
-<p>
-  Organization Home page in WIP
-  </p>
+
+
+<ng-template #recursiveTableList let-list="orgList" let-lvl="level">
+  <span class="table-list-contents" *ngFor="let item of list">
+    <tr>
+      <th scope="row" (click)="item.opened = !item.opened" [ngStyle]="{'padding-left.px': 15*lvl}">
+        {{item.name}} <i *ngIf="item.loc.length > 0 || item.subOrg.length > 0" [ngClass]="{'fa': true, 'fa-plus': !item.opened, 'fa-minus': item.opened}"></i>
+      </th>
+      <td class="align-center" >{{item.orgType}} {{lvl}}</td>
+      <td class="align-center" >{{item.custNum}}</td>
+      <td class="align-center" >{{item.svcStart | date: 'shortDate'}}</td>
+      <td class="align-center" >{{item.svcEnd | date: 'shortDate'}}</td>
+      <td class="align-center" >{{item.svcLevel}}</td>
+      <td class="align-center">
+        <a class="action-icon">
+          <i class="fa fa-list"></i>
+        </a>
+        <a class="action-icon">
+          <i class="fa fa-eye"></i>
+        </a>
+        <a class="action-icon">
+          <i class="fa fa-edit"></i>
+        </a>
+        <a class="action-icon">
+          <i class="fa fa-trash"></i>
+        </a>
+      </td>
+    </tr>
+    <span class="table-list-contents" *ngIf="item.opened">
+      <ng-container *ngTemplateOutlet="recursiveTableList; context:{ orgList: item.subOrg, level: lvl+1 }"></ng-container>
+    </span>
+    <span class="table-list-contents" *ngIf="item.opened">
+      <tr *ngFor="let itemLoc of item.loc">
+        <th scope="row" [ngStyle]="{'padding-left.px': 15*(lvl+1)}">{{itemLoc.name}}</th>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td class="align-center">
+          <a class="action-icon">
+            <i class="fa fa-list"></i>
+          </a>
+        </td>
+      </tr>
+    </span>
+  </span>
+</ng-template>
+
+
+<table class="table">
+    <thead class="thead-light">
+      <tr>
+        <th scope="col" class="align-center table-col-name" >Name</th>
+        <th scope="col" class="align-center" >Type</th>
+        <th scope="col" class="align-center" >Customer #</th>
+        <th scope="col" class="align-center table-col-small" >Contract Start</th>
+        <th scope="col" class="align-center table-col-small" >Contract End</th>
+        <th scope="col" class="align-center table-col-small" >Service Level</th>
+        <th scope="col" class="align-center" >Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+        <ng-container *ngTemplateOutlet="recursiveTableList; context:{ orgList: organizationsList, level: 0 }"></ng-container>
+    </tbody>
+  </table>

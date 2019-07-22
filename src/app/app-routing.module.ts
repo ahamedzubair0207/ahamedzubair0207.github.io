@@ -12,6 +12,7 @@ import { VotmCloudSensorsHomeComponent } from './votm-cloud-sensors-home/votm-cl
 import { VotmCloudGatewaysHomeComponent } from './votm-cloud-gateways-home/votm-cloud-gateways-home.component';
 import { VotmCloudAdminPanelComponent } from './votm-cloud-admin-panel/votm-cloud-admin-panel.component';
 import { VotmCloudSuperAdminComponent } from './votm-cloud-super-admin/votm-cloud-super-admin.component';
+import { VotmCloudLoginComponent } from './votm-cloud-login/votm-cloud-login.component';
 
 const routes: Routes = [
   { path: 'view/home', component: VotmCloudViewsHomeComponent },
@@ -26,7 +27,8 @@ const routes: Routes = [
   { path: 'gateway/home', component: VotmCloudGatewaysHomeComponent },
   { path: 'admin', component: VotmCloudAdminPanelComponent },
   { path: 'super', component: VotmCloudSuperAdminComponent },
-  { path: '', redirectTo: '/view/home', pathMatch: 'full' },
+  { path: 'login', component: VotmCloudLoginComponent },
+  { path: '', redirectTo: '/login', pathMatch: 'full' },
 ];
 
 @NgModule({

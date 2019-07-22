@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {ORG_TABLE} from '../mock/mock-org';
+import {ORG_LIST} from '../mock/mock-organizations-list';
 @Injectable({
   providedIn: 'root'
 })
@@ -7,7 +7,7 @@ export class OrganizationService {
 
   constructor() { }
 
-  getAllOrganization(): Array<{Id:number,orgName:string,orgType:string,custNo:string,contractStartDate:Date, contractEndDate:Date, svcLabel:string}>{
-    return ORG_TABLE;
+  getAllOrganization(){
+    return ORG_LIST;
   }
 }
