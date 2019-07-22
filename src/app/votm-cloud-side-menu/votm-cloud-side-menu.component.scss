@@ -1,6 +1,7 @@
 
 $primary: #00AAAC;
 $secondary: #000;
+$highlight: rgb(6, 236, 240);
 
 :host {
     z-index: 1;
@@ -99,13 +100,13 @@ a, a:hover, a:focus {
     margin: 2px;
 }
 #sidebar ul li a:hover {
-    color: $secondary;
-    background: $primary;
+    color: $highlight;
+    font-weight: bolder;
 }
 
 #sidebar ul li.active > a, a[aria-expanded="true"] {
-    color: $secondary;
-    background: $primary;
+    color: $highlight;
+    font-weight: bolder;
 }
 ul ul a {
     font-size: 0.9em !important;

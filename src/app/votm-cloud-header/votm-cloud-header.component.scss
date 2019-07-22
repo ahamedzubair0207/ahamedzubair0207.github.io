@@ -1,9 +1,26 @@
+@import "../../styles-variables";
 
 :host {
     position: fixed;
     width: 100%;
+    height: $top-nav-height;
 }
 
+.menu-btn{
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .menu-btn{
+        display: block;
+        font-size:30px; 
+        text-align: center; 
+        color:white;
+        padding-right: 16px; 
+        padding-top: 8px; 
+        float: left;cursor: pointer;
+    }
+}
 #dashboard-page-container {
 	text-align: center;	
 	justify-items: center;
@@ -44,7 +61,7 @@
 }
 
 .navbar {
-border-radius: 0px; 
+    border-radius: 0px; 
 }
 #btn_open{
  position: absolute;

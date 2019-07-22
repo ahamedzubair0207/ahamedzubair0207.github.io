@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { OrganizationService} from '../services/Organization/organization.service';
+// import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-votm-cloud-organizations-home',
@@ -7,9 +9,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class VotmCloudOrganizationsHomeComponent implements OnInit {
 
-  constructor() { }
+  organizationsList = [];
+  constructor(private orgservice: OrganizationService) { }
 
   ngOnInit() {
+    this.getOrganization();
+  }
+  getOrganization(){
+    this.organizationsList = this.orgservice.getAllOrganization().map(x => ({
+      ...x,
+      opened:false
+    }));
   }
 
 }

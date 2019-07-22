@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { DatePipe } from '@angular/common';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -45,6 +46,7 @@ import { VotmCloudHeaderComponent } from './votm-cloud-header/votm-cloud-header.
     InMemoryWebApiModule.forRoot(BackendApiService)
   ],
   providers: [
+    DatePipe,
     MenuService
   ],
   bootstrap: [AppComponent]
