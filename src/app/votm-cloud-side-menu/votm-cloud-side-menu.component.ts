@@ -16,7 +16,7 @@ export class VotmCloudSideMenuComponent implements OnInit {
 
   ngOnInit() {
     this.getMenu();
-    this.activeItem = 'views';
+    this.activeItem = 'views';    
   }
 
   getMenu(): void {
