@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { DatePipe } from '@angular/common';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -19,6 +20,8 @@ import { MenuService } from './services/menu/menu.service';
 import { InMemoryWebApiModule } from 'angular-in-memory-web-api';  
 import { BackendApiService } from './services/mock/backendApi/backend-api.service';
 import { VotmCloudSideMenuComponent } from './votm-cloud-side-menu/votm-cloud-side-menu.component';
+import { VotmCloudLoginComponent } from './votm-cloud-login/votm-cloud-login.component';
+import { VotmCloudHeaderComponent } from './votm-cloud-header/votm-cloud-header.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +36,9 @@ import { VotmCloudSideMenuComponent } from './votm-cloud-side-menu/votm-cloud-si
     VotmCloudGatewaysHomeComponent,
     VotmCloudAdminPanelComponent,
     VotmCloudSuperAdminComponent,
-    VotmCloudSideMenuComponent
+    VotmCloudSideMenuComponent,
+    VotmCloudLoginComponent,
+    VotmCloudHeaderComponent
   ],
   imports: [
     BrowserModule,
@@ -41,6 +46,7 @@ import { VotmCloudSideMenuComponent } from './votm-cloud-side-menu/votm-cloud-si
     InMemoryWebApiModule.forRoot(BackendApiService)
   ],
   providers: [
+    DatePipe,
     MenuService
   ],
   bootstrap: [AppComponent]
