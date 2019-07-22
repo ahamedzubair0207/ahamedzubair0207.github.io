@@ -2,20 +2,18 @@ import { Component, OnInit } from '@angular/core';
 import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
-  selector: 'app-votm-cloud-organizations-create',
-  templateUrl: './votm-cloud-organizations-create.component.html',
-  styleUrls: ['./votm-cloud-organizations-create.component.scss']
+  selector: 'app-votm-cloud-sites-create',
+  templateUrl: './votm-cloud-sites-create.component.html',
+  styleUrls: ['./votm-cloud-sites-create.component.scss']
 })
-export class VotmCloudOrganizationsCreateComponent implements OnInit {
+export class VotmCloudSitesCreateComponent implements OnInit {
   public imagePath;
   imgURL: any;
   public message: string;
   closeResult: string;
   modal: any;
   UOM:any;
-  constructor(private modalService: NgbModal) { 
-    this.UOM =  "SI";
-  }
+  constructor(private modalService: NgbModal) { this.UOM =  "SI";}
 
   ngOnInit() {
   }
@@ -68,11 +66,6 @@ modal.style.display = "block";
 this.modal= document.getElementById("myModal");
 // Get the <span> element that closes the modal
 var span = document.getElementsByClassName("close")[0];
-
-// // When the user clicks on <span> (x), close the modal
-// span.click = function() {
-//   modal.style.display = "none";
-// }
 
 // When the user clicks anywhere outside of the modal, close it
 window.onclick = function(event) {

@@ -4,7 +4,9 @@ import { VotmCloudViewsHomeComponent } from './votm-cloud-views-home/votm-cloud-
 import { VotmCloudAlertsHomeComponent } from './votm-cloud-alerts-home/votm-cloud-alerts-home.component';
 import { VotmCloudPreferencesComponent } from './votm-cloud-preferences/votm-cloud-preferences.component';
 import { VotmCloudOrganizationsHomeComponent } from './votm-cloud-organizations-home/votm-cloud-organizations-home.component';
+import { VotmCloudOrganizationsCreateComponent } from './votm-cloud-organizations-create/votm-cloud-organizations-create.component';
 import { VotmCloudSitesHomeComponent } from './votm-cloud-sites-home/votm-cloud-sites-home.component';
+import { VotmCloudSitesCreateComponent } from './votm-cloud-sites-create/votm-cloud-sites-create.component';
 import { VotmCloudAssetsHomeComponent } from './votm-cloud-assets-home/votm-cloud-assets-home.component';
 import { VotmCloudSensorsHomeComponent } from './votm-cloud-sensors-home/votm-cloud-sensors-home.component';
 import { VotmCloudGatewaysHomeComponent } from './votm-cloud-gateways-home/votm-cloud-gateways-home.component';
@@ -16,7 +18,9 @@ const routes: Routes = [
   { path: 'alerts/home', component: VotmCloudAlertsHomeComponent },
   { path: 'preferences', component: VotmCloudPreferencesComponent },
   { path: 'organization/home', component: VotmCloudOrganizationsHomeComponent },
+  { path: 'organization/create', component: VotmCloudOrganizationsCreateComponent },
   { path: 'site/home', component: VotmCloudSitesHomeComponent },
+  { path: 'site/create', component: VotmCloudSitesCreateComponent },
   { path: 'asset/home', component: VotmCloudAssetsHomeComponent },
   { path: 'sensor/home', component: VotmCloudSensorsHomeComponent },
   { path: 'gateway/home', component: VotmCloudGatewaysHomeComponent },

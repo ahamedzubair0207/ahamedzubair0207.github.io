@@ -1,0 +1,158 @@
+<form class="form container">
+  <div class="row ">
+      <div class="col-lg-12">
+        <div class="col-lg-6">
+      <div >
+          <p class="location-heading">Create Location</p>
+      <div>
+        <label for="name"><b>Name</b></label>
+        <input type="text" placeholder="Enter Name" name="name" required>
+      </div>
+      <div>
+          <label for="Description"><b>Location Description:</b></label>
+          <input type="text" placeholder="Enter Description" name="Description">
+      </div>
+      <div>
+          <label for="address"><b>Street Address:</b></label>
+          <label for="address">Address:</label>
+            <input type="text" placeholder="Street Name" name="address1">
+            <input type="text" placeholder="Apt/Suite Number" name="address2">
+            <input type="text" placeholder="City" name="city">
+            <select name="state" class="drop-down">
+              <option value="0">State</option>
+              <option value="1">MN</option>
+              <option value="2">NY</option>
+              <option value="3">OK</option>
+            </select>
+            <select name="country" class="drop-down">
+              <option value="0">Country</option>
+              <option value="1">United States</option>
+              <option value="2">Brazil</option>
+              <option value="3">Germany</option>
+            </select>
+            <input type="text" placeholder="Zip Code" name="zipCode">
+            <label for="addressType">Address Type:</label>
+            <input type="text" placeholder="Enter Address Type" name="addressType">
+      </div>
+      <div>
+          <label for="geoLocation"><b>Geo Location:</b></label>
+          <input type="text" style="width: 26%" placeholder="Longitude" name="geoLocation"> / <input type="text" style="width: 26%" placeholder="Latitude" name="geoLocation">
+          <button type="button" class="btn-mrgin"><i class="fa fa-bullseye"></i></button>
+      </div>
+      <br>
+      <div>
+          <label for="primaryContact"><b>Primary Contact:</b></label>
+          <input type="text" placeholder="Enter Contact" name="primaryContact">
+      </div>
+      <div>
+        <label for="primarydistribute"><b>Primary Distributor:</b></label>
+        <input type="text" placeholder="Enter Primary Distributor" name="primarydistribute" required>
+    </div>
+    
+      </div>
+      </div>
+      <div class="col-lg-6 " style="margin-top:5px">
+          <div>
+            <br>
+            <br>
+              <label for="parentorganization"><b>Parent Organization Name:</b></label>
+              <input type="text" placeholder="Enter parent Organization" name="parentorganization" required>
+              </div>
+              <div>
+                  <label for="parentLoc"><b>Parent Location:</b></label>
+                  <input type="text" placeholder="Enter parent location" name="parentLoc" required>
+              </div>
+              <div>
+                  <label for="locationType"><b>Location Type: </b></label>
+                  <input type="text" placeholder="Enter Location Type" name="locationType" required>
+              </div>
+              <div>
+                <label for="locImage"><b>Location Image: </b></label>
+                <span style="color:rgb(106,96,85);" *ngIf="message">{{message}}</span>
+                <input #file type="file" accept='image/*' (change)="preview(file.files)" />
+                <img [src]="imgURL" height="200" *ngIf="imgURL">
+            </div>
+              <div>
+                  <label for="DefaultLang"><b>Default Language: </b></label>
+                  <select name="language" class="drop-down">
+                    <option value="0">Select</option>
+                    <option value="1">English(United States)</option>
+                    <option value="2">Spanish</option>
+                    <option value="3">Czech</option>
+                  </select>
+              </div>
+              <div>
+                  <label for="unitsOfMeasure"><b>Units of Measure: </b></label>
+                  <a (click)="openmodal()" >{{UOM}}</a>
+              </div>
+              <div>
+                <label for="geofence"><b>Geo Fence:</b></label>
+                <label class="radio-inline">
+                  <input type="radio" name="geofence" onClick='' checked>Radius
+                  
+                </label>
+                <label class="radio-inline">
+                  <input type="radio" name="geofence">Square
+                </label>
+                <label class="radio-inline">
+                  <input type="radio" name="geofence">Long/Lat Array
+                </label>
+            </div>      
+              
+      </div>
+    </div>
+      </div>
+      <!-- <button type="submit" class="button">+ Location</button>
+      <button type="submit" class="button">+ Asset</button>
+      <button type="submit" class="button">Associate Signal</button> -->
+      <button type="submit" class="button" style="float: right;">Delete</button>
+      <button type="submit" class="button" style="float: right;">Save</button>
+      <button routerLink="/site/home" type="button" class="buttonCancel">Cancel</button>
+  </form>
+
+  <!-- The Modal -->
+<div id="myModal" class="modal">
+
+    <!-- Modal content -->
+    <div class="modal-content">
+      <!-- <span class="close" >&times;</span> -->
+      <div>
+        <label for="UOM"><b>Units of Measure : </b></label>
+        <label class="radio-inline">
+          <input type="radio" name="UOM" value="SI" checked (change)="onUnitChange($event)"> SI
+        </label>
+        <label class="radio-inline">
+          <input type="radio" name="UOM" value="Imperial" (change)="onUnitChange($event)">Imperial
+        </label>
+        <label class="radio-inline">
+          <input type="radio" name="UOM" value="Metric" (change)="onUnitChange($event)">Metric
+        </label>
+        <label class="radio-inline">
+            <input type="radio" name="UOM" value="Custom" (change)="onUnitChange($event)">Custom
+          </label>
+    </div>
+    <label for="Distance"><b>Distance: </b></label>
+                <select name="distance" class="drop-down">
+                  <option value="0">Select</option>
+                  <option value="M">Meters</option>
+                  <option value="F">Feet</option> 
+                </select>
+        <label for="Tempreture"><b>Tempreture: </b></label>
+                <select name="tempreture" class="drop-down">
+                  <option value="0">Select</option>
+                  <option value="F">Fahrenheit</option>
+                  <option value="C">Celsius</option> 
+                  <option value="K">Kelvin</option>
+                </select>
+        <label for="Mass"><b>Mass: </b></label>
+                <select name="mass" class="drop-down">
+                  <option value="0">Select</option>
+                  <option value="K">Kilograms</option>
+                  <option value="P">Pound</option> 
+                </select>
+<div>
+    <button type="button" class="buttonCancel" style="width: 108px" (click)="closemodal()">Cancel</button>
+    <button type="submit" class="button" style="float: right;width: 108px">Save</button>
+    </div>
+</div>
+  </div>
