@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "/subscriptions/6ea5b515-8b8b-49a7-b6ee-8537194438de/resourceGroups/iotpcm01-dev-rg/providers/Microsoft.Web/sites/phc-pcm-dev-webapp",
+    "appService.deploySubpath": "dist"
+}
