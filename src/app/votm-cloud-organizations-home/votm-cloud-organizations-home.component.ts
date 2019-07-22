@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { OrganizationService} from '../services/Organization/organization.service';
-// import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-votm-cloud-organizations-home',
@@ -21,5 +20,4 @@ export class VotmCloudOrganizationsHomeComponent implements OnInit {
       opened:false
     }));
   }
-
 }
