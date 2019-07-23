@@ -1,14 +1,14 @@
 
 <h1 class="flt-left"> Locations</h1>
 <div class="btn-group-right">
-    <button routerLink="/org/create" type="button" class="btn btn-dark">Create Location</button>
+    <button routerLink="/loc/create" type="button" class="btn btn-dark">Create Location</button>
 </div>
 
 
 <ng-template #recursiveTableList let-list="locList" let-lvl="level">
   <span class="table-list-contents" *ngFor="let item of list">
     <tr>
-      <th scope="row" (click)="item.opened = !item.opened" [ngStyle]="{'padding-left.px': 15*lvl}">
+      <th scope="row" (click)="item.opened = !item.opened" [ngStyle]="{'padding-left.px': 15*(lvl+1) }">
         {{item.name}} <i *ngIf="item.assets.length > 0 || item.subLoc.length > 0" [ngClass]="{'fa': true, 'fa-caret-right': !item.opened, 'fa-caret-down': item.opened}"></i>
       </th>
       <td class="align-center" >{{item.locType}} {{lvl}}</td>

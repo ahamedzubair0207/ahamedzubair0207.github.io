@@ -6,30 +6,35 @@
 
 .menu-opened{
     margin-top: 75px;
-    margin-right: 5px;
-    margin-left: 175px;
+    margin-right: 10px;
+    margin-left: 185px;
     width: inherit;
 }
 
 .menu-closed{
     margin-top: 75px;
-    margin-right: 5px;
-    margin-left: 50px;
+    margin-right: 10px;
+    margin-left: 60px;
     width: inherit;
+}
+
+.main-body{
+    margin-bottom: 20px;
+    margin-right:15px;
 }
 
 @media (max-width: 768px) {
     .menu-opened{
         margin-top: 75px;
-        margin-right: 5px;
-        margin-left: 50px;
+        margin-right: 10px;
+        margin-left: 60px;
         width: inherit;
     }
     
     .menu-closed{
         margin-top: 75px;
-        margin-right: 5px;
-        margin-left: 5px;
+        margin-right: 10px;
+        margin-left: 15px;
         width: inherit;
     }
     

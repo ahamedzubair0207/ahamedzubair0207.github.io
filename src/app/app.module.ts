@@ -19,6 +19,7 @@ import { VotmCloudAdminPanelComponent } from './votm-cloud-admin-panel/votm-clou
 import { VotmCloudSuperAdminComponent } from './votm-cloud-super-admin/votm-cloud-super-admin.component';
 
 import { MenuService } from './services/menu/menu.service';
+import { SharedService } from './services/shared.service';
 
 import { InMemoryWebApiModule } from 'angular-in-memory-web-api';  
 import { BackendApiService } from './services/mock/backendApi/backend-api.service';
@@ -53,7 +54,8 @@ import { VotmCloudHeaderComponent } from './votm-cloud-header/votm-cloud-header.
   ],
   providers: [
     DatePipe,
-    MenuService
+    MenuService,
+    SharedService
   ],
   bootstrap: [AppComponent]
 })
