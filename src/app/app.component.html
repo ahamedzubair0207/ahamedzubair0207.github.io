@@ -3,7 +3,7 @@
 <div class="wrapper">
   <app-votm-cloud-header *ngIf="router.url !== '/login'" ></app-votm-cloud-header>
   <app-votm-cloud-side-menu *ngIf="router.url !== '/login'" ></app-votm-cloud-side-menu>
-  <div [ngClass]="{'main-body' : router.url !== '/login'}">
+  <div [ngClass]="{ 'menu-opened' : !menuOpen && router.url !== '/login', 'menu-closed' : menuOpen && router.url !== '/login'}">
     <router-outlet ></router-outlet>
   </div>
 </div>

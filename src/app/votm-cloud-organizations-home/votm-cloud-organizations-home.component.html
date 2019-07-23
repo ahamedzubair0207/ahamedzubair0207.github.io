@@ -1,7 +1,7 @@
 
-<h1> Organizations</h1>
-<div class="btn-group">
-    <button routerLink="/org/create" class="button">Create Organization</button>
+<h1 class="flt-left"> Organizations</h1>
+<div class="btn-group-right">
+    <button routerLink="/org/create" type="button" class="btn btn-dark">Create Organization</button>
 </div>
 
 
@@ -9,7 +9,7 @@
   <span class="table-list-contents" *ngFor="let item of list">
     <tr>
       <th scope="row" (click)="item.opened = !item.opened" [ngStyle]="{'padding-left.px': 15*lvl}">
-        {{item.name}} <i *ngIf="item.loc.length > 0 || item.subOrg.length > 0" [ngClass]="{'fa': true, 'fa-plus': !item.opened, 'fa-minus': item.opened}"></i>
+        {{item.name}} <i *ngIf="item.loc.length > 0 || item.subOrg.length > 0" [ngClass]="{'fa': true, 'fa-caret-right': !item.opened, 'fa-caret-down': item.opened}"></i>
       </th>
       <td class="align-center" >{{item.orgType}} {{lvl}}</td>
       <td class="align-center" >{{item.custNum}}</td>
