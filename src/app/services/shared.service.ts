@@ -6,9 +6,11 @@ import { Observable, BehaviorSubject } from 'rxjs';
 })
 export class SharedService {
   menuOpen: BehaviorSubject<boolean>;
+  activeMenu: string;
 
   constructor() { 
-    this.menuOpen = new BehaviorSubject(false);;
+    this.menuOpen = new BehaviorSubject(false);
+    this.activeMenu = 'views';
   }
 
   getMenuOpen(): Observable<boolean>{
@@ -17,5 +19,13 @@ export class SharedService {
 
   setMenuOpen(isOpen : boolean): void{
     this.menuOpen.next(isOpen);
+  }
+
+  getActiveMenu(): string{
+    return this.activeMenu;
+  }
+
+  setActiveMenu(activeItem : string): void{
+    this.activeMenu = activeItem;
   }
 }

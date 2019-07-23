@@ -18,8 +18,8 @@ export class VotmCloudSideMenuComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getMenu();
-    this.activeItem = 'views';    
+    this.getMenu();    
+    this.activeItem = this.sharedService.getActiveMenu();
   }
 
   getMenu(): void {
@@ -30,4 +30,8 @@ export class VotmCloudSideMenuComponent implements OnInit {
     this.sharedService.setMenuOpen(!this.menuOpen);
   }
 
+  setActiveItem(actItem: string){
+    this.sharedService.setActiveMenu(actItem);
+    this.activeItem = this.sharedService.getActiveMenu();
+  }
 }
