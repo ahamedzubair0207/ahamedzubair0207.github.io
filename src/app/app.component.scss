@@ -4,8 +4,33 @@
     align-items: stretch;
 }
 
-.main-body{
+.menu-opened{
     margin-top: 75px;
+    margin-right: 5px;
     margin-left: 175px;
     width: inherit;
+}
+
+.menu-closed{
+    margin-top: 75px;
+    margin-right: 5px;
+    margin-left: 50px;
+    width: inherit;
+}
+
+@media (max-width: 768px) {
+    .menu-opened{
+        margin-top: 75px;
+        margin-right: 5px;
+        margin-left: 50px;
+        width: inherit;
+    }
+    
+    .menu-closed{
+        margin-top: 75px;
+        margin-right: 5px;
+        margin-left: 5px;
+        width: inherit;
+    }
+    
 }

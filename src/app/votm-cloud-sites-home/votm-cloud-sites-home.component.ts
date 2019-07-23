@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { LocationService } from '../services/Location/location.service';
 
 @Component({
   selector: 'app-votm-cloud-sites-home',
@@ -7,9 +8,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class VotmCloudSitesHomeComponent implements OnInit {
 
-  constructor() { }
+  locationsList = [];
+  constructor(private locService: LocationService) { }
 
   ngOnInit() {
+    this.getLocation();
   }
-
+  getLocation(){
+    this.locationsList = this.locService.getAllLocations().map(x => ({
+      ...x,
+      opened:false
+    }));
+  }
 }

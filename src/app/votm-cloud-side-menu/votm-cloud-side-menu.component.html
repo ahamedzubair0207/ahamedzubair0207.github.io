@@ -1,6 +1,6 @@
 <nav id="sidebar" [ngClass]="{ 'active': menuOpen }">
     
-  <button type="button" (click)="menuOpen=!menuOpen" [ngClass]="{ 'btn btn-secondary btn-circle menu-btn': true, 'menu-btn-open': menuOpen, 'menu-btn-closed': !menuOpen }"><i [ngClass]="{ 'fa': true, 'fa-bars': menuOpen, 'fa-arrow-left': !menuOpen }"></i>
+  <button type="button" (click)="toggleMenu()" [ngClass]="{ 'btn btn-secondary btn-circle menu-btn': true, 'menu-btn-open': menuOpen, 'menu-btn-closed': !menuOpen }"><i [ngClass]="{ 'fa': true, 'fa-bars': menuOpen, 'fa-arrow-left': !menuOpen }"></i>
   </button>
 
   <ul class="list-unstyled components">

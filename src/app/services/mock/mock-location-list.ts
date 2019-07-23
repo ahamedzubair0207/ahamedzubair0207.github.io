@@ -1,81 +1,81 @@
 export const LOC_LIST = [
     {  
-        name: "Level 1 Parker", svcStart: new Date(), custNum: "1q2w4", orgType: "Parent Org", svcEnd: new Date(), svcLevel: "Platinum", id: '1', 
-        subOrg: [
+        name: "Level 1 Parker", parentOrg: "Parker QCD", parentLoc: "1q2w4", locType: "Parent Org", svcLevel: "Platinum", id: '1', 
+        subLoc: [
             {  
-                name: "Level 1.1 Parker", svcStart: new Date(), custNum: "1q2w4", orgType: "Division", svcEnd: new Date(), svcLevel: "Platinum", id: '1.1', 
-                subOrg: [
+                name: "Level 1.1 Parker", parentOrg: "Parker QCD", parentLoc: "1q2w4", locType: "Division", svcLevel: "Platinum", id: '1.1', 
+                subLoc: [
                     {  
-                        name: "Level 1.1.1 Parker", svcStart: new Date(), custNum: "hy345", orgType: "Parent Org", svcEnd: new Date(), svcLevel: "Platinum", id: '4', 
-                        subOrg: [], 
-                        loc: [
+                        name: "Level 1.1.1 Parker", parentOrg: "Parker QCD", parentLoc: "hy345", locType: "Parent Org", svcLevel: "Platinum", id: '4', 
+                        subLoc: [], 
+                        assets: [
                             { name: "Level 1.1.1 Loc 1", id:"locID1"}
                         ] 
                     }
                 ], 
-                loc: [{ name: "Level 1.1 Loc 1", id:"locID1"}] 
+                assets: [{ name: "Level 1.1 Loc 1", id:"locID1"}] 
             },
             {  
-                name: "Level 1.2 Parker FC", svcStart: new Date(), custNum: "q1wsd", orgType: "Division", svcEnd: new Date(), svcLevel: "Platinum", id: '1.2', 
-                subOrg: [], 
-                loc: [
+                name: "Level 1.2 Parker FC", parentOrg: "Parker QCD", parentLoc: "q1wsd", locType: "Division", svcLevel: "Platinum", id: '1.2', 
+                subLoc: [], 
+                assets: [
                     {name: "Level 1.2 Loc 1 FC 1", id: "locID1.2"}
                 ] 
             },
             {  
-                name: "Level 1.3 Parker QCD", svcStart: new Date(), custNum: "4r4t5", orgType: "Division", svcEnd: new Date(), svcLevel: "Platinum", id: '1.3', 
-                subOrg: [], 
-                loc: [] 
+                name: "Level 1.3 Parker QCD", parentOrg: "Parker QCD", parentLoc: "4r4t5", locType: "Division", svcLevel: "Platinum", id: '1.3', 
+                subLoc: [], 
+                assets: [] 
             }
         ], 
-        loc: [
+        assets: [
             { name: "Level 1 Loc 1 Parker HQ ", id:"locID1"},
             { name: "Level 1 Loc 2 Parker HQ ", id:"locID2"}
         ] 
     },
     {  
-        name: "Level 1 Ford", svcStart: new Date(), custNum: "q1wsd", orgType: "Parent Org", svcEnd: new Date(), svcLevel: "Platinum", id: '2', 
-        subOrg: [], 
-        loc: [] 
+        name: "Level 1 Ford", parentOrg: "Parker QCD", parentLoc: "q1wsd", locType: "Parent Org", svcLevel: "Platinum", id: '2', 
+        subLoc: [], 
+        assets: [] 
     },
     {  
-        name: "Level 1 GMC", svcStart: new Date(), custNum: "4r4t5", orgType: "Parent Org", svcEnd: new Date(), svcLevel: "Platinum", id: '3', 
-        subOrg: [], 
-        loc: [] 
+        name: "Level 1 GMC", parentOrg: "Parker QCD", parentLoc: "4r4t5", locType: "Parent Org", svcLevel: "Platinum", id: '3', 
+        subLoc: [], 
+        assets: [] 
     },
     {  
-        name: "Level 1 Toyota", svcStart: new Date(), custNum: "hy345", orgType: "Parent Org", svcEnd: new Date(), svcLevel: "Platinum", id: '4', 
-        subOrg: [], 
-        loc: [] 
+        name: "Level 1 Toyota", parentOrg: "Parker QCD", parentLoc: "hy345", locType: "Parent Org", svcLevel: "Platinum", id: '4', 
+        subLoc: [], 
+        assets: [] 
     },
     {  
-        name: "Level 1 Caterpillar", svcStart: new Date(), custNum: "22233", orgType: "Parent Org", svcEnd: new Date(), svcLevel: "Gold", id: '5', 
-        subOrg: [], 
-        loc: [] 
+        name: "Level 1 Caterpillar", parentOrg: "Parker QCD", parentLoc: "22233", locType: "Parent Org", svcLevel: "Gold", id: '5', 
+        subLoc: [], 
+        assets: [] 
     },
     {  
-        name: "Level 1 Boeing", svcStart: new Date(), custNum: "asdfg", orgType: "Parent Org", svcEnd: new Date(), svcLevel: "Gold", id: '6', 
-        subOrg: [], 
-        loc: [] 
+        name: "Level 1 Boeing", parentOrg: "Parker QCD", parentLoc: "asdfg", locType: "Parent Org", svcLevel: "Gold", id: '6', 
+        subLoc: [], 
+        assets: [] 
     },
     {  
-        name: "Level 1 NASA", svcStart: new Date(), custNum: "zxcvb", orgType: "Parent Org", svcEnd: new Date(), svcLevel: "Gold", id: '7', 
-        subOrg: [], 
-        loc: [] 
+        name: "Level 1 NASA", parentOrg: "Parker QCD", parentLoc: "zxcvb", locType: "Parent Org", svcLevel: "Gold", id: '7', 
+        subLoc: [], 
+        assets: [] 
     },
     {  
-        name: "Level 1 Dodge", svcStart: new Date(), custNum: "1q234", orgType: "Parent Org", svcEnd: new Date(), svcLevel: "Gold", id: '8', 
-        subOrg: [], 
-        loc: [] 
+        name: "Level 1 Dodge", parentOrg: "Parker QCD", parentLoc: "1q234", locType: "Parent Org", svcLevel: "Gold", id: '8', 
+        subLoc: [], 
+        assets: [] 
     },
     {  
-        name: "Level 1 Acura", svcStart: new Date(), custNum: "hhh44", orgType: "Parent Org", svcEnd: new Date(), svcLevel: "Silver", id: '9', 
-        subOrg: [], 
-        loc: [] 
+        name: "Level 1 Acura", parentOrg: "Parker QCD", parentLoc: "hhh44", locType: "Parent Org", svcLevel: "Silver", id: '9', 
+        subLoc: [], 
+        assets: [] 
     },
     {  
-        name: "Level 1 Maserati", svcStart: new Date(), custNum: "444hh", orgType: "Parent Org", svcEnd: new Date(), svcLevel: "Silver", id: '10', 
-        subOrg: [], 
-        loc: [] 
+        name: "Level 1 Maserati", parentOrg: "Parker QCD", parentLoc: "444hh", locType: "Parent Org", svcLevel: "Silver", id: '10', 
+        subLoc: [], 
+        assets: [] 
     }
 ];

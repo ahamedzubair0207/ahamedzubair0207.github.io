@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { SharedService } from '../services/shared.service';
 
 @Component({
   selector: 'app-votm-cloud-header',
@@ -8,13 +9,18 @@ import { Component, OnInit } from '@angular/core';
 export class VotmCloudHeaderComponent implements OnInit {
 
   token:any;
+  menuOpen: boolean;
 
-  constructor() {  }
+  constructor( private sharedService: SharedService) { 
+    this.sharedService.getMenuOpen().subscribe(newVal => this.menuOpen = newVal);
+   }
     
   ngOnInit() {
     this.token = sessionStorage.getItem('token');
- 
   }
 
+  toggleMenu(){
+    this.sharedService.setMenuOpen(!this.menuOpen);
+  }
   
 }
