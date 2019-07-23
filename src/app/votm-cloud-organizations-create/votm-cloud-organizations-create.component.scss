@@ -1,5 +1,4 @@
-@import url('https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css');
-
+ 
 .container {
     padding: 31px;
     background-color: white;
@@ -8,27 +7,21 @@
     font-family: Arial, Helvetica, sans-serif;
     background-color: black;
   }
-  
+  .drop-down{
+    width: 100%;
+    padding: 15px;
+    margin: 5px 0 22px 0;
+    display: inline-block;
+    border: none;
+    background: #f1f1f1;
+  }
   * {
     box-sizing: border-box;
   }
   .fade.show {
     opacity: 1;
   }
-  .button {
-    background-color: rgb(0, 185, 195);
-    border: none;
-    color: white;
-    padding: 15px 32px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin: 4px 2px;
-    cursor: pointer;
-  }
-  .buttonCancel {
-    background-color: rgb(165,160,149);
+  .button-mod {
     border: none;
     color: white;
     padding: 15px 32px;

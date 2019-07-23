@@ -1,5 +1,3 @@
-@import url('https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css');
-@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css');
 
 .container {
     padding: 31px;
@@ -37,20 +35,7 @@
     max-width: 180px;
   }
   
-  .button {
-    background-color: rgb(0, 185, 195);
-    border: none;
-    color: white;
-    padding: 15px 32px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin: 4px 2px;
-    cursor: pointer;
-  }
-  .buttonCancel {
-    background-color: rgb(165,160,149);
+  .button-mod {
     border: none;
     color: white;
     padding: 15px 32px;
@@ -62,7 +47,7 @@
     cursor: pointer;
     float: right;
   }
-  
+ 
   /* Full-width input fields */
   input[type=text], input[type=password],input[type=email],input[type=file] {
     width: 100%;
