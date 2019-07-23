@@ -1,91 +1,104 @@
 
 
 <form class="form container">
-<div class="row ">
-    <div class="col-lg-12">
-      <div class="col-lg-6">
-    <div >
-        <p style="font-size: 25px;">Create Organization</p>
-    <div>
+  <div class="row ">
+  <h4 class="col-12">Create Organization</h4>
+    <div class="col-sm-6">
       <label for="name"><b>Name: </b></label>
       <!-- <label for="name"><b>Name: {{resp.nameLbl}}:</b></label> -->
       <input type="text" placeholder="Enter Name" name="name" required>
       <!-- <input type="text" placeholder="Enter Name" name="name" [(ngModel)]="newOrg.name" required> -->
     </div>
     
-    <div>
+    <div class="col-sm-6">
         <label for="customerNum"><b>Customer Number: </b></label>
         <!-- <label for="Description"><b>Description of Organization: {{resp.descLbl}}:</b></label> -->
         <input type="text" placeholder="Enter Customer Number" name="customerNum">
         <!-- <input type="text" placeholder="Enter Description" name="Description" [(ngModel)]="newOrg.desc"> -->
     </div>
 
-    <div>
+    <div class="col-sm-6">
         <label for="organizationType"><b>Organization Type:</b></label>
         <input type="text" placeholder="Enter Organization Type" name="organizationType" required> 
     </div>
     
     
-    <div>
+    <div class="col-sm-6">
         <label for="primarycontact"><b>Primary Contact(Emalil Address): </b></label>
         <!-- <label for="primarycontact"><b>Primary Contact:{{resp.primContLbl}}</b></label> -->
         <input type="email" placeholder="Enter Email Address" name="contact" required>
     </div>
     
-    <div>
+    <div class="col-sm-6">
         <label for="billingaddress"><b>Primary Distributor Name::</b></label>
         <input type="text" placeholder="Enter Primary Distributor Name" name="billingaddress" required>
     </div>
     
-    <div>
+    <div class="col-sm-6">
         <label for="primaryEmail"><b>Primary Distributor email:</b></label>
         <input type="email" placeholder="Enter Email" name="primaryEmail" required>
     
     </div>
-    <br>
-    <div>
-        <h4>Contract:</h4> 
+    
+    
+  <h4 class="col-12">Contract:</h4> 
+    <div class="col-sm-6">
         <label for="startDate"><b>Start Date:</b></label>
         <input type="text" placeholder="Enter start Date" name="startDate" required>
-        </div>
-        <div>
+    </div>
+
+    <div class="col-sm-6">
             <label for="endDate"><b>End Date:</b></label>
             <input type="text" placeholder="Enter end Date" name="endDate" required>
-        </div>
-        <div>
+    </div>
+    <div class="col-sm-6">
             <label for="svcLabel"><b>SVC Level: </b></label>
             <input type="text" placeholder="Enter SVC Level" name="svcLabel" required>
-        </div>
+    </div>
 
-        <div>
+    <div class="col-sm-6">
           <label for="parentOrg"><b>Parent Organization:</b></label>
           <input type="text" placeholder="Enter Parent Organization" name="parentOrg" required>
-      </div>
+    </div>
       
-        
-    
-    
+    <div class="col-sm-6">
+          <label for="DefaultLang"><b>Default Language: </b></label>
+            <select name="language" class="drop-down">
+              <option value="0">Select</option>
+              <option value="en-us">English(United States)</option>
+              <option value="esp">Spanish</option>
+              <option value="czech">Czech</option>
+            </select>
     </div>
+
+    <div class="col-sm-6">
+          <label for="unitsOfMeasure"><b>Units of Measure: </b></label>
+          <a (click)="openmodal()" >{{UOM}}</a>
     </div>
-    <div class="col-lg-6 " style="margin-top:5px">
-        <div>
-            <br>
-            <br>
-            <!-- <label for="orgType"><b>Billing Address</b></label>
-            <br> -->
+      
+    <div class="col-sm-6">
             <label for="orgType">Address:</label>
             <input type="text" placeholder="Street Name" name="orgType">
             <input type="text" placeholder="Apt/Suite Number" name="orgType">
             <input type="text" placeholder="City" name="orgType">
-            <input type="text" placeholder="State" name="orgType">
-            <input type="text" placeholder="Country" name="orgType">
+            <select name="State" class="drop-down">
+              <option value="0">State</option>
+              <option value="mn">MN)</option>
+              <option value="ok">OK</option>
+              <option value="oh">OH</option>
+            </select>
+            <select name="Country" class="drop-down">
+              <option value="0">Country</option>
+              <option value="us">United States</option>
+              <option value="esp">Spain</option>
+              <option value="brazil">Brazil</option>
+            </select>
             <input type="text" placeholder="Zip Code" name="orgType">
             <label for="orgType">Address Type:</label>
             <input type="text" placeholder="Enter Address Type" name="orgType">
-            </div>
-            
-            
-            <div>
+    </div>
+                 
+    <div class="col-sm-6">
                 <label for="Logo"><b>Logo: </b></label>
                 <span style="color:rgb(106,96,85);" *ngIf="message">{{message}}</span>
                 <input #file type="file" accept='image/*' (change)="preview(file.files)" />
@@ -97,35 +110,13 @@
                   <!-- <iframe src="C:\Users\961952\Documents\Parker QCD\Homeversion\7-17\PCMAPP\src\assets\images\AJ_Digital_Camera.svg">
                     Your browser does not support iframes
                   </iframe> -->
-                </div>
-            <div>
-                <br>
-                <label for="DefaultLang"><b>Default Language: </b></label>
-                  <select name="language" style="   width: 100%;
-                  padding: 15px;
-                  margin: 5px 0 22px 0;
-                  display: inline-block;
-                  border: none;
-                  background: #f1f1f1;">
-                    <option value="0">Select</option>
-                    <option value="en-us">English(United States)</option>
-                    <option value="esp">Spanish</option>
-                    <option value="czech">Czech</option>
-                  </select>
-            </div>
-            <div>
-                <label for="unitsOfMeasure"><b>Units of Measure: </b></label>
-                <a (click)="openmodal()" >{{UOM}}</a>
-            </div>
     </div>
-    </div>
-
-    </div>
+  </div>
     <!-- <button type="submit" class="button">+ Organization</button>
     <button type="submit" class="button">+ Location</button> -->
-    <button routerLink="/org/home" type="button" class="buttonCancel">Cancel</button>
-    <button type="submit" class="button" style="float: right;">Delete</button>
-    <button type="submit" class="button" style="float: right;">Save</button>
+    <button routerLink="/org/home" type="button" class="btn btn-secondary btn-lg button-mod">Cancel</button>
+    <button type="submit" class="btn btn-danger btn-lg button-mod">Delete</button>
+    <button type="submit" class="btn btn-success btn-lg button-mod">Save</button>
 </form>
 
 
