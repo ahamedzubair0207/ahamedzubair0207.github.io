@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
-  selector: 'app-votm-cloud-sites-create',
-  templateUrl: './votm-cloud-sites-create.component.html',
-  styleUrls: ['./votm-cloud-sites-create.component.scss']
+  selector: 'app-votm-cloud-locations-create',
+  templateUrl: './votm-cloud-locations-create.component.html',
+  styleUrls: ['./votm-cloud-locations-create.component.scss']
 })
-export class VotmCloudSitesCreateComponent implements OnInit {
+export class VotmCloudLocationsCreateComponent implements OnInit {
   public imagePath;
   imgURL: any;
   public message: string;

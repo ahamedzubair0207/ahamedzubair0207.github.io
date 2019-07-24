@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { OrganizationService} from '../services/Organization/organization.service';
+import { OrganizationService} from '../../../services/organizations/organization.service';
 
 @Component({
   selector: 'app-votm-cloud-organizations-home',
