@@ -5,27 +5,27 @@ import { DatePipe } from '@angular/common';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { VotmCloudViewsHomeComponent } from './votm-cloud-views-home/votm-cloud-views-home.component';
-import { VotmCloudAlertsHomeComponent } from './votm-cloud-alerts-home/votm-cloud-alerts-home.component';
-import { VotmCloudPreferencesComponent } from './votm-cloud-preferences/votm-cloud-preferences.component';
-import { VotmCloudOrganizationsHomeComponent } from './votm-cloud-organizations-home/votm-cloud-organizations-home.component';
-import { VotmCloudOrganizationsCreateComponent } from './votm-cloud-organizations-create/votm-cloud-organizations-create.component';
-import { VotmCloudSitesHomeComponent } from './votm-cloud-sites-home/votm-cloud-sites-home.component';
-import { VotmCloudSitesCreateComponent } from './votm-cloud-sites-create/votm-cloud-sites-create.component';
-import { VotmCloudAssetsHomeComponent } from './votm-cloud-assets-home/votm-cloud-assets-home.component';
-import { VotmCloudSensorsHomeComponent } from './votm-cloud-sensors-home/votm-cloud-sensors-home.component';
-import { VotmCloudGatewaysHomeComponent } from './votm-cloud-gateways-home/votm-cloud-gateways-home.component';
-import { VotmCloudAdminPanelComponent } from './votm-cloud-admin-panel/votm-cloud-admin-panel.component';
-import { VotmCloudSuperAdminComponent } from './votm-cloud-super-admin/votm-cloud-super-admin.component';
+import { VotmCloudViewsHomeComponent } from './components/views/votm-cloud-views-home/votm-cloud-views-home.component';
+import { VotmCloudAlertsHomeComponent } from './components/alerts/votm-cloud-alerts-home/votm-cloud-alerts-home.component';
+import { VotmCloudPreferencesComponent } from './components/shared/votm-cloud-preferences/votm-cloud-preferences.component';
+import { VotmCloudOrganizationsHomeComponent } from './components/organizations/votm-cloud-organizations-home/votm-cloud-organizations-home.component';
+import { VotmCloudOrganizationsCreateComponent } from './components/organizations/votm-cloud-organizations-create/votm-cloud-organizations-create.component';
+import { VotmCloudLocationsHomeComponent } from './components/locations/votm-cloud-locations-home/votm-cloud-locations-home.component';
+import { VotmCloudLocationsCreateComponent } from './components/locations/votm-cloud-locations-create/votm-cloud-locations-create.component';
+import { VotmCloudAssetsHomeComponent } from './components/assets/votm-cloud-assets-home/votm-cloud-assets-home.component';
+import { VotmCloudSensorsHomeComponent } from './components/sensors/votm-cloud-sensors-home/votm-cloud-sensors-home.component';
+import { VotmCloudGatewaysHomeComponent } from './components/gateways/votm-cloud-gateways-home/votm-cloud-gateways-home.component';
+import { VotmCloudAdminPanelComponent } from './components/admin/votm-cloud-admin-panel/votm-cloud-admin-panel.component';
+import { VotmCloudSuperAdminComponent } from './components/super/votm-cloud-super-admin/votm-cloud-super-admin.component';
 
 import { MenuService } from './services/menu/menu.service';
 import { SharedService } from './services/shared.service';
 
 import { InMemoryWebApiModule } from 'angular-in-memory-web-api';  
 import { BackendApiService } from './services/mock/backendApi/backend-api.service';
-import { VotmCloudSideMenuComponent } from './votm-cloud-side-menu/votm-cloud-side-menu.component';
-import { VotmCloudLoginComponent } from './votm-cloud-login/votm-cloud-login.component';
-import { VotmCloudHeaderComponent } from './votm-cloud-header/votm-cloud-header.component';
+import { VotmCloudSideMenuComponent } from './components/shared/votm-cloud-side-menu/votm-cloud-side-menu.component';
+import { VotmCloudLoginComponent } from './components/shared/votm-cloud-login/votm-cloud-login.component';
+import { VotmCloudHeaderComponent } from './components/shared/votm-cloud-header/votm-cloud-header.component';
 
 @NgModule({
   declarations: [
@@ -35,8 +35,8 @@ import { VotmCloudHeaderComponent } from './votm-cloud-header/votm-cloud-header.
     VotmCloudPreferencesComponent,
     VotmCloudOrganizationsHomeComponent,
     VotmCloudOrganizationsCreateComponent,
-    VotmCloudSitesHomeComponent,
-    VotmCloudSitesCreateComponent,
+    VotmCloudLocationsHomeComponent,
+    VotmCloudLocationsCreateComponent,
     VotmCloudAssetsHomeComponent,
     VotmCloudSensorsHomeComponent,
     VotmCloudGatewaysHomeComponent,

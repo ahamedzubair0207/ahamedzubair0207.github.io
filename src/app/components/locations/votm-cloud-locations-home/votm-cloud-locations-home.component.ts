@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { LocationService } from '../services/Location/location.service';
+import { LocationService } from '../../../services/locations/location.service';
 
 @Component({
-  selector: 'app-votm-cloud-sites-home',
-  templateUrl: './votm-cloud-sites-home.component.html',
-  styleUrls: ['./votm-cloud-sites-home.component.scss']
+  selector: 'app-votm-cloud-locations-home',
+  templateUrl: './votm-cloud-locations-home.component.html',
+  styleUrls: ['./votm-cloud-locations-home.component.scss']
 })
-export class VotmCloudSitesHomeComponent implements OnInit {
+export class VotmCloudLocationsHomeComponent implements OnInit {
 
   locationsList = [];
   constructor(private locService: LocationService) { }

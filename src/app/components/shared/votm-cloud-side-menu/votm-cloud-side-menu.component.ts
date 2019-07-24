@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { SharedService } from '../services/shared.service';
-import { MenuService } from '../services/menu/menu.service';
+import { SharedService } from '../../../services/shared.service';
+import { MenuService } from '../../../services/menu/menu.service';
 
 @Component({
   selector: 'app-votm-cloud-side-menu',
