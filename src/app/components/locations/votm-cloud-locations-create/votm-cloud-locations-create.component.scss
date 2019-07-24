@@ -1,116 +1,118 @@
-
-.container {
-    padding: 31px;
-    background-color: white;
-  }
-  body {
-    font-family: Arial, Helvetica, sans-serif;
-    background-color: black;
-  }
-  
-  * {
-    box-sizing: border-box;
-  }
-
-  .location-heading {
-    font-size: 25px;
-  };
-
-  .btn-mrgin{
-    margin: 17px;
-    width: 7%;
-   }
-   
-
-  .drop-down{
-    width: 100%;
-    padding: 15px;
-    margin: 5px 0 22px 0;
-    display: inline-block;
-    border: none;
-    background: #f1f1f1;
-  }
-
-  .img{
-    max-width: 180px;
-  }
-  
-  .button-mod {
-    border: none;
-    color: white;
-    padding: 15px 32px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin: 4px 2px;
-    cursor: pointer;
-    float: right;
-  }
  
-  /* Full-width input fields */
-  input[type=text], input[type=password],input[type=email],input[type=file] {
-    width: 100%;
-    padding: 15px;
-    margin: 5px 0 22px 0;
-    display: inline-block;
-    border: none;
-    background: #f1f1f1;
-  }
-  
-  input[type=text]:focus, input[type=password]:focus,input[type=email]:focus,input[type=file]:focus {
-    background-color: #ddd;
-    outline: none;
-  }
-  
-  /* Overwrite default styles of hr */
-  hr {
-    border: 1px solid #f1f1f1;
-    margin-bottom: 25px;
-  }
-  
+.container {
+  padding: 15px;
+  background-color: white;
+}
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: black;
+}
+.drop-down{
+  width: 100%;
+  padding:  5px 0px 7px 20px;
+  margin: 5px 0 22px 0;
+  display: inline-block;
+  border: none;
+  background: #f1f1f1;
+  border-radius: 20px;
+}
+.drop-modal{
+  width: 50%;
+  margin: 5px 6px 22px 10px;
+}
+* {
+  box-sizing: border-box;
+}
+.fade.show {
+  opacity: 1;
+}
 
-  /* Add a blue text color to links */
-  a {
-    color: dodgerblue;
-  }
-  
+.btn-color{
+  background-color: rgb(0,185,195);
+  float: left;
+}
+.button-mod {
+  border: none;
+  color: white;
+  padding: 10px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  float: right;
+}
+.buttonModal{
+  background: none !important;
+  border: none;
+  padding: 0 !important;
+  font-family: Arial, sans-serif;
+  color: #069;
+  text-decoration: underline;
+  cursor: pointer;
+  font-size: 15px;
+}
+/* Full-width input fields */
+input[type=text], input[type=password],input[type=email],input[type=file] {
+  width: 100%;
+  padding: 5px 0px 7px 20px;
+  margin: 1px 0px 23px 0px;
+  display: inline-block;
+  border: none;
+  background: #f1f1f1;
+  border-radius: 20px;
+  box-shadow: #069;
+}
+
+input[type=text]:focus, input[type=password]:focus,input[type=email]:focus,input[type=file]:focus {
+  background-color: #ddd;
+  outline: none;
+}
+
+/* Overwrite default styles of hr */
+hr {
+  border: 1px solid #f1f1f1;
+  margin-bottom: 25px;
+}
+
 // Modal CSS
 
 /* The Modal (background) */
 .modal {
-  display: none; /* Hidden by default */
-  position: fixed; /* Stay in place */
-  z-index: 1; /* Sit on top */
-  padding-top: 100px; /* Location of the box */
-  left: 0;
-  top: 0;
-  width: 100%; /* Full width */
-  height: 100%; /* Full height */
-  overflow: auto; /* Enable scroll if needed */
-  background-color: rgb(0,0,0); /* Fallback color */
-  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+display: none; /* Hidden by default */
+position: fixed; /* Stay in place */
+z-index: 1; /* Sit on top */
+padding-top: 100px; /* Location of the box */
+left: 0;
+top: 0;
+width: 100%; /* Full width */
+height: 100%; /* Full height */
+overflow: auto; /* Enable scroll if needed */
+background-color: rgb(0,0,0); /* Fallback color */
+background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
 }
 
 /* Modal Content */
 .modal-content {
-  background-color: #fefefe;
-  margin: auto;
-  padding: 20px;
-  border: 1px solid #888;
-  width: 45%;
+background-color: #fefefe;
+margin: auto;
+padding: 20px;
+border: 1px solid #888;
+width: 45%;
 }
+
 /* The Close Button */
 .close {
-  color: #aaaaaa;
-  float: right;
-  font-size: 28px;
-  font-weight: bold;
+color: #aaaaaa;
+float: right;
+font-size: 28px;
+font-weight: bold;
 }
 
 .close:hover,
 .close:focus {
-  color: #000;
-  text-decoration: none;
-  cursor: pointer;
+color: #000;
+text-decoration: none;
+cursor: pointer;
 }
