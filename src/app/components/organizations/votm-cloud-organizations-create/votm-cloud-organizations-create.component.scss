@@ -1,6 +1,6 @@
  
 .container {
-    padding: 31px;
+    padding: 15px;
     background-color: white;
   }
   body {
@@ -9,11 +9,16 @@
   }
   .drop-down{
     width: 100%;
-    padding: 15px;
+    padding:  5px 0px 7px 20px;
     margin: 5px 0 22px 0;
     display: inline-block;
     border: none;
     background: #f1f1f1;
+    border-radius: 20px;
+  }
+  .drop-modal{
+    width: 50%;
+    margin: 5px 6px 22px 10px;
   }
   * {
     box-sizing: border-box;
@@ -21,10 +26,15 @@
   .fade.show {
     opacity: 1;
   }
+
+  .btn-color{
+    background-color: rgb(0,185,195);
+    float: left;
+  }
   .button-mod {
     border: none;
     color: white;
-    padding: 15px 32px;
+    padding: 10px 32px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
@@ -46,11 +56,13 @@
   /* Full-width input fields */
   input[type=text], input[type=password],input[type=email],input[type=file] {
     width: 100%;
-    padding: 15px;
-    margin: 5px 0 22px 0;
+    padding: 5px 0px 7px 20px;
+    margin: 1px 0px 23px 0px;
     display: inline-block;
     border: none;
     background: #f1f1f1;
+    border-radius: 20px;
+    box-shadow: #069;
   }
   
   input[type=text]:focus, input[type=password]:focus,input[type=email]:focus,input[type=file]:focus {
@@ -64,13 +76,6 @@
     margin-bottom: 25px;
   }
   
- 
-  /* Add a blue text color to links */
-  a {
-    color: dodgerblue;
-  }
-  
-
 // Modal CSS
 
 /* The Modal (background) */
