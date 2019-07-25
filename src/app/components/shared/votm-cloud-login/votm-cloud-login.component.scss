@@ -17,11 +17,23 @@
 	padding-bottom: 3px;
 }
 
+.login-btn{
+	background-color: rgb(0, 170, 172);
+	border-color: rgb(0, 170, 172)
+}
+
+.forgot-pass{
+	color:rgb(0, 170, 172) !important;
+	margin-top:10px;
+	
+}
+
 .login-inp{
 	color: white;
 	text-align: center;
 	justify-items: center;
 	align-items: center;
+	box-shadow: #ffffff;
 }
 .login-inp-container{
     width: 80%;
@@ -36,9 +48,7 @@
 	width: 500px;
 	border: 0px;
 }
-.btn-link{
-	color:white;
-}
+
 .modal-heading h2{
 	color:#ffffff;
 }
