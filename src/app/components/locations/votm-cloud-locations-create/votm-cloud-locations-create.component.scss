@@ -3,16 +3,19 @@
   padding: 15px;
   background-color: white;
 }
-body {
-  font-family: Arial, Helvetica, sans-serif;
-  background-color: black;
+
+.loc-outside-border{
+  background:#dbdada;
+  margin: -12px -15px 0 -25px;
+  padding: 20px;
 }
+
 .drop-down{
   width: 100%;
-  padding:  5px 0px 7px 20px;
+  padding:  5px 0px 7px 15px;
   margin: 5px 0 22px 0;
   display: inline-block;
-  border: none;
+  border: 1px solid #ddd;
   background: #f1f1f1;
   border-radius: 20px;
 }
@@ -20,13 +23,10 @@ body {
   width: 50%;
   margin: 5px 6px 22px 10px;
 }
-* {
-  box-sizing: border-box;
-}
-.fade.show {
-  opacity: 1;
-}
 
+.uom-btn{
+  margin: -51px 0px 8px 86px;
+}
 .btn-color{
   background-color: rgb(0,185,195);
   float: left;
@@ -56,10 +56,10 @@ body {
 /* Full-width input fields */
 input[type=text], input[type=password],input[type=email],input[type=file] {
   width: 100%;
-  padding: 5px 0px 7px 20px;
+  padding: 5px 0px 7px 15px;
   margin: 1px 0px 23px 0px;
   display: inline-block;
-  border: none;
+  border: 1px solid #ddd;
   background: #f1f1f1;
   border-radius: 20px;
   box-shadow: #069;
@@ -70,11 +70,6 @@ input[type=text]:focus, input[type=password]:focus,input[type=email]:focus,input
   outline: none;
 }
 
-/* Overwrite default styles of hr */
-hr {
-  border: 1px solid #f1f1f1;
-  margin-bottom: 25px;
-}
 
 // Modal CSS
 
