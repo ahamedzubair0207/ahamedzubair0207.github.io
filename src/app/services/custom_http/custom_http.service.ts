@@ -23,6 +23,18 @@ export class CustomHttp {
         return this.http.post(url, body, { headers, responseType: 'json' });
     }
 
+    patch(controller: string, actionName: string, body: any): Observable<any> {
+        let url = this.getUrl(controller, actionName);
+        let headers = this.setHeaders();
+        return this.http.patch(url, body, { headers, responseType: 'json' });
+    }
+
+    delete(controller: string, actionName: string, body: any): Observable<any> {
+        let url = this.getUrl(controller, actionName);
+        let headers = this.setHeaders();
+        return this.http.delete(url, { headers, params: body, responseType: 'json' });
+    }
+
     private getUrl(controller: string, actionName: string): string {
         return actionName ? `${environment.protocol}://${environment.server}/${environment.virtualName}/${controller}/${actionName}`
             : `${environment.protocol}://${environment.server}/${environment.virtualName}/${controller}`;
