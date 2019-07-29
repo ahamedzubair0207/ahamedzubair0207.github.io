@@ -1,216 +1,251 @@
-
 <div class="org-outside-border">
-    <form class="form container create-org-container border shadow-sm">
-        <h4 class="col">Create Organization</h4>
-          <div class="row">
-            <div class="col-md-4">
-              <label for="name"><b>Name: </b></label>
-              <!-- <label for="name"><b>Name: {{resp.nameLbl}}:</b></label> -->
-              <input type="text" placeholder="Enter Name" name="name" required>
-              <!-- <input type="text" placeholder="Enter Name" name="name" [(ngModel)]="newOrg.name" required> -->
-            </div>
-            <div class="col-md-4">
-                <label for="customerNum"><b>Customer Number: </b></label>
-                <!-- <label for="Description"><b>Description of Organization: {{resp.descLbl}}:</b></label> -->
-                <input type="text" placeholder="Enter Customer Number" name="customerNum">
-                <!-- <input type="text" placeholder="Enter Description" name="Description" [(ngModel)]="newOrg.desc"> -->
-            </div>
-            <div class="col-md-4">
-                <label for="organizationType"><b>Organization Type:</b></label>
-                <input type="text" placeholder="Enter Organization Type" name="organizationType" required> 
-            </div>
-            <div class="col">
-              <label for="primarycontact"><b>Primary Contact(Emalil Address): </b></label>
-              <!-- <label for="primarycontact"><b>Primary Contact:{{resp.primContLbl}}</b></label> -->
-              <input type="email" placeholder="Enter Email Address" name="contact" required>
-              </div>
-        
-            <div class="col">
-              <label for="billingaddress"><b>Primary Distributor Name::</b></label>
-              <input type="text" placeholder="Enter Primary Distributor Name" name="billingaddress" required>
-              </div>
-        
-            <div class="col">
-              <label for="primaryEmail"><b>Primary Distributor email:</b></label>
-              <input type="email" placeholder="Enter Email" name="primaryEmail" required>
-              </div>
-            </div>
-          
-        
-         <div class="row">
-            <h4 class="col-12">Contract:</h4> 
-            <div class="col-sm-6">
-                <label for="startDate"><b>Start Date:</b></label>
-                <input type="text" placeholder="Enter start Date" name="startDate" required>
-            </div>
-        
-            <div class="col-md-6">
-                    <label for="endDate"><b>End Date:</b></label>
-                    <input type="text" placeholder="Enter end Date" name="endDate" required>
-            </div>
-            <div class="col-md-6">
-                    <label for="svcLabel"><b>Service Level: </b></label>
-                    <input type="text" placeholder="Enter Service Level" name="svcLabel" required>
-            </div>
-            <div class="col-md-6">
-                  <label for="parentOrg"><b>Parent Organization:</b></label>
-                  <input type="text" placeholder="Enter Parent Organization" name="parentOrg" required>
-            </div>
-         </div> 
-          
-         <div class="row">
-            <div class="col">
-                <h4><label for="orgType">Billing Address:</label></h4>
-                <div class="row">
-                    <div class="col-md-6">
-                        <label for="orgType"><b>Street Name:</b></label>
-                        <input type="text" placeholder="Street Name" name="address1">
-                    </div>
-                    <div class="col-md-6">
-                        <label for="orgType"><b>Apt/Suite Number:</b></label>
-                        <input type="text" placeholder="Apt/Suite Number" name="address2">
-                    </div>
-                    <div class="col-md-3">
-                        <label for="orgType"><b>City:</b></label>
-                        <input type="text" placeholder="City" name="orgType">
-                    </div>
-                    <div class="col-md-3">
-                        <label for="orgType"><b>Zip Code:</b></label>
-                        <input type="text" placeholder="Zip Code" name="orgType">
-                    </div>
-                    <div class="col-md-3">
-                        <label for="orgType"><b>State:</b></label>
-                        <select name="State" class="drop-down">
-                            <option value="0">Select:</option>
-                            <option value="mn">MN</option>
-                            <option value="ok">OK</option>
-                            <option value="oh">OH</option>
-                          </select>
-                    </div>
-                    <div class="col-md-3">
-                        <label for="orgType"><b>Country:</b></label>
-                        <select name="Country" class="drop-down">
-                            <option value="0">Country</option>
-                            <option value="us">United States</option>
-                            <option value="esp">Spain</option>
-                            <option value="brazil">Brazil</option>
-                          </select>
-                      </div>
-                </div>   
-        </div>
+  <form class="form container create-org-container border shadow-sm" (ngSubmit)="onOrganizationSubmit()">
+    <h3 class="col create-org-head">Create Organization</h3>
+    <div class="row org-create-font">
+      <div class="col-md-4">
+        <label for="name"><b>* {{pageLabels.Name.labelName}} : </b></label>
+        <input type="text" [(ngModel)]="organization.name" class="form-control org-create-font" placeholder="Name"
+          name="name" required>
+        <!-- <input type="text" placeholder="Name" name="name" [(ngModel)]="newOrg.name" required> -->
+      </div>
+      <div class="col-md-4">
+        <label for="customerNum"><b>* {{pageLabels.CustomerNumber.labelName}}</b>:</label>
+        <!-- <label for="Description"><b>Description of Organization: {{resp.descLbl}}:</b></label> -->
+        <input type="text" [(ngModel)]="organization.customerNumber" class="form-control org-create-font"
+          placeholder="Customer Number" name="customerNum">
+        <!-- <input type="text" placeholder="Description" name="Description" [(ngModel)]="newOrg.desc"> -->
+      </div>
+
+      <div class="col-md-4">
+        <label for="parentOrg"><b>{{pageLabels.ParentOrganization.labelName}} :</b></label>
+        <br>
+        <label for="parentOrg">{{organization.parentOrganizationId}}</label>
+
+      </div>
+      <div class="col-md-4">
+        <label for="organizationType"><b>{{pageLabels.OrganizationType.labelName}} :</b></label>
+        <input type="text" [(ngModel)]="organization.organizationType" class="form-control org-create-font"
+          placeholder="Organization Type" name="organizationType" required>
+      </div>
+      <div class="col-md-4">
+        <label for="primarycontact"><b>* {{pageLabels.PrimaryContact.labelName}} :</b></label>
+        <!-- <label for="primarycontact"><b>Primary Contact:{{resp.primContLbl}}</b></label> -->
+        <input type="email" [(ngModel)]="organization.primaryContactEmailAddress" class="form-control org-create-font"
+          placeholder="Email Address" name="contact" required>
+      </div>
+
+      <div class="col-md-4">
+        <label for="primaryDistributorName"><b>* {{pageLabels.PrimaryDistributor.labelName}} : * </b></label>
+        <input type="text" name="primaryDistributorName" [(ngModel)]="organization.primaryDistributorName"
+          class="form-control org-create-font" placeholder="Primary Distributor Name" required>
+      </div>
+
+      <div class="col-md-4">
+        <!-- <label for="primaryDistributorEmail"><b>* {{pageLabels.PrimaryDistributorEmailAddress.labelName}} : * </b></label> -->
+        <label for="primaryDistributorEmail"><b>* Primary Distributor Email Address : * </b></label>
+        <input type="email" name="primaryDistributorEmail" [(ngModel)]="organization.primaryDistributorEmailAddress"
+          class="form-control org-create-font" placeholder="Primary Distributor Email" required>
+      </div>
+
+    </div>
+
+    <div class="row org-create-font">
+      <div class="col-12">
+        <label for="orgDescription"><b>{{pageLabels.DescriptionofOrganization.labelName}} :</b></label>
+        <textarea class="form-control" [(ngModel)]="organization.description" name="orgDescription" rows="3"
+          id="f-orgDescription"></textarea>
+      </div>
+    </div>
+
+
+    <div class="row org-create-font">
+      <h5 class="col-12 org-h5">* {{pageLabels.Contract.labelName}} :</h5>
+      <div class="col-sm-4">
+        <label for="startDate"><b>* {{pageLabels.StartDate.labelName}} :</b></label>
+        <input type="date" [(ngModel)]="organization.contractStartDate" class="form-control org-create-font"
+          placeholder="Start Date" name="startDate" required>
+      </div>
+
+      <div class="col-md-4">
+        <label for="endDate"><b>* {{pageLabels.EndDate.labelName}} :</b></label>
+        <input type="date" [(ngModel)]="organization.contractEndDate" class="form-control org-create-font"
+          placeholder="End Date" name="endDate" required>
+      </div>
+      <div class="col-md-4">
+        <label for="svcLabel"><b>{{pageLabels.SVCLevel.labelName}} : </b></label>
+        <input type="text" [(ngModel)]="organization.svclevel" class="form-control org-create-font"
+          placeholder="Service Level" name="svcLabel" required>
+      </div>
+
+    </div>
+
+    <div class="row org-create-font">
+      <div class="col">
+        <h5><label for="orgType">* {{pageLabels.BillingAddress.labelName}} :</label></h5>
+        <div class="row org-create-font">
+          <div class="col-md-6">
+            <label for="orgType"><b>* {{pageLabels.Name.labelName}} :</b></label>
+            <input type="text" [(ngModel)]="organization.address[0].address1" class="form-control org-create-font"
+              placeholder="Street Name" name="address1">
           </div>
-          <div class="row">
-              <div class="col-md-4">
-                  <label for="Logo"><b>Logo: </b></label>
-                  <span style="color:rgb(106,96,85);" *ngIf="message">{{message}}</span>
-                  <input #file type="file" accept='image/*' (change)="preview(file.files)" />
-                  <img [src]="imgURL" height="200" *ngIf="imgURL">
-                  <!-- <embed type="image/svg" src="C:\Users\961952\Documents\Parker QCD\Homeversion\7-17\PCMAPP\src\assets\images\AJ_Digital_Camera.svg" /> -->
-                  <!-- <object type="image/svg" data="C:\Users\961952\Documents\Parker QCD\Homeversion\7-17\PCMAPP\src\assets\images\AJ_Digital_Camera.svg">
+          <div class="col-md-6">
+            <label for="orgType"><b>* {{pageLabels.Name.labelName}} :</b></label>
+            <input type="text" [(ngModel)]="organization.address[0].address2" class="form-control org-create-font"
+              placeholder="Apt/Suite Number" name="address2">
+          </div>
+          <div class="col-md-3">
+            <label for="orgType"><b>* {{pageLabels.Name.labelName}} :</b></label>
+            <input type="text" [(ngModel)]="organization.address[0].city" class="form-control org-create-font"
+              placeholder="City" name="city">
+          </div>
+          <div class="col-md-3">
+            <label for="orgType"><b>* {{pageLabels.Name.labelName}} :</b></label>
+            <input type="text" [(ngModel)]="organization.address[0].postalCode" class="form-control org-create-font"
+              placeholder="Zip Code" name="zipCode">
+          </div>
+          <div class="col-md-3">
+            <label for="orgType"><b>* {{pageLabels.Name.labelName}} :</b></label>
+            <!-- <select name="State" class="drop-down">
+              <option value="0">Select:</option>
+              <option value="mn">MN</option>
+              <option value="ok">OK</option>
+              <option value="oh">OH</option>
+            </select> -->
+            <select [(ngModel)]="organization.address[0].state" name="organizationType" class="drop-down">
+              <option *ngFor="let state of states" [value]="state.value">
+                {{state.text}}
+              </option>
+            </select>
+          </div>
+          <div class="col-md-3">
+            <label for="orgType"><b>* {{pageLabels.Name.labelName}} :</b></label>
+            <select [(ngModel)]="organization.address[0].country" name="organizationType" class="drop-down">
+              <option *ngFor="let country of countries" [value]="country.value">
+                {{country.text}}
+              </option>
+            </select>
+            <!-- <select name="Country" class="drop-down">
+              <option value="0">Country</option>
+              <option value="us">United States</option>
+              <option value="esp">Spain</option>
+              <option value="brazil">Brazil</option>
+            </select> -->
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row org-create-font">
+      <div class="col-md-4">
+        <label for="Logo"><b>{{pageLabels.LogoFile.labelName}} :</b></label>
+        <span style="color:rgb(106,96,85);" *ngIf="message">{{message}}</span>
+        <input #file type="file" accept='image/*' (change)="preview(file.files)" />
+        <img [src]="imgURL" height="200" *ngIf="imgURL">
+        <!-- <embed type="image/svg" src="C:\Users\961952\Documents\Parker QCD\Homeversion\7-17\PCMAPP\src\assets\images\AJ_Digital_Camera.svg" /> -->
+        <!-- <object type="image/svg" data="C:\Users\961952\Documents\Parker QCD\Homeversion\7-17\PCMAPP\src\assets\images\AJ_Digital_Camera.svg">
                       Your browser does not support SVG
                     </object> -->
-                    <!-- <iframe src="C:\Users\961952\Documents\Parker QCD\Homeversion\7-17\PCMAPP\src\assets\images\AJ_Digital_Camera.svg">
+        <!-- <iframe src="C:\Users\961952\Documents\Parker QCD\Homeversion\7-17\PCMAPP\src\assets\images\AJ_Digital_Camera.svg">
                       Your browser does not support iframes
                     </iframe> -->
-              </div>
-              <div class="col-md-4">
-                  <label for="DefaultLang"><b>Default Language: </b></label>
-                    <select name="language" class="drop-down">
-                      <option value="0">Select</option>
-                      <option value="en-us">English(United States)</option>
-                      <option value="esp">Spanish</option>
-                      <option value="czech">Czech</option>
-                    </select>
-            </div>
-            <div class="col-md-4">
-                <label for="unitsOfMeasure"><b>Units of Measure: </b></label>
-                <textarea readonly disabled rows="1" cols="7" class="d-flex">{{UOM}}</textarea>
-                <button class="btn btn-secondary uom-btn" (click)="openmodal()">Change</button>
-              </div>
-          </div>
-          <div class="d-flex justify-content-end">
-            <!-- <button type="submit" class="button">+ Organization</button>
-            <button type="submit" class="button">+ Location</button> -->
-            <button routerLink="/org/home" type="button" class="btn btn-secondary btn-lg button-mod">Cancel</button>
-            <button type="submit" class="btn btn-secondary btn-lg button-mod">Delete</button>
-            <button type="submit" class="btn btn-secondary btn-lg button-mod btn-color">Save</button>
-          </div>
-      </form>
-</div>
-
-
-
-
- <!-- The Modal -->
- <div id="myModal" class="modal">
-
-    <!-- Modal content -->
-    <div class="modal-content">
-      <!-- <span class="close" >&times;</span> -->
-      <div class="row">
-          <div class="col-12">
-              <label for="UOM" class="pr-2"><b>Units of Measure :</b></label>
-                      
-          <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" value="SI" name="si" (change)="onUnitChange($event)" checked id="f-si">
-            <label class="form-check-label" for="f-si">SI</label>
-          </div>        
-          <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" value="Imperial" name="imperial" (change)="onUnitChange($event)" id="f-imperial">
-            <label class="form-check-label" for="f-imperial">Imperial</label>
-          </div>      
-          <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" value="Metric" name="metric" (change)="onUnitChange($event)" id="f-metric">
-            <label class="form-check-label" for="f-metric">Metric</label>
-          </div>  
-          <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" value="Custom" name="custom" (change)="onUnitChange($event)" id="f-custom">
-            <label class="form-check-label" for="f-custom">Custom</label>
-          </div>
-          </div>
-          <div class="col-12">
-            <div>
-              <div style="width:140px;float:left;padding-top:3px">
-                  <label for="distance"><b>Distance :</b></label>
-              </div>              
-              <div clas="float-left">
-                  <select name="select-distance" class="drop-down drop-modal">
-                      <option value="0">Select</option>
-                      <option value="M">Meters</option>
-                      <option value="F">Feet</option> 
-                    </select>
-              </div>                
-            </div> 
-            <div>
-              <div style="width:140px;float:left;padding-top:3px">
-                <label for="Temperature"><b>Temperature :</b></label>
-              </div>
-              <div clas="float-left">
-                <select name="temperature" class="drop-down drop-modal">
-                  <option value="0">Select</option>
-                  <option value="F">Fahrenheit</option>
-                  <option value="C">Celsius</option>
-                  <option value="K">Kelvin</option>
-                </select>
-              </div>
-            </div>
-            <div>
-                <div style="width:140px;float:left;padding-top:3px">
-                  <label for="Mass"><b>Mass :</b></label>
-                </div>
-                <div clas="float-left">
-                  <select name="mass" class="drop-down drop-modal">
-                      <option value="0">Select</option>
-                      <option value="K">Kilograms</option>
-                      <option value="P">Pound</option> 
-                  </select>
-                </div>
-              </div>
-          </div>
       </div>
-<div>
-    <button type="button" class="btn button-mod btn-secondary" (click)="closemodal()">Cancel </button>
-    <button type="submit" class="btn button-mod btn-color" style="float: left;" (click)="closemodal()">Save</button>
+      <div class="col-md-4">
+        <label for="DefaultLang"><b>* {{pageLabels.Language.labelName}} :</b></label>
+        <select name="language" class="drop-down">
+          <option value="0">Select</option>
+          <option value="en-us">English(United States)</option>
+          <option value="esp">Spanish</option>
+          <option value="czech">Czech</option>
+        </select>
+      </div>
+      <div class="col-md-4">
+        <label for="unitsOfMeasure"><b>* {{pageLabels.DefaultUnitOfMeasure.labelName}} :</b></label>
+        <textarea readonly disabled rows="1" cols="7" class="d-flex">{{UOM}}</textarea>
+        <button class="btn btn-secondary uom-btn" type="button" (click)="openmodal()">Change</button>
+      </div>
     </div>
+    <div class="d-flex justify-content-end">
+      <!-- <button type="submit" class="button">+ Organization</button>
+            <button type="submit" class="button">+ Location</button> -->
+      <button routerLink="/org/home" type="button" class="btn btn-secondary btn-lg button-mod">Cancel</button>
+      <button type="submit" class="btn btn-secondary btn-lg button-mod">Delete</button>
+      <button type="submit" class="btn btn-secondary btn-lg button-mod btn-color">Save</button>
+    </div>
+  </form>
 </div>
+
+
+
+
+<!-- The Modal -->
+<div id="myModal" class="modal">
+
+  <!-- Modal content -->
+  <div class="modal-content">
+    <!-- <span class="close" >&times;</span> -->
+    <div class="row">
+      <div class="col-12">
+        <label for="UOM" class="pr-2"><b>Units of Measure :</b></label>
+
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="radio" value="SI" name="UOM" (change)="onUnitChange($event)" checked
+            id="f-si">
+          <label class="form-check-label" for="f-si">SI</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="radio" value="Imperial" name="UOM" (change)="onUnitChange($event)"
+            id="f-imperial">
+          <label class="form-check-label" for="f-imperial">Imperial</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="radio" value="Metric" name="UOM" (change)="onUnitChange($event)"
+            id="f-metric">
+          <label class="form-check-label" for="f-metric">Metric</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="radio" value="Custom" name="UOM" (change)="onUnitChange($event)"
+            id="f-custom">
+          <label class="form-check-label" for="f-custom">Custom</label>
+        </div>
+      </div>
+      <div *ngFor="let uom of applicationConfiguration.unitOfMeassurement; let i = index" [attr.data-index]="i">
+        <div *ngIf="i%2===0 && uom">
+          <div class="col-6">
+            <div style="width:140px;float:left;padding-top:3px">
+              <label for="uom.uomTypeName"><b>{{uom.uomTypeName}} :</b></label>
+            </div>
+            <div class="float-left">
+              <select (change)="onUoMDropdownChange($event,uom.uomTypeName )" style="width:100px;" name="uom.uomTypeName" class="drop-down">
+                  <option></option>
+                <option *ngFor="let view of uom.uoMView" [value]="view.uoMId">
+                  {{view.uoMName}}
+                </option>
+              </select>
+            </div>
+          </div>
+          <div class="col-6" *ngIf="applicationConfiguration.unitOfMeassurement[i+1]">
+            <div style="width:140px;float:left;padding-top:3px">
+              <label
+                for="applicationConfiguration.unitOfMeassurement[i+1].uomTypeName"><b>{{applicationConfiguration.unitOfMeassurement[i+1].uomTypeName}}
+                  :</b></label>
+            </div>
+            <div class="float-left">
+              <select (change)="onUoMDropdownChange($event, applicationConfiguration.unitOfMeassurement[i+1].uomTypeName)" style="width:100px;" name="applicationConfiguration.unitOfMeassurement[i+1].uomTypeName"
+                class="drop-down">
+                <option></option>
+                <option *ngFor="let view of applicationConfiguration.unitOfMeassurement[i+1].uoMView"
+                  [value]="view.uoMId">
+                  {{view.uoMName}}
+                </option>
+              </select>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <div>
+      <button type="button" class="btn button-mod btn-secondary" (click)="closemodal('cancel')">Cancel </button>
+      <button type="button" class="btn button-mod btn-color" style="float: left;" (click)="closemodal('save')">Save</button>
+    </div>
   </div>
+</div>

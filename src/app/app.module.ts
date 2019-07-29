@@ -1,5 +1,7 @@
-import { BrowserModule } from '@angular/platform-browser';
+
 import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { HttpClientModule } from '@angular/common/http';
 import { DatePipe } from '@angular/common';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -27,6 +29,10 @@ import { VotmCloudSideMenuComponent } from './components/shared/votm-cloud-side-
 import { VotmCloudLoginComponent } from './components/shared/votm-cloud-login/votm-cloud-login.component';
 import { VotmCloudHeaderComponent } from './components/shared/votm-cloud-header/votm-cloud-header.component';
 
+import { CustomHttp } from './services/custom_http/custom_http.service';
+import { OrganizationService } from './services/organizations/organization.service';
+import { FormsModule } from '@angular/forms';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -48,14 +54,17 @@ import { VotmCloudHeaderComponent } from './components/shared/votm-cloud-header/
   ],
   imports: [
     BrowserModule,
+    HttpClientModule,
     AppRoutingModule,
-    InMemoryWebApiModule.forRoot(BackendApiService),
-    NgbModule
+    // InMemoryWebApiModule.forRoot(BackendApiService),
+    NgbModule,
+    FormsModule
   ],
   providers: [
     DatePipe,
     MenuService,
-    SharedService
+    SharedService,
+
   ],
   bootstrap: [AppComponent]
 })
