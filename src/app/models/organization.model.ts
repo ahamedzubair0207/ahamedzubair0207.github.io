@@ -17,11 +17,14 @@ export class Organization {
   address: Array<Address>;
   description: string;
   logo: Logo;
-  timeZone: string;
-  locale: string;
-  uoM: Array<string>;
+  timeZone?: string;
+  locale?: string;
+  uoM?: Array<string>;
   createdBy: string;
   createdOn: string;
   modifiedBy: string;
   modifiedOn: string;
+  timeZoneId?: string;
+  localeId?: string;
+  uoMId?: Array<string>;
 }

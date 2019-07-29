@@ -164,6 +164,17 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
 
   ngOnInit() {
     this.organization.parentOrganizationId = '3fa85f64-5717-4562-b3fc-2c963f66afa6';
+    this.organization.active = true;
+    this.organization.logo = {
+      "image": "base64string",
+      "imageType": "base64string",
+      "imageName": "parker.jpg"
+    },
+    this.organization.timeZoneId= "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    this.organization.localeId = "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    // this.organization.uoMId = [
+    //   "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+    // ]
     this.UOM = 'SI';
     this.organization.address = [new Address()];
     this.organization.address[0].addressType = 'Billing';
@@ -252,7 +263,11 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
     this.modal.style.display = "none";
     if (event === 'save') {
       this.UOM = this.tempMeasurement;
-      console.log('this.uomArray ', this.uomArray)
+      console.log('this.uomArray ', JSON.stringify(this.uomArray))
+      this.organization.uoMId =[]
+      this.uomArray.forEach(uom=>{
+        this.organization.uoMId.push(uom.uoMId);
+      })
       // this.organization.uoM = [this.tempUoM];
       // this.organization.uoM = this.tempUoM
     }
@@ -266,14 +281,14 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
     console.log('ahamed ', uomName, event.target.value);
     let isFound: boolean = false;
     for (let i = 0; i < this.uomArray.length; i++) {
-      if (this.uomArray[i].uoMName === uomName) {
+      if (this.uomArray[i].uoMTypeId === uomName) {
         this.uomArray[i].uoMId = event.target.value;
         isFound = true;
       }
     }
 
     if (!isFound) {
-      this.uomArray.push({ uoMName: uomName, uoMId: event.target.value });
+      this.uomArray.push({ uoMTypeId: uomName, uoMId: event.target.value });
     }
   }
 

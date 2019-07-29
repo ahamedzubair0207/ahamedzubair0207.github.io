@@ -24,11 +24,8 @@
       </div>
       <div class="col-md-4">
         <label for="organizationType"><b>{{pageLabels.OrganizationType.labelName}} :</b></label>
-        <select [(ngModel)]="organization.organizationType" name="organizationType" class="drop-down">
-          <option *ngFor="let orgType of organizationTypes" [value]="orgType.value">
-            {{orgType.text}}
-          </option>
-        </select>
+        <input type="text" [(ngModel)]="organization.organizationType" class="form-control org-create-font"
+          placeholder="Organization Type" name="organizationType" required>
       </div>
       <div class="col-md-4">
         <label for="primarycontact"><b>* {{pageLabels.PrimaryContact.labelName}} :</b></label>
@@ -43,6 +40,12 @@
           class="form-control org-create-font" placeholder="Primary Distributor Name" required>
       </div>
 
+      <div class="col-md-4">
+        <!-- <label for="primaryDistributorEmail"><b>* {{pageLabels.PrimaryDistributorEmailAddress.labelName}} : * </b></label> -->
+        <label for="primaryDistributorEmail"><b>* Primary Distributor Email Address : * </b></label>
+        <input type="email" name="primaryDistributorEmail" [(ngModel)]="organization.primaryDistributorEmailAddress"
+          class="form-control org-create-font" placeholder="Primary Distributor Email" required>
+      </div>
 
     </div>
 
