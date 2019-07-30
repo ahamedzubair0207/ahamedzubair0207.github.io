@@ -9,7 +9,7 @@
         <!-- <input type="text" placeholder="Name" name="name" [(ngModel)]="newOrg.name" required> -->
       </div>
       <div class="col-md-4">
-        <label for="customerNum"><b>* {{pageLabels.CustomerNumber.labelName}}</b>:</label>
+        <label for="customerNum"><b>* {{pageLabels.CustomerNumber.labelName}} :</b></label>
         <!-- <label for="Description"><b>Description of Organization: {{resp.descLbl}}:</b></label> -->
         <input type="text" [(ngModel)]="organization.customerNumber" class="form-control org-create-font"
           placeholder="Customer Number" name="customerNum">
@@ -35,14 +35,14 @@
       </div>
 
       <div class="col-md-4">
-        <label for="primaryDistributorName"><b>* {{pageLabels.PrimaryDistributor.labelName}} : * </b></label>
+        <label for="primaryDistributorName"><b>* {{pageLabels.PrimaryDistributor.labelName}} :  </b></label>
         <input type="text" name="primaryDistributorName" [(ngModel)]="organization.primaryDistributorName"
           class="form-control org-create-font" placeholder="Primary Distributor Name" required>
       </div>
 
       <div class="col-md-4">
         <!-- <label for="primaryDistributorEmail"><b>* {{pageLabels.PrimaryDistributorEmailAddress.labelName}} : * </b></label> -->
-        <label for="primaryDistributorEmail"><b>* Primary Distributor Email Address : * </b></label>
+        <label for="primaryDistributorEmail"><b>* Primary Distributor Email Address :  </b></label>
         <input type="email" name="primaryDistributorEmail" [(ngModel)]="organization.primaryDistributorEmailAddress"
           class="form-control org-create-font" placeholder="Primary Distributor Email" required>
       </div>

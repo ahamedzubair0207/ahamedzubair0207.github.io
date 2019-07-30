@@ -6,6 +6,8 @@ import { ConfigSettingsService } from 'src/app/services/configSettings/configSet
 import { ApplicationConfiguration } from 'src/app/models/applicationconfig.model';
 import { Address } from 'src/app/models/address.model';
 import { UnitOfMeassurement } from 'src/app/models/unitOfMeassurement.model';
+import { Logo } from 'src/app/models/logo.model';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-votm-cloud-organizations-create',
@@ -33,7 +35,7 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
   applicationConfiguration: ApplicationConfiguration = new ApplicationConfiguration();
 
   constructor(private modalService: NgbModal, private organizationService: OrganizationService,
-    private configSettingsService: ConfigSettingsService) {
+    private configSettingsService: ConfigSettingsService, private domSanitizer: DomSanitizer) {
     this.UOM = "SI";
     this.pageLabels = {
       "CustomerNumber": {
@@ -170,12 +172,12 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
       "imageType": "base64string",
       "imageName": "parker.jpg"
     },
-    this.organization.timeZoneId= "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-    this.organization.localeId = "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-    // this.organization.uoMId = [
-    //   "3fa85f64-5717-4562-b3fc-2c963f66afa6"
-    // ]
-    this.UOM = 'SI';
+      this.organization.timeZoneId = "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+      this.organization.localeId = "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+      // this.organization.uoMId = [
+      //   "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+      // ]
+      this.UOM = 'SI';
     this.organization.address = [new Address()];
     this.organization.address[0].addressType = 'Billing';
     this.organizationTypes = [{ value: 'organizationType1', text: 'organizationType1' }, { value: 'organizationType2', text: 'organizationType2' }]
@@ -185,7 +187,7 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
     { value: 'country2', text: 'country2' }];
     this.getAllAppInfo();
     // this.organizationService.getAllOrganizations()
-    //   .subscribe((response: any) => console.log('response ', response));
+    //   .subscribe((response: any) => // console.log('response ', response));
   }
 
   getAllAppInfo() {
@@ -193,7 +195,7 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
       .subscribe((response: any) => {
 
         this.applicationConfiguration = response;
-        console.log('Application ', this.applicationConfiguration);
+        // console.log('Application ', this.applicationConfiguration);
       });
   }
 
@@ -207,23 +209,52 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
       this.message = "Only images are supported.";
       return;
     }
-
-    var reader = new FileReader();
+    this.handleFileSelect(files);
+    var readerToPreview = new FileReader();
     this.imagePath = files;
-    reader.readAsDataURL(files[0]);
-    reader.onload = (_event) => {
-      this.imgURL = reader.result;
+    readerToPreview.readAsDataURL(files[0]);
+    readerToPreview.onload = (_event) => {
+      this.imgURL = readerToPreview.result;
+    }
+    // readerToPreview.onloadend = (e) => {
+    //   let base64Image = this.domSanitizer.bypassSecurityTrustUrl(readerToPreview.result.toString());
+    //   console.log(base64Image);
+    // }
+  }
+
+  handleFileSelect(files) {
+    var file = files[0];
+    if (files && file) {
+      var reader = new FileReader();
+      reader.onload = this._handleReaderLoaded.bind(this);
+      
+      this.organization.logo = new Logo();
+      this.organization.logo.imageName = file.name;
+      this.organization.logo.imageType = file.type;
+      reader.readAsBinaryString(file);
+
+      // reader.onloadend = (e) => {
+      //   let base64Image = this.domSanitizer.bypassSecurityTrustUrl(reader.result.toString());
+      //   console.log(base64Image);
+      // }
     }
   }
 
+  _handleReaderLoaded(readerEvt) {
+    let base64textString;
+    var binaryString = readerEvt.target.result;
+    base64textString = btoa(binaryString);
+    this.organization.logo.image = base64textString;
+    // console.log('organization ', this.organization);
+  }
 
   open(content) {
-    console.log(' open  ');
+    // console.log(' open  ');
     this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then((result) => {
-      console.log(' result  ', result);
+      // console.log(' result  ', result);
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
-      console.log(' reason  ', reason);
+      // console.log(' reason  ', reason);
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
     });
   }
@@ -263,9 +294,9 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
     this.modal.style.display = "none";
     if (event === 'save') {
       this.UOM = this.tempMeasurement;
-      console.log('this.uomArray ', JSON.stringify(this.uomArray))
-      this.organization.uoMId =[]
-      this.uomArray.forEach(uom=>{
+      // console.log('this.uomArray ', JSON.stringify(this.uomArray))
+      this.organization.uoMId = []
+      this.uomArray.forEach(uom => {
         this.organization.uoMId.push(uom.uoMId);
       })
       // this.organization.uoM = [this.tempUoM];
@@ -273,12 +304,12 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
     }
   }
   onUnitChange(value) {
-    console.log(value);
+    // console.log(value);
     this.tempMeasurement = value.target.value;
   }
 
   onUoMDropdownChange(event, uomName: string) {
-    console.log('ahamed ', uomName, event.target.value);
+    // console.log('ahamed ', uomName, event.target.value);
     let isFound: boolean = false;
     for (let i = 0; i < this.uomArray.length; i++) {
       if (this.uomArray[i].uoMTypeId === uomName) {
@@ -293,14 +324,14 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
   }
 
   onUoMValueSelect(uomType, uomMeasureId) {
-    console.log('UOM  ID ', uomType, uomMeasureId)
+    // console.log('UOM  ID ', uomType, uomMeasureId)
   }
 
   onOrganizationSubmit() {
-    console.log('Ahamed ', this.organization);
+    // console.log('Ahamed ', this.organization);
     this.organizationService.createOrganization(this.organization)
       .subscribe(response => {
-        console.log('response ', response);
+        // console.log('response ', response);
       });
   }
 }
