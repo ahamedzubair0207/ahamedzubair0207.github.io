@@ -6,6 +6,8 @@ import { ConfigSettingsService } from 'src/app/services/configSettings/configSet
 import { ApplicationConfiguration } from 'src/app/models/applicationconfig.model';
 import { Address } from 'src/app/models/address.model';
 import { UnitOfMeassurement } from 'src/app/models/unitOfMeassurement.model';
+import { Logo } from 'src/app/models/logo.model';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-votm-cloud-organizations-create',
@@ -33,7 +35,7 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
   applicationConfiguration: ApplicationConfiguration = new ApplicationConfiguration();
 
   constructor(private modalService: NgbModal, private organizationService: OrganizationService,
-    private configSettingsService: ConfigSettingsService) {
+    private configSettingsService: ConfigSettingsService, private domSanitizer: DomSanitizer) {
     this.UOM = "SI";
     this.pageLabels = {
       "CustomerNumber": {
@@ -68,6 +70,14 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
         "localeName": "en-us",
         "labelName": "Primary Contact"
       },
+      "PostalCode": {
+        "screenLabelId": "359ec7ad-873d-4851-9d87-2cd58375eab2",
+        "screenLabelAliasName": "PostalCode",
+        "screenId": "a2e85d4b-b6c1-4767-a7d7-ee0df88a6b92",
+        "localeId": "01653a73-ba08-42f3-8182-4169b1385906",
+        "localeName": "en-us",
+        "labelName": "Zip Code"
+      },
       "DescriptionofOrganization": {
         "screenLabelId": "98c1f426-8ef2-4deb-bcf2-315e1a7299e0",
         "screenLabelAliasName": "DescriptionofOrganization",
@@ -100,6 +110,14 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
         "localeName": "en-us",
         "labelName": "SVC Level"
       },
+      "Country": {
+        "screenLabelId": "636fe2fe-6f19-4c31-99ae-82bc8c3a5056",
+        "screenLabelAliasName": "Country",
+        "screenId": "a2e85d4b-b6c1-4767-a7d7-ee0df88a6b92",
+        "localeId": "01653a73-ba08-42f3-8182-4169b1385906",
+        "localeName": "en-us",
+        "labelName": "Country"
+      },
       "ParentOrganization": {
         "screenLabelId": "38a94999-d867-4d42-a982-856509a1524c",
         "screenLabelAliasName": "ParentOrganization",
@@ -107,6 +125,14 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
         "localeId": "01653a73-ba08-42f3-8182-4169b1385906",
         "localeName": "en-us",
         "labelName": "Parent Organization"
+      },
+      "State": {
+        "screenLabelId": "cd0e3d98-5871-4e6a-b836-9f7ac5cd1bfa",
+        "screenLabelAliasName": "State",
+        "screenId": "a2e85d4b-b6c1-4767-a7d7-ee0df88a6b92",
+        "localeId": "01653a73-ba08-42f3-8182-4169b1385906",
+        "localeName": "en-us",
+        "labelName": "State"
       },
       "Name": {
         "screenLabelId": "d378dbcf-0b06-4365-8df9-a0f59cde74e6",
@@ -122,7 +148,7 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
         "screenId": "a2e85d4b-b6c1-4767-a7d7-ee0df88a6b92",
         "localeId": "01653a73-ba08-42f3-8182-4169b1385906",
         "localeName": "en-us",
-        "labelName": "Language"
+        "labelName": "Default Language"
       },
       "StartDate": {
         "screenLabelId": "e9669b71-8456-49ae-942a-d3eec018fcc6",
@@ -132,6 +158,22 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
         "localeName": "en-us",
         "labelName": "Start Date"
       },
+      "Address2": {
+        "screenLabelId": "9ff8b4e6-bc09-4cd2-918a-d4ed8480c34c",
+        "screenLabelAliasName": "Address2",
+        "screenId": "a2e85d4b-b6c1-4767-a7d7-ee0df88a6b92",
+        "localeId": "01653a73-ba08-42f3-8182-4169b1385906",
+        "localeName": "en-us",
+        "labelName": "Address 2"
+      },
+      "Address1": {
+        "screenLabelId": "8eaf07dc-7452-4a18-a029-d878262d6fa5",
+        "screenLabelAliasName": "Address1",
+        "screenId": "a2e85d4b-b6c1-4767-a7d7-ee0df88a6b92",
+        "localeId": "01653a73-ba08-42f3-8182-4169b1385906",
+        "localeName": "en-us",
+        "labelName": "Address 1"
+      },
       "Contract": {
         "screenLabelId": "6210fd7d-c0c3-46ff-ace1-df4dce25d89e",
         "screenLabelAliasName": "Contract",
@@ -139,6 +181,14 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
         "localeId": "01653a73-ba08-42f3-8182-4169b1385906",
         "localeName": "en-us",
         "labelName": "Contract"
+      },
+      "City": {
+        "screenLabelId": "c03e3442-80a0-4d60-8b21-e47ae80748e3",
+        "screenLabelAliasName": "City",
+        "screenId": "a2e85d4b-b6c1-4767-a7d7-ee0df88a6b92",
+        "localeId": "01653a73-ba08-42f3-8182-4169b1385906",
+        "localeName": "en-us",
+        "labelName": "City"
       },
       "DefaultUnitOfMeasure": {
         "screenLabelId": "b95a86f7-9645-478c-9008-e5c20ac1d4a4",
@@ -170,22 +220,22 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
       "imageType": "base64string",
       "imageName": "parker.jpg"
     },
-    this.organization.timeZoneId= "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-    this.organization.localeId = "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-    // this.organization.uoMId = [
-    //   "3fa85f64-5717-4562-b3fc-2c963f66afa6"
-    // ]
-    this.UOM = 'SI';
+      this.organization.timeZoneId = "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+      this.organization.localeId = "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+      // this.organization.uoMId = [
+      //   "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+      // ]
+      this.UOM = 'SI';
     this.organization.address = [new Address()];
     this.organization.address[0].addressType = 'Billing';
     this.organizationTypes = [{ value: 'organizationType1', text: 'organizationType1' }, { value: 'organizationType2', text: 'organizationType2' }]
-    this.states = [{ value: 'state1', text: 'state1' },
-    { value: 'state2', text: 'state2' }];
-    this.countries = [{ value: 'country1', text: 'country1' },
-    { value: 'country2', text: 'country2' }];
+    this.states = [{ value: 'state1', text: 'MN' },
+    { value: 'state2', text: 'OH' }];
+    this.countries = [{ value: 'country1', text: 'USA' },
+    { value: 'country2', text: 'Brazil' }];
     this.getAllAppInfo();
     // this.organizationService.getAllOrganizations()
-    //   .subscribe((response: any) => console.log('response ', response));
+    //   .subscribe((response: any) => // console.log('response ', response));
   }
 
   getAllAppInfo() {
@@ -193,7 +243,7 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
       .subscribe((response: any) => {
 
         this.applicationConfiguration = response;
-        console.log('Application ', this.applicationConfiguration);
+        // console.log('Application ', this.applicationConfiguration);
       });
   }
 
@@ -207,23 +257,52 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
       this.message = "Only images are supported.";
       return;
     }
-
-    var reader = new FileReader();
+    this.handleFileSelect(files);
+    var readerToPreview = new FileReader();
     this.imagePath = files;
-    reader.readAsDataURL(files[0]);
-    reader.onload = (_event) => {
-      this.imgURL = reader.result;
+    readerToPreview.readAsDataURL(files[0]);
+    readerToPreview.onload = (_event) => {
+      this.imgURL = readerToPreview.result;
+    }
+    // readerToPreview.onloadend = (e) => {
+    //   let base64Image = this.domSanitizer.bypassSecurityTrustUrl(readerToPreview.result.toString());
+    //   console.log(base64Image);
+    // }
+  }
+
+  handleFileSelect(files) {
+    var file = files[0];
+    if (files && file) {
+      var reader = new FileReader();
+      reader.onload = this._handleReaderLoaded.bind(this);
+      
+      this.organization.logo = new Logo();
+      this.organization.logo.imageName = file.name;
+      this.organization.logo.imageType = file.type;
+      reader.readAsBinaryString(file);
+
+      // reader.onloadend = (e) => {
+      //   let base64Image = this.domSanitizer.bypassSecurityTrustUrl(reader.result.toString());
+      //   console.log(base64Image);
+      // }
     }
   }
 
+  _handleReaderLoaded(readerEvt) {
+    let base64textString;
+    var binaryString = readerEvt.target.result;
+    base64textString = btoa(binaryString);
+    this.organization.logo.image = base64textString;
+    // console.log('organization ', this.organization);
+  }
 
   open(content) {
-    console.log(' open  ');
+    // console.log(' open  ');
     this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then((result) => {
-      console.log(' result  ', result);
+      // console.log(' result  ', result);
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
-      console.log(' reason  ', reason);
+      // console.log(' reason  ', reason);
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
     });
   }
@@ -263,9 +342,9 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
     this.modal.style.display = "none";
     if (event === 'save') {
       this.UOM = this.tempMeasurement;
-      console.log('this.uomArray ', JSON.stringify(this.uomArray))
-      this.organization.uoMId =[]
-      this.uomArray.forEach(uom=>{
+      // console.log('this.uomArray ', JSON.stringify(this.uomArray))
+      this.organization.uoMId = []
+      this.uomArray.forEach(uom => {
         this.organization.uoMId.push(uom.uoMId);
       })
       // this.organization.uoM = [this.tempUoM];
@@ -273,12 +352,12 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
     }
   }
   onUnitChange(value) {
-    console.log(value);
+    // console.log(value);
     this.tempMeasurement = value.target.value;
   }
 
   onUoMDropdownChange(event, uomName: string) {
-    console.log('ahamed ', uomName, event.target.value);
+    // console.log('ahamed ', uomName, event.target.value);
     let isFound: boolean = false;
     for (let i = 0; i < this.uomArray.length; i++) {
       if (this.uomArray[i].uoMTypeId === uomName) {
@@ -293,14 +372,14 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
   }
 
   onUoMValueSelect(uomType, uomMeasureId) {
-    console.log('UOM  ID ', uomType, uomMeasureId)
+    // console.log('UOM  ID ', uomType, uomMeasureId)
   }
 
   onOrganizationSubmit() {
-    console.log('Ahamed ', this.organization);
+    // console.log('Ahamed ', this.organization);
     this.organizationService.createOrganization(this.organization)
       .subscribe(response => {
-        console.log('response ', response);
+        // console.log('response ', response);
       });
   }
 }
