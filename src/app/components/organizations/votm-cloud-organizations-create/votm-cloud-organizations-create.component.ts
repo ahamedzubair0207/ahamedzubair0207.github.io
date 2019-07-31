@@ -70,6 +70,14 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
         "localeName": "en-us",
         "labelName": "Primary Contact"
       },
+      "PostalCode": {
+        "screenLabelId": "359ec7ad-873d-4851-9d87-2cd58375eab2",
+        "screenLabelAliasName": "PostalCode",
+        "screenId": "a2e85d4b-b6c1-4767-a7d7-ee0df88a6b92",
+        "localeId": "01653a73-ba08-42f3-8182-4169b1385906",
+        "localeName": "en-us",
+        "labelName": "Zip Code"
+      },
       "DescriptionofOrganization": {
         "screenLabelId": "98c1f426-8ef2-4deb-bcf2-315e1a7299e0",
         "screenLabelAliasName": "DescriptionofOrganization",
@@ -102,6 +110,14 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
         "localeName": "en-us",
         "labelName": "SVC Level"
       },
+      "Country": {
+        "screenLabelId": "636fe2fe-6f19-4c31-99ae-82bc8c3a5056",
+        "screenLabelAliasName": "Country",
+        "screenId": "a2e85d4b-b6c1-4767-a7d7-ee0df88a6b92",
+        "localeId": "01653a73-ba08-42f3-8182-4169b1385906",
+        "localeName": "en-us",
+        "labelName": "Country"
+      },
       "ParentOrganization": {
         "screenLabelId": "38a94999-d867-4d42-a982-856509a1524c",
         "screenLabelAliasName": "ParentOrganization",
@@ -109,6 +125,14 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
         "localeId": "01653a73-ba08-42f3-8182-4169b1385906",
         "localeName": "en-us",
         "labelName": "Parent Organization"
+      },
+      "State": {
+        "screenLabelId": "cd0e3d98-5871-4e6a-b836-9f7ac5cd1bfa",
+        "screenLabelAliasName": "State",
+        "screenId": "a2e85d4b-b6c1-4767-a7d7-ee0df88a6b92",
+        "localeId": "01653a73-ba08-42f3-8182-4169b1385906",
+        "localeName": "en-us",
+        "labelName": "State"
       },
       "Name": {
         "screenLabelId": "d378dbcf-0b06-4365-8df9-a0f59cde74e6",
@@ -124,7 +148,7 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
         "screenId": "a2e85d4b-b6c1-4767-a7d7-ee0df88a6b92",
         "localeId": "01653a73-ba08-42f3-8182-4169b1385906",
         "localeName": "en-us",
-        "labelName": "Language"
+        "labelName": "Default Language"
       },
       "StartDate": {
         "screenLabelId": "e9669b71-8456-49ae-942a-d3eec018fcc6",
@@ -134,6 +158,22 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
         "localeName": "en-us",
         "labelName": "Start Date"
       },
+      "Address2": {
+        "screenLabelId": "9ff8b4e6-bc09-4cd2-918a-d4ed8480c34c",
+        "screenLabelAliasName": "Address2",
+        "screenId": "a2e85d4b-b6c1-4767-a7d7-ee0df88a6b92",
+        "localeId": "01653a73-ba08-42f3-8182-4169b1385906",
+        "localeName": "en-us",
+        "labelName": "Address 2"
+      },
+      "Address1": {
+        "screenLabelId": "8eaf07dc-7452-4a18-a029-d878262d6fa5",
+        "screenLabelAliasName": "Address1",
+        "screenId": "a2e85d4b-b6c1-4767-a7d7-ee0df88a6b92",
+        "localeId": "01653a73-ba08-42f3-8182-4169b1385906",
+        "localeName": "en-us",
+        "labelName": "Address 1"
+      },
       "Contract": {
         "screenLabelId": "6210fd7d-c0c3-46ff-ace1-df4dce25d89e",
         "screenLabelAliasName": "Contract",
@@ -141,6 +181,14 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
         "localeId": "01653a73-ba08-42f3-8182-4169b1385906",
         "localeName": "en-us",
         "labelName": "Contract"
+      },
+      "City": {
+        "screenLabelId": "c03e3442-80a0-4d60-8b21-e47ae80748e3",
+        "screenLabelAliasName": "City",
+        "screenId": "a2e85d4b-b6c1-4767-a7d7-ee0df88a6b92",
+        "localeId": "01653a73-ba08-42f3-8182-4169b1385906",
+        "localeName": "en-us",
+        "labelName": "City"
       },
       "DefaultUnitOfMeasure": {
         "screenLabelId": "b95a86f7-9645-478c-9008-e5c20ac1d4a4",
@@ -181,10 +229,10 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
     this.organization.address = [new Address()];
     this.organization.address[0].addressType = 'Billing';
     this.organizationTypes = [{ value: 'organizationType1', text: 'organizationType1' }, { value: 'organizationType2', text: 'organizationType2' }]
-    this.states = [{ value: 'state1', text: 'state1' },
-    { value: 'state2', text: 'state2' }];
-    this.countries = [{ value: 'country1', text: 'country1' },
-    { value: 'country2', text: 'country2' }];
+    this.states = [{ value: 'state1', text: 'MN' },
+    { value: 'state2', text: 'OH' }];
+    this.countries = [{ value: 'country1', text: 'USA' },
+    { value: 'country2', text: 'Brazil' }];
     this.getAllAppInfo();
     // this.organizationService.getAllOrganizations()
     //   .subscribe((response: any) => // console.log('response ', response));
