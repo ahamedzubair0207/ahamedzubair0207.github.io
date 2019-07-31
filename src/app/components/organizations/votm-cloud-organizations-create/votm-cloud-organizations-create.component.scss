@@ -36,11 +36,21 @@
   }
  
   .uom-btn{
-    margin: -51px 0px 8px 86px;
+    margin: -35px 0px 8px 100px;
   }
   .btn-color{
     background-color: rgb(0,185,195);
     float: left;
+  }
+
+  .uom-modal-list{
+    width:140px;
+    float:left;
+    padding-top:3px;
+  }
+
+  .modal-uom-label{
+    margin-left: 10px;
   }
   .button-mod {
     border: none;
@@ -50,7 +60,7 @@
     text-decoration: none;
     display: inline-block;
     font-size: 16px;
-    margin: 4px 2px;
+    margin: 30px 2px;
     cursor: pointer;
     float: right;
   }

@@ -19,4 +19,11 @@ export class ConfigSettingsService {
         map(response => response)
       );
   }
+
+  getCreateOrgScreenLabels(): Observable<any> {
+    return this.http.get(this.controllerName,'ScreenLabel')
+      .pipe(
+        map(response => response)
+      );
+  }
 }
