@@ -1,52 +1,53 @@
-<div class="loc-outside-border">
-  <form class="form container border shadow-sm"> 
-  <div class="row">
+<div class="loc-outside-border" *ngIf="pageLabels">
+  <form class="form container create-loc-container border shadow-sm" (ngSubmit)="onOrganizationSubmit()"> 
+  <div class="row loc-create-font">
     <h4 class="col-12">Create Location:</h4>
       <div class="col-md-4">      
-        <label for="name"><b>Name</b></label>
-        <input type="text" placeholder="Enter Name" name="name" required>
+        <label for="name"><b>* {{pageLabels.Name.labelName}} :</b></label>
+        <input type="text" [(ngModel)]="location.locationName" class="form-control org-create-font"
+        placeholder="Enter Name" name="name" required>
       </div>
       <div class="col-md-4">
-        <label for="parentorganization"><b>Parent Organization Name:</b></label>
+        <label for="parentorganization"><b>{{pageLabels.ParentOrganization.labelName}} :</b></label>
         <br>
         <label for="parentorganization"><b>Parker</b></label>
         <!-- <input type="text" placeholder="Enter parent Organization" name="parentorganization" required> -->
       </div>
       <div class="col-md-4">
-        <label for="parentLoc"><b>Parent Location Name:</b></label>
+        <label for="parentLoc"><b>{{pageLabels.ParentLocation.labelName}} :</b></label>
         <br>
         <label for="parentLoc"><b>Cleaveland, OH</b></label>
         <!-- <input type="text" placeholder="Enter parent location" name="parentLoc" required> -->
       </div>
       <div class="col-md-4">
-          <label for="primaryContact"><b>Primary Contact:</b></label>
+          <label for="primaryContact"><b>{{pageLabels.PrimaryContact.labelName}} :</b></label>
           <input type="text" placeholder="Enter Contact" name="primaryContact">
         </div>
 
         <div class="col-md-4">
-            <label for="primarydistribute"><b>Primary Distributor:</b></label>
+            <label for="primarydistribute"><b>{{pageLabels.PrimaryDistributor.labelName}} :</b></label>
             <input type="text" placeholder="Enter Primary Distributor" name="primarydistribute" required>
           </div>
          
       <div class="col-md-4">
-          <label for="locationType"><b>Location Type: </b></label>
+          <label for="locationType"><b>{{pageLabels.LocationType.labelName}}: </b></label>
           <input type="text" placeholder="Enter Location Type" name="locationType" required>
       </div>
       
       <div class="col mb-4">
-        <label for="f-description"><b>Location Description:</b></label>
+        <label for="f-description"><b>{{pageLabels.DescriptionofLocation.labelName}} :</b></label>
         <textarea class="form-control" rows="3" id="f-description"></textarea>
       </div>
   </div>
   <div class="row">
       <div class="col-md-6">
-          <label for="geofence" class="pr-2"><b>Geo Fence:</b></label>
+          <label for="geofence" class="pr-2"><b>{{pageLabels.GeoFence.labelName}}:</b></label>
           <div class="form-check form-check-inline">
             <input class="form-check-input" type="radio" name="geofence" onClick='' checked id="f-radius">
             <label class="form-check-label" for="f-radius">Radius</label>
             <br>
             <input type="text" placeholder="Enter Radius">
-            <select class="drop-down">
+            <select class="drop-down geo-drop-down">
                 <option value="ft">Feet</option>
                 <option value="meters">Meters</option>
             </select>
@@ -56,40 +57,40 @@
             <label class="form-check-label" for="f-square">Rectangle</label>
             <br>
             <input type="text" placeholder="Enter Width"> * <input type="text" placeholder="Enter Height">
-            <select class="drop-down">
+            <select class="drop-down geo-drop-down">
                 <option value="ft">Feet</option>
                 <option value="meters">Meters</option>
             </select>
           </div>
       </div> 
       <div class="col-md-6">
-        <label for="geoLocation" class="pr-2"><b>Geo Location:</b></label>
+        <label for="geoLocation" class="pr-2"><b>{{pageLabels.GeoLocation.labelName}}:</b></label>
         <input type="text" style="width:26%" placeholder="Longitude" name="geoLocation"> / <input type="text" style="width:26%; margin-right:5px" placeholder="Latitude" name="geoLocation">
         <button type="button" class="btn rounded-circle"><i class="fa fa-bullseye"></i></button>
       </div>
   </div> 
   <div class="row">
       <div class="col">
-          <h4><label for="orgType">Billing Address:</label></h4>
+          <h4><label for="orgType">{{pageLabels.BillingAddress.labelName}} :</label></h4>
           <div class="row">
               <div class="col-md-6">
-                  <label for="orgType"><b>Street Name:</b></label>
+                  <label for="orgType"><b>{{pageLabels.Address1.labelName}}:</b></label>
                   <input type="text" placeholder="Street Name" name="address1">
               </div>
               <div class="col-md-6">
-                  <label for="orgType"><b>Apt/Suite Number:</b></label>
+                  <label for="orgType"><b>{{pageLabels.Address2.labelName}}:</b></label>
                   <input type="text" placeholder="Apt/Suite Number" name="address2">
               </div>
               <div class="col-md-3">
-                  <label for="orgType"><b>City:</b></label>
+                  <label for="orgType"><b>{{pageLabels.City.labelName}}:</b></label>
                   <input type="text" placeholder="City" name="orgType">
               </div>
               <div class="col-md-3">
-                  <label for="orgType"><b>Zip Code:</b></label>
+                  <label for="orgType"><b>{{pageLabels.Zipcode.labelName}}:</b></label>
                   <input type="text" placeholder="Zip Code" name="orgType">
               </div>
               <div class="col-md-3">
-                  <label for="orgType"><b>State:</b></label>
+                  <label for="orgType"><b>{{pageLabels.State.labelName}}:</b></label>
                   <select name="State" class="drop-down">
                       <option value="0">Select:</option>
                       <option value="mn">MN</option>
@@ -98,7 +99,7 @@
                     </select>
               </div>
               <div class="col-md-3">
-                  <label for="orgType"><b>Country:</b></label>
+                  <label for="orgType"><b>{{pageLabels.Country.labelName}}:</b></label>
                   <select name="Country" class="drop-down">
                       <option value="0">Country</option>
                       <option value="us">United States</option>
@@ -113,7 +114,7 @@
   <div class="row">
       
       <div class="col-md-4">
-          <label for="DefaultLang"><b>Default Language: </b></label>
+          <label for="DefaultLang"><b>{{pageLabels.Language.labelName}}: </b></label>
             <select name="language" class="drop-down">
               <option value="0">Select</option>
               <option value="1">English(United States)</option>
@@ -122,8 +123,7 @@
             </select>
         </div>
         <div class="col-md-4">
-            <!-- <label for="DefatimezoneultLang"><b>* {{pageLabels.TimeZone.labelName}} :</b></label> -->
-            <label for="timezone"><b>*Timezone :</b></label>
+            <label for="timezone"><b>* {{pageLabels.TimeZone.labelName}} :</b></label>
             <!-- <select *ngIf="applicationConfiguration" [(ngModel)]="organization.timeZoneId" name="timezone"
               class="drop-down"> -->
               <select class="drop-down">
@@ -134,13 +134,13 @@
             </select>
           </div>
           <div class="col-md-4">
-              <label for="unitsOfMeasure"><b>* Deafult Unit of Measure:</b></label>
+              <label for="unitsOfMeasure"><b>* {{pageLabels.DefaultUnitOfMeasure.labelName}}:</b></label>
               <label for="unitsOfMeasure" class="d-flex "><b>{{UOM}}</b></label>
               <button class="btn btn-secondary uom-btn" type="button" (click)="openmodal()">Change</button>
             </div>
         
             <div class="col-md-4">
-                <label for="locImage"><b>Location Image: </b></label>
+                <label for="locImage"><b>{{pageLabels.LogoFile.labelName}} : </b></label>
                 <span style="color:rgb(106,96,85);" *ngIf="message">{{message}}</span>
                 <input #file type="file" accept='image/*' (change)="preview(file.files)" />
                 <img [src]="imgURL" height="200" *ngIf="imgURL">
@@ -154,18 +154,7 @@
               <button type="submit" class="btn btn-secondary btn-lg button-mod btn-color">Save</button>
             </div> 
   </div>
-  <div class="row">
-      
-  </div>
-  
-  <!-- <div class="d-flex justify-content-end">
-      <button type="submit" class="button">+ Location</button>
-      <button type="submit" class="button">+ Asset</button>
-      <button type="submit" class="button">Associate Signal</button>
-      <button routerLink="/loc/home" type="button" class="btn btn-secondary btn-lg button-mod">Cancel</button>
-    <button type="submit" class="btn btn-secondary btn-lg button-mod">Delete</button>
-    <button type="submit" class="btn btn-secondary btn-lg button-mod btn-color">Save</button>
-  </div> -->
+
   </form>
 </div>
 

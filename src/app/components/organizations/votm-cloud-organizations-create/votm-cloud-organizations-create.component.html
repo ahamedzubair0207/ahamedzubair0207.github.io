@@ -6,14 +6,11 @@
         <label for="name"><b>* {{pageLabels.Name.labelName}} : </b></label>
         <input type="text" [(ngModel)]="organization.name" class="form-control org-create-font" placeholder="Name"
           name="name" required>
-        <!-- <input type="text" placeholder="Name" name="name" [(ngModel)]="newOrg.name" required> -->
       </div>
       <div class="col-md-4">
         <label for="customerNum"><b>* {{pageLabels.CustomerNumber.labelName}} :</b></label>
-        <!-- <label for="Description"><b>Description of Organization: {{resp.descLbl}}:</b></label> -->
         <input type="text" [(ngModel)]="organization.customerNumber" class="form-control org-create-font"
           placeholder="Customer Number" name="customerNum">
-        <!-- <input type="text" placeholder="Description" name="Description" [(ngModel)]="newOrg.desc"> -->
       </div>
 
       <div class="col-md-4">
@@ -29,7 +26,6 @@
       </div>
       <div class="col-md-4">
         <label for="primarycontact"><b>* {{pageLabels.PrimaryContact.labelName}} :</b></label>
-        <!-- <label for="primarycontact"><b>Primary Contact:{{resp.primContLbl}}</b></label> -->
         <input type="email" [(ngModel)]="organization.primaryContactEmailAddress" class="form-control org-create-font"
           placeholder="Email Address" name="contact" required>
       </div>
@@ -41,8 +37,7 @@
       </div>
 
       <div class="col-md-4">
-        <!-- <label for="primaryDistributorEmail"><b>* {{pageLabels.PrimaryDistributorEmailAddress.labelName}} : * </b></label> -->
-        <label for="primaryDistributorEmail"><b>* Primary Distributor Email Address : </b></label>
+        <label for="primaryDistributorEmail"><b>* {{pageLabels.PrimaryDistributorEmail.labelName}} : </b></label>
         <input type="email" name="primaryDistributorEmail" [(ngModel)]="organization.primaryDistributorEmailAddress"
           class="form-control org-create-font" placeholder="Primary Distributor Email" required>
       </div>
@@ -137,7 +132,7 @@
       </div>
       <div class="col-md-4">
         <!-- <label for="DefatimezoneultLang"><b>* {{pageLabels.TimeZone.labelName}} :</b></label> -->
-        <label for="timezone"><b>* Timezone :</b></label>
+        <label for="timezone"><b>* {{pageLabels.DefaultTimeZone.labelName}} :</b></label>
         <select *ngIf="applicationConfiguration" [(ngModel)]="organization.timeZoneId" name="timezone"
           class="drop-down">
           <!-- <option value="" data-default selected>Select Timezone</option> -->
