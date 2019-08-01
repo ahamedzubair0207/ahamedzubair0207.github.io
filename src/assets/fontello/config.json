@@ -1,0 +1,130 @@
+{
+  "name": "",
+  "css_prefix_text": "icon-",
+  "css_use_suffix": false,
+  "hinting": true,
+  "units_per_em": 1000,
+  "ascent": 850,
+  "glyphs": [
+    {
+      "uid": "c92ad3028acce9d51bae0ac82f5de8a2",
+      "css": "bullseye",
+      "code": 61760,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "48b87105bd38c20315f1b705b8c7b38c",
+      "css": "list",
+      "code": 59392,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "c5fd349cbd3d23e4ade333789c29c729",
+      "css": "eye",
+      "code": 59393,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "41087bc74d4b20b55059c60a33bf4008",
+      "css": "edit",
+      "code": 59394,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "bbfb51903f40597f0b70fd75bc7b5cac",
+      "css": "trash",
+      "code": 61944,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "fb1c799ffe5bf8fb7f8bcb647c8fe9e6",
+      "css": "caret-right",
+      "code": 59395,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "2d6150442079cbda7df64522dc24f482",
+      "css": "caret-down",
+      "code": 59396,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "559647a6f430b3aeadbecd67194451dd",
+      "css": "bars",
+      "code": 61641,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "cd21cbfb28ad4d903cede582157f65dc",
+      "css": "bell",
+      "code": 59397,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "474656633f79ea2f1dad59ff63f6bf07",
+      "css": "star",
+      "code": 59398,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "8b80d36d4ef43889db10bc1f0dc9a862",
+      "css": "user",
+      "code": 59399,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "555ef8c86832e686fef85f7af2eb7cde",
+      "css": "arrow-left",
+      "code": 59400,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "757afacc32d82967975cbb3b45cfb41b",
+      "css": "desktop",
+      "code": 61704,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "6fe95ffc3c807e62647d4f814a96e0d7",
+      "css": "sitemap",
+      "code": 61672,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "0d08dbb1dd648a43bdea81b7e6c9e036",
+      "css": "location",
+      "code": 59401,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "31efa81b26fa5a380119c95d6b831d6d",
+      "css": "industry",
+      "code": 62069,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "d407a4707f719b042ed2ad28d2619d7e",
+      "css": "signal",
+      "code": 59402,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "c76b7947c957c9b78b11741173c8349b",
+      "css": "exclamation-triangle",
+      "code": 59403,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "c1f1975c885aa9f3dad7810c53b82074",
+      "css": "lock",
+      "code": 59404,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "c22930d29b554d41c0ef882aafd3f8c9",
+      "css": "thermometer-half",
+      "code": 62153,
+      "src": "fontawesome"
+    }
+  ]
+}
