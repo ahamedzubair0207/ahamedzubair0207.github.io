@@ -12,14 +12,20 @@ export class Location {
     gatewayId: string;
     geoFenceType: string;
     geoFenceValue: string;
-    imageStoreId: Logo;
+    logo: Logo;
+    timeZone?: string;
+    locale?: string;
+    uoM?: Array<string>;
     latitude: string;
     longitude: string;
     active: true;
     description: string;
-    createdBy: string;
-    createdOn: string;
-    modifiedBy: string;
-    modifiedOn: string;
+    createdBy?: string;
+    createdOn?: string;
+    modifiedBy?: string;
+    modifiedOn?: string;
+    uoMId?: Array<string>;
+    localeId?: string;
+    timeZoneId?: string;
 
 }

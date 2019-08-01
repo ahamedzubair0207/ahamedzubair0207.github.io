@@ -1,16 +1,19 @@
 <div class="org-outside-border" *ngIf="pageLabels">
-  <form class="form container create-org-container border shadow-sm" (ngSubmit)="onOrganizationSubmit()">
+  <form class="form container create-org-container border shadow-sm needs-validation" (ngSubmit)="onOrganizationSubmit()" novalidate>
     <h3 class="col create-org-head">Create Organization</h3>
     <div class="row org-create-font">
       <div class="col-md-4">
         <label for="name"><b>* {{pageLabels.Name.labelName}} : </b></label>
         <input type="text" [(ngModel)]="organization.name" class="form-control org-create-font" placeholder="Name"
           name="name" required>
+          <div class="invalid-feedback">
+            Please provide a Name
+          </div>
       </div>
       <div class="col-md-4">
         <label for="customerNum"><b>* {{pageLabels.CustomerNumber.labelName}} :</b></label>
         <input type="text" [(ngModel)]="organization.customerNumber" class="form-control org-create-font"
-          placeholder="Customer Number" name="customerNum">
+          placeholder="Customer Number" name="customerNum" required>
       </div>
 
       <div class="col-md-4">
@@ -67,7 +70,7 @@
           placeholder="End Date" name="endDate" required>
       </div>
       <div class="col-md-4">
-        <label for="svcLabel"><b>{{pageLabels.SVCLevel.labelName}} : </b></label>
+        <label for="svcLabel"><b>* {{pageLabels.SVCLevel.labelName}} : </b></label>
         <input type="text" [(ngModel)]="organization.svclevel" class="form-control org-create-font"
           placeholder="Service Level" name="svcLabel" required>
       </div>
@@ -76,30 +79,30 @@
 
     <div class="row org-create-font">
       <div class="col">
-        <h5 class="org-h5"><label for="orgType">{{pageLabels.BillingAddress.labelName}} :</label></h5>
+        <h5 class="org-h5"><label for="billingaddress">{{pageLabels.BillingAddress.labelName}} :</label></h5>
         <div class="row org-create-font">
           <div class="col-md-6">
-            <label for="orgType"><b>* {{pageLabels.Address1.labelName}} :</b></label>
+            <label for="address2"><b>* {{pageLabels.Address1.labelName}} :</b></label>
             <input type="text" [(ngModel)]="organization.address[0].address1" class="form-control org-create-font"
-              placeholder="Street Name" name="address1">
+              placeholder="Street Name" name="address1" required>
           </div>
           <div class="col-md-6">
-            <label for="orgType"><b>* {{pageLabels.Address2.labelName}} :</b></label>
+            <label for="address1"><b>* {{pageLabels.Address2.labelName}} :</b></label>
             <input type="text" [(ngModel)]="organization.address[0].address2" class="form-control org-create-font"
-              placeholder="Apt/Suite Number" name="address2">
+              placeholder="Apt/Suite Number" name="address2" required>
           </div>
           <div class="col-md-3">
-            <label for="orgType"><b>* {{pageLabels.City.labelName}} :</b></label>
+            <label for="city"><b>* {{pageLabels.City.labelName}} :</b></label>
             <input type="text" [(ngModel)]="organization.address[0].city" class="form-control org-create-font"
-              placeholder="City" name="city">
+              placeholder="City" name="city" required>
           </div>
           <div class="col-md-3">
-            <label for="orgType"><b>* {{pageLabels.Zipcode.labelName}} :</b></label>
+            <label for="zipcode"><b>* {{pageLabels.Zipcode.labelName}} :</b></label>
             <input type="text" [(ngModel)]="organization.address[0].postalCode" class="form-control org-create-font"
-              placeholder="Zip Code" name="zipCode">
+              placeholder="Zip Code" name="zipCode" required>
           </div>
           <div class="col-md-3">
-            <label for="orgType"><b>* {{pageLabels.State.labelName}} :</b></label>
+            <label for="state"><b>* {{pageLabels.State.labelName}} :</b></label>
 
             <select [(ngModel)]="organization.address[0].state" name="organizationType" class="drop-down">
               <option *ngFor="let state of states" [value]="state.value">
@@ -108,7 +111,7 @@
             </select>
           </div>
           <div class="col-md-3">
-            <label for="orgType"><b>* {{pageLabels.Country.labelName}} :</b></label>
+            <label for="country"><b>* {{pageLabels.Country.labelName}} :</b></label>
             <select [(ngModel)]="organization.address[0].country" name="organizationType" class="drop-down">
               <option *ngFor="let country of countries" [value]="country.value">
                 {{country.text}}
@@ -179,77 +182,85 @@
 <!-- The Modal -->
 <div id="myModal" class="modal">
 
-  <!-- Modal content -->
-  <div class="modal-content">
+    <div class="modal-dialog modal-dialog-scrollable">
+        <!-- Modal content -->
+      <div class="modal-content">
     <!-- <span class="close" >&times;</span> -->
-    <div class="row">
-      <div class="col-12">
-        <label for="UOM" class="pr-2"><b>Units of Measure :</b></label>
-
-        <div class="form-check form-check-inline">
-          <input class="form-check-input" type="radio" value="SI" name="UOM" (change)="onUnitChange($event)" checked
-            id="f-si">
-          <label class="form-check-label" for="f-si">SI</label>
-        </div>
-        <div class="form-check form-check-inline">
-          <input class="form-check-input" type="radio" value="Imperial" name="UOM" (change)="onUnitChange($event)"
-            id="f-imperial">
-          <label class="form-check-label" for="f-imperial">Imperial</label>
-        </div>
-        <div class="form-check form-check-inline">
-          <input class="form-check-input" type="radio" value="Metric" name="UOM" (change)="onUnitChange($event)"
-            id="f-metric">
-          <label class="form-check-label" for="f-metric">Metric</label>
-        </div>
-        <div class="form-check form-check-inline">
-          <input class="form-check-input" type="radio" value="Custom" name="UOM" (change)="onUnitChange($event)"
-            id="f-custom">
-          <label class="form-check-label" for="f-custom">Custom</label>
-        </div>
-      </div>
-      <div *ngFor="let uom of applicationConfiguration.unitOfMeassurement; let i = index" [attr.data-index]="i">
-        <div class="row" *ngIf="i%2===0 && uom">
-          <div class="col-6">
-            <div class="uom-modal-list">
-              <label class="modal-uom-label" for="uom.uomTypeName"><b>{{uom.uomTypeName}} :</b></label>
+    <div class="modal-header">
+        <div>
+            <label for="UOM" class="pr-2"><b>Units of Measure :</b></label>
+    
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" value="SI" name="UOM" (change)="onUnitChange($event)" checked
+                id="f-si">
+              <label class="form-check-label" for="f-si">SI</label>
             </div>
-            <div class="float-left">
-              <select (change)="onUoMDropdownChange($event,uom.uomTypeName )" style="width:100px;"
-                name="uom.uomTypeName" class="drop-down">
-                <option></option>
-                <option *ngFor="let view of uom.uoMView" [value]="view.uoMId">
-                  {{view.uoMName}}
-                </option>
-              </select>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" value="Imperial" name="UOM" (change)="onUnitChange($event)"
+                id="f-imperial">
+              <label class="form-check-label" for="f-imperial">Imperial</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" value="Metric" name="UOM" (change)="onUnitChange($event)"
+                id="f-metric">
+              <label class="form-check-label" for="f-metric">Metric</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" value="Custom" name="UOM" (change)="onUnitChange($event)"
+                id="f-custom">
+              <label class="form-check-label" for="f-custom">Custom</label>
             </div>
           </div>
-          <div class="col-6" *ngIf="applicationConfiguration.unitOfMeassurement[i+1]">
-            <div style="width:140px;float:left;padding-top:3px">
-              <label
-                for="applicationConfiguration.unitOfMeassurement[i+1].uomTypeName"><b>{{applicationConfiguration.unitOfMeassurement[i+1].uomTypeName}}
-                  :</b></label>
-            </div>
-            <div class="float-left">
-              <select
-                (change)="onUoMDropdownChange($event, applicationConfiguration.unitOfMeassurement[i+1].uomTypeName)"
-                style="width:100px;" name="applicationConfiguration.unitOfMeassurement[i+1].uomTypeName"
-                class="drop-down">
-                <option></option>
-                <option *ngFor="let view of applicationConfiguration.unitOfMeassurement[i+1].uoMView"
-                  [value]="view.uoMId">
-                  {{view.uoMName}}
-                </option>
-              </select>
-            </div>
-          </div>
-
-        </div>
-      </div>
     </div>
-    <div>
+    <div class="modal-body">
+        <div class="row"> 
+            <div *ngFor="let uom of applicationConfiguration.unitOfMeassurement; let i = index" [attr.data-index]="i">
+              <div class="row" *ngIf="i%2===0 && uom">
+                <div class="col-6">
+                  <div class="uom-modal-list">
+                    <label class="modal-uom-label" for="uom.uomTypeName"><b>{{uom.uomTypeName}} :</b></label>
+                  </div>
+                  <div class="float-left">
+                    <select (change)="onUoMDropdownChange($event,uom.uomTypeName )" style="width:100px;"
+                      name="uom.uomTypeName" class="drop-down">
+                      <option></option>
+                      <option *ngFor="let view of uom.uoMView" [value]="view.uoMId">
+                        {{view.uoMName}}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-6" *ngIf="applicationConfiguration.unitOfMeassurement[i+1]">
+                  <div style="width:140px;float:left;padding-top:3px">
+                    <label
+                      for="applicationConfiguration.unitOfMeassurement[i+1].uomTypeName"><b>{{applicationConfiguration.unitOfMeassurement[i+1].uomTypeName}}
+                        :</b></label>
+                  </div>
+                  <div class="float-left">
+                    <select
+                      (change)="onUoMDropdownChange($event, applicationConfiguration.unitOfMeassurement[i+1].uomTypeName)"
+                      style="width:100px;" name="applicationConfiguration.unitOfMeassurement[i+1].uomTypeName"
+                      class="drop-down">
+                      <option></option>
+                      <option *ngFor="let view of applicationConfiguration.unitOfMeassurement[i+1].uoMView"
+                        [value]="view.uoMId">
+                        {{view.uoMName}}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+      
+              </div>
+            </div>
+          </div>
+    </div>
+    <div class="modal-footer">
       <button type="button" class="btn button-mod btn-secondary" (click)="closemodal('cancel')">Cancel </button>
-      <button type="button" class="btn button-mod btn-color" style="float: left;"
+      <button type="button" class="btn button-mod btn-color"
         (click)="closemodal('save')">Save</button>
     </div>
-  </div>
+
+        </div>
+
+      </div>
 </div>

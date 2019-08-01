@@ -36,8 +36,13 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
   applicationConfiguration: ApplicationConfiguration = new ApplicationConfiguration();
 
 
-  constructor(private modalService: NgbModal, private organizationService: LocationService,
-    private configSettingsService: ConfigSettingsService, private domSanitizer: DomSanitizer) { this.UOM =  "SI";}
+  constructor(private modalService: NgbModal, private locationService: LocationService,
+    private configSettingsService: ConfigSettingsService, private domSanitizer: DomSanitizer) { 
+      this.UOM =  "SI";
+    }
+
+
+
 
   ngOnInit() {
     this.parentOrganizationInfo = {
@@ -100,9 +105,9 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
       var reader = new FileReader();
       reader.onload = this._handleReaderLoaded.bind(this);
 
-      // this.location.logo = new Logo();
-      // this.location.logo.imageName = file.name;
-      // this.location.logo.imageType = file.type;
+      this.location.logo = new Logo();
+      this.location.logo.imageName = file.name;
+      this.location.logo.imageType = file.type;
       reader.readAsBinaryString(file);
 
       // reader.onloadend = (e) => {
@@ -116,8 +121,8 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
     let base64textString;
     var binaryString = readerEvt.target.result;
     base64textString = btoa(binaryString);
-    // this.location.logo.image = base64textString;
-    // console.log('organization ', this.organization);
+    this.location.logo.image = base64textString;
+    console.log('organization ', this.location);
   }
 
   open(content) {
@@ -154,17 +159,24 @@ var span = document.getElementsByClassName("close")[0];
 window.onclick = function(event) {
   if (event.target == modal) {
     modal.style.display = "none";
+  
   }
 }
 
   }
-  closemodal(){
+  closemodal(event: string){
     this.modal.style.display ="none";
+    if (event === 'save') {
+      this.UOM = this.tempMeasurement;
+      // console.log('this.uomArray ', JSON.stringify(this.uomArray))
+      this.location.uoMId = []
+      this.uomArray.forEach(uom => {
+        this.location.uoMId.push(uom.uoMId);
+      })
   }
+}
   onUnitChange(value){
-    debugger
-  console.log(value);
-  this.UOM = value.target.value;
+    this.tempMeasurement = value.target.value;
   }
   onUoMDropdownChange(event, uomName: string) {
     // console.log('ahamed ', uomName, event.target.value);
@@ -185,11 +197,11 @@ window.onclick = function(event) {
     // console.log('UOM  ID ', uomType, uomMeasureId)
   }
 
-  // onLocationSubmit() {
-  //   // console.log('Ahamed ', this.organization);
-  //   this.locationService.createLocation(this.location)
-  //     .subscribe(response => {
-  //       // console.log('response ', response);
-  //     });
-  // }
+  onLocationSubmit() {
+    // console.log('Ahamed ', this.organization);
+    this.locationService.createLocation(this.location)
+      .subscribe(response => {
+        // console.log('response ', response);
+      });
+  }
 }
