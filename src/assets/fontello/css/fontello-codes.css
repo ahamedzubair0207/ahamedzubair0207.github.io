@@ -1,0 +1,21 @@
+
+.icon-list:before { content: '\e800'; } /* '' */
+.icon-eye:before { content: '\e801'; } /* '' */
+.icon-edit:before { content: '\e802'; } /* '' */
+.icon-caret-right:before { content: '\e803'; } /* '' */
+.icon-caret-down:before { content: '\e804'; } /* '' */
+.icon-bell:before { content: '\e805'; } /* '' */
+.icon-star:before { content: '\e806'; } /* '' */
+.icon-user:before { content: '\e807'; } /* '' */
+.icon-arrow-left:before { content: '\e808'; } /* '' */
+.icon-location:before { content: '\e809'; } /* '' */
+.icon-signal:before { content: '\e80a'; } /* '' */
+.icon-exclamation-triangle:before { content: '\e80b'; } /* '' */
+.icon-lock:before { content: '\e80c'; } /* '' */
+.icon-bars:before { content: '\f0c9'; } /* '' */
+.icon-sitemap:before { content: '\f0e8'; } /* '' */
+.icon-desktop:before { content: '\f108'; } /* '' */
+.icon-bullseye:before { content: '\f140'; } /* '' */
+.icon-trash:before { content: '\f1f8'; } /* '' */
+.icon-industry:before { content: '\f275'; } /* '' */
+.icon-thermometer-half:before { content: '\f2c9'; } /* '' */

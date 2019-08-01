@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from "@angular/router";
 import { OrganizationService} from '../../../services/organizations/organization.service';
 
 @Component({
@@ -9,15 +10,25 @@ import { OrganizationService} from '../../../services/organizations/organization
 export class VotmCloudOrganizationsHomeComponent implements OnInit {
 
   organizationsList = [];
-  constructor(private orgservice: OrganizationService) { }
+  curOrgId : string;
+  curOrgName : string;
+  constructor(private orgservice: OrganizationService, private route: ActivatedRoute) { }
 
   ngOnInit() {
-    this.getOrganization();
+    this.curOrgId = this.route.snapshot.paramMap.get("orgId");
+    this.curOrgName = this.route.snapshot.paramMap.get("orgName");
+
+    this.orgservice.getOrganizationTree(this.curOrgId).subscribe(
+      response => {
+        this.organizationsList = response.map(
+          x => ({
+          ...x,
+          opened:false
+          })
+        );
+      }
+    );
+
   }
-  getOrganization(){
-    this.organizationsList = this.orgservice.getAllOrganization().map(x => ({
-      ...x,
-      opened:false
-    }));
-  }
+
 }

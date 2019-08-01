@@ -11,33 +11,32 @@ import { Observable } from 'rxjs';
 export class CustomHttp {
     constructor(private http: HttpClient) { }
 
-    get(controller: string, actionName: string): Observable<any> {
-        let url = this.getUrl(controller, actionName);
+    get(endpointName: string, params: any = new HttpParams()): Observable<any> {
+        let url = this.getUrl(endpointName);
         let headers = this.setHeaders();
-        return this.http.get(url, { headers, responseType: 'json' });
+        return this.http.get(url, { headers, params: params, responseType: 'json' });
     }
 
-    post(controller: string, actionName: string, body: any): Observable<any> {
-        let url = this.getUrl(controller, actionName);
+    post(endpointName: string, body: any): Observable<any> {
+        let url = this.getUrl(endpointName);
         let headers = this.setHeaders();
         return this.http.post(url, body, { headers, responseType: 'json' });
     }
 
-    patch(controller: string, actionName: string, body: any): Observable<any> {
-        let url = this.getUrl(controller, actionName);
+    patch(endpointName: string, body: any): Observable<any> {
+        let url = this.getUrl(endpointName);
         let headers = this.setHeaders();
         return this.http.patch(url, body, { headers, responseType: 'json' });
     }
 
-    delete(controller: string, actionName: string, body: any): Observable<any> {
-        let url = this.getUrl(controller, actionName);
+    delete(endpointName: string, body: any): Observable<any> {
+        let url = this.getUrl(endpointName);
         let headers = this.setHeaders();
         return this.http.delete(url, { headers, params: body, responseType: 'json' });
     }
 
-    private getUrl(controller: string, actionName: string): string {
-        return actionName ? `${environment.protocol}://${environment.server}/${environment.virtualName}/${controller}/${actionName}`
-            : `${environment.protocol}://${environment.server}/${environment.virtualName}/${controller}`;
+    private getUrl(endpointName: string): string {
+        return  `${environment.protocol}://${environment.server}/${environment.virtualName}/${endpointName}`;
     }
 
     private setHeaders() {

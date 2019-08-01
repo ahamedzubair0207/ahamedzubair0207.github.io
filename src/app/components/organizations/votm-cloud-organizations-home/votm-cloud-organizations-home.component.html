@@ -1,43 +1,41 @@
 
 <h1 class="flt-left"> Organizations</h1>
 <div class="btn-group-right">
-    <button routerLink="/org/create" type="button" class="btn btn-dark">Create Organization</button>
-    <button routerLink="/org/create" type="button" class="btn btn-dark">View/Edit Organization</button>
+    <button [routerLink]="['/org/create', curOrgId, curOrgName]" type="button" class="btn btn-dark">Create Organization</button>
 </div>
 
-
 <ng-template #recursiveTableList let-list="orgList" let-lvl="level">
-  <span class="table-list-contents" *ngFor="let item of list">
+  <ng-container *ngFor="let item of list">
+
     <tr>
       <th scope="row" (click)="item.opened = !item.opened" [ngStyle]="{'padding-left.px': 15*(lvl+1)}">
-        {{item.name}} <i *ngIf="item.loc.length > 0 || item.subOrg.length > 0" [ngClass]="{'fa': true, 'fa-caret-right': !item.opened, 'fa-caret-down': item.opened}"></i>
+        <i class="fa fa-sitemap"></i>
+        {{item.name}} <i *ngIf="item.node.length > 0 " [ngClass]="{'fa': true, 'fa-caret-right': !item.opened, 'fa-caret-down': item.opened}"></i>
       </th>
-      <td class="align-center" >{{item.orgType}} {{lvl}}</td>
-      <td class="align-center" >{{item.custNum}}</td>
-      <td class="align-center" >{{item.svcStart | date: 'shortDate'}}</td>
-      <td class="align-center" >{{item.svcEnd | date: 'shortDate'}}</td>
-      <td class="align-center" >{{item.svcLevel}}</td>
+      <td class="align-center" >{{item.type}}</td>
+      <td class="align-center" >{{item.customerNo}}</td>
+      <td class="align-center" >{{item.contractStart}}</td>
+      <td class="align-center" >{{item.contractEnd}}</td>
+      <td class="align-center" >{{item.serviceLevel}}</td>
       <td class="align-center">
-        <a class="action-icon">
+        <a class="action-icon" title="List" [routerLink]="['/org/home', item.id, item.name]">
           <i class="fa fa-list"></i>
         </a>
-        <a class="action-icon">
+        <a class="action-icon" title="View" [routerLink]="['/org/view', item.id]">
           <i class="fa fa-eye"></i>
         </a>
-        <a  href= "org\create" class="action-icon">
+        <a class="action-icon" title="Edit" [routerLink]="['/org/edit', item.id]">
           <i class="fa fa-edit"></i>
         </a>
-        <a class="action-icon">
+        <a class="action-icon" title="Delete">
           <i class="fa fa-trash"></i>
         </a>
       </td>
     </tr>
-    <span class="table-list-contents" *ngIf="item.opened">
-      <ng-container *ngTemplateOutlet="recursiveTableList; context:{ orgList: item.subOrg, level: lvl+1 }"></ng-container>
-    </span>
-    <span class="table-list-contents" *ngIf="item.opened">
-      <tr *ngFor="let itemLoc of item.loc">
-        <th scope="row" [ngStyle]="{'padding-left.px': 15*(lvl+1)}">{{itemLoc.name}}</th>
+    
+    <ng-container  *ngFor="let itemLoc of item.node">
+      <tr *ngIf="item.opened && itemLoc.entityType == 'Location'" >
+        <th scope="row" [ngStyle]="{'padding-left.px': 15*(lvl+2)}"> <i class="fa fa-location-arrow"></i> {{itemLoc.name}}</th>
         <td></td>
         <td></td>
         <td></td>
@@ -49,8 +47,41 @@
           </a>
         </td>
       </tr>
-    </span>
-  </span>
+
+        
+      <tr *ngIf="item.opened && itemLoc.entityType == 'Organization'">
+        <th scope="row" (click)="itemLoc.opened = !itemLoc.opened" [ngStyle]="{'padding-left.px': 15*(lvl+2)}">
+          <i class="fa fa-sitemap"></i>
+          {{itemLoc.name}} <i *ngIf="itemLoc.node.length > 0 " [ngClass]="{'fa': true, 'fa-caret-right': !itemLoc.opened, 'fa-caret-down': itemLoc.opened}"></i>
+        </th>
+        <td class="align-center" >{{itemLoc.type}}</td>
+        <td class="align-center" >{{itemLoc.customerNo}}</td>
+        <td class="align-center" >{{itemLoc.contractStart}}</td>
+        <td class="align-center" >{{itemLoc.contractEnd}}</td>
+        <td class="align-center" >{{itemLoc.serviceLevel}}</td>
+        <td class="align-center">
+          <a class="action-icon" title="List" [routerLink]="['/org/home', itemLoc.id, itemLoc.name]">
+            <i class="fa fa-list"></i>
+          </a>
+          <a class="action-icon" title="View" [routerLink]="['/org/view', itemLoc.id]">
+            <i class="fa fa-eye"></i>
+          </a>
+          <a class="action-icon" title="Edit" [routerLink]="['/org/edit', itemLoc.id]">
+            <i class="fa fa-edit"></i>
+          </a>
+          <a class="action-icon" title="Delete">
+            <i class="fa fa-trash"></i>
+          </a>
+        </td>
+      </tr>
+
+      <ng-container *ngIf="itemLoc.opened">
+          <ng-container *ngTemplateOutlet="recursiveTableList; context:{ orgList: itemLoc.node, level: lvl+2 }"></ng-container>
+      </ng-container>
+      
+    </ng-container>
+    
+  </ng-container>
 </ng-template>
 
 
