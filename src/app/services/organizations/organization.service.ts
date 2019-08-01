@@ -23,15 +23,22 @@ export class OrganizationService {
     return ORG_LIST;
   }
 
+  getOrganizationTree(): Observable<any> {
+    return this.http.get(AppConstants.GET_ORG_TREE)
+      .pipe(
+        map(response => response)
+      );
+  }
+
   getAllOrganizations(): Observable<any> {
-    return this.http.get(this.controllerName,'')
+    return this.http.get(this.controllerName)
       .pipe(
         map(response => response)
       );
   }
 
   createOrganization(body: Organization){
-    return this.http.post(this.controllerName,'', body)
+    return this.http.post(this.controllerName, body)
     .pipe(
       map(response => response)
     );
