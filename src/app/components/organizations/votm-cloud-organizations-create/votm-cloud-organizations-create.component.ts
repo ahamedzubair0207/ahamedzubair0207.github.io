@@ -27,7 +27,7 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
   countries: Array<any>;
   tempUoM: UnitOfMeassurement;
   tempMeasurement: string;
-
+  parentOrganizationInfo: any;
 
   uomArray: Array<any> = [];
 
@@ -37,195 +37,21 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
   constructor(private modalService: NgbModal, private organizationService: OrganizationService,
     private configSettingsService: ConfigSettingsService, private domSanitizer: DomSanitizer) {
     this.UOM = "SI";
-    this.pageLabels = {
-      "CustomerNumber": {
-        "screenLabelId": "00da91e2-b3c7-4e8a-9ecf-05ffb620e713",
-        "screenLabelAliasName": "CustomerNumber",
-        "screenId": "a2e85d4b-b6c1-4767-a7d7-ee0df88a6b92",
-        "localeId": "01653a73-ba08-42f3-8182-4169b1385906",
-        "localeName": "en-us",
-        "labelName": "Customer Number"
-      },
-      "EndDate": {
-        "screenLabelId": "f8346210-75cf-4b58-abc9-1de13a1468b7",
-        "screenLabelAliasName": "EndDate",
-        "screenId": "a2e85d4b-b6c1-4767-a7d7-ee0df88a6b92",
-        "localeId": "01653a73-ba08-42f3-8182-4169b1385906",
-        "localeName": "en-us",
-        "labelName": "End Date"
-      },
-      "BillingAddress": {
-        "screenLabelId": "50660bba-c542-42b0-8fb0-1ea31ecb4736",
-        "screenLabelAliasName": "BillingAddress",
-        "screenId": "a2e85d4b-b6c1-4767-a7d7-ee0df88a6b92",
-        "localeId": "01653a73-ba08-42f3-8182-4169b1385906",
-        "localeName": "en-us",
-        "labelName": "Billing Address"
-      },
-      "PrimaryContact": {
-        "screenLabelId": "e67a6e8e-a1d9-4624-b9bd-2a20bd5495aa",
-        "screenLabelAliasName": "PrimaryContact",
-        "screenId": "a2e85d4b-b6c1-4767-a7d7-ee0df88a6b92",
-        "localeId": "01653a73-ba08-42f3-8182-4169b1385906",
-        "localeName": "en-us",
-        "labelName": "Primary Contact"
-      },
-      "PostalCode": {
-        "screenLabelId": "359ec7ad-873d-4851-9d87-2cd58375eab2",
-        "screenLabelAliasName": "PostalCode",
-        "screenId": "a2e85d4b-b6c1-4767-a7d7-ee0df88a6b92",
-        "localeId": "01653a73-ba08-42f3-8182-4169b1385906",
-        "localeName": "en-us",
-        "labelName": "Zip Code"
-      },
-      "DescriptionofOrganization": {
-        "screenLabelId": "98c1f426-8ef2-4deb-bcf2-315e1a7299e0",
-        "screenLabelAliasName": "DescriptionofOrganization",
-        "screenId": "a2e85d4b-b6c1-4767-a7d7-ee0df88a6b92",
-        "localeId": "01653a73-ba08-42f3-8182-4169b1385906",
-        "localeName": "en-us",
-        "labelName": "Description of Organization"
-      },
-      "LogoFile": {
-        "screenLabelId": "fb65623c-9d24-41ca-ad7a-406cd5b331f5",
-        "screenLabelAliasName": "LogoFile",
-        "screenId": "a2e85d4b-b6c1-4767-a7d7-ee0df88a6b92",
-        "localeId": "01653a73-ba08-42f3-8182-4169b1385906",
-        "localeName": "en-us",
-        "labelName": "Logo File"
-      },
-      "PrimaryDistributor": {
-        "screenLabelId": "8ec696e4-b65b-4988-bcbc-5b498670a258",
-        "screenLabelAliasName": "PrimaryDistributor",
-        "screenId": "a2e85d4b-b6c1-4767-a7d7-ee0df88a6b92",
-        "localeId": "01653a73-ba08-42f3-8182-4169b1385906",
-        "localeName": "en-us",
-        "labelName": "Primary Distributor"
-      },
-      "SVCLevel": {
-        "screenLabelId": "5d419194-889a-4afd-9051-62a0439dbd12",
-        "screenLabelAliasName": "SVCLevel",
-        "screenId": "a2e85d4b-b6c1-4767-a7d7-ee0df88a6b92",
-        "localeId": "01653a73-ba08-42f3-8182-4169b1385906",
-        "localeName": "en-us",
-        "labelName": "SVC Level"
-      },
-      "Country": {
-        "screenLabelId": "636fe2fe-6f19-4c31-99ae-82bc8c3a5056",
-        "screenLabelAliasName": "Country",
-        "screenId": "a2e85d4b-b6c1-4767-a7d7-ee0df88a6b92",
-        "localeId": "01653a73-ba08-42f3-8182-4169b1385906",
-        "localeName": "en-us",
-        "labelName": "Country"
-      },
-      "ParentOrganization": {
-        "screenLabelId": "38a94999-d867-4d42-a982-856509a1524c",
-        "screenLabelAliasName": "ParentOrganization",
-        "screenId": "a2e85d4b-b6c1-4767-a7d7-ee0df88a6b92",
-        "localeId": "01653a73-ba08-42f3-8182-4169b1385906",
-        "localeName": "en-us",
-        "labelName": "Parent Organization"
-      },
-      "State": {
-        "screenLabelId": "cd0e3d98-5871-4e6a-b836-9f7ac5cd1bfa",
-        "screenLabelAliasName": "State",
-        "screenId": "a2e85d4b-b6c1-4767-a7d7-ee0df88a6b92",
-        "localeId": "01653a73-ba08-42f3-8182-4169b1385906",
-        "localeName": "en-us",
-        "labelName": "State"
-      },
-      "Name": {
-        "screenLabelId": "d378dbcf-0b06-4365-8df9-a0f59cde74e6",
-        "screenLabelAliasName": "Name",
-        "screenId": "a2e85d4b-b6c1-4767-a7d7-ee0df88a6b92",
-        "localeId": "01653a73-ba08-42f3-8182-4169b1385906",
-        "localeName": "en-us",
-        "labelName": "Name"
-      },
-      "Language": {
-        "screenLabelId": "cc2d2b18-1fda-4ad7-b536-a18d7fe9c8e2",
-        "screenLabelAliasName": "Language",
-        "screenId": "a2e85d4b-b6c1-4767-a7d7-ee0df88a6b92",
-        "localeId": "01653a73-ba08-42f3-8182-4169b1385906",
-        "localeName": "en-us",
-        "labelName": "Default Language"
-      },
-      "StartDate": {
-        "screenLabelId": "e9669b71-8456-49ae-942a-d3eec018fcc6",
-        "screenLabelAliasName": "StartDate",
-        "screenId": "a2e85d4b-b6c1-4767-a7d7-ee0df88a6b92",
-        "localeId": "01653a73-ba08-42f3-8182-4169b1385906",
-        "localeName": "en-us",
-        "labelName": "Start Date"
-      },
-      "Address2": {
-        "screenLabelId": "9ff8b4e6-bc09-4cd2-918a-d4ed8480c34c",
-        "screenLabelAliasName": "Address2",
-        "screenId": "a2e85d4b-b6c1-4767-a7d7-ee0df88a6b92",
-        "localeId": "01653a73-ba08-42f3-8182-4169b1385906",
-        "localeName": "en-us",
-        "labelName": "Address 2"
-      },
-      "Address1": {
-        "screenLabelId": "8eaf07dc-7452-4a18-a029-d878262d6fa5",
-        "screenLabelAliasName": "Address1",
-        "screenId": "a2e85d4b-b6c1-4767-a7d7-ee0df88a6b92",
-        "localeId": "01653a73-ba08-42f3-8182-4169b1385906",
-        "localeName": "en-us",
-        "labelName": "Address 1"
-      },
-      "Contract": {
-        "screenLabelId": "6210fd7d-c0c3-46ff-ace1-df4dce25d89e",
-        "screenLabelAliasName": "Contract",
-        "screenId": "a2e85d4b-b6c1-4767-a7d7-ee0df88a6b92",
-        "localeId": "01653a73-ba08-42f3-8182-4169b1385906",
-        "localeName": "en-us",
-        "labelName": "Contract"
-      },
-      "City": {
-        "screenLabelId": "c03e3442-80a0-4d60-8b21-e47ae80748e3",
-        "screenLabelAliasName": "City",
-        "screenId": "a2e85d4b-b6c1-4767-a7d7-ee0df88a6b92",
-        "localeId": "01653a73-ba08-42f3-8182-4169b1385906",
-        "localeName": "en-us",
-        "labelName": "City"
-      },
-      "DefaultUnitOfMeasure": {
-        "screenLabelId": "b95a86f7-9645-478c-9008-e5c20ac1d4a4",
-        "screenLabelAliasName": "DefaultUnitOfMeasure",
-        "screenId": "a2e85d4b-b6c1-4767-a7d7-ee0df88a6b92",
-        "localeId": "01653a73-ba08-42f3-8182-4169b1385906",
-        "localeName": "en-us",
-        "labelName": "Default Unit Of Measure"
-      },
-      "OrganizationType": {
-        "screenLabelId": "4f2f0185-2e07-4f0c-b0a8-eed52cfa2b37",
-        "screenLabelAliasName": "OrganizationType",
-        "screenId": "a2e85d4b-b6c1-4767-a7d7-ee0df88a6b92",
-        "localeId": "01653a73-ba08-42f3-8182-4169b1385906",
-        "localeName": "en-us",
-        "labelName": "Organization Type"
-      }
-    };
   }
 
 
 
 
   ngOnInit() {
-    this.organization.parentOrganizationId = '3fa85f64-5717-4562-b3fc-2c963f66afa6';
+    this.parentOrganizationInfo = {
+      parentOrganizationId: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
+      parentOrganizationName: 'Parker'
+    }
+    this.getScreenLabels();
+    this.organization.parentOrganizationId = this.parentOrganizationInfo.parentOrganizationId;
     this.organization.active = true;
-    this.organization.logo = {
-      "image": "base64string",
-      "imageType": "base64string",
-      "imageName": "parker.jpg"
-    },
-      this.organization.timeZoneId = "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-      this.organization.localeId = "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-      // this.organization.uoMId = [
-      //   "3fa85f64-5717-4562-b3fc-2c963f66afa6"
-      // ]
-      this.UOM = 'SI';
+
+    this.UOM = 'SI';
     this.organization.address = [new Address()];
     this.organization.address[0].addressType = 'Billing';
     this.organizationTypes = [{ value: 'organizationType1', text: 'organizationType1' }, { value: 'organizationType2', text: 'organizationType2' }]
@@ -234,8 +60,26 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
     this.countries = [{ value: 'country1', text: 'USA' },
     { value: 'country2', text: 'Brazil' }];
     this.getAllAppInfo();
-    // this.organizationService.getAllOrganizations()
-    //   .subscribe((response: any) => // console.log('response ', response));
+    this.organization = { "parentOrganizationId": "3fa85f64-5717-4562-b3fc-2c963f66afa6", 
+    "active": true, 
+    "address": [{ "addressType": "Billing", "address1": "8640 Lewis Road", "address2": "21", "city": "Golden Valley", "postalCode": "55114", "state": "state1", "country": "country1" }],
+     "name": "abfg", 
+     "customerNumber": "966922",
+      "organizationType": "asb", "primaryContactEmailAddress": "p@pp.com", 
+      "primaryDistributorName": "Parker", "primaryDistributorEmailAddress": "s@sc.com",
+       "contractStartDate": "2019-12-31", "contractEndDate": "2019-12-31", 
+       "svclevel": "Admin", "localeId": "01653a73-ba08-42f3-8182-4169b1385906", 
+       "timeZoneId": "ba2968ed-27be-4408-a854-0002115770e2", "description": "dgfdgf",
+        "logo": { "imageName": "AJ_Digital_Camera.svg", "imageType": "image/svg+xml","image":'' },
+      uoMId:[],organizationId:'' }
+  }
+
+  getScreenLabels() {
+    this.configSettingsService.getCreateOrgScreenLabels()
+      .subscribe(response => {
+        console.log('screen labels ', response)
+        this.pageLabels = response;
+      })
   }
 
   getAllAppInfo() {
@@ -262,7 +106,7 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
     this.imagePath = files;
     readerToPreview.readAsDataURL(files[0]);
     readerToPreview.onload = (_event) => {
-      this.imgURL = readerToPreview.result;
+      this.imgURL = this.domSanitizer.bypassSecurityTrustUrl(readerToPreview.result.toString());; //readerToPreview.result;
     }
     // readerToPreview.onloadend = (e) => {
     //   let base64Image = this.domSanitizer.bypassSecurityTrustUrl(readerToPreview.result.toString());
@@ -275,25 +119,34 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
     if (files && file) {
       var reader = new FileReader();
       reader.onload = this._handleReaderLoaded.bind(this);
-      
+
       this.organization.logo = new Logo();
       this.organization.logo.imageName = file.name;
       this.organization.logo.imageType = file.type;
       reader.readAsBinaryString(file);
-
-      // reader.onloadend = (e) => {
-      //   let base64Image = this.domSanitizer.bypassSecurityTrustUrl(reader.result.toString());
-      //   console.log(base64Image);
-      // }
     }
   }
 
   _handleReaderLoaded(readerEvt) {
     let base64textString;
     var binaryString = readerEvt.target.result;
+
+
+    // SVG Code
+    // let parser = new DOMParser();
+    // let xmlDoc: XMLDocument = parser.parseFromString(binaryString.toString(), "text/xml");;
+    // console.log('XMLDocument ', xmlDoc, xmlDoc.getElementsByTagName('svg'))
+    // const xml = (new XMLSerializer()).serializeToString(xmlDoc);
+    // const svg64 = btoa(xml);
+    // const b64Start = 'data:image/svg+xml;base64,';
+    // const image64 = b64Start + svg64;
+    // this.organization.logo.image = svg64;
+    // console.log('this.organization.logo.image ', this.organization.logo.image)
+
+    // Other Images
     base64textString = btoa(binaryString);
     this.organization.logo.image = base64textString;
-    // console.log('organization ', this.organization);
+    console.log('organization ', base64textString);
   }
 
   open(content) {
