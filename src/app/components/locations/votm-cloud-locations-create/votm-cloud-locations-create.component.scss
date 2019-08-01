@@ -1,7 +1,16 @@
  
-.container {
+.create-loc-container {
   padding: 15px;
   background-color: white;
+}
+
+.loc-create-font{
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 14px;
+}
+
+.loc-h5{
+  margin-top: 14px;
 }
 
 .loc-outside-border{
@@ -12,10 +21,10 @@
 
 .drop-down{
   width: 100%;
-  padding:  5px 0px 7px 15px;
+  padding:  5px 0px 7px 20px;
   margin: 5px 0 22px 0;
   display: inline-block;
-  border: 1px solid #ddd;
+  border: none;
   background: #f1f1f1;
   border-radius: 20px;
 }
@@ -23,9 +32,16 @@
   width: 50%;
   margin: 5px 6px 22px 10px;
 }
+.geo-drop-down{
+  margin-left: 10px;
+}
+
+.action-btn-loc{
+  margin-top:30px;
+}
 
 .uom-btn{
-  margin: -51px 0px 8px 86px;
+  margin: -35px 0px 8px 100px;
 }
 .btn-color{
   background-color: rgb(0,185,195);

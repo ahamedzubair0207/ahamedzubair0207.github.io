@@ -6,6 +6,8 @@ import { ConfigSettingsService } from 'src/app/services/configSettings/configSet
 import { ApplicationConfiguration } from 'src/app/models/applicationconfig.model';
 import { Address } from 'src/app/models/address.model';
 import { UnitOfMeassurement } from 'src/app/models/unitOfMeassurement.model';
+import { Logo } from 'src/app/models/logo.model';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-votm-cloud-organizations-create',
@@ -25,7 +27,7 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
   countries: Array<any>;
   tempUoM: UnitOfMeassurement;
   tempMeasurement: string;
-
+  parentOrganizationInfo: any;
 
   uomArray: Array<any> = [];
 
@@ -33,159 +35,40 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
   applicationConfiguration: ApplicationConfiguration = new ApplicationConfiguration();
 
   constructor(private modalService: NgbModal, private organizationService: OrganizationService,
-    private configSettingsService: ConfigSettingsService) {
+    private configSettingsService: ConfigSettingsService, private domSanitizer: DomSanitizer) {
     this.UOM = "SI";
-    this.pageLabels = {
-      "CustomerNumber": {
-        "screenLabelId": "00da91e2-b3c7-4e8a-9ecf-05ffb620e713",
-        "screenLabelAliasName": "CustomerNumber",
-        "screenId": "a2e85d4b-b6c1-4767-a7d7-ee0df88a6b92",
-        "localeId": "01653a73-ba08-42f3-8182-4169b1385906",
-        "localeName": "en-us",
-        "labelName": "Customer Number"
-      },
-      "EndDate": {
-        "screenLabelId": "f8346210-75cf-4b58-abc9-1de13a1468b7",
-        "screenLabelAliasName": "EndDate",
-        "screenId": "a2e85d4b-b6c1-4767-a7d7-ee0df88a6b92",
-        "localeId": "01653a73-ba08-42f3-8182-4169b1385906",
-        "localeName": "en-us",
-        "labelName": "End Date"
-      },
-      "BillingAddress": {
-        "screenLabelId": "50660bba-c542-42b0-8fb0-1ea31ecb4736",
-        "screenLabelAliasName": "BillingAddress",
-        "screenId": "a2e85d4b-b6c1-4767-a7d7-ee0df88a6b92",
-        "localeId": "01653a73-ba08-42f3-8182-4169b1385906",
-        "localeName": "en-us",
-        "labelName": "Billing Address"
-      },
-      "PrimaryContact": {
-        "screenLabelId": "e67a6e8e-a1d9-4624-b9bd-2a20bd5495aa",
-        "screenLabelAliasName": "PrimaryContact",
-        "screenId": "a2e85d4b-b6c1-4767-a7d7-ee0df88a6b92",
-        "localeId": "01653a73-ba08-42f3-8182-4169b1385906",
-        "localeName": "en-us",
-        "labelName": "Primary Contact"
-      },
-      "DescriptionofOrganization": {
-        "screenLabelId": "98c1f426-8ef2-4deb-bcf2-315e1a7299e0",
-        "screenLabelAliasName": "DescriptionofOrganization",
-        "screenId": "a2e85d4b-b6c1-4767-a7d7-ee0df88a6b92",
-        "localeId": "01653a73-ba08-42f3-8182-4169b1385906",
-        "localeName": "en-us",
-        "labelName": "Description of Organization"
-      },
-      "LogoFile": {
-        "screenLabelId": "fb65623c-9d24-41ca-ad7a-406cd5b331f5",
-        "screenLabelAliasName": "LogoFile",
-        "screenId": "a2e85d4b-b6c1-4767-a7d7-ee0df88a6b92",
-        "localeId": "01653a73-ba08-42f3-8182-4169b1385906",
-        "localeName": "en-us",
-        "labelName": "Logo File"
-      },
-      "PrimaryDistributor": {
-        "screenLabelId": "8ec696e4-b65b-4988-bcbc-5b498670a258",
-        "screenLabelAliasName": "PrimaryDistributor",
-        "screenId": "a2e85d4b-b6c1-4767-a7d7-ee0df88a6b92",
-        "localeId": "01653a73-ba08-42f3-8182-4169b1385906",
-        "localeName": "en-us",
-        "labelName": "Primary Distributor"
-      },
-      "SVCLevel": {
-        "screenLabelId": "5d419194-889a-4afd-9051-62a0439dbd12",
-        "screenLabelAliasName": "SVCLevel",
-        "screenId": "a2e85d4b-b6c1-4767-a7d7-ee0df88a6b92",
-        "localeId": "01653a73-ba08-42f3-8182-4169b1385906",
-        "localeName": "en-us",
-        "labelName": "SVC Level"
-      },
-      "ParentOrganization": {
-        "screenLabelId": "38a94999-d867-4d42-a982-856509a1524c",
-        "screenLabelAliasName": "ParentOrganization",
-        "screenId": "a2e85d4b-b6c1-4767-a7d7-ee0df88a6b92",
-        "localeId": "01653a73-ba08-42f3-8182-4169b1385906",
-        "localeName": "en-us",
-        "labelName": "Parent Organization"
-      },
-      "Name": {
-        "screenLabelId": "d378dbcf-0b06-4365-8df9-a0f59cde74e6",
-        "screenLabelAliasName": "Name",
-        "screenId": "a2e85d4b-b6c1-4767-a7d7-ee0df88a6b92",
-        "localeId": "01653a73-ba08-42f3-8182-4169b1385906",
-        "localeName": "en-us",
-        "labelName": "Name"
-      },
-      "Language": {
-        "screenLabelId": "cc2d2b18-1fda-4ad7-b536-a18d7fe9c8e2",
-        "screenLabelAliasName": "Language",
-        "screenId": "a2e85d4b-b6c1-4767-a7d7-ee0df88a6b92",
-        "localeId": "01653a73-ba08-42f3-8182-4169b1385906",
-        "localeName": "en-us",
-        "labelName": "Language"
-      },
-      "StartDate": {
-        "screenLabelId": "e9669b71-8456-49ae-942a-d3eec018fcc6",
-        "screenLabelAliasName": "StartDate",
-        "screenId": "a2e85d4b-b6c1-4767-a7d7-ee0df88a6b92",
-        "localeId": "01653a73-ba08-42f3-8182-4169b1385906",
-        "localeName": "en-us",
-        "labelName": "Start Date"
-      },
-      "Contract": {
-        "screenLabelId": "6210fd7d-c0c3-46ff-ace1-df4dce25d89e",
-        "screenLabelAliasName": "Contract",
-        "screenId": "a2e85d4b-b6c1-4767-a7d7-ee0df88a6b92",
-        "localeId": "01653a73-ba08-42f3-8182-4169b1385906",
-        "localeName": "en-us",
-        "labelName": "Contract"
-      },
-      "DefaultUnitOfMeasure": {
-        "screenLabelId": "b95a86f7-9645-478c-9008-e5c20ac1d4a4",
-        "screenLabelAliasName": "DefaultUnitOfMeasure",
-        "screenId": "a2e85d4b-b6c1-4767-a7d7-ee0df88a6b92",
-        "localeId": "01653a73-ba08-42f3-8182-4169b1385906",
-        "localeName": "en-us",
-        "labelName": "Default Unit Of Measure"
-      },
-      "OrganizationType": {
-        "screenLabelId": "4f2f0185-2e07-4f0c-b0a8-eed52cfa2b37",
-        "screenLabelAliasName": "OrganizationType",
-        "screenId": "a2e85d4b-b6c1-4767-a7d7-ee0df88a6b92",
-        "localeId": "01653a73-ba08-42f3-8182-4169b1385906",
-        "localeName": "en-us",
-        "labelName": "Organization Type"
-      }
-    };
   }
 
 
 
 
   ngOnInit() {
-    this.organization.parentOrganizationId = '3fa85f64-5717-4562-b3fc-2c963f66afa6';
+    this.parentOrganizationInfo = {
+      parentOrganizationId: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
+      parentOrganizationName: 'Parker'
+    }
+    this.getScreenLabels();
+    this.organization.parentOrganizationId = this.parentOrganizationInfo.parentOrganizationId;
     this.organization.active = true;
-    this.organization.logo = {
-      "image": "base64string",
-      "imageType": "base64string",
-      "imageName": "parker.jpg"
-    },
-    this.organization.timeZoneId= "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-    this.organization.localeId = "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-    // this.organization.uoMId = [
-    //   "3fa85f64-5717-4562-b3fc-2c963f66afa6"
-    // ]
+
     this.UOM = 'SI';
     this.organization.address = [new Address()];
     this.organization.address[0].addressType = 'Billing';
     this.organizationTypes = [{ value: 'organizationType1', text: 'organizationType1' }, { value: 'organizationType2', text: 'organizationType2' }]
-    this.states = [{ value: 'state1', text: 'state1' },
-    { value: 'state2', text: 'state2' }];
-    this.countries = [{ value: 'country1', text: 'country1' },
-    { value: 'country2', text: 'country2' }];
+    this.states = [{ value: 'state1', text: 'MN' },
+    { value: 'state2', text: 'OH' }];
+    this.countries = [{ value: 'country1', text: 'USA' },
+    { value: 'country2', text: 'Brazil' }];
     this.getAllAppInfo();
-    // this.organizationService.getAllOrganizations()
-    //   .subscribe((response: any) => console.log('response ', response));
+  
+  }
+
+  getScreenLabels() {
+    this.configSettingsService.getCreateOrgScreenLabels()
+      .subscribe(response => {
+        console.log('screen labels ', response)
+        this.pageLabels = response;
+      })
   }
 
   getAllAppInfo() {
@@ -193,7 +76,7 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
       .subscribe((response: any) => {
 
         this.applicationConfiguration = response;
-        console.log('Application ', this.applicationConfiguration);
+        // console.log('Application ', this.applicationConfiguration);
       });
   }
 
@@ -207,23 +90,61 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
       this.message = "Only images are supported.";
       return;
     }
-
-    var reader = new FileReader();
+    this.handleFileSelect(files);
+    var readerToPreview = new FileReader();
     this.imagePath = files;
-    reader.readAsDataURL(files[0]);
-    reader.onload = (_event) => {
-      this.imgURL = reader.result;
+    readerToPreview.readAsDataURL(files[0]);
+    readerToPreview.onload = (_event) => {
+      this.imgURL = this.domSanitizer.bypassSecurityTrustUrl(readerToPreview.result.toString());; //readerToPreview.result;
+    }
+    // readerToPreview.onloadend = (e) => {
+    //   let base64Image = this.domSanitizer.bypassSecurityTrustUrl(readerToPreview.result.toString());
+    //   console.log(base64Image);
+    // }
+  }
+
+  handleFileSelect(files) {
+    var file = files[0];
+    if (files && file) {
+      var reader = new FileReader();
+      reader.onload = this._handleReaderLoaded.bind(this);
+
+      this.organization.logo = new Logo();
+      this.organization.logo.imageName = file.name;
+      this.organization.logo.imageType = file.type;
+      reader.readAsBinaryString(file);
     }
   }
 
+  _handleReaderLoaded(readerEvt) {
+    let base64textString;
+    var binaryString = readerEvt.target.result;
+
+
+    // SVG Code
+    // let parser = new DOMParser();
+    // let xmlDoc: XMLDocument = parser.parseFromString(binaryString.toString(), "text/xml");;
+    // console.log('XMLDocument ', xmlDoc, xmlDoc.getElementsByTagName('svg'))
+    // const xml = (new XMLSerializer()).serializeToString(xmlDoc);
+    // const svg64 = btoa(xml);
+    // const b64Start = 'data:image/svg+xml;base64,';
+    // const image64 = b64Start + svg64;
+    // this.organization.logo.image = svg64;
+    // console.log('this.organization.logo.image ', this.organization.logo.image)
+
+    // Other Images
+    base64textString = btoa(binaryString);
+    this.organization.logo.image = base64textString;
+    console.log('organization ', base64textString);
+  }
 
   open(content) {
-    console.log(' open  ');
+    // console.log(' open  ');
     this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then((result) => {
-      console.log(' result  ', result);
+      // console.log(' result  ', result);
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
-      console.log(' reason  ', reason);
+      // console.log(' reason  ', reason);
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
     });
   }
@@ -263,9 +184,9 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
     this.modal.style.display = "none";
     if (event === 'save') {
       this.UOM = this.tempMeasurement;
-      console.log('this.uomArray ', JSON.stringify(this.uomArray))
-      this.organization.uoMId =[]
-      this.uomArray.forEach(uom=>{
+      // console.log('this.uomArray ', JSON.stringify(this.uomArray))
+      this.organization.uoMId = []
+      this.uomArray.forEach(uom => {
         this.organization.uoMId.push(uom.uoMId);
       })
       // this.organization.uoM = [this.tempUoM];
@@ -273,12 +194,12 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
     }
   }
   onUnitChange(value) {
-    console.log(value);
+    // console.log(value);
     this.tempMeasurement = value.target.value;
   }
 
   onUoMDropdownChange(event, uomName: string) {
-    console.log('ahamed ', uomName, event.target.value);
+    // console.log('ahamed ', uomName, event.target.value);
     let isFound: boolean = false;
     for (let i = 0; i < this.uomArray.length; i++) {
       if (this.uomArray[i].uoMTypeId === uomName) {
@@ -293,14 +214,14 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
   }
 
   onUoMValueSelect(uomType, uomMeasureId) {
-    console.log('UOM  ID ', uomType, uomMeasureId)
+    // console.log('UOM  ID ', uomType, uomMeasureId)
   }
 
   onOrganizationSubmit() {
-    console.log('Ahamed ', this.organization);
+    // console.log('Ahamed ', this.organization);
     this.organizationService.createOrganization(this.organization)
       .subscribe(response => {
-        console.log('response ', response);
+        // console.log('response ', response);
       });
   }
 }

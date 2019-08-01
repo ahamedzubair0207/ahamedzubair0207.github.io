@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
 import { ORG_LIST } from '../mock/mock-organizations-list';
 import { CustomHttp } from '../custom_http/custom_http.service';
-import { map } from 'rxjs/operators'
+import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { Organization } from 'src/app/models/organization.model';
 import { AppConstants } from '../../helpers/app.constants';
-
 
 @Injectable({
   providedIn: 'root',

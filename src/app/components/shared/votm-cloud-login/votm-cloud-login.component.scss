@@ -18,14 +18,21 @@
 }
 
 .login-btn{
+	color: #fff;
 	background-color: rgb(0, 170, 172);
-	border-color: rgb(0, 170, 172)
+	border-color: rgb(0, 170, 172);
 }
 
 .forgot-pass{
 	color:rgb(0, 170, 172) !important;
 	margin-top:10px;
 	
+}
+
+.custom-success-btn{
+	color: #fff;
+    background-color: rgb(110, 112, 112);
+    border-color: rgb(110, 112, 112);
 }
 
 .login-inp{
