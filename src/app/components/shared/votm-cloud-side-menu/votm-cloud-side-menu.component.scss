@@ -109,7 +109,7 @@ a, a:hover, a:focus {
     font-weight: bolder;
 }
 
-#sidebar ul li.active > a, a[aria-expanded="true"] {
+#sidebar ul li > a.active, a[aria-expanded="true"] {
     color: $highlight;
     font-weight: bolder;
 }

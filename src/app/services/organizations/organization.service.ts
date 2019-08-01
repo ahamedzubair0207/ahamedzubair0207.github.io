@@ -5,6 +5,7 @@ import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { Organization } from 'src/app/models/organization.model';
 import { AppConstants } from '../../helpers/app.constants';
+import { HttpParams } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',
@@ -23,8 +24,9 @@ export class OrganizationService {
     return ORG_LIST;
   }
 
-  getOrganizationTree(): Observable<any> {
-    return this.http.get(AppConstants.GET_ORG_TREE)
+  getOrganizationTree(orgId: string): Observable<any> {
+    let params = new HttpParams().set("organizationId",orgId);
+    return this.http.get(AppConstants.GET_ORG_TREE + '/' + orgId, params)
       .pipe(
         map(response => response)
       );
