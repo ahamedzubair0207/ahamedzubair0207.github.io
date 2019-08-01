@@ -24,14 +24,14 @@ export class LocationService {
   }
 
   getAllLocation(): Observable<any> {
-    return this.http.get(this.controllerName,'')
+    return this.http.get(this.controllerName)
       .pipe(
         map(response => response)
       );
   }
 
   createLocation(body: Location){
-    return this.http.post(this.controllerName,'', body)
+    return this.http.post(this.controllerName, body)
     .pipe(
       map(response => response)
     );

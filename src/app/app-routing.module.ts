@@ -16,11 +16,14 @@ import { VotmCloudSuperAdminComponent } from './components/super/votm-cloud-supe
 import { VotmCloudLoginComponent } from './components/shared/votm-cloud-login/votm-cloud-login.component';
 
 const routes: Routes = [
+  { path: 'fav', component: VotmCloudViewsHomeComponent },
   { path: 'view/home', component: VotmCloudViewsHomeComponent },
   { path: 'alerts/home', component: VotmCloudAlertsHomeComponent },
   { path: 'preferences', component: VotmCloudPreferencesComponent },
-  { path: 'org/home', component: VotmCloudOrganizationsHomeComponent },
-  { path: 'org/create', component: VotmCloudOrganizationsCreateComponent },
+  { path: 'org/home/:orgId/:orgName', component: VotmCloudOrganizationsHomeComponent },
+  { path: 'org/create/:parentOrgId/:parentOrgName', component: VotmCloudOrganizationsCreateComponent },
+  { path: 'org/view/:orgId', component: VotmCloudOrganizationsHomeComponent },
+  { path: 'org/edit/:orgId', component: VotmCloudOrganizationsHomeComponent },
   { path: 'loc/home', component: VotmCloudLocationsHomeComponent },
   { path: 'loc/create', component: VotmCloudLocationsCreateComponent },
   { path: 'asset/home', component: VotmCloudAssetsHomeComponent },

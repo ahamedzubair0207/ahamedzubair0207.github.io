@@ -28,6 +28,11 @@ $highlight: rgb(6, 236, 240);
     z-index: 1;
 }
 
+.menu-icon{
+    width: 20px;
+    text-align: center;
+}
+
 .menu-btn{
     margin-top: 5px;
 }
@@ -104,7 +109,7 @@ a, a:hover, a:focus {
     font-weight: bolder;
 }
 
-#sidebar ul li.active > a, a[aria-expanded="true"] {
+#sidebar ul li > a.active, a[aria-expanded="true"] {
     color: $highlight;
     font-weight: bolder;
 }
