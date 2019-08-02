@@ -39,6 +39,14 @@ export class OrganizationService {
       );
   }
 
+  
+  getOrganizationById(orgId: string): Observable<any> {
+    return this.http.get(AppConstants.GET_ORG + '/' + orgId)
+      .pipe(
+        map(response => response)
+      );
+  }
+
   createOrganization(body: Organization){
     return this.http.post(this.controllerName, body)
     .pipe(
