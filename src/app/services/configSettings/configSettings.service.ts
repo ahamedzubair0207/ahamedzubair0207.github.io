@@ -12,7 +12,7 @@ export class ConfigSettingsService {
   constructor(private http: CustomHttp) { }
 
   getApplicationInfo(): Observable<any> {
-    return this.http.get(`${AppConstants.CONFIGCONTROLLERNAME}/Application`)
+    return this.http.get(AppConstants.APP_INFO)
       .pipe(
         map(response => response)
       );

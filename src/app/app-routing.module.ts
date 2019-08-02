@@ -21,7 +21,7 @@ const routes: Routes = [
   { path: 'alerts/home', component: VotmCloudAlertsHomeComponent },
   { path: 'preferences', component: VotmCloudPreferencesComponent },
   { path: 'org/home/:orgId/:orgName', component: VotmCloudOrganizationsHomeComponent },
-  { path: 'org/create', component: VotmCloudOrganizationsCreateComponent },
+  { path: 'org/create/:parentOrgId/:parentOrgName', component: VotmCloudOrganizationsCreateComponent },
   { path: 'org/view/:orgId', component: VotmCloudOrganizationsCreateComponent },
   { path: 'org/edit/:orgId', component: VotmCloudOrganizationsCreateComponent },
   { path: 'loc/home', component: VotmCloudLocationsHomeComponent },

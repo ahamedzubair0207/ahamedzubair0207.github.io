@@ -41,7 +41,7 @@ export class OrganizationService {
 
   
   getOrganizationById(orgId: string): Observable<any> {
-    return this.http.get(`${AppConstants.ORGANIZATIONCONTROLLER}/${orgId}`)
+    return this.http.get(AppConstants.GET_ORG + '/' + orgId)
       .pipe(
         map(response => response)
       );

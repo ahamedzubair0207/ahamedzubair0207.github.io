@@ -1,7 +1,7 @@
 
 <h1 class="flt-left"> Organizations</h1>
 <div class="btn-group-right">
-    <button [routerLink]="['/org/create']" type="button" class="btn btn-dark">Create Organization</button>
+    <button [routerLink]="['/org/create', curOrgId, curOrgName]" type="button" class="btn btn-dark">Create Organization</button>
 </div>
 
 <ng-template #recursiveTableList let-list="orgList" let-lvl="level">
