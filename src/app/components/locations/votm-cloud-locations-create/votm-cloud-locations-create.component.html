@@ -1,5 +1,5 @@
 <div class="loc-outside-border" *ngIf="pageLabels">
-  <form class="form container create-loc-container border shadow-sm" (ngSubmit)="onOrganizationSubmit()"> 
+  <form class="form container create-loc-container border shadow-sm" (ngSubmit)="onLocationSubmit()"> 
   <div class="row loc-create-font">
     <h4 class="col-12">Create Location:</h4>
       <div class="col-md-4">      
@@ -18,25 +18,25 @@
         <label for="parentLocname"><b>Cleaveland, OH</b></label>
       </div>
       <div class="col-md-4">
-          <label for="primaryContact"><b>{{pageLabels.PrimaryContact.labelName}} :</b></label>
+          <label for="primaryContact"><b>* {{pageLabels.PrimaryContact.labelName}} :</b></label>
           <input type="text" [(ngModel)]="location.primaryContact" class="form-control loc-create-font" 
           placeholder="Enter Contact" name="primaryContact">
         </div>
 
         <div class="col-md-4">
-            <label for="primarydistribute"><b>{{pageLabels.PrimaryDistributor.labelName}} :</b></label>
+            <label for="primarydistribute"><b>* {{pageLabels.PrimaryDistributor.labelName}} :</b></label>
             <input type="text" [(ngModel)]="location.primaryDistributor" class="form-control loc-create-font" 
             placeholder="Enter Primary Distributor" name="primarydistribute" required>
           </div>
          
       <div class="col-md-4">
-          <label for="locationType"><b>{{pageLabels.LocationType.labelName}}: </b></label>
+          <label for="locationType"><b>* {{pageLabels.LocationType.labelName}}: </b></label>
           <input type="text" [(ngModel)]="location.locationType" class="form-control loc-create-font" 
           placeholder="Enter Location Type" name="locationType" required>
       </div>
       
       <div class="col mb-4">
-        <label for="f-description"><b>{{pageLabels.DescriptionofLocation.labelName}} :</b></label>
+        <label for="f-description"><b>* {{pageLabels.DescriptionofLocation.labelName}} :</b></label>
         <textarea class="form-control" [(ngModel)]="location.description" name="locDescription"rows="3" 
         id="f-description"></textarea>
       </div>
@@ -56,12 +56,12 @@
             </select>
           </div>          
           <div class="form-check form-check-inline">
-            <input class="form-check-input" [(ngModel)]="location.geoFenceValue" 
-            type="radio" name="geofence" onClick='' id="f-square">
+            <input class="form-check-input" type="radio" name="geofence" onClick='' id="f-square">
             <label class="form-check-label" for="f-square">Rectangle</label>
             <br>
             <input type="text" [(ngModel)]="location.geoFenceValue"
-            class="form-control loc-create-font" placeholder="Enter Width"> * <input type="text" class="form-control loc-create-font" placeholder="Enter Height">
+            class="form-control loc-create-font" placeholder="Enter Width"> * <input type="text" [(ngModel)]="location.geoFenceValue"
+            class="form-control loc-create-font" placeholder="Enter Height">
             <select class="drop-down geo-drop-down">
                 <option value="ft">Feet</option>
                 <option value="meters">Meters</option>
@@ -69,8 +69,9 @@
           </div>
       </div> 
       <div class="col-md-6">
-        <label for="geoLocation" class="pr-2"><b>{{pageLabels.GeoLocation.labelName}}:</b></label>
-        <input type="text" style="width:26%" placeholder="Longitude" name="geoLocation"> / <input type="text" style="width:26%; margin-right:5px" placeholder="Latitude" name="geoLocation">
+        <label for="geoLocation" class="pr-2"><b>* {{pageLabels.GeoLocation.labelName}}:</b></label>
+        <input type="text" [(ngModel)]="location.latitude" class="geo-loc-long" placeholder="Longitude" name="geoLocationLong"> / 
+        <input type="text" [(ngModel)]="location.longitude" class="geo-loc-lat" placeholder="Latitude" name="geoLocationLat">
         <button type="button" class="btn rounded-circle"><i class="fa fa-bullseye"></i></button>
       </div>
   </div> 
@@ -79,38 +80,39 @@
           <h4><label for="billingaddress">{{pageLabels.BillingAddress.labelName}} :</label></h4>
           <div class="row">
               <div class="col-md-6">
-                  <label for="address1"><b>{{pageLabels.Address1.labelName}}:</b></label>
-                  <input type="text" class="form-control loc-create-font" placeholder="Street Name" name="address1">
+                  <label for="address1"><b>* {{pageLabels.Address1.labelName}}:</b></label>
+                  <input type="text" [(ngModel)]="location.address[0].address1" class="form-control loc-create-font" placeholder="Street Name" name="address1">
               </div>
               <div class="col-md-6">
-                  <label for="address2"><b>{{pageLabels.Address2.labelName}}:</b></label>
-                  <input type="text" class="form-control loc-create-font" placeholder="Apt/Suite Number" name="address2">
+                  <label for="address2"><b>* {{pageLabels.Address2.labelName}}:</b></label>
+                  <input type="text" [(ngModel)]="location.address[0].address2" class="form-control loc-create-font" placeholder="Apt/Suite Number" name="address2">
               </div>
               <div class="col-md-3">
-                  <label for="city"><b>{{pageLabels.City.labelName}}:</b></label>
-                  <input type="text" class="form-control loc-create-font" placeholder="City" name="orgType">
+                  <label for="city"><b>* {{pageLabels.City.labelName}}:</b></label>
+                  <input type="text" [(ngModel)]="location.address[0].city" class="form-control loc-create-font" placeholder="City" name="orgType">
               </div>
               <div class="col-md-3">
-                  <label for="zipcode"><b>{{pageLabels.Zipcode.labelName}}:</b></label>
-                  <input type="text" class="form-control loc-create-font" placeholder="Zip Code" name="orgType">
+                  <label for="zipcode"><b>* {{pageLabels.Zipcode.labelName}}:</b></label>
+                  <input type="text" [(ngModel)]="location.address[0].postalCode" class="form-control loc-create-font" placeholder="Zip Code" name="orgType">
               </div>
               <div class="col-md-3">
-                  <label for="state"><b>{{pageLabels.State.labelName}}:</b></label>
-                  <select name="State" class="drop-down">
-                      <option value="0"disabled selected>State:</option>
-                      <option value="mn">MN</option>
-                      <option value="ok">OK</option>
-                      <option value="oh">OH</option>
-                    </select>
+                  <label for="state"><b>* {{pageLabels.State.labelName}}:</b></label>
+                  
+                  <select [(ngModel)]="location.address[0].state" name="state" class="drop-down">
+                      <option value="" disabled selected>State</option>
+                    <option *ngFor="let state of states" [value]="state.value">
+                      {{state.text}}
+                    </option>
+                  </select>>
               </div>
               <div class="col-md-3">
-                  <label for="country"><b>{{pageLabels.Country.labelName}}:</b></label>
-                  <select name="Country" class="drop-down">
-                      <option value="0" disabled selected>Country</option>
-                      <option value="us">United States</option>
-                      <option value="esp">Spain</option>
-                      <option value="brazil">Brazil</option>
-                    </select>
+                  <label for="country"><b>* {{pageLabels.Country.labelName}}:</b></label>
+                  <select [(ngModel)]="location.address[0].country" name="country" class="drop-down">
+                      <option value="" disabled selected>Country</option>
+                    <option *ngFor="let country of countries" [value]="country.value">
+                      {{country.text}}
+                    </option>
+                  </select>
                 </div>
           </div>   
   </div>
@@ -119,17 +121,24 @@
   <div class="row">
       
       <div class="col-md-4">
-          <label for="DefaultLang"><b>{{pageLabels.Language.labelName}}: </b></label>
-            <select name="language" class="drop-down">
+          <label for="DefaultLang"><b>* {{pageLabels.Language.labelName}}: </b></label>
+          <select *ngIf="applicationConfiguration" [(ngModel)]="location.localeId" name="language" class="drop-down">
+            <option value="" disabled selected>Select Language</option>
+            <option *ngFor="let locale of applicationConfiguration.locale" [value]="locale.localeId">
+              {{locale.localeName}}
+            </option>
+          </select>  
+          
+          <!-- <select name="language" class="drop-down">
               <option value="0" disabled selected>Select</option>
               <option value="1">English(United States)</option>
               <option value="2">Spanish</option>
               <option value="3">Czech</option>
-            </select>
+            </select> -->
         </div>
         <div class="col-md-4">
             <label for="timezone"><b>* {{pageLabels.TimeZone.labelName}} :</b></label>
-            <!-- <select *ngIf="applicationConfiguration" [(ngModel)]="organization.timeZoneId" name="timezone"
+            <!-- <select *ngIf="applicationConfiguration" [(ngModel)]="location.timeZoneId" name="timezone"
               class="drop-down"> -->
               <select class="drop-down">
               <option value="" disabled selected>Select Timezone</option>
@@ -177,75 +186,87 @@
 </div>
 
  <!-- The Modal -->
- <div id="myModal" class="modal">
+<div id="myModal" class="modal">
 
+  <div class="modal-dialog modal-dialog-scrollable">
     <!-- Modal content -->
     <div class="modal-content">
       <!-- <span class="close" >&times;</span> -->
-      <div class="row">
-          <div class="col-12">
-              <label for="UOM" class="pr-2"><b>Units of Measure :</b></label>
-                      
+      <div class="modal-header">
+        <div>
+          <label for="UOM" class="pr-2"><b>Units of Measure :</b></label>
+
           <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" value="SI" name="UOM" (change)="onUnitChange($event)" checked id="f-si">
+            <input class="form-check-input" type="radio" value="SI" name="UOM" (change)="onUnitChange($event)" checked
+              id="f-si">
             <label class="form-check-label" for="f-si">SI</label>
-          </div>        
+          </div>
           <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" value="Imperial" name="UOM" (change)="onUnitChange($event)" id="f-imperial">
+            <input class="form-check-input" type="radio" value="Imperial" name="UOM" (change)="onUnitChange($event)"
+              id="f-imperial">
             <label class="form-check-label" for="f-imperial">Imperial</label>
-          </div>      
+          </div>
           <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" value="Metric" name="UOM" (change)="onUnitChange($event)" id="f-metric">
+            <input class="form-check-input" type="radio" value="Metric" name="UOM" (change)="onUnitChange($event)"
+              id="f-metric">
             <label class="form-check-label" for="f-metric">Metric</label>
-          </div>  
+          </div>
           <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" value="Custom" name="UOM" (change)="onUnitChange($event)" id="f-custom">
+            <input class="form-check-input" type="radio" value="Custom" name="UOM" (change)="onUnitChange($event)"
+              id="f-custom">
             <label class="form-check-label" for="f-custom">Custom</label>
           </div>
-          </div>
-          <div class="col-12">
-            <div>
-              <div style="width:140px;float:left;padding-top:3px">
-                  <label for="Distance"><b>Distance :</b></label>
-              </div>              
-              <div clas="float-left">
-                  <select name="distance" class="drop-down drop-modal">
-                      <option value="0">Select</option>
-                      <option value="M">Meters</option>
-                      <option value="F">Feet</option> 
-                    </select>
-              </div>                
-            </div> 
-            <div>
-              <div style="width:140px;float:left;padding-top:3px">
-                <label for="Temperature"><b>Temperature :</b></label>
-              </div>
-              <div clas="float-left">
-                <select name="temperature" class="drop-down drop-modal">
-                  <option value="0">Select</option>
-                  <option value="F">Fahrenheit</option>
-                  <option value="C">Celsius</option>
-                  <option value="K">Kelvin</option>
-                </select>
-              </div>
-            </div>
-            <div>
-                <div style="width:140px;float:left;padding-top:3px">
-                  <label for="Mass"><b>Mass :</b></label>
+        </div>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div *ngFor="let uom of applicationConfiguration.unitOfMeassurement; let i = index" [attr.data-index]="i">
+            <div class="row" *ngIf="i%2===0 && uom">
+              <div class="col-6">
+                <div class="uom-modal-list">
+                  <label class="modal-uom-label" for="uom.uomTypeName"><b>{{uom.uomTypeName}} :</b></label>
                 </div>
-                <div clas="float-left">
-                  <select name="mass" class="drop-down drop-modal">
-                      <option value="0">Select</option>
-                      <option value="K">Kilograms</option>
-                      <option value="P">Pound</option> 
+                <div class="float-left">
+                  <select [(ngModel)]="uomModels[uom.uomTypeName]"
+                    (change)="onUoMDropdownChange($event,uom.uomTypeName)" style="width:100px;" name="uom.uomTypeName"
+                    class="drop-down">
+                    <option></option>
+                    <option *ngFor="let view of uom.uoMView" [value]="view.uoMId">
+                      {{view.uoMName}}
+                    </option>
                   </select>
                 </div>
               </div>
+              <div class="col-6" *ngIf="applicationConfiguration.unitOfMeassurement[i+1]">
+                <div style="width:140px;float:left;padding-top:3px">
+                  <label
+                    for="applicationConfiguration.unitOfMeassurement[i+1].uomTypeName"><b>{{applicationConfiguration.unitOfMeassurement[i+1].uomTypeName}}
+                      :</b></label>
+                </div>
+                <div class="float-left">
+                  <select [(ngModel)]="uomModels[applicationConfiguration.unitOfMeassurement[i+1].uomTypeName]"
+                    (change)="onUoMDropdownChange($event, applicationConfiguration.unitOfMeassurement[i+1].uomTypeName)"
+                    style="width:100px;" name="applicationConfiguration.unitOfMeassurement[i+1].uomTypeName"
+                    class="drop-down">
+                    <option></option>
+                    <option *ngFor="let view of applicationConfiguration.unitOfMeassurement[i+1].uoMView"
+                      [value]="view.uoMId">
+                      {{view.uoMName}}
+                    </option>
+                  </select>
+                </div>
+              </div>
+
+            </div>
           </div>
+        </div>
       </div>
-<div>
-    <button type="button" class="btn button-mod btn-secondary" (click)="closemodal()">Cancel </button>
-    <button type="submit" class="btn button-mod btn-color" style="float: left;" (click)="closemodal()">Save</button>
+      <div class="modal-footer">
+        <button name=uom-cancle type="button" class="btn button-mod btn-secondary" (click)="closemodal('cancel')">Cancel </button>
+        <button name=uom-save type="button" class="btn button-mod btn-color" (click)="closemodal('save')">Save</button>
+      </div>
+
     </div>
-</div>
+
   </div>
+</div>

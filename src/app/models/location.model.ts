@@ -4,6 +4,7 @@ import { Logo } from './logo.model';
 export class Location {
     organizationId: string;
     locationName: string;
+    locationId: string;
     parentLocationId: string;
     locationType: string;
     address: Array<Address>;

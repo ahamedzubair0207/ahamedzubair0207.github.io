@@ -9,13 +9,10 @@ import { AppConstants } from '../../helpers/app.constants';
 })
 export class ConfigSettingsService {
 
-  controllerName = 'ConfigSettings'
-
-  
   constructor(private http: CustomHttp) { }
 
   getApplicationInfo(): Observable<any> {
-    return this.http.get(this.controllerName,'Application')
+    return this.http.get(`${AppConstants.CONFIGCONTROLLERNAME}/Application`)
       .pipe(
         map(response => response)
       );

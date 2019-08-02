@@ -26,6 +26,8 @@ export class VotmCloudOrganizationsHomeComponent implements OnInit {
           opened:false
           })
         );
+
+        // consolse.log('response ', response)
       }
     );
 
