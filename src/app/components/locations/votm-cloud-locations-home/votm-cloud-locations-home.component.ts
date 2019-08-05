@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { LocationService } from '../../../services/locations/location.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-votm-cloud-locations-home',
@@ -9,9 +10,14 @@ import { LocationService } from '../../../services/locations/location.service';
 export class VotmCloudLocationsHomeComponent implements OnInit {
 
   locationsList = [];
-  constructor(private locService: LocationService) { }
+
+  curOrgId : string;
+  curOrgName : string;
+  constructor(private locService: LocationService, private route: ActivatedRoute) { }
 
   ngOnInit() {
+    this.curOrgId = this.route.snapshot.paramMap.get("orgId");
+    this.curOrgName = this.route.snapshot.paramMap.get("orgName");
     this.getLocation();
   }
   getLocation(){

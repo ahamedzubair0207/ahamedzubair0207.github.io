@@ -1,7 +1,7 @@
 
 <h1 class="flt-left"> Locations</h1>
 <div class="btn-group-right">
-    <button routerLink="/loc/create" type="button" class="btn btn-dark">Create Location</button>
+    <button [routerLink]="['/loc/create', curOrgId, curOrgName]" type="button" class="btn btn-dark">Create Location</button>
 </div>
 
 
@@ -21,7 +21,7 @@
         <a class="action-icon">
           <i class="fa fa-eye"></i>
         </a>
-        <a  href= "loc\create"class="action-icon">
+        <a  class="action-icon">
           <i class="fa fa-edit"></i>
         </a>
         <a class="action-icon">

@@ -5,6 +5,8 @@ import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { Location } from 'src/app/models/location.model';
 import { AppConstants } from '../../helpers/app.constants';
+import { HttpParams } from '@angular/common/http';
+
 
 @Injectable({
   providedIn: 'root'
@@ -30,10 +32,32 @@ export class LocationService {
       );
   }
 
+  getLocationById(locId: string): Observable<any> {
+    return this.http.get(AppConstants.GET_LOC + '/' + locId)
+      .pipe(
+        map(response => response)
+      );
+  }
+
   createLocation(body: Location){
     return this.http.post(this.controllerName, body)
     .pipe(
       map(response => response)
     );
+  }
+
+  updateLocation(body: Location) {
+    
+    return this.http.patch(`${this.controllerName}/${body.locationId}`, body)
+      .pipe(
+        map(response => response)
+      );
+  }
+  
+  deleteLocation(body: Location){
+    return this.http.delete(`${this.controllerName}/${body.locationId}`, body)
+      .pipe(
+        map(response => response)
+      );
   }
 }

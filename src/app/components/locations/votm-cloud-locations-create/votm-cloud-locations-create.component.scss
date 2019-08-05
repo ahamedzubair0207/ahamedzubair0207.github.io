@@ -15,7 +15,7 @@
 
 .loc-outside-border{
   background:#dbdada;
-  margin: -12px -15px 0 -25px;
+  margin: -12px -15px -20px -25px;
   padding: 20px;
 }
 
@@ -41,11 +41,11 @@
 }
 
 .geo-loc-long{
-  width:26%
+  width:30%
 }
 
 .geo-loc-lat{
-  width:26%; margin-right:5px
+  width:30%; margin-right:5px
 }
 .action-btn-loc{
   margin-top:30px;
@@ -81,8 +81,8 @@
   font-size: 15px;
 }
 /* Full-width input fields */
-input[type=text], input[type=password],input[type=email],input[type=file] {
-  width: 100%;
+input[type=text], input[type=password],input[type=email],input[type=file],input[type=number] {
+  // width: 100%;
   padding: 5px 0px 7px 15px;
   margin: 1px 0px 23px 0px;
   display: inline-block;
@@ -116,25 +116,25 @@ background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
 }
 
 /* Modal Content */
-.modal-content {
-background-color: #fefefe;
-margin: auto;
-padding: 20px;
-border: 1px solid #888;
-width: 45%;
-}
+// .modal-content {
+// background-color: #fefefe;
+// margin: auto;
+// padding: 20px;
+// border: 1px solid #888;
+// width: 45%;
+// }
 
-/* The Close Button */
-.close {
-color: #aaaaaa;
-float: right;
-font-size: 28px;
-font-weight: bold;
-}
+// /* The Close Button */
+// .close {
+// color: #aaaaaa;
+// float: right;
+// font-size: 28px;
+// font-weight: bold;
+// }
 
-.close:hover,
-.close:focus {
-color: #000;
-text-decoration: none;
-cursor: pointer;
-}
+// .close:hover,
+// .close:focus {
+// color: #000;
+// text-decoration: none;
+// cursor: pointer;
+// }

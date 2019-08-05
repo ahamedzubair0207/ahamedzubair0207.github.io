@@ -32,6 +32,8 @@ import { VotmCloudHeaderComponent } from './components/shared/votm-cloud-header/
 import { CustomHttp } from './services/custom_http/custom_http.service';
 import { OrganizationService } from './services/organizations/organization.service';
 import { FormsModule } from '@angular/forms';
+import { VotmCloudValidatorComponent } from './components/shared/votm-cloud-validator/votm-cloud-validator.component';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 
 @NgModule({
   declarations: [
@@ -50,7 +52,8 @@ import { FormsModule } from '@angular/forms';
     VotmCloudSuperAdminComponent,
     VotmCloudSideMenuComponent,
     VotmCloudLoginComponent,
-    VotmCloudHeaderComponent
+    VotmCloudHeaderComponent,
+    VotmCloudValidatorComponent
   ],
   imports: [
     BrowserModule,
@@ -58,7 +61,8 @@ import { FormsModule } from '@angular/forms';
     AppRoutingModule,
     // InMemoryWebApiModule.forRoot(BackendApiService),
     NgbModule,
-    FormsModule
+    FormsModule,
+    NgMultiSelectDropDownModule .forRoot()
   ],
   providers: [
     DatePipe,
