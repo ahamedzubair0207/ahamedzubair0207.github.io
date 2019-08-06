@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, ParamMap } from "@angular/router";
 import { LocationService } from '../../../services/locations/location.service';
 
 @Component({
@@ -9,15 +10,31 @@ import { LocationService } from '../../../services/locations/location.service';
 export class VotmCloudLocationsHomeComponent implements OnInit {
 
   locationsList = [];
-  constructor(private locService: LocationService) { }
+  curLocId: string;
+  curLocName: string;
+  curOrgId: string;
+  curOrgName: string;
+  constructor(private locService: LocationService, private route: ActivatedRoute) { }
 
   ngOnInit() {
-    this.getLocation();
+    
+    this.route.paramMap.subscribe((params : ParamMap)=> {
+      this.curLocId = params.get("locId");
+      this.curLocName = params.get("locName");
+
+      this.locService.getLocationTree(this.curLocId).subscribe(
+        response => {
+          this.locationsList = response.map(
+            x => ({
+            ...x,
+            opened:false
+            })
+          );
+        }
+      );
+
+    });
+
   }
-  getLocation(){
-    this.locationsList = this.locService.getAllLocations().map(x => ({
-      ...x,
-      opened:false
-    }));
-  }
+  
 }

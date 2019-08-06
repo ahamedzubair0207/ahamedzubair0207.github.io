@@ -10,12 +10,13 @@ export class Location {
     address: Array<Address>;
     primaryContact: string;
     primaryDistributor: string;
-    gatewayId: string;
+    // gatewayId:Array<string>; 
+    gatewayId:string; 
     geoFenceType: string;
     geoFenceValue: string;
-    logo: Logo;
-    timeZone?: string;
-    locale?: string;
+    logo: Logo; 
+    timeZone?: string; 
+    locale?: string; 
     uoM?: Array<string>;
     latitude: string;
     longitude: string;
@@ -28,5 +29,4 @@ export class Location {
     uoMId?: Array<string>;
     localeId?: string;
     timeZoneId?: string;
-
 }

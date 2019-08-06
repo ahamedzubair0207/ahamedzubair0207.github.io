@@ -14,17 +14,17 @@
       </th>
       <td class="align-center" >{{item.type}}</td>
       <td class="align-center" >{{item.customerNo}}</td>
-      <td class="align-center" >{{item.contractStart}}</td>
-      <td class="align-center" >{{item.contractEnd}}</td>
+      <td class="align-center" >{{item.contractStart.split(" ")[0]}}</td>
+      <td class="align-center" >{{item.contractEnd.split(" ")[0]}}</td>
       <td class="align-center" >{{item.serviceLevel}}</td>
       <td class="align-center">
         <a class="action-icon" title="List" [routerLink]="['/org/home', item.id, item.name]">
           <i class="fa fa-list"></i>
         </a>
-        <a class="action-icon" title="View" [routerLink]="['/org/view', item.id]">
+        <a class="action-icon" title="View" [routerLink]="['/org/view', curOrgId, curOrgName, item.id]">
           <i class="fa fa-eye"></i>
         </a>
-        <a class="action-icon" title="Edit" [routerLink]="['/org/edit', item.id]">
+        <a class="action-icon" title="Edit" [routerLink]="['/org/edit',curOrgId, curOrgName, item.id]">
           <i class="fa fa-edit"></i>
         </a>
         <a class="action-icon" title="Delete">
@@ -56,17 +56,17 @@
         </th>
         <td class="align-center" >{{itemLoc.type}}</td>
         <td class="align-center" >{{itemLoc.customerNo}}</td>
-        <td class="align-center" >{{itemLoc.contractStart}}</td>
-        <td class="align-center" >{{itemLoc.contractEnd}}</td>
+        <td class="align-center" >{{itemLoc.contractStart.split(" ")[0]}}</td>
+        <td class="align-center" >{{itemLoc.contractEnd.split(" ")[0]}}</td>
         <td class="align-center" >{{itemLoc.serviceLevel}}</td>
         <td class="align-center">
           <a class="action-icon" title="List" [routerLink]="['/org/home', itemLoc.id, itemLoc.name]">
             <i class="fa fa-list"></i>
           </a>
-          <a class="action-icon" title="View" [routerLink]="['/org/view', itemLoc.id]">
+          <a class="action-icon" title="View" [routerLink]="['/org/view',curOrgId, curOrgName, itemLoc.id]">
             <i class="fa fa-eye"></i>
           </a>
-          <a class="action-icon" title="Edit" [routerLink]="['/org/edit', itemLoc.id]">
+          <a class="action-icon" title="Edit" [routerLink]="['/org/edit',curOrgId, curOrgName, itemLoc.id]">
             <i class="fa fa-edit"></i>
           </a>
           <a class="action-icon" title="Delete">

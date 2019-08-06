@@ -1,7 +1,7 @@
-
+<!-- 
 <h1 class="flt-left"> Locations</h1>
 <div class="btn-group-right">
-    <button routerLink="/loc/create" type="button" class="btn btn-dark">Create Location</button>
+    <button [routerLink]="['/loc/create', curOrgId, curOrgName]" type="button" class="btn btn-dark">Create Location</button>
 </div>
 
 
@@ -21,7 +21,7 @@
         <a class="action-icon">
           <i class="fa fa-eye"></i>
         </a>
-        <a  href= "loc\create"class="action-icon">
+        <a  class="action-icon">
           <i class="fa fa-edit"></i>
         </a>
         <a class="action-icon">
@@ -63,3 +63,106 @@
         <ng-container *ngTemplateOutlet="recursiveTableList; context:{ locList: locationsList, level: 0 }"></ng-container>
     </tbody>
   </table>
+
+
+
+
+
+
+
+
+
+ -->
+
+
+  <h1 class="flt-left"> Locations</h1>
+  <div class="btn-group-right">
+      <button [routerLink]="['/loc/create', curLocId, curLocName, parentOrgId, parentOrgName]" type="button" class="btn btn-dark">Create Location</button>
+  </div>
+  
+  <ng-template #recursiveTableList let-list="locList" let-lvl="level">
+    <ng-container *ngFor="let item of list">
+  
+      <tr>
+        <th scope="row" (click)="item.opened = !item.opened" [ngStyle]="{'padding-left.px': 15*(lvl+1)}">
+          <i class="fa fa-location-arrow"></i>
+          {{item.name}} <i *ngIf="item.node.length > 0 " [ngClass]="{'fa': true, 'fa-caret-right': !item.opened, 'fa-caret-down': item.opened}"></i>
+        </th>
+        <td class="align-center" >{{item.type}}</td>
+        <td class="align-center" >{{item.parentOrgName}}</td>
+        <td class="align-center">
+          <a class="action-icon" title="List" [routerLink]="['/loc/home', item.id, item.name]">
+            <i class="fa fa-list"></i>
+          </a>
+          <a class="action-icon" title="View" [routerLink]="['/loc/view', item.id]">
+            <i class="fa fa-eye"></i>
+          </a>
+          <a class="action-icon" title="Edit" [routerLink]="['/loc/edit', item.id]">
+            <i class="fa fa-edit"></i>
+          </a>
+          <a class="action-icon" title="Delete">
+            <i class="fa fa-trash"></i>
+          </a>
+        </td>
+      </tr>
+      
+      <ng-container  *ngFor="let subItem of item.node">
+        <tr *ngIf="item.opened && subItem.entityType == 'Asset'" >
+          <th scope="row" [ngStyle]="{'padding-left.px': 15*(lvl+2)}"> <i class="fa fa-industry"></i> {{subItem.name}}</th>
+          <td></td>
+          <td></td>
+          <td class="align-center">
+            <a class="action-icon">
+              <i class="fa fa-list"></i>
+            </a>
+          </td>
+        </tr>
+  
+          
+        <tr *ngIf="item.opened && subItem.entityType == 'Location'">
+          <th scope="row" (click)="subItem.opened = !subItem.opened" [ngStyle]="{'padding-left.px': 15*(lvl+2)}">
+            <i class="fa fa-location-arrow"></i>
+            {{subItem.name}} <i *ngIf="subItem.node.length > 0 " [ngClass]="{'fa': true, 'fa-caret-right': !subItem.opened, 'fa-caret-down': subItem.opened}"></i>
+          </th>
+          <td class="align-center" >{{subItem.type}}</td>
+          <td class="align-center" >{{subItem.parentOrgName}}</td>
+          <td class="align-center">
+            <a class="action-icon" title="List" [routerLink]="['/loc/home', subItem.id, subItem.name]">
+              <i class="fa fa-list"></i>
+            </a>
+            <a class="action-icon" title="View" [routerLink]="['/loc/view', subItem.id]">
+              <i class="fa fa-eye"></i>
+            </a>
+            <a class="action-icon" title="Edit" [routerLink]="['/loc/edit', subItem.id]">
+              <i class="fa fa-edit"></i>
+            </a>
+            <a class="action-icon" title="Delete">
+              <i class="fa fa-trash"></i>
+            </a>
+          </td>
+        </tr>
+  
+        <ng-container *ngIf="subItem.opened">
+            <ng-container *ngTemplateOutlet="recursiveTableList; context:{ locList: subItem.node, level: lvl+2 }"></ng-container>
+        </ng-container>
+        
+      </ng-container>
+      
+    </ng-container>
+  </ng-template>
+  
+  
+  <table class="table">
+      <thead class="thead-light">
+        <tr>
+          <th scope="col" class="align-center table-col-name" >Name</th>
+          <th scope="col" class="align-center" >Type</th>
+          <th scope="col" class="align-center" >Organization</th>
+          <th scope="col" class="align-center" >Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+          <ng-container *ngTemplateOutlet="recursiveTableList; context:{ locList: locationsList, level: 0 }"></ng-container>
+      </tbody>
+    </table>
+  

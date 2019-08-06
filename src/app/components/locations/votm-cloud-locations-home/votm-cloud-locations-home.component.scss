@@ -8,6 +8,10 @@
   float: left;
 }
 
+.gateway-dropdown{
+  border-radius: 21px;
+}
+
 .table-list-contents{
   display: contents;
 }
@@ -27,4 +31,5 @@
 .action-icon{
   padding: 5px;
   cursor: pointer;
+  color: #212529;
 }
