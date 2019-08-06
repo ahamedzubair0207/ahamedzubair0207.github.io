@@ -5,7 +5,6 @@ import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { Location } from 'src/app/models/location.model';
 import { AppConstants } from '../../helpers/app.constants';
-import { HttpParams } from '@angular/common/http';
 
 
 @Injectable({
@@ -13,20 +12,17 @@ import { HttpParams } from '@angular/common/http';
 })
 export class LocationService {
 
-
-  controllerName = 'Location';
-
   apiURL: string = '';
 
   constructor(private http: CustomHttp) { }
 
-  getAllLocations(){
+  getAllLocation(){
     
     return LOC_LIST;
   }
 
-  getAllLocation(): Observable<any> {
-    return this.http.get(this.controllerName)
+  getLocationTree(locId: string): Observable<any> {
+    return this.http.get(AppConstants.GET_LOC_TREE + '/' + locId)
       .pipe(
         map(response => response)
       );
@@ -40,7 +36,7 @@ export class LocationService {
   }
 
   createLocation(body: Location){
-    return this.http.post(this.controllerName, body)
+    return this.http.post(AppConstants.CREATE_LOC, body)
     .pipe(
       map(response => response)
     );
@@ -48,14 +44,14 @@ export class LocationService {
 
   updateLocation(body: Location) {
     
-    return this.http.patch(`${this.controllerName}/${body.locationId}`, body)
+    return this.http.patch(AppConstants.EDIT_LOC + '/' + body.locationId, body)
       .pipe(
         map(response => response)
       );
   }
   
   deleteLocation(body: Location){
-    return this.http.delete(`${this.controllerName}/${body.locationId}`, body)
+    return this.http.delete(AppConstants.DEL_LOC + '/' + body.locationId, body)
       .pipe(
         map(response => response)
       );

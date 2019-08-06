@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, ParamMap } from "@angular/router";
 import { LocationService } from '../../../services/locations/location.service';
-import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-votm-cloud-locations-home',
@@ -10,20 +10,31 @@ import { ActivatedRoute } from '@angular/router';
 export class VotmCloudLocationsHomeComponent implements OnInit {
 
   locationsList = [];
-
-  curOrgId : string;
-  curOrgName : string;
+  curLocId: string;
+  curLocName: string;
+  curOrgId: string;
+  curOrgName: string;
   constructor(private locService: LocationService, private route: ActivatedRoute) { }
 
   ngOnInit() {
-    this.curOrgId = this.route.snapshot.paramMap.get("orgId");
-    this.curOrgName = this.route.snapshot.paramMap.get("orgName");
-    this.getLocation();
+    
+    this.route.paramMap.subscribe((params : ParamMap)=> {
+      this.curLocId = params.get("locId");
+      this.curLocName = params.get("locName");
+
+      this.locService.getLocationTree(this.curLocId).subscribe(
+        response => {
+          this.locationsList = response.map(
+            x => ({
+            ...x,
+            opened:false
+            })
+          );
+        }
+      );
+
+    });
+
   }
-  getLocation(){
-    this.locationsList = this.locService.getAllLocations().map(x => ({
-      ...x,
-      opened:false
-    }));
-  }
+  
 }

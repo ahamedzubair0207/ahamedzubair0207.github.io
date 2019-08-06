@@ -12,9 +12,6 @@ import { HttpParams } from '@angular/common/http';
 })
 export class OrganizationService {
 
-  // use AppConstants.GET_ORG, CREATE_ORG etc as inputs for the CustomHttp service
-  controllerName = 'Organization';
-
   parentOrganization: { orgId: string, orgName: string };
 
   apiURL: string = '';
@@ -36,7 +33,7 @@ export class OrganizationService {
   }
 
   getAllOrganizations(): Observable<any> {
-    return this.http.get(this.controllerName)
+    return this.http.get(AppConstants.GET_ORG_TREE)
       .pipe(
         map(response => response)
       );
@@ -51,7 +48,7 @@ export class OrganizationService {
   }
 
   createOrganization(body: Organization) {
-    return this.http.post(this.controllerName, body)
+    return this.http.post(AppConstants.CREATE_ORG, body)
       .pipe(
         map(response => response)
       );
@@ -59,14 +56,14 @@ export class OrganizationService {
 
   updateOrganization(body: Organization) {
 
-    return this.http.patch(`${this.controllerName}/${body.organizationId}`, body)
+    return this.http.patch(AppConstants.EDIT_ORG + '/' + body.organizationId, body)
       .pipe(
         map(response => response)
       );
   }
 
   deleteOrganization(orgId: string) {
-    return this.http.delete(`${this.controllerName}/${orgId}`, orgId)
+    return this.http.delete(AppConstants.DEL_ORG + '/' + orgId, orgId)
       .pipe(
         map(response => response)
       );

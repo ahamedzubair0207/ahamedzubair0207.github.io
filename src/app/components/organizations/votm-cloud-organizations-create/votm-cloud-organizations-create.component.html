@@ -255,7 +255,7 @@
 
       </div>
       <div class="col-md-8">
-        <button routerLink="/org/home" type="button" (click)="onCancelClick($event)"
+        <button type="button" (click)="onCancelClick($event)"
           class="btn btn-secondary btn-lg button-mod">Cancel</button>
         <button *ngIf="organization.organizationId && pageType !=='View'" type="button"
           class="btn btn-secondary btn-lg button-mod" (click)="openConfirmDialog()">Delete</button>

@@ -153,6 +153,8 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
       .subscribe(response => {
         // console.log('response ', response);
         this.organization = response;
+        this.curOrgId = this.organization.organizationId;
+        this.curOrgName = this.organization.name;
         this.fillUoM();
         this.organization.timeZoneId = this.organization.timeZone;
         this.organization.localeId = this.organization.locale;
