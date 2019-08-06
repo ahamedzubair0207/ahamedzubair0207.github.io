@@ -74,7 +74,7 @@
         <label for="orgDescription"><b>{{pageLabels.DescriptionofOrganization.labelName}} :</b></label>
         <textarea class="form-control" #description="ngModel" [disabled]="pageType==='View'"
           [(ngModel)]="organization.description" (keyup)="onDescriptionChange()" name="orgDescription" rows="3"
-          id="f-orgDescription"></textarea><br/>
+          id="f-orgDescription"></textarea><br />
         <div *ngIf="description.dirty && description.invalid">
           <app-votm-cloud-validator *ngIf="description.errors && description.errors.invalidDescription"
             message="Can not add more than 4000 characters"></app-votm-cloud-validator>
@@ -255,7 +255,7 @@
 
       </div>
       <div class="col-md-8">
-        <button type="button" (click)="onCancelClick($event)"
+        <button routerLink="/org/home" type="button" (click)="onCancelClick($event)"
           class="btn btn-secondary btn-lg button-mod">Cancel</button>
         <button *ngIf="organization.organizationId && pageType !=='View'" type="button"
           class="btn btn-secondary btn-lg button-mod" (click)="openConfirmDialog()">Delete</button>
