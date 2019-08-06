@@ -10,8 +10,8 @@ import { OrganizationService} from '../../../services/organizations/organization
 export class VotmCloudOrganizationsHomeComponent implements OnInit {
 
   organizationsList = [];
-  curOrgId : string;
-  curOrgName : string;
+  curOrgId: string;
+  curOrgName: string;
   constructor(private orgservice: OrganizationService, private route: ActivatedRoute) { }
 
   ngOnInit() {

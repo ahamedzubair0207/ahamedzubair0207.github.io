@@ -12,20 +12,19 @@ import { HttpParams } from '@angular/common/http';
 })
 export class OrganizationService {
 
-  // use AppConstants.GET_ORG, CREATE_ORG etc as inputs for the CustomHttp service
-  controllerName = 'Organization';
+  parentOrganization: { orgId: string, orgName: string };
 
   apiURL: string = '';
 
   constructor(private http: CustomHttp) { }
 
   getAllOrganization() {
-    
+
     return ORG_LIST;
   }
 
   getOrganizationTree(orgId: string): Observable<any> {
-    let params = new HttpParams().set("organizationId",orgId);
+    let params = new HttpParams().set("organizationId", orgId);
     return this.http.get(AppConstants.GET_ORG_TREE + '/' + orgId, params)
       .pipe(
         map(response => response)
@@ -33,13 +32,13 @@ export class OrganizationService {
   }
 
   getAllOrganizations(): Observable<any> {
-    return this.http.get(this.controllerName)
+    return this.http.get(AppConstants.GET_ORG_TREE)
       .pipe(
         map(response => response)
       );
   }
 
-  
+
   getOrganizationById(orgId: string): Observable<any> {
     return this.http.get(AppConstants.GET_ORG + '/' + orgId)
       .pipe(
@@ -47,10 +46,25 @@ export class OrganizationService {
       );
   }
 
-  createOrganization(body: Organization){
-    return this.http.post(this.controllerName, body)
-    .pipe(
-      map(response => response)
-    );
+  createOrganization(body: Organization) {
+    return this.http.post(AppConstants.CREATE_ORG, body)
+      .pipe(
+        map(response => response)
+      );
+  }
+
+  updateOrganization(body: Organization) {
+
+    return this.http.patch(AppConstants.EDIT_ORG + '/' + body.organizationId, body)
+      .pipe(
+        map(response => response)
+      );
+  }
+
+  deleteOrganization(orgId: string) {
+    return this.http.delete(AppConstants.DEL_ORG + '/' + orgId, orgId)
+      .pipe(
+        map(response => response)
+      );
   }
 }

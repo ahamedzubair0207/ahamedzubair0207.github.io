@@ -8,7 +8,10 @@ import { Address } from 'src/app/models/address.model';
 import { UnitOfMeassurement } from 'src/app/models/unitOfMeassurement.model';
 import { Logo } from 'src/app/models/logo.model';
 import { DomSanitizer } from '@angular/platform-browser';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Route, Routes, Router, NavigationEnd } from '@angular/router';
+import { DatePipe } from '@angular/common';
+import { NgForm, FormGroup } from '@angular/forms';
+import { VotmCloudConfimDialogComponent } from '../../shared/votm-cloud-confim-dialog/votm-cloud-confim-dialog.component';
 
 @Component({
   selector: 'app-votm-cloud-organizations-create',
@@ -30,27 +33,48 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
   tempMeasurement: string;
   parentOrganizationInfo: any;
 
+  pageTitle: string;
+
 
   uomModels: {};
-
-
   uomArray: any[];
+
   orgId: string;
+  previousURLToNavigate: string;
+  subscription: any;
 
   organization: Organization = new Organization();
   applicationConfiguration: ApplicationConfiguration = new ApplicationConfiguration();
+  curOrgId: any;
+  curOrgName: any;
+  previousUrl: any;
+  pageType: any;
+
+  @ViewChild('startDate', null) startDate: NgForm;
+  @ViewChild('organizationForm', null) organizationForm: NgForm;
+  @ViewChild('confirmBox', null) confirmBox: VotmCloudConfimDialogComponent;
 
   constructor(private modalService: NgbModal, private organizationService: OrganizationService,
     private configSettingsService: ConfigSettingsService, private domSanitizer: DomSanitizer,
-    private activeroute: ActivatedRoute) {
+    private activeroute: ActivatedRoute, private route: Router, private datePipe: DatePipe) {
     this.UOM = "SI";
+    this.subscription = route.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        if (this.previousUrl) {
+          this.previousURLToNavigate = JSON.parse(JSON.stringify(this.previousUrl));
+        }
+        this.previousUrl = event.url;
+      }
+    });
   }
 
-
-
-
   ngOnInit() {
-    console.log('Org Id', this.activeroute.snapshot.params['orgId']);
+    this.curOrgId = this.activeroute.snapshot.paramMap.get("curOrgId");
+    this.curOrgName = this.activeroute.snapshot.paramMap.get("curOrgName");
+    this.pageType = this.activeroute.snapshot.data['type'];
+    this.pageTitle = `${this.pageType} Organization`;
+    this.tempMeasurement = 'SI';
+    // console.log('this.curOrgId ', this.curOrgId)
 
     this.orgId = this.activeroute.snapshot.params['orgId'];
     this.getScreenLabels();
@@ -62,17 +86,12 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
     { value: 'country2', text: 'Brazil' }];
 
     if (this.orgId) {
-      this.organizationService.getOrganizationById(this.orgId)
-        .subscribe(response => {
-          console.log('response ', response);
-          this.organization = response;
-          this.fillUoM();
-        })
+      this.getOrganizationInfo();
     }
     else {
       this.parentOrganizationInfo = {
-        parentOrganizationId: '7A59BDD8-6E1D-48F9-A961-AA60B2918DDE',
-        parentOrganizationName: 'Parker1'
+        parentOrganizationId: this.curOrgId, // '7A59BDD8-6E1D-48F9-A961-AA60B2918DDE',
+        parentOrganizationName: this.curOrgName // 'Parker1'
       }
       this.organization.parentOrganizationId = this.parentOrganizationInfo.parentOrganizationId;
       this.organization.active = true;
@@ -97,29 +116,107 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
     //   uoMId:[],organizationId:'' }
   }
 
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
+  }
+
+  onStartDateChange() {
+    this.organizationForm.form.controls['startDate'].markAsDirty();
+    this.compareDate();
+  }
+
+  compareDate() {
+    if (this.organization.contractStartDate && this.organization.contractEndDate) {
+      if (this.organization.contractStartDate >= this.organization.contractEndDate) {
+        this.organizationForm.form.controls['startDate'].setErrors({ 'invalidDate': true })
+      } else {
+        this.organizationForm.form.controls['startDate'].setErrors(null);
+      }
+    }
+  }
+
+  onEndDateChange() {
+    this.organizationForm.form.controls['endDate'].markAsDirty();
+    this.compareDate();
+  }
+
+  onDescriptionChange() {
+    // console.log('HERE ', this.startDate)
+    if (this.organization.description && this.organization.description.length > 4000) {
+      this.organizationForm.form.controls['orgDescription'].setErrors({ 'invalidDescription': true })
+    }
+  }
+
+
+  getOrganizationInfo() {
+    this.organizationService.getOrganizationById(this.orgId)
+      .subscribe(response => {
+        // console.log('response ', response);
+        this.organization = response;
+        this.curOrgId = this.organization.organizationId;
+        this.curOrgName = this.organization.name;
+        this.fillUoM();
+        this.organization.timeZoneId = this.organization.timeZone;
+        this.organization.localeId = this.organization.locale;
+        this.organization.uoMId = this.organization.uoM;
+
+        this.organization.contractStartDate = this.datePipe.transform(this.organization.contractStartDate, 'yyyy-MM-dd')
+        this.organization.contractEndDate = this.datePipe.transform(this.organization.contractEndDate, 'yyyy-MM-dd')
+
+        // this.imgURL = atob(this.organization.logo.image);
+        this.imgURL = 'data:image/png;base64,' + this.organization.logo.image;
+
+      });
+  }
+
   getScreenLabels() {
     this.configSettingsService.getCreateOrgScreenLabels()
       .subscribe(response => {
-        console.log('screen labels ', response)
+        // console.log('screen labels ', response)
         this.pageLabels = response;
       })
   }
 
+  deleteOrganizationById(event) {
+    console.log('event on close ', event);
+    if (event) {
+      this.organizationService.deleteOrganization(this.organization.organizationId)
+        .subscribe(response => {
+          console.log('delete successful ', response);
+          this.route.navigate([`org/home/${this.curOrgId}/${this.curOrgName}`])
+        });
+    }
+  }
+
+  createNestedOrganization(event){
+    this.route.navigate([`org/create/${this.organization.organizationId}/${this.organization.name}`])
+  }
+
+  createNestedLocation(event){
+    this.route.navigate([`loc/create/${this.organization.organizationId}/${this.organization.name}`])
+  }
+
+  openConfirmDialog() {
+
+    this.confirmBox.open();
+
+  }
+
   getAllAppInfo() {
-    console.log('Application Info')
+    // console.log('Application Info')
     this.configSettingsService.getApplicationInfo()
       .subscribe((response: any) => {
-        console.log('Inside subscribe ', response)
+        // console.log('Inside subscribe ', response)
         this.applicationConfiguration = response;
         let uom = this.applicationConfiguration.unitOfMeassurement;
         this.uomModels = {};
         for (let i = 0; i < uom.length; i++) {
           this.uomModels[uom[i].uomTypeName] = '';
         }
-        console.log(' this.uomModels ', this.uomModels);
+        // console.log(' this.uomModels ', this.uomModels);
         this.fillUoM();
         // this.uomArray = new Array[this.applicationConfiguration.unitOfMeassurement.length];
-        // console.log('Application ', this.applicationConfiguration);
+        // // console.log('Application ', this.applicationConfiguration);
       });
   }
 
@@ -135,7 +232,7 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
           }
         }
       }
-      console.log(' this.uomModels ', this.uomModels);
+      // console.log(' this.uomModels ', this.uomModels);
     }
   }
 
@@ -158,7 +255,7 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
     }
     // readerToPreview.onloadend = (e) => {
     //   let base64Image = this.domSanitizer.bypassSecurityTrustUrl(readerToPreview.result.toString());
-    //   console.log(base64Image);
+    //   // console.log(base64Image);
     // }
   }
 
@@ -183,27 +280,27 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
     // SVG Code
     // let parser = new DOMParser();
     // let xmlDoc: XMLDocument = parser.parseFromString(binaryString.toString(), 'image/svg+xml');
-    // console.log('XMLDocument ', xmlDoc, xmlDoc.getElementsByTagName('svg'))
+    // // console.log('XMLDocument ', xmlDoc, xmlDoc.getElementsByTagName('svg'))
     // const xml = (new XMLSerializer()).serializeToString(xmlDoc);
     // const svg64 = btoa(xml);
     // const b64Start = 'data:image/svg+xml;base64,';
     // const image64 = b64Start + svg64;
     // this.organization.logo.image = image64;
-    // console.log('this.organization.logo.image ', this.organization.logo.image)
+    // // console.log('this.organization.logo.image ', this.organization.logo.image)
 
     // Other Images
     base64textString = btoa(binaryString);
     this.organization.logo.image = base64textString;
-    console.log('organization ', base64textString);
+    // console.log('organization ', base64textString);
   }
 
   open(content) {
-    // console.log(' open  ');
+    // // console.log(' open  ');
     this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then((result) => {
-      // console.log(' result  ', result);
+      // // console.log(' result  ', result);
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
-      // console.log(' reason  ', reason);
+      // // console.log(' reason  ', reason);
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
     });
   }
@@ -226,7 +323,7 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
     // Get the <span> element that closes the modal
     var span = document.getElementsByClassName("close")[0];
 
-   
+
     // When the user clicks anywhere outside of the modal, close it
     window.onclick = function (event) {
       if (event.target == modal) {
@@ -239,10 +336,8 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
     this.modal.style.display = "none";
     if (event === 'save') {
       this.UOM = this.tempMeasurement;
-      // console.log('this.uomArray ', JSON.stringify(this.uomArray))
+      // // console.log('this.uomArray ', JSON.stringify(this.uomArray))
       this.organization.uoMId = [];
-
-
       let uom = this.applicationConfiguration.unitOfMeassurement;
       if (uom && uom.length > 0) {
         for (let i = 0; i < uom.length; i++) {
@@ -250,17 +345,17 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
             this.organization.uoMId.push(this.uomModels[uom[i].uomTypeName]);
           }
         }
-        console.log('this.organization.uoMId ', this.organization.uoMId);
+        // console.log('this.organization.uoMId ', this.organization.uoMId);
       }
     }
   }
   onUnitChange(value) {
-    // console.log(value);
+    // // console.log(value);
     this.tempMeasurement = value.target.value;
   }
 
   onUoMDropdownChange(event, uomName: string) {
-    // // console.log('ahamed ', uomName, event.target.value);
+    // console.log('ahamed ', uomName, event.target.value);
     // let isFound: boolean = false;
     // for (let i = 0; i < this.uomArray.length; i++) {
     //   if (this.uomArray[i].uoMTypeId === uomName) {
@@ -279,10 +374,31 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
   }
 
   onOrganizationSubmit() {
-    // console.log('Ahamed ', this.organization);
-    this.organizationService.createOrganization(this.organization)
-      .subscribe(response => {
-        // console.log('response ', response);
+    console.log('onOrganizationSubmit ', this.organizationForm);
+    if (this.organizationForm && this.organizationForm.invalid) {
+      console.log('onOrganizationSubmit if ');
+      Object.keys(this.organizationForm.form.controls).forEach(element => {
+        this.organizationForm.form.controls[element].markAsDirty();
       });
+    } else {
+      console.log('onOrganizationSubmit else ');
+      if (this.orgId) {
+        this.organizationService.updateOrganization(this.organization)
+          .subscribe(response => {
+            this.route.navigate([`org/home/${this.curOrgId}/${this.curOrgName}`])
+          });
+      } else {
+        console.log('onOrganizationSubmit else else ');
+        this.organizationService.createOrganization(this.organization)
+          .subscribe(response => {
+            this.route.navigate([`org/home/${this.curOrgId}/${this.curOrgName}`])
+          });
+      }
+    }
+  }
+
+  onCancelClick(event) {
+    this.previousURLToNavigate ? this.route.navigate([this.previousURLToNavigate])
+      : this.route.navigate([`org/home/${this.curOrgId}/${this.curOrgName}`]);
   }
 }
