@@ -21,10 +21,10 @@
         <a class="action-icon" title="List" [routerLink]="['/org/home', item.id, item.name]">
           <i class="fa fa-list"></i>
         </a>
-        <a class="action-icon" title="View" [routerLink]="['/org/view', item.id]">
+        <a class="action-icon" title="View" [routerLink]="['/org/view', curOrgId, curOrgName, item.id]">
           <i class="fa fa-eye"></i>
         </a>
-        <a class="action-icon" title="Edit" [routerLink]="['/org/edit', item.id]">
+        <a class="action-icon" title="Edit" [routerLink]="['/org/edit',curOrgId, curOrgName, item.id]">
           <i class="fa fa-edit"></i>
         </a>
         <a class="action-icon" title="Delete">
@@ -63,10 +63,10 @@
           <a class="action-icon" title="List" [routerLink]="['/org/home', itemLoc.id, itemLoc.name]">
             <i class="fa fa-list"></i>
           </a>
-          <a class="action-icon" title="View" [routerLink]="['/org/view', itemLoc.id]">
+          <a class="action-icon" title="View" [routerLink]="['/org/view',curOrgId, curOrgName, itemLoc.id]">
             <i class="fa fa-eye"></i>
           </a>
-          <a class="action-icon" title="Edit" [routerLink]="['/org/edit', itemLoc.id]">
+          <a class="action-icon" title="Edit" [routerLink]="['/org/edit',curOrgId, curOrgName, itemLoc.id]">
             <i class="fa fa-edit"></i>
           </a>
           <a class="action-icon" title="Delete">

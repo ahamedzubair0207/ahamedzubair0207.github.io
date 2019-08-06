@@ -50,19 +50,22 @@
     float:left;
     padding-top:3px;
   }
+  .modal-uom-width{
+    width: 620px;
+  }
 
   .modal-uom-label{
-    margin-left: 10px;
+    margin-left: 15px;
   }
   .button-mod {
     border: none;
     color: white;
-    padding: 10px 32px;
+    padding: 10px 30px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
-    font-size: 16px;
-    margin: 30px 2px;
+    font-size: 14px;
+    margin: 4px 2px;
     cursor: pointer;
     float: right;
   }
@@ -78,9 +81,9 @@
   }
   /* Full-width input fields */
   input[type=text],input[type=date], input[type=password],input[type=email],input[type=file] {
-    width: 100%;
-    padding: 5px 0px 7px 20px;
-    margin: 1px 0px 23px 0px;
+    // width: 100%;
+    padding: 5px 0px 7px 15px;
+  margin: 1px 0px 23px 0px;
     display: inline-block;
     border: none;
     background: #f1f1f1;
@@ -108,28 +111,4 @@
   overflow: auto; /* Enable scroll if needed */
   background-color: rgb(0,0,0); /* Fallback color */
   background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-}
-
-/* Modal Content */
-.modal-content {
-  background-color: #fefefe;
-  margin: auto;
-  padding: 20px;
-  border: 1px solid #888;
-  width: 45%;
-}
-
-/* The Close Button */
-.close {
-  color: #aaaaaa;
-  float: right;
-  font-size: 28px;
-  font-weight: bold;
-}
-
-.close:hover,
-.close:focus {
-  color: #000;
-  text-decoration: none;
-  cursor: pointer;
-}
+  }

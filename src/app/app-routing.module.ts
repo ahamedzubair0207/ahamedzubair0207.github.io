@@ -9,6 +9,7 @@ import { VotmCloudOrganizationsCreateComponent } from './components/organization
 import { VotmCloudLocationsHomeComponent } from './components/locations/votm-cloud-locations-home/votm-cloud-locations-home.component';
 import { VotmCloudLocationsCreateComponent } from './components/locations/votm-cloud-locations-create/votm-cloud-locations-create.component';
 import { VotmCloudAssetsHomeComponent } from './components/assets/votm-cloud-assets-home/votm-cloud-assets-home.component';
+import { VotmCloudAssetsCreateComponent } from './components/assets/votm-cloud-assets-create/votm-cloud-assets-create.component';
 import { VotmCloudSensorsHomeComponent } from './components/sensors/votm-cloud-sensors-home/votm-cloud-sensors-home.component';
 import { VotmCloudGatewaysHomeComponent } from './components/gateways/votm-cloud-gateways-home/votm-cloud-gateways-home.component';
 import { VotmCloudAdminPanelComponent } from './components/admin/votm-cloud-admin-panel/votm-cloud-admin-panel.component';
@@ -21,12 +22,13 @@ const routes: Routes = [
   { path: 'alerts/home', component: VotmCloudAlertsHomeComponent },
   { path: 'preferences', component: VotmCloudPreferencesComponent },
   { path: 'org/home/:orgId/:orgName', component: VotmCloudOrganizationsHomeComponent },
-  { path: 'org/create/:curOrgId/:curOrgName', component: VotmCloudOrganizationsCreateComponent, data:{type:'Create'}  },
+  { path: 'org/create/:parentOrgId/:parentOrgName', component: VotmCloudOrganizationsCreateComponent, data:{type:'Create'}  },
   { path: 'org/view/:curOrgId/:curOrgName/:orgId', component: VotmCloudOrganizationsCreateComponent, data:{type:'View'}  },
   { path: 'org/edit/:curOrgId/:curOrgName/:orgId', component: VotmCloudOrganizationsCreateComponent, data:{type:'Edit'} },
   { path: 'loc/home/:orgId/:orgName', component: VotmCloudLocationsHomeComponent },
   { path: 'loc/create/:curOrgId/:curOrgName', component: VotmCloudLocationsCreateComponent },
   { path: 'asset/home', component: VotmCloudAssetsHomeComponent },
+  { path: 'asset/create', component: VotmCloudAssetsCreateComponent },
   { path: 'sensor/home', component: VotmCloudSensorsHomeComponent },
   { path: 'gateway/home', component: VotmCloudGatewaysHomeComponent },
   { path: 'admin', component: VotmCloudAdminPanelComponent },

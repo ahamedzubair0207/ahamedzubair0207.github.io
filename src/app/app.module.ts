@@ -15,6 +15,7 @@ import { VotmCloudOrganizationsCreateComponent } from './components/organization
 import { VotmCloudLocationsHomeComponent } from './components/locations/votm-cloud-locations-home/votm-cloud-locations-home.component';
 import { VotmCloudLocationsCreateComponent } from './components/locations/votm-cloud-locations-create/votm-cloud-locations-create.component';
 import { VotmCloudAssetsHomeComponent } from './components/assets/votm-cloud-assets-home/votm-cloud-assets-home.component';
+import { VotmCloudAssetsCreateComponent } from './components/assets/votm-cloud-assets-create/votm-cloud-assets-create.component';
 import { VotmCloudSensorsHomeComponent } from './components/sensors/votm-cloud-sensors-home/votm-cloud-sensors-home.component';
 import { VotmCloudGatewaysHomeComponent } from './components/gateways/votm-cloud-gateways-home/votm-cloud-gateways-home.component';
 import { VotmCloudAdminPanelComponent } from './components/admin/votm-cloud-admin-panel/votm-cloud-admin-panel.component';
@@ -34,6 +35,8 @@ import { OrganizationService } from './services/organizations/organization.servi
 import { FormsModule } from '@angular/forms';
 import { VotmCloudValidatorComponent } from './components/shared/votm-cloud-validator/votm-cloud-validator.component';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
+import { VotmCloudConfimDialogComponent } from './components/shared/votm-cloud-confim-dialog/votm-cloud-confim-dialog.component';
+
 
 @NgModule({
   declarations: [
@@ -53,7 +56,9 @@ import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
     VotmCloudSideMenuComponent,
     VotmCloudLoginComponent,
     VotmCloudHeaderComponent,
-    VotmCloudValidatorComponent
+    VotmCloudValidatorComponent,
+    VotmCloudConfimDialogComponent,
+    VotmCloudAssetsCreateComponent
   ],
   imports: [
     BrowserModule,
