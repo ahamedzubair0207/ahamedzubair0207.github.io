@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, ParamMap } from "@angular/router";
 import { LocationService } from '../../../services/locations/location.service';
+import { VotmCloudConfimDialogComponent } from '../../shared/votm-cloud-confim-dialog/votm-cloud-confim-dialog.component';
 
 @Component({
   selector: 'app-votm-cloud-locations-home',
@@ -14,6 +15,10 @@ export class VotmCloudLocationsHomeComponent implements OnInit {
   curLocName: string;
   curOrgId: string;
   curOrgName: string;
+  locToDelete: string;
+  
+  @ViewChild('confirmBox', null) confirmBox: VotmCloudConfimDialogComponent;
+
   constructor(private locService: LocationService, private route: ActivatedRoute) { }
 
   ngOnInit() {
@@ -27,13 +32,33 @@ export class VotmCloudLocationsHomeComponent implements OnInit {
           this.locationsList = response.map(
             x => ({
             ...x,
-            opened:false
+            opened:true
             })
           );
         }
       );
 
     });
+
+  }
+
+  openConfirmDialog(delLocId) {
+    this.locToDelete = delLocId;
+    this.confirmBox.open();
+  }
+
+  deleteLocationById(event, delLocId) {
+    console.log('event on close ', event);
+    if (event) {
+      this.locService.deleteLocation(this.locToDelete)
+        .subscribe(response => {
+          this.fetchLocList();
+        });
+    }
+    this.locToDelete = '';
+  }
+
+  fetchLocList(){
 
   }
   

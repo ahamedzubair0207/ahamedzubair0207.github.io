@@ -10,7 +10,7 @@ import { Logo } from 'src/app/models/logo.model';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
 import { previousRoute } from '../../shared/votm-cloud-previous-route';
-import { DatePipe } from '@angular/common';
+import { DatePipe, Location as RouterLocation} from '@angular/common';
 import { NgForm, FormGroup } from '@angular/forms';
 
 
@@ -62,7 +62,8 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
 
   constructor(private modalService: NgbModal, private locationService: LocationService,
     private configSettingsService: ConfigSettingsService, private domSanitizer: DomSanitizer,
-    private activatedRoute: ActivatedRoute, private route: Router, private datePipe: DatePipe) {
+    private activatedRoute: ActivatedRoute, private route: Router, private datePipe: DatePipe,
+    private routerLocation: RouterLocation) {
     this.UOM = "SI";
     this.subscriptions = route.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
@@ -386,8 +387,9 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
   onCancelClick(event) {
     // console.log('previous url ', new previousRoute(this.route).previousURLToNavigate)
     // this.previousURLToNavigate = new previousRoute(this.route).previousURLToNavigate
-    this.previousURLToNavigate ? this.route.navigate([this.previousURLToNavigate])
-      : this.route.navigate([`loc/home/${this.curOrgId}/${this.curOrgName}`]);
+    // this.previousURLToNavigate ? this.route.navigate([this.previousURLToNavigate])
+    //   : this.route.navigate([`loc/home/${this.curOrgId}/${this.curOrgName}`]);
+    this.routerLocation.back();
   }
 
   // onFenceTypeChange(type: string) {
