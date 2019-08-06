@@ -9,7 +9,7 @@ import { UnitOfMeassurement } from 'src/app/models/unitOfMeassurement.model';
 import { Logo } from 'src/app/models/logo.model';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute, Route, Routes, Router, NavigationEnd } from '@angular/router';
-import { DatePipe } from '@angular/common';
+import { DatePipe, Location as RouterLocation } from '@angular/common';
 import { NgForm, FormGroup } from '@angular/forms';
 import { VotmCloudConfimDialogComponent } from '../../shared/votm-cloud-confim-dialog/votm-cloud-confim-dialog.component';
 
@@ -56,7 +56,8 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
 
   constructor(private modalService: NgbModal, private organizationService: OrganizationService,
     private configSettingsService: ConfigSettingsService, private domSanitizer: DomSanitizer,
-    private activeroute: ActivatedRoute, private route: Router, private datePipe: DatePipe) {
+    private activeroute: ActivatedRoute, private route: Router, private datePipe: DatePipe, 
+    private routerLocation: RouterLocation) {
     this.UOM = "SI";
     this.subscription = route.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
@@ -385,7 +386,7 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
       if (this.orgId) {
         this.organizationService.updateOrganization(this.organization)
           .subscribe(response => {
-            this.route.navigate([`org/home/${this.curOrgId}/${this.curOrgName}`])
+            this.routerLocation.back();
           });
       } else {
         console.log('onOrganizationSubmit else else ');
@@ -398,7 +399,8 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
   }
 
   onCancelClick(event) {
-    this.previousURLToNavigate ? this.route.navigate([this.previousURLToNavigate])
-      : this.route.navigate([`org/home/${this.curOrgId}/${this.curOrgName}`]);
+    this.routerLocation.back();
+    // this.previousURLToNavigate ? this.route.navigate([this.previousURLToNavigate])
+    //   : this.route.navigate([`org/home/${this.curOrgId}/${this.curOrgName}`]);
   }
 }
