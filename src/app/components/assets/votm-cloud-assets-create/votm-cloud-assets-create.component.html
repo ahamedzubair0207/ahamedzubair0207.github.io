@@ -1,12 +1,14 @@
 <div class="asset-outside-border">
     <form class="form container create-asset-container border shadow-sm">
         <div class="row">
-            <div class="form-group mb-2">
+            <div class="input-group input-group-sm mb-2">
                 <label for="lbl-name"><b>Name:</b></label>
                 </div>
           <div class="form-group mx-sm-3 mb-2">
             <input type="text" class="form-control" id="asset-name" placeholder="Name">
           </div>
+
+
           <div class="form-group mb-2">
               <label for="lbl-name"><b>Asset ID:</b></label>
               </div>
@@ -69,18 +71,23 @@
               <div class="form-group mb-2">
                 <label for="lbl-name"><b>Asset Template:</b></label>
                 </div>
-              <div class="form-group mx-sm-3 mb-2">
-                <input type="text" class="form-control" id="asset-name" placeholder="Description">
+              <div ngbDropdown class="mx-sm-3 mb-2 dropdown d-inline-block">
+                  <button class="btn btn-secondary" id="dropdownBasic1" ngbDropdownToggle>Choose your Template</button>
+                  <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                    <button ngbDropdownItem>Template - 1</button>
+                    <button ngbDropdownItem>Another Template</button>
+                    <button ngbDropdownItem>Template - 3</button>
+                  </div>
               </div>
         </div>
         <div class="row">
-            <div class="col-md-6">
+            <div class="col">
                 <button type="button" class="btn btn-secondary btn-sv-tmpl">Create from Template</button>
                 <button type="button" class="btn btn-secondary btn-sv-tmpl">Save as Template</button>
                 <!-- <button type="button" class="btn btn-secondary">Associate Signal</button>
                 <button type="button" class="btn btn-secondary">Create Asset</button> -->
             </div>
-            <div class="col-md-6">
+            <div class="col text-right">
                 <button type="button" class="btn btn-secondary button-mod">Save</button>
                 <button routerLink="/asset/home" type="button" class="btn btn-secondary button-mod">Cancel</button>
                 <button type="button" class="btn btn-secondary button-mod">Delete</button> 
