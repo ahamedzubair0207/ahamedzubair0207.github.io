@@ -90,8 +90,8 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
     }
     else {
       this.parentOrganizationInfo = {
-        parentOrganizationId: this.curOrgId, // '7A59BDD8-6E1D-48F9-A961-AA60B2918DDE',
-        parentOrganizationName: this.curOrgName // 'Parker1'
+        parentOrganizationId: this.activeroute.snapshot.paramMap.get("parentOrgId"), // '7A59BDD8-6E1D-48F9-A961-AA60B2918DDE',
+        parentOrganizationName: this.activeroute.snapshot.paramMap.get("parentOrgName") // 'Parker1'
       }
       this.organization.parentOrganizationId = this.parentOrganizationInfo.parentOrganizationId;
       this.organization.active = true;
@@ -391,7 +391,7 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
         console.log('onOrganizationSubmit else else ');
         this.organizationService.createOrganization(this.organization)
           .subscribe(response => {
-            this.route.navigate([`org/home/${this.curOrgId}/${this.curOrgName}`])
+            this.route.navigate([`org/home/${this.parentOrganizationInfo.parentOrganizationId}/${this.parentOrganizationInfo.parentOrganizationName}`])
           });
       }
     }
