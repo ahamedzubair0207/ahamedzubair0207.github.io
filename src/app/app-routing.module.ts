@@ -24,7 +24,7 @@ const routes: Routes = [
   { path: 'org/create/:parentOrgId/:parentOrgName', component: VotmCloudOrganizationsCreateComponent },
   { path: 'org/view/:orgId', component: VotmCloudOrganizationsCreateComponent },
   { path: 'org/edit/:orgId', component: VotmCloudOrganizationsCreateComponent },
-  { path: 'loc/home', component: VotmCloudLocationsHomeComponent },
+  { path: 'loc/home/:locId/:locName', component: VotmCloudLocationsHomeComponent },
   { path: 'loc/create', component: VotmCloudLocationsCreateComponent },
   { path: 'asset/home', component: VotmCloudAssetsHomeComponent },
   { path: 'sensor/home', component: VotmCloudSensorsHomeComponent },

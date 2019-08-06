@@ -11,27 +11,24 @@ import { AppConstants } from '../../helpers/app.constants';
 })
 export class LocationService {
 
-
-  controllerName = 'Location';
-
   apiURL: string = '';
 
   constructor(private http: CustomHttp) { }
 
-  getAllLocations(){
+  getAllLocation(){
     
     return LOC_LIST;
   }
 
-  getAllLocation(): Observable<any> {
-    return this.http.get(this.controllerName)
+  getLocationTree(locId: string): Observable<any> {
+    return this.http.get(AppConstants.GET_LOC_TREE + '/' + locId)
       .pipe(
         map(response => response)
       );
   }
 
   createLocation(body: Location){
-    return this.http.post(this.controllerName, body)
+    return this.http.post(AppConstants.CREATE_LOC, body)
     .pipe(
       map(response => response)
     );
