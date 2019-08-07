@@ -1,11 +1,11 @@
 <div class="loc-outside-border" *ngIf="(!locId && pageLabels) || (locId && pageLabels && location)">
-  <form class="form container create-loc-container border shadow-sm" (ngSubmit)="onLocationSubmit()">
+  <form class="form container create-loc-container border shadow-sm" (ngSubmit)="onLocationSubmit()" novalidate>
     <div class="row loc-create-font">
-      <h4 class="col-12">Create Location:</h4>
+      <h4 class="col-12">{{pageTitle}}:</h4>
       <div class="col-md-4">
         <label for="name"><b>* {{pageLabels.Name.labelName}} :</b></label>
         <input type="text" [(ngModel)]="location.locationName" class="form-control loc-create-font"
-          placeholder="Enter Name" name="name" required>
+        [disabled]="pageType==='View'" #locName="ngModel" placeholder="Enter Name" name="name" required>
       </div>
       <div class="col-md-4">
         <label for="parentorganization"><b>{{pageLabels.ParentOrganization.labelName}} :</b></label>
@@ -15,7 +15,7 @@
       <div class="col-md-4">
         <label for="parentLoc"><b>{{pageLabels.ParentLocation.labelName}} :</b></label>
         <br>
-        <label for="parentLocname"><b>Cleaveland, OH</b></label>
+        <label for="parentLocname"><b>{{parentLocName}}</b></label>
       </div>
       <div class="col-md-4">
         <label for="primaryContact"><b>* {{pageLabels.PrimaryContact.labelName}} :</b></label>
@@ -52,7 +52,7 @@
           <label class="form-check-label" for="f-square">Rectangle</label>
         </div>
         <div *ngIf="location && location.geoFenceType && location.geoFenceType ==='bf0bc7b5-1bf8-4a59-a3b5-35904937e89e'" ng-show="geofence == 'f-radius'">
-          <input type="number" class="form-control loc-create-font geo-text-box w-50" name="rectangle"
+          <input type="number" class="form-control loc-create-font geo-text-box w-50" name="radius"
             [(ngModel)]="radiusValue" placeholder="Enter Radius">
           <select name="radiusUnit" (change)="test()" [(ngModel)]="radiusUnit" class="drop-down geo-drop-down w-auto">
             <option value="ft">Feet</option>
@@ -60,10 +60,10 @@
           </select>
         </div>
         <div ng-show="geofence == 'f-square'" *ngIf="location && location.geoFenceType && location.geoFenceType ==='d5764af5-114b-48e6-9980-544634167826'">
-          <input type="number" name="width" [(ngModel)]="ractnagleValue1" class="form-control loc-create-font w-auto"
-            placeholder="Enter Width"> * <input type="number" name="height" [(ngModel)]="ractnagleValue2"
+          <input type="number" name="width" [(ngModel)]="rectangleValue1" class="form-control loc-create-font w-auto"
+            placeholder="Enter Width"> * <input type="number" name="height" [(ngModel)]="rectangleValue2"
             class="form-control loc-create-font w-auto" placeholder="Enter Height">
-          <select name="ractangleUnit" [(ngModel)]="ractangleUnit" class="drop-down geo-drop-down w-auto">
+          <select name="rectangleUnit" [(ngModel)]="rectangleUnit" class="drop-down geo-drop-down w-auto">
             <option value="ft">Feet</option>
             <option value="meters">Meters</option>
           </select>
@@ -84,12 +84,12 @@
         <div class="row">
           <div class="col-md-6">
             <label for="address1"><b>* {{pageLabels.Address1.labelName}}:</b></label>
-            <input type="text" [(ngModel)]="location.address[0].address1" class="form-control loc-create-font"
+            <input type="text" [(ngModel)]="location.address[0].address1" for="address1" class="form-control loc-create-font"
               placeholder="Street Name" name="address1">
           </div>
           <div class="col-md-6">
             <label for="address2"><b>* {{pageLabels.Address2.labelName}}:</b></label>
-            <input type="text" [(ngModel)]="location.address[0].address2" class="form-control loc-create-font"
+            <input type="text" [(ngModel)]="location.address[0].address2" for="address2" class="form-control loc-create-font"
               placeholder="Apt/Suite Number" name="address2">
           </div>
           <div class="col-md-3">

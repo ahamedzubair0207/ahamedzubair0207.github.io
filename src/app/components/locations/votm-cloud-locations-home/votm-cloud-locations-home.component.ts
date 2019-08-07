@@ -14,11 +14,13 @@ export class VotmCloudLocationsHomeComponent implements OnInit {
   curLocName: string;
   curOrgId: string;
   curOrgName: string;
+  parentOrgId: string;
+  parentOrgName: string;
+
   constructor(private locService: LocationService, private route: ActivatedRoute) { }
 
   ngOnInit() {
-    
-    this.route.paramMap.subscribe((params : ParamMap)=> {
+    this.route.paramMap.subscribe((params: ParamMap) => {
       this.curLocId = params.get("locId");
       this.curLocName = params.get("locName");
 
@@ -26,15 +28,24 @@ export class VotmCloudLocationsHomeComponent implements OnInit {
         response => {
           this.locationsList = response.map(
             x => ({
-            ...x,
-            opened:false
+              ...x,
+              opened: false
             })
           );
+          this.getParentOrganizationInfo()
         }
       );
 
     });
 
   }
-  
+
+  getParentOrganizationInfo() {
+    console.log(' this.locationsList ', this.locationsList)
+    if (this.locationsList && this.locationsList.length > 0) {
+      this.parentOrgId = this.locationsList[0].parentOrgId
+      this.parentOrgName = this.locationsList[0].parentOrgName
+    }
+  }
+
 }
