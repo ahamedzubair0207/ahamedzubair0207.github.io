@@ -3,49 +3,84 @@
   <main class="views-body">
 
           <input class="views-input"id="tab1" type="radio" name="tabs" checked>
-          <label class="views-label views-label-before" for="tab1">Dashboard 1</label>
+          <label class="views-label views-label-before" for="tab1">Asset</label>
 
           <input class="views-input" id="tab2" type="radio" name="tabs">
-          <label class="views-label views-label-before" for="tab2">Dashboard 2</label>
+          <label class="views-label views-label-before" for="tab2">Gauges</label>
+
+          <input class="views-input"id="tab3" type="radio" name="tabs">
+          <label class="views-label views-label-before" for="tab3">Charts</label>
+
+          <input class="views-input" id="tab4" type="radio" name="tabs">
+          <label class="views-label views-label-before" for="tab4">Misc</label>
 
           <section id="content1" class="views-section">
+                  
                   <div class="row">
-                          <div class="col p-3" >
-                            <img src="../../assets/images/Parker.jpg" class="img-thumbnail">
-                          </div>
-                          <div class="col p-3" >
-                            <img src="../../assets/images/Parker.jpg" class="img-thumbnail">
-                          </div>       
-                  </div>
+                        <div class="col-6">
+                                <app-votm-simple-gauge></app-votm-simple-gauge>
+                        </div>
+                        <div class="col-6">
+                                <app-votm-simple-gauge></app-votm-simple-gauge>
+                        </div>
+                        
+                  </div> 
                   <div class="row">
-                                  <div class="col p-3">
-                                          <img src="../../assets/images/Parker.jpg"  class="img-thumbnail dashboard-down">
-                                   </div>
-                  </div>      
+                        <div class="col-12">
+                                <app-votm-line-graph></app-votm-line-graph>
+                        </div>
+                        
+                  </div> 
           </section>
           <section id="content2" class="views-section">
-                  <div class="row">
-                         
-                          <div class="col p-3">
-                                  <img class="img-thumbnail top-row" src="../../assets/images/QcD.jpg">
-                          </div>
-                          <div class="col p-3">
-                                  <img class="img-thumbnail top-row" src="../../assets/images/parker11408225.jpg">
-                          </div>
-                          <div class="col p-3">
-                                  <img class="img-thumbnail top-row" src="../../assets/images/images.jpg">
-                          </div>
-                  </div>
-                  <div class="row">
-                  
-                                  <div class="col p-3">
-                                          <img class="img-thumbnail down-row" src="../../assets/images/Transducer.jpg">
-                          </div>
-                          <div class="col p-3">
-                                  <img class="img-thumbnail down-row" src="../../assets/images/Parker.jpg">
-                          </div>
-                  </div>
+                <div class="row">
+                        <div class="col-6">
+                                <app-votm-animated-gauge></app-votm-animated-gauge>
+                        </div>
+                        <div class="col-6">
+                                <app-votm-animated-gauge></app-votm-animated-gauge>
+                        </div>
+                        
+                </div>
+                <div class="row">
+                        <div class="col-6">
+                                <app-votm-two-axes-gauge></app-votm-two-axes-gauge>
+                        </div>
+                        <div class="col-6">
+                                <app-votm-multi-gauge></app-votm-multi-gauge>
+                        </div>
+                        
+                </div> 
               
           </section>
+
+          <section id="content3" class="views-section">
+                <div class="row">
+                       
+                        <div class="col p-3">
+                                <app-votm-clustered-column-chart></app-votm-clustered-column-chart>
+                        </div>
+                </div>
+                <div class="row">
+                       
+                        <div class="col p-3">
+                                <app-votm-cylinder-gauge></app-votm-cylinder-gauge>
+                        </div>
+                </div>
+                
+        </section>
+
+        <section id="content4" class="views-section">
+                <div class="row">
+                       
+                        <div class="col-6">
+                               <app-votm-pictorial-chart></app-votm-pictorial-chart> 
+                        </div>
+                        <div class="col-6">
+                              <app-votm-pie-slice-chart></app-votm-pie-slice-chart>
+                        </div>
+                </div>
+            
+        </section>
   </main>
 </div>
