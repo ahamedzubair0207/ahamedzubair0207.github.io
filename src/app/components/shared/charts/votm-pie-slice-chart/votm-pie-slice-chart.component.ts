@@ -23,7 +23,7 @@ export class VotmPieSliceChartComponent implements OnInit {
 
   ngAfterViewInit() {
 
-    let chart = am4core.create("chartdiv-pie-sliced-"+this.id, am4charts.PieChart);
+    let chart = am4core.create("chartdiv-pictorial-"+this.id, am4charts.PieChart);
     // Set data
     var selected;
     var types = [{
@@ -92,8 +92,8 @@ export class VotmPieSliceChartComponent implements OnInit {
     }
 
     pieSeries.slices.template.events.on("hit", function(event) {
-      if (event.target.dataItem.dataContext.hasOwnProperty("id") ) {
-        selected = event.target.dataItem.dataContext.id;
+      if (event.target.dataItem.dataContext['id'] != undefined) {
+        selected = event.target.dataItem.dataContext['id'];
       } else {
         selected = undefined;
       }
