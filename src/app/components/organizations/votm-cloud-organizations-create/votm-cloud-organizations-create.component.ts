@@ -9,7 +9,7 @@ import { UnitOfMeassurement } from 'src/app/models/unitOfMeassurement.model';
 import { Logo } from 'src/app/models/logo.model';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute, Route, Routes, Router, NavigationEnd } from '@angular/router';
-import { DatePipe } from '@angular/common';
+import { DatePipe, Location as RouterLocation } from '@angular/common';
 import { NgForm, FormGroup } from '@angular/forms';
 import { VotmCloudConfimDialogComponent } from '../../shared/votm-cloud-confim-dialog/votm-cloud-confim-dialog.component';
 
@@ -54,10 +54,13 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
   @ViewChild('organizationForm', null) organizationForm: NgForm;
   @ViewChild('confirmBox', null) confirmBox: VotmCloudConfimDialogComponent;
   @ViewChild('file', null) logoImage: any;
+  fileName: any;
+  fileExtension: string;
 
   constructor(private modalService: NgbModal, private organizationService: OrganizationService,
     private configSettingsService: ConfigSettingsService, private domSanitizer: DomSanitizer,
-    private activeroute: ActivatedRoute, private route: Router, private datePipe: DatePipe) {
+    private activeroute: ActivatedRoute, private route: Router, private datePipe: DatePipe,
+    private routerLocation: RouterLocation) {
     this.UOM = "SI";
     this.subscription = route.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
@@ -180,8 +183,12 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
         this.organization.contractEndDate = this.datePipe.transform(this.organization.contractEndDate, 'yyyy-MM-dd')
 
         // this.imgURL = this.organization.logo.image
-        this.imgURL = 'data:image/jpeg;base64,' + this.organization.logo.image;
-        console.log()
+
+        if (this.organization.logo) {
+          this.fileExtension = this.organization.logo.imageName.slice((Math.max(0, this.organization.logo.imageName.lastIndexOf(".")) || Infinity) + 1);
+          this.imgURL = this.domSanitizer.bypassSecurityTrustUrl(`data:image/${this.fileExtension};base64,${this.organization.logo.image}`);
+          this.organization.logo.imageType = this.fileExtension;
+        }
 
       });
   }
@@ -401,7 +408,7 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
       if (this.orgId) {
         this.organizationService.updateOrganization(this.organization)
           .subscribe(response => {
-            this.route.navigate([`org/home/${this.curOrgId}/${this.curOrgName}`])
+            this.routerLocation.back();
           });
       } else {
         this.organizationService.createOrganization(this.organization)
@@ -413,8 +420,8 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
   }
 
   onCancelClick(event) {
-    console.log(this.previousURLToNavigate, this.curOrgName)
-    this.previousURLToNavigate ? this.route.navigate([this.previousURLToNavigate])
-      : this.route.navigate([`org/home/${this.curOrgId}/${this.curOrgName}`]);
+    this.routerLocation.back();
+    // this.previousURLToNavigate ? this.route.navigate([this.previousURLToNavigate])
+    //   : this.route.navigate([`org/home/${this.curOrgId}/${this.curOrgName}`]);
   }
 }

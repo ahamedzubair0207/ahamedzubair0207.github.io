@@ -50,8 +50,8 @@ export class LocationService {
       );
   }
   
-  deleteLocation(body: Location){
-    return this.http.delete(AppConstants.DEL_LOC + '/' + body.locationId, body)
+  deleteLocation(locId: string){
+    return this.http.delete(AppConstants.DEL_LOC, locId)
       .pipe(
         map(response => response)
       );

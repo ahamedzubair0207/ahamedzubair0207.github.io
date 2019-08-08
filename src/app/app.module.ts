@@ -36,6 +36,15 @@ import { FormsModule } from '@angular/forms';
 import { VotmCloudValidatorComponent } from './components/shared/votm-cloud-validator/votm-cloud-validator.component';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { VotmCloudConfimDialogComponent } from './components/shared/votm-cloud-confim-dialog/votm-cloud-confim-dialog.component';
+import { VotmLineGraphComponent } from './components/shared/charts/votm-line-graph/votm-line-graph.component';
+import { VotmSimpleGaugeComponent } from './components/shared/charts/votm-simple-gauge/votm-simple-gauge.component';
+import { VotmAnimatedGaugeComponent } from './components/shared/charts/votm-animated-gauge/votm-animated-gauge.component';
+import { VotmMultiGaugeComponent } from './components/shared/charts/votm-multi-gauge/votm-multi-gauge.component';
+import { VotmCylinderGaugeComponent } from './components/shared/charts/votm-cylinder-gauge/votm-cylinder-gauge.component';
+import { VotmTwoAxesGaugeComponent } from './components/shared/charts/votm-two-axes-gauge/votm-two-axes-gauge.component';
+import { VotmPictorialChartComponent } from './components/shared/charts/votm-pictorial-chart/votm-pictorial-chart.component';
+import { VotmPieSliceChartComponent } from './components/shared/charts/votm-pie-slice-chart/votm-pie-slice-chart.component';
+import { VotmClusteredColumnChartComponent } from './components/shared/charts/votm-clustered-column-chart/votm-clustered-column-chart.component';
 
 
 @NgModule({
@@ -58,7 +67,16 @@ import { VotmCloudConfimDialogComponent } from './components/shared/votm-cloud-c
     VotmCloudHeaderComponent,
     VotmCloudValidatorComponent,
     VotmCloudConfimDialogComponent,
-    VotmCloudAssetsCreateComponent
+    VotmCloudAssetsCreateComponent,
+    VotmLineGraphComponent,
+    VotmSimpleGaugeComponent,
+    VotmAnimatedGaugeComponent,
+    VotmMultiGaugeComponent,
+    VotmCylinderGaugeComponent,
+    VotmTwoAxesGaugeComponent,
+    VotmPictorialChartComponent,
+    VotmPieSliceChartComponent,
+    VotmClusteredColumnChartComponent
   ],
   imports: [
     BrowserModule,

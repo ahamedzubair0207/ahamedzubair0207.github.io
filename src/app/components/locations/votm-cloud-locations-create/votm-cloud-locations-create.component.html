@@ -5,7 +5,7 @@
       <div class="col-md-4">
         <label for="name"><b>* {{pageLabels.Name.labelName}} :</b></label>
         <input type="text" [(ngModel)]="location.locationName" class="form-control loc-create-font"
-        [disabled]="pageType==='View'" #locName="ngModel" placeholder="Enter Name" name="name" required>
+          [disabled]="pageType==='View'" #locName="ngModel" placeholder="Enter Name" name="name" required>
       </div>
       <div class="col-md-4">
         <label for="parentorganization"><b>{{pageLabels.ParentOrganization.labelName}} :</b></label>
@@ -19,51 +19,59 @@
       </div>
       <div class="col-md-4">
         <label for="primaryContact"><b>* {{pageLabels.PrimaryContact.labelName}} :</b></label>
-        <input type="text" [(ngModel)]="location.primaryContact" class="form-control loc-create-font"
-          placeholder="Enter Contact" name="primaryContact">
+        <input type="text" [disabled]="pageType==='View'" [(ngModel)]="location.primaryContact"
+          class="form-control loc-create-font" placeholder="Enter Contact" name="primaryContact">
       </div>
       <div class="col-md-4">
         <label for="primarydistribute"><b>* {{pageLabels.PrimaryDistributor.labelName}} :</b></label>
         <input type="text" [(ngModel)]="location.primaryDistributor" class="form-control loc-create-font"
-          placeholder="Enter Primary Distributor" name="primarydistribute" required>
+          placeholder="Enter Primary Distributor" [disabled]="pageType==='View'" name="primarydistribute" required>
       </div>
       <div class="col-md-4">
         <label for="locationType"><b>* {{pageLabels.LocationType.labelName}}: </b></label>
         <input type="text" [(ngModel)]="location.locationType" class="form-control loc-create-font"
-          placeholder="Enter Location Type" name="locationType" required>
+          placeholder="Enter Location Type" [disabled]="pageType==='View'" name="locationType" required>
       </div>
       <div class="col mb-4">
         <label for="f-description"><b>* {{pageLabels.DescriptionofLocation.labelName}} :</b></label>
-        <textarea class="form-control" [(ngModel)]="location.description" name="locDescription" rows="3"
-          id="f-description"></textarea>
+        <textarea class="form-control" [disabled]="pageType==='View'" [(ngModel)]="location.description"
+          name="locDescription" rows="3" id="f-description"></textarea>
       </div>
     </div>
     <div class="row loc-create-font">
       <div class="col-md-6">
         <label for="geofence" class="pr-2"><b>{{pageLabels.GeoFence.labelName}}:</b></label>
         <div class="form-check form-check-inline ">
-          <input class="form-check-input" type="radio" [(ngModel)]="location.geoFenceType" name="geofenceRadius"
-            id="f-radius" value="bf0bc7b5-1bf8-4a59-a3b5-35904937e89e">
+          <input class="form-check-input" [disabled]="pageType==='View'" type="radio"
+            [(ngModel)]="location.geoFenceType" name="geofenceRadius" id="f-radius"
+            value="bf0bc7b5-1bf8-4a59-a3b5-35904937e89e">
           <label class="form-check-label" for="f-radius">Radius</label>
         </div>
         <div class="form-check form-check-inline">
-          <input class="form-check-input" value="d5764af5-114b-48e6-9980-544634167826" [(ngModel)]="location.geoFenceType" type="radio"
-            name="geofenceRectangle" id="f-square">
+          <input class="form-check-input" value="d5764af5-114b-48e6-9980-544634167826"
+            [(ngModel)]="location.geoFenceType" [disabled]="pageType==='View'" type="radio" name="geofenceRectangle"
+            id="f-square">
           <label class="form-check-label" for="f-square">Rectangle</label>
         </div>
-        <div *ngIf="location && location.geoFenceType && location.geoFenceType ==='bf0bc7b5-1bf8-4a59-a3b5-35904937e89e'" ng-show="geofence == 'f-radius'">
+        <div
+          *ngIf="location && location.geoFenceType && location.geoFenceType ==='bf0bc7b5-1bf8-4a59-a3b5-35904937e89e'"
+          ng-show="geofence == 'f-radius'">
           <input type="number" class="form-control loc-create-font geo-text-box w-50" name="radius"
             [(ngModel)]="radiusValue" placeholder="Enter Radius">
-          <select name="radiusUnit" (change)="test()" [(ngModel)]="radiusUnit" class="drop-down geo-drop-down w-auto">
+          <select name="radiusUnit" [disabled]="pageType==='View'" (change)="test()" [(ngModel)]="radiusUnit"
+            class="drop-down geo-drop-down w-auto">
             <option value="ft">Feet</option>
             <option value="meters">Meters</option>
           </select>
         </div>
-        <div ng-show="geofence == 'f-square'" *ngIf="location && location.geoFenceType && location.geoFenceType ==='d5764af5-114b-48e6-9980-544634167826'">
-          <input type="number" name="width" [(ngModel)]="rectangleValue1" class="form-control loc-create-font w-auto"
-            placeholder="Enter Width"> * <input type="number" name="height" [(ngModel)]="rectangleValue2"
+        <div ng-show="geofence == 'f-square'"
+          *ngIf="location && location.geoFenceType && location.geoFenceType ==='d5764af5-114b-48e6-9980-544634167826'">
+          <input type="number" [disabled]="pageType==='View'" name="width" [(ngModel)]="rectangleValue1"
+            class="form-control loc-create-font w-auto" placeholder="Enter Width"> * <input
+            [disabled]="pageType==='View'" type="number" name="height" [(ngModel)]="rectangleValue2"
             class="form-control loc-create-font w-auto" placeholder="Enter Height">
-          <select name="rectangleUnit" [(ngModel)]="rectangleUnit" class="drop-down geo-drop-down w-auto">
+          <select name="rectangleUnit" [disabled]="pageType==='View'" [(ngModel)]="rectangleUnit"
+            class="drop-down geo-drop-down w-auto">
             <option value="ft">Feet</option>
             <option value="meters">Meters</option>
           </select>
@@ -71,41 +79,42 @@
       </div>
       <div class="col-md-6">
         <label for="geoLocation" class="pr-2"><b>* {{pageLabels.GeoLocation.labelName}}:</b></label>
-        <input type="text" [(ngModel)]="location.latitude" class="geo-loc-long" placeholder="Longitude"
-          name="geoLocationLong">/
-        <input type="text" [(ngModel)]="location.longitude" class="geo-loc-lat" placeholder="Latitude"
-          name="geoLocationLat">
+        <input type="text" [disabled]="pageType==='View'" [(ngModel)]="location.latitude" class="geo-loc-long"
+          placeholder="Longitude" name="geoLocationLong">/
+        <input type="text" [disabled]="pageType==='View'" [(ngModel)]="location.longitude" class="geo-loc-lat"
+          placeholder="Latitude" name="geoLocationLat">
         <button type="button" class="btn rounded-circle"><i class="fa fa-bullseye"></i></button>
       </div>
     </div>
     <div class="row loc-create-font">
       <div class="col">
         <h4><label for="billingaddress">{{pageLabels.BillingAddress.labelName}} :</label></h4>
-        <div class="row">
+        <div class="row" *ngIf="location && location.address && location.address.length>0">
           <div class="col-md-6">
             <label for="address1"><b>* {{pageLabels.Address1.labelName}}:</b></label>
-            <input type="text" [(ngModel)]="location.address[0].address1" for="address1" class="form-control loc-create-font"
-              placeholder="Street Name" name="address1">
+            <input [disabled]="pageType==='View'" type="text" [(ngModel)]="location.address[0].address1" for="address1"
+              class="form-control loc-create-font" placeholder="Street Name" name="address1">
           </div>
           <div class="col-md-6">
             <label for="address2"><b>* {{pageLabels.Address2.labelName}}:</b></label>
-            <input type="text" [(ngModel)]="location.address[0].address2" for="address2" class="form-control loc-create-font"
-              placeholder="Apt/Suite Number" name="address2">
+            <input [disabled]="pageType==='View'" type="text" [(ngModel)]="location.address[0].address2" for="address2"
+              class="form-control loc-create-font" placeholder="Apt/Suite Number" name="address2">
           </div>
           <div class="col-md-3">
             <label for="city"><b>* {{pageLabels.City.labelName}}:</b></label>
-            <input type="text" [(ngModel)]="location.address[0].city" class="form-control loc-create-font"
-              placeholder="City" name="orgType">
+            <input [disabled]="pageType==='View'" type="text" [(ngModel)]="location.address[0].city"
+              class="form-control loc-create-font" placeholder="City" name="city">
           </div>
           <div class="col-md-3">
             <label for="zipcode"><b>* {{pageLabels.Zipcode.labelName}}:</b></label>
-            <input type="text" [(ngModel)]="location.address[0].postalCode" class="form-control loc-create-font"
-              placeholder="Zip Code" name="orgType">
+            <input [disabled]="pageType==='View'" type="text" [(ngModel)]="location.address[0].postalCode"
+              class="form-control loc-create-font" placeholder="Zip Code" name="orgName">
           </div>
           <div class="col-md-3">
             <label for="state"><b>* {{pageLabels.State.labelName}}:</b></label>
 
-            <select [(ngModel)]="location.address[0].state" name="state" class="drop-down">
+            <select [disabled]="pageType==='View'" [(ngModel)]="location.address[0].state" name="state"
+              class="drop-down">
               <option value="" disabled selected>State</option>
               <option *ngFor="let state of states" [value]="state.value">
                 {{state.text}}
@@ -114,7 +123,8 @@
           </div>
           <div class="col-md-3">
             <label for="country"><b>* {{pageLabels.Country.labelName}}:</b></label>
-            <select [(ngModel)]="location.address[0].country" name="country" class="drop-down">
+            <select [disabled]="pageType==='View'" [(ngModel)]="location.address[0].country" name="country"
+              class="drop-down">
               <option value="" disabled selected>Country</option>
               <option *ngFor="let country of countries" [value]="country.value">
                 {{country.text}}
@@ -127,7 +137,8 @@
     <div class="row loc-create-font">
       <div class="col-md-4">
         <label for="DefaultLang"><b>* {{pageLabels.Language.labelName}}: </b></label>
-        <select *ngIf="applicationConfiguration" [(ngModel)]="location.localeId" name="language" class="drop-down">
+        <select [disabled]="pageType==='View'" *ngIf="applicationConfiguration" [(ngModel)]="location.localeId"
+          name="language" class="drop-down">
           <option value="" disabled selected>Select Language</option>
           <option *ngFor="let locale of applicationConfiguration.locale" [value]="locale.localeId">
             {{locale.localeName}}
@@ -136,7 +147,7 @@
       </div>
       <div class="col-md-4">
         <label for="timezone"><b>* {{pageLabels.TimeZone.labelName}} :</b></label>
-        <select class="drop-down" name="timezone" [(ngModel)]="location.timeZoneId">
+        <select [disabled]="pageType==='View'" class="drop-down" name="timezone" [(ngModel)]="location.timeZoneId">
           <option value="" disabled selected>Select Timezone</option>
           <option *ngFor="let timeZone of applicationConfiguration.timeZone" [value]="timeZone.timeZoneId">
             {{timeZone.timeZoneName}}
@@ -146,28 +157,36 @@
       <div class="col-md-4">
         <label for="unitsOfMeasure"><b>* {{pageLabels.DefaultUnitOfMeasure.labelName}}:</b></label>
         <label for="unitsOfMeasure" class="d-flex "><b>{{UOM}}</b></label>
-        <button class="btn btn-secondary uom-btn" type="button" (click)="openmodal()">Change</button>
+        <button class="btn btn-secondary uom-btn" type="button" *ngIf="pageType !=='View'"
+          (click)="openmodal()">Change</button>
       </div>
       <div class="col-md-4">
         <label for="locImage"><b>{{pageLabels.LogoFile.labelName}} : </b></label>
         <span style="color:rgb(106,96,85);" *ngIf="message">{{message}}</span>
-        <input #file type="file" accept='image/*' (change)="preview(file.files)" class="form-control loc-create-font" />
+        <input *ngIf="pageType!=='View'" #file type="file" accept='image/*' (change)="preview(file.files)"
+          class="form-control loc-create-font" />
+        <label style="font-weight: bold" *ngIf="location && location.logo">{{location.logo.imageName}}</label>
         <img [src]="imgURL" height="200" *ngIf="imgURL">
       </div>
       <div class="col-md-4">
         <label class="mdb-main-label" for="gateway"><b>Claimed Gateway</b></label>
-        <ng-multiselect-dropdown class="gateway-dropdown" [placeholder]="'Gateway List'" [data]="gatewayList" name="claimedGateway" [(ngModel)]="selectedItems"
-          [settings]="dropdownSettings" (onSelect)="onItemSelect($event)" (onSelectAll)="onSelectAll($event)">
+        <ng-multiselect-dropdown [disabled]="pageType==='View'" class="gateway-dropdown" [placeholder]="'Gateway List'"
+          [data]="gatewayList" name="claimedGateway" [(ngModel)]="selectedItems" [settings]="dropdownSettings"
+          (onSelect)="onItemSelect($event)" (onSelectAll)="onSelectAll($event)">
         </ng-multiselect-dropdown>
         <!-- <button class="btn-save btn btn-primary btn-sm">Save</button> -->
       </div>
       <div class="col-md-4 action-btn-loc">
-        <!-- <button type="submit" class="button">+ Organization</button>
-                    <button type="submit" class="button">+ Location</button> -->
-        <button routerLink="/loc/home" for="form-cancel" type="button" (click)="onCancelClick()"
+        <button type="button" *ngIf="location.locationId  && pageType !=='View'"
+          class="btn btn-secondary btn-lg button-mod">+ Organization</button>
+        <button type="button" *ngIf="location.locationId && pageType !=='View'"
+          class="btn btn-secondary btn-lg button-mod">+ Location</button>
+        <button routerLink="/loc/home" for="form-cancel" type="button" (click)="onCancelClick($event)"
           class="btn btn-secondary btn-lg button-mod">Cancel</button>
-        <button type="button" class="btn btn-secondary btn-lg button-mod">Delete</button>
-        <button type="submit" class="btn btn-secondary btn-lg button-mod btn-color">Save</button>
+        <button type="button" *ngIf="location.locationId && pageType !=='View'" (click)="onLocationDelete($event)"
+          class="btn btn-secondary btn-lg button-mod">Delete</button>
+        <button type="submit" *ngIf="pageType !=='View'"
+          class="btn btn-secondary btn-lg button-mod btn-color">Save</button>
       </div>
     </div>
   </form>
@@ -181,23 +200,23 @@
       <div class="modal-header">
         <label for="UOM" class="pr-2"><b>Units of Measure :</b></label>
         <div class="form-check form-check-inline">
-          <input class="form-check-input" type="radio" value="SI" name="UOM" (change)="onUnitChange($event)" checked
-            id="f-si">
+          <input [disabled]="pageType==='View'" class="form-check-input" type="radio" value="SI" name="UOM"
+            (change)="onUnitChange($event)" checked id="f-si">
           <label class="form-check-label" for="f-si">SI</label>
         </div>
         <div class="form-check form-check-inline">
-          <input class="form-check-input" type="radio" value="Imperial" name="UOM" (change)="onUnitChange($event)"
-            id="f-imperial">
+          <input [disabled]="pageType==='View'" class="form-check-input" type="radio" value="Imperial" name="UOM"
+            (change)="onUnitChange($event)" id="f-imperial">
           <label class="form-check-label" for="f-imperial">Imperial</label>
         </div>
         <div class="form-check form-check-inline">
-          <input class="form-check-input" type="radio" value="Metric" name="UOM" (change)="onUnitChange($event)"
-            id="f-metric">
+          <input [disabled]="pageType==='View'" class="form-check-input" type="radio" value="Metric" name="UOM"
+            (change)="onUnitChange($event)" id="f-metric">
           <label class="form-check-label" for="f-metric">Metric</label>
         </div>
         <div class="form-check form-check-inline">
-          <input class="form-check-input" type="radio" value="Custom" name="UOM" (change)="onUnitChange($event)"
-            id="f-custom">
+          <input [disabled]="pageType==='View'" class="form-check-input" type="radio" value="Custom" name="UOM"
+            (change)="onUnitChange($event)" id="f-custom">
           <label class="form-check-label" for="f-custom">Custom</label>
         </div>
       </div>
@@ -211,35 +230,34 @@
                 <label class="modal-uom-label" for="uom.uomTypeName"><b>{{uom.uomTypeName}} :</b></label>
               </div>
               <div class="float-left">
-                <select [(ngModel)]="uomModels[uom.uomTypeName]"
-                    (change)="onUoMDropdownChange($event,uom.uomTypeName)" style="width:100px;" name="uom.uomTypeName"
-                    class="drop-down">
-                    <option></option>
-                    <option *ngFor="let view of uom.uoMView" [value]="view.uoMId">
-                      {{view.uoMName}}
-                    </option>
-                  </select>
+                <select [(ngModel)]="uomModels[uom.uomTypeName]" (change)="onUoMDropdownChange($event,uom.uomTypeName)"
+                  style="width:100px;" name="uom.uomTypeName" class="drop-down">
+                  <option></option>
+                  <option *ngFor="let view of uom.uoMView" [value]="view.uoMId">
+                    {{view.uoMName}}
+                  </option>
+                </select>
               </div>
             </div>
             <div class="col-6" *ngIf="applicationConfiguration.unitOfMeassurement[i+1]">
-                <div style="width:140px;float:left;padding-top:3px">
-                  <label
-                    for="applicationConfiguration.unitOfMeassurement[i+1].uomTypeName"><b>{{applicationConfiguration.unitOfMeassurement[i+1].uomTypeName}}
-                      :</b></label>
-                </div>
-                <div class="float-left">
-                  <select [(ngModel)]="uomModels[applicationConfiguration.unitOfMeassurement[i+1].uomTypeName]"
-                    (change)="onUoMDropdownChange($event, applicationConfiguration.unitOfMeassurement[i+1].uomTypeName)"
-                    style="width:100px;" name="applicationConfiguration.unitOfMeassurement[i+1].uomTypeName"
-                    class="drop-down">
-                    <option></option>
-                    <option *ngFor="let view of applicationConfiguration.unitOfMeassurement[i+1].uoMView"
-                      [value]="view.uoMId">
-                      {{view.uoMName}}
-                    </option>
-                  </select>
-                </div>
+              <div style="width:140px;float:left;padding-top:3px">
+                <label
+                  for="applicationConfiguration.unitOfMeassurement[i+1].uomTypeName"><b>{{applicationConfiguration.unitOfMeassurement[i+1].uomTypeName}}
+                    :</b></label>
               </div>
+              <div class="float-left">
+                <select [(ngModel)]="uomModels[applicationConfiguration.unitOfMeassurement[i+1].uomTypeName]"
+                  (change)="onUoMDropdownChange($event, applicationConfiguration.unitOfMeassurement[i+1].uomTypeName)"
+                  style="width:100px;" name="applicationConfiguration.unitOfMeassurement[i+1].uomTypeName"
+                  class="drop-down">
+                  <option></option>
+                  <option *ngFor="let view of applicationConfiguration.unitOfMeassurement[i+1].uoMView"
+                    [value]="view.uoMId">
+                    {{view.uoMName}}
+                  </option>
+                </select>
+              </div>
+            </div>
 
           </div>
         </div>

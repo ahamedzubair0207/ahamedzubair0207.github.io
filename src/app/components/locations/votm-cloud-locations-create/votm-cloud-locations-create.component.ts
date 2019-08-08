@@ -10,7 +10,7 @@ import { Logo } from 'src/app/models/logo.model';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
 import { previousRoute } from '../../shared/votm-cloud-previous-route';
-import { DatePipe } from '@angular/common';
+import { DatePipe, Location as RouterLocation } from '@angular/common';
 import { NgForm, FormGroup } from '@angular/forms';
 
 
@@ -61,10 +61,12 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
   @ViewChild('locationForm', null) locationForm: NgForm;
   parentLocName: string;
   locId: string;
+  fileExtension: any;
 
   constructor(private modalService: NgbModal, private locationService: LocationService,
     private configSettingsService: ConfigSettingsService, private domSanitizer: DomSanitizer,
-    private activatedRoute: ActivatedRoute, private route: Router, private datePipe: DatePipe) {
+    private activatedRoute: ActivatedRoute, private route: Router, private datePipe: DatePipe,
+    private routerLocation: RouterLocation) {
     this.UOM = "SI";
     this.subscriptions = route.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
@@ -81,6 +83,8 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
     this.curOrgName = this.activatedRoute.snapshot.paramMap.get("curOrgName");
     this.parentLocId = this.activatedRoute.snapshot.paramMap.get("parentLocId");
     this.parentLocName = this.activatedRoute.snapshot.paramMap.get("parentLocName");
+
+    console.log(' this.parentLocId ', this.parentLocId)
 
     this.pageType = this.activatedRoute.snapshot.data['type'];
     this.pageTitle = `${this.pageType} Location`;
@@ -117,16 +121,23 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
         .subscribe(response => {
           console.log('getLocationById ', response);
           this.location = response;
-          this.parentLocId = this.location.parentLocationId;
-          this.parentLocName = this.location.parentLocationName;
+          this.parentLocId = this.location.parentLocationId ? this.location.parentLocationId : this.parentLocId;
+          this.parentLocName = this.location.parentLocationName ? this.location.parentLocationName : this.parentLocName;
           // this.selectedItems = [this.location.gatewayId]
-
+          if (!this.location.address || this.location.address.length === 0) {
+            this.location.address = [new Address()];
+            this.location.address[0].addressType = 'Billing';
+          }
           this.gatewayList.forEach(gateway => {
             if (gateway.item_id === this.location.gatewayId) {
               this.selectedItems = [gateway];
             }
-          })
-
+          });
+          if (this.location.logo) {
+            this.fileExtension = this.location.logo.imageName.slice((Math.max(0, this.location.logo.imageName.lastIndexOf(".")) || Infinity) + 1);
+            this.imgURL = this.domSanitizer.bypassSecurityTrustUrl(`data:image/${this.fileExtension};base64,${this.location.logo.image}`);
+            this.location.logo.imageType = this.fileExtension;
+          }
 
           if (this.location.geoFenceType === 'bf0bc7b5-1bf8-4a59-a3b5-35904937e89e') {
             var str = this.location.geoFenceValue;
@@ -422,6 +433,7 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
       this.locationService.updateLocation(this.location)
         .subscribe(response => {
           console.log('response ', response);
+          // this.routerLocation.back();
           this.route.navigate([`loc/home/${this.parentLocId}/${this.parentLocName}`])
         });
     } else {
@@ -435,9 +447,19 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
 
   onCancelClick(event) {
     // console.log('previous url ', new previousRoute(this.route).previousURLToNavigate)
-    // this.previousURLToNavigate = new previousRoute(this.route).previousURLToNavigate
+    this.previousURLToNavigate = new previousRoute(this.route).previousURLToNavigate
     this.previousURLToNavigate ? this.route.navigate([this.previousURLToNavigate])
       : this.route.navigate([`loc/home/${this.parentLocId}/${this.parentLocName}`]);
+    console.log('AHAMED');
+    // this.routerLocation.back();
+  }
+
+  onLocationDelete(event) {
+    this.locationService.deleteLocation(this.location.locationId)
+      .subscribe(response => {
+        console.log('Successfully deleted ', response);
+        this.route.navigate([`loc/home/${this.parentLocId}/${this.parentLocName}`])
+      })
   }
 
   // onFenceTypeChange(type: string) {
