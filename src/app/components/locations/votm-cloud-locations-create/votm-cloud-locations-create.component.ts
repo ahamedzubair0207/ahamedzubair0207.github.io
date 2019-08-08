@@ -12,6 +12,7 @@ import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
 import { previousRoute } from '../../shared/votm-cloud-previous-route';
 import { DatePipe, Location as RouterLocation } from '@angular/common';
 import { NgForm, FormGroup } from '@angular/forms';
+import { VotmCloudConfimDialogComponent } from '../../shared/votm-cloud-confim-dialog/votm-cloud-confim-dialog.component';
 
 
 @Component({
@@ -59,6 +60,7 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
   subscriptions: any;
 
   @ViewChild('locationForm', null) locationForm: NgForm;
+  @ViewChild('confirmBox', null) confirmBox: VotmCloudConfimDialogComponent;
   parentLocName: string;
   locId: string;
   fileExtension: any;
@@ -150,13 +152,13 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
           if (this.location.geoFenceType === 'd5764af5-114b-48e6-9980-544634167826') {
             // this.location.geoFenceValue = `${this.rectangleValue1}*${this.rectangleValue2}${this.radiusUnit}`;
             let str = this.location.geoFenceValue;
-            var matches = str.split('*')[1].match(/(\d+)/);
-            var matches2 = str.split('*')[1].match(/[a-zA-Z]/gi);
-            console.log('matches2 ', matches2.join(''))
-            console.log(str.split('*')[1], str.split('*')[1].slice(matches[0].length, str.split('*')[1].length - (matches[0].length - 1)));
-            this.rectangleValue1 = str.split('*')[0];
-            this.rectangleValue2 = matches[0];
-            this.rectangleUnit = matches2.join('');
+            // var matches = str.split('*')[1].match(/(\d+)/);
+            // var matches2 = str.split('*')[1].match(/[a-zA-Z]/gi);
+            // console.log('matches2 ', matches2.join(''))
+            // console.log(str.split('*')[1], str.split('*')[1].slice(matches[0].length, str.split('*')[1].length - (matches[0].length - 1)));
+            // this.rectangleValue1 = str.split('*')[0];
+            // this.rectangleValue2 = matches[0];
+            // this.rectangleUnit = matches2.join('');
           }
         })
     }
@@ -447,20 +449,29 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
 
   onCancelClick(event) {
     // console.log('previous url ', new previousRoute(this.route).previousURLToNavigate)
-    this.previousURLToNavigate = new previousRoute(this.route).previousURLToNavigate
-    this.previousURLToNavigate ? this.route.navigate([this.previousURLToNavigate])
-      : this.route.navigate([`loc/home/${this.parentLocId}/${this.parentLocName}`]);
-    console.log('AHAMED');
-    // this.routerLocation.back();
+    // this.previousURLToNavigate = new previousRoute(this.route).previousURLToNavigate
+    // this.previousURLToNavigate ? this.route.navigate([this.previousURLToNavigate])
+    //   : this.route.navigate([`loc/home/${this.parentLocId}/${this.parentLocName}`]);
+    // console.log('AHAMED');
+    this.routerLocation.back();
+  }
+  openConfirmDialog() {
+    this.confirmBox.open();
   }
 
-  onLocationDelete(event) {
-    this.locationService.deleteLocation(this.location.locationId)
-      .subscribe(response => {
-        console.log('Successfully deleted ', response);
-        this.route.navigate([`loc/home/${this.parentLocId}/${this.parentLocName}`])
-      })
+
+
+  deleteOrganizationById(event) {
+    console.log('event on close ', event);
+    if (event) {
+      this.locationService.deleteLocation(this.location.locationId)
+        .subscribe(response => {
+          console.log('delete successful ', response);
+          this.route.navigate([`loc/home/${this.parentLocId}/${this.parentLocName}`])
+        });
+    }
   }
+
 
   // onFenceTypeChange(type: string) {
   //   console.log('onFenceTypeChange ', this.location.geoFenceType)

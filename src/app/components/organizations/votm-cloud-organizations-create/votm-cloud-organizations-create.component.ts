@@ -106,18 +106,6 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
 
     }
     this.getAllAppInfo();
-    // this.organization = { "parentOrganizationId": "3fa85f64-5717-4562-b3fc-2c963f66afa6", 
-    // "active": true, 
-    // "address": [{ "addressType": "Billing", "address1": "8640 Lewis Road", "address2": "21", "city": "Golden Valley", "postalCode": "55114", "state": "state1", "country": "country1" }],
-    //  "name": "abfg", 
-    //  "customerNumber": "966922",
-    //   "organizationType": "asb", "primaryContactEmailAddress": "p@pp.com", 
-    //   "primaryDistributorName": "Parker", "primaryDistributorEmailAddress": "s@sc.com",
-    //    "contractStartDate": "2019-12-31", "contractEndDate": "2019-12-31", 
-    //    "svclevel": "Admin", "localeId": "01653a73-ba08-42f3-8182-4169b1385906", 
-    //    "timeZoneId": "ba2968ed-27be-4408-a854-0002115770e2", "description": "dgfdgf",
-    //     "logo": { "imageName": "AJ_Digital_Camera.svg", "imageType": "image/svg+xml","image":'' },
-    //   uoMId:[],organizationId:'' }
   }
 
   showImageLogo() {
@@ -160,7 +148,6 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
   }
 
   onDescriptionChange() {
-    // console.log('HERE ', this.startDate)
     if (this.organization.description && this.organization.description.length > 4000) {
       this.organizationForm.form.controls['orgDescription'].setErrors({ 'invalidDescription': true })
     }

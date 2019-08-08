@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, ɵɵresolveBody } from '@angular/core';
 import {LOC_LIST} from '../mock/mock-location-list';
 import { CustomHttp} from '../custom_http/custom_http.service';
 import { map } from 'rxjs/operators';
@@ -50,8 +50,8 @@ export class LocationService {
       );
   }
   
-  deleteLocation(locId: string){
-    return this.http.delete(AppConstants.DEL_LOC, locId)
+  deleteLocation(locationId: string){
+    return this.http.delete(AppConstants.DEL_LOC + '/' + locationId, locationId)
       .pipe(
         map(response => response)
       );

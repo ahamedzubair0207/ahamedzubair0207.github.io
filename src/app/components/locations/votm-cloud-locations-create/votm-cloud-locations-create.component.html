@@ -177,13 +177,13 @@
         <!-- <button class="btn-save btn btn-primary btn-sm">Save</button> -->
       </div>
       <div class="col-md-4 action-btn-loc">
-        <button type="button" *ngIf="location.locationId  && pageType !=='View'"
-          class="btn btn-secondary btn-lg button-mod">+ Organization</button>
-        <button type="button" *ngIf="location.locationId && pageType !=='View'"
-          class="btn btn-secondary btn-lg button-mod">+ Location</button>
-        <button routerLink="/loc/home" for="form-cancel" type="button" (click)="onCancelClick($event)"
+        <!-- <button type="button" *ngIf="location.locationId"
+          class="btn btn-secondary btn-lg button-mod">Create Asset</button> -->
+          <button *ngIf="location.locationId" (click)="createNestedLocation($event)" type="button"
+          class="btn btn-secondary btn-lg button-mod">Create Location</button>
+        <button for="form-cancel" type="button" (click)="onCancelClick($event)"
           class="btn btn-secondary btn-lg button-mod">Cancel</button>
-        <button type="button" *ngIf="location.locationId && pageType !=='View'" (click)="onLocationDelete($event)"
+        <button type="button" *ngIf="location.locationId && pageType !=='View'" (click)="openConfirmDialog()"
           class="btn btn-secondary btn-lg button-mod">Delete</button>
         <button type="submit" *ngIf="pageType !=='View'"
           class="btn btn-secondary btn-lg button-mod btn-color">Save</button>
@@ -191,6 +191,9 @@
     </div>
   </form>
 </div>
+
+<app-votm-cloud-confim-dialog (onClose)="deleteOrganizationById($event)" #confirmBox
+  message="Do you want to delete the organization?" headerMessage="Warning"></app-votm-cloud-confim-dialog>
 
 <!-- The Modal -->
 <div id="myModal" class="modal">
