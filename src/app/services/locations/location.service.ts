@@ -1,4 +1,4 @@
-import { Injectable, ɵɵresolveBody } from '@angular/core';
+import { Injectable } from '@angular/core';
 import {LOC_LIST} from '../mock/mock-location-list';
 import { CustomHttp} from '../custom_http/custom_http.service';
 import { map } from 'rxjs/operators';
