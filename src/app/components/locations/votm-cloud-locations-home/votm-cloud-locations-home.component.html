@@ -18,10 +18,10 @@
           <a class="action-icon" title="List" [routerLink]="['/loc/home', item.id, item.name]">
             <i class="fa fa-list"></i>
           </a>
-          <a class="action-icon" title="View" [routerLink]="['/loc/view', item.id]">
+          <a class="action-icon" title="View" [routerLink]="['/loc/view',curLocId, curLocName, parentOrgId, parentOrgName, item.id]">
             <i class="fa fa-eye"></i>
           </a>
-          <a class="action-icon" title="Edit" [routerLink]="['/loc/edit', item.id]">
+          <a class="action-icon" title="Edit" [routerLink]="['/loc/edit', curLocId, curLocName, parentOrgId, parentOrgName, item.id]">
             <i class="fa fa-edit"></i>
           </a>
           <a class="action-icon"(click)="openConfirmDialog(item.id)"  title="Delete">
@@ -54,10 +54,10 @@
             <a class="action-icon" title="List" [routerLink]="['/loc/home', subItem.id, subItem.name]">
               <i class="fa fa-list"></i>
             </a>
-            <a class="action-icon" title="View" [routerLink]="['/loc/view', subItem.id]">
+            <a class="action-icon" title="View" [routerLink]="['/loc/view',curLocId, curLocName, parentOrgId, parentOrgName,  subItem.id]">
               <i class="fa fa-eye"></i>
             </a>
-            <a class="action-icon" title="Edit" [routerLink]="['/loc/edit', subItem.id]">
+            <a class="action-icon" title="Edit" [routerLink]="['/loc/edit',curLocId, curLocName, parentOrgId, parentOrgName,  subItem.id]">
               <i class="fa fa-edit"></i>
             </a>
             <a class="action-icon" (click)="openConfirmDialog(subItem.id)" title="Delete">

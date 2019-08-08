@@ -211,6 +211,7 @@
           <app-votm-cloud-validator message="Language is required"></app-votm-cloud-validator>
         </div>
       </div>
+
       <div class="col-md-4" *ngIf="!orgId && applicationConfiguration">
         <!-- <label for="DefatimezoneultLang"><b>* {{pageLabels.TimeZone.labelName}} :</b></label> -->
         <label for="timezone"><b>* {{pageLabels.DefaultTimeZone.labelName}} :</b></label>
@@ -239,6 +240,7 @@
           <app-votm-cloud-validator message="Timezone is required"></app-votm-cloud-validator>
         </div>
       </div>
+      
       <div class="col-md-4">
         <label for="unitsOfMeasure"><b>* {{pageLabels.DefaultUnitOfMeasure.labelName}} :</b></label>
         <label for="unitsOfMeasure" class="d-flex "><b>{{UOM}}</b></label>
@@ -251,6 +253,8 @@
         <label for="Logo"><b>{{pageLabels.LogoFile.labelName}} :</b></label>
         <span style="color:rgb(106,96,85);" *ngIf="message">{{message}}</span>
         <input #file type="file" accept='image/*' *ngIf="pageType !=='View'" (change)="preview(file.files)" />
+        <label style="font-weight: bold"
+          *ngIf="organization && organization.logo">{{organization.logo.imageName}}</label>
         <img [src]="imgURL" height="200" *ngIf="imgURL">
 
       </div>
@@ -261,8 +265,10 @@
           class="btn btn-secondary btn-lg button-mod" (click)="openConfirmDialog()">Delete</button>
         <button type="submit" *ngIf="pageType !=='View'"
           class="btn btn-secondary btn-lg button-mod btn-color">Save</button>
-          <button  *ngIf="organization.organizationId" (click)="createNestedLocation($event)" type="button" class="btn btn-secondary btn-lg button-mod">Create Location</button>
-          <button  *ngIf="organization.organizationId" (click)="createNestedOrganization($event)" type="button" class="btn btn-secondary btn-lg button-mod">Create Organization</button>
+        <button *ngIf="organization.organizationId" (click)="createNestedLocation($event)" type="button"
+          class="btn btn-secondary btn-lg button-mod">Create Location</button>
+        <button *ngIf="organization.organizationId" (click)="createNestedOrganization($event)" type="button"
+          class="btn btn-secondary btn-lg button-mod">Create Organization</button>
       </div>
     </div>
 

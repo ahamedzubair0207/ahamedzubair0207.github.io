@@ -12,6 +12,8 @@ import { AppConstants } from '../../helpers/app.constants';
 })
 export class LocationService {
 
+  parentLocation: { locId: string, locName: string };
+
   apiURL: string = '';
 
   constructor(private http: CustomHttp) { }
@@ -50,8 +52,8 @@ export class LocationService {
       );
   }
   
-  deleteLocation(locId: string){
-    return this.http.delete(AppConstants.DEL_LOC + '/' + locId, locId)
+  deleteLocation(locationId: string){
+    return this.http.delete(AppConstants.DEL_LOC + '/' + locationId, locationId)
       .pipe(
         map(response => response)
       );

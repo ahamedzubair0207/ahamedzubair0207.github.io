@@ -13,6 +13,8 @@ export class VotmCloudLocationsHomeComponent implements OnInit {
   locationsList = [];
   curLocId: string;
   curLocName: string;
+  parentOrgId: string;
+  parentOrgName: string;
   curOrgId: string;
   curOrgName: string;
   locToDelete: string;
@@ -22,8 +24,7 @@ export class VotmCloudLocationsHomeComponent implements OnInit {
   constructor(private locService: LocationService, private route: ActivatedRoute) { }
 
   ngOnInit() {
-    
-    this.route.paramMap.subscribe((params : ParamMap)=> {
+    this.route.paramMap.subscribe((params: ParamMap) => {
       this.curLocId = params.get("locId");
       this.curLocName = params.get("locName");
 
@@ -35,6 +36,9 @@ export class VotmCloudLocationsHomeComponent implements OnInit {
             opened:true
             })
           );
+          
+          this.parentOrgId = this.locationsList[0].parentOrgId;
+          this.parentOrgName = this.locationsList[0].parentOrgName;
         }
       );
 

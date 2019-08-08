@@ -9,9 +9,9 @@ import { UnitOfMeassurement } from 'src/app/models/unitOfMeassurement.model';
 import { Logo } from 'src/app/models/logo.model';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
-import { previousRoute } from '../../shared/votm-cloud-previous-route';
-import { DatePipe, Location as RouterLocation} from '@angular/common';
+import { DatePipe, Location as RouterLocation } from '@angular/common';
 import { NgForm, FormGroup } from '@angular/forms';
+import { VotmCloudConfimDialogComponent } from '../../shared/votm-cloud-confim-dialog/votm-cloud-confim-dialog.component';
 
 
 @Component({
@@ -37,20 +37,19 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
   pageTitle: string;
   pageType: any;
 
-  locId: string;
-
   uomArray: Array<any> = [];
   uomModels: {};
 
+  parentLocId: string;
   location: Location = new Location();
   applicationConfiguration: ApplicationConfiguration = new ApplicationConfiguration();
   curOrgId: string;
   curOrgName: string;
   radiusValue: any;
   radiusUnit: any;
-  reactangleValue1: any;
+  rectangleValue1: any;
   rectangleUnit: any;
-  reactangleValue2: any;
+  rectangleValue2: any;
   dropdownSettings: {};
   gatewayList: { item_id: string; item_text: string; }[];
   selectedItems: { item_id: string; item_text: string; }[];
@@ -59,6 +58,12 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
   subscriptions: any;
 
   @ViewChild('locationForm', null) locationForm: NgForm;
+  @ViewChild('confirmBox', null) confirmBox: VotmCloudConfimDialogComponent;
+  @ViewChild('file', null) locationImage: any;
+  parentLocName: string;
+  locId: string;
+  fileName: any;
+  fileExtension: string;
 
   constructor(private modalService: NgbModal, private locationService: LocationService,
     private configSettingsService: ConfigSettingsService, private domSanitizer: DomSanitizer,
@@ -78,6 +83,9 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
   ngOnInit() {
     this.curOrgId = this.activatedRoute.snapshot.paramMap.get("curOrgId");
     this.curOrgName = this.activatedRoute.snapshot.paramMap.get("curOrgName");
+    this.parentLocId = this.activatedRoute.snapshot.paramMap.get("parentLocId");
+    this.parentLocName = this.activatedRoute.snapshot.paramMap.get("parentLocName");
+
     this.pageType = this.activatedRoute.snapshot.data['type'];
     this.pageTitle = `${this.pageType} Location`;
     this.locId = this.activatedRoute.snapshot.params['locId'];
@@ -87,34 +95,74 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
       parentOrganizationName: this.curOrgName
     }
     this.getScreenLabels();
+    this.getAllAppInfo();
     this.location.organizationId = this.parentOrganizationInfo.parentOrganizationId;
+    this.location.parentLocationId = this.parentLocId;
     this.tempMeasurement = 'SI';
     this.location.active = true;
-    this.radiusValue;
-    this.radiusUnit;
-    this.reactangleValue1;
-    this.reactangleValue2;
-    this.rectangleUnit;
     this.UOM = 'SI';
-    this.location.address = [new Address()];
-    this.location.address[0].addressType = 'Billing';
     this.locationTypes = [{ value: 'locationType1', text: 'locationType1' }, { value: 'locationType2', text: 'locationType2' }]
     this.states = [{ value: 'state1', text: 'MN' },
     { value: 'state2', text: 'OH' }];
     this.countries = [{ value: 'country1', text: 'USA' },
     { value: 'country2', text: 'Brazil' }];
 
-    this.getAllAppInfo();
-    this.locationObject();
 
-    this.gatewayList = [
-      { item_id: 'e9004bb5-67cd-466a-9014-034808a4da4b', item_text: '4G- PVSG-IQAN' },
-      { item_id: 'e9004bb5-67cd-466a-9014-034808a4da42', item_text: 'Gateway 2' },
-      { item_id: 'e9004bb5-67cd-466a-9014-034808a4da43', item_text: 'Gateway 3' },
-      { item_id: 'e9004bb5-67cd-466a-9014-034808a4da44', item_text: 'Gateway 4' },
-      { item_id: 'e9004bb5-67cd-466a-9014-034808a4da45', item_text: 'Gateway 5' }
-    ];
+    this.gateGateways();
+    this.location.address = [new Address()];
+    this.location.address[0].addressType = 'Billing';
+    this.multiDropdownConfigSetting();
+    if (!this.locId) {
 
+      this.locationObject();
+      this.selectedItems = [];
+    } else {
+      this.locationService.getLocationById(this.locId)
+        .subscribe(response => {
+          console.log('getLocationById ', response);
+          this.location = response;
+          this.parentLocId = this.location.parentLocationId ? this.location.parentLocationId : this.parentLocId;
+          this.parentLocName = this.location.parentLocationName ? this.location.parentLocationName : this.parentLocName;
+          // this.selectedItems = [this.location.gatewayId]
+          if (!this.location.address || this.location.address.length === 0) {
+            this.location.address = [new Address()];
+            this.location.address[0].addressType = 'Billing';
+          }
+          this.gatewayList.forEach(gateway => {
+            if (gateway.item_id === this.location.gatewayId) {
+              this.selectedItems = [gateway];
+            }
+          });
+          if (this.location.logo) {
+            this.fileExtension = this.location.logo.imageName.slice((Math.max(0, this.location.logo.imageName.lastIndexOf(".")) || Infinity) + 1);
+            this.imgURL = this.domSanitizer.bypassSecurityTrustUrl(`data:image/${this.fileExtension};base64,${this.location.logo.image}`);
+            this.location.logo.imageType = this.fileExtension;
+          }
+
+          if (this.location.geoFenceType === 'bf0bc7b5-1bf8-4a59-a3b5-35904937e89e') {
+            var str = this.location.geoFenceValue;
+            var matches = str.match(/(\d+)/);
+            // console.log(matches[0], str.slice(matches[0].length, str.length - (matches[0].length - 1)));
+            // this.radiusValue = matches[0];
+            // this.radiusUnit = str.slice(matches[0].length, str.length - (matches[0].length - 1));
+            // this.location.geoFenceValue = `${this.radiusValue}${this.radiusUnit}`;
+          }
+          if (this.location.geoFenceType === 'd5764af5-114b-48e6-9980-544634167826') {
+            // this.location.geoFenceValue = `${this.rectangleValue1}*${this.rectangleValue2}${this.radiusUnit}`;
+            let str = this.location.geoFenceValue;
+            // var matches = str.split('*')[1].match(/(\d+)/);
+            // var matches2 = str.split('*')[1].match(/[a-zA-Z]/gi);
+            // console.log('matches2 ', matches2.join(''))
+            // console.log(str.split('*')[1], str.split('*')[1].slice(matches[0].length, str.split('*')[1].length - (matches[0].length - 1)));
+            // this.rectangleValue1 = str.split('*')[0];
+            // this.rectangleValue2 = matches[0];
+            // this.rectangleUnit = matches2.join('');
+          }
+        })
+    }
+  }
+
+  private multiDropdownConfigSetting() {
     this.dropdownSettings = {
       singleSelection: false,
       idField: 'item_id',
@@ -124,16 +172,23 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
       itemsShowLimit: 3,
       allowSearchFilter: true
     };
+  }
 
-    this.selectedItems = [];
-
+  private gateGateways() {
+    this.gatewayList = [
+      { item_id: 'e9004bb5-67cd-466a-9014-034808a4da4b', item_text: '4G- PVSG-IQAN' },
+      { item_id: 'e9004bb5-67cd-466a-9014-034808a4da42', item_text: 'Gateway 2' },
+      { item_id: 'e9004bb5-67cd-466a-9014-034808a4da43', item_text: 'Gateway 3' },
+      { item_id: 'e9004bb5-67cd-466a-9014-034808a4da44', item_text: 'Gateway 4' },
+      { item_id: 'e9004bb5-67cd-466a-9014-034808a4da45', item_text: 'Gateway 5' }
+    ];
   }
 
   ngOnDestroy() {
     this.subscriptions.unsubscribe();
   }
 
-  getLocationInfo(){
+  getLocationInfo() {
     this.locationService.getLocationById(this.locId)
       .subscribe(response => {
         // console.log('response ', response);
@@ -144,7 +199,7 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
         this.location.uoMId = this.location.uoM;
       });
   }
-  
+
 
   onItemSelect(item: any) {
     console.log(item);
@@ -152,7 +207,9 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
   onSelectAll(items: any) {
     console.log(items);
   }
-
+  createNestedLocation(event) {
+    this.route.navigate([`loc/create/${this.location.locationId}/${this.location.locationName}/${this.location.organizationId}/${this.parentOrganizationInfo.parentOrganizationName}`])
+  }
   locationObject() {
     // this.location = {
     //   "locationId": "19d7e5e5-fda7-4778-b943-62e36078087a",
@@ -362,42 +419,66 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
   }
 
   onLocationSubmit() {
-
     if (this.location.geoFenceType === 'bf0bc7b5-1bf8-4a59-a3b5-35904937e89e') {
       this.location.geoFenceValue = `${this.radiusValue}${this.radiusUnit}`;
     }
     if (this.location.geoFenceType === 'd5764af5-114b-48e6-9980-544634167826') {
-      this.location.geoFenceValue = `${this.reactangleValue1}*${this.reactangleValue2}${this.radiusUnit}`;
+      this.location.geoFenceValue = `${this.rectangleValue1}*${this.rectangleValue2}${this.rectangleUnit}`;
     }
-
     if (this.selectedItems && this.selectedItems.length > 0) {
       this.location.gatewayId = this.selectedItems[0].item_id;
       // this.selectedItems.forEach((item) => {
       //   this.location.gatewayId.push(item.item_id);
       // })
     }
-    // console.log('Ahamed ', this.location);
-    this.locationService.createLocation(this.location)
-      .subscribe(response => {
-        // console.log('response ', response);
-        this.route.navigate([`loc/home/${this.curOrgId}/${this.curOrgName}`])
-      });
+    if (this.locId) {
+      this.locationService.updateLocation(this.location)
+        .subscribe(response => {
+          console.log('response ', response);
+          this.routerLocation.back();
+          // this.route.navigate([`loc/home/${this.parentLocId}/${this.parentLocName}`])
+        });
+    } else {
+      this.locationService.createLocation(this.location)
+        .subscribe(response => {
+          // console.log('response ', response);
+          this.route.navigate([`loc/home/${this.parentLocId}/${this.parentLocName}`])
+        });
+    }
   }
 
   onCancelClick(event) {
     // console.log('previous url ', new previousRoute(this.route).previousURLToNavigate)
     // this.previousURLToNavigate = new previousRoute(this.route).previousURLToNavigate
     // this.previousURLToNavigate ? this.route.navigate([this.previousURLToNavigate])
-    //   : this.route.navigate([`loc/home/${this.curOrgId}/${this.curOrgName}`]);
+    //   : this.route.navigate([`loc/home/${this.parentLocId}/${this.parentLocName}`]);
+    // console.log('AHAMED');
     this.routerLocation.back();
   }
+  openConfirmDialog() {
+    this.confirmBox.open();
+  }
+
+
+
+  deleteOrganizationById(event) {
+    console.log('event on close ', event);
+    if (event) {
+      this.locationService.deleteLocation(this.location.locationId)
+        .subscribe(response => {
+          console.log('delete successful ', response);
+          this.route.navigate([`loc/home/${this.parentLocId}/${this.parentLocName}`])
+        });
+    }
+  }
+
 
   // onFenceTypeChange(type: string) {
   //   console.log('onFenceTypeChange ', this.location.geoFenceType)
   //   // if (type = 'radius') {
   //   //   this.rectangleUnit = null;
-  //   //   this.reactangleValue1 = null;
-  //   //   this.reactangleValue2 = null;
+  //   //   this.rectangleValue1 = null;
+  //   //   this.rectangleValue2 = null;
   //   // }
   //   // if (type = 'ractangle') {
   //   //   this.radiusUnit = null;
