@@ -12,6 +12,8 @@
     "moduleResolution": "node",
     "importHelpers": true,
     "target": "es5",
+    "strictNullChecks": false,
+    "strictFunctionTypes": false,
     "typeRoots": [
       "node_modules/@types"
     ],
