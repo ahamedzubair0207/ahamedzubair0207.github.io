@@ -92,7 +92,7 @@ export class VotmPieSliceChartComponent implements OnInit {
     }
 
     pieSeries.slices.template.events.on("hit", function(event) {
-      if (event.target.dataItem.dataContext['id'] ) {
+      if (event.target.dataItem.dataContext['id'] != undefined) {
         selected = event.target.dataItem.dataContext['id'];
       } else {
         selected = undefined;

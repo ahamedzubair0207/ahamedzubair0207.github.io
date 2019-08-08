@@ -10,6 +10,13 @@ export class AppConstants {
     public static EDIT_LOC = '/Location';
     public static CREATE_LOC = '/Location';
     public static DEL_LOC = '/Location';
+
+    public static GET_ASSET_TREE = '/AssetTree';
+    public static GET_ASSET = '/Asset';
+    public static EDIT_ASSET = '/Asset';
+    public static CREATE_ASSET = '/Asset';
+    public static DEL_ASSET = '/Asset';
+
     public static APP_INFO = 'ConfigSettings/Application';
 
     // Need to change to configurable strings once DB is in good shape

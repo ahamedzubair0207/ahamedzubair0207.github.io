@@ -211,6 +211,7 @@
           <app-votm-cloud-validator message="Language is required"></app-votm-cloud-validator>
         </div>
       </div>
+
       <div class="col-md-4" *ngIf="!orgId && applicationConfiguration">
         <!-- <label for="DefatimezoneultLang"><b>* {{pageLabels.TimeZone.labelName}} :</b></label> -->
         <label for="timezone"><b>* {{pageLabels.DefaultTimeZone.labelName}} :</b></label>
@@ -239,6 +240,7 @@
           <app-votm-cloud-validator message="Timezone is required"></app-votm-cloud-validator>
         </div>
       </div>
+      
       <div class="col-md-4">
         <label for="unitsOfMeasure"><b>* {{pageLabels.DefaultUnitOfMeasure.labelName}} :</b></label>
         <label for="unitsOfMeasure" class="d-flex "><b>{{UOM}}</b></label>

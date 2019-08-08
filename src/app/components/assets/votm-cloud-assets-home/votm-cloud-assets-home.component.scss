@@ -1,4 +1,31 @@
+
 .btn-group-right{
     float:right;
     margin: 15px;
+}
+
+.flt-left{
+    float: left;
+}
+
+.table-list-contents{
+    display: contents;
+}
+
+.table-col-small{
+    max-width: fit-content;
+}
+
+.align-center{
+    text-align: center;
+}
+
+.table-col-name{
+    min-width: fit-content;
+}
+
+.action-icon{
+    padding: 5px;
+    cursor: pointer;
+    color: #212529;
 }

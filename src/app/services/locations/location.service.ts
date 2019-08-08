@@ -12,6 +12,8 @@ import { AppConstants } from '../../helpers/app.constants';
 })
 export class LocationService {
 
+  parentLocation: { locId: string, locName: string };
+
   apiURL: string = '';
 
   constructor(private http: CustomHttp) { }

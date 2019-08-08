@@ -124,7 +124,7 @@
           <div class="col-md-3">
             <label for="country"><b>* {{pageLabels.Country.labelName}}:</b></label>
             <select [disabled]="pageType==='View'" [(ngModel)]="location.address[0].country" name="country"
-              class="drop-down">
+              class="drop-down" #country="ngModel">
               <option value="" disabled selected>Country</option>
               <option *ngFor="let country of countries" [value]="country.value">
                 {{country.text}}
@@ -135,25 +135,49 @@
       </div>
     </div>
     <div class="row loc-create-font">
-      <div class="col-md-4">
-        <label for="DefaultLang"><b>* {{pageLabels.Language.labelName}}: </b></label>
-        <select [disabled]="pageType==='View'" *ngIf="applicationConfiguration" [(ngModel)]="location.localeId"
-          name="language" class="drop-down">
-          <option value="" disabled selected>Select Language</option>
-          <option *ngFor="let locale of applicationConfiguration.locale" [value]="locale.localeId">
-            {{locale.localeName}}
-          </option>
-        </select>
-      </div>
-      <div class="col-md-4">
-        <label for="timezone"><b>* {{pageLabels.TimeZone.labelName}} :</b></label>
-        <select [disabled]="pageType==='View'" class="drop-down" name="timezone" [(ngModel)]="location.timeZoneId">
-          <option value="" disabled selected>Select Timezone</option>
-          <option *ngFor="let timeZone of applicationConfiguration.timeZone" [value]="timeZone.timeZoneId">
-            {{timeZone.timeZoneName}}
-          </option>
-        </select>
-      </div>
+
+        <div class="col-md-4" *ngIf="!locId && applicationConfiguration">
+            <label for="DefaultLang"><b>* {{pageLabels.Language.labelName}} :</b></label>
+            <select required [(ngModel)]="location.localeId" name="language" class="drop-down" #defLanguage="ngModel">
+              <option *ngFor="let locale of applicationConfiguration.locale" [value]="locale.localeId">
+                {{locale.localeName}}
+              </option>
+            </select>
+          </div>
+          <div class="col-md-4" *ngIf="locId && applicationConfiguration">
+            <label for="DefaultLang"><b>* {{pageLabels.Language.labelName}} :</b></label>
+            <select required #language="ngModel" [disabled]="pageType==='View'" [(ngModel)]="location.locale"
+              name="language" class="drop-down">
+              <option *ngFor="let locale of applicationConfiguration.locale" [value]="locale.localeId">
+                {{locale.localeName}}
+              </option>
+            </select>
+          </div>
+
+          <div class="col-md-4" *ngIf="!locId && applicationConfiguration">
+              <!-- <label for="DefatimezoneultLang"><b>* {{pageLabels.TimeZone.labelName}} :</b></label> -->
+              <label for="timezone"><b>* {{pageLabels.DefaultTimeZone.labelName}} :</b></label>
+              <select required #timezone="ngModel" [disabled]="pageType==='View'" [(ngModel)]="location.timeZoneId"
+                name="timezone" class="drop-down">
+                <!-- <option value="" data-default selected>Select Timezone</option> -->
+                <option *ngFor="let timeZone of applicationConfiguration.timeZone" [value]="timeZone.timeZoneId">
+                  {{timeZone.timeZoneName}}
+                </option>
+              </select>
+            </div>
+            <div class="col-md-4" *ngIf="locId && applicationConfiguration">
+              <!-- <label for="DefatimezoneultLang"><b>* {{pageLabels.TimeZone.labelName}} :</b></label> -->
+              <label for="timezone"><b>* {{pageLabels.DefaultTimeZone.labelName}} :</b></label>
+              <select required #timezone="ngModel" [disabled]="pageType==='View'" [(ngModel)]="location.timeZone"
+                name="timezone" class="drop-down">
+                <!-- <option value="" data-default selected>Select Timezone</option> -->
+                <option *ngFor="let timeZone of applicationConfiguration.timeZone" [value]="timeZone.timeZoneId">
+                  {{timeZone.timeZoneName}}
+                </option>
+              </select>
+            </div>
+
+
       <div class="col-md-4">
         <label for="unitsOfMeasure"><b>* {{pageLabels.DefaultUnitOfMeasure.labelName}}:</b></label>
         <label for="unitsOfMeasure" class="d-flex "><b>{{UOM}}</b></label>

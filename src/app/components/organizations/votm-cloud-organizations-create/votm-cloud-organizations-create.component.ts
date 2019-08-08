@@ -34,7 +34,7 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
   parentOrganizationInfo: any;
 
   pageTitle: string;
-
+  pageType: any;
 
   uomModels: {};
   uomArray: any[];
@@ -42,13 +42,12 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
   orgId: string;
   previousURLToNavigate: string;
   subscription: any;
-
   organization: Organization = new Organization();
   applicationConfiguration: ApplicationConfiguration = new ApplicationConfiguration();
   curOrgId: any;
   curOrgName: any;
   previousUrl: any;
-  pageType: any;
+  
 
   @ViewChild('startDate', null) startDate: NgForm;
   @ViewChild('organizationForm', null) organizationForm: NgForm;
@@ -78,7 +77,6 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
     this.pageType = this.activeroute.snapshot.data['type'];
     this.pageTitle = `${this.pageType} Organization`;
     this.tempMeasurement = 'SI';
-    console.log('this.curOrgId ', this.curOrgId)
 
     this.orgId = this.activeroute.snapshot.params['orgId'];
     this.getScreenLabels();

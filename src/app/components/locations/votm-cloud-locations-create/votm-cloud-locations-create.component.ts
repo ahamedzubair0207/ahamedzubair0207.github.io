@@ -9,7 +9,6 @@ import { UnitOfMeassurement } from 'src/app/models/unitOfMeassurement.model';
 import { Logo } from 'src/app/models/logo.model';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
-import { previousRoute } from '../../shared/votm-cloud-previous-route';
 import { DatePipe, Location as RouterLocation } from '@angular/common';
 import { NgForm, FormGroup } from '@angular/forms';
 import { VotmCloudConfimDialogComponent } from '../../shared/votm-cloud-confim-dialog/votm-cloud-confim-dialog.component';
@@ -38,11 +37,10 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
   pageTitle: string;
   pageType: any;
 
-  parentLocId: string;
-
   uomArray: Array<any> = [];
   uomModels: {};
 
+  parentLocId: string;
   location: Location = new Location();
   applicationConfiguration: ApplicationConfiguration = new ApplicationConfiguration();
   curOrgId: string;
@@ -61,9 +59,11 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
 
   @ViewChild('locationForm', null) locationForm: NgForm;
   @ViewChild('confirmBox', null) confirmBox: VotmCloudConfimDialogComponent;
+  @ViewChild('file', null) locationImage: any;
   parentLocName: string;
   locId: string;
-  fileExtension: any;
+  fileName: any;
+  fileExtension: string;
 
   constructor(private modalService: NgbModal, private locationService: LocationService,
     private configSettingsService: ConfigSettingsService, private domSanitizer: DomSanitizer,
@@ -85,8 +85,6 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
     this.curOrgName = this.activatedRoute.snapshot.paramMap.get("curOrgName");
     this.parentLocId = this.activatedRoute.snapshot.paramMap.get("parentLocId");
     this.parentLocName = this.activatedRoute.snapshot.paramMap.get("parentLocName");
-
-    console.log(' this.parentLocId ', this.parentLocId)
 
     this.pageType = this.activatedRoute.snapshot.data['type'];
     this.pageTitle = `${this.pageType} Location`;
@@ -145,8 +143,8 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
             var str = this.location.geoFenceValue;
             var matches = str.match(/(\d+)/);
             // console.log(matches[0], str.slice(matches[0].length, str.length - (matches[0].length - 1)));
-            this.radiusValue = matches[0];
-            this.radiusUnit = str.slice(matches[0].length, str.length - (matches[0].length - 1));
+            // this.radiusValue = matches[0];
+            // this.radiusUnit = str.slice(matches[0].length, str.length - (matches[0].length - 1));
             // this.location.geoFenceValue = `${this.radiusValue}${this.radiusUnit}`;
           }
           if (this.location.geoFenceType === 'd5764af5-114b-48e6-9980-544634167826') {
@@ -209,7 +207,9 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
   onSelectAll(items: any) {
     console.log(items);
   }
-
+  createNestedLocation(event) {
+    this.route.navigate([`loc/create/${this.location.locationId}/${this.location.locationName}/${this.location.organizationId}/${this.parentOrganizationInfo.parentOrganizationName}`])
+  }
   locationObject() {
     // this.location = {
     //   "locationId": "19d7e5e5-fda7-4778-b943-62e36078087a",
@@ -435,8 +435,8 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
       this.locationService.updateLocation(this.location)
         .subscribe(response => {
           console.log('response ', response);
-          // this.routerLocation.back();
-          this.route.navigate([`loc/home/${this.parentLocId}/${this.parentLocName}`])
+          this.routerLocation.back();
+          // this.route.navigate([`loc/home/${this.parentLocId}/${this.parentLocName}`])
         });
     } else {
       this.locationService.createLocation(this.location)

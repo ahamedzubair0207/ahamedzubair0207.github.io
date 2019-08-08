@@ -29,7 +29,7 @@ const routes: Routes = [
   { path: 'loc/create/:parentLocId/:parentLocName/:curOrgId/:curOrgName', component: VotmCloudLocationsCreateComponent, data:{type:'Create'} },
   { path: 'loc/view/:parentLocId/:parentLocName/:curOrgId/:curOrgName/:locId', component: VotmCloudLocationsCreateComponent, data:{type:'View'} },
   { path: 'loc/edit/:parentLocId/:parentLocName/:curOrgId/:curOrgName/:locId', component: VotmCloudLocationsCreateComponent, data:{type:'Edit'} },
-  { path: 'asset/home', component: VotmCloudAssetsHomeComponent },
+  { path: 'asset/home/:assetId', component: VotmCloudAssetsHomeComponent },
   { path: 'asset/create', component: VotmCloudAssetsCreateComponent },
   { path: 'sensor/home', component: VotmCloudSensorsHomeComponent },
   { path: 'gateway/home', component: VotmCloudGatewaysHomeComponent },
