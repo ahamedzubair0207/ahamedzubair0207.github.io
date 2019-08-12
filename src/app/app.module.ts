@@ -24,7 +24,7 @@ import { VotmCloudSuperAdminComponent } from './components/super/votm-cloud-supe
 import { MenuService } from './services/menu/menu.service';
 import { SharedService } from './services/shared.service';
 
-import { InMemoryWebApiModule } from 'angular-in-memory-web-api';  
+import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { BackendApiService } from './services/mock/backendApi/backend-api.service';
 import { VotmCloudSideMenuComponent } from './components/shared/votm-cloud-side-menu/votm-cloud-side-menu.component';
 import { VotmCloudLoginComponent } from './components/shared/votm-cloud-login/votm-cloud-login.component';
@@ -45,6 +45,7 @@ import { VotmTwoAxesGaugeComponent } from './components/shared/charts/votm-two-a
 import { VotmPictorialChartComponent } from './components/shared/charts/votm-pictorial-chart/votm-pictorial-chart.component';
 import { VotmPieSliceChartComponent } from './components/shared/charts/votm-pie-slice-chart/votm-pie-slice-chart.component';
 import { VotmClusteredColumnChartComponent } from './components/shared/charts/votm-clustered-column-chart/votm-clustered-column-chart.component';
+import { VotmCloudNameValidatorDirective } from './components/shared/votm-cloud-name-validator.directive';
 
 
 @NgModule({
@@ -76,7 +77,8 @@ import { VotmClusteredColumnChartComponent } from './components/shared/charts/vo
     VotmTwoAxesGaugeComponent,
     VotmPictorialChartComponent,
     VotmPieSliceChartComponent,
-    VotmClusteredColumnChartComponent
+    VotmClusteredColumnChartComponent,
+    VotmCloudNameValidatorDirective
   ],
   imports: [
     BrowserModule,
@@ -85,7 +87,7 @@ import { VotmClusteredColumnChartComponent } from './components/shared/charts/vo
     // InMemoryWebApiModule.forRoot(BackendApiService),
     NgbModule,
     FormsModule,
-    NgMultiSelectDropDownModule .forRoot()
+    NgMultiSelectDropDownModule.forRoot()
   ],
   providers: [
     DatePipe,
