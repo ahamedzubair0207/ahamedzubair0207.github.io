@@ -45,7 +45,7 @@ import { VotmTwoAxesGaugeComponent } from './components/shared/charts/votm-two-a
 import { VotmPictorialChartComponent } from './components/shared/charts/votm-pictorial-chart/votm-pictorial-chart.component';
 import { VotmPieSliceChartComponent } from './components/shared/charts/votm-pie-slice-chart/votm-pie-slice-chart.component';
 import { VotmClusteredColumnChartComponent } from './components/shared/charts/votm-clustered-column-chart/votm-clustered-column-chart.component';
-import { VotmCloudNameValidatorDirective } from './components/shared/votm-cloud-name-validator.directive';
+import { VotmCloudNameValidatorDirective } from './components/shared/votm-cloud-name-validator/votm-cloud-name-validator.directive';
 
 
 @NgModule({
