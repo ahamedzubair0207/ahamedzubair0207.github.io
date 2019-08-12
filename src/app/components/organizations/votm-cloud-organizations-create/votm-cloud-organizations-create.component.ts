@@ -47,7 +47,7 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
   curOrgId: any;
   curOrgName: any;
   previousUrl: any;
-  
+
 
   @ViewChild('startDate', null) startDate: NgForm;
   @ViewChild('organizationForm', null) organizationForm: NgForm;
@@ -55,6 +55,7 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
   @ViewChild('file', null) logoImage: any;
   fileName: any;
   fileExtension: string;
+  previousUOM: any;
 
   constructor(private modalService: NgbModal, private organizationService: OrganizationService,
     private configSettingsService: ConfigSettingsService, private domSanitizer: DomSanitizer,
@@ -92,8 +93,8 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
     }
     else {
       this.parentOrganizationInfo = {
-        parentOrganizationId: this.activeroute.snapshot.paramMap.get("parentOrgId"), // '7A59BDD8-6E1D-48F9-A961-AA60B2918DDE',
-        parentOrganizationName: this.activeroute.snapshot.paramMap.get("parentOrgName") // 'Parker1'
+        parentOrganizationId: this.activeroute.snapshot.paramMap.get("curOrgId"), // '7A59BDD8-6E1D-48F9-A961-AA60B2918DDE',
+        parentOrganizationName: this.activeroute.snapshot.paramMap.get("curOrgName") // 'Parker1'
       }
       this.organization.parentOrganizationId = this.parentOrganizationInfo.parentOrganizationId;
       this.organization.active = true;
@@ -108,7 +109,6 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
 
   showImageLogo() {
     if (this.logoImage) {
-      console.log('logoImage ', this.logoImage);
     } else {
       setTimeout(() => {
         this.showImageLogo();
@@ -155,10 +155,7 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
   getOrganizationInfo() {
     this.organizationService.getOrganizationById(this.orgId)
       .subscribe(response => {
-        console.log('response ', response);
         this.organization = response;
-        // this.curOrgId = this.organization.organizationId;
-        // this.curOrgName = this.organization.name;
         this.fillUoM();
         this.organization.timeZoneId = this.organization.timeZone;
         this.organization.localeId = this.organization.locale;
@@ -166,8 +163,6 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
 
         this.organization.contractStartDate = this.datePipe.transform(this.organization.contractStartDate, 'yyyy-MM-dd')
         this.organization.contractEndDate = this.datePipe.transform(this.organization.contractEndDate, 'yyyy-MM-dd')
-
-        // this.imgURL = this.organization.logo.image
 
         if (this.organization.logo) {
           this.fileExtension = this.organization.logo.imageName.slice((Math.max(0, this.organization.logo.imageName.lastIndexOf(".")) || Infinity) + 1);
@@ -181,17 +176,14 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
   getScreenLabels() {
     this.configSettingsService.getCreateOrgScreenLabels()
       .subscribe(response => {
-        // console.log('screen labels ', response)
         this.pageLabels = response;
       })
   }
 
   deleteOrganizationById(event) {
-    console.log('event on close ', event);
     if (event) {
       this.organizationService.deleteOrganization(this.organization.organizationId)
         .subscribe(response => {
-          console.log('delete successful ', response);
           this.route.navigate([`org/home/${this.curOrgId}/${this.curOrgName}`])
         });
     }
@@ -212,25 +204,26 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
   }
 
   getAllAppInfo() {
-    console.log('Application Info')
     this.configSettingsService.getApplicationInfo()
       .subscribe((response: any) => {
-        console.log('Inside subscribe ', response)
         this.applicationConfiguration = response;
         let uom = this.applicationConfiguration.unitOfMeassurement;
         this.uomModels = {};
         for (let i = 0; i < uom.length; i++) {
           this.uomModels[uom[i].uomTypeName] = '';
         }
-        // console.log(' this.uomModels ', this.uomModels);
         this.fillUoM();
         // this.uomArray = new Array[this.applicationConfiguration.unitOfMeassurement.length];
-        // // console.log('Application ', this.applicationConfiguration);
       });
   }
 
   fillUoM() {
     let uom = this.applicationConfiguration.unitOfMeassurement;
+
+    for (let i = 0; i < uom.length; i++) {
+      this.uomModels[uom[i].uomTypeName] = '';
+    }
+
     if (uom && uom.length > 0 && this.organization && this.organization.uoM) {
       for (let i = 0; i < uom.length; i++) {
         for (let j = 0; j < this.organization.uoM.length; j++) {
@@ -241,7 +234,6 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
           }
         }
       }
-      // console.log(' this.uomModels ', this.uomModels);
     }
   }
 
@@ -264,12 +256,10 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
     }
     // readerToPreview.onloadend = (e) => {
     //   let base64Image = this.domSanitizer.bypassSecurityTrustUrl(readerToPreview.result.toString());
-    //   // console.log(base64Image);
     // }
   }
 
   handleFileSelect(files) {
-    console.log('handleFileSelect')
     var file = files[0];
     if (files && file) {
       var reader = new FileReader();
@@ -283,7 +273,6 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
   }
 
   _handleReaderLoaded(readerEvt) {
-    console.log('_handleReaderLoaded')
     let base64textString;
     var binaryString = readerEvt.target.result;
 
@@ -306,12 +295,9 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
   }
 
   open(content) {
-    // // console.log(' open  ');
     this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then((result) => {
-      // // console.log(' result  ', result);
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
-      // // console.log(' reason  ', reason);
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
     });
   }
@@ -327,13 +313,16 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
   }
 
   openmodal() {
+    if (!this.organization.uoMId) {
+      this.organization.uoMId = [];
+    }
+    this.previousUOM = JSON.parse(JSON.stringify(this.organization.uoMId))
     // Get the modal
     var modal = document.getElementById("myModal");
     modal.style.display = "block";
     this.modal = document.getElementById("myModal");
     // Get the <span> element that closes the modal
     var span = document.getElementsByClassName("close")[0];
-
 
     // When the user clicks anywhere outside of the modal, close it
     window.onclick = function (event) {
@@ -347,22 +336,32 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
     this.modal.style.display = "none";
     if (event === 'save') {
       this.UOM = this.tempMeasurement;
-      // // console.log('this.uomArray ', JSON.stringify(this.uomArray))
       this.organization.uoMId = [];
+      this.organization.uoM = [];
       let uom = this.applicationConfiguration.unitOfMeassurement;
       if (uom && uom.length > 0) {
         for (let i = 0; i < uom.length; i++) {
           if (this.uomModels[uom[i].uomTypeName]) {
+            this.organization.uoM.push(this.uomModels[uom[i].uomTypeName]);
             this.organization.uoMId.push(this.uomModels[uom[i].uomTypeName]);
           }
         }
-        // console.log('this.organization.uoMId ', this.organization.uoMId);
       }
+    } else {
+      this.fillUoM();
     }
   }
   onUnitChange(value) {
     // // console.log(value);
     this.tempMeasurement = value.target.value;
+  }
+
+  validateName(event, prop: string) {
+    let abc = new RegExp(/^([A-Za-z])+$/);
+    if (!abc.test(this.organization[prop])) {
+      this.organization[prop] = this.organization[prop] ? this.organization[prop].slice(0, this.organization[prop].length - 1) : null;
+      console.log('this.organization[prop] ', this.organization[prop])
+    }
   }
 
   onUoMDropdownChange(event, uomName: string) {
@@ -406,7 +405,5 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
 
   onCancelClick(event) {
     this.routerLocation.back();
-    // this.previousURLToNavigate ? this.route.navigate([this.previousURLToNavigate])
-    //   : this.route.navigate([`org/home/${this.curOrgId}/${this.curOrgName}`]);
-  }
+      }
 }
