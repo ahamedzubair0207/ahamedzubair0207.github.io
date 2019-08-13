@@ -1,3 +1,5 @@
+declare const google: any;
+
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { LocationService } from 'src/app/services/locations/location.service';
@@ -12,6 +14,9 @@ import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
 import { DatePipe, Location as RouterLocation } from '@angular/common';
 import { NgForm, FormGroup } from '@angular/forms';
 import { VotmCloudConfimDialogComponent } from '../../shared/votm-cloud-confim-dialog/votm-cloud-confim-dialog.component';
+import { Observable } from 'rxjs';
+// import { } from '@types/googlemaps';
+
 
 
 @Component({
@@ -20,6 +25,7 @@ import { VotmCloudConfimDialogComponent } from '../../shared/votm-cloud-confim-d
   styleUrls: ['./votm-cloud-locations-create.component.scss']
 })
 export class VotmCloudLocationsCreateComponent implements OnInit {
+  
   public imagePath;
   imgURL: any;
   public message: string;
@@ -85,6 +91,13 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
     this.parentLocId = this.activatedRoute.snapshot.paramMap.get("parentLocId");
     this.parentLocName = this.activatedRoute.snapshot.paramMap.get("parentLocName");
 
+
+
+
+    // this.getGeoLocation('London').subscribe(response => {
+    //   console.log('response ', response);
+    // });
+
     this.pageType = this.activatedRoute.snapshot.data['type'];
     this.pageTitle = `${this.pageType} Location`;
     this.locId = this.activatedRoute.snapshot.params['locId'];
@@ -136,25 +149,22 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
             this.imgURL = this.domSanitizer.bypassSecurityTrustUrl(`data:image/${this.fileExtension};base64,${this.location.logo.image}`);
             this.location.logo.imageType = this.fileExtension;
           }
-
-          if (this.location.geoFenceType === 'bf0bc7b5-1bf8-4a59-a3b5-35904937e89e') {
+          if (this.location.geoFenceType === 'bf0bc7b5-1bf8-4a59-a3b5-35904937e89e' && this.location.geoFenceValue.indexOf('undefined') < 0) {
             var str = this.location.geoFenceValue;
             var matches = str.match(/(\d+)/);
             // console.log(matches[0], str.slice(matches[0].length, str.length - (matches[0].length - 1)));
-            // this.radiusValue = matches[0];
-            // this.radiusUnit = str.slice(matches[0].length, str.length - (matches[0].length - 1));
-            // this.location.geoFenceValue = `${this.radiusValue}${this.radiusUnit}`;
+            this.radiusValue = matches[0];
+            this.radiusUnit = str.slice(matches[0].length, str.length - (matches[0].length - 1));
           }
-          if (this.location.geoFenceType === 'd5764af5-114b-48e6-9980-544634167826') {
-            // this.location.geoFenceValue = `${this.rectangleValue1}*${this.rectangleValue2}${this.radiusUnit}`;
+          if (this.location.geoFenceType === 'd5764af5-114b-48e6-9980-544634167826' && this.location.geoFenceValue.indexOf('undefined') < 0) {
             let str = this.location.geoFenceValue;
-            // var matches = str.split('*')[1].match(/(\d+)/);
-            // var matches2 = str.split('*')[1].match(/[a-zA-Z]/gi);
-            // console.log('matches2 ', matches2.join(''))
-            // console.log(str.split('*')[1], str.split('*')[1].slice(matches[0].length, str.split('*')[1].length - (matches[0].length - 1)));
-            // this.rectangleValue1 = str.split('*')[0];
-            // this.rectangleValue2 = matches[0];
-            // this.rectangleUnit = matches2.join('');
+            var matches = str.split('*')[1].match(/(\d+)/);
+            var matches2 = str.split('*')[1].match(/[a-zA-Z]/gi);
+            console.log('matches2 ', matches2.join(''))
+            console.log(str.split('*')[1], str.split('*')[1].slice(matches[0].length, str.split('*')[1].length - (matches[0].length - 1)));
+            this.rectangleValue1 = str.split('*')[0];
+            this.rectangleValue2 = matches[0];
+            this.rectangleUnit = matches2.join('');
           }
           this.location.localeId = this.location.locale;
           this.location.timeZoneId = this.location.timeZone;
@@ -286,16 +296,16 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
     // Other Images
     base64textString = btoa(binaryString);
     this.location.logo.image = base64textString;
-    
+
   }
 
   open(content) {
-   
+
     this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then((result) => {
-      
+
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
-     
+
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
     });
   }
@@ -342,7 +352,7 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
             this.location.uoMId.push(this.uomModels[uom[i].uomTypeName]);
           }
         }
-        
+
       }
     } else {
       this.fillUoM();
@@ -382,11 +392,14 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
       //   this.location.gatewayId.push(item.item_id);
       // })
     }
+
+    console.log('locationForm ', this.locationForm);
     if (this.locationForm && this.locationForm.invalid) {
+      console.log('If block ');
       Object.keys(this.locationForm.form.controls).forEach(element => {
         this.locationForm.form.controls[element].markAsDirty();
       });
-    } else{
+    } else {
       if (this.locId) {
         this.locationService.updateLocation(this.location)
           .subscribe(response => {
@@ -458,4 +471,23 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
       }
     }
   }
+
+  // getGeoLocation(address: string): Observable<any> {
+  //   console.log('Getting address: ', address);
+  //   let geocoder = new google.maps.Geocoder();
+  //   return Observable.create(observer => {
+  //     geocoder.geocode({
+  //       'address': address
+  //     }, (results, status) => {
+  //       if (status == google.maps.GeocoderStatus.OK) {
+  //         console.log('ACCEPTED')
+  //         observer.next(results[0].geometry.location);
+  //         observer.complete();
+  //       } else {
+  //         console.log('Error: ', results, ' & Status: ', status);
+  //         observer.error();
+  //       }
+  //     });
+  //   });
+  // }
 }

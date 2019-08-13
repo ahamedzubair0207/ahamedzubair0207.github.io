@@ -1,42 +1,53 @@
 <div class="loc-outside-border" *ngIf="(!locId && pageLabels) || (locId && pageLabels && location)">
-  <form class="form container create-loc-container border shadow-sm" (ngSubmit)="onLocationSubmit()" novalidate>
+  <form #locationForm="ngForm" class="form container create-loc-container border shadow-sm"
+    (ngSubmit)="onLocationSubmit()" novalidate>
     <div class="row loc-create-font">
       <h4 class="col-12">{{pageTitle}}:</h4>
       <div class="col-md-2">
         <label for="name"><b>* {{pageLabels.Name.labelName}} :</b></label>
         <input type="text" [(ngModel)]="location.locationName" class="form-control loc-create-font"
-          [disabled]="pageType==='View'" appVotmCloudNameValidator #locName="ngModel" placeholder="Enter Name" name="name" required>
-          <div *ngIf="locName.dirty && locName.invalid">
-            <app-votm-cloud-validator message="Name is required"></app-votm-cloud-validator>
-          </div>
+          [disabled]="pageType==='View'" appVotmCloudNameValidator #locName="ngModel" placeholder="Enter Name"
+          name="name" required>
+        <div *ngIf="locName.dirty && locName.invalid">
+          <app-votm-cloud-validator message="Name is required"></app-votm-cloud-validator>
+        </div>
       </div>
       <div class="col-md-2">
         <label for="primaryContact"><b>* {{pageLabels.PrimaryContact.labelName}} :</b></label>
         <input type="text" [disabled]="pageType==='View'" [(ngModel)]="location.primaryContact"
-          class="form-control loc-create-font" #primaryContact="ngModel" appVotmCloudNameValidator placeholder="Enter Contact" name="primaryContact">
-          <div *ngIf="primaryContact.dirty && primaryContact.invalid">
-            <app-votm-cloud-validator message="Primary Contact is required"></app-votm-cloud-validator>
-          </div>
+          class="form-control loc-create-font" #primaryContact="ngModel" appVotmCloudNameValidator
+          placeholder="Enter Contact" name="primaryContact" required>
+        <div *ngIf="primaryContact.dirty && primaryContact.invalid">
+          <app-votm-cloud-validator message="Primary Contact is required"></app-votm-cloud-validator>
+        </div>
       </div>
       <div class="col-md-3">
         <label for="primarydistribute"><b>* {{pageLabels.PrimaryDistributor.labelName}} :</b></label>
         <input type="text" [(ngModel)]="location.primaryDistributor" class="form-control loc-create-font"
-          placeholder="Enter Primary Distributor" [disabled]="pageType==='View'" name="primarydistribute" required>
+          placeholder="Enter Primary Distributor" [disabled]="pageType==='View'" #primarydistribute="ngModel"
+          name="primarydistribute" required>
+        <div *ngIf="primarydistribute.dirty && primarydistribute.invalid">
+          <app-votm-cloud-validator message="Primary Distributor is required"></app-votm-cloud-validator>
+        </div>
       </div>
       <div class="col-md-2">
         <label for="parentorganization"><b>{{pageLabels.ParentOrganization.labelName}} :</b></label>
         <br>
-        <label for="parentorganizationname"><b>{{parentOrganizationInfo.parentOrganizationName}}</b></label>
+        <label for="parentorganizationname">{{parentOrganizationInfo.parentOrganizationName}}</label>
       </div>
       <div class="col-md-3">
         <label for="parentLoc"><b>{{pageLabels.ParentLocation.labelName}} :</b></label>
         <br>
-        <label for="parentLocname"><b>{{parentLocName}}</b></label>
+        <label for="parentLocname">{{parentLocName}}</label>
       </div>
       <div class="col-md-2">
         <label for="locationType"><b>* {{pageLabels.LocationType.labelName}}: </b></label>
         <input type="text" [(ngModel)]="location.locationType" class="form-control loc-create-font"
-          placeholder="Enter Location Type" [disabled]="pageType==='View'" name="locationType" required>
+          placeholder="Enter Location Type" [disabled]="pageType==='View'" #locationType="ngModel" name="locationType"
+          required>
+        <div *ngIf="locationType.dirty && locationType.invalid">
+          <app-votm-cloud-validator message="Location type is required"></app-votm-cloud-validator>
+        </div>
       </div>
       <div class="col-md-5">
         <label for="geofence" class="pr-2"><b>{{pageLabels.GeoFence.labelName}}:</b></label>
@@ -57,7 +68,7 @@
           ng-show="geofence == 'f-radius'">
           <input type="number" class="form-control loc-create-font geo-text-box w-50" name="radius"
             [(ngModel)]="radiusValue" placeholder="Enter Radius">
-          <select name="radiusUnit" [disabled]="pageType==='View'" (change)="test()" [(ngModel)]="radiusUnit"
+          <select name="radiusUnit" [disabled]="pageType==='View'" [(ngModel)]="radiusUnit"
             class="drop-down geo-drop-down w-auto">
             <option value="ft">Feet</option>
             <option value="meters">Meters</option>
@@ -78,23 +89,29 @@
       </div>
       <div class="col-md-5">
         <label for="geoLocation" class="pr-2"><b>* {{pageLabels.GeoLocation.labelName}}:</b></label>
-        <input type="text" [disabled]="pageType==='View'" [(ngModel)]="location.latitude" class="geo-loc-long form-control"
-          placeholder="Longitude" name="geoLocationLong">/
-        <input type="text" [disabled]="pageType==='View'" [(ngModel)]="location.longitude" class="geo-loc-lat form-control"
-          placeholder="Latitude" name="geoLocationLat">
+        <input type="text" [disabled]="pageType==='View'" [(ngModel)]="location.latitude"
+          class="geo-loc-long form-control" placeholder="Longitude" name="geoLocationLong" #geoLocationLong="ngModel"
+          required>/
+        <input type="text" [disabled]="pageType==='View'" [(ngModel)]="location.longitude"
+          class="geo-loc-lat form-control" placeholder="Latitude" name="geoLocationLat" required
+          #geoLocationLat="ngModel">
         <button type="button" class="btn rounded-circle"><i class="fa fa-bullseye"></i></button>
-      </div>
-    </div>
-      <div class="row loc-create-font">
-        <div class="col mb-12">
-          <label for="f-description"><b>* {{pageLabels.DescriptionofLocation.labelName}} :</b></label>
-          <textarea class="form-control" [disabled]="pageType==='View'" [(ngModel)]="location.description"
-            name="locDescription" rows="3" id="f-description"></textarea>
+        <div
+          *ngIf="(geoLocationLong.dirty && geoLocationLong.invalid) || (geoLocationLat.dirty && geoLocationLat.invalid) ">
+          <app-votm-cloud-validator message="Geo Location type is required"></app-votm-cloud-validator>
         </div>
       </div>
+    </div>
+    <div class="row loc-create-font">
+      <div class="col mb-12">
+        <label for="f-description"><b>{{pageLabels.DescriptionofLocation.labelName}} :</b></label>
+        <textarea class="form-control" [disabled]="pageType==='View'" [(ngModel)]="location.description"
+          name="locDescription" rows="3" id="f-description" required></textarea>
+      </div>
+    </div>
     <br>
     <div class="row loc-create-font">
-     
+
     </div>
     <div class="row loc-create-font">
       <div class="col">
@@ -103,43 +120,64 @@
           <div class="col-md-5">
             <!-- <label for="address1"><b>* {{pageLabels.Address1.labelName}}:</b></label> -->
             <input [disabled]="pageType==='View'" type="text" [(ngModel)]="location.address[0].address1" for="address1"
-              class="form-control loc-create-font" placeholder="Street Name" name="address1">
+              class="form-control loc-create-font" placeholder="Street Name" name="address1" #address1="ngModel"
+              required>
+            <div *ngIf="address1.dirty && address1.invalid">
+              <app-votm-cloud-validator message="Street Name is required"></app-votm-cloud-validator>
+            </div>
           </div>
           <div class="col-md-3">
             <!-- <label for="address2"><b>* {{pageLabels.Address2.labelName}}:</b></label> -->
             <input [disabled]="pageType==='View'" type="text" [(ngModel)]="location.address[0].address2" for="address2"
-              class="form-control loc-create-font" placeholder="Apt/Suite Number" name="address2">
+              class="form-control loc-create-font" placeholder="Apt/Suite Number" required #address2="ngModel"
+              name="address2">
+            <div *ngIf="address2.dirty && address2.invalid">
+              <app-votm-cloud-validator message="Apt/Suit Number is required"></app-votm-cloud-validator>
+            </div>
           </div>
           <div class="col-md-2">
             <!-- <label for="city"><b>* {{pageLabels.City.labelName}}:</b></label> -->
             <input [disabled]="pageType==='View'" type="text" [(ngModel)]="location.address[0].city"
-              class="form-control loc-create-font" appVotmCloudNameValidator placeholder="City" name="city">
+              class="form-control loc-create-font" required #city="ngModel" appVotmCloudNameValidator placeholder="City"
+              name="city">
+            <div *ngIf="city.dirty && city.invalid">
+              <app-votm-cloud-validator message="City is required"></app-votm-cloud-validator>
+            </div>
           </div>
           <div class="col-md-2">
             <!-- <label for="zipcode"><b>* {{pageLabels.Zipcode.labelName}}:</b></label> -->
             <input [disabled]="pageType==='View'" type="text" [(ngModel)]="location.address[0].postalCode"
-              class="form-control loc-create-font" placeholder="Zip Code" name="orgName">
+              class="form-control loc-create-font" placeholder="Zip Code" name="orgName" #zipCode="ngModel" required>
+            <div *ngIf="zipCode.dirty && zipCode.invalid">
+              <app-votm-cloud-validator message="Zip Code is required"></app-votm-cloud-validator>
+            </div>
           </div>
           <div class="col-md-2">
             <label for="state"><b>* {{pageLabels.State.labelName}}:</b></label>
 
             <select [disabled]="pageType==='View'" [(ngModel)]="location.address[0].state" name="state"
-              class="drop-down">
+              class="drop-down" #state="ngModel" required>
               <option value="" disabled selected>State</option>
               <option *ngFor="let state of states" [value]="state.value">
                 {{state.text}}
               </option>
             </select>
+            <div *ngIf="state.dirty && state.invalid">
+              <app-votm-cloud-validator message="State is required"></app-votm-cloud-validator>
+            </div>
           </div>
           <div class="col-md-2">
             <label for="country"><b>* {{pageLabels.Country.labelName}}:</b></label>
             <select [disabled]="pageType==='View'" [(ngModel)]="location.address[0].country" name="country"
-              class="drop-down" #country="ngModel">
+              class="drop-down" required #country="ngModel">
               <option value="" disabled selected>Country</option>
               <option *ngFor="let country of countries" [value]="country.value">
                 {{country.text}}
               </option>
             </select>
+            <div *ngIf="country.dirty && country.invalid">
+              <app-votm-cloud-validator message="Country is required"></app-votm-cloud-validator>
+            </div>
           </div>
           <div class="col-md-2" *ngIf="!locId && applicationConfiguration">
             <label for="DefaultLang"><b>* {{pageLabels.Language.labelName}} :</b></label>
@@ -148,6 +186,9 @@
                 {{locale.localeName}}
               </option>
             </select>
+            <div *ngIf="defLanguage.dirty && defLanguage.invalid">
+              <app-votm-cloud-validator message="Language is required"></app-votm-cloud-validator>
+            </div>
           </div>
           <div class="col-md-2" *ngIf="locId && applicationConfiguration">
             <label for="DefaultLang"><b>* {{pageLabels.Language.labelName}} :</b></label>
@@ -157,6 +198,9 @@
                 {{locale.localeName}}
               </option>
             </select>
+            <div *ngIf="language.dirty && language.invalid">
+              <app-votm-cloud-validator message="Language is required"></app-votm-cloud-validator>
+            </div>
           </div>
           <div class="col-md-3" *ngIf="!locId && applicationConfiguration">
             <label for="timezone"><b>* {{pageLabels.DefaultTimeZone.labelName}} :</b></label>
@@ -167,6 +211,9 @@
                 {{timeZone.timeZoneName}}
               </option>
             </select>
+            <div *ngIf="timezone.dirty && timezone.invalid">
+              <app-votm-cloud-validator message="TimeZone is required"></app-votm-cloud-validator>
+            </div>
           </div>
           <div class="col-md-3" *ngIf="locId && applicationConfiguration">
             <!-- <label for="DefatimezoneultLang"><b>* {{pageLabels.TimeZone.labelName}} :</b></label> -->
@@ -178,6 +225,9 @@
                 {{timeZone.timeZoneName}}
               </option>
             </select>
+            <div *ngIf="timezone.dirty && timezone.invalid">
+              <app-votm-cloud-validator message="TimeZone is required"></app-votm-cloud-validator>
+            </div>
           </div>
           <div class="col-md-3">
             <label for="unitsOfMeasure"><b>* {{pageLabels.DefaultUnitOfMeasure.labelName}}:</b></label>
@@ -189,7 +239,7 @@
       </div>
     </div>
     <div class="row loc-create-font">
-      
+
 
       <div class="col-md-4">
         <label for="locImage"><b>{{pageLabels.LogoFile.labelName}} : </b></label>
@@ -210,7 +260,7 @@
       <div class="col-md-4 action-btn-loc">
         <!-- <button type="button" *ngIf="location.locationId"
           class="btn btn-secondary btn-lg button-mod">Create Asset</button> -->
-          <button *ngIf="location.locationId" (click)="createNestedLocation($event)" type="button"
+        <button *ngIf="location.locationId" (click)="createNestedLocation($event)" type="button"
           class="btn btn-secondary btn-lg button-mod">Create Location</button>
         <button for="form-cancel" type="button" (click)="onCancelClick($event)"
           class="btn btn-secondary btn-lg button-mod">Cancel</button>
