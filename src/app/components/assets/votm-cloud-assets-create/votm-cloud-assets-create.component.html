@@ -78,7 +78,7 @@
               <button id="nest-loc-create"  type="button"
                       class="btn btn-secondary button-left-mod">Associate Signal</button> -->
               <button id="asset-create-temp"  type="button" 
-                      class="btn btn-secondary button-left-mod">Create from Template</button>
+                      class="btn btn-secondary button-left-mod" (click)="openmodal()">Create from Template</button>
               <button id="asset-save-temp"  type="button" 
                       class="btn btn-secondary button-right-mod">Save as Template</button>        
               <button id="asset-cancel" for="form-cancel" type="button" 
@@ -95,4 +95,65 @@
       </form>
 </div>
 
+
+<!-- The Modal -->
+<div id="myModal" class="modal">
+    <div class="modal-dialog modal-dialog-scrollable">
+      <!-- Modal content -->
+      <div class="modal-content">
+        <div class="modal-header">
+          <label for="asset-temp-modal" class="pr-2"><b>List of Template :</b></label>
+        </div>
+        <div class="modal-body">
+          <div *ngFor="let uom of applicationConfiguration.unitOfMeassurement; let i = index" [attr.data-index]="i"
+            class="container-fluid">
+            <div class="row" *ngIf="i%2===0 && uom">
+              <div class="col-6">
+                <div class="uom-modal-list">
+                  <label class="modal-uom-label" for="uom.uomTypeName"><b>{{uom.uomTypeName}} :</b></label>
+                </div>
+                <div class="float-left">
+                  <select [(ngModel)]="uomModels[uom.uomTypeName]" (change)="onUoMDropdownChange($event,uom.uomTypeName)"
+                    name="uom.uomTypeName" class="drop-down uom-drop-down">
+                    <option></option>
+                    <option *ngFor="let view of uom.uoMView" [value]="view.uoMId">
+                      {{view.uoMName}}
+                    </option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-6" *ngIf="applicationConfiguration.unitOfMeassurement[i+1]">
+                <div class="uom-body">
+                  <label
+                    for="applicationConfiguration.unitOfMeassurement[i+1].uomTypeName"><b>{{applicationConfiguration.unitOfMeassurement[i+1].uomTypeName}}
+                      :</b></label>
+                </div>
+                <div class="float-left">
+                  <select [(ngModel)]="uomModels[applicationConfiguration.unitOfMeassurement[i+1].uomTypeName]"
+                    (change)="onUoMDropdownChange($event, applicationConfiguration.unitOfMeassurement[i+1].uomTypeName)"
+                    name="applicationConfiguration.unitOfMeassurement[i+1].uomTypeName" class="drop-down uom-drop-down">
+                    <option></option>
+                    <option *ngFor="let view of applicationConfiguration.unitOfMeassurement[i+1].uoMView"
+                      [value]="view.uoMId">
+                      {{view.uoMName}}
+                    </option>
+                  </select>
+                </div>
+              </div>
+  
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button id="loc-uom-cancle" type="button" class="btn button-mod btn-secondary"
+            (click)="closemodal('cancel')">Cancel
+          </button>
+          <button id="loc-uom-save" type="button" class="btn button-mod btn-color"
+            (click)="closemodal('save')">Save</button>
+        </div>
+  
+      </div>
+  
+    </div>
+  </div>
   

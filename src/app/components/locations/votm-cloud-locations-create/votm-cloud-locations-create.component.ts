@@ -98,10 +98,6 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
     this.options = {
       multiple: true
     }
-
-
-
-
     // this.getGeoLocation('London').subscribe(response => {
     //   console.log('response ', response);
     // });
