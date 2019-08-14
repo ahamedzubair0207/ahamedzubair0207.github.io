@@ -2,7 +2,7 @@
   <form #locationForm="ngForm" class="form container create-loc-container border shadow-sm"
     (ngSubmit)="onLocationSubmit()" novalidate>
     <div class="row loc-create-font">
-      <h4 class="col-12">{{pageTitle}}:</h4>
+      <h4 class="col-12">{{pageTitle}}</h4>
       <div class="col-md-2">
         <label for="name"><b>* {{pageLabels.Name.labelName}} :</b></label>
         <input type="text" [(ngModel)]="location.locationName" class="form-control loc-create-font"
@@ -90,12 +90,13 @@
       <div class="col-md-5">
         <label for="geoLocation" class="pr-2"><b>* {{pageLabels.GeoLocation.labelName}}:</b></label>
         <input type="text" [disabled]="pageType==='View'" [(ngModel)]="location.latitude"
-          class="geo-loc-long form-control" placeholder="Longitude" name="geoLocationLong" #geoLocationLong="ngModel"
-          required>/
+          class="geo-loc-long form-control loc-create-font" placeholder="Longitude" name="geoLocationLong"
+          #geoLocationLong="ngModel" required>/
         <input type="text" [disabled]="pageType==='View'" [(ngModel)]="location.longitude"
-          class="geo-loc-lat form-control" placeholder="Latitude" name="geoLocationLat" required
+          class="geo-loc-lat form-control loc-create-font" placeholder="Latitude" name="geoLocationLat" required
           #geoLocationLat="ngModel">
-        <button type="button" class="btn rounded-circle"><i class="fa fa-bullseye"></i></button>
+        <button id="geo-loc-btn" type="button" class="btn rounded-circle loc-create-font"><i
+            class="fa fa-bullseye"></i></button>
         <div
           *ngIf="(geoLocationLong.dirty && geoLocationLong.invalid) || (geoLocationLat.dirty && geoLocationLat.invalid) ">
           <app-votm-cloud-validator message="Geo Location type is required"></app-votm-cloud-validator>
@@ -106,7 +107,7 @@
       <div class="col mb-12">
         <label for="f-description"><b>{{pageLabels.DescriptionofLocation.labelName}} :</b></label>
         <textarea class="form-control" [disabled]="pageType==='View'" [(ngModel)]="location.description"
-          name="locDescription" rows="3" id="f-description" required></textarea>
+          name="locDescription" rows="3" id="f-description"></textarea>
       </div>
     </div>
     <br>
@@ -115,7 +116,7 @@
     </div>
     <div class="row loc-create-font">
       <div class="col">
-        <h4><label for="billingaddress">* {{pageLabels.BillingAddress.labelName}} :</label></h4>
+        <h4><label for="billingaddress">* {{pageLabels.BillingAddress.labelName}} </label></h4>
         <div class="row" *ngIf="location && location.address && location.address.length>0">
           <div class="col-md-5">
             <!-- <label for="address1"><b>* {{pageLabels.Address1.labelName}}:</b></label> -->
@@ -232,8 +233,8 @@
           <div class="col-md-3">
             <label for="unitsOfMeasure"><b>* {{pageLabels.DefaultUnitOfMeasure.labelName}}:</b></label>
             <label for="unitsOfMeasure" class="d-flex "><b>{{UOM}}</b></label>
-            <button class="btn btn-secondary uom-btn" type="button" *ngIf="pageType !=='View'"
-              (click)="openmodal()">Change</button>
+            <button id="loc-uom-change" class="btn btn-sm btn-secondary uom-btn" type="button"
+              *ngIf="pageType !=='View'" (click)="openmodal()">Change</button>
           </div>
         </div>
       </div>
@@ -251,22 +252,25 @@
       </div>
       <div class="col-md-4">
         <label class="mdb-main-label" for="gateway"><b>Claimed Gateway</b></label>
-        <ng-multiselect-dropdown [disabled]="pageType==='View'" class="gateway-dropdown" [placeholder]="'Gateway List'"
+        <!-- <ng-multiselect-dropdown [disabled]="pageType==='View'" class="gateway-dropdown" [placeholder]="'Gateway List'"
           [data]="gatewayList" name="claimedGateway" [(ngModel)]="selectedItems" [settings]="dropdownSettings"
           (onSelect)="onItemSelect($event)" (onSelectAll)="onSelectAll($event)">
-        </ng-multiselect-dropdown>
+        </ng-multiselect-dropdown> -->
+        <!-- <select2 [data]="gatewayList" width="260px" multiple="true"></select2> -->
+        <select2 [data]="gatewayList" [options]="options" [width]="260" [value]="selectedGateways"
+          (valueChanged)="onItemSelect($event)"></select2>
         <!-- <button class="btn-save btn btn-primary btn-sm">Save</button> -->
       </div>
       <div class="col-md-4 action-btn-loc">
-        <!-- <button type="button" *ngIf="location.locationId"
-          class="btn btn-secondary btn-lg button-mod">Create Asset</button> -->
-        <button *ngIf="location.locationId" (click)="createNestedLocation($event)" type="button"
-          class="btn btn-secondary btn-lg button-mod">Create Location</button>
-        <button for="form-cancel" type="button" (click)="onCancelClick($event)"
+        <button id="nest-asset-create" type="button" *ngIf="location.locationId"
+          class="btn btn-secondary create-loc-asset-btn">Create Asset</button>
+        <button id="nest-loc-create" *ngIf="location.locationId" (click)="createNestedLocation($event)" type="button"
+          class="btn btn-secondary create-loc-asset-btn">Create Location</button>
+        <button id="loc-cancel" for="form-cancel" type="button" (click)="onCancelClick($event)"
           class="btn btn-secondary btn-lg button-mod">Cancel</button>
-        <button type="button" *ngIf="location.locationId && pageType !=='View'" (click)="openConfirmDialog()"
-          class="btn btn-secondary btn-lg button-mod">Delete</button>
-        <button type="submit" *ngIf="pageType !=='View'"
+        <button id="loc-delete" type="button" *ngIf="location.locationId && pageType !=='View'"
+          (click)="openConfirmDialog()" class="btn btn-secondary btn-lg button-mod">Delete</button>
+        <button id="loc-save" type="submit" *ngIf="pageType !=='View'"
           class="btn btn-secondary btn-lg button-mod btn-color">Save</button>
       </div>
     </div>
@@ -276,6 +280,7 @@
 <app-votm-cloud-confim-dialog (onClose)="deleteOrganizationById($event)" #confirmBox
   message="Do you want to delete the organization?" headerMessage="Warning"></app-votm-cloud-confim-dialog>
 
+
 <!-- The Modal -->
 <div id="myModal" class="modal">
   <div class="modal-dialog modal-dialog-scrollable">
@@ -284,8 +289,8 @@
       <div class="modal-header">
         <label for="UOM" class="pr-2"><b>Units of Measure :</b></label>
         <div class="form-check form-check-inline">
-          <input [disabled]="pageType==='View'" class="form-check-input" type="radio" value="SI" name="UOM"
-            (change)="onUnitChange($event)" checked id="f-si">
+          <input [disabled]="pageType==='View'" class="form-check-input loc-create-font" type="radio" value="SI"
+            name="UOM" (change)="onUnitChange($event)" checked id="f-si">
           <label class="form-check-label" for="f-si">SI</label>
         </div>
         <div class="form-check form-check-inline">
@@ -315,7 +320,7 @@
               </div>
               <div class="float-left">
                 <select [(ngModel)]="uomModels[uom.uomTypeName]" (change)="onUoMDropdownChange($event,uom.uomTypeName)"
-                  style="width:100px;" name="uom.uomTypeName" class="drop-down">
+                  name="uom.uomTypeName" class="drop-down uom-drop-down">
                   <option></option>
                   <option *ngFor="let view of uom.uoMView" [value]="view.uoMId">
                     {{view.uoMName}}
@@ -324,7 +329,7 @@
               </div>
             </div>
             <div class="col-6" *ngIf="applicationConfiguration.unitOfMeassurement[i+1]">
-              <div style="width:140px;float:left;padding-top:3px">
+              <div class="uom-body">
                 <label
                   for="applicationConfiguration.unitOfMeassurement[i+1].uomTypeName"><b>{{applicationConfiguration.unitOfMeassurement[i+1].uomTypeName}}
                     :</b></label>
@@ -332,8 +337,7 @@
               <div class="float-left">
                 <select [(ngModel)]="uomModels[applicationConfiguration.unitOfMeassurement[i+1].uomTypeName]"
                   (change)="onUoMDropdownChange($event, applicationConfiguration.unitOfMeassurement[i+1].uomTypeName)"
-                  style="width:100px;" name="applicationConfiguration.unitOfMeassurement[i+1].uomTypeName"
-                  class="drop-down">
+                  name="applicationConfiguration.unitOfMeassurement[i+1].uomTypeName" class="drop-down uom-drop-down">
                   <option></option>
                   <option *ngFor="let view of applicationConfiguration.unitOfMeassurement[i+1].uoMView"
                     [value]="view.uoMId">
@@ -347,9 +351,11 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button name=uom-cancle type="button" class="btn button-mod btn-secondary" (click)="closemodal('cancel')">Cancel
+        <button id="loc-uom-cancle" type="button" class="btn button-mod btn-secondary"
+          (click)="closemodal('cancel')">Cancel
         </button>
-        <button name=uom-save type="button" class="btn button-mod btn-color" (click)="closemodal('save')">Save</button>
+        <button id="loc-uom-save" type="button" class="btn button-mod btn-color"
+          (click)="closemodal('save')">Save</button>
       </div>
 
     </div>

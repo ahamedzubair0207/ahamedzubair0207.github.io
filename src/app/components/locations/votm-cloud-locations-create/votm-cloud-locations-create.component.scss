@@ -2,11 +2,12 @@
 .create-loc-container {
   padding: 15px;
   background-color: white;
+  // margin-top: 80px;
 }
 
 .loc-create-font{
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  font-size: 14px;
+  font-size: 12px;
 }
 
 .loc-h5{
@@ -17,6 +18,8 @@
   background:#dbdada;
   margin: -12px -15px -20px -25px;
   padding: 20px;
+  // height: 136%;
+  height: 106%;
 }
 
 .drop-down{
@@ -26,7 +29,6 @@
   display: inline-block;
   border: none;
   background: #f1f1f1;
-  // border-radius: 20px;
 }
 .drop-modal{
   width: 50%;
@@ -54,6 +56,15 @@
 .uom-btn{
   margin: -35px 0px 8px 100px;
 }
+.uom-body{
+  width:140px;
+  float:left;
+  padding-top:3px;
+}
+
+.uom-drop-down{
+  width:100px;
+}
 .btn-color{
   background-color: rgb(0,185,195);
   float: left;
@@ -68,27 +79,27 @@
   font-size: 14px;
   margin: 4px 2px;
   cursor: pointer;
-  // float: right;
+  float: right;
 }
-.buttonModal{
-  background: none !important;
-  border: none;
-  padding: 0 !important;
-  font-family: Arial, sans-serif;
-  color: #069;
-  text-decoration: underline;
-  cursor: pointer;
-  font-size: 15px;
+
+.create-loc-asset-btn{
+    border: none;
+    color: white;
+    padding: 10px 30px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    margin: 4px 2px;
+    cursor: pointer;
 }
 /* Full-width input fields */
 input[type=text], input[type=password],input[type=email],input[type=file],input[type=number] {
-  // width: 100%;
   padding: 5px 0px 7px 15px;
   margin: 1px 0px 23px 0px;
   display: inline-block;
   border: 1px solid #ddd;
   background: #f1f1f1;
-  // border-radius: 20px;
   box-shadow: #069;
 }
 
@@ -105,7 +116,7 @@ input[type=text]:focus, input[type=password]:focus,input[type=email]:focus,input
 display: none; /* Hidden by default */
 position: fixed; /* Stay in place */
 z-index: 1; /* Sit on top */
-padding-top: 100px; /* Location of the box */
+padding-top: 50px; /* Location of the box */
 left: 0;
 top: 0;
 width: 100%; /* Full width */
