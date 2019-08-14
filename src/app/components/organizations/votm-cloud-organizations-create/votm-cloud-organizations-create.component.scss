@@ -2,14 +2,12 @@
 .create-org-container {
     padding: 15px;
     background-color: white;
+    // margin-top: 40px;
   }
-
-  .create-org-head{
-    padding: 0px;
-  }
+  
   .org-create-font{
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    font-size: 14px;
+    font-size: 12px;
   }
 
   .org-h5{
@@ -18,8 +16,10 @@
  
   .org-outside-border{
     background:#dbdada;
-    margin: -12px -15px 0 -25px;
+    margin: -12px -15px -20px -25px;
     padding: 20px;
+    // height: 116%;
+    height: 106%;
   }
   .drop-down{
     width: 100%;
@@ -28,17 +28,28 @@
     display: inline-block;
     border: none;
     background: #f1f1f1;
-    border-radius: 20px;
   }
   .drop-modal{
     width: 50%;
     margin: 5px 6px 22px 10px;
   }
 
-  
+  .create-org-head{
+    padding: 0px;
+  }
  
   .uom-btn{
     margin: -35px 0px 8px 100px;
+  }
+
+  .uom-body{
+    width:140px;
+    float:left;
+    padding-top:3px;
+  }
+  
+  .uom-drop-down{
+    width:100px;
   }
   .btn-color{
     background-color: rgb(0,185,195);
@@ -50,9 +61,9 @@
     float:left;
     padding-top:3px;
   }
-  .modal-uom-width{
-    width: 620px;
-  }
+  // .modal-uom-width{
+  //   width: 620px;
+  // }
 
   .modal-uom-label{
     margin-left: 15px;
@@ -69,25 +80,14 @@
     cursor: pointer;
     float: right;
   }
-  .buttonModal{
-    background: none !important;
-    border: none;
-    padding: 0 !important;
-    font-family: Arial, sans-serif;
-    color: #069;
-    text-decoration: underline;
-    cursor: pointer;
-    font-size: 15px;
-  }
+  
   /* Full-width input fields */
   input[type=text],input[type=date], input[type=password],input[type=email],input[type=file] {
-    // width: 100%;
     padding: 5px 0px 7px 15px;
-  margin: 1px 0px 23px 0px;
+    margin: 1px 0px 23px 0px;
     display: inline-block;
-    border: none;
+    border: 1px solid #ddd;
     background: #f1f1f1;
-    border-radius: 20px;
     box-shadow: #069;
   }
   
@@ -103,7 +103,7 @@
   display: none; /* Hidden by default */
   position: fixed; /* Stay in place */
   z-index: 1; /* Sit on top */
-  padding-top: 100px; /* Location of the box */
+  padding-top: 50px; /* Location of the box */
   left: 0;
   top: 0;
   width: 100%; /* Full width */
@@ -112,3 +112,6 @@
   background-color: rgb(0,0,0); /* Fallback color */
   background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
   }
+.modal label{
+  font-size: 14px;
+}

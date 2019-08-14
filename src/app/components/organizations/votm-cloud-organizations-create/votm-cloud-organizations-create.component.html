@@ -1,7 +1,7 @@
 <div class="org-outside-border" *ngIf="(!orgId && pageLabels) || (orgId && pageLabels && organization) ">
   <form #organizationForm="ngForm" class="form container create-org-container border shadow-sm needs-validation"
     (ngSubmit)="onOrganizationSubmit()" novalidate>
-    <h3 class="col create-org-head">{{pageTitle}}</h3>
+    <h4 class="col create-org-head">{{pageTitle}}</h4>
     <div class="row org-create-font">
       <div class="col-md-3">
         <label for="name"><b>* {{pageLabels.Name.labelName}} : </b></label>
@@ -24,8 +24,7 @@
       <div class="col-md-3">
         <label for="organizationType"><b>{{pageLabels.OrganizationType.labelName}} :</b></label>
         <input type="text" [disabled]="pageType==='View'" [(ngModel)]="organization.organizationType"
-          class="form-control org-create-font" appVotmCloudNameValidator maxlength="100" placeholder="Organization Type" name="organizationType"
-          required>
+          class="form-control org-create-font" appVotmCloudNameValidator maxlength="100" placeholder="Organization Type" name="organizationType">
       </div>
       <div class="col-md-3">
         <label for="parentOrgLbl"><b>{{pageLabels.ParentOrganization.labelName}} :</b></label>
@@ -110,7 +109,7 @@
         </div>
       </div>
       <div class="col-md-2">
-        <label for="svcLabel"><b>* {{pageLabels.SVCLevel.labelName}} : </b></label>
+        <label for="serviceLabel"><b>* {{pageLabels.SVCLevel.labelName}} : </b></label>
         <input type="text" [disabled]="pageType==='View'" maxlength="100" [(ngModel)]="organization.svclevel"
           class="form-control org-create-font" #svcLabel="ngModel" placeholder="Service Level" name="svcLabel" required>
         <div *ngIf="svcLabel.dirty && svcLabel.invalid">
@@ -118,14 +117,14 @@
         </div>
       </div>
       <div class="col-md-3">
-        <label for="svcLabel"><b>* Sensor Block Count : </b></label>
-        <input type="text" [disabled]="pageType==='View'" maxlength="100" [(ngModel)]="organization.svclevel"
-          class="form-control org-create-font" #svcLabel="ngModel" placeholder="Sensor Block" name="svcLabel" required>
+        <label for="sensorBlock"><b>* Sensor Block Count : </b></label>
+        <input type="text" disabled maxlength="100" 
+          class="form-control org-create-font" placeholder="Sensor Block" name="sensorBlockCt" required>
       </div>
       <div class="col-md-3">
-        <label for="svcLabel"><b>* Cellular Block Count : </b></label>
-        <input type="text" [disabled]="pageType==='View'" maxlength="100" [(ngModel)]="organization.svclevel"
-          class="form-control org-create-font" #svcLabel="ngModel" placeholder="Cellular Block" name="svcLabel" required>
+        <label for="cellularBlock"><b>* Cellular Block Count : </b></label>
+        <input type="text" disabled maxlength="100"
+          class="form-control org-create-font" placeholder="Cellular Block" name="cellularBlockCt" required>
       </div>
     </div>
 
@@ -248,7 +247,7 @@
           <div class="col-md-3">
             <label name="uom-change-lbl" for="unitsOfMeasure"><b>* {{pageLabels.DefaultUnitOfMeasure.labelName}} :</b></label>
             <label name="uom-logo" for="unitsOfMeasure" class="d-flex "><b>{{UOM}}</b></label>
-            <button name="uom-change-btn" class="btn btn-secondary uom-btn" *ngIf="pageType !=='View'" type="button"
+            <button id="uom-change-btn" class="btn btn-sm btn-secondary uom-btn" *ngIf="pageType !=='View'" type="button"
               (click)="openmodal()">Change</button>
           </div>
         </div>
@@ -265,15 +264,15 @@
 
       </div>
       <div class="col-md-8">
-        <button type="button" (click)="onCancelClick($event)"
+        <button id="org-cancel" type="button" (click)="onCancelClick($event)"
           class="btn btn-secondary btn-lg button-mod">Cancel</button>
-        <button *ngIf="organization.organizationId && pageType !=='View'" type="button"
+        <button id="org-delete" *ngIf="organization.organizationId && pageType !=='View'" type="button"
           class="btn btn-secondary btn-lg button-mod" (click)="openConfirmDialog()">Delete</button>
-        <button type="submit" *ngIf="pageType !=='View'"
+        <button id="org-save" type="submit" *ngIf="pageType !=='View'"
           class="btn btn-secondary btn-lg button-mod btn-color">Save</button>
-        <button *ngIf="organization.organizationId" (click)="createNestedLocation($event)" type="button"
+        <button id="org-create" *ngIf="organization.organizationId" (click)="createNestedLocation($event)" type="button"
           class="btn btn-secondary btn-lg button-mod">Create Location</button>
-        <button *ngIf="organization.organizationId" (click)="createNestedOrganization($event)" type="button"
+        <button id="loc-org-create" *ngIf="organization.organizationId" (click)="createNestedOrganization($event)" type="button"
           class="btn btn-secondary btn-lg button-mod">Create Organization</button>
       </div>
     </div>
@@ -289,87 +288,80 @@
 
 <!-- The Modal -->
 <div id="myModal" class="modal">
-
-  <div class="modal-dialog modal-dialog-scrollable">
-    <!-- Modal content -->
-    <div class="modal-content">
-      <!-- <span class="close" >&times;</span> -->
-      <div class="modal-header">
-        <div>
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+      <!-- Modal content -->
+      <div class="modal-content">
+        <div class="modal-header">
           <label for="UOM" class="pr-2"><b>Units of Measure :</b></label>
-
           <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" value="SI" name="UOM" (change)="onUnitChange($event)" checked
-              id="f-si">
+            <input [disabled]="pageType==='View'" class="form-check-input loc-create-font" type="radio" value="SI" name="UOM"
+              (change)="onUnitChange($event)" checked id="f-si">
             <label class="form-check-label" for="f-si">SI</label>
           </div>
           <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" value="Imperial" name="UOM" (change)="onUnitChange($event)"
-              id="f-imperial">
+            <input [disabled]="pageType==='View'" class="form-check-input" type="radio" value="Imperial" name="UOM"
+              (change)="onUnitChange($event)" id="f-imperial">
             <label class="form-check-label" for="f-imperial">Imperial</label>
           </div>
           <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" value="Metric" name="UOM" (change)="onUnitChange($event)"
-              id="f-metric">
+            <input [disabled]="pageType==='View'" class="form-check-input" type="radio" value="Metric" name="UOM"
+              (change)="onUnitChange($event)" id="f-metric">
             <label class="form-check-label" for="f-metric">Metric</label>
           </div>
           <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" value="Custom" name="UOM" (change)="onUnitChange($event)"
-              id="f-custom">
+            <input [disabled]="pageType==='View'" class="form-check-input" type="radio" value="Custom" name="UOM"
+              (change)="onUnitChange($event)" id="f-custom">
             <label class="form-check-label" for="f-custom">Custom</label>
           </div>
         </div>
-      </div>
-      <div class="modal-body">
-        <div class="row">
-          <div *ngFor="let uom of applicationConfiguration.unitOfMeassurement; let i = index" [attr.data-index]="i">
+        <div class="modal-body">
+  
+          <div *ngFor="let uom of applicationConfiguration.unitOfMeassurement; let i = index" [attr.data-index]="i"
+            class="container-fluid">
             <div class="row" *ngIf="i%2===0 && uom">
               <div class="col-6">
-                <div class="uom-modal-list">
-                  <label class="modal-uom-label" for="uom.uomTypeName"><b>{{uom.uomTypeName}} :</b></label>
-                </div>
-                <div class="float-left">
-                  <select [(ngModel)]="uomModels[uom.uomTypeName]"
-                    (change)="onUoMDropdownChange($event,uom.uomTypeName)" style="width:100px;" name="uom.uomTypeName"
-                    class="drop-down">
-                    <option></option>
-                    <option *ngFor="let view of uom.uoMView" [value]="view.uoMId">
-                      {{view.uoMName}}
-                    </option>
-                  </select>
-                </div>
+                  <div class="row form-group">
+                      <label class="col-sm-4 col-form-label" for="uom.uomTypeName"><b>{{uom.uomTypeName}}:</b></label>
+                      <div class="col-sm-8">
+                          <select [(ngModel)]="uomModels[uom.uomTypeName]" (change)="onUoMDropdownChange($event,uom.uomTypeName)"
+                          name="uom.uomTypeName" class="form-control">
+                          <option></option>
+                          <option *ngFor="let view of uom.uoMView" [value]="view.uoMId">
+                            {{view.uoMName}}
+                          </option>
+                        </select>
+                      </div>
+                    </div>
               </div>
               <div class="col-6" *ngIf="applicationConfiguration.unitOfMeassurement[i+1]">
-                <div style="width:140px;float:left;padding-top:3px">
-                  <label
-                    for="applicationConfiguration.unitOfMeassurement[i+1].uomTypeName"><b>{{applicationConfiguration.unitOfMeassurement[i+1].uomTypeName}}
-                      :</b></label>
-                </div>
-                <div class="float-left">
-                  <select [(ngModel)]="uomModels[applicationConfiguration.unitOfMeassurement[i+1].uomTypeName]"
-                    (change)="onUoMDropdownChange($event, applicationConfiguration.unitOfMeassurement[i+1].uomTypeName)"
-                    style="width:100px;" name="applicationConfiguration.unitOfMeassurement[i+1].uomTypeName"
-                    class="drop-down">
-                    <option></option>
-                    <option *ngFor="let view of applicationConfiguration.unitOfMeassurement[i+1].uoMView"
-                      [value]="view.uoMId">
-                      {{view.uoMName}}
-                    </option>
-                  </select>
-                </div>
+                
+                  <div class="row form-group">
+                      <label class="col-sm-4 col-form-label" for="applicationConfiguration.unitOfMeassurement[i+1].uomTypeName"><b>{{applicationConfiguration.unitOfMeassurement[i+1].uomTypeName}}:</b></label>
+                      <div class="col-sm-8">
+                          <select [(ngModel)]="uomModels[applicationConfiguration.unitOfMeassurement[i+1].uomTypeName]"
+                          (change)="onUoMDropdownChange($event, applicationConfiguration.unitOfMeassurement[i+1].uomTypeName)"
+                          name="applicationConfiguration.unitOfMeassurement[i+1].uomTypeName"
+                          class="form-control">
+                          <option></option>
+                          <option *ngFor="let view of applicationConfiguration.unitOfMeassurement[i+1].uoMView"
+                            [value]="view.uoMId">
+                            {{view.uoMName}}
+                          </option>
+                        </select>
+                      </div>
+                    </div>
               </div>
-
+  
             </div>
           </div>
         </div>
+        <div class="modal-footer">
+          <button id="loc-uom-cancle" type="button" class="btn button-mod btn-secondary" (click)="closemodal('cancel')">Cancel
+          </button>
+          <button id="loc-uom-save" type="button" class="btn button-mod btn-color" (click)="closemodal('save')">Save</button>
+        </div>
+  
       </div>
-      <div class="modal-footer">
-        <button name=uom-cancle type="button" class="btn button-mod btn-secondary" (click)="closemodal('cancel')">Cancel
-        </button>
-        <button name=uom-save type="button" class="btn button-mod btn-color" (click)="closemodal('save')">Save</button>
-      </div>
-
+  
     </div>
-
   </div>
-</div>

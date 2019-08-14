@@ -1,20 +1,28 @@
 <div  id="wrapper">
-    <nav  class="navbar navbar-default navbar-cls-top " role="navigation" style="margin-bottom: 0">
+    <nav  class="navbar navbar-default navbar-cls-top " role="navigation" style="margin-bottom:0; background-color: #000;">
       <div class="navbar-header">
           <a><i class="fa fa-bars menu-btn" (click)="toggleMenu()"></i></a>
-          <img src="../../assets/images/VOTM_header_logo.png" style="margin-top:0px; height:48px; background-color: #333">
+          <img src="../../assets/images/VOTM_header_logo.png" style="margin-top:0px; height:48px; background-color: #000">
       </div>
       <div> </div>
       <div>
-        <i class="fa fa-bell" style="font-size:30px; text-align: center; color:white;padding:8px 57px 1px 13px ;float: right;cursor: pointer;" (click)="openNavIcon()"></i>  
-        <i class="fa fa-star fa-2x" style="font-size:30px;color:white;padding:8px 16px 0px 2px;float: right;cursor: pointer;"></i>
+        <i class="fa fa-bell" style="font-size: 20px;
+        text-align: center;
+        color: white;
+        padding: 2px 44px 1px 13px;
+        float: right;
+        cursor: pointer;" (click)="openNavIcon()"></i>  
+        <i class="fa fa-star" style="font-size:19px;color:white;padding: 4px 11px 0px 2px;float: right;cursor: pointer;"></i>
           
       </div>
     </nav>
       
     <div class="dropdown" style="top:0; position: absolute; right:0">
       <button class="dropbtn">
-        <a class="nav-link waves-effect waves-dark pro-pic fa fa-user" style="font-size:34px; color: white;padding:11px 0px 0px 0px;float: right;" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
+        <a class="nav-link waves-effect waves-dark pro-pic fa fa-user" style="    font-size: 25px;
+        color: white;
+        padding: 11px 0px 0px 0px;
+        float: right;" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
       </button>
       <div class="dropdown-content">
         <a href="#">User Preferences</a>

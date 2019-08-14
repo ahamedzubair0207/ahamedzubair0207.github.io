@@ -28,22 +28,21 @@ export class VotmCloudLocationsHomeComponent implements OnInit {
       this.curLocId = params.get("locId");
       this.curLocName = params.get("locName");
 
-      this.locService.getLocationTree(this.curLocId).subscribe(
-        response => {
-          this.locationsList = response.map(
-            x => ({
-            ...x,
-            opened:true
-            })
-          );
-          
-          this.parentOrgId = this.locationsList[0].parentOrgId;
-          this.parentOrgName = this.locationsList[0].parentOrgName;
-        }
-      );
+      this.fetchlocationTree();
 
     });
 
+  }
+
+  private fetchlocationTree() {
+    this.locService.getLocationTree(this.curLocId).subscribe(response => {
+      this.locationsList = response.map(x => ({
+        ...x,
+        opened: true
+      }));
+      this.parentOrgId = this.locationsList[0].parentOrgId;
+      this.parentOrgName = this.locationsList[0].parentOrgName;
+    });
   }
 
   openConfirmDialog(delLocId) {
@@ -51,19 +50,15 @@ export class VotmCloudLocationsHomeComponent implements OnInit {
     this.confirmBox.open();
   }
 
-  deleteLocationById(event, delLocId) {
+  deleteLocationById(event) {
     console.log('event on close ', event);
     if (event) {
       this.locService.deleteLocation(this.locToDelete)
         .subscribe(response => {
-          this.fetchLocList();
+          this.fetchlocationTree();
         });
     }
     this.locToDelete = '';
-  }
-
-  fetchLocList(){
-
   }
   
 }
