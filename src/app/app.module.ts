@@ -50,6 +50,7 @@ import { Select2Module } from 'ng2-select2';
 import { VotmCloudSensorsDetailsComponent } from './components/sensors/votm-cloud-sensors-details/votm-cloud-sensors-details.component';
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { VotmCloudAlertsCreateComponent } from './components/alerts/votm-cloud-alerts-create/votm-cloud-alerts-create.component';
 
 
 @NgModule({
@@ -83,7 +84,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     VotmPieSliceChartComponent,
     VotmClusteredColumnChartComponent,
     VotmCloudNameValidatorDirective,
-    VotmCloudSensorsDetailsComponent
+    VotmCloudSensorsDetailsComponent,
+    VotmCloudAlertsCreateComponent
   ],
   imports: [
     BrowserModule,

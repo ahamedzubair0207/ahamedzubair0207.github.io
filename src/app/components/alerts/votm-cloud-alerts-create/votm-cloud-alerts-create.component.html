@@ -1,0 +1,133 @@
+<div class="org-outside-border">
+  <form #organizationForm="ngForm" class="form container create-org-container border shadow-sm needs-validation" novalidate>
+    <h4 class="col create-org-head">Create Alert</h4>
+    <div class="row org-create-font mar-top-30">
+      <div class="col-md-6">
+        <label for="name"><b>* Name : </b></label>
+        <input type="text" maxlength="100" class="form-control org-create-font  inline-input auto-width mar-left-30"
+          placeholder="Name" name="name" required>
+        <!-- <div *ngIf="orgName.dirty && orgName.invalid">
+          <app-votm-cloud-validator message="Name is required"></app-votm-cloud-validator>
+        </div> -->
+      </div>
+      <div class="col-md-6">
+        <label for="name"><b>* Alert Type : </b></label>
+        <select class="form-control inline-input auto-width mar-left-30">
+          <option>Pressure</option>
+          <option>Temperature</option>
+          <option>Humidity</option>
+        </select>
+
+      </div>
+    </div>
+    <div class="row org-create-font mar-top-30">
+        <div class="col-md-4">
+          <h5>Signal Association</h5>
+          <div class="enclosing-div">
+            <table class="table table-sm table-bordered assoc-table">
+              <thead class="thead-light">
+                <tr>
+                    <th scope="col" class="align-center table-col-name" ><input type="checkbox"></th>
+                    <th scope="col" class=" table-col-name" >Name</th>
+                </tr>
+              </thead>
+              <tbody>
+                <ng-container *ngFor="let item of items" >
+                  <tr>
+                    <th scope="row" class="align-center">
+                      <input type="checkbox">
+                    </th>
+                    <td [ngStyle]="{'padding-left.px': 15}" (click)="item.opened = !item.opened">
+                        <i class="fa fa-industry"></i><span class="assoc-name">{{item.name}}</span>
+                        <i *ngIf="item.node.length > 0 " [ngClass]="{'fa': true, 'fa-caret-right': !item.opened, 'fa-caret-down': item.opened}"></i>
+                    </td>
+                  </tr>
+                  <ng-container *ngIf="item.opened">
+                    <tr *ngFor="let node of item.node" >
+                        <th scope="row" class="align-center" >
+                          <input type="checkbox">
+                        </th>
+                        <td [ngStyle]="{'padding-left.px': 30}">
+                            <i class="fa fa-sitemap"></i><span class="assoc-name">{{node.name}}</span>
+                        </td>
+                    </tr>
+                  </ng-container>
+                </ng-container>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <h5>Rule</h5>
+          <div class="enclosing-div">
+              <div class="align-center col-md-12 mar-top-30">
+                <input class="" type="radio" value="SI" name="UOM"
+                    checked id="f-si">
+                <label class="" for="f-si">Absolute</label>
+                <input class="mar-left-30" type="radio" value="Imperial" name="UOM"
+                    id="f-imperial">
+                <label class="" for="f-imperial">Relative</label>
+              </div>
+              <div class="mar-top-30 align-center">
+                <label> 
+                  <input type="checkbox" data-toggle="toggle" >
+                  <input type="text" maxlength="100" class="form-control org-create-font  inline-input auto-width  mar-left-10"
+                  name="name" required>
+                  <span class=" mar-left-10">psi</span>
+                </label>
+                <p class="critical-color">High Critical</p>
+              </div>
+              <div class="mar-top-15 align-center">
+                <label> 
+                  <input type="checkbox" data-toggle="toggle" >
+                  <input type="text" maxlength="100" class="form-control org-create-font  inline-input auto-width  mar-left-10"
+                  name="name" required>
+                  <span class=" mar-left-10">psi</span>
+                </label>
+                <p class="warning-color">High Warning</p>
+              </div>
+              <div class="mar-top-15 align-center">
+                <label> 
+                  <input type="checkbox" data-toggle="toggle" >
+                  <input type="text" maxlength="100" class="form-control org-create-font  inline-input auto-width  mar-left-10"
+                  name="name" required>
+                  <span class=" mar-left-10">psi</span>
+                </label>
+                <p class="critical-color">Low Critical</p>
+              </div>
+              <div class="mar-top-15 align-center">
+                <label> 
+                  <input type="checkbox" data-toggle="toggle" >
+                  <input type="text" maxlength="100" class="form-control org-create-font  inline-input auto-width  mar-left-10"
+                  name="name" required>
+                  <span class=" mar-left-10">psi</span>
+                </label>
+                <p class="warning-color">Low Warning</p>
+              </div>
+
+              <div class="mar-top-15 align-center">
+                <label> 
+                  <input type="radio" data-toggle="toggle" >
+                  <span class=" mar-left-10">Retain Interval</span>
+                  <input type="text" maxlength="10" class="form-control org-create-font  inline-input r-interval-width  mar-left-10"
+                  name="name" required> seconds
+                  
+                </label>
+              </div>
+              
+
+          </div>
+        </div>
+
+        <div class="col-md-4">
+            <h5>Notified Parties</h5>
+            <div class="enclosing-div">
+                <select2 [data]="gatewayList" [options]="options" [width]="260" [value]="selectedGateways"
+                (valueChanged)="onItemSelect($event)"></select2>
+            </div>
+          </div>
+    </div>    
+
+  </form>
+</div>
