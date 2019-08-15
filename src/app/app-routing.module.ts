@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { VotmCloudViewsHomeComponent } from './components/views/votm-cloud-views-home/votm-cloud-views-home.component';
 import { VotmCloudAlertsHomeComponent } from './components/alerts/votm-cloud-alerts-home/votm-cloud-alerts-home.component';
+import { VotmCloudAlertsCreateComponent } from './components/alerts/votm-cloud-alerts-create/votm-cloud-alerts-create.component';
 import { VotmCloudPreferencesComponent } from './components/shared/votm-cloud-preferences/votm-cloud-preferences.component';
 import { VotmCloudOrganizationsHomeComponent } from './components/organizations/votm-cloud-organizations-home/votm-cloud-organizations-home.component';
 import { VotmCloudOrganizationsCreateComponent } from './components/organizations/votm-cloud-organizations-create/votm-cloud-organizations-create.component';
@@ -21,6 +22,7 @@ const routes: Routes = [
   { path: 'fav', component: VotmCloudViewsHomeComponent },
   { path: 'view/home', component: VotmCloudViewsHomeComponent },
   { path: 'alerts/home', component: VotmCloudAlertsHomeComponent },
+  { path: 'alerts/create', component: VotmCloudAlertsCreateComponent },
   { path: 'preferences', component: VotmCloudPreferencesComponent },
   { path: 'org/home/:orgId/:orgName', component: VotmCloudOrganizationsHomeComponent },
   { path: 'org/create/:curOrgId/:curOrgName', component: VotmCloudOrganizationsCreateComponent, data:{type:'Create'} },
