@@ -12,6 +12,8 @@ import { ActivatedRoute, Route, Routes, Router, NavigationEnd } from '@angular/r
 import { DatePipe, Location as RouterLocation } from '@angular/common';
 import { NgForm, FormGroup } from '@angular/forms';
 import { VotmCloudConfimDialogComponent } from '../../shared/votm-cloud-confim-dialog/votm-cloud-confim-dialog.component';
+import { Toaster } from '../../shared/votm-cloud-toaster/votm-cloud-toaster';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-votm-cloud-organizations-create',
@@ -56,11 +58,12 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
   fileName: any;
   fileExtension: string;
   previousUOM: any;
+  toaster: Toaster = new Toaster(this.toastr);
 
   constructor(private modalService: NgbModal, private organizationService: OrganizationService,
     private configSettingsService: ConfigSettingsService, private domSanitizer: DomSanitizer,
     private activeroute: ActivatedRoute, private route: Router, private datePipe: DatePipe,
-    private routerLocation: RouterLocation) {
+    private routerLocation: RouterLocation, private toastr: ToastrService) {
     this.UOM = "SI";
     this.subscription = route.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
@@ -164,7 +167,7 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
         this.organization.contractStartDate = this.datePipe.transform(this.organization.contractStartDate, 'yyyy-MM-dd')
         this.organization.contractEndDate = this.datePipe.transform(this.organization.contractEndDate, 'yyyy-MM-dd')
 
-        if (this.organization.logo) {
+        if (this.organization.logo && this.organization.logo.imageName) {
           this.fileExtension = this.organization.logo.imageName.slice((Math.max(0, this.organization.logo.imageName.lastIndexOf(".")) || Infinity) + 1);
           this.imgURL = this.domSanitizer.bypassSecurityTrustUrl(`data:image/${this.fileExtension};base64,${this.organization.logo.image}`);
           this.organization.logo.imageType = this.fileExtension;
@@ -184,7 +187,11 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
     if (event) {
       this.organizationService.deleteOrganization(this.organization.organizationId)
         .subscribe(response => {
-          this.route.navigate([`org/home/${this.curOrgId}/${this.curOrgName}`])
+          this.toaster.onSuccess(`You have deleted ${this.organization.name} successfully`, 'Delete Success!');
+          this.route.navigate([`org/home/${this.curOrgId}/${this.curOrgName}`]);
+          
+        }, error => {
+          this.toaster.onFailure('Something went wrong on server. Please try after sometiime.', 'Delete Fail!');
         });
     }
   }
@@ -387,6 +394,7 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
 
   onOrganizationSubmit() {
     if (this.organizationForm && this.organizationForm.invalid) {
+      this.toaster.onFailure('Please fill the form correctly.', 'Form is invalid!')
       Object.keys(this.organizationForm.form.controls).forEach(element => {
         this.organizationForm.form.controls[element].markAsDirty();
       });
@@ -394,12 +402,18 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
       if (this.orgId) {
         this.organizationService.updateOrganization(this.organization)
           .subscribe(response => {
+            this.toaster.onSuccess('Successfully saved', 'Saved');
             this.routerLocation.back();
+          }, error => {
+            this.toaster.onFailure('Something went wrong. Please fill the form correctly', 'Fail');
           });
       } else {
         this.organizationService.createOrganization(this.organization)
           .subscribe(response => {
+            this.toaster.onSuccess('Successfully saved', 'Saved');
             this.route.navigate([`org/home/${this.parentOrganizationInfo.parentOrganizationId}/${this.parentOrganizationInfo.parentOrganizationName}`])
+          }, error => {
+            this.toaster.onFailure('Something went wrong. Please fill the form correctly', 'Fail');
           });
       }
     }

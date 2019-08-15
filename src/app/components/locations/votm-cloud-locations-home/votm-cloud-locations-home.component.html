@@ -27,7 +27,7 @@
           [routerLink]="['/loc/edit', curLocId, curLocName, parentOrgId, parentOrgName, item.id]">
           <i class="fa fa-edit"></i>
         </a>
-        <a class="action-icon" (click)="openConfirmDialog(item.id)" title="Delete">
+        <a class="action-icon" (click)="openConfirmDialog(item.id, item.name)" title="Delete">
           <i class="fa fa-trash"></i>
         </a>
       </td>
@@ -67,7 +67,7 @@
             [routerLink]="['/loc/edit',curLocId, curLocName, parentOrgId, parentOrgName,  subItem.id]">
             <i class="fa fa-edit"></i>
           </a>
-          <a class="action-icon" (click)="openConfirmDialog(subItem.id)" title="Delete">
+          <a class="action-icon" (click)="openConfirmDialog(subItem.id, subItem.name)" title="Delete">
             <i class="fa fa-trash"></i>
           </a>
         </td>
@@ -99,4 +99,4 @@
 </table>
 
 <app-votm-cloud-confim-dialog (onClose)="deleteLocationById($event)" #confirmBox
-  message="Do you want to delete the location?" headerMessage="Warning"></app-votm-cloud-confim-dialog>
+  [message]="message" headerMessage="Warning"></app-votm-cloud-confim-dialog>

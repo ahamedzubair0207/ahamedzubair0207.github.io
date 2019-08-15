@@ -48,6 +48,8 @@ import { VotmClusteredColumnChartComponent } from './components/shared/charts/vo
 import { VotmCloudNameValidatorDirective } from './components/shared/votm-cloud-name-validator/votm-cloud-name-validator.directive';
 import { Select2Module } from 'ng2-select2';
 import { VotmCloudSensorsDetailsComponent } from './components/sensors/votm-cloud-sensors-details/votm-cloud-sensors-details.component';
+import { ToastrModule } from 'ngx-toastr';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
 @NgModule({
@@ -91,7 +93,9 @@ import { VotmCloudSensorsDetailsComponent } from './components/sensors/votm-clou
     NgbModule,
     FormsModule,
     NgMultiSelectDropDownModule.forRoot(),
-    Select2Module
+    Select2Module,
+    BrowserAnimationsModule,
+    ToastrModule.forRoot()
   ],
   providers: [
     DatePipe,

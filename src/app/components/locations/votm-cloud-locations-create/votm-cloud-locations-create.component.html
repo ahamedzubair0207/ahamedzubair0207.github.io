@@ -263,7 +263,7 @@
       </div>
       <div class="col-md-4 action-btn-loc">
         <button id="nest-asset-create" type="button" *ngIf="location.locationId"
-          class="btn btn-secondary create-loc-asset-btn">Create Asset</button>
+          class="btn btn-secondary create-loc-asset-btn" (click)="creteAsset($event)">Create Asset</button>
         <button id="nest-loc-create" *ngIf="location.locationId" (click)="createNestedLocation($event)" type="button"
           class="btn btn-secondary create-loc-asset-btn">Create Location</button>
         <button id="loc-cancel" for="form-cancel" type="button" (click)="onCancelClick($event)"
