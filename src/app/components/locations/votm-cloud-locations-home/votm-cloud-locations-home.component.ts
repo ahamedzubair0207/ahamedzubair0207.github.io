@@ -2,6 +2,8 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, ParamMap } from "@angular/router";
 import { LocationService } from '../../../services/locations/location.service';
 import { VotmCloudConfimDialogComponent } from '../../shared/votm-cloud-confim-dialog/votm-cloud-confim-dialog.component';
+import { ToastrService } from 'ngx-toastr';
+import { Toaster } from '../../shared/votm-cloud-toaster/votm-cloud-toaster';
 
 @Component({
   selector: 'app-votm-cloud-locations-home',
@@ -18,10 +20,13 @@ export class VotmCloudLocationsHomeComponent implements OnInit {
   curOrgId: string;
   curOrgName: string;
   locToDelete: string;
-  
-  @ViewChild('confirmBox', null) confirmBox: VotmCloudConfimDialogComponent;
+  message: string;
 
-  constructor(private locService: LocationService, private route: ActivatedRoute) { }
+  @ViewChild('confirmBox', null) confirmBox: VotmCloudConfimDialogComponent;
+  locNameToDelete: any;
+  toaster: Toaster = new Toaster(this.toastr);
+
+  constructor(private locService: LocationService, private route: ActivatedRoute, private toastr: ToastrService) { }
 
   ngOnInit() {
     this.route.paramMap.subscribe((params: ParamMap) => {
@@ -45,8 +50,10 @@ export class VotmCloudLocationsHomeComponent implements OnInit {
     });
   }
 
-  openConfirmDialog(delLocId) {
+  openConfirmDialog(delLocId, delLocName) {
+    this.message = `Do you want to delete the "${delLocName}" location?`;
     this.locToDelete = delLocId;
+    this.locNameToDelete = delLocName;
     this.confirmBox.open();
   }
 
@@ -55,10 +62,15 @@ export class VotmCloudLocationsHomeComponent implements OnInit {
     if (event) {
       this.locService.deleteLocation(this.locToDelete)
         .subscribe(response => {
+          this.toaster.onSuccess(`You have deleted ${this.locNameToDelete} successfully.`, 'Delete Success!');
+          this.locNameToDelete = '';
           this.fetchlocationTree();
+        }, error => {
+          this.toaster.onFailure('Something went wrong on server. Please try after sometiime.', 'Delete Fail!');
+          this.locNameToDelete = '';
         });
     }
     this.locToDelete = '';
   }
-  
+
 }

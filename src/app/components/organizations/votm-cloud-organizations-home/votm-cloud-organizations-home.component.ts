@@ -1,7 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, ParamMap } from "@angular/router";
-import { OrganizationService} from '../../../services/organizations/organization.service';
+import { OrganizationService } from '../../../services/organizations/organization.service';
 import { VotmCloudConfimDialogComponent } from '../../shared/votm-cloud-confim-dialog/votm-cloud-confim-dialog.component';
+import { Toaster } from '../../shared/votm-cloud-toaster/votm-cloud-toaster';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-votm-cloud-organizations-home',
@@ -14,22 +16,27 @@ export class VotmCloudOrganizationsHomeComponent implements OnInit {
   curOrgId: string;
   curOrgName: string;
   orgToDelete: string;
-  
+  toaster: Toaster = new Toaster(this.toastr);
+
   @ViewChild('confirmBox', null) confirmBox: VotmCloudConfimDialogComponent;
-  
-  constructor(private orgservice: OrganizationService, private route: ActivatedRoute) { }
+  orgNameToDelete: any;
+  message: any;
+
+  constructor(private orgservice: OrganizationService, private route: ActivatedRoute, private toastr: ToastrService) { }
 
   ngOnInit() {
-    this.route.paramMap.subscribe((params : ParamMap)=> {
+    this.route.paramMap.subscribe((params: ParamMap) => {
       this.curOrgId = params.get("orgId");
       this.curOrgName = params.get("orgName");
       this.fetchOrgList();
     });
   }
 
-  openConfirmDialog(delOrgId) {
+  openConfirmDialog(delOrgId, name) {
     this.orgToDelete = delOrgId;
+    this.message = `Do you want to delete the "${name}" organization?`;
     this.confirmBox.open();
+    this.orgNameToDelete = name;
   }
 
   deleteOrganizationById(event, delOrgId) {
@@ -37,19 +44,26 @@ export class VotmCloudOrganizationsHomeComponent implements OnInit {
     if (event) {
       this.orgservice.deleteOrganization(this.orgToDelete)
         .subscribe(response => {
+          this.toaster.onSuccess(`You have deleted ${this.orgNameToDelete} successfully.`, 'Delete Success!');
+          this.orgNameToDelete = '';
           this.fetchOrgList();
+
+        }, error => {
+          this.toaster.onFailure('Something went wrong on server. Please try after sometiime.', 'Delete Fail!');
+          this.orgNameToDelete = '';
         });
     }
     this.orgToDelete = '';
+
   }
 
-  fetchOrgList(){
+  fetchOrgList() {
     this.orgservice.getOrganizationTree(this.curOrgId).subscribe(
       response => {
         this.organizationsList = response.map(
           x => ({
-          ...x,
-          opened:true
+            ...x,
+            opened: true
           })
         );
       }

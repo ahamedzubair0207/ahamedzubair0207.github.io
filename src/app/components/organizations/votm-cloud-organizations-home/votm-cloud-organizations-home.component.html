@@ -1,7 +1,7 @@
-
 <h3 class="flt-left"> Organizations</h3>
 <div class="btn-group-right mt-1">
-    <button [routerLink]="['/org/create', curOrgId, curOrgName]" type="button" class="btn btn-dark">Create Organization</button>
+  <button [routerLink]="['/org/create', curOrgId, curOrgName]" type="button" class="btn btn-dark">Create
+    Organization</button>
 </div>
 
 <ng-template #recursiveTableList let-list="orgList" let-lvl="level">
@@ -10,13 +10,14 @@
     <tr>
       <th scope="row" (click)="item.opened = !item.opened" [ngStyle]="{'padding-left.px': 15*(lvl+1)}">
         <i class="fa fa-sitemap"></i>
-        {{item.name}} <i *ngIf="item.node.length > 0 " [ngClass]="{'fa': true, 'fa-caret-right': !item.opened, 'fa-caret-down': item.opened}"></i>
+        {{item.name}} <i *ngIf="item.node.length > 0 "
+          [ngClass]="{'fa': true, 'fa-caret-right': !item.opened, 'fa-caret-down': item.opened}"></i>
       </th>
-      <td class="align-center" >{{item.type}}</td>
-      <td class="align-center" >{{item.customerNo}}</td>
-      <td class="align-center" >{{item.contractStart.split(" ")[0]}}</td>
-      <td class="align-center" >{{item.contractEnd.split(" ")[0]}}</td>
-      <td class="align-center" >{{item.serviceLevel}}</td>
+      <td class="align-center">{{item.type}}</td>
+      <td class="align-center">{{item.customerNo}}</td>
+      <td class="align-center">{{item.contractStart.split(" ")[0]}}</td>
+      <td class="align-center">{{item.contractEnd.split(" ")[0]}}</td>
+      <td class="align-center">{{item.serviceLevel}}</td>
       <td class="align-center">
         <a class="action-icon" title="List" [routerLink]="['/org/home', item.id, item.name]">
           <i class="fa fa-list"></i>
@@ -27,15 +28,16 @@
         <a class="action-icon" title="Edit" [routerLink]="['/org/edit',curOrgId, curOrgName, item.id]">
           <i class="fa fa-edit"></i>
         </a>
-        <a class="action-icon" (click)="openConfirmDialog(item.id)" title="Delete">
+        <a class="action-icon" (click)="openConfirmDialog(item.id, item.name)" title="Delete">
           <i class="fa fa-trash"></i>
         </a>
       </td>
     </tr>
-    
-    <ng-container  *ngFor="let subItem of item.node">
-      <tr *ngIf="item.opened && subItem.entityType == 'Location'" >
-        <th scope="row" [ngStyle]="{'padding-left.px': 15*(lvl+2)}"> <i class="fa fa-location-arrow"></i> {{subItem.name}}</th>
+
+    <ng-container *ngFor="let subItem of item.node">
+      <tr *ngIf="item.opened && subItem.entityType == 'Location'">
+        <th scope="row" [ngStyle]="{'padding-left.px': 15*(lvl+2)}"> <i class="fa fa-location-arrow"></i>
+          {{subItem.name}}</th>
         <td></td>
         <td></td>
         <td></td>
@@ -48,17 +50,18 @@
         </td>
       </tr>
 
-        
+
       <tr *ngIf="item.opened && subItem.entityType == 'Organization'">
         <th scope="row" (click)="subItem.opened = !subItem.opened" [ngStyle]="{'padding-left.px': 15*(lvl+2)}">
           <i class="fa fa-sitemap"></i>
-          {{subItem.name}} <i *ngIf="subItem.node.length > 0 " [ngClass]="{'fa': true, 'fa-caret-right': !subItem.opened, 'fa-caret-down': subItem.opened}"></i>
+          {{subItem.name}} <i *ngIf="subItem.node.length > 0 "
+            [ngClass]="{'fa': true, 'fa-caret-right': !subItem.opened, 'fa-caret-down': subItem.opened}"></i>
         </th>
-        <td class="align-center" >{{subItem.type}}</td>
-        <td class="align-center" >{{subItem.customerNo}}</td>
-        <td class="align-center" >{{subItem.contractStart.split(" ")[0]}}</td>
-        <td class="align-center" >{{subItem.contractEnd.split(" ")[0]}}</td>
-        <td class="align-center" >{{subItem.serviceLevel}}</td>
+        <td class="align-center">{{subItem.type}}</td>
+        <td class="align-center">{{subItem.customerNo}}</td>
+        <td class="align-center">{{subItem.contractStart.split(" ")[0]}}</td>
+        <td class="align-center">{{subItem.contractEnd.split(" ")[0]}}</td>
+        <td class="align-center">{{subItem.serviceLevel}}</td>
         <td class="align-center">
           <a class="action-icon" title="List" [routerLink]="['/org/home', subItem.id, subItem.name]">
             <i class="fa fa-list"></i>
@@ -69,39 +72,41 @@
           <a class="action-icon" title="Edit" [routerLink]="['/org/edit',curOrgId, curOrgName, subItem.id]">
             <i class="fa fa-edit"></i>
           </a>
-          <a class="action-icon" (click)="openConfirmDialog(subItem.id)" title="Delete">
+          <a class="action-icon" (click)="openConfirmDialog(subItem.id, subItem.name)" title="Delete">
             <i class="fa fa-trash"></i>
           </a>
         </td>
       </tr>
 
       <ng-container *ngIf="subItem.opened">
-          <ng-container *ngTemplateOutlet="recursiveTableList; context:{ orgList: subItem.node, level: lvl+2 }"></ng-container>
+        <ng-container *ngTemplateOutlet="recursiveTableList; context:{ orgList: subItem.node, level: lvl+2 }">
+        </ng-container>
       </ng-container>
-      
+
     </ng-container>
-    
+
   </ng-container>
 </ng-template>
 
 
 <table class="table table-sm table-bordered">
-    <thead class="thead-light">
-      <tr>
-        <th scope="col" class="align-center table-col-name" >Name</th>
-        <th scope="col" class="align-center" >Type</th>
-        <th scope="col" class="align-center" >Customer #</th>
-        <th scope="col" class="align-center table-col-small" >Contract Start</th>
-        <th scope="col" class="align-center table-col-small" >Contract End</th>
-        <th scope="col" class="align-center table-col-small" >Service Level</th>
-        <th scope="col" class="align-center" >Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-        <ng-container *ngTemplateOutlet="recursiveTableList; context:{ orgList: organizationsList, level: 0 }"></ng-container>
-    </tbody>
-  </table>
+  <thead class="thead-light">
+    <tr>
+      <th scope="col" class="align-center table-col-name">Name</th>
+      <th scope="col" class="align-center">Type</th>
+      <th scope="col" class="align-center">Customer #</th>
+      <th scope="col" class="align-center table-col-small">Contract Start</th>
+      <th scope="col" class="align-center table-col-small">Contract End</th>
+      <th scope="col" class="align-center table-col-small">Service Level</th>
+      <th scope="col" class="align-center">Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <ng-container *ngTemplateOutlet="recursiveTableList; context:{ orgList: organizationsList, level: 0 }">
+    </ng-container>
+  </tbody>
+</table>
 
 
-  <app-votm-cloud-confim-dialog (onClose)="deleteOrganizationById($event)" #confirmBox
-  message="Do you want to delete the organization?" headerMessage="Warning"></app-votm-cloud-confim-dialog>
+<app-votm-cloud-confim-dialog (onClose)="deleteOrganizationById($event)" #confirmBox [message]="message"
+  headerMessage="Warning"></app-votm-cloud-confim-dialog>

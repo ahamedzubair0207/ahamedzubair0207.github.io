@@ -17,6 +17,8 @@ import { VotmCloudConfimDialogComponent } from '../../shared/votm-cloud-confim-d
 import { Observable } from 'rxjs';
 import { Select2OptionData } from 'ng2-select2';
 declare var $: any;
+import { ToastrService } from 'ngx-toastr';
+import { Toaster } from '../../shared/votm-cloud-toaster/votm-cloud-toaster';
 // import { } from '@types/googlemaps';
 
 
@@ -73,11 +75,11 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
   parentLocName: string;
   fileName: any;
   fileExtension: string;
-
+  toaster: Toaster = new Toaster(this.toastr);
   constructor(private modalService: NgbModal, private locationService: LocationService,
     private configSettingsService: ConfigSettingsService, private domSanitizer: DomSanitizer,
     private activatedRoute: ActivatedRoute, private route: Router, private datePipe: DatePipe,
-    private routerLocation: RouterLocation) {
+    private routerLocation: RouterLocation, private toastr: ToastrService) {
     this.UOM = "SI";
     this.subscriptions = route.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
@@ -229,6 +231,10 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
   }
   createNestedLocation(event) {
     this.route.navigate([`loc/create/${this.location.locationId}/${this.location.locationName}/${this.location.organizationId}/${this.parentOrganizationInfo.parentOrganizationName}`])
+  }
+
+  creteAsset(event) {
+  this.route.navigate([`asset/create`])
   }
   locationObject() {
   }
@@ -390,8 +396,16 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
   onUoMValueSelect(uomType, uomMeasureId) {
   }
 
+  // onSuccess(message: string, header: string) {
+  //   this.toastr.success(message, header);
+  // }
+
+  // onFailure(message: string, header: string) {
+  //   this.toastr.error(message, header);
+  // }
+
   onLocationSubmit() {
-    console.log('location.gatewayId ',this.location.gatewayId,  this.selectedGateways);
+    console.log('location.gatewayId ', this.location.gatewayId, this.selectedGateways);
     if (this.location.geoFenceType === 'bf0bc7b5-1bf8-4a59-a3b5-35904937e89e') {
       this.location.geoFenceValue = `${this.radiusValue}${this.radiusUnit}`;
     }
@@ -407,6 +421,7 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
 
     console.log('locationForm ', this.locationForm);
     if (this.locationForm && this.locationForm.invalid) {
+      this.toaster.onFailure('Please fill the form correctly.', 'Form is invalid!')
       console.log('If block ');
       Object.keys(this.locationForm.form.controls).forEach(element => {
         this.locationForm.form.controls[element].markAsDirty();
@@ -415,13 +430,22 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
       if (this.locId) {
         this.locationService.updateLocation(this.location)
           .subscribe(response => {
+            this.toaster.onSuccess('Successfully saved', 'Saved');
+            // this.onSuccess('Successfully saved', 'Saved');
             this.routerLocation.back();
+          }, error => {
+            console.log('AHAMED ERROR ', error)
+            this.toaster.onFailure('Something went wrong. Please fill the form correctly', 'Fail');
           });
       } else {
         this.locationService.createLocation(this.location)
           .subscribe(response => {
             // console.log('response ', response);
+            this.toaster.onSuccess('Successfully saved', 'Saved');
             this.route.navigate([`loc/home/${this.parentLocId}/${this.parentLocName}`])
+          }, error => {
+            console.log('AHAMED ERROR ', error)
+            this.toaster.onFailure('Something went wrong. Please fill the form correctly', 'Fail');
           });
       }
     }
@@ -441,8 +465,10 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
     if (event) {
       this.locationService.deleteLocation(this.location.locationId)
         .subscribe(response => {
-          console.log('delete successful ', response);
+          this.toaster.onSuccess(`You have deleted ${this.location.locationName} successfully.`, 'Delete Success!');
           this.route.navigate([`loc/home/${this.parentLocId}/${this.parentLocName}`])
+        }, error => {
+          this.toaster.onFailure('Something went wrong on server. Please try after sometiime.', 'Delete Fail!');
         });
     }
   }
