@@ -124,7 +124,10 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
     { value: 'state2', text: 'OH' }];
     this.countries = [{ value: 'country1', text: 'USA' },
     { value: 'country2', text: 'Brazil' }];
-
+    this.locationService.getLocationInfoFromAzureMap(null)
+      .subscribe(response => {
+        console.log('AHAMED from azure map ', response);
+      })
 
     this.gateGateways();
     this.location.address = [new Address()];
@@ -155,7 +158,7 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
           //     this.selectedItems = [gateway];
           //   }
           // });
-          if (this.location.logo) {
+          if (this.location.logo && this.location.logo.imageName) {
             this.fileExtension = this.location.logo.imageName.slice((Math.max(0, this.location.logo.imageName.lastIndexOf(".")) || Infinity) + 1);
             this.imgURL = this.domSanitizer.bypassSecurityTrustUrl(`data:image/${this.fileExtension};base64,${this.location.logo.image}`);
             this.location.logo.imageType = this.fileExtension;
@@ -164,8 +167,10 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
             var str = this.location.geoFenceValue;
             var matches = str.match(/(\d+)/);
             // console.log(matches[0], str.slice(matches[0].length, str.length - (matches[0].length - 1)));
-            this.radiusValue = matches[0];
-            this.radiusUnit = str.slice(matches[0].length, str.length - (matches[0].length - 1));
+            if (matches && matches.length > 0) {
+              this.radiusValue = matches[0];
+              this.radiusUnit = str.slice(matches[0].length, str.length - (matches[0].length - 1));
+            }
           }
           if (this.location.geoFenceType === 'd5764af5-114b-48e6-9980-544634167826' && this.location.geoFenceValue.indexOf('undefined') < 0) {
             let str = this.location.geoFenceValue;
@@ -210,6 +215,29 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
     this.subscriptions.unsubscribe();
   }
 
+  onGeoLocationClick() {
+    this.checkAddress();
+  }
+
+  checkAddress() {
+    if (this.location.address && this.location.address.length > 0
+      && this.location.address[0].address1
+      && this.location.address[0].city
+      && this.location.address[0].country && this.location.address[0].postalCode
+      && this.location.address[0].state) {
+      let address = `${this.location.address[0].address1} ${this.location.address[0].address2} ${this.location.address[0].city} ${this.location.address[0].postalCode} ${this.location.address[0].state} ${this.location.address[0].country}`;
+      console.log('AHAMED ADDRESS ', address);
+      this.locationService.getLocationInfoFromAzureMap(address)
+        .subscribe((response: any) => {
+          console.log('response ', response);
+          if(response && response.results && response.results.length>0){
+            this.location.latitude = response.results[0].position.lat;
+            this.location.longitude = response.results[0].position.lon;
+          }
+        });
+    }
+  }
+
   // getLocationInfo() {
   //   this.locationService.getLocationById(this.locId)
   //     .subscribe(response => {
@@ -234,7 +262,7 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
   }
 
   creteAsset(event) {
-  this.route.navigate([`asset/create`])
+    this.route.navigate([`asset/create`])
   }
   locationObject() {
   }
@@ -442,7 +470,11 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
           .subscribe(response => {
             // console.log('response ', response);
             this.toaster.onSuccess('Successfully saved', 'Saved');
-            this.route.navigate([`loc/home/${this.parentLocId}/${this.parentLocName}`])
+            if (this.parentLocId && this.parentLocName) {
+              this.route.navigate([`loc/home/${this.parentLocId}/${this.parentLocName}`]);
+            } else {
+              this.route.navigate([`org/home/${this.curOrgId}/${this.curOrgName}`]);
+            }
           }, error => {
             console.log('AHAMED ERROR ', error)
             this.toaster.onFailure('Something went wrong. Please fill the form correctly', 'Fail');

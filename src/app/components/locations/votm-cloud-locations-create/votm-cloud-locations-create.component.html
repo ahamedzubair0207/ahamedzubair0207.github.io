@@ -2,26 +2,32 @@
   <form #locationForm="ngForm" class="form container create-loc-container border shadow-sm"
     (ngSubmit)="onLocationSubmit()" novalidate>
     <div class="row loc-create-font">
-      <h4 class="col-12">{{pageTitle}}</h4>
-      <div class="col-md-2">
+      <h4 class="col-md-6">{{pageTitle}}</h4>
+      <div class="col-md-6">
+          <button id="nest-asset-create" type="button" *ngIf="location.locationId"
+          class="btn btn-secondary create-loc-asset-btn" (click)="creteAsset($event)">Create Asset</button>
+        <button id="nest-loc-create" *ngIf="location.locationId" (click)="createNestedLocation($event)" type="button"
+          class="btn btn-secondary create-loc-asset-btn">Create Location</button>
+      </div>
+      <div class="col-md-2 mt-2">
         <label for="name"><b>* {{pageLabels.Name.labelName}} :</b></label>
         <input type="text" [(ngModel)]="location.locationName" class="form-control loc-create-font"
           [disabled]="pageType==='View'" appVotmCloudNameValidator #locName="ngModel" placeholder="Enter Name"
-          name="name" required>
+          name="name" required maxlength="50">
         <div *ngIf="locName.dirty && locName.invalid">
           <app-votm-cloud-validator message="Name is required"></app-votm-cloud-validator>
         </div>
       </div>
-      <div class="col-md-2">
+      <div class="col-md-2 mt-2">
         <label for="primaryContact"><b>* {{pageLabels.PrimaryContact.labelName}} :</b></label>
-        <input type="text" [disabled]="pageType==='View'" [(ngModel)]="location.primaryContact"
-          class="form-control loc-create-font" #primaryContact="ngModel" appVotmCloudNameValidator
-          placeholder="Enter Contact" name="primaryContact" required>
+        <input type="email" [disabled]="pageType==='View'" [(ngModel)]="location.primaryContact"
+          class="form-control loc-create-font" #primaryContact="ngModel" maxlength="100" appVotmCloudNameValidator
+          placeholder="Email Address" name="primaryContact" required>
         <div *ngIf="primaryContact.dirty && primaryContact.invalid">
           <app-votm-cloud-validator message="Primary Contact is required"></app-votm-cloud-validator>
         </div>
       </div>
-      <div class="col-md-3">
+      <div class="col-md-3 mt-2">
         <label for="primarydistribute"><b>* {{pageLabels.PrimaryDistributor.labelName}} :</b></label>
         <input type="text" [(ngModel)]="location.primaryDistributor" class="form-control loc-create-font"
           placeholder="Enter Primary Distributor" [disabled]="pageType==='View'" #primarydistribute="ngModel"
@@ -30,21 +36,23 @@
           <app-votm-cloud-validator message="Primary Distributor is required"></app-votm-cloud-validator>
         </div>
       </div>
-      <div class="col-md-2">
+      <div class="col-md-2 mt-2">
         <label for="parentorganization"><b>{{pageLabels.ParentOrganization.labelName}} :</b></label>
         <br>
-        <label for="parentorganizationname">{{parentOrganizationInfo.parentOrganizationName}}</label>
+        <input for="parentorganizationname" class="form-control loc-create-font" type="text" placeholder= "{{parentOrganizationInfo.parentOrganizationName}}" readonly disabled>
+        <!-- <label for="parentorganizationname"></label> -->
       </div>
-      <div class="col-md-3">
+      <div class="col-md-3 mt-2">
         <label for="parentLoc"><b>{{pageLabels.ParentLocation.labelName}} :</b></label>
         <br>
-        <label for="parentLocname">{{parentLocName}}</label>
+        <input for="parentLocname" class="form-control loc-create-font" type="text" placeholder= "{{parentLocName}}" readonly disabled>
+        <!-- <label for="parentLocname">{{parentLocName}}</label> -->
       </div>
       <div class="col-md-2">
-        <label for="locationType"><b>* {{pageLabels.LocationType.labelName}}: </b></label>
+        <label for="locationType"><b>{{pageLabels.LocationType.labelName}}: </b></label>
         <input type="text" [(ngModel)]="location.locationType" class="form-control loc-create-font"
-          placeholder="Enter Location Type" [disabled]="pageType==='View'" #locationType="ngModel" name="locationType"
-          required>
+          placeholder="Enter Location Type" [disabled]="pageType==='View'" #locationType="ngModel" 
+          name="locationType" maxlength="50">
         <div *ngIf="locationType.dirty && locationType.invalid">
           <app-votm-cloud-validator message="Location type is required"></app-votm-cloud-validator>
         </div>
@@ -77,9 +85,9 @@
         <div ng-show="geofence == 'f-square'"
           *ngIf="location && location.geoFenceType && location.geoFenceType ==='d5764af5-114b-48e6-9980-544634167826'">
           <input type="number" [disabled]="pageType==='View'" name="width" [(ngModel)]="rectangleValue1"
-            class="form-control loc-create-font w-auto" placeholder="Enter Width"> * <input
+            class="form-control loc-create-font w-auto" placeholder="Enter Width" maxlength="50"> * <input
             [disabled]="pageType==='View'" type="number" name="height" [(ngModel)]="rectangleValue2"
-            class="form-control loc-create-font w-auto" placeholder="Enter Height">
+            class="form-control loc-create-font w-auto" placeholder="Enter Height" maxlength="50">
           <select name="rectangleUnit" [disabled]="pageType==='View'" [(ngModel)]="rectangleUnit"
             class="drop-down geo-drop-down w-auto">
             <option value="ft">Feet</option>
@@ -88,14 +96,14 @@
         </div>
       </div>
       <div class="col-md-5">
-        <label for="geoLocation" class="pr-2"><b>* {{pageLabels.GeoLocation.labelName}}:</b></label>
+        <label for="geoLocation" class="pr-2"><b>{{pageLabels.GeoLocation.labelName}}:</b></label>
         <input type="text" [disabled]="pageType==='View'" [(ngModel)]="location.latitude"
           class="geo-loc-long form-control loc-create-font" placeholder="Longitude" name="geoLocationLong"
-          #geoLocationLong="ngModel" required>/
+          #geoLocationLong="ngModel" disabled readonly maxlength="50">/
         <input type="text" [disabled]="pageType==='View'" [(ngModel)]="location.longitude"
-          class="geo-loc-lat form-control loc-create-font" placeholder="Latitude" name="geoLocationLat" required
-          #geoLocationLat="ngModel">
-        <button id="geo-loc-btn" type="button" class="btn rounded-circle loc-create-font"><i
+          class="geo-loc-lat form-control loc-create-font" placeholder="Latitude" name="geoLocationLat" 
+          #geoLocationLat="ngModel" disabled readonly maxlength="50">
+        <button id="geo-loc-btn" type="button" class="btn rounded-circle loc-create-font" (click)="onGeoLocationClick()"><i
             class="fa fa-bullseye"></i></button>
         <div
           *ngIf="(geoLocationLong.dirty && geoLocationLong.invalid) || (geoLocationLat.dirty && geoLocationLat.invalid) ">
@@ -106,7 +114,7 @@
     <div class="row loc-create-font">
       <div class="col mb-12">
         <label for="f-description"><b>{{pageLabels.DescriptionofLocation.labelName}} :</b></label>
-        <textarea class="form-control" [disabled]="pageType==='View'" [(ngModel)]="location.description"
+        <textarea class="form-control loc-create-font" [disabled]="pageType==='View'" [(ngModel)]="location.description"
           name="locDescription" rows="3" id="f-description"></textarea>
       </div>
     </div>
@@ -240,8 +248,6 @@
       </div>
     </div>
     <div class="row loc-create-font">
-
-
       <div class="col-md-4">
         <label for="locImage"><b>{{pageLabels.LogoFile.labelName}} : </b></label>
         <span style="color:rgb(106,96,85);" *ngIf="message">{{message}}</span>
@@ -262,10 +268,7 @@
         <!-- <button class="btn-save btn btn-primary btn-sm">Save</button> -->
       </div>
       <div class="col-md-4 action-btn-loc">
-        <button id="nest-asset-create" type="button" *ngIf="location.locationId"
-          class="btn btn-secondary create-loc-asset-btn" (click)="creteAsset($event)">Create Asset</button>
-        <button id="nest-loc-create" *ngIf="location.locationId" (click)="createNestedLocation($event)" type="button"
-          class="btn btn-secondary create-loc-asset-btn">Create Location</button>
+        
         <button id="loc-cancel" for="form-cancel" type="button" (click)="onCancelClick($event)"
           class="btn btn-secondary btn-lg button-mod">Cancel</button>
         <button id="loc-delete" type="button" *ngIf="location.locationId && pageType !=='View'"
@@ -283,7 +286,7 @@
 
 <!-- The Modal -->
 <div id="myModal" class="modal">
-  <div class="modal-dialog modal-dialog-scrollable">
+  <div class="modal-dialog modal-lg modal-dialog-scrollable">
     <!-- Modal content -->
     <div class="modal-content">
       <div class="modal-header">
@@ -316,9 +319,9 @@
           <div class="row" *ngIf="i%2===0 && uom">
             <div class="col-6">
               <div class="uom-modal-list">
-                <label class="modal-uom-label" for="uom.uomTypeName"><b>{{uom.uomTypeName}} :</b></label>
+                <label class="col-sm-4 modal-uom-label" for="uom.uomTypeName"><b>{{uom.uomTypeName}} :</b></label>
               </div>
-              <div class="float-left">
+              <div class="col-sm-8 float-left">
                 <select [(ngModel)]="uomModels[uom.uomTypeName]" (change)="onUoMDropdownChange($event,uom.uomTypeName)"
                   name="uom.uomTypeName" class="drop-down uom-drop-down">
                   <option></option>
