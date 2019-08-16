@@ -5,9 +5,9 @@
       <h4 class="col-md-6">{{pageTitle}}</h4>
       <div class="col-md-6">
           <button id="nest-asset-create" type="button" *ngIf="location.locationId"
-          class="btn btn-info btn-color create-loc-asset-btn" (click)="creteAsset($event)">Create Asset</button>
+          class="btn btn-secondary create-loc-asset-btn" (click)="creteAsset($event)">Create Asset</button>
         <button id="nest-loc-create" *ngIf="location.locationId" (click)="createNestedLocation($event)" type="button"
-          class="btn btn-info btn-color create-loc-asset-btn">Create Location</button>
+          class="btn btn-secondary create-loc-asset-btn">Create Location</button>
       </div>
       <div class="col-md-2 mt-2">
         <label for="name"><b>* {{pageLabels.Name.labelName}} :</b></label>
