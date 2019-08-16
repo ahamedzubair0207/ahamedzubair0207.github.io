@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { CustomHttp } from '../custom_http/custom_http.service';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
-// import { Asset } from '../../models/asset.model';
+import { Asset } from '../../models/asset.model';
 import { AppConstants } from '../../helpers/app.constants';
 import { HttpParams } from '@angular/common/http';
 
@@ -41,20 +41,20 @@ export class AssetsService {
       );
   }
 
-  // createAsset(body: Asset) {
-  //   return this.http.post(AppConstants.CREATE_ASSET, body)
-  //     .pipe(
-  //       map(response => response)
-  //     );
-  // }
+  createAsset(body: Asset) {
+    return this.http.post(AppConstants.CREATE_ASSET, body)
+      .pipe(
+        map(response => response)
+      );
+  }
 
-  // updateAsset(body: Asset) {
+  updateAsset(body: Asset) {
 
-  //   return this.http.patch(AppConstants.EDIT_ASSET + '/' + body.assetId, body)
-  //     .pipe(
-  //       map(response => response)
-  //     );
-  // }
+    return this.http.patch(AppConstants.EDIT_ASSET + '/' + body.assetId, body)
+      .pipe(
+        map(response => response)
+      );
+  }
 
   deleteAsset(orgId: string) {
     return this.http.delete(AppConstants.DEL_ASSET + '/' + orgId, orgId)
