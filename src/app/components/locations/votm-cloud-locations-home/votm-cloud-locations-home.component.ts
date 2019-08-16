@@ -40,7 +40,7 @@ export class VotmCloudLocationsHomeComponent implements OnInit {
   }
 
   private fetchlocationTree() {
-    this.locService.getLocationTree(this.curLocId).subscribe(response => {
+    this.locService.getAllLocationTree().subscribe(response => {
       this.locationsList = response.map(x => ({
         ...x,
         opened: true
@@ -48,6 +48,14 @@ export class VotmCloudLocationsHomeComponent implements OnInit {
       this.parentOrgId = this.locationsList[0].parentOrgId;
       this.parentOrgName = this.locationsList[0].parentOrgName;
     });
+    // this.locService.getLocationTree(this.curLocId).subscribe(response => {
+    //   this.locationsList = response.map(x => ({
+    //     ...x,
+    //     opened: true
+    //   }));
+    //   this.parentOrgId = this.locationsList[0].parentOrgId;
+    //   this.parentOrgName = this.locationsList[0].parentOrgName;
+    // });
   }
 
   openConfirmDialog(delLocId, delLocName) {

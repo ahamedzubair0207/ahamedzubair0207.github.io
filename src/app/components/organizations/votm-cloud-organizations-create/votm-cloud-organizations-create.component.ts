@@ -201,9 +201,9 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
   }
 
   createNestedLocation(event) {
-    let parentLocId = '19d7e5e5-fda7-4778-b943-62e36078087a';
-    let parentLocName = 'Mineapolis';
-    this.route.navigate([`loc/create/${parentLocId}/${parentLocName}/${this.organization.organizationId}/${this.organization.name}`])
+    // let parentLocId = '19d7e5e5-fda7-4778-b943-62e36078087a';
+    // let parentLocName = 'Mineapolis';
+    this.route.navigate([`loc/create/${this.organization.organizationId}/${this.organization.name}`])
   }
 
   openConfirmDialog() {
