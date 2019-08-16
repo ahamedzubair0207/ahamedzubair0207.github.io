@@ -12,3 +12,27 @@ legend{
     width: auto;
     padding: 0 5px;
 }
+
+
+.sensor-details-font{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 12px;
+  }
+
+  .save-btn-color{
+    background-color: rgb(0,185,195);
+  }
+
+  input[type=text], input[type=password],input[type=email],input[type=file],input[type=number] {
+    padding: 5px 0px 7px 15px;
+    margin: 1px 0px 23px 0px;
+    display: inline-block;
+    border: 1px solid #ddd;
+    background: #f1f1f1;
+    box-shadow: #069;
+  }
+  
+  input[type=text]:focus, input[type=password]:focus,input[type=email]:focus,input[type=file]:focus {
+    background-color: #ddd;
+    outline: none;
+  }

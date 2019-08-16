@@ -11,6 +11,7 @@ import { VotmCloudLocationsHomeComponent } from './components/locations/votm-clo
 import { VotmCloudLocationsCreateComponent } from './components/locations/votm-cloud-locations-create/votm-cloud-locations-create.component';
 import { VotmCloudAssetsHomeComponent } from './components/assets/votm-cloud-assets-home/votm-cloud-assets-home.component';
 import { VotmCloudAssetsCreateComponent } from './components/assets/votm-cloud-assets-create/votm-cloud-assets-create.component';
+import { VotomCloudAssetsSignalComponent } from './components/assets/votom-cloud-assets-signal/votom-cloud-assets-signal.component';
 import { VotmCloudSensorsHomeComponent } from './components/sensors/votm-cloud-sensors-home/votm-cloud-sensors-home.component';
 import { VotmCloudGatewaysHomeComponent } from './components/gateways/votm-cloud-gateways-home/votm-cloud-gateways-home.component';
 import { VotmCloudAdminPanelComponent } from './components/admin/votm-cloud-admin-panel/votm-cloud-admin-panel.component';
@@ -35,6 +36,7 @@ const routes: Routes = [
   { path: 'loc/create/:curOrgId/:curOrgName', component: VotmCloudLocationsCreateComponent, data:{type:'Create'} },
   { path: 'asset/home/:assetId', component: VotmCloudAssetsHomeComponent },
   { path: 'asset/create', component: VotmCloudAssetsCreateComponent },
+  { path: 'asset/signal', component: VotomCloudAssetsSignalComponent },
   { path: 'sensor/home', component: VotmCloudSensorsHomeComponent },
   { path: 'sensor/detail', component: VotmCloudSensorsDetailsComponent},
   { path: 'gateway/home', component: VotmCloudGatewaysHomeComponent },

@@ -1,7 +1,16 @@
 <div class="org-outside-border" *ngIf="(!orgId && pageLabels) || (orgId && pageLabels && organization) ">
   <form #organizationForm="ngForm" class="form container create-org-container border shadow-sm needs-validation"
     (ngSubmit)="onOrganizationSubmit()" novalidate>
-    <h4 class="col create-org-head">{{pageTitle}}</h4>
+    <div class="row org-create-font">
+        <h4 class="col-md-6 create-org-head">{{pageTitle}}</h4>
+        <div class="col-md-6">
+            <button id="org-create" *ngIf="organization.organizationId" (click)="createNestedLocation($event)" type="button"
+            class="btn btn-secondary btn-lg button-mod btn-color">Create Location</button>
+          <button id="loc-org-create" *ngIf="organization.organizationId" (click)="createNestedOrganization($event)" type="button"
+            class="btn btn-secondary btn-lg button-mod btn-color">Create Organization</button>
+        </div>
+    </div>
+    
     <div class="row org-create-font">
       <div class="col-md-3">
         <label for="name"><b>* {{pageLabels.Name.labelName}} : </b></label>
@@ -272,10 +281,6 @@
           class="btn btn-secondary btn-lg button-mod" (click)="openConfirmDialog()">Delete</button>
         <button id="org-save" type="submit" *ngIf="pageType !=='View'"
           class="btn btn-secondary btn-lg button-mod btn-color">Save</button>
-        <button id="org-create" *ngIf="organization.organizationId" (click)="createNestedLocation($event)" type="button"
-          class="btn btn-secondary btn-lg button-mod">Create Location</button>
-        <button id="loc-org-create" *ngIf="organization.organizationId" (click)="createNestedOrganization($event)" type="button"
-          class="btn btn-secondary btn-lg button-mod">Create Organization</button>
       </div>
     </div>
 
@@ -296,7 +301,7 @@
         <div class="modal-header">
           <label for="UOM" class="pr-2"><b>Units of Measure :</b></label>
           <div class="form-check form-check-inline">
-            <input [disabled]="pageType==='View'" class="form-check-input loc-create-font" type="radio" value="SI" name="UOM"
+            <input [disabled]="pageType==='View'" class="form-check-input org-create-font" type="radio" value="SI" name="UOM"
               (change)="onUnitChange($event)" checked id="f-si">
             <label class="form-check-label" for="f-si">SI</label>
           </div>
@@ -374,9 +379,9 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button id="loc-uom-cancle" type="button" class="btn button-mod btn-secondary" (click)="closemodal('cancel')">Cancel
+          <button id="org-uom-cancle" type="button" class="btn button-mod btn-secondary" (click)="closemodal('cancel')">Cancel
           </button>
-          <button id="loc-uom-save" type="button" class="btn button-mod btn-color" (click)="closemodal('save')">Save</button>
+          <button id="org-uom-save" type="button" class="btn button-mod btn-color" (click)="closemodal('save')">Save</button>
         </div>
   
       </div>
