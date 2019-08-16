@@ -51,6 +51,7 @@ import { VotmCloudSensorsDetailsComponent } from './components/sensors/votm-clou
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { VotmCloudAlertsCreateComponent } from './components/alerts/votm-cloud-alerts-create/votm-cloud-alerts-create.component';
+import { VotomCloudAssetsSignalComponent } from './components/assets/votom-cloud-assets-signal/votom-cloud-assets-signal.component';
 
 
 @NgModule({
@@ -85,7 +86,8 @@ import { VotmCloudAlertsCreateComponent } from './components/alerts/votm-cloud-a
     VotmClusteredColumnChartComponent,
     VotmCloudNameValidatorDirective,
     VotmCloudSensorsDetailsComponent,
-    VotmCloudAlertsCreateComponent
+    VotmCloudAlertsCreateComponent,
+    VotomCloudAssetsSignalComponent
   ],
   imports: [
     BrowserModule,
