@@ -29,14 +29,14 @@ export class VotmCloudLocationsHomeComponent implements OnInit {
   constructor(private locService: LocationService, private route: ActivatedRoute, private toastr: ToastrService) { }
 
   ngOnInit() {
-    this.route.paramMap.subscribe((params: ParamMap) => {
-      this.curLocId = params.get("locId");
-      this.curLocName = params.get("locName");
+    // this.route.paramMap.subscribe((params: ParamMap) => {
+    //   this.curLocId = params.get("locId");
+    //   this.curLocName = params.get("locName");
 
-      this.fetchlocationTree();
+    //   this.fetchlocationTree();
 
-    });
-
+    // });
+    this.fetchlocationTree();
   }
 
   private fetchlocationTree() {

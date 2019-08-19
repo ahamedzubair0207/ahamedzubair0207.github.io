@@ -72,10 +72,12 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
   @ViewChild('locationForm', null) locationForm: NgForm;
   @ViewChild('confirmBox', null) confirmBox: VotmCloudConfimDialogComponent;
   @ViewChild('file', null) locationImage: any;
+  @ViewChild('address1', null) address1: any;
   parentLocName: string;
   fileName: any;
   fileExtension: string;
   toaster: Toaster = new Toaster(this.toastr);
+  geoLocationErrorMessage: any;
   constructor(private modalService: NgbModal, private locationService: LocationService,
     private configSettingsService: ConfigSettingsService, private domSanitizer: DomSanitizer,
     private activatedRoute: ActivatedRoute, private route: Router, private datePipe: DatePipe,
@@ -120,14 +122,14 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
     this.location.active = true;
     this.UOM = 'SI';
     this.locationTypes = [{ value: 'locationType1', text: 'locationType1' }, { value: 'locationType2', text: 'locationType2' }]
-    this.states = [{ value: 'state1', text: 'MN' },
-    { value: 'state2', text: 'OH' }];
-    this.countries = [{ value: 'country1', text: 'USA' },
-    { value: 'country2', text: 'Brazil' }];
-    this.locationService.getLocationInfoFromAzureMap(null)
-      .subscribe(response => {
-        console.log('AHAMED from azure map ', response);
-      })
+    this.states = [{ value: 'state1', text: 'MN' },{ value: 'state2', text: 'MO' },{ value: 'state3', text: 'TX' },{ value: 'state4', text: 'FL' },
+    { value: 'state5', text: 'CO' },{ value: 'state6', text: 'KS' },{ value: 'state7', text: 'OH' }];
+    this.countries = [{ value: 'country1', text: 'USA' },{ value: 'country2', text: 'Italy' },{ value: 'country3', text: 'France' },{ value: 'country4', text: 'Germany' },
+    { value: 'country5', text: 'Belgium' },{ value: 'country6', text: 'Denmark' },{ value: 'country7', text: 'Iceland' },{ value: 'country8', text: 'Sweden' },{ value: 'country9', text: 'Brazil' }];
+    // this.locationService.getLocationInfoFromAzureMap(null)
+    //   .subscribe(response => {
+    //     // console.log('AHAMED from azure map ', response);
+    //   })
 
     this.gateGateways();
     this.location.address = [new Address()];
@@ -176,8 +178,6 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
             let str = this.location.geoFenceValue;
             var matches = str.split('*')[1].match(/(\d+)/);
             var matches2 = str.split('*')[1].match(/[a-zA-Z]/gi);
-            console.log('matches2 ', matches2.join(''))
-            console.log(str.split('*')[1], str.split('*')[1].slice(matches[0].length, str.split('*')[1].length - (matches[0].length - 1)));
             this.rectangleValue1 = str.split('*')[0];
             this.rectangleValue2 = matches[0];
             this.rectangleUnit = matches2.join('');
@@ -220,22 +220,45 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
   }
 
   checkAddress() {
-    if (this.location.address && this.location.address.length > 0
-      && this.location.address[0].address1
-      && this.location.address[0].city
-      && this.location.address[0].country && this.location.address[0].postalCode
-      && this.location.address[0].state) {
-      let address = `${this.location.address[0].address1} ${this.location.address[0].address2} ${this.location.address[0].city} ${this.location.address[0].postalCode} ${this.location.address[0].state} ${this.location.address[0].country}`;
-      console.log('AHAMED ADDRESS ', address);
-      this.locationService.getLocationInfoFromAzureMap(address)
-        .subscribe((response: any) => {
-          console.log('response ', response);
-          if(response && response.results && response.results.length>0){
-            this.location.latitude = response.results[0].position.lat;
-            this.location.longitude = response.results[0].position.lon;
-          }
-        });
+    if (this.location.address && this.location.address.length > 0) {
+      if (this.location.address[0].address1
+        && this.location.address[0].city
+        && this.location.address[0].country && this.location.address[0].postalCode
+        && this.location.address[0].state) {
+        let address = `${this.location.address[0].address1} ${this.location.address[0].address2} ${this.location.address[0].city} ${this.location.address[0].postalCode} ${this.location.address[0].state} ${this.location.address[0].country}`;
+        this.locationService.getLocationInfoFromAzureMap(address)
+          .subscribe((response: any) => {
+            if (response && response.results && response.results.length > 0) {
+              this.location.latitude = response.results[0].position.lat;
+              this.location.longitude = response.results[0].position.lon;
+            }
+          });
+      } else {
+
+        this.geoLocationErrorMessage = 'Address is not correct. ';
+        if (!this.location.address[0].address1) {
+          this.geoLocationErrorMessage += 'Please fill street name.';
+        } else if (!this.location.address[0].city) {
+          this.geoLocationErrorMessage += 'Please fill city name.';
+        } else if (!this.location.address[0].postalCode) {
+          this.geoLocationErrorMessage += 'Please fill postal code.';
+        } else if (!this.location.address[0].state) {
+          this.geoLocationErrorMessage += 'Please fill state name.';
+        } else if (!this.location.address[0].country) {
+          this.geoLocationErrorMessage += 'Please fill country name.';
+        }
+        this.markGeoLocationInvalid();
+      }
+    } else {
+      this.markGeoLocationInvalid();
     }
+  }
+
+  markGeoLocationInvalid() {
+    this.locationForm.form.controls['geoLocationLong'].markAsDirty();
+    this.locationForm.form.controls['geoLocationLat'].markAsDirty();
+    this.locationForm.form.controls['geoLocationLong'].setErrors({ 'invalidLonLat': true })
+    this.locationForm.form.controls['geoLocationLat'].setErrors({ 'invalidLonLat': true })
   }
 
   // getLocationInfo() {
@@ -253,7 +276,6 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
 
   onItemSelect(data: { value: string[] }) {
     this.location.gatewayId = (data && data.value) ? data.value[0] : null;
-    console.log('location.gatewayId ', data.value);
   }
   onSelectAll(items: any) {
   }
@@ -262,7 +284,7 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
   }
 
   creteAsset(event) {
-    this.route.navigate([`asset/create`])
+    this.route.navigate([`asset/create/${this.curOrgId}/${this.curOrgName}/${this.location.locationId}/${this.location.locationName}`])
   }
   locationObject() {
   }
@@ -433,7 +455,6 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
   // }
 
   onLocationSubmit() {
-    console.log('location.gatewayId ', this.location.gatewayId, this.selectedGateways);
     if (this.location.geoFenceType === 'bf0bc7b5-1bf8-4a59-a3b5-35904937e89e') {
       this.location.geoFenceValue = `${this.radiusValue}${this.radiusUnit}`;
     }
@@ -447,10 +468,8 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
     //   // })
     // }
 
-    console.log('locationForm ', this.locationForm);
     if (this.locationForm && this.locationForm.invalid) {
       this.toaster.onFailure('Please fill the form correctly.', 'Form is invalid!')
-      console.log('If block ');
       Object.keys(this.locationForm.form.controls).forEach(element => {
         this.locationForm.form.controls[element].markAsDirty();
       });
@@ -462,7 +481,6 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
             // this.onSuccess('Successfully saved', 'Saved');
             this.routerLocation.back();
           }, error => {
-            console.log('AHAMED ERROR ', error)
             this.toaster.onFailure('Something went wrong. Please fill the form correctly', 'Fail');
           });
       } else {
@@ -470,13 +488,13 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
           .subscribe(response => {
             // console.log('response ', response);
             this.toaster.onSuccess('Successfully saved', 'Saved');
-            if (this.parentLocId && this.parentLocName) {
-              this.route.navigate([`loc/home/${this.parentLocId}/${this.parentLocName}`]);
-            } else {
-              this.route.navigate([`org/home/${this.curOrgId}/${this.curOrgName}`]);
-            }
+            // if (this.parentLocId && this.parentLocName) {
+            //   this.route.navigate([`loc/home/${this.parentLocId}/${this.parentLocName}`]);
+            // } else {
+            //   this.route.navigate([`org/home/${this.curOrgId}/${this.curOrgName}`]);
+            // }
+            this.routerLocation.back();
           }, error => {
-            console.log('AHAMED ERROR ', error)
             this.toaster.onFailure('Something went wrong. Please fill the form correctly', 'Fail');
           });
       }
@@ -493,12 +511,12 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
 
 
   deleteOrganizationById(event) {
-    console.log('event on close ', event);
     if (event) {
       this.locationService.deleteLocation(this.location.locationId)
         .subscribe(response => {
           this.toaster.onSuccess(`You have deleted ${this.location.locationName} successfully.`, 'Delete Success!');
-          this.route.navigate([`loc/home/${this.parentLocId}/${this.parentLocName}`])
+          // this.route.navigate([`loc/home/${this.parentLocId}/${this.parentLocName}`])
+          this.routerLocation.back();
         }, error => {
           this.toaster.onFailure('Something went wrong on server. Please try after sometiime.', 'Delete Fail!');
         });

@@ -3,41 +3,34 @@
 <div class="row">
   <div class="col-6">
     <div class="row form-group">
-      <label class="col-sm-4 col-form-label"><b>Sensor Name</b></label>
-      <div class="col-sm-8">
+      <label class="col-sm-3 col-form-label"><b>Sensor Name</b></label>
+      <div class="col-sm-7">
         <input type="text" class="form-control sensor-details-font">
       </div>
     </div>
     <div class="row form-group">
-      <label class="col-sm-4 col-form-label"><b>Serial Number</b></label>
-      <div class="col-sm-8">
+      <label class="col-sm-3 col-form-label"><b>Serial Number</b></label>
+      <div class="col-sm-7">
         <input type="text" class="form-control sensor-details-font">
       </div>
     </div>
     <div class="row form-group">
-      <label class="col-sm-4 col-form-label"><b>Description</b></label>
-      <div class="col-sm-8">
+      <label class="col-sm-3 col-form-label"><b>Description</b></label>
+      <div class="col-sm-7">
         <input type="text" class="form-control sensor-details-font">
       </div>
     </div>
     <div class="row form-group">
-      <label class="col-sm-4 col-form-label"><b>Sensor Type</b></label>
-      <div class="col-sm-8">
+      <label class="col-sm-3 col-form-label"><b>Sensor Type</b></label>
+      <div class="col-sm-7">
         <input type="text" class="form-control sensor-details-font">
       </div>
     </div>
     <div class="row form-group">
-      <label class="col-sm-4 col-form-label"><b>Model Number</b></label>
-      <div class="col-sm-8">
+      <label class="col-sm-3 col-form-label"><b>Model Number</b></label>
+      <div class="col-sm-7">
         <input type="text" class="form-control sensor-details-font">
       </div>
-    </div>
-    <div class="row form-group">
-      <br>
-      <!-- <label class="col-sm-4 col-form-label">Sensor Name</label>
-      <div class="col-sm-8">
-        <input type="text" class="form-control">
-      </div> -->
     </div>
   </div>
   <div class="col-6">
@@ -77,24 +70,24 @@
 <div class="row">
   <div class="col-4">
     <div class="row form-group">
-      <label class="col-sm-6 col-form-label"><b>Sensor State</b></label>
-      <div class="col-sm-6">
+      <label class="col-sm-4 col-form-label mr-3"><b>Sensor State</b></label>
+      <div class="col-sm-7">
         <input type="text" class="form-control sensor-details-font">
       </div>
     </div>
   </div>
   <div class="col-4">
     <div class="row form-group">
-      <label class="col-sm-6 col-form-label"><b>Battery Level </b><i class="fa fa-battery"></i></label>
-      <div class="col-sm-6">
+      <label class="col-sm-5 col-form-label text-right"><b>Battery Level </b><i class="fa fa-battery"></i></label>
+      <div class="col-sm-7">
         <input type="text" class="form-control sensor-details-font">
       </div>
     </div>
   </div>
   <div class="col-4">
     <div class="row form-group">
-      <label class="col-sm-6 col-form-label"><b>Signal Strength</b><i class="fa fa-wifi"></i></label>
-      <div class="col-sm-6">
+      <label class="col-sm-5 col-form-label text-right"><b>Signal Strength</b><i class="fa fa-wifi"></i></label>
+      <div class="col-sm-7">
         <input type="text" class="form-control sensor-details-font">
       </div>
     </div>
@@ -113,7 +106,7 @@
     </div>
     <div class="col-6">
       <div class="row form-group">
-        <label class="col-sm-4 col-form-label"><b>Signal Type</b></label>
+        <label class="col-sm-4 col-form-label text-right"><b>Signal Type</b></label>
         <div class="col-sm-8">
           <select class="custom-select sensor-details-font">
             <option>--</option>
@@ -124,9 +117,25 @@
     </div>
   </div>
   <div class="row">
-    <div class="col-4">
+    <div class="col-3">
       <div class="row form-group">
-        <label class="col-sm-6 col-form-label"><b>Source UOM</b></label>
+        <label class="col-sm-5 col-form-label"><b>Source UOM</b></label>
+        <div class="col-sm-6">
+          <input type="text" class="form-control sensor-details-font">
+        </div>
+      </div>
+    </div>
+    <div class="col-2">
+      <div class="row form-group">
+        <label class="col-sm-4 col-form-label"><b>Precision</b></label>
+        <div class="col-sm-8">
+          <input type="text" class="form-control sensor-details-font">
+        </div>
+      </div>
+    </div>
+    <div class="col-3">
+      <div class="row form-group">
+        <label class="col-sm-6 col-form-label"><b>Low</b> (00000>>>>)</label>
         <div class="col-sm-6">
           <input type="text" class="form-control sensor-details-font">
         </div>
@@ -134,15 +143,7 @@
     </div>
     <div class="col-4">
       <div class="row form-group">
-        <label class="col-sm-6 col-form-label"><b>Low</b> 00000>>>></label>
-        <div class="col-sm-6">
-          <input type="text" class="form-control sensor-details-font">
-        </div>
-      </div>
-    </div>
-    <div class="col-4">
-      <div class="row form-group">
-        <label class="col-sm-6 col-form-label"><b>High</b> 20000>>>></label>
+        <label class="col-sm-6 col-form-label"><b>High</b> (20000>>>>)</label>
         <div class="col-sm-6">
           <input type="text" class="form-control sensor-details-font">
         </div>
@@ -172,6 +173,6 @@
 
 <div class="d-flex justify-content-end py-3">
   <button class="btn btn-info mr-3 save-btn-color">Cancel</button>
-  <button class="btn btn-secondary">Save Changes</button>
+  <button class="btn btn-secondary">Save</button>
 </div>
 </div>
