@@ -4,9 +4,9 @@
     <div class="row org-create-font">
         <h4 class="col-md-6 create-org-head">{{pageTitle}}</h4>
         <div class="col-md-6">
-            <button id="org-create" *ngIf="organization.organizationId" (click)="createNestedLocation($event)" type="button"
+            <button id="loc-org-create" *ngIf="organization.organizationId" (click)="createNestedLocation($event)" type="button"
             class="btn btn-secondary btn-lg button-mod btn-color">Create Location</button>
-          <button id="loc-org-create" *ngIf="organization.organizationId" (click)="createNestedOrganization($event)" type="button"
+          <button id="org-create" *ngIf="organization.organizationId" (click)="createNestedOrganization($event)" type="button"
             class="btn btn-secondary btn-lg button-mod btn-color">Create Organization</button>
         </div>
     </div>
@@ -15,7 +15,7 @@
       <div class="col-md-3">
         <label for="name"><b>* {{pageLabels.Name.labelName}} : </b></label>
         <input type="text" maxlength="100" [(ngModel)]="organization.name" class="form-control org-create-font"
-          placeholder="Name" name="name" appVotmCloudNameValidator [disabled]="pageType==='View'" #orgName="ngModel"
+          placeholder="Name" name="name"  [disabled]="pageType==='View'" #orgName="ngModel"
           required>
         <div *ngIf="orgName.dirty && orgName.invalid">
           <app-votm-cloud-validator message="Name is required"></app-votm-cloud-validator>
@@ -33,7 +33,7 @@
       <div class="col-md-3">
         <label for="organizationType"><b>{{pageLabels.OrganizationType.labelName}} :</b></label>
         <input type="text" [disabled]="pageType==='View'" [(ngModel)]="organization.organizationType"
-          class="form-control org-create-font" appVotmCloudNameValidator maxlength="100" placeholder="Organization Type" name="organizationType">
+          class="form-control org-create-font"  maxlength="100" placeholder="Organization Type" name="organizationType">
       </div>
       <div class="col-md-3">
         <label for="parentOrgLbl"><b>{{pageLabels.ParentOrganization.labelName}} :</b></label>
@@ -60,7 +60,7 @@
       <div class="col-md-4">
         <label for="primaryDistributorName"><b>* {{pageLabels.PrimaryDistributor.labelName}} : </b></label>
         <input type="text" [disabled]="pageType==='View'" name="primaryDistributorName"
-          [(ngModel)]="organization.primaryDistributorName" appVotmCloudNameValidator class="form-control org-create-font"
+          [(ngModel)]="organization.primaryDistributorName" class="form-control org-create-font"
           placeholder="Primary Distributor Name" #primaryDistributorName="ngModel" maxlength="50" required>
         <div *ngIf="primaryDistributorName.dirty && primaryDistributorName.invalid">
           <app-votm-cloud-validator message="Primary Distributor Name is required"></app-votm-cloud-validator>

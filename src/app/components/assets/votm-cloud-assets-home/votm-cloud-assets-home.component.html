@@ -1,10 +1,10 @@
 
 <h3 class="flt-left"> Asset</h3>
-<div class="btn-group-right">
+<!-- <div class="btn-group-right">
     <button [routerLink]="['/asset/create']" type="button" class="btn btn-dark">Create Asset</button>
-</div>
+</div> -->
 
-<ng-template #recursiveTableList let-list="orgList" let-lvl="level">
+<ng-template #recursiveTableList let-list="assetsList" let-lvl="level">
   <ng-container *ngFor="let item of list">
 
     <tr>
@@ -16,17 +16,17 @@
       <td class="align-center" >{{item.assetNumber}}</td>
       <td class="align-center" >{{item.parentLocationName}}</td>
       <td class="align-center" >{{item.parentOrganizationName}}</td>
+      <!-- <td class="align-center" ></td>
       <td class="align-center" ></td>
-      <td class="align-center" ></td>
-      <td class="align-center" ></td>
+      <td class="align-center" ></td> -->
       <td class="align-center">
         <a class="action-icon" title="List" [routerLink]="['/asset/home', item.id]">
           <i class="fa fa-list"></i>
         </a>
-        <a class="action-icon" title="View" [routerLink]="['/org/view']">
+        <a class="action-icon" title="View" [routerLink]="['/asset/view']">
           <i class="fa fa-eye"></i>
         </a>
-        <a class="action-icon" title="Edit" [routerLink]="['/org/edit']">
+        <a class="action-icon" title="Edit" [routerLink]="['/asset/edit']">
           <i class="fa fa-edit"></i>
         </a>
         <a class="action-icon" (click)="openConfirmDialog(item.id)" title="Delete">

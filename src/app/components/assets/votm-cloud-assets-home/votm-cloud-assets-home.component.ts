@@ -22,7 +22,7 @@ export class VotmCloudAssetsHomeComponent implements OnInit {
   ngOnInit() {
     this.route.paramMap.subscribe((params : ParamMap)=> {
       this.curOrgId = params.get("assetId");
-      this.fetchOrgList();
+      this.fetchAssetList();
     });
   }
 
@@ -36,14 +36,14 @@ export class VotmCloudAssetsHomeComponent implements OnInit {
     if (event) {
       this.assetService.deleteAsset(this.orgToDelete)
         .subscribe(response => {
-          this.fetchOrgList();
+          this.fetchAssetList();
         });
     }
     this.orgToDelete = '';
   }
 
-  fetchOrgList(){
-    this.assetService.getAssetTree(this.curOrgId).subscribe(
+  fetchAssetList(){
+    this.assetService.getAssetTree().subscribe(
       response => {
         this.assetsList = response.map(
           x => ({
