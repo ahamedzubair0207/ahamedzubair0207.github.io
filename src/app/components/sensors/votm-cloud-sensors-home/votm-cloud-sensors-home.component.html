@@ -4,29 +4,29 @@
     <button [routerLink]="['/sensor/detail']" type="button" class="btn btn-dark">Configure Sensors</button>
 </div>
 
-<ng-template #recursiveTableList let-list="orgList" let-lvl="level">
+<ng-template #recursiveTableList let-list="sensorList" let-lvl="level">
   <ng-container *ngFor="let item of list">
 
     <tr>
       <th scope="row" (click)="item.opened = !item.opened" [ngStyle]="{'padding-left.px': 15*(lvl+1)}">
-        <i class="fa fa-industry"></i>
-        {{item.name}} <i *ngIf="item.node.length > 0 " [ngClass]="{'fa': true, 'fa-caret-right': !item.opened, 'fa-caret-down': item.opened}"></i>
+        <i class="fa fa-thermometer-half"></i>
+        {{item.sensorName}} <i *ngIf="item.node.length > 0 " [ngClass]="{'fa': true, 'fa-caret-right': !item.opened, 'fa-caret-down': item.opened}"></i>
       </th>
-      <td class="align-center" >{{item.type}}</td>
+      <td class="align-center" >{{item.serialNumber}}</td>
       <td class="align-center" >{{item.assetNumber}}</td>
-      <td class="align-center" >{{item.parentLocationName}}</td>
-      <td class="align-center" >{{item.parentOrganizationName}}</td>
+      <td class="align-center" ></td>
+      <td class="align-center" ></td>
       <td class="align-center" ></td>
       <td class="align-center" ></td>
       <td class="align-center" ></td>
       <td class="align-center">
-        <a class="action-icon" title="List" [routerLink]="['/asset/home', item.id]">
+        <a class="action-icon" title="List" [routerLink]="['/sensor/home', item.id]">
           <i class="fa fa-list"></i>
         </a>
-        <a class="action-icon" title="View" [routerLink]="['/org/view']">
+        <a class="action-icon" title="View" [routerLink]="['/sensor/view']">
           <i class="fa fa-eye"></i>
         </a>
-        <a class="action-icon" title="Edit" [routerLink]="['/org/edit']">
+        <a class="action-icon" title="Edit" [routerLink]="['/sensor/edit']">
           <i class="fa fa-edit"></i>
         </a>
         <a class="action-icon" (click)="openConfirmDialog(item.id)" title="Delete">
@@ -53,24 +53,24 @@
         
       <tr *ngIf="item.opened && subItem.entityType == 'Sensor'">
         <th scope="row" (click)="subItem.opened = !subItem.opened" [ngStyle]="{'padding-left.px': 15*(lvl+2)}">
-          <i class="fa fa-industry"></i>
-          {{subItem.name}} <i *ngIf="subItem.node.length > 0 " [ngClass]="{'fa': true, 'fa-caret-right': !subItem.opened, 'fa-caret-down': subItem.opened}"></i>
+          <i class="fa fa-thermometer-half"></i>
+          {{subItem.sensorName}} <i *ngIf="subItem.node.length > 0 " [ngClass]="{'fa': true, 'fa-caret-right': !subItem.opened, 'fa-caret-down': subItem.opened}"></i>
         </th>
-        <td class="align-center" >{{subItem.type}}</td>
-        <td class="align-center" >{{subItem.assetNumber}}</td>
-        <td class="align-center" >{{subItem.parentLocationName}}</td>
-        <td class="align-center" >{{subItem.parentOrganizationName}}</td>
+        <td class="align-center" >{{subItem.serialNumber}}</td>
+        <td class="align-center" ></td>
+        <td class="align-center" ></td>
+        <td class="align-center" ></td>
         <td class="align-center" ></td>
         <td class="align-center" ></td>
         <td class="align-center" ></td>
         <td class="align-center">
-          <a class="action-icon" title="List" [routerLink]="['/asset/home', subItem.id]">
+          <a class="action-icon" title="List" [routerLink]="['/sensor/home', subItem.id]">
             <i class="fa fa-list"></i>
           </a>
-          <a class="action-icon" title="View" [routerLink]="['/org/view']">
+          <a class="action-icon" title="View" [routerLink]="['/sensor/view']">
             <i class="fa fa-eye"></i>
           </a>
-          <a class="action-icon" title="Edit" [routerLink]="['/org/edit']">
+          <a class="action-icon" title="Edit" [routerLink]="['/sensor/edit']">
             <i class="fa fa-edit"></i>
           </a>
           <a class="action-icon" (click)="openConfirmDialog(subItem.id)" title="Delete">
@@ -80,7 +80,7 @@
       </tr>
 
       <ng-container *ngIf="subItem.opened">
-          <ng-container *ngTemplateOutlet="recursiveTableList; context:{ orgList: subItem.node, level: lvl+2 }"></ng-container>
+          <ng-container *ngTemplateOutlet="recursiveTableList; context:{ sensorList: subItem.node, level: lvl+2 }"></ng-container>
       </ng-container>
       
     </ng-container>
@@ -89,7 +89,7 @@
 </ng-template>
 
 
-<table class="table table-sm">
+<table class="table table-sm table-bordered">
     <thead class="thead-light">
       <tr>
         <th scope="col" class="align-center table-col-name" >Sensor/Signal Name</th>
@@ -104,7 +104,7 @@
       </tr>
     </thead>
     <tbody>
-        <ng-container *ngTemplateOutlet="recursiveTableList; context:{ orgList: assetsList, level: 0 }"></ng-container>
+        <ng-container *ngTemplateOutlet="recursiveTableList; context:{ sensorList: sensorList, level: 0 }"></ng-container>
     </tbody>
   </table>
 

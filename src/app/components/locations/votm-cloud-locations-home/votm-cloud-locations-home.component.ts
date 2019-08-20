@@ -29,14 +29,28 @@ export class VotmCloudLocationsHomeComponent implements OnInit {
   constructor(private locService: LocationService, private route: ActivatedRoute, private toastr: ToastrService) { }
 
   ngOnInit() {
-    // this.route.paramMap.subscribe((params: ParamMap) => {
-    //   this.curLocId = params.get("locId");
-    //   this.curLocName = params.get("locName");
+    this.route.paramMap.subscribe((params: ParamMap) => {
+      this.curLocId = params.get("locId");
+      this.curLocName = params.get("locName");
+      console.log(' this.curLocId ', this.curLocId);
+      if (!this.curLocId) {
+        this.fetchlocationTree();
+      } else {
+        this.fetchlocationTreeById();
+      }
+    });
+    // this.fetchlocationTree();
+  }
 
-    //   this.fetchlocationTree();
-
-    // });
-    this.fetchlocationTree();
+  private fetchlocationTreeById() {
+    this.locService.getLocationTree(this.curLocId).subscribe(response => {
+      this.locationsList = response.map(x => ({
+        ...x,
+        opened: true
+      }));
+      this.parentOrgId = this.locationsList[0].parentOrgId;
+      this.parentOrgName = this.locationsList[0].parentOrgName;
+    });
   }
 
   private fetchlocationTree() {
@@ -45,8 +59,8 @@ export class VotmCloudLocationsHomeComponent implements OnInit {
         ...x,
         opened: true
       }));
-      this.parentOrgId = this.locationsList[0].parentOrgId;
-      this.parentOrgName = this.locationsList[0].parentOrgName;
+      this.parentOrgId = this.route.snapshot.paramMap.get("curOrgId");
+      this.parentOrgName = this.route.snapshot.paramMap.get("curOrgName")
     });
     // this.locService.getLocationTree(this.curLocId).subscribe(response => {
     //   this.locationsList = response.map(x => ({

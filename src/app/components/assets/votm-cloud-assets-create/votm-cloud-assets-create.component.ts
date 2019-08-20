@@ -82,7 +82,7 @@ export class VotmCloudAssetsCreateComponent implements OnInit {
     this.asset.parentAssetId = this.parentAssetId = this.activatedRoute.snapshot.paramMap.get("parentAssetId");
     this.asset.parentAssetName = this.parentAssetName = this.activatedRoute.snapshot.paramMap.get("parentAssetName");
     this.pageType = this.activatedRoute.snapshot.data['type'];
-    this.pageTitle = `${this.pageType} Asset`;
+  this.pageTitle = `${this.pageType} Asset`;
     this.assetId = this.activatedRoute.snapshot.params['assetId'];
 
     this.templates = [];

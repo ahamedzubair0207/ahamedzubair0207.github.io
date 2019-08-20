@@ -16,7 +16,7 @@
       <td class="align-center">{{item.type}}</td>
       <td class="align-center">{{item.parentOrgName}}</td>
       <td class="align-center">
-        <a class="action-icon" title="List" [routerLink]="['/loc/home', item.id, item.name]">
+        <a class="action-icon" title="List" [routerLink]="['/loc/home',item.parentOrgId, item.parentOrgName, item.id, item.name]">
           <i class="fa fa-list"></i>
         </a>
         <a class="action-icon" title="View" [routerLink]="['/loc/view',item.parentOrgId, item.parentOrgName, item.id]">
@@ -55,7 +55,7 @@
         <td class="align-center">{{subItem.type}}</td>
         <td class="align-center">{{subItem.parentOrgName}}</td>
         <td class="align-center">
-          <a class="action-icon" title="List" [routerLink]="['/loc/home', subItem.id, subItem.name]">
+          <a class="action-icon" title="List" [routerLink]="['/loc/home',subItem.parentOrgId, subItem.parentOrgName, subItem.id, subItem.name]">
             <i class="fa fa-list"></i>
           </a>
           <a class="action-icon" title="View"
