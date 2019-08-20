@@ -16,17 +16,17 @@
       <td class="align-center" >{{item.assetNumber}}</td>
       <td class="align-center" >{{item.parentLocationName}}</td>
       <td class="align-center" >{{item.parentOrganizationName}}</td>
-      <!-- <td class="align-center" ></td>
       <td class="align-center" ></td>
-      <td class="align-center" ></td> -->
+      <td class="align-center" ></td>
+      <td class="align-center" ></td>
       <td class="align-center">
         <a class="action-icon" title="List" [routerLink]="['/asset/home', item.id]">
           <i class="fa fa-list"></i>
         </a>
-        <a class="action-icon" title="View" [routerLink]="['/asset/view']">
+        <a class="action-icon" title="View" [routerLink]="['/asset/view', item.id]">
           <i class="fa fa-eye"></i>
         </a>
-        <a class="action-icon" title="Edit" [routerLink]="['/asset/edit']">
+        <a class="action-icon" title="Edit" [routerLink]="['/asset/edit', item.id]">
           <i class="fa fa-edit"></i>
         </a>
         <a class="action-icon" (click)="openConfirmDialog(item.id)" title="Delete">
@@ -67,10 +67,10 @@
           <a class="action-icon" title="List" [routerLink]="['/asset/home', subItem.id]">
             <i class="fa fa-list"></i>
           </a>
-          <a class="action-icon" title="View" [routerLink]="['/org/view']">
+          <a class="action-icon" title="View" [routerLink]="['/asset/view', subItem.id]">
             <i class="fa fa-eye"></i>
           </a>
-          <a class="action-icon" title="Edit" [routerLink]="['/org/edit']">
+          <a class="action-icon" title="Edit" [routerLink]="['/asset/edit', subItem.id]">
             <i class="fa fa-edit"></i>
           </a>
           <a class="action-icon" (click)="openConfirmDialog(subItem.id)" title="Delete">
@@ -80,7 +80,7 @@
       </tr>
 
       <ng-container *ngIf="subItem.opened">
-          <ng-container *ngTemplateOutlet="recursiveTableList; context:{ orgList: subItem.node, level: lvl+2 }"></ng-container>
+          <ng-container *ngTemplateOutlet="recursiveTableList; context:{ assetsList: subItem.node, level: lvl+2 }"></ng-container>
       </ng-container>
       
     </ng-container>
@@ -89,7 +89,7 @@
 </ng-template>
 
 
-<table class="table table-sm">
+<table class="table table-sm table-bordered">
     <thead class="thead-light">
       <tr>
         <th scope="col" class="align-center table-col-name" >Name</th>
@@ -104,7 +104,7 @@
       </tr>
     </thead>
     <tbody>
-        <ng-container *ngTemplateOutlet="recursiveTableList; context:{ orgList: assetsList, level: 0 }"></ng-container>
+        <ng-container *ngTemplateOutlet="recursiveTableList; context:{ assetsList: assetsList, level: 0 }"></ng-container>
     </tbody>
   </table>
 

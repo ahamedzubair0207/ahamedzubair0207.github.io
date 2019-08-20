@@ -25,6 +25,7 @@ export class LocationService {
   }
 
   getLocationTree(locId: string): Observable<any> {
+    let params = new HttpParams().set("locationId", locId);
     return this.http.get(AppConstants.GET_LOC_TREE + '/' + locId)
       .pipe(
         map(response => response)

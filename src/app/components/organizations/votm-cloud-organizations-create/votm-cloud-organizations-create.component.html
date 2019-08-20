@@ -20,7 +20,10 @@
         <div *ngIf="orgName.dirty && orgName.invalid">
           <app-votm-cloud-validator message="Name is required"></app-votm-cloud-validator>
         </div>
+        <app-votm-cloud-char-validator [condition]="organization.name && organization.name.length>=100">
+          </app-votm-cloud-char-validator>
       </div>
+
       <div class="col-md-3">
         <label for="customerNum"><b>* {{pageLabels.CustomerNumber.labelName}} :</b></label>
         <input type="text" [(ngModel)]="organization.customerNumber" class="form-control org-create-font"
@@ -29,11 +32,15 @@
         <div *ngIf="customerNum.dirty && customerNum.invalid">
           <app-votm-cloud-validator message="Customer Number is required"></app-votm-cloud-validator>
         </div>
+        <app-votm-cloud-char-validator [condition]="organization.customerNumber && organization.customerNumber.length>=500">
+          </app-votm-cloud-char-validator>
       </div>
       <div class="col-md-3">
         <label for="organizationType"><b>{{pageLabels.OrganizationType.labelName}} :</b></label>
         <input type="text" [disabled]="pageType==='View'" [(ngModel)]="organization.organizationType"
           class="form-control org-create-font"  maxlength="100" placeholder="Organization Type" name="organizationType">
+          <app-votm-cloud-char-validator [condition]="organization.organizationType && organization.organizationType.length>=100">
+            </app-votm-cloud-char-validator>
       </div>
       <div class="col-md-3">
         <label for="parentOrgLbl"><b>{{pageLabels.ParentOrganization.labelName}} :</b></label>
@@ -55,6 +62,9 @@
           <app-votm-cloud-validator *ngIf="primaryContact.errors && primaryContact.errors.email"
             message="This is not valid mail id"></app-votm-cloud-validator>
         </div>
+
+        <app-votm-cloud-char-validator [condition]="organization.primaryContactEmailAddress && organization.primaryContactEmailAddress.length>=100">
+          </app-votm-cloud-char-validator>
       </div>
 
       <div class="col-md-4">
@@ -65,6 +75,9 @@
         <div *ngIf="primaryDistributorName.dirty && primaryDistributorName.invalid">
           <app-votm-cloud-validator message="Primary Distributor Name is required"></app-votm-cloud-validator>
         </div>
+
+        <app-votm-cloud-char-validator [condition]="organization.primaryDistributorName && organization.primaryDistributorName.length>=50">
+          </app-votm-cloud-char-validator>
       </div>
 
       <div class="col-md-4">
@@ -78,22 +91,12 @@
           <app-votm-cloud-validator *ngIf="primaryDistributorEmail.errors && primaryDistributorEmail.errors.email"
             message="This is not valid mail id"></app-votm-cloud-validator>
         </div>
+        <app-votm-cloud-char-validator [condition]="organization.primaryDistributorEmail && organization.primaryDistributorEmail.length>=100">
+          </app-votm-cloud-char-validator>
       </div>
     </div>
 
-    <div class="row org-create-font">
-      <div class="col-12">
-        <label for="orgDescription"><b>{{pageLabels.DescriptionofOrganization.labelName}} :</b></label>
-        <textarea class="form-control" #description="ngModel" [disabled]="pageType==='View'"
-          [(ngModel)]="organization.description" (keyup)="onDescriptionChange()" name="orgDescription" rows="3"
-          id="f-orgDescription"></textarea><br />
-        <div *ngIf="description.dirty && description.invalid">
-          <app-votm-cloud-validator *ngIf="description.errors && description.errors.invalidDescription"
-            message="Can not add more than 4000 characters"></app-votm-cloud-validator>
-        </div>
-      </div>
-    </div>
-
+    
 
     <div class="row org-create-font">
       <h5 class="col-12 org-h5">{{pageLabels.Contract.labelName}}</h5>
@@ -264,6 +267,20 @@
         </div>
       </div>
     </div>
+
+    <div class="row org-create-font">
+        <div class="col-12">
+          <label for="orgDescription"><b>{{pageLabels.DescriptionofOrganization.labelName}} :</b></label>
+          <textarea class="form-control" #description="ngModel" [disabled]="pageType==='View'"
+            [(ngModel)]="organization.description" (keyup)="onDescriptionChange()" name="orgDescription" rows="3"
+            id="f-orgDescription"></textarea><br />
+          <div *ngIf="description.dirty && description.invalid">
+            <app-votm-cloud-validator *ngIf="description.errors && description.errors.invalidDescription"
+              message="Can not add more than 4000 characters"></app-votm-cloud-validator>
+          </div>
+        </div>
+      </div>
+
     <div class="row org-create-font">
       <div class="col-md-4">
         <label for="Logo"><b>{{pageLabels.LogoFile.labelName}} :</b></label>
