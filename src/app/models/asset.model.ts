@@ -7,17 +7,17 @@ export class Asset {
     organizationName: string;
     locationName: string;
     locationId: string;
-    // parentLocationId: string;
-    // parentLocationName: string;
+    parentLocationId: string;
+    parentLocationName: string;
     parentAssetId: string;
     parentAssetName: string;
     assetNumber: string;
     assetName: string;
     assetType: string;
-    logo: Logo;
-    active: true;
+    // logo: Logo;
+    // active: true;
     description: string;
     documentationUrl: string;
-    documentation?: File;
+    // documentation?: File;
     // template?: string;
 }

@@ -41,8 +41,8 @@ export class AssetsService {
   }
 
 
-  getAssetById(orgId: string): Observable<any> {
-    return this.http.get(AppConstants.GET_ASSET + '/' + orgId)
+  getAssetById(assetId: string): Observable<any> {
+    return this.http.get(AppConstants.GET_ASSET + '/' + assetId)
       .pipe(
         map(response => response)
       );
