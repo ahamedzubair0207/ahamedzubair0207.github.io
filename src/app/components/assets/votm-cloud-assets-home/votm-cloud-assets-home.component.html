@@ -20,7 +20,7 @@
       <td class="align-center"></td>
       <td class="align-center"></td>
       <td class="align-center">
-        <a class="action-icon" title="List"
+        <a class="action-icon" title="List" *ngIf="level>0"
           [routerLink]="['/asset/home',item.parentOrganizationId, item.parentOrganizationName, item.id, item.name]">
           <i class="fa fa-list"></i>
         </a>
