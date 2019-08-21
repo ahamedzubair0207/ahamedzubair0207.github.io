@@ -1,0 +1,13 @@
+<div class="breadcrumb-master">
+  <select class="custom-select breadcrumb-select" (change)="navigateTo($event.target.value, eachNode)" *ngFor = "let eachNode of displayListWithSiblings; index as i" >
+    <option [selected]="eachSibling.active"  *ngFor = "let eachSibling of eachNode" [value]="eachSibling.id" > <a >{{eachSibling?.name}}</a> </option>
+  </select>
+</div>
+
+<!-- <ul *ngFor = "let eachNode of displayList">
+    <li >{{eachNode?.name}}</li>
+    <li  *ngFor = "let eachSibling of eachNode">{{eachSibling?.name}}</li>
+</ul> -->
+
+<!-- (change)="navigateTo($event.target.value, eachNode)"  -->
+<!-- (click)="navigateTo(eachSibling.id, eachNode)" -->

@@ -20,7 +20,7 @@
       <td class="align-center" ></td>
       <td class="align-center" ></td>
       <td class="align-center">
-        <a class="action-icon" title="List" [routerLink]="['/asset/home', item.id]">
+        <a class="action-icon" *ngIf="level>0" title="List" [routerLink]="['/asset/home', item.id]">
           <i class="fa fa-list"></i>
         </a>
         <a class="action-icon" title="View" [routerLink]="['/org/view']">
@@ -29,7 +29,7 @@
         <a class="action-icon" title="Edit" [routerLink]="['/org/edit']">
           <i class="fa fa-edit"></i>
         </a>
-        <a class="action-icon" (click)="openConfirmDialog(item.id)" title="Delete">
+        <a class="action-icon" *ngIf="level>0" (click)="openConfirmDialog(item.id)" title="Delete">
           <i class="fa fa-trash"></i>
         </a>
       </td>
