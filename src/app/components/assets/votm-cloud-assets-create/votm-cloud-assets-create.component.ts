@@ -76,31 +76,31 @@ export class VotmCloudAssetsCreateComponent implements OnInit {
 
   ngOnInit() {
     this.asset.organizationId = this.curOrgId = this.activatedRoute.snapshot.paramMap.get("parentOrgId");
-    // this.asset.organizationName = this.curOrgName = this.activatedRoute.snapshot.paramMap.get("parentOrgName");
+    this.asset.organizationName = this.curOrgName = this.activatedRoute.snapshot.paramMap.get("parentOrgName");
     this.asset.locationId = this.parentLocId = this.activatedRoute.snapshot.paramMap.get("parentLocId");
-    // this.asset.locationName = this.parentLocName = this.activatedRoute.snapshot.paramMap.get("parentLocName");
+    this.asset.locationName = this.parentLocName = this.activatedRoute.snapshot.paramMap.get("parentLocName");
     this.asset.parentAssetId = this.parentAssetId = this.activatedRoute.snapshot.paramMap.get("parentAssetId");
-    // this.asset.parentAssetName = this.parentAssetName = this.activatedRoute.snapshot.paramMap.get("parentAssetName");
+    this.asset.parentAssetName = this.parentAssetName = this.activatedRoute.snapshot.paramMap.get("parentAssetName");
     this.pageType = this.activatedRoute.snapshot.data['type'];
-  this.pageTitle = `${this.pageType} Asset`;
+    this.pageTitle = `${this.pageType} Asset`;
     this.assetId = this.activatedRoute.snapshot.params['assetId'];
 
-    this.asset = {
-      "organizationId": "ca58be27-9b16-4fff-afcc-0602fbb71f5e",
-      "organizationName": "Parker Test",
-      "locationName": "Parent Loc KK", 
-      "locationId": "629c640e-5468-42e3-8f6a-0b97cb63f274",
-      "parentLocationId": "",
-      "parentAssetId": "",
-      "assetNumber": "string",
-      "parentAssetName": null,
-      "assetName": "dfdfdfererererer",
-      "parentLocationName" : '',
-      "assetType": "string",
-      documentationUrl: '',
-      "description": "string",
-      assetId: 'null'
-    };
+    // this.asset = {
+    //   "organizationId": "ca58be27-9b16-4fff-afcc-0602fbb71f5e",
+    //   "organizationName": "Parker Test",
+    //   "locationName": "Parent Loc KK",
+    //   "locationId": "629c640e-5468-42e3-8f6a-0b97cb63f274",
+    //   "parentLocationId": "",
+    //   "parentAssetId": "",
+    //   "assetNumber": "string",
+    //   "parentAssetName": null,
+    //   "assetName": "dfdfdfererererer",
+    //   "parentLocationName": '',
+    //   "assetType": "string",
+    //   documentationUrl: '',
+    //   "description": "string",
+    //   assetId: 'null'
+    // };
 
     this.templates = [];
     for (let i = 0; i < 10; i++) {
@@ -112,6 +112,9 @@ export class VotmCloudAssetsCreateComponent implements OnInit {
         .subscribe(response => {
           console.log('response from get ', response);
           this.asset = response;
+          this.asset.organizationName = this.curOrgName;
+          this.asset.locationName = this.parentLocName;
+          this.asset.parentAssetName = this.parentAssetName;
         });
     }
 
@@ -127,7 +130,7 @@ export class VotmCloudAssetsCreateComponent implements OnInit {
 
   createNestedAsset(event) {
     this.route.navigate([`asset/create/${this.asset.assetId}/${this.asset.assetName}/${this.asset.organizationId}/${this.parentOrganizationInfo.parentOrganizationName}`])
-    
+
   }
 
   assetObject() {
@@ -296,25 +299,25 @@ export class VotmCloudAssetsCreateComponent implements OnInit {
     setTimeout(() => {
       this.asset = {
 
-          "organizationId": "ca58be27-9b16-4fff-afcc-0602fbb71f5e",
-          "locationId": "629c640e-5468-42e3-8f6a-0b97cb63f274",
-          "parentLocationId": "",
-          "organizationName": "Parker Test",
-          "locationName": "Parent Loc KK", 
-          "parentAssetId": "",
-          "assetNumber": "string",
-          "parentAssetName": null,
-          "parentLocationName" : "",
-          "assetName": "dfdfdfererererer",
-          "assetType": "string",
-          documentationUrl: '',
-          "description": "string",
+        "organizationId": "ca58be27-9b16-4fff-afcc-0602fbb71f5e",
+        "locationId": "629c640e-5468-42e3-8f6a-0b97cb63f274",
+        "parentLocationId": "",
+        "organizationName": "Parker Test",
+        "locationName": "Parent Loc KK",
+        "parentAssetId": "",
+        "assetNumber": "string",
+        "parentAssetName": null,
+        "parentLocationName": "",
+        "assetName": "dfdfdfererererer",
+        "assetType": "string",
+        documentationUrl: '',
+        "description": "string",
 
 
         // documentationUrl: '', 
         // "organizationId": "ca58be27-9b16-4fff-afcc-0602fbb71f5e", 
         // logo: null, 
-        assetId: 'null', 
+        assetId: 'null',
         // documentation: null,
         // "organizationName": "Parker Test", 
         // "locationId": "629c640e-5468-42e3-8f6a-0b97cb63f274", 

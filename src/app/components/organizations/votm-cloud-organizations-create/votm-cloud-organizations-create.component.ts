@@ -189,7 +189,7 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
         .subscribe(response => {
           this.toaster.onSuccess(`You have deleted ${this.organization.name} successfully`, 'Delete Success!');
           this.route.navigate([`org/home/${this.curOrgId}/${this.curOrgName}`]);
-          
+
         }, error => {
           this.toaster.onFailure('Something went wrong on server. Please try after sometiime.', 'Delete Fail!');
         });
@@ -229,8 +229,10 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
   fillUoM() {
     let uom = this.applicationConfiguration.unitOfMeassurement;
 
-    for (let i = 0; i < uom.length; i++) {
-      this.uomModels[uom[i].uomTypeName] = '';
+    if (uom) {
+      for (let i = 0; i < uom.length; i++) {
+        this.uomModels[uom[i].uomTypeName] = '';
+      }
     }
 
     if (uom && uom.length > 0 && this.organization && this.organization.uoM) {

@@ -1,7 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, ParamMap } from "@angular/router";
-import { AssetsService} from '../../../services/assets/assets.service';
+import { AssetsService } from '../../../services/assets/assets.service';
 import { VotmCloudConfimDialogComponent } from '../../shared/votm-cloud-confim-dialog/votm-cloud-confim-dialog.component';
+import { __core_private_testing_placeholder__ } from '@angular/core/testing';
 
 @Component({
   selector: 'app-votm-cloud-assets-home',
@@ -14,16 +15,41 @@ export class VotmCloudAssetsHomeComponent implements OnInit {
   curOrgId: string;
   curOrgName: string;
   orgToDelete: string;
-  
+
   @ViewChild('confirmBox', null) confirmBox: VotmCloudConfimDialogComponent;
-  
+  parentOrgId: any;
+  parentOrgName: string;
+  assetId: string;
+  assetName: string;
+ 
+
   constructor(private assetService: AssetsService, private route: ActivatedRoute) { }
 
   ngOnInit() {
-    this.route.paramMap.subscribe((params : ParamMap)=> {
-      this.curOrgId = params.get("assetId");
-      this.fetchAssetList();
-    });
+    this.parentOrgId = this.curOrgId = this.route.snapshot.paramMap.get("orgId");
+    this.parentOrgName = this.curOrgId = this.route.snapshot.paramMap.get("orgName");
+    this.assetId = this.curOrgId = this.route.snapshot.paramMap.get("assetId");
+    this.assetName = this.curOrgId = this.route.snapshot.paramMap.get("assetName");
+
+    if (!this.assetId) {
+      this.fetchAllAssetsTree();
+    } else {
+      this.fetchAssetsTreeById();
+    }
+
+  
+  }
+  fetchAssetsTreeById() {
+    this.assetService.getAssetTreeById(this.assetId)
+      .subscribe(response => {
+        this.assetsList = response;
+      });
+  }
+  fetchAllAssetsTree() {
+    this.assetService.getAssetTree()
+      .subscribe(response => {
+        this.assetsList = response;
+      });
   }
 
   openConfirmDialog(delOrgId) {
@@ -42,17 +68,23 @@ export class VotmCloudAssetsHomeComponent implements OnInit {
     this.orgToDelete = '';
   }
 
-  fetchAssetList(){
+  fetchAssetList() {
     this.assetService.getAssetTree().subscribe(
       response => {
         this.assetsList = response.map(
           x => ({
-          ...x,
-          opened:true
+            ...x,
+            opened: true
           })
         );
       }
     );
+  }
+
+  addNum(a:number, b: number): number{
+    console.log(a+b);
+    let c = a+b;
+    return c;
   }
 
 }
