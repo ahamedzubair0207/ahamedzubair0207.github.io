@@ -1,4 +1,3 @@
-
 <h3 class="flt-left"> Asset</h3>
 <!-- <div class="btn-group-right">
     <button [routerLink]="['/asset/create']" type="button" class="btn btn-dark">Create Asset</button>
@@ -10,23 +9,27 @@
     <tr>
       <th scope="row" (click)="item.opened = !item.opened" [ngStyle]="{'padding-left.px': 15*(lvl+1)}">
         <i class="fa fa-industry"></i>
-        {{item.name}} <i *ngIf="item.node.length > 0 " [ngClass]="{'fa': true, 'fa-caret-right': !item.opened, 'fa-caret-down': item.opened}"></i>
+        {{item.name}} <i *ngIf="item.node.length > 0 "
+          [ngClass]="{'fa': true, 'fa-caret-right': !item.opened, 'fa-caret-down': item.opened}"></i>
       </th>
-      <td class="align-center" >{{item.type}}</td>
-      <td class="align-center" >{{item.assetNumber}}</td>
-      <td class="align-center" >{{item.parentLocationName}}</td>
-      <td class="align-center" >{{item.parentOrganizationName}}</td>
-      <td class="align-center" ></td>
-      <td class="align-center" ></td>
-      <td class="align-center" ></td>
+      <td class="align-center">{{item.type}}</td>
+      <td class="align-center">{{item.assetNumber}}</td>
+      <td class="align-center">{{item.parentLocationName}}</td>
+      <td class="align-center">{{item.parentOrganizationName}}</td>
+      <td class="align-center"></td>
+      <td class="align-center"></td>
+      <td class="align-center"></td>
       <td class="align-center">
-        <a class="action-icon" title="List" [routerLink]="['/asset/home', item.id]">
+        <a class="action-icon" title="List" *ngIf="level>0"
+          [routerLink]="['/asset/home',item.parentOrganizationId, item.parentOrganizationName, item.id, item.name]">
           <i class="fa fa-list"></i>
         </a>
-        <a class="action-icon" title="View" [routerLink]="['/asset/view', item.id]">
+        <a class="action-icon" title="View"
+          [routerLink]="['/asset/view',item.parentOrganizationId, item.parentOrganizationName, item.parentLocationId, item.parentLocationName, item.id]">
           <i class="fa fa-eye"></i>
         </a>
-        <a class="action-icon" title="Edit" [routerLink]="['/asset/edit', item.id]">
+        <a class="action-icon" title="Edit"
+          [routerLink]="['/asset/edit',item.parentOrganizationId, item.parentOrganizationName, item.parentLocationId, item.parentLocationName, item.id]">
           <i class="fa fa-edit"></i>
         </a>
         <a class="action-icon" (click)="openConfirmDialog(item.id)" title="Delete">
@@ -34,10 +37,13 @@
         </a>
       </td>
     </tr>
-    
-    <ng-container  *ngFor="let subItem of item.node">
-      <tr *ngIf="item.opened && subItem.entityType == 'Sensor'" >
-        <th scope="row" [ngStyle]="{'padding-left.px': 15*(lvl+2)}"> <i class="fa fa-location-arrow"></i> {{subItem.name}}</th>
+
+    <ng-container *ngFor="let subItem of item.node">
+      <tr *ngIf="item.opened && subItem.entityType == 'Asset'">
+        <th scope="row" [ngStyle]="{'padding-left.px': 15*(lvl+2)}"> <i class="fa fa-location-arrow"></i>
+          {{subItem.name}}</th>
+        <td></td>
+        <td></td>
         <td></td>
         <td></td>
         <td></td>
@@ -50,27 +56,31 @@
         </td>
       </tr>
 
-        
+
       <tr *ngIf="item.opened && subItem.entityType == 'Asset'">
         <th scope="row" (click)="subItem.opened = !subItem.opened" [ngStyle]="{'padding-left.px': 15*(lvl+2)}">
           <i class="fa fa-industry"></i>
-          {{subItem.name}} <i *ngIf="subItem.node.length > 0 " [ngClass]="{'fa': true, 'fa-caret-right': !subItem.opened, 'fa-caret-down': subItem.opened}"></i>
+          {{subItem.name}} <i *ngIf="subItem.node.length > 0 "
+            [ngClass]="{'fa': true, 'fa-caret-right': !subItem.opened, 'fa-caret-down': subItem.opened}"></i>
         </th>
-        <td class="align-center" >{{subItem.type}}</td>
-        <td class="align-center" >{{subItem.assetNumber}}</td>
-        <td class="align-center" >{{subItem.parentLocationName}}</td>
-        <td class="align-center" >{{subItem.parentOrganizationName}}</td>
-        <td class="align-center" ></td>
-        <td class="align-center" ></td>
-        <td class="align-center" ></td>
+        <td class="align-center">{{subItem.type}}</td>
+        <td class="align-center">{{subItem.assetNumber}}</td>
+        <td class="align-center">{{subItem.parentLocationName}}</td>
+        <td class="align-center">{{subItem.parentOrganizationName}}</td>
+        <td class="align-center"></td>
+        <td class="align-center"></td>
+        <td class="align-center"></td>
         <td class="align-center">
-          <a class="action-icon" title="List" [routerLink]="['/asset/home', subItem.id]">
+          <a class="action-icon" title="List"
+            [routerLink]="['/asset/home',subItem.parentOrganizationId, subItem.parentOrganizationName, subItem.id, subItem.name]">
             <i class="fa fa-list"></i>
           </a>
-          <a class="action-icon" title="View" [routerLink]="['/asset/view', subItem.id]">
+          <a class="action-icon" title="View"
+            [routerLink]="['/asset/view',subItem.parentOrganizationId, subItem.parentOrganizationName, subItem.parentLocationId, subItem.parentLocationName,  subItem.id]">
             <i class="fa fa-eye"></i>
           </a>
-          <a class="action-icon" title="Edit" [routerLink]="['/asset/edit', subItem.id]">
+          <a class="action-icon" title="Edit"
+            [routerLink]="['/asset/edit',subItem.parentOrganizationId, subItem.parentOrganizationName, subItem.parentLocationId, subItem.parentLocationName,  subItem.id]">
             <i class="fa fa-edit"></i>
           </a>
           <a class="action-icon" (click)="openConfirmDialog(subItem.id)" title="Delete">
@@ -80,34 +90,35 @@
       </tr>
 
       <ng-container *ngIf="subItem.opened">
-          <ng-container *ngTemplateOutlet="recursiveTableList; context:{ assetsList: subItem.node, level: lvl+2 }"></ng-container>
+        <ng-container *ngTemplateOutlet="recursiveTableList; context:{ assetsList: subItem.node, level: lvl+2 }">
+        </ng-container>
       </ng-container>
-      
+
     </ng-container>
-    
+
   </ng-container>
 </ng-template>
 
 
 <table class="table table-sm table-bordered">
-    <thead class="thead-light">
-      <tr>
-        <th scope="col" class="align-center table-col-name" >Name</th>
-        <th scope="col" class="align-center" >Type</th>
-        <th scope="col" class="align-center" >Asset ID</th>
-        <th scope="col" class="align-center table-col-small" >Location</th>
-        <th scope="col" class="align-center table-col-small" >Organization</th>
-        <th scope="col" class="align-center table-col-small" >Alarm State</th>
-        <th scope="col" class="align-center table-col-small" >Last Value</th>
-        <th scope="col" class="align-center table-col-small" >Last Reported Time</th>
-        <th scope="col" class="align-center" >Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-        <ng-container *ngTemplateOutlet="recursiveTableList; context:{ assetsList: assetsList, level: 0 }"></ng-container>
-    </tbody>
-  </table>
+  <thead class="thead-light">
+    <tr>
+      <th scope="col" class="align-center table-col-name">Name</th>
+      <th scope="col" class="align-center">Type</th>
+      <th scope="col" class="align-center">Asset ID</th>
+      <th scope="col" class="align-center table-col-small">Location</th>
+      <th scope="col" class="align-center table-col-small">Organization</th>
+      <th scope="col" class="align-center table-col-small">Alarm State</th>
+      <th scope="col" class="align-center table-col-small">Last Value</th>
+      <th scope="col" class="align-center table-col-small">Last Reported Time</th>
+      <th scope="col" class="align-center">Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <ng-container *ngTemplateOutlet="recursiveTableList; context:{ assetsList: assetsList, level: 0 }"></ng-container>
+  </tbody>
+</table>
 
 
-  <app-votm-cloud-confim-dialog (onClose)="deleteAssetById($event)" #confirmBox
-  message="Do you want to delete the Asset?" headerMessage="Warning"></app-votm-cloud-confim-dialog>
+<app-votm-cloud-confim-dialog (onClose)="deleteAssetById($event)" #confirmBox message="Do you want to delete the Asset?"
+  headerMessage="Warning"></app-votm-cloud-confim-dialog>

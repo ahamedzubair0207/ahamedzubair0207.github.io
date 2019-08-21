@@ -15,7 +15,7 @@ export class VotmCloudSensorsHomeComponent implements OnInit {
       {
         sensorId: "4820f870-2a48-4564-beb4-b33f4767597e",
         serialNumber: "001Test",
-        sensorName: "Tempsensoroo112",
+        name: "Tempsensoroo112",
         sensorTypeId: "3daa40a8-4c18-454f-bef2-7d5adc333c8c",
         modelNumber: null,
         sensorStatusId: "f68007c9-1413-4ed9-bea8-608462093d75",
@@ -29,7 +29,7 @@ export class VotmCloudSensorsHomeComponent implements OnInit {
       },
 
       {
-        sensorId: "4820f870-2a48-4564-beb4-b33f4767597e",
+        sensorId: "4820f870-2a48-4564-beb4-b33fwew67597e",
         serialNumber: "001Test",
         sensorName: "Tempsensoroo112",
         sensorTypeId: "3daa40a8-4c18-454f-bef2-7d5adc333c8c",

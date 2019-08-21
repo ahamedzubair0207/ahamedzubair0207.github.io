@@ -1,6 +1,6 @@
 <h3 class="flt-left"> Locations</h3>
 <div class="btn-group-right mt-1">
-  <button [routerLink]="['/loc/create', curOrgId, curOrgName]" type="button" class="btn btn-dark">Create
+  <button (click)="onCreateNewLocation()" type="button" class="btn btn-dark">Create
     Location</button>
 </div>
 
@@ -16,7 +16,7 @@
       <td class="align-center">{{item.type}}</td>
       <td class="align-center">{{item.parentOrgName}}</td>
       <td class="align-center">
-        <a class="action-icon" title="List" [routerLink]="['/loc/home',item.parentOrgId, item.parentOrgName, item.id, item.name]">
+        <a class="action-icon" title="List" *ngIf="level>0" [routerLink]="['/loc/home',item.parentOrgId, item.parentOrgName, item.id, item.name]">
           <i class="fa fa-list"></i>
         </a>
         <a class="action-icon" title="View" [routerLink]="['/loc/view',item.parentOrgId, item.parentOrgName, item.id]">

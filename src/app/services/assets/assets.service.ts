@@ -17,10 +17,10 @@ export class AssetsService {
 
   constructor(private http: CustomHttp) { }
 
-  getAssetTreeById(orgId: string): Observable<any> {
+  getAssetTreeById(assetId: string): Observable<any> {
     
-    let params = new HttpParams().set("assetId", orgId);
-    return this.http.get(AppConstants.GET_ASSET_TREE + '/' + orgId, params)
+    let params = new HttpParams().set("assetId", assetId);
+    return this.http.get(AppConstants.GET_ASSET_TREE + '/' + assetId, params)
       .pipe(
         map(response => response)
       );
