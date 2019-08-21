@@ -53,6 +53,8 @@ import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { VotmCloudAlertsCreateComponent } from './components/alerts/votm-cloud-alerts-create/votm-cloud-alerts-create.component';
 import { BreadcrumbsComponent } from './components/shared/breadcrumbs/breadcrumbs.component';
+import { VotomCloudAssetsSignalComponent } from './components/assets/votom-cloud-assets-signal/votom-cloud-assets-signal.component';
+import { VotmCloudCharValidatorComponent } from './components/shared/votm-cloud-char-validator/votm-cloud-char-validator.component';
 
 
 @NgModule({
@@ -89,6 +91,8 @@ import { BreadcrumbsComponent } from './components/shared/breadcrumbs/breadcrumb
     VotmCloudSensorsDetailsComponent,
     VotmCloudAlertsCreateComponent,
     BreadcrumbsComponent
+    VotomCloudAssetsSignalComponent,
+    VotmCloudCharValidatorComponent
   ],
   imports: [
     BrowserModule,

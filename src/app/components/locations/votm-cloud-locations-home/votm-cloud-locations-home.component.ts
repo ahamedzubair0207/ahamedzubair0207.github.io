@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute, ParamMap } from "@angular/router";
+import { ActivatedRoute, ParamMap, Router } from "@angular/router";
 import { LocationService } from '../../../services/locations/location.service';
 import { VotmCloudConfimDialogComponent } from '../../shared/votm-cloud-confim-dialog/votm-cloud-confim-dialog.component';
 import { ToastrService } from 'ngx-toastr';
@@ -26,17 +26,35 @@ export class VotmCloudLocationsHomeComponent implements OnInit {
   locNameToDelete: any;
   toaster: Toaster = new Toaster(this.toastr);
 
-  constructor(private locService: LocationService, private route: ActivatedRoute, private toastr: ToastrService) { }
+  constructor(private locService: LocationService, private router: Router, private route: ActivatedRoute, private toastr: ToastrService) { }
 
   ngOnInit() {
     this.route.paramMap.subscribe((params: ParamMap) => {
       this.curLocId = params.get("locId");
       this.curLocName = params.get("locName");
-
-      this.fetchlocationTree();
-
+      this.parentOrgId = params.get("orgId");
+      this.parentOrgName = params.get("orgName");
+      console.log(' this.curLocId ', this.parentOrgId, this.parentOrgName);
+      if (!this.curLocId) {
+        this.fetchlocationTree();
+      } else {
+        this.fetchlocationTreeById();
+      }
     });
+    // this.fetchlocationTree();
+  }
 
+  private fetchlocationTreeById() {
+    this.locService.getLocationTree(this.curLocId).subscribe(response => {
+      this.locationsList = response.map(x => ({
+        ...x,
+        opened: true
+      }));
+    });
+  }
+
+  onCreateNewLocation(){
+    this.router.navigate([`loc/create/${this.parentOrgId}/${this.parentOrgName}`])
   }
 
   private fetchlocationTree() {
@@ -45,17 +63,7 @@ export class VotmCloudLocationsHomeComponent implements OnInit {
         ...x,
         opened: true
       }));
-      this.parentOrgId = this.locationsList[0].parentOrgId;
-      this.parentOrgName = this.locationsList[0].parentOrgName;
     });
-    // this.locService.getLocationTree(this.curLocId).subscribe(response => {
-    //   this.locationsList = response.map(x => ({
-    //     ...x,
-    //     opened: true
-    //   }));
-    //   this.parentOrgId = this.locationsList[0].parentOrgId;
-    //   this.parentOrgName = this.locationsList[0].parentOrgName;
-    // });
   }
 
   openConfirmDialog(delLocId, delLocName) {

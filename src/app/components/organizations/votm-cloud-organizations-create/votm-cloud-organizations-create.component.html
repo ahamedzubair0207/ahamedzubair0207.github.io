@@ -1,17 +1,29 @@
 <div class="org-outside-border" *ngIf="(!orgId && pageLabels) || (orgId && pageLabels && organization) ">
   <form #organizationForm="ngForm" class="form container create-org-container border shadow-sm needs-validation"
     (ngSubmit)="onOrganizationSubmit()" novalidate>
-    <h4 class="col create-org-head">{{pageTitle}}</h4>
+    <div class="row org-create-font">
+        <h4 class="col-md-6 create-org-head">{{pageTitle}}</h4>
+        <div class="col-md-6">
+            <button id="loc-org-create" *ngIf="organization.organizationId" (click)="createNestedLocation($event)" type="button"
+            class="btn btn-secondary btn-lg button-mod btn-color">Create Location</button>
+          <button id="org-create" *ngIf="organization.organizationId" (click)="createNestedOrganization($event)" type="button"
+            class="btn btn-secondary btn-lg button-mod btn-color">Create Organization</button>
+        </div>
+    </div>
+    
     <div class="row org-create-font">
       <div class="col-md-3">
         <label for="name"><b>* {{pageLabels.Name.labelName}} : </b></label>
         <input type="text" maxlength="100" [(ngModel)]="organization.name" class="form-control org-create-font"
-          placeholder="Name" name="name" appVotmCloudNameValidator [disabled]="pageType==='View'" #orgName="ngModel"
+          placeholder="Name" name="name"  [disabled]="pageType==='View'" #orgName="ngModel"
           required>
         <div *ngIf="orgName.dirty && orgName.invalid">
           <app-votm-cloud-validator message="Name is required"></app-votm-cloud-validator>
         </div>
+        <app-votm-cloud-char-validator [condition]="organization.name && organization.name.length>=100">
+          </app-votm-cloud-char-validator>
       </div>
+
       <div class="col-md-3">
         <label for="customerNum"><b>* {{pageLabels.CustomerNumber.labelName}} :</b></label>
         <input type="text" [(ngModel)]="organization.customerNumber" class="form-control org-create-font"
@@ -20,11 +32,15 @@
         <div *ngIf="customerNum.dirty && customerNum.invalid">
           <app-votm-cloud-validator message="Customer Number is required"></app-votm-cloud-validator>
         </div>
+        <app-votm-cloud-char-validator [condition]="organization.customerNumber && organization.customerNumber.length>=500">
+          </app-votm-cloud-char-validator>
       </div>
       <div class="col-md-3">
         <label for="organizationType"><b>{{pageLabels.OrganizationType.labelName}} :</b></label>
         <input type="text" [disabled]="pageType==='View'" [(ngModel)]="organization.organizationType"
-          class="form-control org-create-font" appVotmCloudNameValidator maxlength="100" placeholder="Organization Type" name="organizationType">
+          class="form-control org-create-font"  maxlength="100" placeholder="Organization Type" name="organizationType">
+          <app-votm-cloud-char-validator [condition]="organization.organizationType && organization.organizationType.length>=100">
+            </app-votm-cloud-char-validator>
       </div>
       <div class="col-md-3">
         <label for="parentOrgLbl"><b>{{pageLabels.ParentOrganization.labelName}} :</b></label>
@@ -46,16 +62,22 @@
           <app-votm-cloud-validator *ngIf="primaryContact.errors && primaryContact.errors.email"
             message="This is not valid mail id"></app-votm-cloud-validator>
         </div>
+
+        <app-votm-cloud-char-validator [condition]="organization.primaryContactEmailAddress && organization.primaryContactEmailAddress.length>=100">
+          </app-votm-cloud-char-validator>
       </div>
 
       <div class="col-md-4">
         <label for="primaryDistributorName"><b>* {{pageLabels.PrimaryDistributor.labelName}} : </b></label>
         <input type="text" [disabled]="pageType==='View'" name="primaryDistributorName"
-          [(ngModel)]="organization.primaryDistributorName" appVotmCloudNameValidator class="form-control org-create-font"
+          [(ngModel)]="organization.primaryDistributorName" class="form-control org-create-font"
           placeholder="Primary Distributor Name" #primaryDistributorName="ngModel" maxlength="50" required>
         <div *ngIf="primaryDistributorName.dirty && primaryDistributorName.invalid">
           <app-votm-cloud-validator message="Primary Distributor Name is required"></app-votm-cloud-validator>
         </div>
+
+        <app-votm-cloud-char-validator [condition]="organization.primaryDistributorName && organization.primaryDistributorName.length>=50">
+          </app-votm-cloud-char-validator>
       </div>
 
       <div class="col-md-4">
@@ -69,22 +91,12 @@
           <app-votm-cloud-validator *ngIf="primaryDistributorEmail.errors && primaryDistributorEmail.errors.email"
             message="This is not valid mail id"></app-votm-cloud-validator>
         </div>
+        <app-votm-cloud-char-validator [condition]="organization.primaryDistributorEmail && organization.primaryDistributorEmail.length>=100">
+          </app-votm-cloud-char-validator>
       </div>
     </div>
 
-    <div class="row org-create-font">
-      <div class="col-12">
-        <label for="orgDescription"><b>{{pageLabels.DescriptionofOrganization.labelName}} :</b></label>
-        <textarea class="form-control" #description="ngModel" [disabled]="pageType==='View'"
-          [(ngModel)]="organization.description" (keyup)="onDescriptionChange()" name="orgDescription" rows="3"
-          id="f-orgDescription"></textarea><br />
-        <div *ngIf="description.dirty && description.invalid">
-          <app-votm-cloud-validator *ngIf="description.errors && description.errors.invalidDescription"
-            message="Can not add more than 4000 characters"></app-votm-cloud-validator>
-        </div>
-      </div>
-    </div>
-
+    
 
     <div class="row org-create-font">
       <h5 class="col-12 org-h5">{{pageLabels.Contract.labelName}}</h5>
@@ -255,6 +267,20 @@
         </div>
       </div>
     </div>
+
+    <div class="row org-create-font">
+        <div class="col-12">
+          <label for="orgDescription"><b>{{pageLabels.DescriptionofOrganization.labelName}} :</b></label>
+          <textarea class="form-control" #description="ngModel" [disabled]="pageType==='View'"
+            [(ngModel)]="organization.description" (keyup)="onDescriptionChange()" name="orgDescription" rows="3"
+            id="f-orgDescription"></textarea><br />
+          <div *ngIf="description.dirty && description.invalid">
+            <app-votm-cloud-validator *ngIf="description.errors && description.errors.invalidDescription"
+              message="Can not add more than 4000 characters"></app-votm-cloud-validator>
+          </div>
+        </div>
+      </div>
+
     <div class="row org-create-font">
       <div class="col-md-4">
         <label for="Logo"><b>{{pageLabels.LogoFile.labelName}} :</b></label>
@@ -272,10 +298,6 @@
           class="btn btn-secondary btn-lg button-mod" (click)="openConfirmDialog()">Delete</button>
         <button id="org-save" type="submit" *ngIf="pageType !=='View'"
           class="btn btn-secondary btn-lg button-mod btn-color">Save</button>
-        <button id="org-create" *ngIf="organization.organizationId" (click)="createNestedLocation($event)" type="button"
-          class="btn btn-secondary btn-lg button-mod">Create Location</button>
-        <button id="loc-org-create" *ngIf="organization.organizationId" (click)="createNestedOrganization($event)" type="button"
-          class="btn btn-secondary btn-lg button-mod">Create Organization</button>
       </div>
     </div>
 
@@ -296,7 +318,7 @@
         <div class="modal-header">
           <label for="UOM" class="pr-2"><b>Units of Measure :</b></label>
           <div class="form-check form-check-inline">
-            <input [disabled]="pageType==='View'" class="form-check-input loc-create-font" type="radio" value="SI" name="UOM"
+            <input [disabled]="pageType==='View'" class="form-check-input org-create-font" type="radio" value="SI" name="UOM"
               (change)="onUnitChange($event)" checked id="f-si">
             <label class="form-check-label" for="f-si">SI</label>
           </div>
@@ -374,9 +396,9 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button id="loc-uom-cancle" type="button" class="btn button-mod btn-secondary" (click)="closemodal('cancel')">Cancel
+          <button id="org-uom-cancle" type="button" class="btn button-mod btn-secondary" (click)="closemodal('cancel')">Cancel
           </button>
-          <button id="loc-uom-save" type="button" class="btn button-mod btn-color" (click)="closemodal('save')">Save</button>
+          <button id="org-uom-save" type="button" class="btn button-mod btn-color" (click)="closemodal('save')">Save</button>
         </div>
   
       </div>

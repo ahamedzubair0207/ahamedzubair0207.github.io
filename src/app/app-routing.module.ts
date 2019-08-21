@@ -11,6 +11,7 @@ import { VotmCloudLocationsHomeComponent } from './components/locations/votm-clo
 import { VotmCloudLocationsCreateComponent } from './components/locations/votm-cloud-locations-create/votm-cloud-locations-create.component';
 import { VotmCloudAssetsHomeComponent } from './components/assets/votm-cloud-assets-home/votm-cloud-assets-home.component';
 import { VotmCloudAssetsCreateComponent } from './components/assets/votm-cloud-assets-create/votm-cloud-assets-create.component';
+import { VotomCloudAssetsSignalComponent } from './components/assets/votom-cloud-assets-signal/votom-cloud-assets-signal.component';
 import { VotmCloudSensorsHomeComponent } from './components/sensors/votm-cloud-sensors-home/votm-cloud-sensors-home.component';
 import { VotmCloudGatewaysHomeComponent } from './components/gateways/votm-cloud-gateways-home/votm-cloud-gateways-home.component';
 import { VotmCloudAdminPanelComponent } from './components/admin/votm-cloud-admin-panel/votm-cloud-admin-panel.component';
@@ -25,18 +26,28 @@ const routes: Routes = [
   { path: 'alerts/create', component: VotmCloudAlertsCreateComponent },
   { path: 'preferences', component: VotmCloudPreferencesComponent },
   { path: 'org/home/:orgId/:orgName', component: VotmCloudOrganizationsHomeComponent },
-  { path: 'org/create/:curOrgId/:curOrgName', component: VotmCloudOrganizationsCreateComponent, data:{type:'Create'} },
-  { path: 'org/view/:curOrgId/:curOrgName/:orgId', component: VotmCloudOrganizationsCreateComponent, data:{type:'View'} },
-  { path: 'org/edit/:curOrgId/:curOrgName/:orgId', component: VotmCloudOrganizationsCreateComponent, data:{type:'Edit'} },
-  { path: 'loc/home/:locId/:locName', component: VotmCloudLocationsHomeComponent },
-  { path: 'loc/create/:parentLocId/:parentLocName/:curOrgId/:curOrgName', component: VotmCloudLocationsCreateComponent, data:{type:'Create'} },
-  { path: 'loc/view/:parentLocId/:parentLocName/:curOrgId/:curOrgName/:locId', component: VotmCloudLocationsCreateComponent, data:{type:'View'} },
-  { path: 'loc/edit/:parentLocId/:parentLocName/:curOrgId/:curOrgName/:locId', component: VotmCloudLocationsCreateComponent, data:{type:'Edit'} },
-  { path: 'loc/create/:curOrgId/:curOrgName', component: VotmCloudLocationsCreateComponent, data:{type:'Create'} },
-  { path: 'asset/home/:assetId', component: VotmCloudAssetsHomeComponent },
-  { path: 'asset/create', component: VotmCloudAssetsCreateComponent },
+  { path: 'org/create/:curOrgId/:curOrgName', component: VotmCloudOrganizationsCreateComponent, data: { type: 'Create' } },
+  { path: 'org/view/:curOrgId/:curOrgName/:orgId', component: VotmCloudOrganizationsCreateComponent, data: { type: 'View' } },
+  { path: 'org/edit/:curOrgId/:curOrgName/:orgId', component: VotmCloudOrganizationsCreateComponent, data: { type: 'Edit' } },
+  // { path: 'loc/home', component: VotmCloudLocationsHomeComponent },
+  { path: 'loc/home/:orgId/:orgName', component: VotmCloudLocationsHomeComponent },
+  { path: 'loc/home/:orgId/:orgName/:locId/:locName', component: VotmCloudLocationsHomeComponent },
+  { path: 'loc/create/:parentLocId/:parentLocName/:curOrgId/:curOrgName', component: VotmCloudLocationsCreateComponent, data: { type: 'Create' } },
+  { path: 'loc/view/:parentLocId/:parentLocName/:curOrgId/:curOrgName/:locId', component: VotmCloudLocationsCreateComponent, data: { type: 'View' } },
+  { path: 'loc/edit/:parentLocId/:parentLocName/:curOrgId/:curOrgName/:locId', component: VotmCloudLocationsCreateComponent, data: { type: 'Edit' } },
+  { path: 'loc/create/:curOrgId/:curOrgName', component: VotmCloudLocationsCreateComponent, data: { type: 'Create' } },
+  { path: 'loc/edit/:curOrgId/:curOrgName/:locId', component: VotmCloudLocationsCreateComponent, data: { type: 'Edit' } },
+  { path: 'loc/view/:curOrgId/:curOrgName/:locId', component: VotmCloudLocationsCreateComponent, data: { type: 'View' } },
+  { path: 'asset/home/:orgId/:orgName', component: VotmCloudAssetsHomeComponent },
+  { path: 'asset/home/:orgId/:orgName/:assetId/:assetName', component: VotmCloudAssetsHomeComponent },
+  { path: 'asset/create/:parentOrgId/:parentOrgName/:parentLocId/:parentLocName', component: VotmCloudAssetsCreateComponent,  data: { type: 'Create' } },
+  { path: 'asset/edit/:parentOrgId/:parentOrgName/:parentLocId/:parentLocName/:assetId', component: VotmCloudAssetsCreateComponent,  data: { type: 'Edit' } },
+  { path: 'asset/view/:parentOrgId/:parentOrgName/:parentLocId/:parentLocName/:assetId', component: VotmCloudAssetsCreateComponent,  data: { type: 'View' } },
+  { path: 'asset/signal', component: VotomCloudAssetsSignalComponent },
   { path: 'sensor/home', component: VotmCloudSensorsHomeComponent },
-  { path: 'sensor/detail', component: VotmCloudSensorsDetailsComponent},
+  { path: 'sensor/edit', component: VotmCloudSensorsHomeComponent },
+  { path: 'sensor/view', component: VotmCloudSensorsHomeComponent },
+  { path: 'sensor/detail', component: VotmCloudSensorsDetailsComponent },
   { path: 'gateway/home', component: VotmCloudGatewaysHomeComponent },
   { path: 'admin', component: VotmCloudAdminPanelComponent },
   { path: 'super', component: VotmCloudSuperAdminComponent },

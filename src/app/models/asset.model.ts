@@ -1,5 +1,5 @@
 import { Address } from './address.model';
-import { Logo } from './logo.model';
+import { Logo, File } from './logo.model';
 
 export class Asset {
     assetId: string;
@@ -14,15 +14,10 @@ export class Asset {
     assetNumber: string;
     assetName: string;
     assetType: string;
-    logo: Logo; 
-    active: true;
+    // logo: Logo;
+    // active: true;
     description: string;
     documentationUrl: string;
-    
-    // "": {
-    //   "image": "string",
-    //   "imageType": "string",
-    //   "imageName": "string"
-    // },
-   
+    // documentation?: File;
+    // template?: string;
 }

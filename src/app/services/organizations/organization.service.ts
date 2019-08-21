@@ -24,7 +24,6 @@ export class OrganizationService {
   }
 
   getOrganizationTree(orgId: string): Observable<any> {
-    
     let params = new HttpParams().set("organizationId", orgId);
     return this.http.get(AppConstants.GET_ORG_TREE + '/' + orgId, params)
       .pipe(

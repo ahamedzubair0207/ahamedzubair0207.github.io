@@ -1,143 +1,154 @@
-<div class="asset-outside-border"  *ngIf="(!assetId && pageLabels) || (assetId && pageLabels && asset)">
-    <form  #assetForm="ngForm" class="form-container asset-create-font create-asset-container 
+<div class="asset-outside-border" *ngIf="(!assetId && pageLabels) || (assetId && pageLabels && asset)">
+  <form #assetForm="ngForm" class="form-container asset-create-font create-asset-container 
     border shadow-sm" (ngSubmit)="onAssetSubmit()" novalidate>
-      <div class="row">
-        <h4 class="col-12">{{pageTitle}}</h4>
-      </div> 
-        <div class="row">
-            <div class="col-md-2">
-              <label for="assetName"><b>* Name:</b></label>
-              <input type="text" [(ngModel)]="asset.assetName" class="form-control asset-create-font"
-              [disabled]="pageType==='View'" appVotmCloudNameValidator #assetName="ngModel" placeholder="Enter Name"
-              name="name" required maxlength="50" >
-            </div>
+    <div class="row">
+      <h4 class="col-12">{{pageTitle}}</h4>
+    </div>
+    <div class="row">
+      <div class="col-md-2">
+        <label for="assetName"><b>* Name:</b></label>
+        <input type="text" [(ngModel)]="asset.assetName" class="form-control asset-create-font"
+          [disabled]="pageType==='View'"  #assetName="ngModel" placeholder="Enter Name"
+          name="assetName" required maxlength="50">
+      </div>
 
-            <div class="col-md-2">
-                <label for="assetId"><b>Asset ID:</b></label>
-                <input type="text" [(ngModel)]="asset.assetId" class="form-control asset-create-font"
-                [disabled]="pageType==='View'" appVotmCloudNameValidator #assetName="ngModel" placeholder="Enter Asset ID"
-                name="name" required maxlength="50">
-              </div>
+      <div class="col-md-2">
+        <label for="assetId"><b>Asset ID:</b></label>
+        <input type="text" [(ngModel)]="asset.assetNumber" class="form-control asset-create-font"
+          [disabled]="pageType==='View'" #assetName="ngModel" placeholder="Enter Asset ID" name="assetNumber"
+          required maxlength="50">
+      </div>
 
-              <div class="col-md-2">
-                  <label for="parentLoc"><b>* Parent Asset:</b></label>
-                  <input type="text" [(ngModel)]="asset.parentAssetName" 
-                  placeholder= "{{parrentAssetInfo.parentAssetName}}" class="form-control asset-create-font"
-                  disabled readonly appVotmCloudNameValidator #parentAssetName="ngModel" 
-                  name="name" required maxlength="50" >
-                </div>
-          
-              <div class="col-md-2">
-                  <label for="asset-Type"><b>Asset Type:</b></label>
-                  <input type="text" [(ngModel)]="asset.assetType"
-                  placeholder="Enter Asset Type" [disabled]="pageType==='View'" #assetType="ngModel" 
-                  name="assetType" maxlength="50" class="form-control asset-create-font">
-                </div>
+      <div class="col-md-2">
+        <label for="parentLoc"><b>* Parent Asset:</b></label>
+        <input type="text" [(ngModel)]="asset.parentAssetName" placeholder="{{asset.parentAssetName}}"
+          class="form-control asset-create-font" disabled readonly  name="parentAsset">
+      </div>
 
-              <div class="col-md-2">
-                <label for="assetType"><b>* Location:</b></label>
-                <input for="parentLocname" class="form-control asset-create-font" type="text" placeholder= "{{parentLocName}}" readonly disabled>
-                </div>
-      
-              <div class="col-md-2">
-                <label for="assetType"><b>* Organization:</b></label>
-                <input for="parentorganizationname" class="form-control asset-create-font" type="text" placeholder= "{{parentOrganizationInfo.parentOrganizationName}}" readonly disabled>
-                </div>
-            
-        </div>
+      <div class="col-md-2">
+        <label for="asset-Type"><b>Asset Type:</b></label>
+        <input type="text" [(ngModel)]="asset.assetType" placeholder="Enter Asset Type" [disabled]="pageType==='View'"
+          #assetType="ngModel" name="assetType" maxlength="50" class="form-control asset-create-font">
+      </div>
+
+      <div class="col-md-2">
+        <label for="assetType"><b>* Location:</b></label>
+        <input for="parentLocname" class="form-control asset-create-font" type="text" placeholder="{{parentLocName}}"
+          readonly disabled>
+      </div>
+
+      <div class="col-md-2">
+        <label for="assetType"><b>* Organization:</b></label>
+        <input for="parentorganizationname" class="form-control asset-create-font" type="text"
+          placeholder="{{asset.organizationName}}" readonly disabled>
+      </div>
+
+    </div>
 
 
-        <div class="row asset-create-font">
-            <div class="col mb-12 asset-des">
-              <label for="f-description"><b>Description :</b></label>
-              <textarea class="form-control asset-create-font" [disabled]="pageType==='View'" [(ngModel)]="asset.description"
-                name="locDescription" rows="5" id="f-description"></textarea>
-            </div>
+    <div class="row asset-create-font">
+      <div class="col mb-12 asset-des">
+        <label for="f-description"><b>Description :</b></label>
+        <textarea class="form-control asset-create-font" [disabled]="pageType==='View'" [(ngModel)]="asset.description"
+          name="locDescription" rows="5" id="f-description"></textarea>
+      </div>
+    </div>
+
+    <div class="row asset-des">
+      <div class="col-md-3">
+        <label for="assetImage"><b>Asset Image : </b></label>
+        <span style="color:rgb(106,96,85);" *ngIf="message">{{message}}</span>
+        <input *ngIf="pageType!=='View'" #file type="file" accept='image/*' (change)="preview(file.files)"
+          class="form-control-file asset-create-font" />
+        <label style="font-weight: bold" *ngIf="asset && asset.logo"></label>
+        <img [src]="imgURL" height="200"  width="300" *ngIf="imgURL">
+      </div>
+      <div class="col-md-3 form-group">
+        <label for="exampleFormControlFile1"><b>Documentation:</b></label>
+        <input type="file" (change)="onFileChange($event)" class="form-control-file asset-create-font" #fileInput>
+        <!-- <button type="button" class="btn btn-sm btn-default" (click)="clearFile()">clear file</button> -->
+        <!-- <label style="font-weight: bold" *ngIf="asset && asset.logo">Image</label> -->
+        <a *ngIf="asset.documentation" style="color:blue;"
+          (click)="onFileOpen()"><u>{{asset.documentation.fileName}}</u></a>
+      </div>
+      <div class="col-md-3" *ngIf="isTemplateSelected">
+        <label for="asset-temp"><b>* Asset Template</b></label>
+        <br>
+        <label for="temp-contain">{{templateName? templateName: '-'}}</label>
+        <br>
+        <div *ngIf="assetForm.dirty">
+          <div class="checkbox">
+            <label><input type="checkbox" (change)="onTemplateChangeAccept()" name="templateAccept" [(ngModel)]="acceptedTemplateChages">Accept Template Changes</label>
           </div>
-        
-        <div class="row asset-des">
-            <div class="col-md-3">
-                <label for="assetImage"><b>Asset Image : </b></label>
-                <span style="color:rgb(106,96,85);" *ngIf="message">{{message}}</span>
-                <input *ngIf="pageType!=='View'" #file type="file" accept='image/*' (change)="preview(file.files)"
-                  class="form-control-file asset-create-font" />
-                <label style="font-weight: bold" *ngIf="asset && asset.logo">Image</label>
-                <img [src]="imgURL" height="200" *ngIf="imgURL">
-            </div>
-            <div class="col-md-3 form-group">
-                <label for="exampleFormControlFile1"><b>Upload Documentation:</b></label>
-                <input type="file" class="form-control-file" id="exampleFormControlFile1">
-                </div>
-            <div class="col-md-3">
-              <label for="asset-temp"><b>Asset Template</b></label>
-              <br>
-              <label for="temp-contain">Template 1</label>
-              <br>
-              <input class="form-check-input templt-radio" type="radio">
-              <label for="temp-change" class="templt-label">Accept Template Changes</label>
-              </div>
+          <!-- <input class="form-check-input templt-radio" type="radio"> -->
+          <!-- <label for="temp-change" class="templt-label">Accept Template Changes</label> -->
+        </div>
       </div>
+    </div>
 
-      <div class="row">
-        
-          <div class="col-12 action-btn-asset">
-              <button id="nest-asset-create" type="button"
-                      class="btn btn-secondary button-left-mod">Create Asset</button>
-              <button id="nest-loc-create"  type="button"
-                      class="btn btn-secondary button-left-mod">Associate Signal</button>
-              <button id="asset-create-temp"  type="button" 
-                      class="btn btn-secondary button-left-mod" (click)="openmodal()">Create from Template</button>
-              <button id="asset-save-temp"  type="button" 
-                      class="btn btn-secondary button-right-mod">Save as Template</button>        
-              <button id="asset-cancel" for="form-cancel" type="button" (click)="onCancelClick($event)" 
-                      class="btn btn-secondary button-right-mod">Cancel</button>
-              <button id="asset-delete" type="button" *ngIf="location.locationId && pageType !=='View'"
-                      (click)="openConfirmDialog()"
-                      class="btn btn-secondary button-right-mod">Delete</button>
-              <button id="asset-save" type="submit"
-                      class="btn btn-secondary button-right-mod btn-color">Save</button>
-              </div>
+    <div class="row">
+
+      <div class="col-12 action-btn-asset">
+        <button id="nest-asset-create" type="button" *ngIf="asset.assetId"
+        (click)="createNestedAsset($event)" class="btn btn-secondary button-left-mod">Create Asset</button>
+        <button id="nest-loc-create" type="button" *ngIf="asset.assetId" class="btn btn-secondary button-left-mod"
+          routerLink="/asset/signal">Associate Signal</button>
+        <button id="asset-create-temp" type="button" class="btn btn-secondary button-left-mod"
+          (click)="openmodal()">Create from Template</button>
+        <button id="asset-save-temp" [disabled]="!assetForm.dirty || ((assetForm.dirty && !acceptedTemplateChages))" type="button"
+          class="btn btn-secondary button-right-mod">Save as Template</button>
+        <button id="asset-cancel" for="form-cancel" type="button" (click)="onCancelClick($event)"
+          class="btn btn-secondary button-right-mod">Cancel</button>
+        <button id="asset-delete" type="button" *ngIf="asset.asseId && pageType !=='View'"
+          (click)="openConfirmDialog()" class="btn btn-secondary button-right-mod">Delete</button>
+        <button id="asset-save" [disabled]="!templateName" type="submit" class="btn btn-secondary button-right-mod btn-color">Save</button>
       </div>
-      
-      
-      
-      </form>
+    </div>
+
+
+
+  </form>
 </div>
 
 
 <!-- The Modal -->
 <div id="myModal" class="modal modal-label">
-    <div class="modal-dialog modal-dialog-scrollable modal-lg">
-      <!-- Modal content -->
-      <div class="modal-content">
-        <div class="modal-header">
-          <label for="asset-temp-modal" class="pr-2"><b>List of Template :</b></label>
-        </div>
-        <div class="modal-body">
-          <div>
-              <select class="custom-select" multiple>
-                
-                  <option value="1">Template 1</option>
-                  <option value="1">Template 2</option>
-                  <option value="1">Template 3</option>
-                  <option value="1">Template 4</option>
-                  <option value="1">Template 5</option>
-                  <option value="1">Template 6</option>
-                </select>
-          </div>
-       <div>
-       </div>
-        </div>
-        <div class="modal-footer">
-          <button id="asset-temp-cancle" type="button" class="btn button-mod btn-secondary"
-            (click)="closemodal('cancel')">Cancel
-          </button>
-          <button id="asset-temp-save" type="button" class="btn button-mod btn-color"
-            (click)="closemodal('save')">Ok</button>
-        </div>
-  
+  <div class="modal-dialog modal-dialog-scrollable modal-lg">
+    <!-- Modal content -->
+    <div class="modal-content">
+      <div class="modal-header">
+        <label for="asset-temp-modal" class="pr-2"><b>List of Template :</b></label>
       </div>
-  
+      <div class="modal-body">
+        <div>
+          <select class="custom-select" size="10" [(ngModel)]="templateName" name="templateName"
+            class="drop-down form-control org-create-font" required>
+            <option *ngFor="let template of templates" [value]="template.value">
+              {{template.text}}
+            </option>
+          </select>
+          <!-- <select class="custom-select" size="10">
+
+            <option value="1">Template 1</option>
+            <option value="1">Template 2</option>
+            <option value="1">Template 3</option>
+            <option value="1">Template 4</option>
+            <option value="1">Template 5</option>
+            <option value="1">Template 6</option>
+          </select> -->
+        </div>
+        <div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button id="asset-temp-cancle" type="button" class="btn button-mod btn-secondary"
+          (click)="closemodal('cancel')">Cancel
+        </button>
+        <button id="asset-temp-save" type="button" class="btn button-mod btn-color"
+          (click)="closemodal('save')">Ok</button>
+      </div>
+
     </div>
+
   </div>
-  
+</div>

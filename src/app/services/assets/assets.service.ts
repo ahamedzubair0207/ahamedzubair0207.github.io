@@ -17,10 +17,17 @@ export class AssetsService {
 
   constructor(private http: CustomHttp) { }
 
-  getAssetTree(orgId: string): Observable<any> {
+  getAssetTreeById(assetId: string): Observable<any> {
     
-    let params = new HttpParams().set("assetId", orgId);
-    return this.http.get(AppConstants.GET_ASSET_TREE + '/' + orgId, params)
+    let params = new HttpParams().set("assetId", assetId);
+    return this.http.get(AppConstants.GET_ASSET_TREE + '/' + assetId, params)
+      .pipe(
+        map(response => response)
+      );
+  }
+
+  getAssetTree(): Observable<any> {    
+    return this.http.get(AppConstants.GET_ASSET_TREE)
       .pipe(
         map(response => response)
       );
@@ -34,8 +41,8 @@ export class AssetsService {
   }
 
 
-  getAssetById(orgId: string): Observable<any> {
-    return this.http.get(AppConstants.GET_ASSET + '/' + orgId)
+  getAssetById(assetId: string): Observable<any> {
+    return this.http.get(AppConstants.GET_ASSET + '/' + assetId)
       .pipe(
         map(response => response)
       );
