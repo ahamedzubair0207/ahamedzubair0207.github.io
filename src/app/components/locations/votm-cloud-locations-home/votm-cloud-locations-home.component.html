@@ -16,7 +16,8 @@
       <td class="align-center">{{item.type}}</td>
       <td class="align-center">{{item.parentOrgName}}</td>
       <td class="align-center">
-        <a class="action-icon" title="List" *ngIf="level>0" [routerLink]="['/loc/home',item.parentOrgId, item.parentOrgName, item.id, item.name]">
+       <!-- <a class="action-icon" title="List" *ngIf="lvl>0" [routerLink]="['/loc/home',item.parentOrgId, item.parentOrgName, item.id, item.name]"> -->
+            <a class="action-icon" title="List"  [routerLink]="['/loc/home',item.parentOrgId, item.parentOrgName, item.id, item.name]">
           <i class="fa fa-list"></i>
         </a>
         <a class="action-icon" title="View" [routerLink]="['/loc/view',item.parentOrgId, item.parentOrgName, item.id]">
@@ -26,7 +27,8 @@
           [routerLink]="['/loc/edit', item.parentOrgId, item.parentOrgName, item.id]">
           <i class="fa fa-edit"></i>
         </a>
-        <a class="action-icon" *ngIf="level>0" (click)="openConfirmDialog(item.id, item.name)" title="Delete">
+        <a class="action-icon" (click)="openConfirmDialog(item.id, item.name)" title="Delete">
+  <!-- <a class="action-icon" *ngIf="lvl>0" (click)="openConfirmDialog(item.id, item.name)" title="Delete"> -->
           <i class="fa fa-trash"></i>
         </a>
       </td>
@@ -75,10 +77,9 @@
       <ng-container *ngIf="subItem.opened">
         <ng-container *ngTemplateOutlet="recursiveTableList; context:{ locList: subItem.node, level: lvl+2 }">
         </ng-container>
+        
       </ng-container>
-
     </ng-container>
-
   </ng-container>
 </ng-template>
 

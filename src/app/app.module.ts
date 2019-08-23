@@ -90,7 +90,7 @@ import { VotmCloudCharValidatorComponent } from './components/shared/votm-cloud-
     VotmCloudNameValidatorDirective,
     VotmCloudSensorsDetailsComponent,
     VotmCloudAlertsCreateComponent,
-    BreadcrumbsComponent
+    BreadcrumbsComponent,
     VotomCloudAssetsSignalComponent,
     VotmCloudCharValidatorComponent
   ],

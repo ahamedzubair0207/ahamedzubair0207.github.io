@@ -30,7 +30,7 @@ export class VotmAnimatedGaugeComponent implements OnInit {
     chart.innerRadius = -25;
 
     var axis = chart.xAxes.push(new am4charts.ValueAxis<am4charts.AxisRendererCircular>());
-    axis.min = 0;
+    axis.min = 1;
     axis.max = 100;
     axis.strictMinMax = true;
     axis.renderer.radius = am4core.percent(80);

@@ -112,9 +112,11 @@ export class VotmCloudAssetsCreateComponent implements OnInit {
         .subscribe(response => {
           console.log('response from get ', response);
           this.asset = response;
-          this.asset.organizationName = this.curOrgName;
-          this.asset.locationName = this.parentLocName;
-          this.asset.parentAssetName = this.parentAssetName;
+          if (this.asset) {
+            this.asset.organizationName = this.curOrgName;
+            this.asset.locationName = this.parentLocName;
+            this.asset.parentAssetName = this.parentAssetName;
+          }
         });
     }
 
@@ -129,7 +131,8 @@ export class VotmCloudAssetsCreateComponent implements OnInit {
   }
 
   createNestedAsset(event) {
-    this.route.navigate([`asset/create/${this.asset.assetId}/${this.asset.assetName}/${this.asset.organizationId}/${this.parentOrganizationInfo.parentOrganizationName}`])
+    console.log('this.asset ', this.asset)
+    this.route.navigate([`asset/create/${this.asset.organizationId}/${this.asset.organizationName}/${this.asset.locationId}/${this.asset.locationName}/${this.asset.assetId}/${this.asset.assetName}`])
 
   }
 

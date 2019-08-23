@@ -99,9 +99,9 @@
           class="btn btn-secondary button-right-mod">Save as Template</button>
         <button id="asset-cancel" for="form-cancel" type="button" (click)="onCancelClick($event)"
           class="btn btn-secondary button-right-mod">Cancel</button>
-        <button id="asset-delete" type="button" *ngIf="asset.asseId && pageType !=='View'"
+        <button id="asset-delete" type="button" *ngIf="asset.assetId && pageType !=='View'"
           (click)="openConfirmDialog()" class="btn btn-secondary button-right-mod">Delete</button>
-        <button id="asset-save" [disabled]="!templateName" type="submit" class="btn btn-secondary button-right-mod btn-color">Save</button>
+        <button id="asset-save" type="submit" class="btn btn-secondary button-right-mod btn-color">Save</button>
       </div>
     </div>
 
