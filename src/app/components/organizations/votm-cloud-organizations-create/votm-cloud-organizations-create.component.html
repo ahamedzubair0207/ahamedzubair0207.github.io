@@ -159,20 +159,19 @@
           <div class="col-md-5">
             <!-- <label for="address2"><b>* {{pageLabels.Address1.labelName}} :</b></label> -->
             <input type="text" [disabled]="pageType==='View'" [(ngModel)]="organization.address[0].address1"
-              class="form-control org-create-font" #address2="ngModel" placeholder="Street Name" name="address1"
+              class="form-control org-create-font" #address1="ngModel" placeholder="Street Name" name="address1"
               required>
-            <div *ngIf="address2.dirty && address2.invalid">
+            <div *ngIf="address1.dirty && address1.invalid">
               <app-votm-cloud-validator message="Street name is required"></app-votm-cloud-validator>
             </div>
           </div>
           <div class="col-md-3">
             <!-- <label for="address1"><b>* {{pageLabels.Address2.labelName}} :</b></label> -->
             <input type="text" [disabled]="pageType==='View'" [(ngModel)]="organization.address[0].address2"
-              class="form-control org-create-font" placeholder="Apt/Suite Number" #address1="ngModel" name="address2"
-              required>
-            <div *ngIf="address1.dirty && address1.invalid">
+              class="form-control org-create-font" placeholder="Apt/Suite Number" #address2="ngModel" name="address2">
+            <!-- <div *ngIf="address1.dirty && address1.invalid">
               <app-votm-cloud-validator message="Apt/Suite Number is required"></app-votm-cloud-validator>
-            </div>
+            </div> -->
           </div>
           <div class="col-md-2">
             <!-- <label for="city"><b>* {{pageLabels.City.labelName}} :</b></label> -->

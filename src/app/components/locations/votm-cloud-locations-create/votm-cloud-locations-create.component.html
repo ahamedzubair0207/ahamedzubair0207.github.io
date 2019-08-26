@@ -210,8 +210,8 @@
               <div
                 *ngIf="location && location.geoFenceType && location.geoFenceType ==='bf0bc7b5-1bf8-4a59-a3b5-35904937e89e'"
                 ng-show="geofence == 'f-radius'">
-                <input type="number" [disabled]="pageType==='View'" class="form-control loc-create-font geo-text-box w-50" name="radius"
-                  [(ngModel)]="radiusValue" placeholder="Enter Radius">
+                <input type="number" class="form-control loc-create-font geo-text-box w-50" name="radius"
+                  [(ngModel)]="radiusValue" placeholder="Enter Radius" [disabled]="pageType==='View'">
                 <select name="radiusUnit" [disabled]="pageType==='View'" [(ngModel)]="radiusUnit"
                   class="drop-down geo-drop-down w-auto form-control loc-create-font">
                   <option value="ft">Feet</option>
