@@ -5,7 +5,7 @@ export class Logo {
 }
 
 export class File {
-    file: Blob;
+    file: any;
     fileType: string;
     fileName: string;
 }

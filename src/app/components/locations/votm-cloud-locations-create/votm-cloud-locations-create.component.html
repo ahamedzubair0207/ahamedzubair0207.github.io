@@ -70,7 +70,7 @@
 
       <div class="col-md-2" *ngIf="!locId && applicationConfiguration">
           <label for="DefaultLang"><b>* {{pageLabels.Language.labelName}} :</b></label>
-          <select required [(ngModel)]="location.localeId" name="language" class="drop-down" #defLanguage="ngModel">
+          <select required [(ngModel)]="location.localeId" name="language" class="drop-down form-control loc-create-font" #defLanguage="ngModel">
             <option *ngFor="let locale of applicationConfiguration.locale" [value]="locale.localeId">
               {{locale.localeName}}
             </option>
@@ -82,7 +82,7 @@
         <div class="col-md-2" *ngIf="locId && applicationConfiguration">
           <label for="DefaultLang"><b>* {{pageLabels.Language.labelName}} :</b></label>
           <select required #language="ngModel" [disabled]="pageType==='View'" [(ngModel)]="location.localeId"
-            name="language" class="drop-down">
+            name="language" class="drop-down form-control loc-create-font">
             <option *ngFor="let locale of applicationConfiguration.locale" [value]="locale.localeId">
               {{locale.localeName}}
             </option>
@@ -97,7 +97,7 @@
       <div class="col-md-3" *ngIf="!locId && applicationConfiguration">
           <label for="timezone"><b>* {{pageLabels.DefaultTimeZone.labelName}} :</b></label>
           <select required #timezone="ngModel" [disabled]="pageType==='View'" [(ngModel)]="location.timeZoneId"
-            name="timezone" class="drop-down">
+            name="timezone" class="drop-down form-control loc-create-font">
             <!-- <option value="" data-default selected>Select Timezone</option> -->
             <option *ngFor="let timeZone of applicationConfiguration.timeZone" [value]="timeZone.timeZoneId">
               {{timeZone.timeZoneName}}
@@ -111,7 +111,7 @@
           <!-- <label for="DefatimezoneultLang"><b>* {{pageLabels.TimeZone.labelName}} :</b></label> -->
           <label for="timezone"><b>* {{pageLabels.DefaultTimeZone.labelName}} :</b></label>
           <select required #timezone="ngModel" [disabled]="pageType==='View'" [(ngModel)]="location.timeZoneId"
-            name="timezone" class="drop-down">
+            name="timezone" class="drop-down form-control loc-create-font">
             <!-- <option value="" data-default selected>Select Timezone</option> -->
             <option *ngFor="let timeZone of applicationConfiguration.timeZone" [value]="timeZone.timeZoneId">
               {{timeZone.timeZoneName}}
@@ -169,7 +169,7 @@
             <label for="state"><b>* {{pageLabels.State.labelName}}:</b></label>
 
             <select [disabled]="pageType==='View'" [(ngModel)]="location.address[0].state" name="state"
-              class="drop-down" #state="ngModel" required>
+              class="drop-down form-control loc-create-font" #state="ngModel" required>
               <option value="" disabled selected>State</option>
               <option *ngFor="let state of states" [value]="state.value">
                 {{state.text}}
@@ -182,7 +182,7 @@
           <div class="col-md-2">
             <label for="country"><b>* {{pageLabels.Country.labelName}}:</b></label>
             <select [disabled]="pageType==='View'" [(ngModel)]="location.address[0].country" name="country"
-              class="drop-down" required #country="ngModel">
+              class="drop-down form-control loc-create-font" required #country="ngModel">
               <option value="" disabled selected>Country</option>
               <option *ngFor="let country of countries" [value]="country.value">
                 {{country.text}}
@@ -193,7 +193,7 @@
             </div>
           </div>
 
-          <div class="col-md-5">
+          <div class="col-md-4">
               <label for="geofence" class="pr-2"><b>{{pageLabels.GeoFence.labelName}}:</b></label>
               <div class="form-check form-check-inline ">
                 <input class="form-check-input" [disabled]="pageType==='View'" type="radio"
@@ -210,10 +210,10 @@
               <div
                 *ngIf="location && location.geoFenceType && location.geoFenceType ==='bf0bc7b5-1bf8-4a59-a3b5-35904937e89e'"
                 ng-show="geofence == 'f-radius'">
-                <input type="number" class="form-control loc-create-font geo-text-box w-50" name="radius"
+                <input type="number" [disabled]="pageType==='View'" class="form-control loc-create-font geo-text-box w-50" name="radius"
                   [(ngModel)]="radiusValue" placeholder="Enter Radius">
                 <select name="radiusUnit" [disabled]="pageType==='View'" [(ngModel)]="radiusUnit"
-                  class="drop-down geo-drop-down w-auto">
+                  class="drop-down geo-drop-down w-auto form-control loc-create-font">
                   <option value="ft">Feet</option>
                   <option value="meters">Meters</option>
                 </select>
@@ -225,14 +225,14 @@
                   <input [disabled]="pageType==='View'" type="number" name="height" [(ngModel)]="rectangleValue2"
                   class="form-control loc-create-font w-auto" placeholder="Enter Height" maxlength="50">
                 <select name="rectangleUnit" [disabled]="pageType==='View'" [(ngModel)]="rectangleUnit"
-                  class="drop-down geo-drop-down w-auto">
+                  class="drop-down geo-drop-down w-auto form-control loc-create-font">
                   <option value="ft">Feet</option>
                   <option value="meters">Meters</option>
                 </select>
               </div>
             </div>
           
-          <div class="col-md-5">
+          <div class="col-md-4">
               <label for="geoLocation" class="pr-2"><b>{{pageLabels.GeoLocation.labelName}}:</b></label>
               <input type="text" [disabled]="pageType==='View'" [(ngModel)]="location.latitude"
                 class="geo-loc-long form-control loc-create-font" placeholder="Longitude" name="geoLocationLong"
@@ -342,7 +342,7 @@
                 <label class="col-sm-4 col-form-label" for="uom.uomTypeName"><b>{{uom.uomTypeName}}:</b></label>
                 <div class="col-sm-8">
                   <select [(ngModel)]="uomModels[uom.uomTypeName]"
-                    (change)="onUoMDropdownChange($event,uom.uomTypeName)" name="uom.uomTypeName" class="form-control">
+                    (change)="onUoMDropdownChange($event,uom.uomTypeName)" name="uom.uomTypeName" class="form-control loc-create-font">
                     <option></option>
                     <option *ngFor="let view of uom.uoMView" [value]="view.uoMId">
                       {{view.uoMName}}
@@ -357,7 +357,7 @@
                 <label class="col-sm-4 col-form-label" for="uom.uomTypeName"><b>{{uom.uomTypeName}}:</b></label>
                 <div class="col-sm-8">
                   <select [(ngModel)]="uomModels[uom.uomTypeName]"
-                    (change)="onUoMDropdownChange($event,uom.uomTypeName)" name="uom.uomTypeName" class="form-control">
+                    (change)="onUoMDropdownChange($event,uom.uomTypeName)" name="uom.uomTypeName" class="form-control loc-create-font">
                     <option></option>
                     <option *ngFor="let view of uom.uoMView" [value]="view.uoMId">
                       {{view.uoMName}}
@@ -374,7 +374,7 @@
                 <div class="col-sm-8">
                   <select [(ngModel)]="uomModels[applicationConfiguration.unitOfMeassurement[i+1].uomTypeName]"
                     (change)="onUoMDropdownChange($event, applicationConfiguration.unitOfMeassurement[i+1].uomTypeName)"
-                    name="applicationConfiguration.unitOfMeassurement[i+1].uomTypeName" class="form-control">
+                    name="applicationConfiguration.unitOfMeassurement[i+1].uomTypeName" class="form-control loc-create-font">
                     <option></option>
                     <option *ngFor="let view of applicationConfiguration.unitOfMeassurement[i+1].uoMView"
                       [value]="view.uoMId">

@@ -76,6 +76,24 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
   }
 
   ngOnInit() {
+    if (FileReader.prototype.readAsBinaryString === undefined) {
+      FileReader.prototype.readAsBinaryString = function (fileData) {
+        var binary = "";
+        var pt = this;
+        var reader = new FileReader();
+        reader.onload = function (e) {
+          var bytes = new Uint8Array(<ArrayBuffer>reader.result);
+          var length = bytes.byteLength;
+          for (var i = 0; i < length; i++) {
+            binary += String.fromCharCode(bytes[i]);
+          }
+          //pt.result  - readonly so assign content to another property
+          pt.content = binary;
+          pt.onload(); // thanks to @Denis comment
+        }
+        reader.readAsArrayBuffer(fileData);
+      }
+    }
     this.curOrgId = this.activeroute.snapshot.paramMap.get("curOrgId");
     this.curOrgName = this.activeroute.snapshot.paramMap.get("curOrgName");
     this.pageType = this.activeroute.snapshot.data['type'];
@@ -273,13 +291,50 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
   handleFileSelect(files) {
     var file = files[0];
     if (files && file) {
-      var reader = new FileReader();
+      var reader: any = new FileReader();
+
+      //   reader.onload = function (e) {
+      //     // ADDED CODE
+      //     if (!e) {
+      //         var data = reader.content;
+      //     }
+      //     else {
+      //         var data = e.target.result;
+      //     }
+      //     let base64textString = btoa(data);
+      //     console.log('this.organization ', this.organization)
+      //     this.organization.logo.image = base64textString;
+
+      //     // business code
+      // };
       reader.onload = this._handleReaderLoaded.bind(this);
+
+      // //extend FileReader
+      // if (!FileReader.prototype.readAsBinaryString) {
+      //   FileReader.prototype.readAsBinaryString = function (fileData) {
+      //     var binary = "";
+      //     var pt = this;
+      //     var reader = new FileReader();
+      //     reader.onload = function (e) {
+      //       var bytes = new Uint8Array(<ArrayBuffer>reader.result);
+      //       var length = bytes.byteLength;
+      //       for (var i = 0; i < length; i++) {
+      //         binary += String.fromCharCode(bytes[i]);
+      //       }
+      //       //pt.result  - readonly so assign binary
+      //       pt.content = binary;
+      //       $(pt).trigger('onload');
+      //     }
+      //     reader.readAsArrayBuffer(fileData);
+      //   }
+      // }
 
       this.organization.logo = new Logo();
       this.organization.logo.imageName = file.name;
       this.organization.logo.imageType = file.type;
       reader.readAsBinaryString(file);
+
+
     }
   }
 

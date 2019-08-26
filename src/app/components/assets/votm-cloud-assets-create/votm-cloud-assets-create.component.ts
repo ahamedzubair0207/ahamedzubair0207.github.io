@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, ChangeDetectorRef } from '@angular/core';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { AssetsService } from 'src/app/services/assets/assets.service';
 import { Asset } from 'src/app/models/asset.model';
@@ -44,10 +44,16 @@ export class VotmCloudAssetsCreateComponent implements OnInit {
   previousURLToNavigate: string;
   previousUrl: any;
   subscriptions: any;
+  isSaveTemplateDisabled: boolean;
 
   @ViewChild('assetForm', null) assetForm: NgForm;
   @ViewChild('confirmBox', null) confirmBox: VotmCloudConfimDialogComponent;
-  @ViewChild('file', null) locationImage: any;
+  @ViewChild('templateConfirmBox', null) templateConfirmBox: VotmCloudConfimDialogComponent;
+  @ViewChild('imageChangeConfirmBox', null) imageChangeConfirmBox: VotmCloudConfimDialogComponent;
+  @ViewChild('documentChangeConfirmBox', null) documentChangeConfirmBox: VotmCloudConfimDialogComponent;
+  @ViewChild('file', null) locationImage: ElementRef;
+
+  @ViewChild('fileInput', null) docFileInput: ElementRef;
   parentLocName: string;
   parentAssetName: string;
   fileName: any;
@@ -57,13 +63,21 @@ export class VotmCloudAssetsCreateComponent implements OnInit {
   templateName: any;
   templates: { value: string; text: string; }[];
   previousAsset: any;
-  acceptedTemplateChages: boolean;
+  acceptedTemplateChages: boolean = false;
   previousTemplateName: any;
   isTemplateSelected: boolean;
+  assetToDelete: any;
+  assetNameToDelete: any;
+  templateWarningMessage: string;
+  isConfirmToChangeImage: any;
+  clickedCheckBox: number = 0;
+  count: number = 0;
+  abc: any;
   constructor(private modalService: NgbModal, private assetService: AssetsService,
     private configSettingsService: ConfigSettingsService, private domSanitizer: DomSanitizer,
     private activatedRoute: ActivatedRoute, private route: Router, private datePipe: DatePipe,
-    private routerLocation: RouterLocation, private toastr: ToastrService) {
+    private routerLocation: RouterLocation, private toastr: ToastrService,
+    private changeDetectorRef: ChangeDetectorRef) {
     this.subscriptions = route.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         if (this.previousUrl) {
@@ -84,7 +98,7 @@ export class VotmCloudAssetsCreateComponent implements OnInit {
     this.pageType = this.activatedRoute.snapshot.data['type'];
     this.pageTitle = `${this.pageType} Asset`;
     this.assetId = this.activatedRoute.snapshot.params['assetId'];
-
+    this.templateWarningMessage = 'This is message';
     // this.asset = {
     //   "organizationId": "ca58be27-9b16-4fff-afcc-0602fbb71f5e",
     //   "organizationName": "Parker Test",
@@ -155,61 +169,116 @@ export class VotmCloudAssetsCreateComponent implements OnInit {
   }
 
   onFileChange(event) {
-    let reader = new FileReader();
-    if (event.target.files && event.target.files.length > 0) {
-      let file = event.target.files[0];
+    if (event) {
+      let file = event;
       console.log('file instanceof Blob ', file instanceof Blob);
-      // this.asset.documentation = new File();
-      // this.asset.documentation.fileName = file.name;
-      // this.asset.documentation.fileType = file.type;
-      // this.asset.documentation.file = file;
-      // this.resultABCD = file;
-      // console.log(' this.resultABCD ',  this.resultABCD)
-      // reader.readAsDataURL(file);
-      // reader.onload = (abcd) => {
-      //   this.asset.documentation = new File();
-      //   this.asset.documentation.fileName = file.name;
-      //   this.asset.documentation.fileType = file.type;
-      //   this.asset.documentation.file = reader.result.toString().split(',')[1];
-      //   // this.resultABCD =  reader.result;
-      //   // this.
-      // };
+      this.asset.documentation = new File();
+      this.asset.documentation.fileName = file.name;
+      this.asset.documentation.fileType = file.type;
+      this.asset.documentation.file = file;
+      this.resultABCD = file;
     }
   }
 
-  // onFileOpen() {
-  //   const fileURL = URL.createObjectURL(this.asset.documentation.file);
-  //   window.open(fileURL, '_blank');
-  // }
+  onFileOpen() {
+    const fileURL = URL.createObjectURL(this.asset.documentation.file);
+    window.open(fileURL, '_blank');
+  }
 
-  preview(files) {
+  onImageChangeClick() {
+    if (this.asset.templateId) {
+      this.templateWarningMessage = 'Image is inherited from the asset template, changing the value for this field breaks the binding to the asset template.  Do you want to continue?'
+      this.imageChangeConfirmBox.open();
+    } else {
+      console.log('locationImage ', this.docFileInput.nativeElement.files[0]);
+      this.preview(this.locationImage.nativeElement.files[0]);
+    }
+  }
+
+  onDocChangeClick() {
+    if (this.asset.templateId) {
+      this.templateWarningMessage = 'Documentation is inherited from the asset template, changing the value for this field breaks the binding to the asset template.  Do you want to continue?'
+      this.documentChangeConfirmBox.open();
+    } else {
+      console.log('docFileInput ', this.docFileInput.nativeElement.files[0]);
+      this.onFileChange(this.docFileInput.nativeElement.files[0]);
+    }
+  }
+
+  changeImage(event) {
+    if (event) {
+      this.preview(this.locationImage.nativeElement.files[0]);
+    }
+    this.removeTemplate(event);
+  }
+
+  changeDocumentation(event) {
+    if (event) {
+      this.onFileChange(this.docFileInput.nativeElement.files[0]);
+    }
+    this.removeTemplate(event);
+  }
+
+  shouldLoadImage(files) {
+    if (this.isConfirmToChangeImage) {
+
+      if (this.isConfirmToChangeImage === 'change') {
+        this.preview(files);
+      }
+      this.isConfirmToChangeImage = null;
+    } else {
+      setTimeout(() => {
+        this.shouldLoadImage(files);
+      });
+    }
+  }
+
+  shouldLoadDocument(event) {
+    // console.log('shouldLoadDocument', this.isConfirmToChangeImage);
+    // if (this.asset.templateId) {
+    //   if (this.isConfirmToChangeImage) {
+    //     console.log('shouldLoadDocument AHAmed', this.isConfirmToChangeImage);
+    //     if (this.isConfirmToChangeImage === 'change') {
+    //       console.log('Should Load ', this.isConfirmToChangeImage)
+    //       this.onFileChange(event);
+    //     }
+    //     this.isConfirmToChangeImage = null;
+    //   } else {
+    //     setTimeout(() => {
+    //       this.shouldLoadDocument(event);
+    //     });
+    //   }
+    // }
+  }
+
+  preview(file) {
+    console.log('Loaded Preview')
     this.message = "";
-    if (files.length === 0)
+    if (!file)
       return;
 
-    var mimeType = files[0].type;
+    var mimeType = file.type;
     if (mimeType.match(/image\/*/) == null) {
       this.message = "Only images are supported.";
       return;
     }
-    this.handleFileSelect(files);
+    this.handleFileSelect(file);
     var readerToPreview = new FileReader();
-    this.imagePath = files;
-    readerToPreview.readAsDataURL(files[0]);
+    this.imagePath = file;
+    readerToPreview.readAsDataURL(file);
     readerToPreview.onload = (_event) => {
       this.imgURL = this.domSanitizer.bypassSecurityTrustUrl(readerToPreview.result.toString()); //readerToPreview.result;
     }
   }
 
-  handleFileSelect(files) {
-    var file = files[0];
-    if (files && file) {
+  handleFileSelect(file) {
+    if (file) {
       var reader = new FileReader();
       reader.onload = this._handleReaderLoaded.bind(this);
 
-      // this.asset.logo = new Logo();
-      // this.asset.logo.imageName = file.name;
-      // this.asset.logo.imageType = file.type;
+      this.asset.logo = new Logo();
+      this.asset.logo.imageName = file.name;
+      this.asset.logo.imageType = file.type;
       reader.readAsBinaryString(file);
     }
   }
@@ -232,7 +301,7 @@ export class VotmCloudAssetsCreateComponent implements OnInit {
 
     // Other Images
     base64textString = btoa(binaryString);
-    // this.asset.logo.image = base64textString;
+    this.asset.logo.image = base64textString;
 
   }
   //Delete Modal
@@ -280,19 +349,27 @@ export class VotmCloudAssetsCreateComponent implements OnInit {
     this.fillDataFromTemplate(event);
   }
 
-  onTemplateChangeAccept() {
-    console.log('acceptedTemplateChagesv ', this.acceptedTemplateChages);
-    if (this.acceptedTemplateChages) {
-      this.previousTemplateName = JSON.parse(JSON.stringify(this.templateName));
-      this.templateName = '';
-    } else {
-      this.assetForm.resetForm();
-      setTimeout(() => {
-        this.asset = JSON.parse(JSON.stringify(this.previousAsset));
-        this.templateName = JSON.parse(JSON.stringify(this.previousTemplateName));
-      });
+  ngAfterViewInit() {
+    this.changeDetectorRef.detectChanges();
+  }
 
+  onTemplateChangeAccept(event) {
+    if (window.confirm('This will break the binding to the asset template. Do you want to continue?')) {
+      this.acceptedTemplateChages = !this.acceptedTemplateChages;
+      this.removeTemplate(true);
+    } else {
+      event.preventDefault();
+      this.removeTemplate(false);
     }
+    // console.log(event, this.acceptedTemplateChages)
+    // if (!event) {
+    //   setTimeout(() => {
+    //     this.templateWarningMessage = 'This change will remove the template binding';
+    //     this.templateConfirmBox.open();
+    //   }, 100);
+    //   this.changeDetectorRef.detectChanges();
+
+    // }    
   }
 
   fillDataFromTemplate(name: string) {
@@ -300,51 +377,35 @@ export class VotmCloudAssetsCreateComponent implements OnInit {
     this.isTemplateSelected = true;
     this.assetForm.resetForm();
     setTimeout(() => {
+      this.imgURL = null;
+      this.imagePath = null;
+      if (this.locationImage && this.locationImage.nativeElement) {
+        this.locationImage.nativeElement.value = '';
+      }
+      if (this.docFileInput && this.docFileInput.nativeElement) {
+        this.docFileInput.nativeElement.value = '';
+      }
       this.asset = {
-
-        "organizationId": "ca58be27-9b16-4fff-afcc-0602fbb71f5e",
-        "locationId": "629c640e-5468-42e3-8f6a-0b97cb63f274",
-        "parentLocationId": "",
-        "organizationName": "Parker Test",
-        "locationName": "Parent Loc KK",
-        "parentAssetId": "",
-        "assetNumber": "string",
-        "parentAssetName": null,
-        "parentLocationName": "",
-        "assetName": "dfdfdfererererer",
-        "assetType": "string",
-        documentationUrl: '',
-        "description": "string",
-
-
-        // documentationUrl: '', 
-        // "organizationId": "ca58be27-9b16-4fff-afcc-0602fbb71f5e", 
-        // logo: null, 
-        assetId: 'null',
-        // documentation: null,
-        // "organizationName": "Parker Test", 
-        // "locationId": "629c640e-5468-42e3-8f6a-0b97cb63f274", 
-        // "locationName": "Parent Loc KK", 
-        // "parentAssetId": null,
-        // "parentAssetName": null, 
-        // "assetName": "Name_tqwwo", 
-        // "assetNumber": "Asset Number123", 
-        // "assetType": "Type1", 
-        // "description": "Description1"
-
-        // {
-        //   "organizationId": "ca58be27-9b16-4fff-afcc-0602fbb71f5e",
-        //   "locationId": "629c640e-5468-42e3-8f6a-0b97cb63f274",
-        //   "parentAssetId": "1ddc676f-5b27-457e-80db-f572ec96f966",
-        //   "assetNumber": "string",
-        //   "assetName": "dfdfdfererererer",
-        //   "assetType": "string",
-        //   "documentationUrl": "string",
-        //   "description": "string"
-        //  }
-
+        assetId: null,
+        assetName: 'Template',
+        assetNumber: '1234',
+        assetType: 'AssetType',
+        description: 'description',
+        documentationUrl: null,
+        locationId: this.parentLocId,
+        locationName: this.parentLocName,
+        organizationId: this.curOrgId,
+        logo: null,
+        organizationName: this.curOrgName,
+        parentAssetId: this.parentAssetId,
+        parentAssetName: this.parentAssetName,
+        parentLocationId: this.parentLocId,
+        parentLocationName: this.parentLocName,
+        templateId: 'id',
+        templateName: 'template name'
       };
       this.previousAsset = JSON.parse(JSON.stringify(this.asset));
+      this.acceptedTemplateChages = true;
     });
 
     console.log('this.assetForm ', this.assetForm);
@@ -352,18 +413,33 @@ export class VotmCloudAssetsCreateComponent implements OnInit {
 
   onAssetSubmit() {
     this.asset.documentationUrl = 'ABDFE';
-    console.log('ASSET INFO ', JSON.stringify(this.asset));
+    console.log('ASSET INFO ', this.asset);
 
-    this.assetService.createAsset(this.asset)
-      .subscribe(response => {
-        this.toaster.onSuccess('Successfully saved', 'Saved');
-      }, error => {
-        let msg = 'Something went wrong. Please fill the form correctly';
-        if (error && error.error && error.error.message) {
-          msg = error.error.message
-        }
-        this.toaster.onFailure(msg, 'Fail');
-      });
+    if (this.assetId) {
+      this.assetService.updateAsset(this.asset)
+        .subscribe(response => {
+          this.toaster.onSuccess('Successfully updated', 'Updated');
+          this.routerLocation.back();
+        }, error => {
+          let msg = 'Something went wrong. Please fill the form correctly';
+          if (error && error.error && error.error.message) {
+            msg = error.error.message
+          }
+          this.toaster.onFailure(msg, 'Fail');
+        });
+    } else {
+      this.assetService.createAsset(this.asset)
+        .subscribe(response => {
+          this.toaster.onSuccess('Successfully saved', 'Saved');
+          this.routerLocation.back();
+        }, error => {
+          let msg = 'Something went wrong. Please fill the form correctly';
+          if (error && error.error && error.error.message) {
+            msg = error.error.message
+          }
+          this.toaster.onFailure(msg, 'Fail');
+        });
+    }
 
 
 
@@ -401,11 +477,11 @@ export class VotmCloudAssetsCreateComponent implements OnInit {
   onCancelClick(event) {
     this.routerLocation.back();
   }
+
   openConfirmDialog() {
+    this.message = `Do you want to delete the "${this.asset.assetName}" Asset?`;
     this.confirmBox.open();
   }
-
-
 
   deleteAssetById(event) {
     console.log('event on close ', event);
@@ -424,5 +500,36 @@ export class VotmCloudAssetsCreateComponent implements OnInit {
     }
   }
 
+  onAssetTypeChange() {
+    console.log('onAssetTypeChange');
+    if (this.asset.templateId && this.asset.assetType !== this.previousAsset.assetType) {
+      this.templateWarningMessage = 'Asset Type is inherited from the asset template, changing the value for this field breaks the binding to the asset template.  Do you want to continue?'
+      this.templateConfirmBox.open();
+    }
+  }
 
+  removeTemplate(event) {
+    console.log(event);
+    if (!event) {
+      // this.assetForm.resetForm();
+      // console.log('this.previousAsset ', this.previousAsset);
+      this.asset.assetType = this.previousAsset.assetType;
+      this.asset.logo = this.previousAsset.logo;
+      this.asset.documentationUrl = this.previousAsset.documentationUrl;
+      this.acceptedTemplateChages = true;
+      this.imgURL = null;
+      if (this.locationImage && this.locationImage.nativeElement) {
+        this.locationImage.nativeElement.value = ''
+      }
+      if (this.docFileInput && this.docFileInput.nativeElement) {
+        this.docFileInput.nativeElement.value = '';
+      }
+      console.log('this.assetForm ', this.docFileInput)
+    } else {
+      this.asset.templateId = null;
+      this.asset.templateName = null;
+      this.previousAsset = JSON.parse(JSON.stringify(this.asset));
+      this.acceptedTemplateChages = false;
+    }
+  }
 }
