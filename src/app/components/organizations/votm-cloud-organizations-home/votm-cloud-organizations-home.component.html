@@ -19,7 +19,7 @@
       <td class="align-center">{{item.contractEnd.split(" ")[0]}}</td>
       <td class="align-center">{{item.serviceLevel}}</td>
       <td class="align-center">
-        <a class="action-icon" title="List" *ngIf="level>0" [routerLink]="['/org/home', item.id, item.name]">
+        <a class="action-icon" title="List" (click)="getIntoContext(item)" *ngIf="level>0">
           <i class="fa fa-list"></i>
         </a>
         <a class="action-icon" title="View" [routerLink]="['/org/view', curOrgId, curOrgName, item.id]">
@@ -28,7 +28,7 @@
         <a class="action-icon" title="Edit" [routerLink]="['/org/edit',curOrgId, curOrgName, item.id]">
           <i class="fa fa-edit"></i>
         </a>
-        <a class="action-icon" (click)="openConfirmDialog(item.id, item.name)" title="Delete">
+        <a class="action-icon" *ngIf="level>0" (click)="openConfirmDialog(item.id, item.name)" title="Delete">
           <i class="fa fa-trash"></i>
         </a>
       </td>
@@ -63,7 +63,7 @@
         <td class="align-center">{{subItem.contractEnd.split(" ")[0]}}</td>
         <td class="align-center">{{subItem.serviceLevel}}</td>
         <td class="align-center">
-          <a class="action-icon" title="List" [routerLink]="['/org/home', subItem.id, subItem.name]">
+          <a class="action-icon" title="List" (click)="getIntoContext(subItem)" [routerLink]="['/org/home', subItem.id, subItem.name]">
             <i class="fa fa-list"></i>
           </a>
           <a class="action-icon" title="View" [routerLink]="['/org/view',curOrgId, curOrgName, subItem.id]">

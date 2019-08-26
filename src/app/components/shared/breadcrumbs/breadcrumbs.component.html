@@ -1,0 +1,41 @@
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item">
+      <select class="custom-select breadcrumb-select" (change)="navigateTo($event.target.value, eachNode)"
+        *ngFor="let eachNode of displayListWithSiblings; index as i">
+        <option [selected]="eachSibling.active" *ngFor="let eachSibling of eachNode" [value]="eachSibling.id">
+          <a>{{eachSibling?.name}}</a> </option>
+      </select>
+    </li>
+    <!-- <li class="breadcrumb-item"><a href="#">Library</a></li>
+      <li class="breadcrumb-item active" aria-current="page">Data</li> -->
+  </ol>
+</nav>
+
+
+
+
+<!-- <div class="breadcrumb-master"> 
+   <select class="custom-select breadcrumb-select" (change)="navigateTo($event.target.value, eachNode)" *ngFor = "let eachNode of displayListWithSiblings; index as i" >
+    <option [selected]="eachSibling.active"  *ngFor = "let eachSibling of eachNode" [value]="eachSibling.id" > <a >{{eachSibling?.name}}</a> </option>
+  </select>
+
+
+
+</div> -->
+
+
+
+<!-- <ul *ngFor = "let eachNode of displayList">
+    <li >{{eachNode?.name}}</li>
+    <li  *ngFor = "let eachSibling of eachNode">{{eachSibling?.name}}</li>
+</ul> -->
+
+<!-- (change)="navigateTo($event.target.value, eachNode)"  -->
+<!-- (click)="navigateTo(eachSibling.id, eachNode)" -->
+
+<!-- <nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item" (change)="navigateTo($event.target.value, eachNode)" *ngFor = "let eachNode of displayListWithSiblings; index as i" [value]="eachSibling.id"  ><a *ngFor = "let eachSibling of eachNode">{{eachSibling?.name}}</a></li>
+  </ol>
+</nav> -->

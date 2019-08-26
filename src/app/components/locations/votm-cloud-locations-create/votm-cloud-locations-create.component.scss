@@ -2,7 +2,6 @@
 .create-loc-container {
   padding: 15px;
   background-color: white;
-  // margin-top: 80px;
 }
 
 .loc-create-font{
@@ -18,17 +17,15 @@
   background:#dbdada;
   margin: -12px -15px -20px -25px;
   padding: 20px;
-  // height: 136%;
   height: 106%;
 }
 
 .drop-down{
-  width: 100%;
-  padding:  5px 0px 7px 20px;
-  margin: 5px 0 22px 0;
-  display: inline-block;
-  border: none;
-  background: #f1f1f1;
+  // width: 100%;
+  // padding:  5px 0px 7px 20px;
+  // margin: 5px 0 22px 0;
+  // display: inline-block;
+  // border: none;
 }
 .drop-modal{
   width: 50%;
@@ -100,12 +97,11 @@ input[type=text], input[type=password],input[type=email],input[type=file],input[
   margin: 1px 0px 23px 0px;
   display: inline-block;
   border: 1px solid #ddd;
-  background: #f1f1f1;
+
   box-shadow: #069;
 }
 
 input[type=text]:focus, input[type=password]:focus,input[type=email]:focus,input[type=file]:focus {
-  background-color: #ddd;
   outline: none;
 }
 

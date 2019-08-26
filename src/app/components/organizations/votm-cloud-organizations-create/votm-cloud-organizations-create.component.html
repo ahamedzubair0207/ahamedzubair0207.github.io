@@ -115,6 +115,16 @@
 
       <div class="col-md-2">
         <label for="endDate"><b>* {{pageLabels.EndDate.labelName}} :</b></label>
+        <!-- <div class="form-group">
+          <div class="input-group">
+              <input class="form-control" placeholder="yyyy-mm-dd"
+                name="dp" [(ngModel)]="model" ngbDatepicker #d="ngbDatepicker">
+              <div class="input-group-append">
+                <button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button"></button>
+               </div>
+          </div>
+        </div> -->
+        
         <input type="date" [disabled]="pageType==='View'" [(ngModel)]="organization.contractEndDate"
           class="form-control org-create-font" #endDate="ngModel" (change)="onEndDateChange()"
           (click)="onEndDateChange()" (keyup)="onEndDateChange()" placeholder="End Date" name="endDate" required>
@@ -346,9 +356,9 @@
               <div class="col-4">
                   <div class="row form-group">
                       <label class="col-sm-4 col-form-label" for="uom.uomTypeName"><b>{{uom.uomTypeName}}:</b></label>
-                      <div class="col-sm-8">
+                      <div class="col-sm-8 org-create-font">
                           <select [(ngModel)]="uomModels[uom.uomTypeName]" (change)="onUoMDropdownChange($event,uom.uomTypeName)"
-                          name="uom.uomTypeName" class="form-control">
+                          name="uom.uomTypeName" class="form-control org-create-font">
                           <option></option>
                           <option *ngFor="let view of uom.uoMView" [value]="view.uoMId">
                             {{view.uoMName}}
@@ -361,9 +371,9 @@
               <div class="col-4">
                   <div class="row form-group">
                       <label class="col-sm-4 col-form-label" for="uom.uomTypeName"><b>{{uom.uomTypeName}}:</b></label>
-                      <div class="col-sm-8">
+                      <div class="col-sm-8 org-create-font">
                           <select [(ngModel)]="uomModels[uom.uomTypeName]" (change)="onUoMDropdownChange($event,uom.uomTypeName)"
-                          name="uom.uomTypeName" class="form-control">
+                          name="uom.uomTypeName" class="form-control org-create-font">
                           <option></option>
                           <option *ngFor="let view of uom.uoMView" [value]="view.uoMId">
                             {{view.uoMName}}
@@ -376,11 +386,11 @@
               <div class="col-4" *ngIf="applicationConfiguration.unitOfMeassurement[i+1]">
                   <div class="row form-group">
                       <label class="col-sm-4 col-form-label" for="applicationConfiguration.unitOfMeassurement[i+1].uomTypeName"><b>{{applicationConfiguration.unitOfMeassurement[i+1].uomTypeName}}:</b></label>
-                      <div class="col-sm-8">
+                      <div class="col-sm-8 org-create-font">
                           <select [(ngModel)]="uomModels[applicationConfiguration.unitOfMeassurement[i+1].uomTypeName]"
                           (change)="onUoMDropdownChange($event, applicationConfiguration.unitOfMeassurement[i+1].uomTypeName)"
                           name="applicationConfiguration.unitOfMeassurement[i+1].uomTypeName"
-                          class="form-control">
+                          class="form-control org-create-font">
                           <option></option>
                           <option *ngFor="let view of applicationConfiguration.unitOfMeassurement[i+1].uoMView"
                             [value]="view.uoMId">

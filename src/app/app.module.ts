@@ -23,6 +23,7 @@ import { VotmCloudSuperAdminComponent } from './components/super/votm-cloud-supe
 
 import { MenuService } from './services/menu/menu.service';
 import { SharedService } from './services/shared.service';
+import { BreadcrumbsService } from './services/breadcrumbs/breadcrumbs.service';
 
 import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { BackendApiService } from './services/mock/backendApi/backend-api.service';
@@ -51,6 +52,7 @@ import { VotmCloudSensorsDetailsComponent } from './components/sensors/votm-clou
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { VotmCloudAlertsCreateComponent } from './components/alerts/votm-cloud-alerts-create/votm-cloud-alerts-create.component';
+import { BreadcrumbsComponent } from './components/shared/breadcrumbs/breadcrumbs.component';
 import { VotomCloudAssetsSignalComponent } from './components/assets/votom-cloud-assets-signal/votom-cloud-assets-signal.component';
 import { VotmCloudCharValidatorComponent } from './components/shared/votm-cloud-char-validator/votm-cloud-char-validator.component';
 
@@ -88,6 +90,7 @@ import { VotmCloudCharValidatorComponent } from './components/shared/votm-cloud-
     VotmCloudNameValidatorDirective,
     VotmCloudSensorsDetailsComponent,
     VotmCloudAlertsCreateComponent,
+    BreadcrumbsComponent,
     VotomCloudAssetsSignalComponent,
     VotmCloudCharValidatorComponent
   ],
@@ -107,7 +110,7 @@ import { VotmCloudCharValidatorComponent } from './components/shared/votm-cloud-
     DatePipe,
     MenuService,
     SharedService,
-
+    BreadcrumbsService
   ],
   bootstrap: [AppComponent]
 })

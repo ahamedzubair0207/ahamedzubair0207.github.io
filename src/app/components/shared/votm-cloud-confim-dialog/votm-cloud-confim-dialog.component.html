@@ -9,8 +9,8 @@
      <p>{{message}}</p>
     </div>
     <div class="modal-footer">
-      <button type="button" class="btn btn-outline-dark" (click)="close(true)">Delete</button>
-      <button type="button" class="btn btn-outline-dark" (click)="close(false)">Cancel</button>
+      <button type="button" class="btn btn-outline-dark" (click)="close(true)">{{confirmName}}</button>
+      <button type="button" class="btn btn-outline-dark" (click)="close(false)">{{cancelName}}</button>
       <!-- <button type="button" class="btn btn-outline-dark" (click)="modal.close('cancel')">Cancel</button> -->
     </div>
   </ng-template>

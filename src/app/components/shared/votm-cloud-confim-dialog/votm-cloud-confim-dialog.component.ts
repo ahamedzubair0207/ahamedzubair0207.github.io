@@ -12,6 +12,8 @@ export class VotmCloudConfimDialogComponent implements OnInit {
 
   @Input() message: string
   @Input() headerMessage: string;
+  @Input() confirmName: string;
+  @Input() cancelName: string;
 
   @ViewChild('content', null) content: any
   @Output() onClose: EventEmitter<any> = new EventEmitter<any>();
@@ -20,6 +22,12 @@ export class VotmCloudConfimDialogComponent implements OnInit {
   constructor(private modalService: NgbModal) { }
 
   ngOnInit() {
+    if(!this.confirmName){
+      this.confirmName = 'Delete';
+    }
+    if(!this.cancelName){
+      this.cancelName = 'Cancel';
+    }
   }
 
   open() {

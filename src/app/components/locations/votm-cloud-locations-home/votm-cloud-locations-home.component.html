@@ -27,6 +27,7 @@
           <i class="fa fa-edit"></i>
         </a>
         <a class="action-icon" (click)="openConfirmDialog(item.id, item.name)" title="Delete">
+  <!-- <a class="action-icon" *ngIf="lvl>0" (click)="openConfirmDialog(item.id, item.name)" title="Delete"> -->
           <i class="fa fa-trash"></i>
         </a>
       </td>
@@ -75,10 +76,9 @@
       <ng-container *ngIf="subItem.opened">
         <ng-container *ngTemplateOutlet="recursiveTableList; context:{ locList: subItem.node, level: lvl+2 }">
         </ng-container>
+        
       </ng-container>
-
     </ng-container>
-
   </ng-container>
 </ng-template>
 

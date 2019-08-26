@@ -122,10 +122,10 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
     this.location.active = true;
     this.UOM = 'SI';
     this.locationTypes = [{ value: 'locationType1', text: 'locationType1' }, { value: 'locationType2', text: 'locationType2' }]
-    this.states = [{ value: 'state1', text: 'MN' },{ value: 'state2', text: 'MO' },{ value: 'state3', text: 'TX' },{ value: 'state4', text: 'FL' },
-    { value: 'state5', text: 'CO' },{ value: 'state6', text: 'KS' },{ value: 'state7', text: 'OH' }];
-    this.countries = [{ value: 'country1', text: 'USA' },{ value: 'country2', text: 'Italy' },{ value: 'country3', text: 'France' },{ value: 'country4', text: 'Germany' },
-    { value: 'country5', text: 'Belgium' },{ value: 'country6', text: 'Denmark' },{ value: 'country7', text: 'Iceland' },{ value: 'country8', text: 'Sweden' },{ value: 'country9', text: 'Brazil' }];
+    this.states = [{ value: 'MN', text: 'MN' },{ value: 'MO', text: 'MO' },{ value: 'TX', text: 'TX' },{ value: 'FL', text: 'FL' },
+    { value: 'CO', text: 'CO' },{ value: 'KS', text: 'KS' },{ value: 'OH', text: 'OH' }];
+    this.countries = [{ value: 'USA', text: 'USA' },{ value: 'Italy', text: 'Italy' },{ value: 'France', text: 'France' },{ value: 'Germany', text: 'Germany' },
+    { value: 'Belgium', text: 'Belgium' },{ value: 'Denmark', text: 'Denmark' },{ value: 'Iceland', text: 'Iceland' },{ value: 'Sweden', text: 'Sweden' },{ value: 'Brazil', text: 'Brazil' }];
     // this.locationService.getLocationInfoFromAzureMap(null)
     //   .subscribe(response => {
     //     // console.log('AHAMED from azure map ', response);

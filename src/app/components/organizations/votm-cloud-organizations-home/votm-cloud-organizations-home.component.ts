@@ -1,6 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, ParamMap } from "@angular/router";
 import { OrganizationService } from '../../../services/organizations/organization.service';
+import { BreadcrumbsService } from './../../../services/breadcrumbs/breadcrumbs.service';
+import { Router } from '@angular/router';
 import { VotmCloudConfimDialogComponent } from '../../shared/votm-cloud-confim-dialog/votm-cloud-confim-dialog.component';
 import { Toaster } from '../../shared/votm-cloud-toaster/votm-cloud-toaster';
 import { ToastrService } from 'ngx-toastr';
@@ -22,7 +24,7 @@ export class VotmCloudOrganizationsHomeComponent implements OnInit {
   orgNameToDelete: any;
   message: any;
 
-  constructor(private orgservice: OrganizationService, private route: ActivatedRoute, private toastr: ToastrService) { }
+  constructor(private orgservice: OrganizationService, private route: ActivatedRoute, private toastr: ToastrService, private router: Router, private breadcrumbs : BreadcrumbsService) { }
 
   ngOnInit() {
     this.route.paramMap.subscribe((params: ParamMap) => {
@@ -55,6 +57,12 @@ export class VotmCloudOrganizationsHomeComponent implements OnInit {
     }
     this.orgToDelete = '';
 
+  }
+
+  getIntoContext(newOrg){
+    this.breadcrumbs.addCrumb(newOrg);
+    // breadcrum into context
+    // [routerLink]="['/org/home', item.id, item.name]"
   }
 
   fetchOrgList() {

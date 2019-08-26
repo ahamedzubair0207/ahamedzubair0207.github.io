@@ -4,6 +4,8 @@
   <app-votm-cloud-header *ngIf="router.url !== '/login'" ></app-votm-cloud-header>
   <app-votm-cloud-side-menu *ngIf="router.url !== '/login'" ></app-votm-cloud-side-menu>
   <div [ngClass]="{ 'menu-opened' : !menuOpen && router.url !== '/login', 'menu-closed' : menuOpen && router.url !== '/login', 'main-body' : router.url !== '/login'}">
+    <app-breadcrumbs *ngIf="router.url !== '/login'" ></app-breadcrumbs>
+    <hr *ngIf="router.url !== '/login'" >
     <router-outlet ></router-outlet>
   </div>
 </div>
