@@ -122,10 +122,10 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
     this.location.active = true;
     this.UOM = 'SI';
     this.locationTypes = [{ value: 'locationType1', text: 'locationType1' }, { value: 'locationType2', text: 'locationType2' }]
-    this.states = [{ value: 'MN', text: 'MN' },{ value: 'MO', text: 'MO' },{ value: 'TX', text: 'TX' },{ value: 'FL', text: 'FL' },
-    { value: 'CO', text: 'CO' },{ value: 'KS', text: 'KS' },{ value: 'OH', text: 'OH' }];
-    this.countries = [{ value: 'USA', text: 'USA' },{ value: 'Italy', text: 'Italy' },{ value: 'France', text: 'France' },{ value: 'Germany', text: 'Germany' },
-    { value: 'Belgium', text: 'Belgium' },{ value: 'Denmark', text: 'Denmark' },{ value: 'Iceland', text: 'Iceland' },{ value: 'Sweden', text: 'Sweden' },{ value: 'Brazil', text: 'Brazil' }];
+    this.states = [{ value: 'MN', text: 'MN' }, { value: 'MO', text: 'MO' }, { value: 'TX', text: 'TX' }, { value: 'FL', text: 'FL' },
+    { value: 'CO', text: 'CO' }, { value: 'KS', text: 'KS' }, { value: 'OH', text: 'OH' }];
+    this.countries = [{ value: 'USA', text: 'USA' }, { value: 'Italy', text: 'Italy' }, { value: 'France', text: 'France' }, { value: 'Germany', text: 'Germany' },
+    { value: 'Belgium', text: 'Belgium' }, { value: 'Denmark', text: 'Denmark' }, { value: 'Iceland', text: 'Iceland' }, { value: 'Sweden', text: 'Sweden' }, { value: 'Brazil', text: 'Brazil' }];
     // this.locationService.getLocationInfoFromAzureMap(null)
     //   .subscribe(response => {
     //     // console.log('AHAMED from azure map ', response);
@@ -231,6 +231,10 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
             if (response && response.results && response.results.length > 0) {
               this.location.latitude = response.results[0].position.lat;
               this.location.longitude = response.results[0].position.lon;
+              this.locationService.getTimezoneByCordinates(`${this.location.latitude},${this.location.longitude}`)
+                .subscribe((response: any) => {
+                  console.log('AHAMED Location timezone', response.TimeZones[0].Names.Standard);
+                })
             }
           });
       } else {
@@ -334,8 +338,21 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
   handleFileSelect(files) {
     var file = files[0];
     if (files && file) {
-      var reader = new FileReader();
-      reader.onload = this._handleReaderLoaded.bind(this);
+      var reader: any = new FileReader();
+      // reader.onload = this._handleReaderLoaded.bind(this);
+      reader.onload = (e) => {
+        // ADDED CODE
+        let data;
+        if (!e) {
+          data = reader.content;
+        }
+        else {
+          data = e.target.result;
+        }
+        let base64textString = btoa(data);
+        console.log('this.organization ', this.location, data)
+        this.location.logo.image = base64textString;
+      };
 
       this.location.logo = new Logo();
       this.location.logo.imageName = file.name;

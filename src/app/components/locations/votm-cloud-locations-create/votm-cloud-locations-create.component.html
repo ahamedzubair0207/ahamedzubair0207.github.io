@@ -1,5 +1,5 @@
 <div class="loc-outside-border" *ngIf="(!locId && pageLabels) || (locId && pageLabels && location)">
-  <form #locationForm="ngForm" class="form container create-loc-container border shadow-sm"
+  <form #locationForm="ngForm" class="form-container create-loc-container border shadow"
     (ngSubmit)="onLocationSubmit()" novalidate>
     <div class="row loc-create-font">
       <h4 class="col-md-6">{{pageTitle}}</h4>
@@ -8,6 +8,8 @@
           class="btn btn-secondary btn-color create-loc-asset-btn" (click)="creteAsset($event)">Create Asset</button>
         <button id="nest-loc-create" *ngIf="location.locationId" (click)="createNestedLocation($event)" type="button"
           class="btn btn-secondary btn-color create-loc-asset-btn">Create Location</button>
+          <button id="signal-associate-loc" type="button" *ngIf="location.locationId" class="btn btn-secondary btn-color create-loc-asset-btn"
+          routerLink="/loc/signal">Associate Signal</button>
       </div>
 
       
@@ -131,7 +133,7 @@
       <div class="col">
         <h4><label for="billingaddress">* {{pageLabels.BillingAddress.labelName}} </label></h4>
         <div class="row" *ngIf="location && location.address && location.address.length>0">
-          <div class="col-md-5">
+          <div class="col-md-6">
             <!-- <label for="address1"><b>* {{pageLabels.Address1.labelName}}:</b></label> -->
             <input [disabled]="pageType==='View'" type="text" [(ngModel)]="location.address[0].address1" for="address1"
               class="form-control loc-create-font" placeholder="Street Name" name="address1" #address1="ngModel"
@@ -140,7 +142,7 @@
               <app-votm-cloud-validator message="Street Name is required"></app-votm-cloud-validator>
             </div>
           </div>
-          <div class="col-md-3">
+          <div class="col-md-4">
             <!-- <label for="address2"><b>* {{pageLabels.Address2.labelName}}:</b></label> -->
             <input [disabled]="pageType==='View'" type="text" [(ngModel)]="location.address[0].address2" for="address2"
               class="form-control loc-create-font" placeholder="Apt/Suite Number" #address2="ngModel" name="address2">
@@ -166,8 +168,7 @@
             </div>
           </div>
           <div class="col-md-2">
-            <label for="state"><b>* {{pageLabels.State.labelName}}:</b></label>
-
+            <!-- <label for="state"><b>* {{pageLabels.State.labelName}}:</b></label> -->
             <select [disabled]="pageType==='View'" [(ngModel)]="location.address[0].state" name="state"
               class="drop-down form-control loc-create-font" #state="ngModel" required>
               <option value="" disabled selected>State</option>
@@ -180,7 +181,7 @@
             </div>
           </div>
           <div class="col-md-2">
-            <label for="country"><b>* {{pageLabels.Country.labelName}}:</b></label>
+            <!-- <label for="country"><b>* {{pageLabels.Country.labelName}}:</b></label> -->
             <select [disabled]="pageType==='View'" [(ngModel)]="location.address[0].country" name="country"
               class="drop-down form-control loc-create-font" required #country="ngModel">
               <option value="" disabled selected>Country</option>
@@ -193,7 +194,7 @@
             </div>
           </div>
 
-          <div class="col-md-4">
+          <div class="col-md-6">
               <label for="geofence" class="pr-2"><b>{{pageLabels.GeoFence.labelName}}:</b></label>
               <div class="form-check form-check-inline ">
                 <input class="form-check-input" [disabled]="pageType==='View'" type="radio"
@@ -232,7 +233,7 @@
               </div>
             </div>
           
-          <div class="col-md-4">
+          <div class="col-md-5">
               <label for="geoLocation" class="pr-2"><b>{{pageLabels.GeoLocation.labelName}}:</b></label>
               <input type="text" [disabled]="pageType==='View'" [(ngModel)]="location.latitude"
                 class="geo-loc-long form-control loc-create-font" placeholder="Longitude" name="geoLocationLong"
@@ -276,7 +277,8 @@
         <img [src]="imgURL" *ngIf="imgURL" style="max-width:100%; max-height:200px;">
       </div>
       <div class="col-md-4">
-        <label class="mdb-main-label" for="gateway"><b>Claimed Gateway</b></label>
+        <br>
+        <label class="mdb-main-label" for="gateway"><b>Claimed Gateway: </b></label>
         <!-- <ng-multiselect-dropdown [disabled]="pageType==='View'" class="gateway-dropdown" [placeholder]="'Gateway List'"
           [data]="gatewayList" name="claimedGateway" [(ngModel)]="selectedItems" [settings]="dropdownSettings"
           (onSelect)="onItemSelect($event)" (onSelectAll)="onSelectAll($event)">

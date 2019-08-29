@@ -9,6 +9,7 @@ import { VotmCloudOrganizationsHomeComponent } from './components/organizations/
 import { VotmCloudOrganizationsCreateComponent } from './components/organizations/votm-cloud-organizations-create/votm-cloud-organizations-create.component';
 import { VotmCloudLocationsHomeComponent } from './components/locations/votm-cloud-locations-home/votm-cloud-locations-home.component';
 import { VotmCloudLocationsCreateComponent } from './components/locations/votm-cloud-locations-create/votm-cloud-locations-create.component';
+import { VotmCloudLocationsSignalComponent } from './components/locations/votm-cloud-locations-signal/votm-cloud-locations-signal.component';
 import { VotmCloudAssetsHomeComponent } from './components/assets/votm-cloud-assets-home/votm-cloud-assets-home.component';
 import { VotmCloudAssetsCreateComponent } from './components/assets/votm-cloud-assets-create/votm-cloud-assets-create.component';
 import { VotomCloudAssetsSignalComponent } from './components/assets/votom-cloud-assets-signal/votom-cloud-assets-signal.component';
@@ -38,6 +39,7 @@ const routes: Routes = [
   { path: 'loc/create/:curOrgId/:curOrgName', component: VotmCloudLocationsCreateComponent, data: { type: 'Create' } },
   { path: 'loc/edit/:curOrgId/:curOrgName/:locId', component: VotmCloudLocationsCreateComponent, data: { type: 'Edit' } },
   { path: 'loc/view/:curOrgId/:curOrgName/:locId', component: VotmCloudLocationsCreateComponent, data: { type: 'View' } },
+  { path: 'loc/signal', component: VotmCloudLocationsSignalComponent },
   { path: 'asset/home/:orgId/:orgName', component: VotmCloudAssetsHomeComponent },
   { path: 'asset/home/:orgId/:orgName/:assetId', component: VotmCloudAssetsHomeComponent },
   { path: 'asset/create/:parentOrgId/:parentOrgName/:parentLocId/:parentLocName', component: VotmCloudAssetsCreateComponent, data: { type: 'Create' } },
