@@ -186,7 +186,7 @@ export class VotmCloudAssetsCreateComponent implements OnInit {
   }
 
   onImageChangeClick() {
-    if (this.asset.templateId) {
+    if (this.acceptedTemplateChages) {
       this.templateWarningMessage = 'Image is inherited from the asset template, changing the value for this field breaks the binding to the asset template.  Do you want to continue?'
       this.imageChangeConfirmBox.open();
     } else {
@@ -196,7 +196,7 @@ export class VotmCloudAssetsCreateComponent implements OnInit {
   }
 
   onDocChangeClick() {
-    if (this.asset.templateId) {
+    if (this.acceptedTemplateChages) {
       this.templateWarningMessage = 'Documentation is inherited from the asset template, changing the value for this field breaks the binding to the asset template.  Do you want to continue?'
       this.documentChangeConfirmBox.open();
     } else {
@@ -273,8 +273,21 @@ export class VotmCloudAssetsCreateComponent implements OnInit {
 
   handleFileSelect(file) {
     if (file) {
-      var reader = new FileReader();
-      reader.onload = this._handleReaderLoaded.bind(this);
+      var reader: any = new FileReader();
+      // reader.onload = this._handleReaderLoaded.bind(this);
+      reader.onload = (e) => {
+        // ADDED CODE
+        let data;
+        if (!e) {
+          data = reader.content;
+        }
+        else {
+          data = e.target.result;
+        }
+        let base64textString = btoa(data);
+        // console.log('this.organization ', this.location, data)
+        this.asset.logo.image = base64textString;
+      };
 
       this.asset.logo = new Logo();
       this.asset.logo.imageName = file.name;
@@ -354,11 +367,16 @@ export class VotmCloudAssetsCreateComponent implements OnInit {
   }
 
   onTemplateChangeAccept(event) {
-    if (window.confirm('This will break the binding to the asset template. Do you want to continue?')) {
-      this.acceptedTemplateChages = !this.acceptedTemplateChages;
-      this.removeTemplate(true);
+    console.log(event, this.acceptedTemplateChages);
+    if (this.acceptedTemplateChages) {
+      if (window.confirm('This will break the binding to the asset template. Do you want to continue?')) {
+        this.acceptedTemplateChages = !this.acceptedTemplateChages;
+        this.removeTemplate(true);
+      } else {
+        event.preventDefault();
+        this.removeTemplate(false);
+      }
     } else {
-      event.preventDefault();
       this.removeTemplate(false);
     }
     // console.log(event, this.acceptedTemplateChages)
@@ -415,30 +433,42 @@ export class VotmCloudAssetsCreateComponent implements OnInit {
     this.asset.documentationUrl = 'ABDFE';
     console.log('ASSET INFO ', this.asset);
 
-    if (this.assetId) {
-      this.assetService.updateAsset(this.asset)
-        .subscribe(response => {
-          this.toaster.onSuccess('Successfully updated', 'Updated');
-          this.routerLocation.back();
-        }, error => {
-          let msg = 'Something went wrong. Please fill the form correctly';
-          if (error && error.error && error.error.message) {
-            msg = error.error.message
-          }
-          this.toaster.onFailure(msg, 'Fail');
-        });
+    if (this.assetForm && this.assetForm.invalid) {
+      this.toaster.onFailure('Please fill the form correctly.', 'Form is invalid!')
+      console.log('If block ');
+      Object.keys(this.assetForm.form.controls).forEach(element => {
+        this.assetForm.form.controls[element].markAsDirty();
+      });
     } else {
-      this.assetService.createAsset(this.asset)
-        .subscribe(response => {
-          this.toaster.onSuccess('Successfully saved', 'Saved');
-          this.routerLocation.back();
-        }, error => {
-          let msg = 'Something went wrong. Please fill the form correctly';
-          if (error && error.error && error.error.message) {
-            msg = error.error.message
-          }
-          this.toaster.onFailure(msg, 'Fail');
-        });
+      if (!this.acceptedTemplateChages) {
+        this.asset.templateId = null;
+        this.asset.templateName = null;
+      }
+      if (this.assetId) {
+        this.assetService.updateAsset(this.asset)
+          .subscribe(response => {
+            this.toaster.onSuccess('Successfully updated', 'Updated');
+            this.routerLocation.back();
+          }, error => {
+            let msg = 'Something went wrong. Please fill the form correctly';
+            if (error && error.error && error.error.message) {
+              msg = error.error.message
+            }
+            this.toaster.onFailure(msg, 'Fail');
+          });
+      } else {
+        this.assetService.createAsset(this.asset)
+          .subscribe(response => {
+            this.toaster.onSuccess('Successfully saved', 'Saved');
+            this.routerLocation.back();
+          }, error => {
+            let msg = 'Something went wrong. Please fill the form correctly';
+            if (error && error.error && error.error.message) {
+              msg = error.error.message
+            }
+            this.toaster.onFailure(msg, 'Fail');
+          });
+      }
     }
 
 
@@ -502,7 +532,7 @@ export class VotmCloudAssetsCreateComponent implements OnInit {
 
   onAssetTypeChange() {
     console.log('onAssetTypeChange');
-    if (this.asset.templateId && this.asset.assetType !== this.previousAsset.assetType) {
+    if (this.acceptedTemplateChages && this.asset.assetType !== this.previousAsset.assetType) {
       this.templateWarningMessage = 'Asset Type is inherited from the asset template, changing the value for this field breaks the binding to the asset template.  Do you want to continue?'
       this.templateConfirmBox.open();
     }
@@ -512,7 +542,7 @@ export class VotmCloudAssetsCreateComponent implements OnInit {
     console.log(event);
     if (!event) {
       // this.assetForm.resetForm();
-      // console.log('this.previousAsset ', this.previousAsset);
+      console.log('this.previousAsset ', this.previousAsset, this.asset);
       this.asset.assetType = this.previousAsset.assetType;
       this.asset.logo = this.previousAsset.logo;
       this.asset.documentationUrl = this.previousAsset.documentationUrl;
@@ -526,9 +556,9 @@ export class VotmCloudAssetsCreateComponent implements OnInit {
       }
       console.log('this.assetForm ', this.docFileInput)
     } else {
-      this.asset.templateId = null;
-      this.asset.templateName = null;
-      this.previousAsset = JSON.parse(JSON.stringify(this.asset));
+      // this.asset.templateId = null;
+      // this.asset.templateName = null;
+      // this.previousAsset = JSON.parse(JSON.stringify(this.asset));
       this.acceptedTemplateChages = false;
     }
   }

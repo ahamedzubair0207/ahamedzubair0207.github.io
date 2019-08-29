@@ -31,7 +31,7 @@ export class VotmCloudConfimDialogComponent implements OnInit {
   }
 
   open() {
-    this.modalService.open(this.content, { ariaLabelledBy: 'modal-basic-title' }).result.then((result) => {
+    this.modalService.open(this.content, { ariaLabelledBy: 'modal-basic-title',backdrop:'static', keyboard:false }).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
@@ -39,6 +39,7 @@ export class VotmCloudConfimDialogComponent implements OnInit {
   }
 
   private getDismissReason(reason: any): string {
+    console.log('AHAMED ', reason)
     if (reason === ModalDismissReasons.ESC) {
       return 'by pressing ESC';
     } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {

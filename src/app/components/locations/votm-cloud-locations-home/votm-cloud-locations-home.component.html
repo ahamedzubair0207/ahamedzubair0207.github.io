@@ -1,101 +1,108 @@
-<h3 class="flt-left"> Locations</h3>
-<div class="btn-group-right mt-1">
-  <button (click)="onCreateNewLocation()" type="button" class="btn btn-dark">Create
-    Location</button>
-</div>
-
-<ng-template #recursiveTableList let-list="locList" let-lvl="level">
-  <ng-container *ngFor="let item of list">
-
-    <tr>
-      <th scope="row" (click)="item.opened = !item.opened" [ngStyle]="{'padding-left.px': 15*(lvl+1)}">
-        <i class="fa fa-location-arrow"></i>
-        {{item.name}} <i *ngIf="item.node.length > 0 "
-          [ngClass]="{'fa': true, 'fa-caret-right': !item.opened, 'fa-caret-down': item.opened}"></i>
-      </th>
-      <td class="align-center">{{item.type}}</td>
-      <td class="align-center">{{item.parentOrgName}}</td>
-      <td class="align-center">
-        <a class="action-icon" title="List" *ngIf="level>0" [routerLink]="['/loc/home',item.parentOrgId, item.parentOrgName, item.id, item.name]">
-          <i class="fa fa-list"></i>
-        </a>
-        <a class="action-icon" title="View" [routerLink]="['/loc/view',item.parentOrgId, item.parentOrgName, item.id]">
-          <i class="fa fa-eye"></i>
-        </a>
-        <a class="action-icon" title="Edit"
-          [routerLink]="['/loc/edit', item.parentOrgId, item.parentOrgName, item.id]">
-          <i class="fa fa-edit"></i>
-        </a>
-        <a class="action-icon" (click)="openConfirmDialog(item.id, item.name)" title="Delete">
-  <!-- <a class="action-icon" *ngIf="lvl>0" (click)="openConfirmDialog(item.id, item.name)" title="Delete"> -->
-          <i class="fa fa-trash"></i>
-        </a>
-      </td>
-    </tr>
-
-    <ng-container *ngFor="let subItem of item.node">
-      <tr *ngIf="item.opened && subItem.entityType == 'Asset'">
-        <th scope="row" [ngStyle]="{'padding-left.px': 15*(lvl+2)}"> <i class="fa fa-industry"></i> {{subItem.name}}
-        </th>
-        <td></td>
-        <td></td>
-        <td class="align-center">
-          <a class="action-icon">
-            <i class="fa fa-list"></i>
-          </a>
-        </td>
-      </tr>
 
 
-      <tr *ngIf="item.opened && subItem.entityType == 'Location'">
-        <th scope="row" (click)="subItem.opened = !subItem.opened" [ngStyle]="{'padding-left.px': 15*(lvl+2)}">
-          <i class="fa fa-location-arrow"></i>
-          {{subItem.name}} <i *ngIf="subItem.node.length > 0 "
-            [ngClass]="{'fa': true, 'fa-caret-right': !subItem.opened, 'fa-caret-down': subItem.opened}"></i>
-        </th>
-        <td class="align-center">{{subItem.type}}</td>
-        <td class="align-center">{{subItem.parentOrgName}}</td>
-        <td class="align-center">
-          <a class="action-icon" title="List" [routerLink]="['/loc/home',subItem.parentOrgId, subItem.parentOrgName, subItem.id, subItem.name]">
-            <i class="fa fa-list"></i>
-          </a>
-          <a class="action-icon" title="View"
-            [routerLink]="['/loc/view',subItem.parentId, subItem.parentName, subItem.parentOrgId, subItemparentOrgName,  subItem.id]">
-            <i class="fa fa-eye"></i>
-          </a>
-          <a class="action-icon" title="Edit"
-            [routerLink]="['/loc/edit',subItem.parentId, subItem.parentName, subItem.parentOrgId, subItem.parentOrgName,  subItem.id]">
-            <i class="fa fa-edit"></i>
-          </a>
-          <a class="action-icon" (click)="openConfirmDialog(subItem.id, subItem.name)" title="Delete">
-            <i class="fa fa-trash"></i>
-          </a>
-        </td>
-      </tr>
+<form class="form-container border shadow-lg loc-table-fonts">
 
-      <ng-container *ngIf="subItem.opened">
-        <ng-container *ngTemplateOutlet="recursiveTableList; context:{ locList: subItem.node, level: lvl+2 }">
+    <h3 class="flt-left mt-2 ml-2"> Locations</h3>
+    <div class="btn-group-right mt-2">
+      <button (click)="onCreateNewLocation()" type="button" class="btn btn-dark loc-table-fonts">Create
+        Location</button>
+    </div>
+
+    <ng-template #recursiveTableList let-list="locList" let-lvl="level">
+        <ng-container *ngFor="let item of list">
+      
+          <tr>
+            <th scope="row" (click)="item.opened = !item.opened" [ngStyle]="{'padding-left.px': 15*(lvl+1)}">
+              <i class="fa fa-location-arrow"></i>
+              {{item.name}} <i *ngIf="item.node.length > 0 "
+                [ngClass]="{'fa': true, 'fa-caret-right': !item.opened, 'fa-caret-down': item.opened}"></i>
+            </th>
+            <td class="align-center">{{item.type}}</td>
+            <td class="align-center">{{item.parentOrgName}}</td>
+            <td class="align-center">
+              <a class="action-icon" title="List" *ngIf="level>0" [routerLink]="['/loc/home',item.parentOrgId, item.parentOrgName, item.id, item.name]">
+                <i class="fa fa-list"></i>
+              </a>
+              <a class="action-icon" title="View" [routerLink]="['/loc/view',item.parentOrgId, item.parentOrgName, item.id]">
+                <i class="fa fa-eye"></i>
+              </a>
+              <a class="action-icon" title="Edit"
+                [routerLink]="['/loc/edit', item.parentOrgId, item.parentOrgName, item.id]">
+                <i class="fa fa-edit"></i>
+              </a>
+              <a class="action-icon" (click)="openConfirmDialog(item.id, item.name)" title="Delete">
+        <!-- <a class="action-icon" *ngIf="lvl>0" (click)="openConfirmDialog(item.id, item.name)" title="Delete"> -->
+                <i class="fa fa-trash"></i>
+              </a>
+            </td>
+          </tr>
+      
+          <ng-container *ngFor="let subItem of item.node">
+            <tr *ngIf="item.opened && subItem.entityType == 'Asset'">
+              <th scope="row" [ngStyle]="{'padding-left.px': 15*(lvl+2)}"> <i class="fa fa-industry"></i> {{subItem.name}}
+              </th>
+              <td></td>
+              <td></td>
+              <td class="align-center">
+                <a class="action-icon">
+                  <i class="fa fa-list"></i>
+                </a>
+              </td>
+            </tr>
+      
+      
+            <tr *ngIf="item.opened && subItem.entityType == 'Location'">
+              <th scope="row" (click)="subItem.opened = !subItem.opened" [ngStyle]="{'padding-left.px': 15*(lvl+2)}">
+                <i class="fa fa-location-arrow"></i>
+                {{subItem.name}} <i *ngIf="subItem.node.length > 0 "
+                  [ngClass]="{'fa': true, 'fa-caret-right': !subItem.opened, 'fa-caret-down': subItem.opened}"></i>
+              </th>
+              <td class="align-center">{{subItem.type}}</td>
+              <td class="align-center">{{subItem.parentOrgName}}</td>
+              <td class="align-center">
+                <a class="action-icon" title="List" [routerLink]="['/loc/home',subItem.parentOrgId, subItem.parentOrgName, subItem.id, subItem.name]">
+                  <i class="fa fa-list"></i>
+                </a>
+                <a class="action-icon" title="View"
+                  [routerLink]="['/loc/view',subItem.parentId, subItem.parentName, subItem.parentOrgId, subItemparentOrgName,  subItem.id]">
+                  <i class="fa fa-eye"></i>
+                </a>
+                <a class="action-icon" title="Edit"
+                  [routerLink]="['/loc/edit',subItem.parentId, subItem.parentName, subItem.parentOrgId, subItem.parentOrgName,  subItem.id]">
+                  <i class="fa fa-edit"></i>
+                </a>
+                <a class="action-icon" (click)="openConfirmDialog(subItem.id, subItem.name)" title="Delete">
+                  <i class="fa fa-trash"></i>
+                </a>
+              </td>
+            </tr>
+      
+            <ng-container *ngIf="subItem.opened">
+              <ng-container *ngTemplateOutlet="recursiveTableList; context:{ locList: subItem.node, level: lvl+2 }">
+              </ng-container>
+              
+            </ng-container>
+          </ng-container>
         </ng-container>
-        
-      </ng-container>
-    </ng-container>
-  </ng-container>
-</ng-template>
+      </ng-template>
+      
+      
+      <table class="table table-sm table-bordered">
+        <thead class="thead-light">
+          <tr>
+            <th scope="col" class="align-center table-col-name">Name</th>
+            <th scope="col" class="align-center">Type</th>
+            <th scope="col" class="align-center">Organization</th>
+            <th scope="col" class="align-center">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <ng-container *ngTemplateOutlet="recursiveTableList; context:{ locList: locationsList, level: 0 }"></ng-container>
+        </tbody>
+      </table>
+</form>
 
 
-<table class="table table-sm table-bordered">
-  <thead class="thead-light">
-    <tr>
-      <th scope="col" class="align-center table-col-name">Name</th>
-      <th scope="col" class="align-center">Type</th>
-      <th scope="col" class="align-center">Organization</th>
-      <th scope="col" class="align-center">Actions</th>
-    </tr>
-  </thead>
-  <tbody>
-    <ng-container *ngTemplateOutlet="recursiveTableList; context:{ locList: locationsList, level: 0 }"></ng-container>
-  </tbody>
-</table>
 
 <app-votm-cloud-confim-dialog (onClose)="deleteLocationById($event)" #confirmBox [message]="message"
   headerMessage="Warning"></app-votm-cloud-confim-dialog>

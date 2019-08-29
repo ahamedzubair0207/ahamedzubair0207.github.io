@@ -2,32 +2,45 @@
   headerMessage="Warning"></app-votm-cloud-confim-dialog>
 
 <app-votm-cloud-confim-dialog (onClose)="removeTemplate($event)" #templateConfirmBox
-  message="{{templateWarningMessage}}" confirmName="Yes" cancelName="No" headerMessage="Warning"></app-votm-cloud-confim-dialog>
+  message="{{templateWarningMessage}}" confirmName="Yes" cancelName="No" headerMessage="Warning">
+</app-votm-cloud-confim-dialog>
 
 <app-votm-cloud-confim-dialog (onClose)="changeImage($event)" #imageChangeConfirmBox
-  message="{{templateWarningMessage}}"  confirmName="Yes" cancelName="No" headerMessage="Warning"></app-votm-cloud-confim-dialog>
+  message="{{templateWarningMessage}}" confirmName="Yes" cancelName="No" headerMessage="Warning">
+</app-votm-cloud-confim-dialog>
 
 <app-votm-cloud-confim-dialog (onClose)="changeDocumentation($event)" #documentChangeConfirmBox
-  message="{{templateWarningMessage}}"  confirmName="Yes" cancelName="No" headerMessage="Warning"></app-votm-cloud-confim-dialog>
+  message="{{templateWarningMessage}}" confirmName="Yes" cancelName="No" headerMessage="Warning">
+</app-votm-cloud-confim-dialog>
 
 <div class="asset-outside-border" *ngIf="(!assetId && pageLabels) || (assetId && pageLabels && asset)">
   <form #assetForm="ngForm" class="form-container asset-create-font create-asset-container 
-    border shadow-sm" (ngSubmit)="onAssetSubmit()" novalidate>
+    border shadow" (ngSubmit)="onAssetSubmit()" novalidate>
     <div class="row">
-      <h4 class="col-12">{{pageTitle}}</h4>
+      <h4 class="col-md-6">{{pageTitle}}</h4>
+      <div class="col-md-6">
+        <button id="nest-asset-create" type="button" *ngIf="asset.assetId" (click)="createNestedAsset($event)"
+          class="btn button-right-mod btn-color">Create Asset</button>
+      </div>
     </div>
+
     <div class="row">
       <div class="col-md-2">
         <label for="assetName"><b>* Name:</b></label>
         <input type="text" [(ngModel)]="asset.assetName" class="form-control asset-create-font"
-          [disabled]="pageType==='View'" #assetName="ngModel" placeholder="Enter Name" name="assetName" required
+          [disabled]="pageType==='View'" #assetName="ngModel" placeholder="Enter Name" name="assetName1" required
           maxlength="50">
+        <div *ngIf="assetName.dirty && assetName.invalid">
+          <app-votm-cloud-validator message="Name is required"></app-votm-cloud-validator>
+        </div>
+        <app-votm-cloud-char-validator [condition]="asset.assetName && asset.assetName.length>=50">
+        </app-votm-cloud-char-validator>
       </div>
 
       <div class="col-md-2">
         <label for="assetId"><b>Asset ID:</b></label>
         <input type="text" [(ngModel)]="asset.assetNumber" class="form-control asset-create-font"
-          [disabled]="pageType==='View'" #assetName="ngModel" placeholder="Enter Asset ID" name="assetNumber" required
+          [disabled]="pageType==='View'" #assetId="ngModel" placeholder="Enter Asset ID" name="assetNumber"
           maxlength="50">
       </div>
 
@@ -79,8 +92,8 @@
       <!-- (change)="(!asset.templateId||(asset.templateId && isConfirmToChangeImage==='change'))?onFileChange($event):null" -->
       <div class="col-md-3 form-group">
         <label for="exampleFormControlFile1"><b>Documentation:</b></label>
-        <input type="file" id="documentUpload" name="documentUpload" (change)="onDocChangeClick();"
-          class="form-control-file asset-create-font" #fileInput>
+        <input type="file" id="documentUpload" name="documentUpload" *ngIf="pageType !=='View'"
+          (change)="onDocChangeClick();" class="form-control-file asset-create-font" #fileInput>
         <!-- <button type="button" class="btn btn-sm btn-default" (click)="clearFile()">clear file</button> -->
         <!-- <label style="font-weight: bold" *ngIf="asset && asset.logo">Image</label> -->
         <a *ngIf="asset.documentation" style="color:blue;"
@@ -94,8 +107,8 @@
         <div>
           <div class="checkbox">
             <label>
-              <input type="checkbox" [(ngModel)]="acceptedTemplateChages" (click)="onTemplateChangeAccept($event)" name="templateAccept"
-                >Accept Template Changes</label>
+              <input type="checkbox" [(ngModel)]="acceptedTemplateChages" (click)="onTemplateChangeAccept($event)"
+                name="templateAccept">Accept Template Changes</label>
           </div>
           <!-- <input class="form-check-input templt-radio" type="radio"> -->
           <!-- <label for="temp-change" class="templt-label">Accept Template Changes</label> -->
@@ -106,19 +119,19 @@
     <div class="row">
 
       <div class="col-12 action-btn-asset">
-        <button id="nest-asset-create" type="button" *ngIf="asset.assetId" (click)="createNestedAsset($event)"
-          class="btn btn-secondary button-left-mod">Create Asset</button>
+
         <button id="nest-loc-create" type="button" *ngIf="asset.assetId" class="btn btn-secondary button-left-mod"
           routerLink="/asset/signal">Associate Signal</button>
-        <button id="asset-create-temp" type="button" class="btn btn-secondary button-left-mod"
-          (click)="openmodal()">Create from Template</button>
-        <button id="asset-save-temp" [disabled]="asset.templateId" type="button"
+        <button id="asset-create-temp" type="button" *ngIf="pageType !=='View'"
+          class="btn btn-secondary button-left-mod" (click)="openmodal()">Create from Template</button>
+        <button id="asset-save-temp" [disabled]="asset.templateId" *ngIf="pageType !=='View'" type="button"
           class="btn btn-secondary button-right-mod">Save as Template</button>
         <button id="asset-cancel" for="form-cancel" type="button" (click)="onCancelClick($event)"
           class="btn btn-secondary button-right-mod">Cancel</button>
         <button id="asset-delete" type="button" *ngIf="asset.assetId && pageType !=='View'"
           (click)="openConfirmDialog()" class="btn btn-secondary button-right-mod">Delete</button>
-        <button id="asset-save" type="submit" class="btn btn-secondary button-right-mod btn-color">Save</button>
+        <button id="asset-save" type="submit" *ngIf="pageType !=='View'"
+          class="btn btn-secondary button-right-mod btn-color">Save</button>
       </div>
     </div>
 
@@ -139,7 +152,7 @@
       <div class="modal-body">
         <div>
           <select class="custom-select" size="10" [(ngModel)]="templateName" name="templateName"
-            class="drop-down form-control org-create-font" required>
+            class="drop-down form-control org-create-font">
             <option *ngFor="let template of templates" [value]="template.value">
               {{template.text}}
             </option>
