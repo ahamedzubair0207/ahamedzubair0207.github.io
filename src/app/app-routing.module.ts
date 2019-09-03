@@ -13,6 +13,8 @@ import { VotmCloudLocationsSignalComponent } from './components/locations/votm-c
 import { VotmCloudAssetsHomeComponent } from './components/assets/votm-cloud-assets-home/votm-cloud-assets-home.component';
 import { VotmCloudAssetsCreateComponent } from './components/assets/votm-cloud-assets-create/votm-cloud-assets-create.component';
 import { VotomCloudAssetsSignalComponent } from './components/assets/votom-cloud-assets-signal/votom-cloud-assets-signal.component';
+import { VotmCloudAssetTemplateDetailsComponent } from './components/assets/votm-cloud-asset-template-details/votm-cloud-asset-template-details.component';
+import { VotmCloudAssetTemplateListComponent } from './components/assets/votm-cloud-asset-template-list/votm-cloud-asset-template-list.component';
 import { VotmCloudSensorsHomeComponent } from './components/sensors/votm-cloud-sensors-home/votm-cloud-sensors-home.component';
 import { VotmCloudGatewaysHomeComponent } from './components/gateways/votm-cloud-gateways-home/votm-cloud-gateways-home.component';
 import { VotmCloudAdminPanelComponent } from './components/admin/votm-cloud-admin-panel/votm-cloud-admin-panel.component';
@@ -48,6 +50,8 @@ const routes: Routes = [
   { path: 'asset/create/:parentOrgId/:parentOrgName/:parentLocId/:parentLocName/:parentAssetId/:parentAssetName', component: VotmCloudAssetsCreateComponent, data: { type: 'Create' } },
   { path: 'asset/edit/:parentOrgId/:parentOrgName/:parentLocId/:parentLocName/:parentAssetId/:parentAssetName/:assetId', component: VotmCloudAssetsCreateComponent, data: { type: 'Edit' } },
   { path: 'asset/view/:parentOrgId/:parentOrgName/:parentLocId/:parentLocName/:parentAssetId/:parentAssetName/:assetId', component: VotmCloudAssetsCreateComponent, data: { type: 'View' } },
+  { path: 'template/edit', component: VotmCloudAssetTemplateDetailsComponent, data: { type: 'Edit' } },
+  { path: 'template/list', component: VotmCloudAssetTemplateListComponent },
   { path: 'asset/signal', component: VotomCloudAssetsSignalComponent },
   { path: 'sensor/home', component: VotmCloudSensorsHomeComponent },
   { path: 'sensor/edit', component: VotmCloudSensorsHomeComponent },

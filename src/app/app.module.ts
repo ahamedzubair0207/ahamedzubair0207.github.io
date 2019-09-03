@@ -56,6 +56,8 @@ import { BreadcrumbsComponent } from './components/shared/breadcrumbs/breadcrumb
 import { VotomCloudAssetsSignalComponent } from './components/assets/votom-cloud-assets-signal/votom-cloud-assets-signal.component';
 import { VotmCloudCharValidatorComponent } from './components/shared/votm-cloud-char-validator/votm-cloud-char-validator.component';
 import { VotmCloudLocationsSignalComponent } from './components/locations/votm-cloud-locations-signal/votm-cloud-locations-signal.component';
+import { VotmCloudAssetTemplateListComponent } from './components/assets/votm-cloud-asset-template-list/votm-cloud-asset-template-list.component';
+import { VotmCloudAssetTemplateDetailsComponent } from './components/assets/votm-cloud-asset-template-details/votm-cloud-asset-template-details.component';
 
 
 @NgModule({
@@ -94,7 +96,9 @@ import { VotmCloudLocationsSignalComponent } from './components/locations/votm-c
     BreadcrumbsComponent,
     VotomCloudAssetsSignalComponent,
     VotmCloudCharValidatorComponent,
-    VotmCloudLocationsSignalComponent
+    VotmCloudLocationsSignalComponent,
+    VotmCloudAssetTemplateListComponent,
+    VotmCloudAssetTemplateDetailsComponent
   ],
   imports: [
     BrowserModule,

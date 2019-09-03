@@ -1,4 +1,15 @@
-<form class="form-container border shadow-lg asset-table-fonts">
+
+<ul class="nav nav-tabs" id="myTab" role="tablist">
+  <li class="nav-item">
+    <a class="nav-link active" id="home-tab" data-toggle="tab" routerLink="/asset/home/:orgId/:orgName" role="tab" aria-controls="assets" aria-selected="true">Assets</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" id="profile-tab" data-toggle="tab" routerLink="/template/list" role="tab" aria-controls="templates" aria-selected="false">Templates</a>
+  </li>
+</ul>
+<div class="tab-content" id="myTabContent">
+  <div class="tab-pane fade show active" id="assets" role="tabpanel" aria-labelledby="assets-tab">
+    <form class="form-container border shadow-lg asset-table-fonts">
 
     <h3 class="flt-left mt-3 mb-3 ml-2"> Assets</h3>
     <ng-template #recursiveTableList let-list="assetList" let-lvl="level">
@@ -125,10 +136,139 @@
         <ng-container *ngTemplateOutlet="recursiveTableList; context:{ assetList: assetsList, level: 0 }"></ng-container>
       </tbody>
     </table>
-</form>
+      </form>
+    </div>
+  <!-- <div class="tab-pane fade" id="templates" role="tabpanel" aria-labelledby="profile-tab">Templates</div> -->
+</div>
 
+<!-- <form class="form-container border shadow-lg asset-table-fonts">
 
-
+    <h3 class="flt-left mt-3 mb-3 ml-2"> Assets</h3>
+    <ng-template #recursiveTableList let-list="assetList" let-lvl="level">
+      <ng-container *ngFor="let item of list">
+    
+        <tr>
+          <th scope="row" (click)="item.opened = !item.opened" [ngStyle]="{'padding-left.px': 15*(lvl+1)}">
+            <i class="fa fa-industry"></i>
+            {{item.name}}
+            <i *ngIf="item.node.length > 0 "
+              [ngClass]="{'fa': true, 'fa-caret-right': !item.opened, 'fa-caret-down': item.opened}"></i>
+          </th>
+          <td class="align-center">{{item.type}}</td>
+          <td class="align-center">{{item.assetNumber}}</td>
+          <td class="align-center">{{item.parentLocationName}}</td>
+          <td class="align-center">{{item.parentOrganizationName}}</td>
+          <td class="align-center"></td>
+          <td class="align-center"></td>
+          <td class="align-center"></td>
+          <td class="align-center"> -->
+            <!-- <a class="action-icon" title="List" (click)="onListClick(item)"> -->
+                <!-- <a class="action-icon" title="List">
+              <i class="fa fa-list"></i>
+            </a>
+    
+            <a class="action-icon" title="View" (click)="onEditViewClick(item, 'view')">
+    
+              <i class="fa fa-eye"></i>
+            </a> -->
+            <!-- [routerLink]="['/asset/view',item.parentOrganizationId, item.parentOrganizationName, item.parentLocationId, item.parentLocationName, item.id]"> -->
+            <!-- <a class="action-icon" title="Edit" (click)="onEditViewClick(item, 'edit')">
+              <i class="fa fa-edit"></i>
+            </a>
+            <a class="action-icon" (click)="openConfirmDialog(item.id, item.name)" title="Delete">
+              <i class="fa fa-trash"></i>
+            </a>
+          </td>
+        </tr>
+     -->
+        <!-- <ng-container *ngFor="let subItem of item.node"> -->
+          <!-- <tr *ngIf="item.opened && subItem.entityType == 'Asset'">
+            <th scope="row" [ngStyle]="{'padding-left.px': 15*(lvl+2)}"> <i class="fa fa-industry"></i>
+              {{subItem.name? subItem.name : 'Ahamed'}}</th>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td class="align-center">
+              <a class="action-icon">
+                <i class="fa fa-list"></i>
+              </a>
+            </td>
+          </tr> -->
+    
+    
+          <!-- <tr *ngIf="item.opened && subItem.entityType == 'Asset'">
+            <th scope="row" (click)="subItem.opened = !subItem.opened" [ngStyle]="{'padding-left.px': 15*(lvl+2)}">
+              <i class="fa fa-industry"></i> -->
+              <!-- Ahamed -->
+              <!-- {{subItem.name}}
+              <i *ngIf="subItem.node.length > 0 "
+                [ngClass]="{'fa': true, 'fa-caret-right': !subItem.opened, 'fa-caret-down': subItem.opened}"></i>
+            </th>
+            <td class="align-center">{{subItem.type}}</td>
+            <td class="align-center">{{subItem.assetNumber}}</td>
+            <td class="align-center">{{subItem.parentLocationName}}</td>
+            <td class="align-center">{{subItem.parentOrganizationName}}</td>
+            <td class="align-center"></td>
+            <td class="align-center"></td>
+            <td class="align-center"></td>
+            <td class="align-center">
+              <a class="action-icon" title="List" (click)="onListClick(subItem)"> -->
+                <!-- [routerLink]="['/asset/home',subItem.parentOrganizationId, subItem.parentOrganizationName, subItem.id]"> -->
+                <!-- <i class="fa fa-list"></i>
+              </a> -->
+              <!-- <a class="action-icon" title="List" (click)="getIntoContext(subItem)"
+                [routerLink]="['/asset/home',subItem.parentOrganizationId, subItem.parentOrganizationName, subItem.parentLocationNaId, subItem.parentLocationName, subItem.id, subItem.name]">
+                <i class="fa fa-list"></i>
+              </a> -->
+              <!-- <a class="action-icon" title="View" (click)="onEditViewClick(subItem, 'view')">
+                <i class="fa fa-eye"></i>
+              </a> -->
+              <!-- [routerLink]="['/asset/view',subItem.parentOrganizationId, subItem.parentOrganizationName, subItem.parentLocationId, subItem.parentLocationName, subItem.parentId, subItem.parentName, subItem.id]" -->
+    
+              <!-- <a class="action-icon" title="Edit" (click)="onEditViewClick(subItem, 'edit')">
+                <i class="fa fa-edit"></i>
+              </a> -->
+              <!-- [routerLink]="['/asset/edit',subItem.parentOrganizationId, subItem.parentOrganizationName, subItem.parentLocationId, subItem.parentLocationName,subItem.parentId, subItem.parentName, subItem.id]" -->
+              <!-- <a class="action-icon" (click)="openConfirmDialog(subItem.id)" title="Delete">
+                <i class="fa fa-trash"></i>
+              </a>
+            </td>
+          </tr> -->
+    
+          <!-- <ng-container *ngIf="subItem.opened &&  subItem.node.length>0">
+            <ng-container *ngTemplateOutlet="recursiveTableList; context:{ assetList: subItem.node, level: lvl+2 }">
+            </ng-container>
+          </ng-container>
+    
+        </ng-container>
+    
+      </ng-container>
+    </ng-template>
+     -->
+    
+    <!-- <table class="table table-sm table-bordered">
+      <thead class="thead-light">
+        <tr>
+          <th scope="col" class="align-center table-col-name">Name</th>
+          <th scope="col" class="align-center">Type</th>
+          <th scope="col" class="align-center">Asset ID</th>
+          <th scope="col" class="align-center table-col-small">Location</th>
+          <th scope="col" class="align-center table-col-small">Organization</th>
+          <th scope="col" class="align-center table-col-small">Alarm State</th>
+          <th scope="col" class="align-center table-col-small">Last Value</th>
+          <th scope="col" class="align-center table-col-small">Last Reported Time</th>
+          <th scope="col" class="align-center">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <ng-container *ngTemplateOutlet="recursiveTableList; context:{ assetList: assetsList, level: 0 }"></ng-container>
+      </tbody>
+    </table>
+</form> -->
 
 <app-votm-cloud-confim-dialog (onClose)="deleteAssetById($event)" #confirmBox message="{{message}}"
   headerMessage="Warning"></app-votm-cloud-confim-dialog>
