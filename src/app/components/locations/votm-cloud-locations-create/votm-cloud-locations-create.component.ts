@@ -20,6 +20,7 @@ declare var $: any;
 import { ToastrService } from 'ngx-toastr';
 import { Toaster } from '../../shared/votm-cloud-toaster/votm-cloud-toaster';
 // import { } from '@types/googlemaps';
+import * as moment from 'moment-timezone';
 
 
 
@@ -94,10 +95,34 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.locationService.getCountries()
+      .subscribe(response => {
+        if (response) {
+          this.countries = [];
+          response.forEach(country => {
+            this.countries.push({ value: country.code, text: country.name })
+          })
+        }
+      })
     this.curOrgId = this.activatedRoute.snapshot.paramMap.get("curOrgId");
     this.curOrgName = this.activatedRoute.snapshot.paramMap.get("curOrgName");
     this.parentLocId = this.activatedRoute.snapshot.paramMap.get("parentLocId");
     this.parentLocName = this.activatedRoute.snapshot.paramMap.get("parentLocName");
+    var abbrs = {
+      EST: 'Eastern Standard Time',
+      EDT: 'Eastern Daylight Time',
+      CST: 'Central Standard Time',
+      CDT: 'Central Daylight Time',
+      MST: 'Mountain Standard Time',
+      MDT: 'Mountain Daylight Time',
+      PST: 'Pacific Standard Time',
+      PDT: 'Pacific Daylight Time',
+    };
+
+    moment.fn.zoneName = function () {
+      var abbr = this.zoneAbbr();
+      return abbrs[abbr] || abbr;
+    };
 
     this.options = {
       multiple: true
@@ -124,8 +149,8 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
     this.locationTypes = [{ value: 'locationType1', text: 'locationType1' }, { value: 'locationType2', text: 'locationType2' }]
     this.states = [{ value: 'MN', text: 'MN' }, { value: 'MO', text: 'MO' }, { value: 'TX', text: 'TX' }, { value: 'FL', text: 'FL' },
     { value: 'CO', text: 'CO' }, { value: 'KS', text: 'KS' }, { value: 'OH', text: 'OH' }];
-    this.countries = [{ value: 'USA', text: 'USA' }, { value: 'Italy', text: 'Italy' }, { value: 'France', text: 'France' }, { value: 'Germany', text: 'Germany' },
-    { value: 'Belgium', text: 'Belgium' }, { value: 'Denmark', text: 'Denmark' }, { value: 'Iceland', text: 'Iceland' }, { value: 'Sweden', text: 'Sweden' }, { value: 'Brazil', text: 'Brazil' }];
+    // this.countries = [{ value: 'USA', text: 'USA' }, { value: 'Italy', text: 'Italy' }, { value: 'France', text: 'France' }, { value: 'Germany', text: 'Germany' },
+    // { value: 'Belgium', text: 'Belgium' }, { value: 'Denmark', text: 'Denmark' }, { value: 'Iceland', text: 'Iceland' }, { value: 'Sweden', text: 'Sweden' }, { value: 'Brazil', text: 'Brazil' }];
     // this.locationService.getLocationInfoFromAzureMap(null)
     //   .subscribe(response => {
     //     // console.log('AHAMED from azure map ', response);
@@ -145,43 +170,37 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
           this.location = response;
           this.parentLocId = this.location.parentLocationId ? this.location.parentLocationId : this.parentLocId;
           this.parentLocName = this.location.parentLocationName ? this.location.parentLocationName : this.parentLocName;
-          // this.selectedItems = [this.location.gatewayId]
           if (!this.location.address || this.location.address.length === 0) {
             this.location.address = [new Address()];
             this.location.address[0].addressType = 'Billing';
           }
 
           this.selectedGateways = [];
-          if (this.location.gatewayId) {
-            this.selectedGateways.push(this.location.gatewayId);
+          if (this.location.gateways) {
+            this.selectedGateways = [...this.location.gateways];
           }
-          // this.gatewayList.forEach(gateway => {
-          //   if (gateway.id === this.location.gatewayId) {
-          //     this.selectedItems = [gateway];
-          //   }
-          // });
           if (this.location.logo && this.location.logo.imageName) {
             this.fileExtension = this.location.logo.imageName.slice((Math.max(0, this.location.logo.imageName.lastIndexOf(".")) || Infinity) + 1);
             this.imgURL = this.domSanitizer.bypassSecurityTrustUrl(`data:image/${this.fileExtension};base64,${this.location.logo.image}`);
             this.location.logo.imageType = this.fileExtension;
           }
-          if (this.location.geoFenceType === 'bf0bc7b5-1bf8-4a59-a3b5-35904937e89e' && this.location.geoFenceValue.indexOf('undefined') < 0) {
-            var str = this.location.geoFenceValue;
-            var matches = str.match(/(\d+)/);
-            // console.log(matches[0], str.slice(matches[0].length, str.length - (matches[0].length - 1)));
-            if (matches && matches.length > 0) {
-              this.radiusValue = matches[0];
-              this.radiusUnit = str.slice(matches[0].length, str.length - (matches[0].length - 1));
-            }
-          }
-          if (this.location.geoFenceType === 'd5764af5-114b-48e6-9980-544634167826' && this.location.geoFenceValue.indexOf('undefined') < 0) {
-            let str = this.location.geoFenceValue;
-            var matches = str.split('*')[1].match(/(\d+)/);
-            var matches2 = str.split('*')[1].match(/[a-zA-Z]/gi);
-            this.rectangleValue1 = str.split('*')[0];
-            this.rectangleValue2 = matches[0];
-            this.rectangleUnit = matches2.join('');
-          }
+          // if (this.location.geoFenceType === 'bf0bc7b5-1bf8-4a59-a3b5-35904937e89e' && this.location.geoFenceValue.indexOf('undefined') < 0) {
+          //   var str = this.location.geoFenceValue;
+          //   var matches = str.match(/(\d+)/);
+          //   // console.log(matches[0], str.slice(matches[0].length, str.length - (matches[0].length - 1)));
+          //   if (matches && matches.length > 0) {
+          //     this.radiusValue = matches[0];
+          //     this.radiusUnit = str.slice(matches[0].length, str.length - (matches[0].length - 1));
+          //   }
+          // }
+          // if (this.location.geoFenceType === 'd5764af5-114b-48e6-9980-544634167826' && this.location.geoFenceValue.indexOf('undefined') < 0) {
+          //   let str = this.location.geoFenceValue;
+          //   var matches = str.split('*')[1].match(/(\d+)/);
+          //   var matches2 = str.split('*')[1].match(/[a-zA-Z]/gi);
+          //   this.rectangleValue1 = str.split('*')[0];
+          //   this.rectangleValue2 = matches[0];
+          //   this.rectangleUnit = matches2.join('');
+          // }
           this.location.localeId = this.location.locale;
           this.location.timeZoneId = this.location.timeZone;
           this.location.uoMId = this.location.uoM;
@@ -233,7 +252,20 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
               this.location.longitude = response.results[0].position.lon;
               this.locationService.getTimezoneByCordinates(`${this.location.latitude},${this.location.longitude}`)
                 .subscribe((response: any) => {
-                  console.log('AHAMED Location timezone', response.TimeZones[0].Names.Standard);
+                  if (response && response.TimeZones && response.TimeZones[0].Id) {
+                    let currentDate = new Date();
+                    let tempTimezone = moment.tz([currentDate.getFullYear(), currentDate.getMonth()], response.TimeZones[0].Id).format('zz');
+                    tempTimezone = tempTimezone.toUpperCase();
+                    tempTimezone = tempTimezone.replace('DAYLIGHT', 'STANDARD');
+                    this.applicationConfiguration.timeZone.forEach(tz => {
+                      if (tz.timeZoneName.toUpperCase() === tempTimezone.toUpperCase()) {
+                        this.location.timeZoneId = tz.timeZoneId;
+                      }
+                    })
+                  }
+                  // let currentDate = new Date();
+                  // let abc = moment.tz([currentDate.getFullYear(), currentDate.getMonth()], 'America/Chicago').format('zz');
+                  // console.log('now ', abc)
                 })
             }
           });
@@ -279,7 +311,7 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
 
 
   onItemSelect(data: { value: string[] }) {
-    this.location.gatewayId = (data && data.value) ? data.value[0] : null;
+    this.location.gateways = (data && data.value) ? data.value : [];
   }
   onSelectAll(items: any) {
   }
@@ -471,19 +503,26 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
   //   this.toastr.error(message, header);
   // }
 
+  onGeoUnitChange() {
+    this.location.geoRadius = null;
+    this.location.geoWidth = null;
+    this.location.geoHeight = null;
+    this.location.geoFenceValue = null;
+  }
+
   onLocationSubmit() {
+    this.location.geoRadius = this.location.geoRadius.toString();
     if (this.location.geoFenceType === 'bf0bc7b5-1bf8-4a59-a3b5-35904937e89e') {
-      this.location.geoFenceValue = `${this.radiusValue}${this.radiusUnit}`;
+      // this.location.geoFenceValue = `${this.radiusValue}${this.radiusUnit}`;
     }
     if (this.location.geoFenceType === 'd5764af5-114b-48e6-9980-544634167826') {
-      this.location.geoFenceValue = `${this.rectangleValue1}*${this.rectangleValue2}${this.rectangleUnit}`;
+      // this.location.geoFenceValue = `${this.rectangleValue1}*${this.rectangleValue2}${this.rectangleUnit}`;
     }
-    // if (this.selectedItems && this.selectedItems.length > 0) {
-    //   this.location.gatewayId = this.selectedItems[0].id;
-    //   // this.selectedItems.forEach((item) => {
-    //   //   this.location.gatewayId.push(item.item_id);
-    //   // })
-    // }
+    if (this.selectedItems && this.selectedItems.length > 0) {
+      this.selectedItems.forEach((item) => {
+        this.location.gateways.push(item.id);
+      })
+    }
 
     if (this.locationForm && this.locationForm.invalid) {
       this.toaster.onFailure('Please fill the form correctly.', 'Form is invalid!')

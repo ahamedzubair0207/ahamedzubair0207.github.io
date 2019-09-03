@@ -16,6 +16,15 @@
 //   padding: 20px;
 //   height: 106%;
 // }
+
+.drop-down {
+  width: 100%;
+  padding: 5px 0px 7px 20px;
+  margin: 5px 0 22px 0;
+  display: inline-block;
+  // border: none;
+  // background: #f1f1f1;
+}
 .drop-modal{
   width: 50%;
   margin: 5px 6px 22px 10px;
@@ -56,28 +65,12 @@
   float: left;
 }
 .button-mod {
-  border: none;
-  color: white;
-  padding: 10px 30px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 14px;
   margin: 4px 2px;
-  cursor: pointer;
   float: right;
 }
 
 .create-loc-asset-btn{
-    border: none;
-    color: white;
-    padding: 10px 30px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 14px;
     margin: 4px 2px;
-    cursor: pointer;
     float: right;
 }
 /* Full-width input fields */
