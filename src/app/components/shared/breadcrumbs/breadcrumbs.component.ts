@@ -1,99 +1,102 @@
 import { Component, OnInit } from '@angular/core';
-import { BreadcrumbsService } from './../../../services/breadcrumbs/breadcrumbs.service';
-import { map } from 'rxjs/operators';
+import { Router, ActivatedRoute, NavigationEnd, RouterEvent } from '@angular/router';
+import { NavigationService } from 'src/app/services/navigation/navigation.service';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-breadcrumbs',
   templateUrl: './breadcrumbs.component.html',
   styleUrls: ['./breadcrumbs.component.scss']
 })
-export class BreadcrumbsComponent implements OnInit {
 
-  locations: any;
-  organizations: any;
-  assets: any;
-  displayListWithSiblings: any;
-  displayList: any;
-
-  constructor(private breadcrumbs : BreadcrumbsService) { 
-    this.organizations = [
-      {
-        id : '7a59bdd8-6e1d-48f9-a961-aa60b2918dde',
-        name: 'Parker 2',
-        parentId: "",
-        entityType: 'Organization' 
+export class BreadcrumbsComponent {
+  pageType: any;
+  orgId: string;
+  currentUrl: string;
+  breadcrumbs: any[];
+  locBreadcrumbs: any[];
+  locId: string;
+  constructor(private router: Router, private activeroute: ActivatedRoute, private navigationService: NavigationService) {
+    router.events.pipe(
+      filter(e => e instanceof RouterEvent)
+    ).subscribe((e: any) => {
+      if (this.currentUrl !== e.url) {
+        this.currentUrl = e.url;
+        this.getData();
       }
-    ];
-
-    this.breadcrumbs.getNewCrumbs().subscribe(newVal => {this.getBreadcrumbs()});
-    this.breadcrumbs.addCrumb(this.organizations[0]);
-    // this.breadcrumbs.addCrumb(this.locations[0]);
-    // this.breadcrumbs.addCrumb(this.assets[0]);
-    // console.log("display list");
-    // console.log(this.breadcrumbs.getDisplayList());
-    this.locations = [ {
-      id: '0d2b9eb9-1a16-4f12-ae57-04c47850d089',
-      name: '',
-      parentId: '',
-      entityType: 'Location'
-    }];
-    this.assets = [ {
-      id: '',
-      name: '',
-      parentId: '',
-      entityType: 'Asset'
-    }];
-    this.displayListWithSiblings = [];
-    this.displayList = [];
+    });
   }
 
-  ngOnInit() {
-    //console.log(this.getBreadcrumbs());
+  getData() {
+    if (this.currentUrl.startsWith(`/org/home`)) {
+      let parts = this.currentUrl.split('/');
+      this.orgId = parts[3];
+      this.pageType = 'Organization';
+      this.breadcrumbs = [];
+      this.loadOrganizations(this.orgId);
+    } else if (this.currentUrl.startsWith(`/loc/home`)) {
+      let parts = this.currentUrl.split('/');
+      this.orgId = parts[3];
+      this.locId = parts[5];
+      this.pageType = 'Location';
+      this.breadcrumbs = [];
+      this.loadOrganizations(this.orgId);
+    }
   }
 
-  refresh(){
-    this.organizations = [];
-    this.locations = [];
-    this.assets = [];
-  }
-
-  getSiblingNodes(crumbObj){
-
-    return this.breadcrumbs.getSiblings(crumbObj).toPromise().then(
-      response =>{return response;}
-    );
-  }
-
-  getBreadcrumbs(){
-    // console.log("getting breadcrumbs");
-    this.displayList = this.breadcrumbs.getDisplayList();
-    // console.log(this.displayList);
-    this.displayListWithSiblings = [];
-    this.displayList.map(
-      (elem, ind) => {
-        this.breadcrumbs.getSiblings(elem).toPromise().then(
-           resp => {
-           
-            // console.log("got it");
-            let tempResp = resp.map((x) => (
-              
-              {
-                ...x,
-                active: x.id == elem.id? true: false
+  loadOrganizations(orgId: string) {
+    this.navigationService.getAllSibling('Organization', orgId)
+      .subscribe(response => {
+        for (let i = 0; i < response.length; i++) {
+          if (response[i].id.toLowerCase() === orgId.toLowerCase()) {
+            this.breadcrumbs.push({ name: response[i].name, nodes: response });
+            if (response[i].parentId) {
+              this.loadOrganizations(response[i].parentId);
+            } else {
+              this.breadcrumbs.reverse();
+              if (this.pageType === 'Location') {
+                this.locBreadcrumbs = [];
+                if (this.locId) {
+                  this.loadLocations(this.locId);
+                }
               }
-            ));
-            
-            this.displayListWithSiblings.splice(ind, 0, tempResp);
+            }
           }
-        ); 
+        }
+      });
+  }
+
+  loadLocations(locId: string) {
+    this.navigationService.getAllSibling('Location', locId)
+      .subscribe(response => {
+        console.log('response ', response)
+        for (let i = 0; i < response.length; i++) {
+          if (response[i].id.toLowerCase() === locId.toLowerCase()) {
+            this.locBreadcrumbs.push({ name: response[i].name, nodes: response });
+            if (response[i].parentId) {
+              this.loadLocations(response[i].parentId);
+            } else {
+              this.locBreadcrumbs.reverse();
+              console.log('this.locationbreadcrum ', this.locBreadcrumbs)
+              this.breadcrumbs = this.breadcrumbs.concat(this.locBreadcrumbs);
+            }
+          }
+        }
+      });
+  }
+
+  onItemSelection(item: any) {
+    if (this.pageType === 'Organization') {
+      this.router.navigate(['org/home', item.id, item.name]);
+    } else if (this.pageType === 'Location') {
+      if(item.entityType==='Organization'){
+        this.router.navigate(['loc/home', item.id, item.name]);
+      } else if(item.entityType === 'Location'){
+        console.log('this.currentUrl ', this.currentUrl);
+        this.router.navigate(['loc/home', item.parentOrgId, item.parentOrgName, item.id, item.name]);
       }
-    );
+      console.log('item selected ', item)
+    }
   }
-
-  navigateTo(navLocId, navArray){
-    let targetObj = navArray.filter( x => x.id == navLocId)[0];
-    // console.log(targetObj);
-    this.breadcrumbs.navToObj(targetObj);
-  }
-
 }
+

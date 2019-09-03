@@ -9,3 +9,9 @@
     width: auto;
     margin-right: 15px;
 }
+
+.scrollable-menu {
+    height: auto;
+    max-height: 250px;
+    overflow-x: hidden;
+}

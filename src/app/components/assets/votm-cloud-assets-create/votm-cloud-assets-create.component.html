@@ -87,7 +87,7 @@
         <input *ngIf="pageType!=='View'" #file type="file" accept='image/*' class="form-control-file asset-create-font"
           (change)="onImageChangeClick()" />
         <label style="font-weight: bold" *ngIf="asset && asset.logo"></label>
-        <img [src]="imgURL" height="200" width="300" *ngIf="imgURL">
+        <img [src]="imgURL" height="200" width="235" *ngIf="imgURL">
       </div>
       <!-- (change)="(!asset.templateId||(asset.templateId && isConfirmToChangeImage==='change'))?onFileChange($event):null" -->
       <div class="col-md-3 form-group">

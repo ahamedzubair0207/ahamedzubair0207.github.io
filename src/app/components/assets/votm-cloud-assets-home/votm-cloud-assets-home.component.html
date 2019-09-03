@@ -1,6 +1,6 @@
 <form class="form-container border shadow-lg asset-table-fonts">
 
-    <h3 class="flt-left mt-2 ml-2"> Asset</h3>
+    <h3 class="flt-left mt-3 mb-3 ml-2"> Assets</h3>
     <ng-template #recursiveTableList let-list="assetList" let-lvl="level">
       <ng-container *ngFor="let item of list">
     
@@ -19,7 +19,8 @@
           <td class="align-center"></td>
           <td class="align-center"></td>
           <td class="align-center">
-            <a class="action-icon" title="List" (click)="onListClick(item)">
+            <!-- <a class="action-icon" title="List" (click)="onListClick(item)"> -->
+                <a class="action-icon" title="List">
               <i class="fa fa-list"></i>
             </a>
     
@@ -111,7 +112,7 @@
         <tr>
           <th scope="col" class="align-center table-col-name">Name</th>
           <th scope="col" class="align-center">Type</th>
-          <th scope="col" class="align-center">Asset Number</th>
+          <th scope="col" class="align-center">Asset ID</th>
           <th scope="col" class="align-center table-col-small">Location</th>
           <th scope="col" class="align-center table-col-small">Organization</th>
           <th scope="col" class="align-center table-col-small">Alarm State</th>

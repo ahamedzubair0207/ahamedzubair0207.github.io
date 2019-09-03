@@ -17,6 +17,8 @@ export class AppConstants {
     public static CREATE_ASSET = '/Asset';
     public static DEL_ASSET = '/Asset';
 
+    public static NAVIGATION_URL = '/BreadcrumbNavigation'
+
     public static APP_INFO = 'ConfigSettings/Application';
 
     public static GET_SIBLINGS = '/BreadcrumbNavigation';

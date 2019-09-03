@@ -2,9 +2,9 @@
 
 <form class="form-container border shadow-lg loc-table-fonts">
 
-    <h3 class="flt-left mt-2 ml-2"> Locations</h3>
+    <h3 class="flt-left mt-3 mb-3 ml-2"> Locations</h3>
     <div class="btn-group-right mt-2">
-      <button (click)="onCreateNewLocation()" type="button" class="btn btn-dark loc-table-fonts">Create
+      <button (click)="onCreateNewLocation()" type="button" class="btn btn-sm btn-info loc-table-fonts"><i class="pr-2 fa fa-pencil"></i>Create
         Location</button>
     </div>
 
@@ -20,7 +20,8 @@
             <td class="align-center">{{item.type}}</td>
             <td class="align-center">{{item.parentOrgName}}</td>
             <td class="align-center">
-              <a class="action-icon" title="List" *ngIf="level>0" [routerLink]="['/loc/home',item.parentOrgId, item.parentOrgName, item.id, item.name]">
+              <a class="action-icon" title="List"   [routerLink]="['/loc/home',item.parentOrgId, item.parentOrgName, item.id, item.name]">
+                  <!-- <a class="action-icon" title="List" *ngIf="level>0"> -->
                 <i class="fa fa-list"></i>
               </a>
               <a class="action-icon" title="View" [routerLink]="['/loc/view',item.parentOrgId, item.parentOrgName, item.id]">
@@ -87,7 +88,7 @@
       </ng-template>
       
       
-      <table class="table table-sm table-bordered">
+      <table class="table table-sm table-bordered table-hover">
         <thead class="thead-light">
           <tr>
             <th scope="col" class="align-center table-col-name">Name</th>

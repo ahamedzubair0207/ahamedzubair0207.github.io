@@ -30,8 +30,11 @@ export class VotmCloudOrganizationsHomeComponent implements OnInit {
     this.route.paramMap.subscribe((params: ParamMap) => {
       this.curOrgId = params.get("orgId");
       this.curOrgName = params.get("orgName");
+      // console.log('ABCD ', params)
       this.fetchOrgList();
     });
+
+    // console.log('ABCD ', this.route.snapshot.data['type'])
   }
 
   openConfirmDialog(delOrgId, name) {

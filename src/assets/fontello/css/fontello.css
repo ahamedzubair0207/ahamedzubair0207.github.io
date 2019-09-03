@@ -75,3 +75,6 @@
 .icon-trash:before { content: '\f1f8'; } /* '' */
 .icon-industry:before { content: '\f275'; } /* '' */
 .icon-thermometer-half:before { content: '\f2c9'; } /* '' */
+.icon-cancel:before { content: '\e810'; } /* '' */
+.icon-cancel-outline:before {  content: '\e811'; } /* '' */
+.icon-cancel-alt:before {  content: '\e812'; } /* '' */

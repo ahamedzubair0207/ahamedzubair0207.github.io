@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { SharedService } from '../../../services/shared.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-votm-cloud-header',
@@ -11,7 +12,7 @@ export class VotmCloudHeaderComponent implements OnInit {
   token:any;
   menuOpen: boolean;
 
-  constructor( private sharedService: SharedService) { 
+  constructor( private sharedService: SharedService, private router: Router) { 
     this.sharedService.getMenuOpen().subscribe(newVal => this.menuOpen = newVal);
    }
     

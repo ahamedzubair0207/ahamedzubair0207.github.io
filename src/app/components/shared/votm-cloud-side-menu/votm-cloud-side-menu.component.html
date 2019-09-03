@@ -1,10 +1,6 @@
-<nav id="sidebar" [ngClass]="{ 'active': menuOpen }">
-    
-  <button type="button" (click)="toggleMenu()" [ngClass]="{ 'btn btn-secondary btn-circle menu-btn': true, 'menu-btn-open': menuOpen, 'menu-btn-closed': !menuOpen }"><i [ngClass]="{ 'fa': true, 'fa-bars': menuOpen, 'fa-arrow-left': !menuOpen }"></i>
-  </button>
-
+<nav id="sidebar" class="scrollbar scrollbar-primary" [ngClass]="{ 'active': menuOpen }">
+    <div class="sidebar-header"></div>
   <ul class="list-unstyled components">
-      
     <li *ngFor="let eachItem of menuItems" [ngClass]="{ 'super-admin' : eachItem.id == 'super' }">
       <a *ngIf="eachItem.enabled" routerLink="{{eachItem.url}}" routerLinkActive='active' (click)="setActiveItem(eachItem.id)" data-toggle="collapse" aria-expanded="false" data-toggle="tooltip" data-placement="right" title="{{eachItem.name}}">
           <i [ngClass]="eachItem.icon"></i>
@@ -16,3 +12,4 @@
   </ul>
 
 </nav>
+

@@ -23,9 +23,9 @@
                 <h4 class="col-md-6">{{pageTitle}}</h4>
                 <div class="col-md-6">
                     <button id="loc-org-create" *ngIf="organization.organizationId" (click)="createNestedLocation($event)" type="button"
-                    class="btn btn-secondary btn-lg button-mod btn-color">Create Location</button>
+                    class="btn btn-sm btn-info button-mod"><i class="pr-2 fa fa-pencil"></i>Create Location</button>
                   <button id="org-create" *ngIf="organization.organizationId" (click)="createNestedOrganization($event)" type="button"
-                    class="btn btn-secondary btn-lg button-mod btn-color">Create Organization</button>
+                    class="btn btn-sm btn-info button-mod"><i class="pr-2 fa fa-pencil"></i>Create Organization</button>
                 </div>
             </div>
             
@@ -281,7 +281,7 @@
                       <div class="col-md-3">
                         <label name="uom-change-lbl" for="unitsOfMeasure"><b>* {{pageLabels.DefaultUnitOfMeasure.labelName}} :</b></label>
                         <label name="uom-logo" for="unitsOfMeasure" class="d-flex "><b>{{UOM}}</b></label>
-                        <button id="uom-change-btn" class="btn btn-sm btn-secondary uom-btn" *ngIf="pageType !=='View'" type="button"
+                        <button id="uom-change-btn" class="btn btn-sm btn-secondary uom-btn org-create-font" *ngIf="pageType !=='View'" type="button"
                           (click)="openmodal()">Change</button>
                       </div>
                 </div>
@@ -313,11 +313,11 @@
               </div>
               <div class="col-md-8">
                 <button id="org-cancel" type="button" (click)="onCancelClick($event)"
-                  class="btn btn-secondary btn-lg button-mod">Cancel</button>
+                  class="btn btn-secondary btn-sm button-mod">Cancel</button>
                 <button id="org-delete" *ngIf="organization.organizationId && pageType !=='View'" type="button"
-                  class="btn btn-secondary btn-lg button-mod" (click)="openConfirmDialog()">Delete</button>
+                  class="btn btn-secondary btn-sm button-mod" (click)="openConfirmDialog()">Delete</button>
                 <button id="org-save" type="submit" *ngIf="pageType !=='View'"
-                  class="btn btn-secondary btn-lg button-mod btn-color">Save</button>
+                  class="btn btn-sm btn-info button-mod">Save</button>
               </div>
             </div>
         
