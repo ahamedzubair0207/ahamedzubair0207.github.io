@@ -58,7 +58,7 @@ export class VotmCloudAssetsHomeComponent implements OnInit {
     this.assetNameToDelete = name;
   }
 
-  deleteAssetById(event, delAssetId) {
+  deleteAssetById(event) {
     console.log('event on close ', event);
     if (event) {
       this.assetService.deleteAsset(this.assetToDelete)

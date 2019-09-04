@@ -124,4 +124,6 @@ export class VotmCloudSensorsHomeComponent implements OnInit {
     ]
   }
 
+  deleteSensorById(event){}
+
 }
