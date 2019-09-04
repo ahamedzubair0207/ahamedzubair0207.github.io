@@ -103,7 +103,7 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
             this.countries.push({ value: country.code, text: country.name })
           })
         }
-      })
+      });
     this.curOrgId = this.activatedRoute.snapshot.paramMap.get("curOrgId");
     this.curOrgName = this.activatedRoute.snapshot.paramMap.get("curOrgName");
     this.parentLocId = this.activatedRoute.snapshot.paramMap.get("parentLocId");
