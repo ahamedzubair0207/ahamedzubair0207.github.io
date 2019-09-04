@@ -12,7 +12,7 @@ am4core.useTheme(am4themes_animated);
 export class VotmClusteredColumnChartComponent implements OnInit {
 
   private chart: am4charts.XYChart;
-  private id: any;
+  id: any;
 
   constructor(private zone: NgZone) {
     this.id = Math.floor((Math.random() * 100) + 1);

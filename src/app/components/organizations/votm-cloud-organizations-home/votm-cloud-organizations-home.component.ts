@@ -44,7 +44,7 @@ export class VotmCloudOrganizationsHomeComponent implements OnInit {
     this.orgNameToDelete = name;
   }
 
-  deleteOrganizationById(event, delOrgId) {
+  deleteOrganizationById(event) {
     console.log('event on close ', event);
     if (event) {
       this.orgservice.deleteOrganization(this.orgToDelete)

@@ -12,7 +12,7 @@ export class VotmCloudHeaderComponent implements OnInit {
   token:any;
   menuOpen: boolean;
 
-  constructor( private sharedService: SharedService, private router: Router) { 
+  constructor( private sharedService: SharedService, public router: Router) { 
     this.sharedService.getMenuOpen().subscribe(newVal => this.menuOpen = newVal);
    }
     

@@ -20,7 +20,7 @@ declare var $: any;
 import { ToastrService } from 'ngx-toastr';
 import { Toaster } from '../../shared/votm-cloud-toaster/votm-cloud-toaster';
 // import { } from '@types/googlemaps';
-// import * as moment from 'moment-timezone';
+import * as moment from 'moment-timezone';
 
 
 
@@ -119,10 +119,10 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
       PDT: 'Pacific Daylight Time',
     };
 
-    // moment.fn.zoneName = function () {
-    //   var abbr = this.zoneAbbr();
-    //   return abbrs[abbr] || abbr;
-    // };
+    moment.fn.zoneName = function () {
+      var abbr = this.zoneAbbr();
+      return abbrs[abbr] || abbr;
+    };
 
     this.options = {
       multiple: true
@@ -254,13 +254,13 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
                 .subscribe((response: any) => {
                   if (response && response.TimeZones && response.TimeZones[0].Id) {
                     let currentDate = new Date();
-                    // let tempTimezone = moment.tz([currentDate.getFullYear(), currentDate.getMonth()], response.TimeZones[0].Id).format('zz');
-                    // tempTimezone = tempTimezone.toUpperCase();
-                    // tempTimezone = tempTimezone.replace('DAYLIGHT', 'STANDARD');
+                    let tempTimezone = moment.tz([currentDate.getFullYear(), currentDate.getMonth()], response.TimeZones[0].Id).format('zz');
+                    tempTimezone = tempTimezone.toUpperCase();
+                    tempTimezone = tempTimezone.replace('DAYLIGHT', 'STANDARD');
                     this.applicationConfiguration.timeZone.forEach(tz => {
-                      // if (tz.timeZoneName.toUpperCase() === tempTimezone.toUpperCase()) {
-                      //   this.location.timeZoneId = tz.timeZoneId;
-                      // }
+                      if (tz.timeZoneName.toUpperCase() === tempTimezone.toUpperCase()) {
+                        this.location.timeZoneId = tz.timeZoneId;
+                      }
                     })
                   }
                   // let currentDate = new Date();
