@@ -3,13 +3,10 @@
 .create-org-container {
     padding: 15px;
     background-color: white;
-    // background-color: #dbdada;
-    // margin-top: 40px;
+   
   }
   
   .org-create-font{
-    // font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    // font-family: 'Roboto', sans-serif;
     font-family: 'Open Sans', sans-serif;
     font-size: 12px;
   }
@@ -56,17 +53,12 @@
   
   /* Full-width input fields */
   input[type=text],input[type=date], input[type=password],input[type=email],input[type=file] {
-    // padding: 5px 0px 7px 15px;
-    // margin: 1px 0px 23px 0px;
+    
     display: inline-block;
     border: 1px solid #ddd;
   }
   
-  // input[type=text]:focus, input[type=password]:focus,input[type=email]:focus,input[type=file]:focus {
-  //   // background-color: #ddd;
-  //   outline: none;
-  // }
-
+ 
 // Modal CSS
 
 /* The Modal (background) */

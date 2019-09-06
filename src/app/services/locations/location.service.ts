@@ -94,7 +94,7 @@ export class LocationService {
   }
 
   getCountries(){
-    return this.httpClient.get("../../../assets/countryList/countries.json").pipe(
+    return this.httpClient.get("../../../assets/countryList/countryWithStates.json").pipe(
                     map((res:any) => res));
   }
 }

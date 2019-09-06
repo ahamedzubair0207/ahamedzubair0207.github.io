@@ -15,6 +15,7 @@ export class AppConstants {
     public static GET_ASSET = '/Asset';
     public static EDIT_ASSET = '/Asset';
     public static CREATE_ASSET = '/Asset';
+    public static CREATE_ASSET_TEMPLATE = '/Asset/Template';
     public static DEL_ASSET = '/Asset';
 
     public static NAVIGATION_URL = '/BreadcrumbNavigation'

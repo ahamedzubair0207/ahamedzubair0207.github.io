@@ -17,7 +17,8 @@ export class Asset {
     // active: true;
     description: string;
     documentationUrl: string;
-    documentation?: File;
+    // documentation?: File;
+    fileStore?: File;
     // template?: string;
     templateId: string;
     templateName: string;

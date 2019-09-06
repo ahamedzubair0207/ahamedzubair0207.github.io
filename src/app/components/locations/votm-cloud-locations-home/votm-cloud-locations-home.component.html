@@ -17,8 +17,8 @@
               {{item.name}} <i *ngIf="item.node.length > 0 "
                 [ngClass]="{'fa': true, 'fa-caret-right': !item.opened, 'fa-caret-down': item.opened}"></i>
             </th>
-            <td class="align-center">{{item.type}}</td>
-            <td class="align-center">{{item.parentOrgName}}</td>
+            <td class="align-left">{{item.type}}</td>
+            <td class="align-left">{{item.parentOrgName}}</td>
             <td class="align-center">
               <a class="action-icon" title="List"   [routerLink]="['/loc/home',item.parentOrgId, item.parentOrgName, item.id, item.name]">
                   <!-- <a class="action-icon" title="List" *ngIf="level>0"> -->
@@ -58,8 +58,8 @@
                 {{subItem.name}} <i *ngIf="subItem.node.length > 0 "
                   [ngClass]="{'fa': true, 'fa-caret-right': !subItem.opened, 'fa-caret-down': subItem.opened}"></i>
               </th>
-              <td class="align-center">{{subItem.type}}</td>
-              <td class="align-center">{{subItem.parentOrgName}}</td>
+              <td class="align-left">{{subItem.type}}</td>
+              <td class="align-left">{{subItem.parentOrgName}}</td>
               <td class="align-center">
                 <a class="action-icon" title="List" [routerLink]="['/loc/home',subItem.parentOrgId, subItem.parentOrgName, subItem.id, subItem.name]">
                   <i class="fa fa-list"></i>
@@ -89,11 +89,11 @@
       
       
       <table class="table table-sm table-bordered table-hover loc-table-fonts">
-        <thead class="thead-light">
+        <thead class="thead-dark">
           <tr>
-            <th scope="col" class="align-center table-col-name">Name</th>
-            <th scope="col" class="align-center">Type</th>
-            <th scope="col" class="align-center">Organization</th>
+            <th scope="col" class="align-left table-col-name">Name</th>
+            <th scope="col" class="align-left">Type</th>
+            <th scope="col" class="align-left">Organization</th>
             <th scope="col" class="align-center">Actions</th>
           </tr>
         </thead>

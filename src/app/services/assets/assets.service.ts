@@ -55,6 +55,13 @@ export class AssetsService {
       );
   }
 
+  createAssetTemplate(body: Asset) {
+    return this.http.post(AppConstants.CREATE_ASSET, body)
+      .pipe(
+        map(response => response)
+      );
+  }
+
   updateAsset(body: Asset) {
 
     return this.http.patch(AppConstants.EDIT_ASSET + '/' + body.assetId, body)

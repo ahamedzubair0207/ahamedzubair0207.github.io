@@ -58,7 +58,7 @@ import { VotmCloudCharValidatorComponent } from './components/shared/votm-cloud-
 import { VotmCloudLocationsSignalComponent } from './components/locations/votm-cloud-locations-signal/votm-cloud-locations-signal.component';
 import { VotmCloudAssetTemplateListComponent } from './components/assets/votm-cloud-asset-template-list/votm-cloud-asset-template-list.component';
 import { VotmCloudAssetTemplateDetailsComponent } from './components/assets/votm-cloud-asset-template-details/votm-cloud-asset-template-details.component';
-
+import {FileUploadModule} from 'primeng/fileupload';
 
 @NgModule({
   declarations: [
@@ -102,6 +102,7 @@ import { VotmCloudAssetTemplateDetailsComponent } from './components/assets/votm
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     HttpClientModule,
     AppRoutingModule,
     // InMemoryWebApiModule.forRoot(BackendApiService),
@@ -109,8 +110,8 @@ import { VotmCloudAssetTemplateDetailsComponent } from './components/assets/votm
     FormsModule,
     NgMultiSelectDropDownModule.forRoot(),
     Select2Module,
-    BrowserAnimationsModule,
-    ToastrModule.forRoot()
+    ToastrModule.forRoot(),
+    FileUploadModule
   ],
   providers: [
     DatePipe,
