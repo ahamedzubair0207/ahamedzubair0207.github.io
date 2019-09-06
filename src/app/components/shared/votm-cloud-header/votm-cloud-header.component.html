@@ -1,7 +1,7 @@
 
-    <nav  class="navbar fixed-top navbar-expand-md navbar-dark" style="background-color: #000;">
-        <div class="shadow-right p-2" style="width:180px; background-color: #000;">
-            <button type="button" (click)="toggleMenu()" id="sidebarCollapse" class="btn btn-info btn-sm float-left mr-2"> <i class="fa fa-bars"></i></button>
+    <nav  class="navbar fixed-top navbar-expand-md navbar-dark header-background">
+        <div class="shadow-right p-2 header-logo-spec">
+            <button type="button" (click)="toggleMenu()" id="sidebarCollapse" class="btn btn-dark btn-sm float-left ml-1"> <i class="fa fa-bars"></i></button>
             <span class="w-75 pl-2"><img src="../../assets/images/VOTM_header_logo.png" class="img-fluid" width="" height="auto" alt=""></span>
           </div>
           <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
@@ -20,40 +20,40 @@
                         <div class="card-header bg-info"><strong class="text-white">Notification</strong></div>
                         <div class="card-body notification-scroll">
                           <div class="media border-bottom">
-                            <!-- <img src="" class="mr-3" alt="Sample Image"> -->
+                            
                             <div class="media-body">
                               <h6 class="mt-0 mb-0">David Shanon <small><i>Posted on August 27, 2019</i></small></h6>
                               <p class="mb-1">DWIM</p>
                             </div>
                           </div>
                           <div class="media border-bottom">
-                            <!-- <img src="" class="mr-3" alt="Sample Image"> -->
+                            
                             <div class="media-body">
                               <h6 class="mt-0 mb-0">Scott Theus <small><i>Posted on August 26, 2019</i></small></h6>
                               <p class="mb-1">Bad Sensor. Needs immediate Action!</p>
                             </div>
                           </div>
                           <div class="media border-bottom">
-                            <!-- <img src="" class="mr-3" alt="Sample Image"> -->
+                            
                             <div class="media-body">
                               <h6 class="mt-0 mb-0">Sean Haley <small><i>Posted on August 28, 2019</i></small></h6>
                               <p class="mb-1">Gateway has been Installed...</p>
                             </div>
                           </div>
                           <div class="media border-bottom">
-                            <!-- <img src="" class="mr-3" alt="Sample Image"> -->
+                            
                             <div class="media-body">
                               <div class="alert alert-success" role="alert">This is a success alert!</div>
                             </div>
                           </div>
                            <div class="media border-bottom">
-                            <!-- <img src="" class="mr-3" alt="Sample Image"> -->
+                            
                             <div class="media-body">
                               <div class="alert alert-danger" role="alert">This is a danger alert!</div>
                             </div>
                           </div>
                            <div class="media border-bottom">
-                            <!-- <img src="" class="mr-3" alt="Sample Image"> -->
+                            
                             <div class="media-body">
                               <div class="alert alert-warning" role="alert">This is a warning alert!</div>
                             </div>
@@ -76,170 +76,3 @@
               </div>
             </div>
     </nav>
-
-    
-
-<!-- Test Content 2 -->
-<!-- 
-<div id="wrapper">
-    <nav class="navbar fixed-top navbar-expand-md navbar-light bg-light">
-        <div class="bg-dark shadow-right p-2" style="width:180px;">
-          <button type="button" id="sidebarCollapse" class="btn btn-info btn-sm float-left mr-2"> <i class="fa fa-bars"></i></button>
-          <span class="w-75 pl-2"><img src="../../assets/images/VOTM_header_logo.png" class="img-fluid" width="" height="auto" alt=""></span>
-        </div>
-        <a href="#" class="navbar-brand">Brand</a>
-        <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-  
-        <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
-          <div class="navbar-nav pl-2">
-            <a href="#" class="nav-item nav-link active">Breadcrumbs 1 ></a>
-            <a href="#" class="nav-item nav-link">Breadcrumbs 2 ></a>
-            <div class="nav-item dropdown">
-              <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Breadcrumbs 3</a>
-              <div class="dropdown-menu">
-                <a href="#" class="dropdown-item">Test11</a>
-                <a href="#" class="dropdown-item">Parker</a>
-                <a href="#" class="dropdown-item">Parker4</a>
-              </div>
-            </div>
-          </div>
-          <div class="mr-3">
-            <ul class="nav navbar-nav ml-auto">
-              <li class="nav-item"> <a class="nav-link" href="#"><i class="fa fa-star"></i></a>
-              </li>
-              <li class="nav-item dropdown"> <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#"><i class="fa fa-bell"></i></a>
-                <div class="dropdown-menu dropdown-menu-notification shadow">
-                  <div class="card">
-                    <div class="card-header bg-info"><strong class="text-white">Notification</strong></div>
-                    <div class="card-body notification-scroll">
-                      <div class="media border-bottom">
-                        <img src="img/avatar.svg" class="mr-3" alt="Sample Image">
-                        <div class="media-body">
-                          <h6 class="mt-0 mb-0">Ashish Bhatt <small><i>Posted on August 27, 2019</i></small></h6>
-                          <p class="mb-1">Excellent feature! I love it. One day I'm definitely...</p>
-                        </div>
-                      </div>
-                      <div class="media border-bottom">
-                        <img src="img/avatar.svg" class="mr-3" alt="Sample Image">
-                        <div class="media-body">
-                          <h6 class="mt-0 mb-0">Chirag Prajapati <small><i>Posted on August 26, 2019</i></small></h6>
-                          <p class="mb-1">Excellent feature! I love it. One day I'm definitely...</p>
-                        </div>
-                      </div>
-                      <div class="media border-bottom">
-                        <img src="img/avatar.svg" class="mr-3" alt="Sample Image">
-                        <div class="media-body">
-                          <h6 class="mt-0 mb-0">Ahamed Zubair <small><i>Posted on August 28, 2019</i></small></h6>
-                          <p class="mb-1">Excellent feature! I love it. One day I'm definitely...</p>
-                        </div>
-                      </div>
-                      <div class="media border-bottom">
-                        <img src="img/avatar.svg" class="mr-3" alt="Sample Image">
-                        <div class="media-body">
-                          <h6 class="mt-0 mb-0">Satish Dasi <small><i>Posted on August 28, 2019</i></small></h6>
-                          <p class="mb-1">Excellent feature! I love it. One day I'm definitely...</p>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="card-footer text-center"><a href="">View All</a></div>
-                  </div>
-                </div>
-              </li>
-              <li class="nav-item user-divider"> 
-                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user mr-2 user-icon"></i>User 1</a>
-                <div class="dropdown-menu dropdown-menu-right">
-                  <a href="#" class="dropdown-item"><i class="fa fa-user mr-2 dropdown-icon-size"></i>User Preferences</a>
-                  <a href="#" class="dropdown-item"><i class="fa fa-key mr-2 dropdown-icon-size"></i>Change Password</a>
-                  <a href="#" class="dropdown-item"><i class="fa fa-info mr-2 dropdown-icon-size"></i>Help</a>
-                  <a href="login.html"class="dropdown-item"><i class="fa fa-power-off mr-2 dropdown-icon-size"></i>Logout</a>
-                </div>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </nav>
-</div> -->
-
-
-<!--Test Content -->
-<!-- <div id="wrapper body">
-    <nav class="navbar navbar-default navbar-cls-top" role="navigation">
-        <div class="shadow-right navbar-header">
-          <button type="button" id="sidebarCollapse" class="btn btn-info btn-sm float-left"> <i class="fa fa-bars"></i></button>
-          <span class="w-75"><img src="../../assets/images/VOTM_header_logo.png"  class="logo-header-style"></span>
-          <div class="navbar-header navbar-collapse" id="navbarCollapse">
-              <div class="navbar-nav pl-2">
-                <a href="#" class="nav-item nav-link active">Breadcrumbs 1 ></a>
-                <a href="#" class="nav-item nav-link">Breadcrumbs 2 ></a>
-                <div class="nav-item dropdown">
-                  <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Breadcrumbs 3</a>
-                  <div class="dropdown-menu">
-                    <a href="#" class="dropdown-item">Test11</a>
-                    <a href="#" class="dropdown-item">Parker</a>
-                    <a href="#" class="dropdown-item">Parker4</a>
-                  </div>
-                </div>
-              </div>
-              <div class="mr-3">
-                <ul class="nav navbar-nav ml-auto">
-                  <li class="nav-item"> <a class="nav-link" href="#"><i class="fa fa-star"></i></a>
-                  </li>
-                  <li class="nav-item dropdown"> <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#"><i class="fa fa-bell"></i></a>
-                    <div class="dropdown-menu dropdown-menu-notification shadow">
-                      <div class="card">
-                        <div class="card-header bg-info"><strong class="text-white">Notification</strong></div>
-                        <div class="card-body notification-scroll">
-                          <div class="media border-bottom">
-                            <img src="img/avatar.svg" class="mr-3" alt="Sample Image">
-                            <div class="media-body">
-                              <h6 class="mt-0 mb-0">Ashish Bhatt <small><i>Posted on August 27, 2019</i></small></h6>
-                              <p class="mb-1">Excellent feature! I love it. One day I'm definitely...</p>
-                            </div>
-                          </div>
-                          <div class="media border-bottom">
-                            <img src="img/avatar.svg" class="mr-3" alt="Sample Image">
-                            <div class="media-body">
-                              <h6 class="mt-0 mb-0">Chirag Prajapati <small><i>Posted on August 26, 2019</i></small></h6>
-                              <p class="mb-1">Excellent feature! I love it. One day I'm definitely...</p>
-                            </div>
-                          </div>
-                          <div class="media border-bottom">
-                            <img src="img/avatar.svg" class="mr-3" alt="Sample Image">
-                            <div class="media-body">
-                              <h6 class="mt-0 mb-0">Ahamed Zubair <small><i>Posted on August 28, 2019</i></small></h6>
-                              <p class="mb-1">Excellent feature! I love it. One day I'm definitely...</p>
-                            </div>
-                          </div>
-                          <div class="media border-bottom">
-                            <img src="img/avatar.svg" class="mr-3" alt="Sample Image">
-                            <div class="media-body">
-                              <h6 class="mt-0 mb-0">Satish Dasi <small><i>Posted on August 28, 2019</i></small></h6>
-                              <p class="mb-1">Excellent feature! I love it. One day I'm definitely...</p>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="card-footer text-center"><a href="">View All</a></div>
-                      </div>
-                    </div>
-                  </li>
-                  <li class="nav-item user-divider"> 
-                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user mr-2 user-icon"></i>Ashish Bhatt</a>
-                    <div class="dropdown-menu dropdown-menu-right">
-                      <a href="#" class="dropdown-item"><i class="fa fa-user mr-2 dropdown-icon-size"></i>User Preferences</a>
-                      <a href="#" class="dropdown-item"><i class="fa fa-key mr-2 dropdown-icon-size"></i>Change Password</a>
-                      <a href="#" class="dropdown-item"><i class="fa fa-info mr-2 dropdown-icon-size"></i>Help</a>
-                      <a href="#" class="dropdown-item"><i class="fa fa-power-off mr-2 dropdown-icon-size"></i>Logout</a>
-                    </div>
-                  </li>
-                </ul>
-              </div>
-            </div>
-        </div>
-        <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-       
-      </nav>
-</div> -->

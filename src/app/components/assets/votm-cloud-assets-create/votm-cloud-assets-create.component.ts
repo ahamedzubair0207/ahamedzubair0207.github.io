@@ -172,16 +172,17 @@ export class VotmCloudAssetsCreateComponent implements OnInit {
     if (event) {
       let file = event;
       console.log('file instanceof Blob ', file instanceof Blob);
-      this.asset.documentation = new File();
-      this.asset.documentation.fileName = file.name;
-      this.asset.documentation.fileType = file.type;
-      this.asset.documentation.file = file;
+      this.asset.fileStore = new File();
+      this.asset.fileStore.fileName = file.name;
+      this.asset.fileStore.fileType = file.type;
+      this.asset.fileStore.file =file;
       this.resultABCD = file;
+      console.log('AHAMED', this.resultABCD)
     }
   }
 
   onFileOpen() {
-    const fileURL = URL.createObjectURL(this.asset.documentation.file);
+    const fileURL = URL.createObjectURL(this.asset.fileStore.file);
     window.open(fileURL, '_blank');
   }
 
@@ -357,6 +358,24 @@ export class VotmCloudAssetsCreateComponent implements OnInit {
 
   }
 
+  openTemplateModal() {
+    // Get the modal
+    var modal = document.getElementById("templateSave");
+    modal.style.display = "block";
+    this.modal = document.getElementById("templateSave");
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("close")[0];
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function (event) {
+      if (event.target == modal) {
+        modal.style.display = "none";
+
+      }
+    }
+
+  }
+
   closemodal(event: string) {
     this.modal.style.display = "none";
     this.fillDataFromTemplate(event);
@@ -410,6 +429,7 @@ export class VotmCloudAssetsCreateComponent implements OnInit {
         assetType: 'AssetType',
         description: 'description',
         documentationUrl: null,
+        fileStore: {file: '', fileName:'', fileType:''},
         locationId: this.parentLocId,
         locationName: this.parentLocName,
         organizationId: this.curOrgId,
@@ -561,5 +581,14 @@ export class VotmCloudAssetsCreateComponent implements OnInit {
       // this.previousAsset = JSON.parse(JSON.stringify(this.asset));
       this.acceptedTemplateChages = false;
     }
+  }
+
+  onSaveAsTemplateClick(){
+    console.log('onSaveAsTemplateClick ', this.asset);
+    this.assetService.createAssetTemplate(this.asset)
+    .subscribe(response=>{
+
+      console.log('response ', response);
+    })
   }
 }

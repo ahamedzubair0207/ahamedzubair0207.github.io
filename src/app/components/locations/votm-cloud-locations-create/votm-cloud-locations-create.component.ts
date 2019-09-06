@@ -39,7 +39,7 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
   UOM: any;
   pageLabels: any;
   locationTypes: Array<any>;
-  states: Array<any>;
+  states: Array<any>=[];
   countries: Array<any>;
   tempUoM: UnitOfMeassurement;
   tempMeasurement: string;
@@ -79,6 +79,8 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
   fileExtension: string;
   toaster: Toaster = new Toaster(this.toastr);
   geoLocationErrorMessage: any;
+
+  countryObject: any[] = [];
   constructor(private modalService: NgbModal, private locationService: LocationService,
     private configSettingsService: ConfigSettingsService, private domSanitizer: DomSanitizer,
     private activatedRoute: ActivatedRoute, private route: Router, private datePipe: DatePipe,
@@ -98,10 +100,11 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
     this.locationService.getCountries()
       .subscribe(response => {
         if (response) {
+          this.countryObject = response;
           this.countries = [];
           response.forEach(country => {
-            this.countries.push({ value: country.code, text: country.name })
-          })
+            this.countries.push({ value: country.countryName, text: country.countryName })
+          });
         }
       });
     this.curOrgId = this.activatedRoute.snapshot.paramMap.get("curOrgId");
@@ -147,10 +150,6 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
     this.location.active = true;
     this.UOM = 'SI';
     this.locationTypes = [{ value: 'locationType1', text: 'locationType1' }, { value: 'locationType2', text: 'locationType2' }]
-    this.states = [{ value: 'MN', text: 'MN' }, { value: 'MO', text: 'MO' }, { value: 'TX', text: 'TX' }, { value: 'FL', text: 'FL' },
-    { value: 'CO', text: 'CO' }, { value: 'KS', text: 'KS' }, { value: 'OH', text: 'OH' }];
-    // this.countries = [{ value: 'USA', text: 'USA' }, { value: 'Italy', text: 'Italy' }, { value: 'France', text: 'France' }, { value: 'Germany', text: 'Germany' },
-    // { value: 'Belgium', text: 'Belgium' }, { value: 'Denmark', text: 'Denmark' }, { value: 'Iceland', text: 'Iceland' }, { value: 'Sweden', text: 'Sweden' }, { value: 'Brazil', text: 'Brazil' }];
     // this.locationService.getLocationInfoFromAzureMap(null)
     //   .subscribe(response => {
     //     // console.log('AHAMED from azure map ', response);
@@ -206,6 +205,24 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
           this.location.uoMId = this.location.uoM;
         })
     }
+  }
+
+  onCountryChange(event) {
+    console.log('Country change ', this.location.address[0].country);
+    if (this.location.address && this.location.address.length > 0) {
+      this.location.address[0].state = null;     
+    } else {
+      this.location.address = [new Address()];
+      this.location.address[0].state = null;
+    }
+    this.countryObject.forEach(country => {
+      if (country.countryName === this.location.address[0].country) {
+        this.states = [];
+        country.states.forEach((state: any) => {
+          this.states.push({ value: state, text: state });
+        });
+      }
+    });
   }
 
   private multiDropdownConfigSetting() {
@@ -511,7 +528,7 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
   }
 
   onLocationSubmit() {
-    this.location.geoRadius = this.location.geoRadius.toString();
+    // this.location.geoRadius = this.location.geoRadius.toString();
     if (this.location.geoFenceType === 'bf0bc7b5-1bf8-4a59-a3b5-35904937e89e') {
       // this.location.geoFenceValue = `${this.radiusValue}${this.radiusUnit}`;
     }

@@ -1,5 +1,31 @@
+<!-- Top Level Nav -->
+<ul class="nav nav-tabs">
+    <li class="nav-item">
+      <a class="nav-link active" id="tab1" name="locDetailsTabs"><i class="fa fa-location-arrow"></i> Location</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link"  id="tab2" name="locEventTabs"><i class="fa fa-warning"></i> Event Log</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" id="tab3" name="locDashboardTabs1"><i class="fa fa-laptop"></i> Dashboard 1</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" id="tab4" name="locDashboardTabs2"><i class="fa fa-laptop"></i> Dashboard 2</a>
+    </li>
+  </ul>
+<!-- Second Level Nav -->
+  <ul class="nav nav-tabs mt-3">
+      <li class="nav-item">
+          <a class="nav-link  active" name="detailsTab" id="tab1" data-toggle="tab" role="tab" aria-controls="loc-details" aria-selected="true"><i class="fa fa-location-arrow"></i> Details</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" name="signalTab" id="tab2" data-toggle="tab"  role="tab" aria-controls="loc-alert" aria-selected="false"><i class="fa fa-wifi"></i> Signal Association</a>
+          </li>
+    </ul>
+
+
 <div class="loc-outside-border" *ngIf="(!locId && pageLabels) || (locId && pageLabels && location)">
-  <form #locationForm="ngForm" class="form-container create-loc-container border shadow"
+  <form #locationForm="ngForm" class="create-loc-container loc-create-font needs-validation"
     (ngSubmit)="onLocationSubmit()" novalidate>
     <div class="row loc-create-font">
       <h4 class="col-md-6">{{pageTitle}}</h4>
@@ -8,9 +34,9 @@
           class="btn btn-sm btn-info loc-create-font create-loc-asset-btn" (click)="creteAsset($event)"><i class="pr-2 fa fa-pencil"></i>Create Asset</button>
         <button id="nest-loc-create" *ngIf="location.locationId" (click)="createNestedLocation($event)" type="button"
           class="btn btn-sm btn-info loc-create-font create-loc-asset-btn"><i class="pr-2 fa fa-pencil"></i>Create Location</button>
-          <button id="signal-associate-loc" type="button" *ngIf="location.locationId" 
+          <!-- <button id="signal-associate-loc" type="button" *ngIf="location.locationId" 
           class="btn btn-sm btn-info loc-create-font create-loc-asset-btn"
-          routerLink="/loc/signal"><i class="pr-2 fa fa-pencil"></i>Associate Signal</button>
+          routerLink="/loc/signal"><i class="pr-2 fa fa-pencil"></i>Associate Signal</button> -->
       </div>
 
       
@@ -169,8 +195,21 @@
             </div>
           </div>
           <div class="col-md-2">
+            <label for="country"><b>* {{pageLabels.Country.labelName}}:</b></label>
+            <select [disabled]="pageType==='View'" [(ngModel)]="location.address[0].country" name="country"
+              class="drop-down form-control loc-create-font" (change)="onCountryChange($event)" required #country="ngModel">
+              <option value=""  disabled selected>Country</option>
+              <option *ngFor="let country of countries" [value]="country.value">
+                {{country.text}}
+              </option>
+            </select>
+            <div *ngIf="country.dirty && country.invalid">
+              <app-votm-cloud-validator message="Country is required"></app-votm-cloud-validator>
+            </div>
+          </div>
+          <div class="col-md-2">
             <label for="state"><b>* {{pageLabels.State.labelName}}:</b></label>
-            <select [disabled]="pageType==='View'" [(ngModel)]="location.address[0].state" name="state"
+            <select [disabled]="pageType==='View' || !location.address[0].country" [(ngModel)]="location.address[0].state" name="state"
               class="drop-down form-control loc-create-font" #state="ngModel" required>
               <option value="" disabled selected>State</option>
               <option *ngFor="let state of states" [value]="state.value">
@@ -179,19 +218,6 @@
             </select>
             <div *ngIf="state.dirty && state.invalid">
               <app-votm-cloud-validator message="State is required"></app-votm-cloud-validator>
-            </div>
-          </div>
-          <div class="col-md-2">
-            <label for="country"><b>* {{pageLabels.Country.labelName}}:</b></label>
-            <select [disabled]="pageType==='View'" [(ngModel)]="location.address[0].country" name="country"
-              class="drop-down form-control loc-create-font" required #country="ngModel">
-              <option value="" disabled selected>Country</option>
-              <option *ngFor="let country of countries" [value]="country.value">
-                {{country.text}}
-              </option>
-            </select>
-            <div *ngIf="country.dirty && country.invalid">
-              <app-votm-cloud-validator message="Country is required"></app-votm-cloud-validator>
             </div>
           </div>
 
@@ -306,7 +332,7 @@
   message="Do you want to delete the organization?" headerMessage="Warning"></app-votm-cloud-confim-dialog>
 
 
-<!-- The Modal -->
+<!-- UOM Modal -->
 <div id="myModal" class="modal">
   <div class="modal-dialog modal-lg modal-dialog-scrollable loc-create-font">
     <!-- Modal content -->

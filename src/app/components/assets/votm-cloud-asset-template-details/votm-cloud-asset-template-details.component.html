@@ -22,9 +22,9 @@
 
     <div class="row">
       <div class="col-md-2">
-        <label for="assetName"><b>* Name:</b></label>
+        <label for="assetName"><b>* Template Name:</b></label>
         <input type="text" [(ngModel)]="asset.assetName" class="form-control asset-create-font"
-          [disabled]="pageType==='View'" #assetName="ngModel" placeholder="Enter Name" name="assetName1" required
+          [disabled]="pageType==='View'" #assetName="ngModel" placeholder="Enter Template Name" name="assetName1" required
           maxlength="50">
         <div *ngIf="assetName.dirty && assetName.invalid">
           <app-votm-cloud-validator message="Name is required"></app-votm-cloud-validator>
@@ -36,13 +36,13 @@
       <div class="col-md-2">
         <label for="assetId"><b>Template ID:</b></label>
         <input type="text" [(ngModel)]="asset.assetNumber" class="form-control asset-create-font"
-          [disabled]="pageType==='View'" #assetId="ngModel" placeholder="Enter Asset ID" name="assetNumber"
+          disabled readonly #assetId="ngModel" placeholder="Template ID" name="assetNumber"
           maxlength="50">
       </div>
 
       <div class="col-md-2">
-        <label for="parentLoc"><b>* Template Name:</b></label>
-        <input type="text" [(ngModel)]="asset.parentAssetName" placeholder="Enter Template Name"
+        <label for="parentLoc"><b>* Asset Name:</b></label>
+        <input type="text" [(ngModel)]="asset.parentAssetName" placeholder="Enter Asset Name"
           class="form-control asset-create-font" name="parentAsset">
       </div>
 
