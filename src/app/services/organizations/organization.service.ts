@@ -67,4 +67,11 @@ export class OrganizationService {
         map(response => response)
       );
   }
+
+  getOrganizations(): Observable<any> {
+    return this.http.get(AppConstants.GET_ORG)
+      .pipe(
+        map(response => response)
+      );
+  }
 }

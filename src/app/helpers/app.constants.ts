@@ -12,11 +12,16 @@ export class AppConstants {
     public static DEL_LOC = '/Location';
 
     public static GET_ASSET_TREE = '/AssetTree';
+    public static GET_TEMPLATES = '/Asset/Template';
     public static GET_ASSET = '/Asset';
+    public static GET_TEMPLATEBYID = '/Asset/TemplateById';
     public static EDIT_ASSET = '/Asset';
     public static CREATE_ASSET = '/Asset';
     public static CREATE_ASSET_TEMPLATE = '/Asset/Template';
     public static DEL_ASSET = '/Asset';
+
+
+    public static GET_ALERT = '/Alert';
 
     public static NAVIGATION_URL = '/BreadcrumbNavigation'
 

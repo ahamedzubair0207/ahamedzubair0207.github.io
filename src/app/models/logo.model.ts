@@ -4,7 +4,7 @@ export class Logo {
     imageName: string;
 }
 
-export class File {
+export class VOTMFile {
     file: any;
     fileType: string;
     fileName: string;
