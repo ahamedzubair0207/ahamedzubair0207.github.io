@@ -32,6 +32,7 @@ export class VotmCloudAssetsHomeComponent implements OnInit {
   message: any;
   supscriptions: any;
   subscriptions: Subscription[] = [];
+  templateList: any[] = [];
 
 
   constructor(private assetService: AssetsService, private route: ActivatedRoute, private toastr: ToastrService, private router: Router, private breadcrumbs: BreadcrumbsService) { }
@@ -39,15 +40,20 @@ export class VotmCloudAssetsHomeComponent implements OnInit {
   ngOnInit() {
     this.subscriptions.push(this.route.params.subscribe(
       (params: Params) => {
-        this.parentOrgId = this.curOrgId = params.curOrgId;
-        this.parentOrgName = this.curOrgId = params.orgName;
-        this.assetId = this.curOrgId = params.assetId;
+        this.parentOrgId = params.orgId;
+        this.parentOrgName = params.orgName;
+        this.assetId = params.assetId;
         if (!this.assetId) {
           this.fetchAllAssetsTree();
         } else {
           this.fetchAssetsTreeById();
         }
       }));
+  }
+
+  onCreateAsset() {
+    console.log('AHAMED CLICKED ', this.parentOrgName, this.parentOrgId);
+    this.router.navigate([`asset/create/${this.parentOrgId}/${this.parentOrgName}`])
   }
 
 
@@ -129,8 +135,22 @@ export class VotmCloudAssetsHomeComponent implements OnInit {
     if (asset.parentId) {
       this.router.navigate([`asset/${action}/${asset.parentOrganizationId}/${asset.parentOrganizationName}/${asset.parentLocationId}/${asset.parentLocationName}/${asset.parentId}/${asset.parentName}/${asset.id}`]);
     } else {
-      this.router.navigate([`asset/${action}/${asset.parentOrganizationId}/${asset.parentOrganizationName}/${asset.parentLocationId}/${asset.parentLocationName}/${asset.id}`]);
+      if (asset.parentLocationId) {
+        this.router.navigate([`asset/${action}/${asset.parentOrganizationId}/${asset.parentOrganizationName}/${asset.parentLocationId}/${asset.parentLocationName}/${asset.id}`]);
+      } else {
+        this.router.navigate([`asset/${action}/${asset.parentOrganizationId}/${asset.parentOrganizationName}/${asset.id}`]);
+      }
     }
 
+  }
+
+  onTemplateTabClick() {
+    if (!this.templateList || this.templateList.length === 0) {
+      this.assetService.getAllTemplates()
+        .subscribe(response => {
+          console.log('response of templates ', response);
+          this.templateList = response;
+        });
+    }
   }
 }

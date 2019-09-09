@@ -132,6 +132,7 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
     }
     // this.getGeoLocation('London').subscribe(response => {
     //   console.log('response ', response);
+    // endpoint - Option List Data ----- Sensor Blocks ------ Cellular Blocks ------ Service Levels
     // });
 
     this.pageType = this.activatedRoute.snapshot.data['type'];

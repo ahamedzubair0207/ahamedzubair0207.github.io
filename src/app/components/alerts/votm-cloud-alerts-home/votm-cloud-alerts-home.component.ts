@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,Input } from '@angular/core';
+import { AlertsService } from 'src/app/services/alerts/alerts.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-votm-cloud-alerts-home',
@@ -7,9 +9,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class VotmCloudAlertsHomeComponent implements OnInit {
 
-  constructor() { }
+  @Input() alertList: any[];
+
+  constructor(private router: Router) { }
 
   ngOnInit() {
+  }
+
+  onEditViewClick(alert, action) {
+    this.router.navigate([`alert/${action}/${alert.alertId}`]);
   }
 
 }
