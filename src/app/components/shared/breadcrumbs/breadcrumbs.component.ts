@@ -58,7 +58,7 @@ export class BreadcrumbsComponent {
       this.locId = parts[5];
       this.pageType = 'Location';
       this.breadcrumbs = [];
-      this.loadOrganizations(this.orgId);
+      // this.loadOrganizations(this.orgId);
     }
   }
 
@@ -82,7 +82,7 @@ export class BreadcrumbsComponent {
             if (response[i].id.toLowerCase() === orgId.toLowerCase()) {
               // childFound = true;
               this.breadcrumbs.push({ name: response[i].name, nodes: response });
-              if (response[i].parentId.toLowerCase() === this.parentOrgId.toLowerCase()) {
+              if (response[i].parentId && response[i].parentId.toLowerCase() === this.parentOrgId.toLowerCase()) {
                 this.breadcrumbs.push({ name: this.orgName, nodes: [] });
                 this.breadcrumbs.reverse();
                 break;

@@ -1,14 +1,12 @@
 <nav id="sidebar" class="scrollbar scrollbar-primary" [ngClass]="{ 'active': menuOpen }">
     <div class="sidebar-header"></div>
   <ul class="list-unstyled components left-menu-margin">
-    <li *ngFor="let eachItem of menuItems" [ngClass]="{ 'super-admin' : eachItem.id == 'super' }">
+    <li *ngFor="let eachItem of menuItems" [ngClass]="{ 'super-admin' : eachItem.id == 'super' }" >
       <a *ngIf="eachItem.enabled" routerLink="{{eachItem.url}}" routerLinkActive='active' (click)="setActiveItem(eachItem.id)" data-toggle="collapse" aria-expanded="false" data-toggle="tooltip" data-placement="right" title="{{eachItem.name}}">
           <i [ngClass]="eachItem.icon"></i>
-          <span class="icon-text">{{eachItem.name}}</span>
+          <span class="icon-text" >{{eachItem.name}}</span>
       </a>
     </li>
-    
-    
   </ul>
 
 </nav>

@@ -634,6 +634,15 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
     }
   }
 
+  onLockClick(){
+    if(this.pageType.toLowerCase() === 'view'){
+    this.route.navigate([`loc/edit/${this.parentLocId}/${this.parentLocName}/${this.curOrgId}/${this.curOrgName}/${this.location.locationId}`])
+  } else{
+    this.route.navigate([`loc/view/${this.parentLocId}/${this.parentLocName}/${this.curOrgId}/${this.curOrgName}/${this.location.locationId}`])
+    }
+  }
+
+
   // getGeoLocation(address: string): Observable<any> {
   //   console.log('Getting address: ', address);
   //   let geocoder = new google.maps.Geocoder();

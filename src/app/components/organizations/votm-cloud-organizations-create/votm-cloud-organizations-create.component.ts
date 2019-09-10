@@ -37,7 +37,7 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
   parentOrganizationInfo: any;
 
   pageTitle: string;
-  pageType: any;
+  pageType: string;
 
   uomModels: {};
   uomArray: any[];
@@ -484,4 +484,11 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
     }
   }
 
+  onLockClick(){
+    if(this.pageType.toLowerCase() === 'view'){
+    this.route.navigate([`org/edit/${this.curOrgId}/${this.curOrgName}/${this.organization.organizationId}`])
+  } else{
+    this.route.navigate([`org/view/${this.curOrgId}/${this.curOrgName}/${this.organization.organizationId}`])
+    }
+  }
 }
