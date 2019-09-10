@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { VotmCloudAssetTemplateListComponent } from './votm-cloud-asset-template-list.component';
+import { VotmCloudConfimDialogComponent } from '../../shared/votm-cloud-confim-dialog/votm-cloud-confim-dialog.component';
 
 describe('VotmCloudAssetTemplateListComponent', () => {
   let component: VotmCloudAssetTemplateListComponent;
@@ -8,9 +9,9 @@ describe('VotmCloudAssetTemplateListComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ VotmCloudAssetTemplateListComponent ]
+      declarations: [VotmCloudAssetTemplateListComponent, VotmCloudConfimDialogComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { VotmCloudLocationsCreateComponent } from './votm-cloud-locations-create.component';
+import { FormsModule } from '@angular/forms';
 
 describe('VotmCloudLocationsCreateComponent', () => {
   let component: VotmCloudLocationsCreateComponent;
@@ -8,9 +9,10 @@ describe('VotmCloudLocationsCreateComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ VotmCloudLocationsCreateComponent ]
+      imports: [FormsModule],
+      declarations: [VotmCloudLocationsCreateComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

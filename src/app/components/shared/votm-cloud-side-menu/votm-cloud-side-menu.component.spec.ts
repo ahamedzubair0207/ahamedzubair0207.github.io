@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { VotmCloudSideMenuComponent } from './votm-cloud-side-menu.component';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('VotmCloudSideMenuComponent', () => {
   let component: VotmCloudSideMenuComponent;
@@ -8,6 +9,7 @@ describe('VotmCloudSideMenuComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      imports: [RouterTestingModule],
       declarations: [ VotmCloudSideMenuComponent ]
     })
     .compileComponents();

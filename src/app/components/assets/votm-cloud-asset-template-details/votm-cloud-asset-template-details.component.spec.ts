@@ -1,6 +1,10 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { VotmCloudAssetTemplateDetailsComponent } from './votm-cloud-asset-template-details.component';
+import { VotmCloudConfimDialogComponent } from '../../shared/votm-cloud-confim-dialog/votm-cloud-confim-dialog.component';
+import { RouterTestingModule } from '@angular/router/testing';
+import { HttpClientModule } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
 
 describe('VotmCloudAssetTemplateDetailsComponent', () => {
   let component: VotmCloudAssetTemplateDetailsComponent;
@@ -8,9 +12,10 @@ describe('VotmCloudAssetTemplateDetailsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ VotmCloudAssetTemplateDetailsComponent ]
+      imports: [RouterTestingModule, HttpClientModule, FormsModule],
+      declarations: [VotmCloudAssetTemplateDetailsComponent, VotmCloudConfimDialogComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

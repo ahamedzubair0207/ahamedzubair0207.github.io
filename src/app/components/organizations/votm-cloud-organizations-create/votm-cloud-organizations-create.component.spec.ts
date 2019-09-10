@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { VotmCloudOrganizationsCreateComponent } from './votm-cloud-organizations-create.component';
+import { FormsModule } from '@angular/forms';
 // import { OrganizationService } from '../services/Organization/organization.service';
 
 describe('VotmCloudOrganizationsCreateComponent', () => {
@@ -13,9 +14,10 @@ describe('VotmCloudOrganizationsCreateComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ VotmCloudOrganizationsCreateComponent ]
+      imports: [FormsModule],
+      declarations: [VotmCloudOrganizationsCreateComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
