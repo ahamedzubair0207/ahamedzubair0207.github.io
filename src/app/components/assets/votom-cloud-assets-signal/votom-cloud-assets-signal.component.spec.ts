@@ -2,6 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { VotomCloudAssetsSignalComponent } from './votom-cloud-assets-signal.component';
 import { RouterModule } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('VotomCloudAssetsSignalComponent', () => {
   let component: VotomCloudAssetsSignalComponent;
@@ -9,9 +10,7 @@ describe('VotomCloudAssetsSignalComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [
-        RouterModule.forRoot([]),
-      ],
+      imports: [RouterTestingModule],
       declarations: [VotomCloudAssetsSignalComponent]
     })
       .compileComponents();

@@ -8,6 +8,7 @@ import { FormsModule } from '@angular/forms';
 import { VotmCloudValidatorComponent } from '../../shared/votm-cloud-validator/votm-cloud-validator.component';
 import { VotmCloudCharValidatorComponent } from '../../shared/votm-cloud-char-validator/votm-cloud-char-validator.component';
 import { FileUploadModule } from 'primeng/fileupload';
+import { ToastrModule } from 'ngx-toastr';
 
 describe('VotmCloudAssetsCreateComponent', () => {
   let component: VotmCloudAssetsCreateComponent;
@@ -15,7 +16,7 @@ describe('VotmCloudAssetsCreateComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, HttpClientModule, FormsModule, FileUploadModule ],
+      imports: [RouterTestingModule, HttpClientModule, FormsModule, FileUploadModule, ToastrModule.forRoot()],
       declarations: [VotmCloudAssetsCreateComponent, VotmCloudConfimDialogComponent, VotmCloudValidatorComponent, VotmCloudCharValidatorComponent]
     })
       .compileComponents();

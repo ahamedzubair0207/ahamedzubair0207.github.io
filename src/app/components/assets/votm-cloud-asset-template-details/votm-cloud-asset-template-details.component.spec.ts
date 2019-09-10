@@ -5,6 +5,8 @@ import { VotmCloudConfimDialogComponent } from '../../shared/votm-cloud-confim-d
 import { RouterTestingModule } from '@angular/router/testing';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
+import { VotmCloudValidatorComponent } from '../../shared/votm-cloud-validator/votm-cloud-validator.component';
+import { VotmCloudCharValidatorComponent } from '../../shared/votm-cloud-char-validator/votm-cloud-char-validator.component';
 
 describe('VotmCloudAssetTemplateDetailsComponent', () => {
   let component: VotmCloudAssetTemplateDetailsComponent;
@@ -13,7 +15,7 @@ describe('VotmCloudAssetTemplateDetailsComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule, HttpClientModule, FormsModule],
-      declarations: [VotmCloudAssetTemplateDetailsComponent, VotmCloudConfimDialogComponent]
+      declarations: [VotmCloudAssetTemplateDetailsComponent, VotmCloudConfimDialogComponent, VotmCloudValidatorComponent, VotmCloudCharValidatorComponent ]
     })
       .compileComponents();
   }));
