@@ -16,7 +16,8 @@ a:focus {
 }
 
 .left-menu-margin{
-    margin-left: 11px; 
+    // margin-left: 11px; 
+    padding-left: 3px;
     margin-top: 5px;
 }
 .navbar-btn {
@@ -72,6 +73,7 @@ span {
     min-width: 50px;
     max-width: 50px;
     text-align: center;
+    background: #00a2ae;
 }
 
 #sidebar.active .sidebar-header h3,
@@ -150,7 +152,9 @@ span {
 #sidebar ul li.active>a,
 a[aria-expanded="true"] {
     color: #fff;
-    background:rgba(0, 170, 172, 1);
+    background:#00aaac;
+    // background: #00a2ae;
+
 }
 
 a[data-toggle="collapse"] {
@@ -207,7 +211,8 @@ a.article:hover {
 	margin-left: 180px;
 }
 #content.active{
-	margin-left: 50px;
+    margin-left: 50px;
+    background: #00a2ae;
 }
 
 /* ---------------------------------------------------

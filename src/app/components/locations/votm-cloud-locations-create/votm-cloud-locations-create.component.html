@@ -1,50 +1,48 @@
 <!-- Top Level Nav -->
 <ul class="nav nav-tabs">
-  <li class="nav-item">
-    <a class="nav-link active" id="tab1" name="locDetailsTabs"><i class="fa fa-location-arrow"></i> Location</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" id="tab2" name="locEventTabs"><i class="fa fa-warning"></i> Event Log</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" id="tab3" name="locDashboardTabs1"><i class="fa fa-laptop"></i> Dashboard 1</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" id="tab4" name="locDashboardTabs2"><i class="fa fa-laptop"></i> Dashboard 2</a>
-  </li>
-</ul>
+    <li class="nav-item">
+      <a class="nav-link active" id="loc-tab" href="#loc-details-tab" data-toggle="tab" role="tab" aria-controls="loc-info" aria-selected="true"><i class="fa fa-location-arrow"></i> Location</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link"  id="loc-event-tab" href="#event-details-tab" data-toggle="tab" role="tab" aria-controls="event-details" aria-selected="false"><i class="fa fa-warning"></i> Event Log</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" id="loc-dashboard1-tab" href="#dashboard1-details-tab" data-toggle="tab" role="tab" aria-controls="dashboard1-details" aria-selected="false"><i class="fa fa-laptop"></i> Dashboard 1</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" id="loc-dashboard2-tab" href="#dashboard2-details-tab" data-toggle="tab" role="tab" aria-controls="dashboard2-details" aria-selected="false"><i class="fa fa-laptop"></i> Dashboard 2</a>
+    </li>
+  </ul>
+
 <!-- Second Level Nav -->
-<ul class="nav nav-tabs mt-3">
-  <li class="nav-item">
-    <a class="nav-link  active" name="detailsTab" id="tab1" data-toggle="tab" role="tab" aria-controls="loc-details"
-      aria-selected="true"><i class="fa fa-location-arrow"></i> Details</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" name="signalTab" id="tab2" data-toggle="tab" role="tab" aria-controls="loc-alert"
-      aria-selected="false"><i class="fa fa-wifi"></i> Signal Association</a>
-  </li>
-</ul>
+
+<div class="loc-outside-border tab-content tab-pane fade show active" id="loc-details-tab" *ngIf="(!locId && pageLabels) || (locId && pageLabels && location)" role="tabpanle" area-labelledby="loc-info-tab">
+    
+  <ul class="nav nav-tabs mt-3">
+        <li class="nav-item">
+            <a class="nav-link active" id="loc-details-tab" name="loc-view-edit" href="#loc-details" data-toggle="tab" role="tab" aria-controls="loc-details" aria-selected="true"><i class="fa fa-location-arrow"></i> Details</a>
+          </li>
+          <li class="nav-item">
+              <a class="nav-link" id="loc-signal-tab" name="signal-association-edit" href="#loc-signal" (click)="onSignalAssociateRuleTab()" data-toggle="tab" role="tab" aria-controls="loc-signal" aria-selected="false"><i class="fa fa-podcast"></i> Signal & Gateway Association</a>
+            </li>
+      </ul>
 
 
-<div class="loc-outside-border" *ngIf="(!locId && pageLabels) || (locId && pageLabels && location)">
+<div class="loc-outside-border tab-pane fade show active" *ngIf="(!locId && pageLabels) || (locId && pageLabels && location)" id="loc-details" role="tabpanle" area-labelledby="loc-details-tab">
   <form #locationForm="ngForm" class="create-loc-container loc-create-font needs-validation"
     (ngSubmit)="onLocationSubmit()" novalidate>
+    <div class="row">
+        <!-- <h4 class="col-md-6">{{pageTitle}}</h4> -->
+        <div class="col-md-12 mb-3" >
+            <!-- <i [ngClass]="{'fas fa-lock-open': (pageType.toLowerCase() !== 'view')}" (click)="onLockClick()"></i> -->
+            <!-- For View/Edit page -->
+            <i class="fa fa-lock" style="float: right;" *ngIf="pageType.toLowerCase() === 'view'" (click)="onLockClick()"></i>
+            <i class="fa fa-unlock" style="float: right;" *ngIf="pageType.toLowerCase() === 'edit'" (click)="onLockClick()"></i>
+            
+        </div>
+    </div>
+
     <div class="row loc-create-font">
-      <h4 class="col-md-6">{{pageTitle}}</h4>
-      <div class="col-md-6">
-        <button id="nest-asset-create" type="button" *ngIf="location.locationId"
-          class="btn btn-sm btn-info loc-create-font create-loc-asset-btn" (click)="creteAsset($event)"><i
-            class="pr-2 fa fa-pencil"></i>Create Asset</button>
-        <button id="nest-loc-create" *ngIf="location.locationId" (click)="createNestedLocation($event)" type="button"
-          class="btn btn-sm btn-info loc-create-font create-loc-asset-btn"><i class="pr-2 fa fa-pencil"></i>Create
-          Location</button>
-        <!-- <button id="signal-associate-loc" type="button" *ngIf="location.locationId" 
-          class="btn btn-sm btn-info loc-create-font create-loc-asset-btn"
-          routerLink="/loc/signal"><i class="pr-2 fa fa-pencil"></i>Associate Signal</button> -->
-      </div>
-
-      <div class="w-100 py-2"></div>
-
       <div class="col-6">
         <div class="row form-group">
           <label class="col-sm-5 col-form-label" for="name"><b>* {{pageLabels.Name.labelName}}</b></label>
@@ -377,6 +375,12 @@
 
     <div class="row loc-create-font">
       <div class="col-12">
+          <button id="nest-asset-create" type="button" *ngIf="location.locationId"
+          class="btn btn-sm btn-info loc-create-font create-loc-asset-btn" (click)="creteAsset($event)"><i
+            class="pr-2 fa fa-industry"></i>Add Asset</button>
+        <button id="nest-loc-create" *ngIf="location.locationId" (click)="createNestedLocation($event)" type="button"
+          class="btn btn-sm btn-info loc-create-font create-loc-asset-btn"><i class="pr-2 fa fa-location-arrow"></i>Add
+          Sub-Location</button>
         <button id="loc-cancel" for="form-cancel" type="button" (click)="onCancelClick($event)"
           class="btn btn-secondary btn-sm loc-create-font button-mod"><i
             class="pr-2 fa fa-window-close-o"></i>Cancel</button>
@@ -384,11 +388,28 @@
           (click)="openConfirmDialog()" class="btn btn-secondary btn-sm loc-create-font button-mod"><i
             class="pr-2 fa fa-trash"></i>Delete</button>
         <button id="loc-save" type="submit" *ngIf="pageType !=='View'"
-          class="btn btn-sm btn-info loc-create-font button-mod"><i class="pr-2 fa fa-link"></i>Save</button>
+          class="btn btn-sm btn-info loc-create-font button-mod"><i class="pr-2 fa fa-location-arrow"></i>Save Location</button>
       </div>
     </div>
   </form>
 </div>
+
+<div class="tab-pane fade" id="loc-signal" role="tabpanle" area-labelledby="loc-signal-tab">
+    <app-votm-cloud-locations-signal></app-votm-cloud-locations-signal>
+  </div>
+
+</div>
+
+
+<div class="loc-outside-border tab-pane fade" id="event-details-tab" role="tabpanle" area-labelledby="event-details-tab">
+  </div>
+
+  <div class="loc-outside-border tab-pane fade" id="dashboard1-details-tab" role="tabpanle" area-labelledby="dashboard1-details-tab">
+    </div>
+
+    <div class="loc-outside-border tab-pane fade" id="dashboard2-details-tab" role="tabpanle" area-labelledby="dashboard2-details-tab">
+      </div>
+
 
 <app-votm-cloud-confim-dialog (onClose)="deleteOrganizationById($event)" #confirmBox
   message="Do you want to delete the organization?" headerMessage="Warning"></app-votm-cloud-confim-dialog>

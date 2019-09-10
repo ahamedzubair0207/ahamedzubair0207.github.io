@@ -706,4 +706,13 @@ export class VotmCloudAssetsCreateComponent implements OnInit {
       // console.log('Asset ', this.asset);
     }
   }
+
+
+  onLockClick(){
+    if(this.pageType.toLowerCase() === 'view'){
+    this.route.navigate([`asset/edit/${this.parentLocId}/${this.parentLocName}/${this.parentAssetId}/${this.parentAssetName}/${this.asset.assetId}`])
+  } else{
+    this.route.navigate([`asset/view/${this.parentLocId}/${this.parentLocName}/${this.parentAssetId}/${this.parentAssetName}/${this.asset.assetId}`])
+    }
+  }
 }
