@@ -35,8 +35,8 @@
         <div class="col-md-12 mb-3" >
             <!-- <i [ngClass]="{'fas fa-lock-open': (pageType.toLowerCase() !== 'view')}" (click)="onLockClick()"></i> -->
             <!-- For View/Edit page -->
-            <i class="fa fa-lock" style="float: right;" *ngIf="pageType.toLowerCase() === 'view'" (click)="onLockClick()"></i>
-            <i class="fa fa-unlock" style="float: right;" *ngIf="pageType.toLowerCase() === 'edit'" (click)="onLockClick()"></i>
+            <i class="fa fa-lock edit-view-lock" name="assetlockbutton" *ngIf="pageType.toLowerCase() === 'view'" (click)="onLockClick()"></i>
+            <i class="fa fa-unlock edit-view-lock" name="assetunlockbutton" *ngIf="pageType.toLowerCase() === 'edit'" (click)="onLockClick()"></i>
             
         </div>
     </div>

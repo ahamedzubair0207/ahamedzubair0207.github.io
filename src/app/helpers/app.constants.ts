@@ -11,6 +11,8 @@ export class AppConstants {
     public static CREATE_LOC = '/Location';
     public static DEL_LOC = '/Location';
 
+    public static GET_OPTIONSLISTDATA = '/Location/optionsListData';
+
     public static GET_ASSET_TREE = '/AssetTree';
     public static GET_TEMPLATES = '/Asset/Template';
     public static GET_ASSET = '/Asset';

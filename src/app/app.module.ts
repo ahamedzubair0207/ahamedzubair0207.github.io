@@ -100,10 +100,11 @@ import {FileUploadModule} from 'primeng/fileupload';
     VotmCloudAssetTemplateListComponent,
     VotmCloudAssetTemplateDetailsComponent
   ],
+
+ 
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    HttpClientModule,
     AppRoutingModule,
     // InMemoryWebApiModule.forRoot(BackendApiService),
     NgbModule,

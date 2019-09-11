@@ -1,13 +1,10 @@
 
-
-<!-- <form class="border shadow-lg org-table-fonts"> -->
-
     <header>
         <h3 class="flt-left mt-3 mb-3 ml-2 org-header"> Organizations</h3>
     </header>
     
     <div class="btn-group-right mt-2 org-home-font">
-        <button [routerLink]="['/org/create', curOrgId, curOrgName]" type="button" class="btn btn-sm btn-info"><i class="pr-2 fa fa-pencil"></i>Create
+        <button [routerLink]="['/org/create', curOrgId, curOrgName]" type="button" class="btn btn-sm btn-info"><i class="pr-2 fa fa-building"></i>Create
           Organization</button>
       </div>
 
@@ -16,8 +13,8 @@
       
           <tr>
             <th scope="row" (click)="item.opened = !item.opened" [ngStyle]="{'padding-left.px': 15*(lvl+1)}">
-              <i class="fa fa-sitemap"></i>
-              <a style="color: #212529;" [routerLink]="['/org/view', curOrgId, curOrgName, item.id]">{{item.name}}</a>&nbsp; <i *ngIf="item.node.length > 0 "
+              <i class="fa fa-building"></i>
+              <a style="color: #212529;" [routerLink]="['/org/view', curOrgId, curOrgName, item.id]"> {{item.name}}</a>&nbsp; <i *ngIf="item.node.length > 0 "
                 [ngClass]="{'fa': true, 'fa-caret-right': !item.opened, 'fa-caret-down': item.opened}"></i>
             </th>
             <td class="align-left">{{item.type}}</td>
@@ -28,12 +25,8 @@
             <td class="align-left">{{item.state}}</td>
             <td class="align-center">
               <a class="action-icon" title="List" [routerLink]="['/loc/home', item.id, item.name]">
-                  <!-- <a class="action-icon" title="List"> -->
-                <i class="fa fa-list"></i>
+                <i class="fa fa-location-arrow"></i>
               </a>
-              <!-- <a class="action-icon" title="View" [routerLink]="['/org/view', curOrgId, curOrgName, item.id]">
-                <i class="fa fa-eye"></i>
-              </a> -->
               <a class="action-icon" title="Edit" [routerLink]="['/org/edit',curOrgId, curOrgName, item.id]">
                 <i class="fa fa-edit"></i>
               </a>
@@ -44,26 +37,10 @@
           </tr>
       
           <ng-container *ngFor="let subItem of item.node">
-            <tr *ngIf="item.opened && subItem.entityType == 'Location'">
-              <th scope="row" [ngStyle]="{'padding-left.px': 15*(lvl+2)}"> <i class="fa fa-location-arrow"></i>
-                {{subItem.name}}</th>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td class="align-center">
-                <a class="action-icon">
-                  <i class="fa fa-list"></i>
-                </a>
-              </td>
-            </tr>
-      
-      
+           
             <tr *ngIf="item.opened && subItem.entityType == 'Organization'">
               <th scope="row" (click)="subItem.opened = !subItem.opened" [ngStyle]="{'padding-left.px': 15*(lvl+2)}">
-                <i class="fa fa-sitemap"></i>
+                <i class="fa fa-building"></i>
                 <a style="color: #212529;" [routerLink]="['/org/view', curOrgId, curOrgName, subItem.id]">
                   {{subItem.name}}</a>&nbsp;<i *ngIf="subItem.node.length > 0 "
                   [ngClass]="{'fa': true, 'fa-caret-right': !subItem.opened, 'fa-caret-down': subItem.opened}"></i>
@@ -76,7 +53,7 @@
               <td class="align-left">{{item.state}}</td>
               <td class="align-center">
                 <a class="action-icon" title="List"  [routerLink]="['/loc/home', subItem.id, subItem.name]">
-                  <i class="fa fa-list"></i>
+                  <i class="fa fa-location-arrow"></i>
                 </a>
                 <!-- <a class="action-icon" title="View" [routerLink]="['/org/view',curOrgId, curOrgName, subItem.id]">
                   <i class="fa fa-eye"></i>

@@ -14,7 +14,7 @@ import { NgForm, FormGroup } from '@angular/forms';
 import { VotmCloudConfimDialogComponent } from '../../shared/votm-cloud-confim-dialog/votm-cloud-confim-dialog.component';
 import { Toaster } from '../../shared/votm-cloud-toaster/votm-cloud-toaster';
 import { ToastrService } from 'ngx-toastr';
-import { AlertsService} from '../../../services/alerts/alerts.service';
+import { AlertsService } from '../../../services/alerts/alerts.service';
 
 @Component({
   selector: 'app-votm-cloud-organizations-create',
@@ -62,8 +62,11 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
   fileExtension: string;
   previousUOM: any;
   toaster: Toaster = new Toaster(this.toastr);
+  svcLevels: any[] = [];
+  sensorBlocks: any[] = [];
+  cellularBlocks: any[] = [];
 
-  constructor(private modalService: NgbModal, private alertRuleservice: AlertsService,private organizationService: OrganizationService,
+  constructor(private modalService: NgbModal, private alertRuleservice: AlertsService, private organizationService: OrganizationService,
     private configSettingsService: ConfigSettingsService, private domSanitizer: DomSanitizer,
     private activeroute: ActivatedRoute, private route: Router, private datePipe: DatePipe,
     private routerLocation: RouterLocation, private toastr: ToastrService) {
@@ -85,15 +88,17 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
       this.curOrgName = params.get("curOrgName");
       this.orgId = params.get('orgId');
 
-
+      this.getOptionsListData('Sensor Blocks');
+      this.getOptionsListData('Cellular Blocks');
+      this.getOptionsListData('Service Levels');
 
       if (this.orgId) {
         this.getOrganizationInfo();
       }
       else {
         this.parentOrganizationInfo = {
-          parentOrganizationId: this.activeroute.snapshot.paramMap.get("curOrgId"), // '7A59BDD8-6E1D-48F9-A961-AA60B2918DDE',
-          parentOrganizationName: this.activeroute.snapshot.paramMap.get("curOrgName") // 'Parker1'
+          parentOrganizationId: this.curOrgId, // '7A59BDD8-6E1D-48F9-A961-AA60B2918DDE',
+          parentOrganizationName: this.curOrgName // 'Parker1'
         }
         this.organization.parentOrganizationId = this.parentOrganizationInfo.parentOrganizationId;
         this.organization.active = true;
@@ -112,14 +117,17 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
 
     this.getScreenLabels();
     this.getAllAppInfo();
+
     this.organizationTypes = [{ value: 'organizationType1', text: 'organizationType1' }, { value: 'organizationType2', text: 'organizationType2' }]
     this.states = [{ value: 'state0', text: 'Select State' }, { value: 'state1', text: 'MN' },
     { value: 'state2', text: 'OH' }];
     this.countries = [{ value: 'country0', text: 'Select Country' }, { value: 'country1', text: 'USA' },
     { value: 'country2', text: 'Brazil' }];
 
-    this.getAllAppInfo();
+    // this.getAllAppInfo();
   }
+
+
 
   showImageLogo() {
     if (this.logoImage) {
@@ -192,6 +200,25 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
       .subscribe(response => {
         this.pageLabels = response;
       })
+  }
+
+  getOptionsListData(listData: string) {
+    this.organizationService.getOptionsListData(listData)
+      .subscribe(response => {
+        if (listData === 'Service Levels') {
+          this.svcLevels = [];
+          this.svcLevels = response;
+        }
+        if (listData === 'Sensor Blocks') {
+          this.sensorBlocks = [];
+          this.sensorBlocks = response;
+        }
+        if (listData === 'Cellular Blocks') {
+          this.cellularBlocks = [];
+          this.cellularBlocks = response;
+        }
+        console.log('Screen Labbels ', response)
+      });
   }
 
   deleteOrganizationById(event) {
@@ -484,11 +511,11 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
     }
   }
 
-  onLockClick(){
-    if(this.pageType.toLowerCase() === 'view'){
-    this.route.navigate([`org/edit/${this.curOrgId}/${this.curOrgName}/${this.organization.organizationId}`])
-  } else{
-    this.route.navigate([`org/view/${this.curOrgId}/${this.curOrgName}/${this.organization.organizationId}`])
+  onLockClick() {
+    if (this.pageType.toLowerCase() === 'view') {
+      this.route.navigate([`org/edit/${this.curOrgId}/${this.curOrgName}/${this.organization.organizationId}`])
+    } else {
+      this.route.navigate([`org/view/${this.curOrgId}/${this.curOrgName}/${this.organization.organizationId}`])
     }
   }
 }
