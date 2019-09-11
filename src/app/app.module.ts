@@ -59,6 +59,7 @@ import { VotmCloudLocationsSignalComponent } from './components/locations/votm-c
 import { VotmCloudAssetTemplateListComponent } from './components/assets/votm-cloud-asset-template-list/votm-cloud-asset-template-list.component';
 import { VotmCloudAssetTemplateDetailsComponent } from './components/assets/votm-cloud-asset-template-details/votm-cloud-asset-template-details.component';
 import {FileUploadModule} from 'primeng/fileupload';
+import { VotmCloudEventsHomeComponent } from './components/events/votm-cloud-events-home/votm-cloud-events-home.component';
 
 @NgModule({
   declarations: [
@@ -98,7 +99,8 @@ import {FileUploadModule} from 'primeng/fileupload';
     VotmCloudCharValidatorComponent,
     VotmCloudLocationsSignalComponent,
     VotmCloudAssetTemplateListComponent,
-    VotmCloudAssetTemplateDetailsComponent
+    VotmCloudAssetTemplateDetailsComponent,
+    VotmCloudEventsHomeComponent
   ],
   imports: [
     BrowserModule,

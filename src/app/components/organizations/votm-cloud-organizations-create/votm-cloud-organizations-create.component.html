@@ -15,7 +15,7 @@
   </ul>
 
 <!-- Second Level Nav -->
- 
+ <div class="tab-content">
 <div class="org-outside-border tab-content tab-pane fade show active" id="org-details-tab" *ngIf="(!orgId && pageLabels) || (orgId && pageLabels && organization)" role="tabpanle" area-labelledby="org-info-tab">
     
   <ul class="nav nav-tabs mt-3">
@@ -27,7 +27,7 @@
             </li>
       </ul>
 
-      
+      <div class="tab-content">
     <div class="org-outside-border tab-pane fade show active org-create-font" *ngIf="(!orgId && pageLabels) || (orgId && pageLabels && organization)" id="org-details" role="tabpanle" area-labelledby="org-details-tab">
         <form #organizationForm="ngForm" class="org-create-font create-org-container needs-validation"
           (ngSubmit)="onOrganizationSubmit()" novalidate>
@@ -417,16 +417,20 @@
       <div class="tab-pane fade" id="org-alert" role="tabpanle" area-labelledby="org-alert-tab">
           <app-votm-cloud-alerts-home [alertList]="alertList"></app-votm-cloud-alerts-home>
         </div>
+      </div>
 </div>
 
 <div class="org-outside-border tab-pane fade" id="event-details-tab" role="tabpanle" area-labelledby="event-details-tab">
-  </div>
+  <app-votm-cloud-events-home></app-votm-cloud-events-home>
+</div>
 
   <div class="org-outside-border tab-pane fade" id="dashboard1-details-tab" role="tabpanle" area-labelledby="dashboard1-details-tab">
-    </div>
+    Dashboard1
+  </div>
 
     <div class="org-outside-border tab-pane fade" id="dashboard2-details-tab" role="tabpanle" area-labelledby="dashboard2-details-tab">
       </div>
+    </div>
      
 
 
