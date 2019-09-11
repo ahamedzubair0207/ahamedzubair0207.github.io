@@ -4,7 +4,7 @@ import { AssetsService } from 'src/app/services/assets/assets.service';
 import { Asset } from 'src/app/models/asset.model';
 import { ConfigSettingsService } from 'src/app/services/configSettings/configSettings.service';
 import { ApplicationConfiguration } from 'src/app/models/applicationconfig.model';
-import { Logo, File } from 'src/app/models/logo.model';
+import { Logo, VOTMFile } from 'src/app/models/logo.model';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
 import { DatePipe, Location as RouterLocation } from '@angular/common';
@@ -13,6 +13,7 @@ import { VotmCloudConfimDialogComponent } from '../../shared/votm-cloud-confim-d
 import { Observable } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { Toaster } from '../../shared/votm-cloud-toaster/votm-cloud-toaster';
+import { OrganizationService } from 'src/app/services/organizations/organization.service';
 @Component({
   selector: 'app-votm-cloud-assets-create',
   templateUrl: './votm-cloud-assets-create.component.html',
@@ -58,9 +59,10 @@ export class VotmCloudAssetsCreateComponent implements OnInit {
   parentAssetName: string;
   fileName: any;
   fileExtension: string;
+  fileExtensionDoc: string;
   toaster: Toaster = new Toaster(this.toastr);
   resultABCD: Blob;
-  templateName: any;
+  templateId: any;
   templates: { value: string; text: string; }[];
   previousAsset: any;
   acceptedTemplateChages: boolean = false;
@@ -73,11 +75,15 @@ export class VotmCloudAssetsCreateComponent implements OnInit {
   clickedCheckBox: number = 0;
   count: number = 0;
   abc: any;
+  docFile: Blob;
+  allTemplates: any[] = [];
+  templateNameToSave: string;
+  organizationList: any[] = [];
   constructor(private modalService: NgbModal, private assetService: AssetsService,
     private configSettingsService: ConfigSettingsService, private domSanitizer: DomSanitizer,
     private activatedRoute: ActivatedRoute, private route: Router, private datePipe: DatePipe,
     private routerLocation: RouterLocation, private toastr: ToastrService,
-    private changeDetectorRef: ChangeDetectorRef) {
+    private changeDetectorRef: ChangeDetectorRef, private orgService: OrganizationService) {
     this.subscriptions = route.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         if (this.previousUrl) {
@@ -116,10 +122,10 @@ export class VotmCloudAssetsCreateComponent implements OnInit {
     //   assetId: 'null'
     // };
 
-    this.templates = [];
-    for (let i = 0; i < 10; i++) {
-      this.templates.push({ text: 'Template' + i, value: 'template' + i })
-    }
+    // this.templates = [];
+    // for (let i = 0; i < 10; i++) {
+    //   this.templates.push({ text: 'Template' + i, value: 'template' + i })
+    // }
 
     if (this.assetId) {
       this.assetService.getAssetById(this.assetId)
@@ -168,21 +174,27 @@ export class VotmCloudAssetsCreateComponent implements OnInit {
       });
   }
 
-  onFileChange(event) {
-    if (event) {
-      let file = event;
-      console.log('file instanceof Blob ', file instanceof Blob);
-      this.asset.fileStore = new File();
-      this.asset.fileStore.fileName = file.name;
-      this.asset.fileStore.fileType = file.type;
-      this.asset.fileStore.file =file;
-      this.resultABCD = file;
-      console.log('AHAMED', this.resultABCD)
+  onFileChange(file) {
+    if (file) {
+      var binaryData = [];
+      binaryData.push(file);
+
+      this.docFile = new Blob(binaryData, { type: file.type })
+
+      console.log('type of file ', typeof (this.docFile))
+      this.handleDocSelect(file);
+      // let readerToPreview = new FileReader();
+      // // this.imagePath = file;
+      // readerToPreview.readAsDataURL(file);
+      // // readerToPreview.onload = (_event) => {
+      // //   this.imgURL = this.domSanitizer.bypassSecurityTrustUrl(readerToPreview.result.toString()); //readerToPreview.result;
+      // // }
+      // // console.log('AHAMED', this.resultABCD)
     }
   }
 
   onFileOpen() {
-    const fileURL = URL.createObjectURL(this.asset.fileStore.file);
+    const fileURL = URL.createObjectURL(this.docFile);
     window.open(fileURL, '_blank');
   }
 
@@ -297,6 +309,33 @@ export class VotmCloudAssetsCreateComponent implements OnInit {
     }
   }
 
+  handleDocSelect(file) {
+    if (file) {
+      var reader: any = new FileReader();
+      // reader.onload = this._handleReaderLoaded.bind(this);
+      this.asset.fileStore = new VOTMFile();
+      reader.onload = (e) => {
+        // ADDED CODE
+        let data;
+        if (!e) {
+          data = reader.content;
+        }
+        else {
+          data = e.target.result;
+        }
+        let base64textString = btoa(data);
+        // console.log('this.organization ', this.location, data)
+        this.asset.fileStore.file = base64textString;
+      };
+
+
+      this.asset.fileStore.fileName = file.name;
+      this.asset.fileStore.fileType = file.type;
+      // debugger;
+      reader.readAsBinaryString(file);
+    }
+  }
+
   _handleReaderLoaded(readerEvt) {
     let base64textString;
     var binaryString = readerEvt.target.result;
@@ -341,6 +380,7 @@ export class VotmCloudAssetsCreateComponent implements OnInit {
     }
   }
   openmodal() {
+    this.getAllTemplates();
     // Get the modal
     var modal = document.getElementById("myModal");
     modal.style.display = "block";
@@ -358,7 +398,33 @@ export class VotmCloudAssetsCreateComponent implements OnInit {
 
   }
 
+  getAllTemplates() {
+    if (!this.templates || this.templates.length === 0) {
+      this.templates = [];
+      this.assetService.getAllTemplates()
+        .subscribe(response => {
+          console.log('response ', response);
+          this.allTemplates = response;
+          if (response && response.length > 0) {
+            response.forEach(template => {
+              this.templates.push({ text: template.templateName, value: template.templateId })
+            });
+          }
+        })
+    }
+  }
+
+
   openTemplateModal() {
+    if (!this.templateNameToSave) {
+      this.templateNameToSave = this.asset.assetType;
+    }
+    if (!this.organizationList || this.organizationList.length === 0) {
+      this.orgService.getOrganizations()
+        .subscribe(response => {
+          this.organizationList = response;
+        });
+    }
     // Get the modal
     var modal = document.getElementById("templateSave");
     modal.style.display = "block";
@@ -378,7 +444,9 @@ export class VotmCloudAssetsCreateComponent implements OnInit {
 
   closemodal(event: string) {
     this.modal.style.display = "none";
-    this.fillDataFromTemplate(event);
+    if (event === 'save') {
+      this.fillDataFromTemplate(event);
+    }
   }
 
   ngAfterViewInit() {
@@ -410,7 +478,7 @@ export class VotmCloudAssetsCreateComponent implements OnInit {
   }
 
   fillDataFromTemplate(name: string) {
-    console.log(' this.templateName ', this.templateName);
+    console.log(' this.templateId ', this.templateId);
     this.isTemplateSelected = true;
     this.assetForm.resetForm();
     setTimeout(() => {
@@ -422,31 +490,72 @@ export class VotmCloudAssetsCreateComponent implements OnInit {
       if (this.docFileInput && this.docFileInput.nativeElement) {
         this.docFileInput.nativeElement.value = '';
       }
+      let selectedTemplate: Asset;
+      this.allTemplates.forEach(template => {
+        if (template.templateId === this.templateId) {
+          console.log('template ', template);
+          selectedTemplate = template;
+        }
+      })
       this.asset = {
         assetId: null,
-        assetName: 'Template',
-        assetNumber: '1234',
-        assetType: 'AssetType',
-        description: 'description',
-        documentationUrl: null,
-        fileStore: {file: '', fileName:'', fileType:''},
+        assetName: selectedTemplate.templateName,
+        assetNumber: selectedTemplate.assetNumber,
+        assetType: selectedTemplate.assetType,
+        description: selectedTemplate.description,
+        documentationUrl: selectedTemplate.documentationUrl,
+        // fileStore: selectedTemplate.fileStore,
         locationId: this.parentLocId,
         locationName: this.parentLocName,
         organizationId: this.curOrgId,
-        logo: null,
+        logo: selectedTemplate.logo,
         organizationName: this.curOrgName,
         parentAssetId: this.parentAssetId,
         parentAssetName: this.parentAssetName,
         parentLocationId: this.parentLocId,
         parentLocationName: this.parentLocName,
-        templateId: 'id',
-        templateName: 'template name'
+        templateId: selectedTemplate.templateId,
+        templateName: selectedTemplate.templateName
       };
+      if (selectedTemplate.logo && selectedTemplate.logo.imageName) {
+        this.fileExtension = selectedTemplate.logo.imageName.slice((Math.max(0, selectedTemplate.logo.imageName.lastIndexOf(".")) || Infinity) + 1);
+        this.imgURL = this.domSanitizer.bypassSecurityTrustUrl(`data:image/${this.fileExtension};base64,${selectedTemplate.logo.image}`);
+        selectedTemplate.logo.imageType = this.fileExtension;
+      }
+
+      // Please Don't Touch the below code
+
+      // if (selectedTemplate.fileStore && selectedTemplate.fileStore.fileName) {
+      //   selectedTemplate.fileStore.fileName = selectedTemplate.fileStore.fileName + '.xlsx';
+      //   this.fileExtensionDoc = selectedTemplate.fileStore.fileName.slice((Math.max(0, selectedTemplate.fileStore.fileName.lastIndexOf(".")) || Infinity) + 1);
+      //   // let abcd = this.domSanitizer.bypassSecurityTrustUrl(`data:image/xlsx;base64,${selectedTemplate.fileStore.file}`);
+
+
+      //   // Temp
+      //   const url = `data:image/xlsx;base64,${selectedTemplate.fileStore.file}`;
+      //   fetch(url)
+      //     .then(res => res.blob())
+      //     .then(blob => {
+      //       let abcd = new File([blob], "File name");
+      //       var binaryData = [];
+      //       binaryData.push(abcd);
+      //       this.docFile = new Blob(binaryData, { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' })
+      //       this.asset.fileStore.fileType = this.fileExtensionDoc;
+      //     });
+
+
+      //   // this.docFileInput.nativeElement = abcd;
+      // }
       this.previousAsset = JSON.parse(JSON.stringify(this.asset));
       this.acceptedTemplateChages = true;
     });
 
     console.log('this.assetForm ', this.assetForm);
+  }
+
+  onDocSelcetion(event) {
+    console.log('onDocSelcetion ', event, event.files[0])
+    this.asset.fileStore = { fileType: event.files[0].type, file: event.files[0], fileName: event.files[0].name }
   }
 
   onAssetSubmit() {
@@ -583,12 +692,27 @@ export class VotmCloudAssetsCreateComponent implements OnInit {
     }
   }
 
-  onSaveAsTemplateClick(){
-    console.log('onSaveAsTemplateClick ', this.asset);
-    this.assetService.createAssetTemplate(this.asset)
-    .subscribe(response=>{
+  onSaveAsTemplateClick(event) {
+    // console.log('onSaveAsTemplateClick ', this.asset);
+    if (event === 'save') {
+      this.asset.templateName = this.templateNameToSave;
+      this.assetService.createAssetTemplate(this.asset)
+        .subscribe(response => {
+          this.templates = [];
+          console.log('response ', response);
+          this.modal.style.display = "none";
+        });
+      // this.modal.style.display = "none";
+      // console.log('Asset ', this.asset);
+    }
+  }
 
-      console.log('response ', response);
-    })
+
+  onLockClick(){
+    if(this.pageType.toLowerCase() === 'view'){
+    this.route.navigate([`asset/edit/${this.parentLocId}/${this.parentLocName}/${this.parentAssetId}/${this.parentAssetName}/${this.asset.assetId}`])
+  } else{
+    this.route.navigate([`asset/view/${this.parentLocId}/${this.parentLocName}/${this.parentAssetId}/${this.parentAssetName}/${this.asset.assetId}`])
+    }
   }
 }

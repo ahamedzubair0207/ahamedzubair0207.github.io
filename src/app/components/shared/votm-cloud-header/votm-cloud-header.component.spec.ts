@@ -1,9 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { VotmCloudHeaderComponent } from './votm-cloud-header.component';
-import { BreadcrumbsComponent } from '../breadcrumbs/breadcrumbs.component';
-import { RouterTestingModule } from '@angular/router/testing';
-import { HttpClientModule } from '@angular/common/http';
 
 describe('VotmCloudHeaderComponent', () => {
   let component: VotmCloudHeaderComponent;
@@ -11,13 +8,9 @@ describe('VotmCloudHeaderComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [
-        RouterTestingModule,
-        HttpClientModule
-      ],
-      declarations: [VotmCloudHeaderComponent, BreadcrumbsComponent]
+      declarations: [ VotmCloudHeaderComponent ]
     })
-      .compileComponents();
+    .compileComponents();
   }));
 
   beforeEach(() => {

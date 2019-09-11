@@ -1,6 +1,5 @@
-import { Logo, VOTMFile } from './logo.model';
 
-export class Asset {
+export class Alert {
     assetId: string;
     organizationId: string;
     organizationName: string;
@@ -13,12 +12,12 @@ export class Asset {
     assetNumber: string;
     assetName: string;
     assetType: string;
-    logo: Logo;
+   
     // active: true;
     description: string;
     documentationUrl: string;
     // documentation?: File;
-    fileStore?: VOTMFile;
+   
     // template?: string;
     templateId: string;
     templateName: string;

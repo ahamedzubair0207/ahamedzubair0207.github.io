@@ -1,7 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { VotmCloudLocationsSignalComponent } from './votm-cloud-locations-signal.component';
-import { RouterTestingModule } from '@angular/router/testing';
 
 describe('VotmCloudLocationsSignalComponent', () => {
   let component: VotmCloudLocationsSignalComponent;
@@ -9,10 +8,9 @@ describe('VotmCloudLocationsSignalComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule],
-      declarations: [VotmCloudLocationsSignalComponent]
+      declarations: [ VotmCloudLocationsSignalComponent ]
     })
-      .compileComponents();
+    .compileComponents();
   }));
 
   beforeEach(() => {

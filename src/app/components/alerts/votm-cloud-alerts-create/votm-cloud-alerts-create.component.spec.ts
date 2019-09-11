@@ -1,8 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { VotmCloudAlertsCreateComponent } from './votm-cloud-alerts-create.component';
-import { FormsModule } from '@angular/forms';
-import { Select2Module } from 'ng2-select2';
 
 describe('VotmCloudAlertsCreateComponent', () => {
   let component: VotmCloudAlertsCreateComponent;
@@ -10,10 +8,9 @@ describe('VotmCloudAlertsCreateComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [FormsModule, Select2Module],
-      declarations: [VotmCloudAlertsCreateComponent]
+      declarations: [ VotmCloudAlertsCreateComponent ]
     })
-      .compileComponents();
+    .compileComponents();
   }));
 
   beforeEach(() => {

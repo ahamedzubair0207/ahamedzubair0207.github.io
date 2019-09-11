@@ -14,6 +14,7 @@ import { NgForm, FormGroup } from '@angular/forms';
 import { VotmCloudConfimDialogComponent } from '../../shared/votm-cloud-confim-dialog/votm-cloud-confim-dialog.component';
 import { Toaster } from '../../shared/votm-cloud-toaster/votm-cloud-toaster';
 import { ToastrService } from 'ngx-toastr';
+import { AlertsService} from '../../../services/alerts/alerts.service';
 
 @Component({
   selector: 'app-votm-cloud-organizations-create',
@@ -36,10 +37,12 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
   parentOrganizationInfo: any;
 
   pageTitle: string;
-  pageType: any;
+  pageType: string;
 
   uomModels: {};
   uomArray: any[];
+
+  alertRuleList: any[] = [];
 
   orgId: string;
   previousURLToNavigate: string;
@@ -60,7 +63,7 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
   previousUOM: any;
   toaster: Toaster = new Toaster(this.toastr);
 
-  constructor(private modalService: NgbModal, private organizationService: OrganizationService,
+  constructor(private modalService: NgbModal, private alertRuleservice: AlertsService,private organizationService: OrganizationService,
     private configSettingsService: ConfigSettingsService, private domSanitizer: DomSanitizer,
     private activeroute: ActivatedRoute, private route: Router, private datePipe: DatePipe,
     private routerLocation: RouterLocation, private toastr: ToastrService) {
@@ -73,41 +76,48 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
         this.previousUrl = event.url;
       }
     });
+    // this.route.routeReuseStrategy.shouldReuseRoute = () => false;
   }
 
   ngOnInit() {
-  
-    this.curOrgId = this.activeroute.snapshot.paramMap.get("curOrgId");
-    this.curOrgName = this.activeroute.snapshot.paramMap.get("curOrgName");
+    this.activeroute.paramMap.subscribe(params => {
+      this.curOrgId = params.get("curOrgId");
+      this.curOrgName = params.get("curOrgName");
+      this.orgId = params.get('orgId');
+
+
+
+      if (this.orgId) {
+        this.getOrganizationInfo();
+      }
+      else {
+        this.parentOrganizationInfo = {
+          parentOrganizationId: this.activeroute.snapshot.paramMap.get("curOrgId"), // '7A59BDD8-6E1D-48F9-A961-AA60B2918DDE',
+          parentOrganizationName: this.activeroute.snapshot.paramMap.get("curOrgName") // 'Parker1'
+        }
+        this.organization.parentOrganizationId = this.parentOrganizationInfo.parentOrganizationId;
+        this.organization.active = true;
+
+        this.UOM = 'SI';
+        this.organization.address = [new Address()];
+        this.organization.address[0].addressType = 'Billing';
+
+      }
+    });
+
     this.pageType = this.activeroute.snapshot.data['type'];
     this.pageTitle = `${this.pageType} Organization`;
     this.tempMeasurement = 'SI';
 
-    this.orgId = this.activeroute.snapshot.params['orgId'];
+
     this.getScreenLabels();
     this.getAllAppInfo();
     this.organizationTypes = [{ value: 'organizationType1', text: 'organizationType1' }, { value: 'organizationType2', text: 'organizationType2' }]
-    this.states = [{ value: 'state1', text: 'MN' },
+    this.states = [{ value: 'state0', text: 'Select State' }, { value: 'state1', text: 'MN' },
     { value: 'state2', text: 'OH' }];
-    this.countries = [{ value: 'country1', text: 'USA' },
+    this.countries = [{ value: 'country0', text: 'Select Country' }, { value: 'country1', text: 'USA' },
     { value: 'country2', text: 'Brazil' }];
 
-    if (this.orgId) {
-      this.getOrganizationInfo();
-    }
-    else {
-      this.parentOrganizationInfo = {
-        parentOrganizationId: this.activeroute.snapshot.paramMap.get("curOrgId"), // '7A59BDD8-6E1D-48F9-A961-AA60B2918DDE',
-        parentOrganizationName: this.activeroute.snapshot.paramMap.get("curOrgName") // 'Parker1'
-      }
-      this.organization.parentOrganizationId = this.parentOrganizationInfo.parentOrganizationId;
-      this.organization.active = true;
-
-      this.UOM = 'SI';
-      this.organization.address = [new Address()];
-      this.organization.address[0].addressType = 'Billing';
-
-    }
     this.getAllAppInfo();
   }
 
@@ -276,20 +286,20 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
     if (files && file) {
       var reader: any = new FileReader();
 
-        reader.onload = (e)  =>{
-          // ADDED CODE
-          let data;
-          if (!e) {
-               data = reader.content;
-          }
-          else {
-               data = e.target.result;
-          }
-          let base64textString = btoa(data);
-          console.log('this.organization ', this.organization, data,)
-          this.organization.logo.image = base64textString;
+      reader.onload = (e) => {
+        // ADDED CODE
+        let data;
+        if (!e) {
+          data = reader.content;
+        }
+        else {
+          data = e.target.result;
+        }
+        let base64textString = btoa(data);
+        console.log('this.organization ', this.organization, data)
+        this.organization.logo.image = base64textString;
 
-          // business code
+        // business code
       };
       // reader.onload = this._handleReaderLoaded.bind(this);
 
@@ -462,5 +472,23 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
 
   onCancelClick(event) {
     this.routerLocation.back();
+  }
+
+  onAlertRuleTabClick() {
+    if (!this.alertRuleList || this.alertRuleList.length === 0) {
+      this.alertRuleservice.getAllAlerts()
+        .subscribe(response => {
+          console.log('response of Alert Rule ', response);
+          this.alertRuleList = response;
+        });
+    }
+  }
+
+  onLockClick(){
+    if(this.pageType.toLowerCase() === 'view'){
+    this.route.navigate([`org/edit/${this.curOrgId}/${this.curOrgName}/${this.organization.organizationId}`])
+  } else{
+    this.route.navigate([`org/view/${this.curOrgId}/${this.curOrgName}/${this.organization.organizationId}`])
+    }
   }
 }

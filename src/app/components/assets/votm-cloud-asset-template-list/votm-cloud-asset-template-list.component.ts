@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { AssetsService } from 'src/app/services/assets/assets.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-votm-cloud-asset-template-list',
@@ -7,9 +9,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class VotmCloudAssetTemplateListComponent implements OnInit {
 
-  constructor() { }
+  @Input() templateList: any[];
+
+  constructor(private router: Router) { }
 
   ngOnInit() {
+  }
+
+  onEditViewClick(template, action) {
+    this.router.navigate([`template/${action}/${template.templateId}`]);
   }
 
 }

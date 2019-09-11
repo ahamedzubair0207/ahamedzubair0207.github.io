@@ -1,41 +1,30 @@
- 
+fieldset{
+  padding:10px;
+  border: 1px solid #ddd;
+}
+legend{
+  font-size: 1rem;
+  width: auto;
+  padding: 0 5px;
+  margin:0;
+} 
 .create-loc-container {
   padding: 15px;
   background-color: white;
 }
 
 .loc-create-font{
-  font-family: 'Open Sans', sans-serif;
-  font-size: 12px;
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
 }
 
-// .loc-outside-border{
-//   // background:#dbdada;
-//   background:white;
-//   margin: -12px -15px -20px -25px;
-//   padding: 20px;
-//   height: 106%;
-// }
 
-.drop-down {
-  width: 100%;
-  padding: 5px 0px 7px 20px;
-  margin: 5px 0 22px 0;
-  display: inline-block;
-  // border: none;
-  // background: #f1f1f1;
-}
-.drop-modal{
-  width: 50%;
-  margin: 5px 6px 22px 10px;
-}
+
+
 .geo-drop-down{
   margin-left: 10px;
 }
 
-.geo-text-box{
-  margin-left:10px;
-}
 
 .geo-loc-long{
   width:30%
@@ -71,16 +60,12 @@
 
 .create-loc-asset-btn{
     margin: 4px 2px;
-    float: right;
 }
 /* Full-width input fields */
 input[type=text], input[type=password],input[type=email],input[type=file],input[type=number] {
-  padding: 5px 0px 7px 15px;
-  margin: 1px 0px 23px 0px;
-  display: inline-block;
+  
   border: 1px solid #ddd;
 
-  box-shadow: #069;
 }
 
 input[type=text]:focus, input[type=password]:focus,input[type=email]:focus,input[type=file]:focus {
