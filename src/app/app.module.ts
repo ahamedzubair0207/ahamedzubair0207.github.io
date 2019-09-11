@@ -113,6 +113,7 @@ import { VotmCloudEventsHomeComponent } from './components/events/votm-cloud-eve
     AppRoutingModule,
     // InMemoryWebApiModule.forRoot(BackendApiService),
     NgbModule,
+    HttpClientModule,
     FormsModule,
     NgMultiSelectDropDownModule.forRoot(),
     Select2Module,
