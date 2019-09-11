@@ -20,10 +20,14 @@ export class AppConstants {
     public static CREATE_ASSET_TEMPLATE = '/Asset/Template';
     public static DEL_ASSET = '/Asset';
 
+    public static GET_AVAILABLE_SIGNALS = 'SignalsTree';
+    public static GET_ASSET_SIGNAL_ASSOCIATION = 'SignalsTree';
+    public static GET_LOCATION_SIGNAL_ASSOCIATION = 'SignalsTree/{0}/Association';
+    public static CREATE_SIGNAL_ASSOCIATION = 'Signals/Association';
 
     public static GET_ALERT = '/Alert';
 
-    public static NAVIGATION_URL = '/BreadcrumbNavigation'
+    public static NAVIGATION_URL = '/BreadcrumbNavigation';
 
     public static APP_INFO = 'ConfigSettings/Application';
 
