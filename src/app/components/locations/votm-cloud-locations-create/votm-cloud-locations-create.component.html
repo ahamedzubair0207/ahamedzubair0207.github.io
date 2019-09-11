@@ -329,6 +329,8 @@
               </div>
             </div>
           </div>
+        </fieldset>
+      </div>
 
           
             <!-- Geo fence  -->
@@ -384,6 +386,22 @@
                 <button id="loc-uom-change" class="btn btn-sm btn-secondary ml-3" type="button" *ngIf="pageType !=='View'"
                   (click)="openmodal()">Change</button>
               </div>
+          </div>
+        </div>
+        <div class="row form-group">
+          <label for="geoLocation" class="col-sm-5 col-form-label"><b>{{pageLabels.GeoLocation.labelName}}:</b></label>
+          <div class="col-sm-7 d-flex align-items-center">
+            <input type="text" [disabled]="pageType==='View'" [(ngModel)]="location.latitude"
+              class="geo-loc-long form-control loc-create-font" placeholder="Longitude" name="geoLocationLong"
+              #geoLocationLong="ngModel" maxlength="50">&nbsp;/&nbsp;
+            <input type="text" [disabled]="pageType==='View'" [(ngModel)]="location.longitude"
+              class="geo-loc-lat form-control loc-create-font" placeholder="Latitude" name="geoLocationLat"
+              #geoLocationLat="ngModel" maxlength="50">
+            <button id="geo-loc-btn" type="button" class="btn rounded-circle loc-create-font" (click)="onGeoLocationClick()"><i
+                class="fa fa-bullseye"></i></button>
+            <div
+              *ngIf="(geoLocationLong.dirty && geoLocationLong.invalid) || (geoLocationLat.dirty && geoLocationLat.invalid) ">
+              <app-votm-cloud-validator [message]="geoLocationErrorMessage"></app-votm-cloud-validator>
             </div>
   
             <!-- Claimed Gateway -->
@@ -403,22 +421,6 @@
 
         </div>
       </div>
-
-      <div class="row loc-create-font">
-
-          
-
-       
-
-
-      </div>
-
-      <div class="row loc-create-font mt-2">
-
-            
-          
-      </div>
-
 
       <div class="row loc-create-font form-group mt-2">
         <label class="col-sm-1 col-form-label" for="f-description"><b>{{pageLabels.DescriptionofLocation.labelName}}

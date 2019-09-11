@@ -7,7 +7,8 @@
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "test-single-headless": "ng test --code-coverage --browsers=ChromeHeadless --reporters=progress,junit"
   },
   "private": true,
   "dependencies": {
@@ -23,6 +24,7 @@
     "@ng-bootstrap/ng-bootstrap": "^5.1.0",
     "angular-in-memory-web-api": "^0.8.0",
     "bootstrap": "^4.3.1",
+    "core-js": "^2.5.7",
     "font-awesome": "^4.7.0",
     "jquery": "^3.4.1",
     "moment": "^2.24.0",
@@ -54,6 +56,7 @@
     "karma-coverage-istanbul-reporter": "~2.0.1",
     "karma-jasmine": "~2.0.1",
     "karma-jasmine-html-reporter": "^1.4.0",
+    "karma-junit-reporter": "^1.2.0",
     "protractor": "~5.4.0",
     "ts-node": "~7.0.0",
     "tslint": "~5.15.0",

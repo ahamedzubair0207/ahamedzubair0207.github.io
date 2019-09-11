@@ -310,6 +310,21 @@
                 <div *ngIf="state.dirty && state.invalid">
                   <app-votm-cloud-validator message="State is required"></app-votm-cloud-validator>
                 </div>
+          </div>
+      
+          <fieldset class="form-group">
+              <legend><b>{{pageLabels.Contract.labelName}}</b></legend>
+          <div class="row org-create-font">
+            <div class="col-sm-2">
+              <label for="startDate"><b>* {{pageLabels.StartDate.labelName}} :</b></label>
+              <input type="date" [disabled]="pageType==='View'" [(ngModel)]="organization.contractStartDate"
+                class="form-control org-create-font" (change)="onStartDateChange()" (click)="onStartDateChange()"
+                (keyup)="onStartDateChange()" #startDate="ngModel" placeholder="Start Date" name="startDate" required>
+              <div *ngIf="startDate.dirty && startDate.invalid">
+                <app-votm-cloud-validator *ngIf="startDate.errors && startDate.errors.required"
+                  message="Start Date is required"></app-votm-cloud-validator>
+                <app-votm-cloud-validator *ngIf="startDate.errors && startDate.errors.invalidDate"
+                  message="Start Date can not be greater than or equal to end date"></app-votm-cloud-validator>
               </div>
               <div class="col-6">
                 <select required [disabled]="pageType==='View'" [(ngModel)]="organization.address[0].country"
