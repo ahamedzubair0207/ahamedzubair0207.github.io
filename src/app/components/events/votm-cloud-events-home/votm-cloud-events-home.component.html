@@ -1,0 +1,115 @@
+<div class="row event-header">
+  <div class="event-search-bar-wrapper">
+      <form class="form-inline">
+        <label for="typeahead-config">Type to filter events:</label>
+        <input class="form-control ml-2 mb-3 mt-3" id="searchBox" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-info mr-2 ml-2" id="searchButton" type="submit">Search</button>
+      </form>
+  </div>
+  <div class="add-event-btn-wrapper">
+    <button class="btn btn-info btn-group-right btn-sm create-event-btn"  (click)="onCreateEvent()" id="createEventButton" type="button"><i
+      class="fa fa-industry mr-2"></i>Create Event</button>
+  </div>
+  <div></div>
+</div>
+<!-- <ng-template #recursiveTableList let-list="eventList" let-lvl="level">
+  <ng-container *ngFor="let item of list">
+    <tr>
+      <td class="align-center"></td>
+      <td class="align-left">{{item.name}}</td>
+      <td class="align-left">{{item.eventTime}}</td>
+      <td class="align-left">{{item.asset}}</td>
+      <td class="align-left">{{item.signal}}</td>
+      <td class="align-left">{{item.value}}</td>
+      <td class="align-left">{{item.note}}</td>
+      <td class="align-left">{{item.state}}</td>
+    </tr>
+  </ng-container>
+</ng-template> -->
+
+
+
+<table class="table table-sm table-bordered table-hover org-table-fonts">
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col" class="align-left table-col-name">Sev</th>
+      <th scope="col" class="align-left">Event Name</th>
+      <th scope="col" class="align-left">Event Time</th>
+      <th scope="col" class="align-left table-col-small">Asset/Loacation</th>
+      <th scope="col" class="align-left table-col-small">Signal</th>
+      <th scope="col" class="align-left table-col-small">Value</th>
+      <th scope="col" class="align-left table-col-small">Note</th>
+      <th scope="col" class="align-center table-col-small">State</th>
+    </tr>
+  </thead>
+  <tbody>
+    <!-- <ng-container *ngTemplateOutlet="recursiveTableList; context:{ eventList: eventList, level: 0 }">
+    </ng-container> -->
+    <tr class="event-information">
+      <td class="align-center">
+        <i class="fa fa-info-circle"></i>
+      </td>
+      <td class="align-left">Asset maintainance</td>
+      <td class="align-left">08/31/19</td>
+      <td class="align-left">Compressor 1</td>
+      <td class="align-left"></td>
+      <td class="align-left"></td>
+      <td class="align-left">Replaced Filter</td>
+      <td class="align-left"></td>
+    </tr>
+    <tr class="event-warning">
+      <td class="align-center">
+        <i class="fa fa-warning"></i>
+      </td>
+      <td class="align-left">Pump Motor Temprature</td>
+      <td class="align-left">08/31/19</td>
+      <td class="align-left">Pulp pump 1</td>
+      <td class="align-left">
+        <i class="fa fa-thermometer"></i>
+        Moter Bearing
+      </td>
+      <td class="align-left">227.3</td>
+      <td class="align-left">Exceeds 200.0</td>
+      <td class="align-left">Open</td>
+    </tr>
+    <tr class="event-stop">
+      <td class="align-center">
+        <i class="fa fa-warning"></i>
+      </td>
+      <td class="align-left">Compressor Over Pressure</td>
+      <td class="align-left">08/31/19</td>
+      <td class="align-left">Compressor 1</td>
+      <td class="align-left">
+        <i class="fa fa-thermometer"></i>
+        Inlet Pressure
+      </td>
+      <td class="align-left">152psi</td>
+      <td class="align-left">Exceeds 150</td>
+      <td class="align-left">Closed</td>
+    </tr>
+    <tr class="event-stop">
+      <td class="align-center"><i class="fa fa-warning"></i></td>
+      <td colspan="7">
+        <table>
+          <tr>
+            <td class="align-left">Compressor Over Pressure</td>
+            <td class="align-left">08/31/19</td>
+            <td class="align-left">Compressor 1</td>
+            <td class="align-left">
+              <i class="fa fa-thermometer"></i>
+              Inlet Pressure
+            </td>
+            <td class="align-left">152psi</td>
+            <td class="align-left">Exceeds 150</td>
+            <td class="align-left">Closed</td>
+          </tr>
+          <tr>
+            <td class="align-center" colspan="6">
+  
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </tbody>
+</table>

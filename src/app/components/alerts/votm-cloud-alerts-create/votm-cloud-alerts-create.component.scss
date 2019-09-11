@@ -2,3 +2,24 @@
     font-family: 'Open Sans', sans-serif;
     font-size: 14px;
 }
+
+.edit-view-lock{
+    float: right; 
+    font-size: 40px; 
+    color:  #02b3bf;
+  }
+  
+.alert-list-font{
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+}
+fieldset{
+    padding: 10px;
+    border: 1px solid #ddd;
+}
+legend{
+    font-size: 1rem;
+    width: auto;
+    padding: 0 5px;
+    margin: 0;
+}

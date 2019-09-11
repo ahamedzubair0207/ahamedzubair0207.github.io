@@ -11,17 +11,15 @@
 <div class="tab-content" id="myTabContent">
   
   <div class="tab-pane fade show active" id="assetListTabContent" role="tabpanel" aria-labelledby="asset-tab">
-    <!-- <form class="form-container border shadow-lg asset-table-fonts"> -->
-
-    <!-- <h3 class="flt-left mt-3 mb-3 ml-2 asset-table-header"> List</h3> -->
+    
     <button class="btn btn-info btn-group-right btn-sm asset-table-header"  (click)="onCreateAsset()" id="createAssetButton" type="button"><i
         class="fa fa-industry mr-2"></i>Create Asset</button>
-        <!-- [routerLink]="['/asset/create',parentOrgId, parentOrgName]" -->
+        
     <form class="form-inline">
       <label for="typeahead-config">Type to filter events:</label>
       <input class="form-control ml-2 mb-3 mt-3" id="searchBox" type="search" placeholder="Search" aria-label="Search">
       <button class="btn btn-outline-info mr-2 ml-2" id="searchButton" type="submit">Search</button>
-      <!-- <button class="btn btn-info" id="createAssetButton" type="submit"><i class="fa fa-industry mr-2"></i>Create Asset</button>  -->
+      
     </form>
 
     <ng-template #recursiveTableList let-list="assetList" let-lvl="level">
@@ -29,9 +27,10 @@
         <tr>
           <th scope="row" (click)="item.opened = !item.opened" [ngStyle]="{'padding-left.px': 15*(lvl+1)}">
             <i class="fa fa-industry"></i>
-            {{item.name}}
-            <i *ngIf="item.node.length > 0 "
-              [ngClass]="{'fa': true, 'fa-caret-right': !item.opened, 'fa-caret-down': item.opened}"></i>
+            <a style="color: #212529;" (click)="onEditViewClick(item, 'view')"> {{item.name}}</a>&nbsp; <i *ngIf="item.node.length > 0 "
+                [ngClass]="{'fa': true, 'fa-caret-right': !item.opened, 'fa-caret-down': item.opened}"></i>
+
+
           </th>
           <td class="align-left">{{item.type}}</td>
           <td class="align-left">{{item.assetNumber}}</td>
@@ -44,11 +43,6 @@
             <!-- <a class="action-icon" title="List" (click)="onListClick(item)"> -->
             <a class="action-icon" title="List">
               <i class="fa fa-list"></i>
-            </a>
-
-            <a class="action-icon" title="View" (click)="onEditViewClick(item, 'view')">
-
-              <i class="fa fa-eye"></i>
             </a>
             <!-- [routerLink]="['/asset/view',item.parentOrganizationId, item.parentOrganizationName, item.parentLocationId, item.parentLocationName, item.id]"> -->
             <a class="action-icon" title="Edit" (click)="onEditViewClick(item, 'edit')">
@@ -82,9 +76,9 @@
           <tr *ngIf="item.opened && subItem.entityType == 'Asset'">
             <th scope="row" (click)="subItem.opened = !subItem.opened" [ngStyle]="{'padding-left.px': 15*(lvl+2)}">
               <i class="fa fa-industry"></i>
-              <!-- Ahamed -->
-              {{subItem.name}}
-              <i *ngIf="subItem.node.length > 0 "
+
+              <a style="color: #212529;" (click)="onEditViewClick(item, 'view')">
+                {{subItem.name}}</a>&nbsp;<i *ngIf="subItem.node.length > 0 "
                 [ngClass]="{'fa': true, 'fa-caret-right': !subItem.opened, 'fa-caret-down': subItem.opened}"></i>
             </th>
             <td class="align-left">{{subItem.type}}</td>
@@ -96,22 +90,11 @@
             <td class="align-left"></td>
             <td class="align-center">
               <a class="action-icon" title="List" (click)="onListClick(subItem)">
-                <!-- [routerLink]="['/asset/home',subItem.parentOrganizationId, subItem.parentOrganizationName, subItem.id]"> -->
                 <i class="fa fa-list"></i>
               </a>
-              <!-- <a class="action-icon" title="List" (click)="getIntoContext(subItem)"
-                      [routerLink]="['/asset/home',subItem.parentOrganizationId, subItem.parentOrganizationName, subItem.parentLocationNaId, subItem.parentLocationName, subItem.id, subItem.name]">
-                      <i class="fa fa-list"></i>
-                    </a> -->
-              <a class="action-icon" title="View" (click)="onEditViewClick(subItem, 'view')">
-                <i class="fa fa-eye"></i>
-              </a>
-              <!-- [routerLink]="['/asset/view',subItem.parentOrganizationId, subItem.parentOrganizationName, subItem.parentLocationId, subItem.parentLocationName, subItem.parentId, subItem.parentName, subItem.id]" -->
-
               <a class="action-icon" title="Edit" (click)="onEditViewClick(subItem, 'edit')">
                 <i class="fa fa-edit"></i>
               </a>
-              <!-- [routerLink]="['/asset/edit',subItem.parentOrganizationId, subItem.parentOrganizationName, subItem.parentLocationId, subItem.parentLocationName,subItem.parentId, subItem.parentName, subItem.id]" -->
               <a class="action-icon" (click)="openConfirmDialog(subItem.id)" title="Delete">
                 <i class="fa fa-trash"></i>
               </a>

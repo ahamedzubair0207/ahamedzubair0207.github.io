@@ -21,6 +21,14 @@ export class OrganizationService {
   getAllOrganization() {
 
     return ORG_LIST;
+  }  
+
+  getOptionsListData(listName: string): Observable<any> {
+    let params = new HttpParams().set("listName", listName);
+    return this.http.get(AppConstants.GET_OPTIONSLISTDATA, params)
+      .pipe(
+        map(response => response)
+      );
   }
 
   getOrganizationTree(orgId: string): Observable<any> {
