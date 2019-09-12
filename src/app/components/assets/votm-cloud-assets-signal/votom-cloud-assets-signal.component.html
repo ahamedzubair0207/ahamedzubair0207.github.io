@@ -1,6 +1,7 @@
 <div>
   <p-overlayPanel
     #op
+    id="op"
     [appendTo]="'body'"
     [dismissable]="false"
     [showCloseIcon]="true"
@@ -45,22 +46,23 @@
           <h5>Available Signals</h5>
           <hr />
           <ul>
-            <li *ngFor="let sensor of availableSignals">
+            <li *ngFor="let sensor of availableSignals; let sensorIndex = index;">
               <h6><i class="fa fa-plus"></i> &nbsp;{{ sensor.name }}</h6>
               <ul>
-                <li
-                  *ngFor="let signal of sensor.node"
-                  pDraggable="signals"
-                  (onDragStart)="dragStart($event, signal)"
-                  (onDragEnd)="dragEnd($event)"
-                >
-                  <h6>
-                    <i class="fa fa-address-card"></i> &nbsp; {{ signal.name }}
-                  </h6>
-                </li>
+                <ng-container *ngIf="sensor.node.length > 0">
+
+                  <li
+                    *ngFor="let signal of sensor.node; let signalIndex = index;"
+                  >
+                  <img [src]="signal.image" style="cursor:pointer" width="40" height="40" id="signal_{{sensorIndex}}_{{signalIndex}}">
+                    &nbsp; {{ signal.name }}
+                  </li>
+              </ng-container>
               </ul>
             </li>
           </ul>
+
+          <!-- <img src="https://js.cx/clipart/ball.svg" style="cursor:pointer" width="40" height="40" id="ball"> -->
         </div>
       </div>
 
@@ -75,24 +77,11 @@
           </div> -->
 
         <div
+
           class="enclosing-div"
-          pDroppable="signals"
-          (onDrop)="drop($event)"
           style="position: relative"
         >
           <img src="../../../../assets/images/images.jpg" width="400px" />
-          <div
-            id="icon_{{ i }}"
-            *ngFor="let signal of associatedSignals; let i = index"
-          >
-            <div>
-              <img
-                [src]="signal.image"
-                width="30px"
-                (mouseenter)="onSelectSignal($event, signal, op)"
-              />
-            </div>
-          </div>
         </div>
       </div>
     </div>
