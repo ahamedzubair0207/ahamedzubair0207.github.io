@@ -1,3 +1,4 @@
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
 import { Params } from '@angular/router';
@@ -13,12 +14,14 @@ export class VotmCloudEventsHomeComponent implements OnInit {
 
   subscriptions: Subscription[] = [];
   eventsLogs: [];
+  addEventmodal: any;
 
   // constructor() { }
   constructor(
     // private eventService: EventsService,
     // private route: ActivatedRoute,
     // private router: Router
+    private modalService: NgbModal
   ) { }
 
   ngOnInit() {
@@ -34,5 +37,31 @@ export class VotmCloudEventsHomeComponent implements OnInit {
     //     this.eventsLogs = response;
     //   }));
   }
+
+  openAddEventModal() {
+    // Get the modal
+    let addEventmodal = document.getElementById('addEventModalWrapper');
+    addEventmodal.style.display = 'block';
+    this.addEventmodal = document.getElementById('addEventModalWrapper');
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName('close')[0];
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function (event) {
+      if (event.target == addEventmodal) {
+        addEventmodal.style.display = 'none';
+      }
+    };
+
+  }
+  closeAddEventModal(event: string) {
+    this.addEventmodal.style.display = 'none';
+    // if (event === 'save') {
+    //
+    // } else {
+    //
+    // }
+  }
+
 
 }
