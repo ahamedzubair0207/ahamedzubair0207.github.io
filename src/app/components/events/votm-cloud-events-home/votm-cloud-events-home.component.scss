@@ -21,3 +21,32 @@
 .align-center{
     text-align: center;
 }
+.event-create-font{
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+}
+fieldset{
+    padding: 10px;
+    border: 1px solid #ddd;
+}
+legend{
+    font-size: 1rem;
+    width: auto;
+    padding: 0 5px;
+    margin: 0;
+}
+#addEventModalWrapper{
+
+}
+#addEventModalWrapper .modal-content{
+
+}
+#addEventModalWrapper .modal-header{
+    padding: 0.5rem 1rem
+}
+#addEventModalWrapper .modal-body{
+
+}
+#addEventModalWrapper .modal-footer{
+    padding: 0.5rem 1rem
+}

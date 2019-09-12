@@ -15,6 +15,7 @@ import { VotmCloudConfimDialogComponent } from '../../shared/votm-cloud-confim-d
 import { Toaster } from '../../shared/votm-cloud-toaster/votm-cloud-toaster';
 import { ToastrService } from 'ngx-toastr';
 import { AlertsService } from '../../../services/alerts/alerts.service';
+import { countyList } from 'src/app/services/countryList/countryStateList';
 
 @Component({
   selector: 'app-votm-cloud-organizations-create',
@@ -30,8 +31,8 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
   UOM: any;
   pageLabels: any;
   organizationTypes: Array<any>;
-  states: Array<any>;
-  countries: Array<any>;
+  states: Array<any> = [];
+  countries: Array<any> = [];
   tempUoM: UnitOfMeassurement;
   tempMeasurement: string;
   parentOrganizationInfo: any;
@@ -65,6 +66,8 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
   svcLevels: any[] = [];
   sensorBlocks: any[] = [];
   cellularBlocks: any[] = [];
+  organizationList: any[] = [];
+  countryObject: any[] = [];
 
   constructor(private modalService: NgbModal, private alertRuleservice: AlertsService, private organizationService: OrganizationService,
     private configSettingsService: ConfigSettingsService, private domSanitizer: DomSanitizer,
@@ -88,9 +91,23 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
       this.curOrgName = params.get("curOrgName");
       this.orgId = params.get('orgId');
 
+      // this.organizationService.getCountries()
+      // .subscribe(response => {
+      //   if (response) {
+      //     this.countryObject = response;
+      //     this.countries = [];
+      //     response.forEach(country => {
+      //       this.countries.push({ value: country.countryName, text: country.countryName })
+      //     });
+      //   }
+      // });
+      this.countries = countyList;
+      console.log(' this.countries ',  this.countries)
+
       this.getOptionsListData('Sensor Blocks');
       this.getOptionsListData('Cellular Blocks');
       this.getOptionsListData('Service Levels');
+      this.getAllOrganizations();
 
       if (this.orgId) {
         this.getOrganizationInfo();
@@ -121,12 +138,24 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
     this.getAllAppInfo();
 
     this.organizationTypes = [{ value: 'organizationType1', text: 'organizationType1' }, { value: 'organizationType2', text: 'organizationType2' }]
-    this.states = [{ value: 'state0', text: 'Select State' }, { value: 'state1', text: 'MN' },
-    { value: 'state2', text: 'OH' }];
-    this.countries = [{ value: 'country0', text: 'Select Country' }, { value: 'country1', text: 'USA' },
-    { value: 'country2', text: 'Brazil' }];
+  }
 
-    // this.getAllAppInfo();
+  onCountryChange(event) {
+    console.log('Country change ', this.organization.address[0].country);
+    if (this.organization.address && this.organization.address.length > 0) {
+      this.organization.address[0].state = null;     
+    } else {
+      this.organization.address = [new Address()];
+      this.organization.address[0].state = null;
+    }
+    this.countries.forEach(country => {
+      if (country.countryName === this.organization.address[0].country) {
+        this.states = [];
+        country.states.forEach((state: any) => {
+          this.states.push({ value: state, text: state });
+        });
+      }
+    });
   }
 
 
@@ -219,7 +248,6 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
           this.cellularBlocks = [];
           this.cellularBlocks = response;
         }
-        console.log('Screen Labbels ', response)
       });
   }
 
@@ -325,7 +353,6 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
           data = e.target.result;
         }
         let base64textString = btoa(data);
-        console.log('this.organization ', this.organization, data)
         this.organization.logo.image = base64textString;
 
         // business code
@@ -449,7 +476,6 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
     let abc = new RegExp(/^([A-Za-z])+$/);
     if (!abc.test(this.organization[prop])) {
       this.organization[prop] = this.organization[prop] ? this.organization[prop].slice(0, this.organization[prop].length - 1) : null;
-      console.log('this.organization[prop] ', this.organization[prop])
     }
   }
 
@@ -503,11 +529,53 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
     this.routerLocation.back();
   }
 
+  getAllOrganizations() {
+    this.organizationService.getAllOrganizationsList()
+      .subscribe(response => {
+
+        this.organizationList = response;
+        let orgFound = false;
+        this.organizationList.forEach(org => {
+          if (org.id === this.curOrgId) {
+            orgFound = true;
+          }
+        });
+        if (!orgFound) {
+          this.organizationList.push({ id: this.curOrgId, name: this.curOrgName });
+        }
+        this.organizationList.sort(this.compareValues('name'));
+        // this.organization.parentOrganizationId = JSON.parse(JSON.stringify(this.organization.parentOrganizationId));
+      })
+  }
+
+  compareValues(key: string, order = 'asc') {
+    return function (a, b) {
+      if (!a.hasOwnProperty(key) || !b.hasOwnProperty(key)) {
+        // property doesn't exist on either object
+        return 0;
+      }
+
+      const varA = (typeof a[key] === 'string') ?
+        a[key].toUpperCase() : a[key];
+      const varB = (typeof b[key] === 'string') ?
+        b[key].toUpperCase() : b[key];
+
+      let comparison = 0;
+      if (varA > varB) {
+        comparison = 1;
+      } else if (varA < varB) {
+        comparison = -1;
+      }
+      return (
+        (order == 'desc') ? (comparison * -1) : comparison
+      );
+    };
+  }
+
   onAlertRuleTabClick() {
     if (!this.alertRuleList || this.alertRuleList.length === 0) {
       this.alertRuleservice.getAllAlerts()
         .subscribe(response => {
-          console.log('response of Alert Rule ', response);
           this.alertRuleList = response;
         });
     }

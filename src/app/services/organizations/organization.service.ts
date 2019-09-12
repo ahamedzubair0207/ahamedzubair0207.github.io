@@ -5,7 +5,7 @@ import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { Organization } from 'src/app/models/organization.model';
 import { AppConstants } from '../../helpers/app.constants';
-import { HttpParams } from '@angular/common/http';
+import { HttpParams, HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',
@@ -16,10 +16,9 @@ export class OrganizationService {
 
   apiURL: string = '';
 
-  constructor(private http: CustomHttp) { }
+  constructor(private http: CustomHttp, private httpClient: HttpClient) { }
 
   getAllOrganization() {
-
     return ORG_LIST;
   }  
 
@@ -41,6 +40,13 @@ export class OrganizationService {
 
   getAllOrganizations(): Observable<any> {
     return this.http.get(AppConstants.GET_ORG_TREE)
+      .pipe(
+        map(response => response)
+      );
+  }
+
+  getAllOrganizationsList(): Observable<any> {
+    return this.http.get(AppConstants.GET_ORG_LIST)
       .pipe(
         map(response => response)
       );
@@ -81,5 +87,10 @@ export class OrganizationService {
       .pipe(
         map(response => response)
       );
+  }
+
+  getCountries(){
+    return this.httpClient.get("../../../assets/countryList/countryWithStates.json").pipe(
+                    map((res:any) => res));
   }
 }
