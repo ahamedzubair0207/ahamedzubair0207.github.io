@@ -1,7 +1,10 @@
-<h3 class="flt-left mt-3 mb-3 ml-2 asset-table-header" id="templateList">List</h3>
-<button type="button" name="edit-template" class="btn btn-info mt-3 mr-2" style="float: right;" routerLink="/template/edit">Edit
-  Template</button>
-
+<!-- <h3 class="flt-left mt-3 mb-3 ml-2 asset-table-header" id="templateList">List</h3> -->
+<form class="form-inline">
+    <label for="typeahead-config">Type to filter events:</label>
+    <input class="form-control ml-2 mb-3 mt-3" id="searchBox" type="search" placeholder="Search" aria-label="Search">
+    <button class="btn btn-outline-info mr-2 ml-2" id="searchButton" type="submit">Search</button>
+    
+  </form>
 <table class="table table-sm table-bordered asset-table-fonts">
   <thead class="thead-dark">
     <tr>
@@ -22,10 +25,7 @@
       <td class="align-center">{{item.templateId}}</td>
       <td class="align-center">{{item.organizationName}}</td>
       <td class="align-center">
-        <a class="action-icon" title="List">
-          <i class="fa fa-list"></i>
-        </a>
-
+       
         <a class="action-icon" title="View" (click)="onEditViewClick(item, 'view')">
 
           <i class="fa fa-eye"></i>

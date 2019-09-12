@@ -105,13 +105,15 @@ import { VotmCloudEventsHomeComponent } from './components/events/votm-cloud-eve
     VotmCloudAssetTemplateDetailsComponent,
     VotmCloudEventsHomeComponent
   ],
+
+ 
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    HttpClientModule,
     AppRoutingModule,
     // InMemoryWebApiModule.forRoot(BackendApiService),
     NgbModule,
+    HttpClientModule,
     FormsModule,
     NgMultiSelectDropDownModule.forRoot(),
     Select2Module,
