@@ -19,7 +19,7 @@
 </ul>
 
 <!-- Second Level Nav -->
-
+<div class="tab-content">
 <div class="org-outside-border tab-content tab-pane fade show active" id="org-details-tab"
   *ngIf="(!orgId && pageLabels) || (orgId && pageLabels && organization)" role="tabpanle"
   area-labelledby="org-info-tab">
@@ -36,7 +36,7 @@
     </li>
   </ul>
 
-
+  <div class="tab-content">
   <div class="org-outside-border tab-pane fade show active org-create-font"
     *ngIf="(!orgId && pageLabels) || (orgId && pageLabels && organization)" id="org-details" role="tabpanle"
     area-labelledby="org-details-tab">
@@ -479,9 +479,11 @@
   </div>
 </div>
 
+</div>
 
 <div class="org-outside-border tab-pane fade" id="event-details-tab" role="tabpanle"
   area-labelledby="event-details-tab">
+  <app-votm-cloud-events-home></app-votm-cloud-events-home>
 </div>
 
 <div class="org-outside-border tab-pane fade" id="dashboard1-details-tab" role="tabpanle"
@@ -493,7 +495,7 @@
 </div>
 
 
-
+</div>
 <app-votm-cloud-confim-dialog (onClose)="deleteOrganizationById($event)" #confirmBox
   message="Do you want to delete this organization?" headerMessage="Warning"></app-votm-cloud-confim-dialog>
 
