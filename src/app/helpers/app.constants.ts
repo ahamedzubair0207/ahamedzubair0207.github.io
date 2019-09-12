@@ -1,5 +1,6 @@
 export class AppConstants {
     public static GET_ORG_TREE = '/OrganizationTree';
+    public static GET_ORG_LIST = '/Organization';
     public static GET_ORG = '/Organization';
     public static EDIT_ORG = '/Organization';
     public static CREATE_ORG = '/Organization';

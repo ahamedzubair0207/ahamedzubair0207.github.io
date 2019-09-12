@@ -206,7 +206,7 @@
                 <select [disabled]="pageType==='View'" [(ngModel)]="location.address[0].country" name="country"
                   class="drop-down form-control loc-create-font" (change)="onCountryChange($event)" required
                   #country="ngModel">
-                  <option value="" disabled selected>Country</option>
+                  <option value="countryselect" disabled selected>Country</option>
                   <option *ngFor="let country of countries" [value]="country.value">
                     {{country.text}}
                   </option>
