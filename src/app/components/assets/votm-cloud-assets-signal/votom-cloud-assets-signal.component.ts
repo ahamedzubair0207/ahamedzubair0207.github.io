@@ -17,7 +17,7 @@ export class VotomCloudAssetsSignalComponent implements OnInit {
   selectedCars: any[];
 
   draggedCar: any;
-  @ViewChild('op') panel: OverlayPanel;
+  @ViewChild('op', { read: false, static: false}) panel: OverlayPanel;
   assetId: string; // to store selected asset's id.
   availableSignals: any[] = []; // to store list of available signals based on sensors.
   copyAvailableSignals: any[] = []; // to store list of available signals based on sensors.
