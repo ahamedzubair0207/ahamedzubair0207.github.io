@@ -8,10 +8,9 @@
   >
     <h6 *ngIf="selectedSignal">
       {{ selectedSignal.name }}&nbsp;
-      <!-- <button type="text" pButton label="Edit"  (click)="op2.toggle($event)"></button> -->
       <a (click)="op2.toggle($event)"><i class="fa fa-pencil-square-o"></i></a
-      >&nbsp; <a><i class="fa fa-exclamation-triangle"></i></a>&nbsp;
-      <a><i class="fa fa-trash"></i></a>
+      >&nbsp; <a (click)="op3.toggle($event)"><i class="fa fa-exclamation-triangle"></i></a>&nbsp;
+      <a ><i class="fa fa-trash"></i></a>
     </h6>
   </p-overlayPanel>
 
@@ -19,24 +18,35 @@
     Edit content
   </p-overlayPanel>
 
-  <!-- <h3>Drag and Drop to Table</h3>
-<div class="ui-g">
-    <div class="ui-g-12 ui-md-6 ui-g-nopad drag-column"   style="border: 1px solid">
-        <div *ngFor="let car of availableCars"
-        (onDragStart)="dragStart($event,car)" (onDragEnd)="dragEnd($event)">
-          <i class="{{car.icon}}"></i>
+    <p-overlayPanel #op3 [appendTo]="'body'">
+    <!-- Alarm Rule Association
+    <br/>
+    <select type="text"  class="form-control">
+      <option>1</option>
+      <option>2</option>
+      <option>3</option>
+    </select><br/>
+    <button (click)="onClickOfCreateAssociateRule()" class="btn btn-default"> Create & Associate Rule</button> -->
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">Alarm Rule Association</div>
+                <div class="card-body">
+                    <select class="form-control">
+                        <option>1</option>
+                    </select>
+
+                </div>
+                <div class="card-footer text-muted">
+                    <button class="btn btn-primary mt-3 pull-left" (click)="onClickOfCreateAssociateRule()">Create & Associate Rule</button>
+                    &nbsp;&nbsp;
+                    <button class="btn btn-primary mt-3 pull-right" >Save</button>
+                </div>
+            </div>
         </div>
     </div>
-    <div class="ui-g-12 ui-md-6 drop-column" pDroppable="cars"  style="border: 1px solid"
-        (onDrop)="drop($event)" [ngClass]="{'ui-highlight-car':draggedCar}">
-        <img src="../../../../assets/images/images.jpg" width="100px">
-        <div id="icon_{{i}}" *ngFor="let car of selectedCars; let i = index" >
-          <div  style="display: inline-block; " >
-            <i class="{{car.icon}}" (mouseenter)="op.show($event)"  ></i>
-          </div>
-        </div>
-    </div>
-</div> -->
+  </p-overlayPanel>
+
   <form class="form">
     <h4 class="col">Associate Signal</h4>
 
@@ -46,42 +56,39 @@
           <h5>Available Signals</h5>
           <hr />
           <ul>
-            <li *ngFor="let sensor of availableSignals; let sensorIndex = index;">
-              <h6><i class="fa fa-plus"></i> &nbsp;{{ sensor.name }}</h6>
-              <ul>
-                <ng-container *ngIf="sensor.node.length > 0">
-
+            <ng-container
+              *ngFor="let sensor of availableSignals; let sensorIndex = index"
+            >
+              <li *ngIf="sensor.node.length > 0">
+                <h6><i class="fa fa-plus"></i> &nbsp;{{ sensor.name }}</h6>
+                <ul>
                   <li
-                    *ngFor="let signal of sensor.node; let signalIndex = index;"
-                  >
-                  <img [src]="signal.image" style="cursor:pointer" width="40" height="40" id="signal_{{sensorIndex}}_{{signalIndex}}">
-                    &nbsp; {{ signal.name }}
-                  </li>
-              </ng-container>
-              </ul>
-            </li>
-          </ul>
+                    *ngFor="let signal of sensor.node; let signalIndex = index"
 
-          <!-- <img src="https://js.cx/clipart/ball.svg" style="cursor:pointer" width="40" height="40" id="ball"> -->
+                  >
+                  <a [class.disabled]="isSignalDisabled(signal)">
+                    <img
+                      [src]="signal.image"
+                      style="cursor:pointer"
+                      width="40"
+                      height="40"
+                      id="signal_{{ sensorIndex }}_{{ signalIndex }}"
+                    />
+                    </a>
+                    &nbsp; {{ signal.name }}
+
+                  </li>
+                </ul>
+              </li>
+            </ng-container>
+          </ul>
         </div>
       </div>
 
-      <div class="col-md-8">
-        <!-- <div class="enclosing-div container" pDroppable="signals" (onDrop)="drop($event)">
-            <img src="../../../../assets/images/images.jpg" width="475px">
-            <div id="icon_{{i}}" *ngFor="let signal of associatedSignals; let i = index" >
-              <div  style="display: inline-block; " >
-                <i class="{{signal.name}}" (mouseenter)="op.show($event)"  ></i>
-              </div>
-            </div>
-          </div> -->
-
-        <div
-
-          class="enclosing-div"
-          style="position: relative"
-        >
-          <img src="../../../../assets/images/images.jpg" width="400px" />
+      <div class="col-md-8" >
+          <!-- *ngIf="assetImageURL" -->
+        <div id="dropdiv" class="enclosing-div" style="position: relative">
+          <img src="../../../../assets/images/images.jpg" width="70%" />
         </div>
       </div>
     </div>

@@ -1,19 +1,19 @@
 <!-- Top Level Nav -->
 <ul class="nav nav-tabs">
   <li class="nav-item">
-    <a class="nav-link active" id="asset-tab" href="#asset-details-tab" data-toggle="tab" role="tab"
+    <a class="nav-link active" (click)="onClickOfNavTab('asset')" id="asset-tab" href="#asset-details-tab" data-toggle="tab" role="tab"
       aria-controls="asset-info" aria-selected="true"><i class="fa fa-industry"></i> Asset</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" id="asset-event-tab" href="#event-details-tab" data-toggle="tab" role="tab"
+    <a class="nav-link" id="asset-event-tab" (click)="onClickOfNavTab('event_logs')" href="#event-details-tab" data-toggle="tab" role="tab"
       aria-controls="event-details" aria-selected="false"><i class="fa fa-warning"></i> Event Log</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" id="asset-dashboard1-tab" href="#dashboard1-details-tab" data-toggle="tab" role="tab"
+    <a class="nav-link" id="asset-dashboard1-tab" (click)="onClickOfNavTab('dashboard1')" href="#dashboard1-details-tab" data-toggle="tab" role="tab"
       aria-controls="dashboard1-details" aria-selected="false"><i class="fa fa-laptop"></i> Dashboard 1</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" id="asset-dashboard2-tab" href="#dashboard2-details-tab" data-toggle="tab" role="tab"
+    <a class="nav-link" id="asset-dashboard2-tab" (click)="onClickOfNavTab('dashboard2')" href="#dashboard2-details-tab" data-toggle="tab" role="tab"
       aria-controls="dashboard2-details" aria-selected="false"><i class="fa fa-laptop"></i> Dashboard 2</a>
   </li>
 </ul>
@@ -28,16 +28,16 @@
 
     <ul class="nav nav-tabs mt-3">
       <li class="nav-item">
-        <a class="nav-link active" id="asset-details-tab" name="asset-view-edit" href="#asset-details" data-toggle="tab"
+        <a class="nav-link active" (click)="onClickOfNavTab('asset_details')" id="asset-details-tab" name="asset-view-edit" href="#asset-details" data-toggle="tab"
           role="tab" aria-controls="asset-details" aria-selected="true"><i class="fa fa-industry"></i> Details</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" id="asset-signal-tab" name="signal-association-edit" href="#asset-signal" data-toggle="tab"
+        <a class="nav-link" id="asset-signal-tab" (click)="onClickOfNavTab('signal_association')" name="signal-association-edit" href="#asset-signal" data-toggle="tab"
           role="tab" aria-controls="asset-signal" aria-selected="false"><i class="fa fa-podcast"></i> Signal & Gateway
           Association</a>
       </li>
     </ul>
-
+    <div class="tab-content">
     <div class="asset-outside-border tab-pane fade show active"
       *ngIf="(!assetId && pageLabels) || (assetId && pageLabels && asset)" id="asset-details" role="tabpanle"
       area-labelledby="asset-details-tab">
@@ -217,9 +217,10 @@
       </form>
     </div>
 
-    <div class="tab-pane fade" id="asset-signal" role="tabpanle" area-labelledby="asset-signal-tab">
+    <div class="tab-pane fade" *ngIf="isSignalAssociationClicked" id="asset-signal" role="tabpanle" area-labelledby="asset-signal-tab">
       <app-votom-cloud-assets-signal></app-votom-cloud-assets-signal>
     </div>
+  </div>
 
   </div>
 

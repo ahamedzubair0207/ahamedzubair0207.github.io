@@ -46,7 +46,7 @@ export class VotmCloudAssetsCreateComponent implements OnInit {
   previousUrl: any;
   subscriptions: any;
   isSaveTemplateDisabled: boolean;
-
+  isSignalAssociationClicked = false;
   @ViewChild('assetForm', null) assetForm: NgForm;
   @ViewChild('confirmBox', null) confirmBox: VotmCloudConfimDialogComponent;
   @ViewChild('templateConfirmBox', null) templateConfirmBox: VotmCloudConfimDialogComponent;
@@ -713,6 +713,13 @@ export class VotmCloudAssetsCreateComponent implements OnInit {
     this.route.navigate([`asset/edit/${this.parentLocId}/${this.parentLocName}/${this.parentAssetId}/${this.parentAssetName}/${this.asset.assetId}`])
   } else{
     this.route.navigate([`asset/view/${this.parentLocId}/${this.parentLocName}/${this.parentAssetId}/${this.parentAssetName}/${this.asset.assetId}`])
+    }
+  }
+
+  onClickOfNavTab(type) {
+    this.isSignalAssociationClicked = false;
+    if (type === 'signal_association') {
+      this.isSignalAssociationClicked = true;
     }
   }
 }
