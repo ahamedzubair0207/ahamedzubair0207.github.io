@@ -102,7 +102,6 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
       //   }
       // });
       this.countries = countyList;
-      console.log(' this.countries ',  this.countries)
 
       this.getOptionsListData('Sensor Blocks');
       this.getOptionsListData('Cellular Blocks');

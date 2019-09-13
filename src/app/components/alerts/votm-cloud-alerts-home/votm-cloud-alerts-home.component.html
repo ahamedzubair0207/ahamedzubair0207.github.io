@@ -4,11 +4,13 @@
           <!-- <form class="form-container border shadow-lg asset-table-fonts"> -->
 
           <!-- <h3 class="flt-left mt-3 mb-3 ml-2 asset-table-header"> List</h3> -->
+
+          <button class="btn btn-info mt-3" style="float: right;" id="loc-org-create"  [routerLink]="['/alerts/create']"><i class="fa fa-warning mr-2"></i>Create Alert rules</button>
         <form class="form-inline">
             <label for="typeahead-config">Type to filter rules:</label>
             <input class="form-control ml-2 mb-3 mt-3" id="searchBox" type="search" placeholder="Search" aria-label="Search">
             <button class="btn btn-outline-info mr-2 ml-2" id="searchButton" type="submit">Search</button>
-            <button class="btn btn-info" style="margin-left: 428px;" id="loc-org-create"  [routerLink]="['/alerts/create']"><i class="fa fa-warning mr-2"></i>Create Alert rules</button>
+            
             <!-- <button id="loc-org-create" type="button" class="btn btn-secondary btn-lg button-mod" [routerLink]="['/alerts/create']"><i class="fa fa-warning mr-2"></i>Create Alert Rule</button> -->
         </form>
 
