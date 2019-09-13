@@ -1,6 +1,6 @@
 
 
-  .asset-des{
+  .asset-margin{
     margin-top: 15px;
   }
   .templt-radio{
@@ -22,8 +22,6 @@
   .create-asset-container {
     padding: 15px;
     background-color: white;
-    // background-color: #dbdada;
-    // margin-top: 145px;
   }
   .asset-create-font{
     font-family: 'Roboto', sans-serif;
@@ -40,12 +38,7 @@
     background-color: rgb(0,185,195);
   }
   .button-right-mod {
-    border: none;
-    color: white;
-    padding: 10px 30px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
+    font-family: 'Roboto', sans-serif;
     font-size: 12px;
     margin: 4px 2px;
     cursor: pointer;
@@ -53,12 +46,7 @@
   }
   
   .button-left-mod{
-    border: none;
-    color: white;
-    padding: 10px 30px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
+    font-family: 'Roboto', sans-serif;
     font-size: 12px;
     margin: 4px 2px;
     cursor: pointer;

@@ -11,6 +11,7 @@ import { AssetsService } from 'src/app/services/assets/assets.service';
 export class VotmCloudAssetTemplateDetailsComponent implements OnInit {
   templateId: string;
   template: any = {};
+  pageType: string;
 
   constructor(private routerLocation: RouterLocation, private assetService: AssetsService, private route: ActivatedRoute) { }
 
@@ -22,6 +23,7 @@ export class VotmCloudAssetTemplateDetailsComponent implements OnInit {
           this.fetchTemplateById();
         }
       });
+    this.pageType = this.route.snapshot.data['type'];
   }
 
   onCancelClick(event) {
@@ -29,11 +31,13 @@ export class VotmCloudAssetTemplateDetailsComponent implements OnInit {
   }
 
   fetchTemplateById() {
-    // this.assetService.getTemplateById(this.templateId)
-    //   .subscribe(response => {
-    //     console.log('Response from Template ', response);
-    //     this.template = response;
-    //   });
+    this.assetService.getTemplateById(this.templateId)
+      .subscribe(response => {
+        console.log('Response from Template ', response);
+        if (response && response.length > 0) {
+          this.template = response[0];
+        }
+      });
   }
 
 }

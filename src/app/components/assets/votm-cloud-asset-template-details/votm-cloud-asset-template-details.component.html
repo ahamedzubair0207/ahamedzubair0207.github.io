@@ -1,115 +1,142 @@
 <app-votm-cloud-confim-dialog (onClose)="deleteAssetById($event)" #confirmBox message="{{message}}"
   headerMessage="Warning"></app-votm-cloud-confim-dialog>
 
+<ul class="nav nav-tabs mt-3">
+  <li class="nav-item">
+    <a class="nav-link active" id="template-details-tab" name="template-view-edit" href="#template-details"
+      data-toggle="tab" role="tab" aria-controls="template-details" aria-selected="true"><i class="fa fa-industry"></i>
+      Details</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" id="template-signal-tab" name="signal-association-edit" href="#template-signal"
+      data-toggle="tab" role="tab" aria-controls="template-signal" aria-selected="false"><i class="fa fa-podcast"></i>
+      Signal & Gateway
+      Association</a>
+  </li>
+</ul>
 
-<div class="template-outside-border">
-  <form  class="form-container asset-create-font create-asset-container 
-    border shadow" (ngSubmit)="onTemplateSubmit()" novalidate>
-    <div class="row">
-      <h4 class="col-md-6">Edit Template</h4>
-    </div>
 
-    <div class="row">
-      <div class="col-md-2">
-        <label for="assetName"><b>* Template Name:</b></label>
-        <input type="text" [(ngModel)]="template.templateName" class="form-control asset-create-font"
-          [disabled]="pageType==='View'" #templateName="ngModel" placeholder="Enter Template Name" name="templateName1" required
-          maxlength="50">
-        <div *ngIf="templateName.dirty && templateName.invalid">
-          <app-votm-cloud-validator message="Name is required"></app-votm-cloud-validator>
-        </div>
-        <app-votm-cloud-char-validator [condition]="template.templateName && template.templateName.length>=50">
-        </app-votm-cloud-char-validator>
+<div class="tab-content">
+  <div class="template-outside-border tab-pane fade show active" id="template-details" role="tabpanle"
+    area-labelledby="template-details-tab">
+
+    <form class="asset-create-font create-asset-container" (ngSubmit)="onTemplateSubmit()" novalidate>
+
+      <div class="row">
+        <!-- <h4 class="col-md-6">Edit Template</h4> -->
+        <i class="fa fa-lock edit-view-lock" name="templatetlockbutton" *ngIf="pageType.toLowerCase() === 'view'"
+          (click)="onLockClick()"></i>
+        <i class="fa fa-unlock edit-view-lock" name="templateunlockbutton" *ngIf="pageType.toLowerCase() === 'edit'"
+          (click)="onLockClick()"></i>
       </div>
 
-      <div class="col-md-2">
-        <label for="templateId"><b>Template ID:</b></label>
-        <input type="text" [(ngModel)]="template.assetNumber" class="form-control asset-create-font"
-          disabled readonly #templateId="ngModel" placeholder="Template ID" name="assetNumber"
-          maxlength="50">
-      </div>
+      <div class="row">
 
-      <div class="col-md-2">
-        <label for="parentLoc"><b>* Asset Name:</b></label>
-        <input type="text" [(ngModel)]="template.parentAssetName" placeholder="Enter Asset Name"
-          class="form-control asset-create-font" name="parentAsset">
-      </div>
-
-      <div class="col-md-2">
-        <label for="asset-Type"><b>Asset Type:</b></label>
-        <input type="text" [(ngModel)]="template.assetType" placeholder="Enter Asset Type" [disabled]="pageType==='View'"
-          #assetType="ngModel" name="assetType" (blur)="onAssetTypeChange()" maxlength="50"
-          class="form-control asset-create-font">
-      </div>
-
-
-      <div class="col-md-2">
-        <label for="assetType"><b>* Organization:</b></label>
-        <input for="parentorganizationname" class="form-control asset-create-font" type="text"
-          placeholder="Enter Organization">
-      </div>
-
-    </div>
-
-
-    <div class="row asset-create-font">
-      <div class="col mb-12 asset-des">
-        <label for="f-description"><b>Description :</b></label>
-        <textarea class="form-control asset-create-font" [disabled]="pageType==='View'" [(ngModel)]="template.description"
-          name="locDescription" rows="5" id="f-description"></textarea>
-      </div>
-    </div>
-
-    <div class="row asset-des">
-      <div class="col-md-3">
-        <label for="assetImage"><b>Asset Image : </b></label>
-        <span style="color:rgb(106,96,85);" *ngIf="message">{{message}}</span>
-        <input  #file type="file" accept='image/*' class="form-control-file asset-create-font"
-          (change)="onImageChangeClick()" />
-        <label style="font-weight: bold" *ngIf="template && template.logo"></label>
-        <img [src]="imgURL" height="200" width="235" *ngIf="imgURL">
-      </div>
-      <!-- (change)="(!template.templateId||(template.templateId && isConfirmToChangeImage==='change'))?onFileChange($event):null" -->
-      <div class="col-md-3 form-group">
-        <label for="exampleFormControlFile1"><b>Documentation:</b></label>
-        <input type="file" id="documentUpload" name="documentUpload"
-          (change)="onDocChangeClick();" class="form-control-file asset-create-font" #fileInput>
-        <!-- <button type="button" class="btn btn-sm btn-default" (click)="clearFile()">clear file</button> -->
-        <!-- <label style="font-weight: bold" *ngIf="template && template.logo">Image</label> -->
-        <a *ngIf="template.documentation" style="color:blue;"
-          (click)="onFileOpen()"><u>{{template.documentation.fileName}}</u></a>
-      </div>
-      <div class="col-md-3" *ngIf="template.templateId">
-        <label for="asset-temp"><b>* Asset Template</b></label>
-        <br>
-        <label for="temp-contain">{{template.templateName? template.templateName: '-'}}</label>
-        <br>
-        <div>
-          <div class="checkbox">
-            <label>
-              <input type="checkbox" [(ngModel)]="acceptedTemplateChages" (click)="onTemplateChangeAccept($event)"
-                name="templateAccept">Accept Template Changes</label>
+        <div class="col-md-2">
+          <label for="assetName"><b>* Template Name:</b></label>
+          <input type="text" [(ngModel)]="template.templateName" class="form-control asset-create-font"
+            [disabled]="pageType==='View'" #templateName="ngModel" placeholder="Enter Template Name"
+            name="templateName1" required maxlength="50">
+          <div *ngIf="templateName.dirty && templateName.invalid">
+            <app-votm-cloud-validator message="Name is required"></app-votm-cloud-validator>
           </div>
-          <!-- <input class="form-check-input templt-radio" type="radio"> -->
-          <!-- <label for="temp-change" class="templt-label">Accept Template Changes</label> -->
+          <app-votm-cloud-char-validator [condition]="template.templateName && template.templateName.length>=50">
+          </app-votm-cloud-char-validator>
+        </div>
+
+        <div class="col-md-2">
+          <label for="templateId"><b>Template ID:</b></label>
+          <input type="text" [(ngModel)]="template.assetNumber" class="form-control asset-create-font" disabled readonly
+            #templateId="ngModel" placeholder="Template ID" name="assetNumber" maxlength="50">
+        </div>
+
+        <div class="col-md-2">
+          <label for="parentLoc"><b>* Asset Name:</b></label>
+          <input type="text" [(ngModel)]="template.parentAssetName" placeholder="Enter Asset Name"
+            class="form-control asset-create-font" name="parentAsset">
+        </div>
+
+        <div class="col-md-2">
+          <label for="asset-Type"><b>Asset Type:</b></label>
+          <input type="text" [(ngModel)]="template.assetType" placeholder="Enter Asset Type"
+            [disabled]="pageType==='View'" #assetType="ngModel" name="assetType" (blur)="onAssetTypeChange()"
+            maxlength="50" class="form-control asset-create-font">
+        </div>
+
+        <div class="col-md-2">
+          <label for="assetType"><b>* Organization:</b></label>
+          <input for="parentorganizationname" class="form-control asset-create-font" type="text"
+            placeholder="Enter Organization">
+        </div>
+
+      </div>
+
+
+      <div class="row asset-create-font">
+
+        <div class="col mb-12 asset-des">
+          <label for="f-description"><b>Description :</b></label>
+          <textarea class="form-control asset-create-font" [disabled]="pageType==='View'"
+            [(ngModel)]="template.description" name="locDescription" rows="5" id="f-description"></textarea>
+        </div>
+
+      </div>
+
+      <div class="row asset-des">
+        <div class="col-md-3">
+          <label for="assetImage"><b>Asset Image : </b></label>
+          <span style="color:rgb(106,96,85);" *ngIf="message">{{message}}</span>
+          <input #file type="file" accept='image/*' class="form-control-file asset-create-font"
+            (change)="onImageChangeClick()" />
+          <label style="font-weight: bold" *ngIf="template && template.logo"></label>
+          <img [src]="imgURL" height="200" width="235" *ngIf="imgURL">
+        </div>
+        <!-- (change)="(!template.templateId||(template.templateId && isConfirmToChangeImage==='change'))?onFileChange($event):null" -->
+        <div class="col-md-3 form-group">
+          <label for="exampleFormControlFile1"><b>Documentation:</b></label>
+          <input type="file" id="documentUpload" name="documentUpload" (change)="onDocChangeClick();"
+            class="form-control-file asset-create-font" #fileInput>
+          <!-- <button type="button" class="btn btn-sm btn-default" (click)="clearFile()">clear file</button> -->
+          <!-- <label style="font-weight: bold" *ngIf="template && template.logo">Image</label> -->
+          <a *ngIf="template.documentation" style="color:blue;"
+            (click)="onFileOpen()"><u>{{template.documentation.fileName}}</u></a>
+        </div>
+        
+        <div class="col-md-3" *ngIf="template.templateId">
+          <label for="asset-temp"><b>* Asset Template</b></label>
+          <br>
+          <label for="temp-contain">{{template.templateName? template.templateName: '-'}}</label>
+          <br>
+          <div>
+            <div class="checkbox">
+              <label>
+                <input type="checkbox" [(ngModel)]="acceptedTemplateChages" (click)="onTemplateChangeAccept($event)"
+                  name="templateAccept">Accept Template Changes</label>
+            </div>
+            <!-- <input class="form-check-input templt-radio" type="radio"> -->
+            <!-- <label for="temp-change" class="templt-label">Accept Template Changes</label> -->
+          </div>
         </div>
       </div>
-    </div>
 
-    <div class="row">
+      <div class="row">
 
-      <div class="col-12 action-btn-asset">
+        <div class="col-12 action-btn-asset">
+          <button id="template-cancel" for="form-cancel" type="button" (click)="onCancelClick($event)"
+            class="btn btn-secondary btn-sm button-right-mod">Cancel</button>
+          <button id="asset-delete" type="button" (click)="openConfirmDialog()"
+            class="btn btn-secondary btn-sm button-right-mod">Delete</button>
+          <button id="asset-save" type="submit" class="btn btn-info btn-sm button-right-mod">Save</button>
+        </div>
 
-        <button id="nest-loc-create" type="button" class="btn btn-secondary button-left-mod"
-          routerLink="/asset/signal">Associate Signal</button>
-        <button id="template-cancel" for="form-cancel" type="button" (click)="onCancelClick($event)"
-          class="btn btn-secondary button-right-mod">Cancel</button>
-        <button id="asset-delete" type="button" 
-          (click)="openConfirmDialog()" class="btn btn-secondary button-right-mod">Delete</button>
-        <button id="asset-save" type="submit" 
-          class="btn btn-secondary button-right-mod btn-color">Save</button>
       </div>
-    </div>
-  </form>
-</div>
 
+    </form>
+
+  </div>
+
+  <div class="tab-pane fade" id="template-signal" role="tabpanle" area-labelledby="template-signal-tab">
+    <app-votom-cloud-assets-signal></app-votom-cloud-assets-signal>
+  </div>
+
+</div>
