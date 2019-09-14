@@ -10,8 +10,7 @@
   <li class="nav-item">
     <a class="nav-link" id="template-signal-tab" name="signal-association-edit" href="#template-signal"
       data-toggle="tab" role="tab" aria-controls="template-signal" aria-selected="false"><i class="fa fa-podcast"></i>
-      Signal & Gateway
-      Association</a>
+      Signal</a>
   </li>
 </ul>
 
@@ -20,53 +19,89 @@
   <div class="template-outside-border tab-pane fade show active" id="template-details" role="tabpanle"
     area-labelledby="template-details-tab">
 
-    <form class="asset-create-font create-asset-container" (ngSubmit)="onTemplateSubmit()" novalidate>
+    <form #templateForm="ngForm" class="asset-create-font create-asset-container" (ngSubmit)="onTemplateSubmit()" novalidate>
 
       <div class="row">
-        <!-- <h4 class="col-md-6">Edit Template</h4> -->
-        <i class="fa fa-lock edit-view-lock" name="templatetlockbutton" *ngIf="pageType.toLowerCase() === 'view'"
-          (click)="onLockClick()"></i>
-        <i class="fa fa-unlock edit-view-lock" name="templateunlockbutton" *ngIf="pageType.toLowerCase() === 'edit'"
-          (click)="onLockClick()"></i>
+        <div class="col-md-12 mb-3">
+          <!-- <h4 class="col-md-6">Edit Template</h4> -->
+          <i class="fa fa-lock edit-view-lock" name="templatetlockbutton" *ngIf="pageType.toLowerCase() === 'view'"
+            (click)="onLockClick()"></i>
+          <i class="fa fa-unlock edit-view-lock" name="templateunlockbutton" *ngIf="pageType.toLowerCase() === 'edit'"
+            (click)="onLockClick()"></i>
+        </div>
       </div>
 
       <div class="row">
 
-        <div class="col-md-2">
-          <label for="assetName"><b>* Template Name:</b></label>
-          <input type="text" [(ngModel)]="template.templateName" class="form-control asset-create-font"
-            [disabled]="pageType==='View'" #templateName="ngModel" placeholder="Enter Template Name"
-            name="templateName1" required maxlength="50">
-          <div *ngIf="templateName.dirty && templateName.invalid">
-            <app-votm-cloud-validator message="Name is required"></app-votm-cloud-validator>
+        <div class="col-5">
+          <div class="row form-group">
+            <label class="col-sm-5 col-form-label" for="assetName"><b>* Template Name:</b></label>
+            <input type="text" [(ngModel)]="template.templateName" class="col-sm-7 form-control asset-create-font"
+              [disabled]="pageType==='View'" #templateName="ngModel" placeholder="Enter Template Name"
+              name="templateName1" required maxlength="50">
+            <div *ngIf="templateName.dirty && templateName.invalid">
+              <app-votm-cloud-validator message="Name is required"></app-votm-cloud-validator>
+            </div>
+            <app-votm-cloud-char-validator [condition]="template.templateName && template.templateName.length>=50">
+            </app-votm-cloud-char-validator>
           </div>
-          <app-votm-cloud-char-validator [condition]="template.templateName && template.templateName.length>=50">
-          </app-votm-cloud-char-validator>
+
         </div>
 
-        <div class="col-md-2">
-          <label for="templateId"><b>Template ID:</b></label>
-          <input type="text" [(ngModel)]="template.assetNumber" class="form-control asset-create-font" disabled readonly
-            #templateId="ngModel" placeholder="Template ID" name="assetNumber" maxlength="50">
+        <div class="col-4">
+          <div class="row form-group">
+            <label class="col-sm-5 col-form-label" for="parentAsset"><b>Parent Asset:</b></label>
+            <select [(ngModel)]="template.parentAssetId" name="parentAsset" [disabled]="pageType==='View'"
+              class=" col-sm-7 drop-down form-control asset-create-font" #parentAsset="ngModel">
+              <option *ngFor="let asset of parentAssetListForDropDown" [value]="asset.assetId">
+                {{asset.assetName}}
+              </option>
+            </select>
+          </div>
+          <!-- <div class="row form-group"> 
+                <label class="col-sm-5 col-form-label" for="parentLoc"><b>* Asset Name:</b></label>
+                <input type="text" [(ngModel)]="template.parentAssetName" placeholder="Enter Asset Name"
+                  class="col-sm-7 form-control asset-create-font" name="parentAsset">
+            </div> -->
+
         </div>
 
-        <div class="col-md-2">
-          <label for="parentLoc"><b>* Asset Name:</b></label>
-          <input type="text" [(ngModel)]="template.parentAssetName" placeholder="Enter Asset Name"
-            class="form-control asset-create-font" name="parentAsset">
+        <div class="col-2">
+          <div class="row form-group">
+            <label class="col-sm-5 col-form-label" for="asset-Type"><b>Asset Type:</b></label>
+            <input type="text" [(ngModel)]="template.assetType" placeholder="Enter Asset Type"
+              [disabled]="pageType==='View'" #assetType="ngModel" name="assetType" (blur)="onAssetTypeChange()"
+              maxlength="50" class="col-sm-7 form-control asset-create-font">
+          </div>
         </div>
 
-        <div class="col-md-2">
-          <label for="asset-Type"><b>Asset Type:</b></label>
-          <input type="text" [(ngModel)]="template.assetType" placeholder="Enter Asset Type"
-            [disabled]="pageType==='View'" #assetType="ngModel" name="assetType" (blur)="onAssetTypeChange()"
-            maxlength="50" class="form-control asset-create-font">
+        <div class="col-5">
+          <div class="row form-group">
+            <label class="col-sm-5 col-form-label" for="templateId"><b>Template ID:</b></label>
+            <input type="text" [(ngModel)]="template.templateId" class="col-sm-7 form-control asset-create-font"
+              disabled readonly #templateId="ngModel" placeholder="Template ID" name="assetNumber" maxlength="50">
+          </div>
         </div>
 
-        <div class="col-md-2">
-          <label for="assetType"><b>* Organization:</b></label>
-          <input for="parentorganizationname" class="form-control asset-create-font" type="text"
-            placeholder="Enter Organization">
+        <div class="col-4">
+          <div class="row form-group">
+            <label class="col-sm-5 col-form-label" for="assetparentOrg"><b>* Owning Organization:</b></label>
+            <select [(ngModel)]="template.organizationId" name="organizationName" [disabled]="pageType==='View'"
+              class=" col-sm-7 drop-down form-control asset-create-font" (change)="onParentOrgChange($event)"
+              #organizationName="ngModel">
+              <option *ngFor="let org of organizationList" [value]="org.organizationId">
+                {{org.name}}
+              </option>
+            </select>
+            <div *ngIf="organizationName.dirty && organizationName.invalid">
+              <app-votm-cloud-validator message="Organization is required"></app-votm-cloud-validator>
+            </div>
+          </div>
+          <!-- <div class="row form-group">
+            <label class="col-sm-4 col-form-label" for="assetType"><b>* Organization:</b></label>
+            <input for="parentorganizationname" class="col-sm-8 form-control asset-create-font" type="text"
+              placeholder="Enter Organization">
+          </div> -->
         </div>
 
       </div>
@@ -101,7 +136,7 @@
           <a *ngIf="template.documentation" style="color:blue;"
             (click)="onFileOpen()"><u>{{template.documentation.fileName}}</u></a>
         </div>
-        
+
         <div class="col-md-3" *ngIf="template.templateId">
           <label for="asset-temp"><b>* Asset Template</b></label>
           <br>
@@ -136,7 +171,7 @@
   </div>
 
   <div class="tab-pane fade" id="template-signal" role="tabpanle" area-labelledby="template-signal-tab">
-    <app-votom-cloud-assets-signal></app-votom-cloud-assets-signal>
+    <!-- <app-votom-cloud-assets-signal></app-votom-cloud-assets-signal> -->
   </div>
 
 </div>
