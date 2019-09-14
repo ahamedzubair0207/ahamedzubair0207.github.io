@@ -32,6 +32,13 @@ export class LocationService {
       );
   }
 
+  getAllLocations() {
+    return this.http.get(AppConstants.GET_LOC)
+      .pipe(
+        map(response => response)
+      );
+  }
+
   getAllLocationTree(): Observable<any> {
     return this.http.get(AppConstants.GET_LOC_TREE)
       .pipe(
@@ -70,9 +77,9 @@ export class LocationService {
 
   getLocationInfoFromAzureMap(address: string) {
     let params = new HttpParams()
-    .set('api-version', '1.0')
-    .set('subscription-key', 'g5km6coCc-GZ7BuSq2OXfwBK_sswYgVMG10VZ6yu4Rg')
-    .set('query', address);
+      .set('api-version', '1.0')
+      .set('subscription-key', 'g5km6coCc-GZ7BuSq2OXfwBK_sswYgVMG10VZ6yu4Rg')
+      .set('query', address);
     console.log('params ', params.toString())
     return this.httpClient.get('https://atlas.microsoft.com/search/address/json', { params })
       .pipe(
@@ -80,12 +87,12 @@ export class LocationService {
       );
   }
 
-  getTimezoneByCordinates(coordinates: string){
+  getTimezoneByCordinates(coordinates: string) {
     let params = new HttpParams()
-    .set('api-version', '1.0')
-    .set('subscription-key', 'g5km6coCc-GZ7BuSq2OXfwBK_sswYgVMG10VZ6yu4Rg')
-    // .set('options', 'all')
-    .set('query', coordinates);
+      .set('api-version', '1.0')
+      .set('subscription-key', 'g5km6coCc-GZ7BuSq2OXfwBK_sswYgVMG10VZ6yu4Rg')
+      // .set('options', 'all')
+      .set('query', coordinates);
     console.log('params ', params.toString())
     return this.httpClient.get('https://atlas.microsoft.com/timezone/byCoordinates/json', { params })
       .pipe(
@@ -93,8 +100,8 @@ export class LocationService {
       );
   }
 
-  getCountries(){
+  getCountries() {
     return this.httpClient.get("../../../assets/countryList/countryWithStates.json").pipe(
-                    map((res:any) => res));
+      map((res: any) => res));
   }
 }

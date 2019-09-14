@@ -16,6 +16,7 @@ import { Toaster } from '../../shared/votm-cloud-toaster/votm-cloud-toaster';
 import { ToastrService } from 'ngx-toastr';
 import { AlertsService } from '../../../services/alerts/alerts.service';
 import { countyList } from 'src/app/services/countryList/countryStateList';
+import { SortArrays } from '../../shared/votm-sort';
 
 @Component({
   selector: 'app-votm-cloud-organizations-create',
@@ -542,34 +543,12 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
         if (!orgFound) {
           this.organizationList.push({ id: this.curOrgId, name: this.curOrgName });
         }
-        this.organizationList.sort(this.compareValues('name'));
+        this.organizationList.sort(SortArrays.compareValues('name'));
         // this.organization.parentOrganizationId = JSON.parse(JSON.stringify(this.organization.parentOrganizationId));
       })
   }
 
-  compareValues(key: string, order = 'asc') {
-    return function (a, b) {
-      if (!a.hasOwnProperty(key) || !b.hasOwnProperty(key)) {
-        // property doesn't exist on either object
-        return 0;
-      }
-
-      const varA = (typeof a[key] === 'string') ?
-        a[key].toUpperCase() : a[key];
-      const varB = (typeof b[key] === 'string') ?
-        b[key].toUpperCase() : b[key];
-
-      let comparison = 0;
-      if (varA > varB) {
-        comparison = 1;
-      } else if (varA < varB) {
-        comparison = -1;
-      }
-      return (
-        (order == 'desc') ? (comparison * -1) : comparison
-      );
-    };
-  }
+ 
 
   onAlertRuleTabClick() {
     if (!this.alertRuleList || this.alertRuleList.length === 0) {
