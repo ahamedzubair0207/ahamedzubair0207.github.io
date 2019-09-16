@@ -1,4 +1,4 @@
-import { Component, OnInit,Input } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { AlertsService } from 'src/app/services/alerts/alerts.service';
 import { Router } from '@angular/router';
 

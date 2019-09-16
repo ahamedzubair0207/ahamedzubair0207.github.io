@@ -1,12 +1,14 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { DatePipe, Location as RouterLocation } from '@angular/common';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { AssetsService } from 'src/app/services/assets/assets.service';
 import { OrganizationService } from 'src/app/services/organizations/organization.service';
 import { SortArrays } from '../../shared/votm-sort';
 import { NgForm } from '@angular/forms';
 import { Toaster } from '../../shared/votm-cloud-toaster/votm-cloud-toaster';
 import { ToastrService } from 'ngx-toastr';
+import { Logo, VOTMFile } from 'src/app/models/logo.model';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-votm-cloud-asset-template-details',
@@ -21,11 +23,17 @@ export class VotmCloudAssetTemplateDetailsComponent implements OnInit {
   parentAssetsList: any[] = [];
   parentAssetListForDropDown: any[] = [];
   asset: any;
+  imgURL: any;
   toaster: Toaster = new Toaster(this.toastr);
   @ViewChild('templateForm', null) templateForm: NgForm;
+  @ViewChild('file', null) locationImage: ElementRef;
+  @ViewChild('fileInput', null) docFileInput: ElementRef;
+  message: string;
+  imagePath: any;
+  docFile: Blob;
 
-  constructor(private routerLocation: RouterLocation, private assetService: AssetsService,
-    private route: ActivatedRoute, private orgService: OrganizationService, private toastr: ToastrService) { }
+  constructor(private routerLocation: RouterLocation, private router: Router, private assetService: AssetsService,
+    private route: ActivatedRoute, private domSanitizer: DomSanitizer, private orgService: OrganizationService, private toastr: ToastrService) { }
 
   ngOnInit() {
     this.route.params.subscribe(
@@ -114,7 +122,7 @@ export class VotmCloudAssetTemplateDetailsComponent implements OnInit {
         this.template.fileStore = null;
       }
     }
-this.template.assetName = null;
+    this.template.assetName = null;
     if (this.template && this.template.invalid) {
       this.toaster.onFailure('Please fill the form correctly.', 'Form is invalid!')
       console.log('If block ');
@@ -154,4 +162,119 @@ this.template.assetName = null;
     }
   }
 
+
+
+  onImageChangeClick() {
+    this.preview(this.locationImage.nativeElement.files[0]);
+  }
+
+  preview(file) {
+    console.log('Loaded Preview')
+    this.message = "";
+    if (!file)
+      return;
+
+    var mimeType = file.type;
+    if (mimeType.match(/image\/*/) == null) {
+      this.message = "Only images are supported.";
+      return;
+    }
+    this.handleFileSelect(file);
+    var readerToPreview = new FileReader();
+    this.imagePath = file;
+    readerToPreview.readAsDataURL(file);
+    readerToPreview.onload = (_event) => {
+      this.imgURL = this.domSanitizer.bypassSecurityTrustUrl(readerToPreview.result.toString()); //readerToPreview.result;
+    }
+  }
+
+
+  handleFileSelect(file) {
+    if (file) {
+      var reader: any = new FileReader();
+      // reader.onload = this._handleReaderLoaded.bind(this);
+      reader.onload = (e) => {
+        // ADDED CODE
+        let data;
+        if (!e) {
+          data = reader.content;
+        }
+        else {
+          data = e.target.result;
+        }
+        let base64textString = btoa(data);
+        // console.log('this.organization ', this.location, data)
+        this.template.logo.image = base64textString;
+      };
+
+      this.template.logo = new Logo();
+      this.template.logo.imageName = file.name;
+      this.template.logo.imageType = file.type;
+      reader.readAsBinaryString(file);
+    }
+  }
+
+
+  onDocChangeClick() {
+    this.onFileChange(this.docFileInput.nativeElement.files[0]);
+  }
+
+  onFileChange(file) {
+    if (file) {
+      var binaryData = [];
+      binaryData.push(file);
+
+      this.docFile = new Blob(binaryData, { type: file.type })
+
+      console.log('type of file ', typeof (this.docFile))
+      this.handleDocSelect(file);
+      // let readerToPreview = new FileReader();
+      // // this.imagePath = file;
+      // readerToPreview.readAsDataURL(file);
+      // // readerToPreview.onload = (_event) => {
+      // //   this.imgURL = this.domSanitizer.bypassSecurityTrustUrl(readerToPreview.result.toString()); //readerToPreview.result;
+      // // }
+      // // console.log('AHAMED', this.resultABCD)
+    }
+  }
+
+  onLockClick() {
+    if (this.pageType.toLowerCase() === 'view') {
+      this.router.navigate([`template/edit/${this.template.templateId}`]);
+    } else {
+      this.router.navigate([`template/view/${this.template.templateId}`]);
+    }
+  }
+
+  handleDocSelect(file) {
+    if (file) {
+      var reader: any = new FileReader();
+      // reader.onload = this._handleReaderLoaded.bind(this);
+      this.template.fileStore = new VOTMFile();
+      reader.onload = (e) => {
+        // ADDED CODE
+        let data;
+        if (!e) {
+          data = reader.content;
+        }
+        else {
+          data = e.target.result;
+        }
+        let base64textString = btoa(data);
+        // console.log('this.organization ', this.location, data)
+        this.template.fileStore.file = base64textString;
+      };
+
+
+      this.template.fileStore.fileName = file.name;
+      this.template.fileStore.fileType = file.type;
+      // debugger;
+      reader.readAsBinaryString(file);
+    }
+  }
+
+  onFileOpen() {
+    const fileURL = URL.createObjectURL(this.docFile);
+    window.open(fileURL, '_blank');
+  }
 }

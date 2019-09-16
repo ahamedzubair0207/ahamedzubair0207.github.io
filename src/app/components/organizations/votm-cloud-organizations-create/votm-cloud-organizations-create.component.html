@@ -21,7 +21,7 @@
 <!-- Second Level Nav -->
 
 <div class="tab-content">
-  
+
   <div class="org-outside-border tab-content tab-pane fade show active" id="org-details-tab"
     *ngIf="(!orgId && pageLabels) || (orgId && pageLabels && organization)" role="tabpanle"
     area-labelledby="org-info-tab">
@@ -65,8 +65,8 @@
 
             <div class="col-6">
               <div class="row form-group">
-                <label class="col-sm-3 col-form-label mr-3" for="name"><b>* {{pageLabels.Name.labelName}} :</b></label>
-                <div class="col-sm-7">
+                <label class="col-sm-3 col-form-label" for="name"><b>* {{pageLabels.Name.labelName}} :</b></label>
+                <div class="col-sm-9">
                   <input type="text" maxlength="100" [(ngModel)]="organization.name"
                     class="form-control org-create-font" placeholder="Name" name="name" [disabled]="pageType==='View'"
                     #orgName="ngModel" required>
@@ -103,21 +103,19 @@
 
           <div class="row">
 
-            <div class="col-4">
+            <div class="col-3">
               <div class="row form-group">
-                <label class="col-sm-5 col-form-label" for="nameShort"><b>Short Name :</b></label>
-                <div class="col-sm-7">
+                <label class="col-sm-6 col-form-label" for="nameShort"><b>Short Name:</b></label>
+                <div class="col-sm-6">
                   <input type="text" class="form-control org-create-font" placeholder="Short Name" maxlength="500"
                     [disabled]="pageType==='View'" name="shortName" required>
                 </div>
               </div>
             </div>
 
-            <div class="col-4">
+            <div class="col-3">
               <div class="row form-group">
-                <label class="col-sm-6 col-form-label px-0" for="customerNum"><b>*
-                    {{pageLabels.CustomerNumber.labelName}}
-                    :</b></label>
+                <label class="col-sm-6 col-form-label px-0" for="customerNum"><b>*Customer No.:</b></label>
                 <div class="col-sm-6">
                   <input type="text" [(ngModel)]="organization.customerNumber" class="form-control org-create-font"
                     placeholder="Customer Number" maxlength="500" #customerNum="ngModel" [disabled]="pageType==='View'"
@@ -132,11 +130,11 @@
               </div>
             </div>
 
-            <div class="col-4">
+            <div class="col-6">
               <div class="row form-group">
-                <label class="col-sm-6 col-form-label" for="customerNum"
-                  for="organizationType"><b>{{pageLabels.OrganizationType.labelName}} :</b></label>
-                <div class="col-sm-6">
+                <label class="col-sm-5 col-form-label" for="customerNum"
+                  for="organizationType"><b>{{pageLabels.OrganizationType.labelName}}:</b></label>
+                <div class="col-sm-7">
                   <input type="text" [disabled]="pageType==='View'" [(ngModel)]="organization.organizationType"
                     class="form-control org-create-font" maxlength="100" placeholder="Organization Type"
                     name="organizationType">
@@ -150,32 +148,45 @@
           </div>
 
           <div class="row">
-            <div class="col-sm-6 form-group">
-              <label for="primarycontact"><b>* {{pageLabels.PrimaryContact.labelName}} :</b></label>
-              <input type="email" [disabled]="pageType==='View'" [(ngModel)]="organization.primaryContactEmailAddress"
-                class="form-control org-create-font" email #primaryContact="ngModel" maxlength="100"
-                placeholder="Email Address" name="contact" required>
-              <div *ngIf="primaryContact.dirty && primaryContact.invalid">
-                <app-votm-cloud-validator *ngIf="primaryContact.errors && primaryContact.errors.required"
-                  message="Primary Contact is required"></app-votm-cloud-validator>
-                <app-votm-cloud-validator *ngIf="primaryContact.errors && primaryContact.errors.email"
-                  message="This is not valid mail id"></app-votm-cloud-validator>
+            <div class="col-6">
+              <div class="row form-group">
+                <label class="col-sm-5 col-form-label" for="primarycontact"><b>* {{pageLabels.PrimaryContact.labelName}}:</b></label>
+                    <div class="col-sm-7">
+                        <input type="email" [disabled]="pageType==='View'" [(ngModel)]="organization.primaryContactEmailAddress"
+                        class="form-control org-create-font" email #primaryContact="ngModel" maxlength="100"
+                        placeholder="Email Address" name="contact" required>
+                    </div>
+                
+                <div *ngIf="primaryContact.dirty && primaryContact.invalid">
+                  <app-votm-cloud-validator *ngIf="primaryContact.errors && primaryContact.errors.required"
+                    message="Primary Contact is required"></app-votm-cloud-validator>
+                  <app-votm-cloud-validator *ngIf="primaryContact.errors && primaryContact.errors.email"
+                    message="This is not valid mail id"></app-votm-cloud-validator>
+
+                </div>
+                <app-votm-cloud-char-validator
+                  [condition]="organization.primaryContactEmailAddress && organization.primaryContactEmailAddress.length>=100">
+                </app-votm-cloud-char-validator>
               </div>
 
-              <app-votm-cloud-char-validator
-                [condition]="organization.primaryContactEmailAddress && organization.primaryContactEmailAddress.length>=100">
-              </app-votm-cloud-char-validator>
+
             </div>
 
-            <div class="col-sm-6 form-group">
-              <label for="primarycontactnumber"><b>* Contact Phone :</b></label>
-              <input type="text" [disabled]="pageType==='View'" class="form-control org-create-font" number
-                maxlength="100" placeholder="Phone Number" name="contact" required>
-              <div *ngIf="primaryContact.dirty && primaryContact.invalid">
-                <app-votm-cloud-validator *ngIf="primaryContact.errors && primaryContact.errors.required"
-                  message="Primary Contact is required"></app-votm-cloud-validator>
-                <app-votm-cloud-validator *ngIf="primaryContact.errors && primaryContact.errors.email"
-                  message="This is not valid mail id"></app-votm-cloud-validator>
+            <div class="col-6">
+              <div class="row form-group">
+                <label class="col-sm-5 col-form-label" for="primarycontactnumber"><b>* Contact Phone:</b></label>
+                <div class="col-sm-7">
+                    <input type="text" [disabled]="pageType==='View'" class="form-control org-create-font" number
+                    maxlength="100" placeholder="Phone Number" name="contact" required>
+                </div>
+                
+                <div *ngIf="primaryContact.dirty && primaryContact.invalid">
+                  <app-votm-cloud-validator *ngIf="primaryContact.errors && primaryContact.errors.required"
+                    message="Primary Contact is required"></app-votm-cloud-validator>
+                  <app-votm-cloud-validator *ngIf="primaryContact.errors && primaryContact.errors.email"
+                    message="This is not valid mail id"></app-votm-cloud-validator>
+                </div>
+
               </div>
 
               <app-votm-cloud-char-validator
@@ -185,13 +196,16 @@
           </div>
 
           <div class="row">
-            <div class="col-sm-6 form-group">
-              <label for="primaryDistributorName"><b>* {{pageLabels.PrimaryDistributor.labelName}} : </b></label>
-              <input type="text" [disabled]="pageType==='View'" name="primaryDistributorName"
+            <div class="col-6">
+                <div class="row form-group">
+              <label class="col-sm-5 col-form-label" for="primaryDistributorName"><b>* Distributor: </b></label>
+              <div class="col-sm-7"><input type="text" [disabled]="pageType==='View'" name="primaryDistributorName"
                 [(ngModel)]="organization.primaryDistributorName" class="form-control org-create-font"
-                placeholder="Primary Distributor Name" #primaryDistributorName="ngModel" maxlength="50" required>
+                placeholder="Primary Distributor Name" #primaryDistributorName="ngModel" maxlength="50" required></div>
+              
               <div *ngIf="primaryDistributorName.dirty && primaryDistributorName.invalid">
                 <app-votm-cloud-validator message="Primary Distributor Name is required"></app-votm-cloud-validator>
+              </div>
               </div>
 
               <app-votm-cloud-char-validator
@@ -199,18 +213,23 @@
               </app-votm-cloud-char-validator>
             </div>
 
-            <div class="col-sm-6 form-group">
-              <label for="primaryDistributorEmail"><b>* {{pageLabels.PrimaryDistributorEmail.labelName}} : </b></label>
-              <input type="email" [disabled]="pageType==='View'" name="primaryDistributorEmail"
+            <div class="col-6">
+                <div class="row form-group">
+              <label class="col-sm-5 col-form-label" for="primaryDistributorEmail"><b>* Distributor Contact: </b></label>
+              <div class="col-sm-7">
+                <input type="email" [disabled]="pageType==='View'" name="primaryDistributorEmail"
                 [(ngModel)]="organization.primaryDistributorEmailAddress" #primaryDistributorEmail="ngModel"
                 class="form-control org-create-font" email placeholder="Primary Distributor Email" maxlength="100"
                 required>
+              </div>
+              
               <div *ngIf="primaryDistributorEmail.dirty && primaryDistributorEmail.invalid">
                 <app-votm-cloud-validator
                   *ngIf="primaryDistributorEmail.errors && primaryDistributorEmail.errors.required"
                   message="Primary Distributor Contact is required"></app-votm-cloud-validator>
                 <app-votm-cloud-validator *ngIf="primaryDistributorEmail.errors && primaryDistributorEmail.errors.email"
                   message="This is not valid mail id"></app-votm-cloud-validator>
+              </div>
               </div>
               <app-votm-cloud-char-validator
                 [condition]="organization.primaryDistributorEmail && organization.primaryDistributorEmail.length>=100">
@@ -224,7 +243,7 @@
             <div class="row org-create-font">
 
               <div class="col-sm-2">
-                <label for="startDate"><b>* {{pageLabels.StartDate.labelName}} :</b></label>
+                <label for="startDate"><b>* {{pageLabels.StartDate.labelName}}:</b></label>
                 <input type="date" [disabled]="pageType==='View'" [(ngModel)]="organization.contractStartDate"
                   class="form-control org-create-font" (change)="onStartDateChange()" (click)="onStartDateChange()"
                   (keyup)="onStartDateChange()" #startDate="ngModel" placeholder="Start Date" name="startDate" required>
@@ -237,7 +256,7 @@
               </div>
 
               <div class="col-sm-2">
-                <label for="endDate"><b>* {{pageLabels.EndDate.labelName}} :</b></label>
+                <label for="endDate"><b>* {{pageLabels.EndDate.labelName}}:</b></label>
                 <input type="date" [disabled]="pageType==='View'" [(ngModel)]="organization.contractEndDate"
                   class="form-control org-create-font" #endDate="ngModel" (change)="onEndDateChange()"
                   (click)="onEndDateChange()" (keyup)="onEndDateChange()" placeholder="End Date" name="endDate"
@@ -248,7 +267,7 @@
               </div>
 
               <div class="col-sm-2">
-                <label for="serviceLabel"><b>* {{pageLabels.SVCLevel.labelName}} : </b></label>
+                <label for="serviceLabel"><b>* {{pageLabels.SVCLevel.labelName}}: </b></label>
                 <select [disabled]="pageType==='View'" [(ngModel)]="organization.svclevel" name="svcLevels"
                   class="drop-down form-control org-create-font" required>
                   <option *ngFor="let svcLevel of svcLevels" [value]="svcLevel.optionId">
@@ -263,7 +282,7 @@
               </div>
 
               <div class="col-sm-3">
-                <label for="sensorBlock"><b>* Sensor Block Count : </b></label>
+                <label for="sensorBlock"><b>* Sensor Blocks: </b></label>
                 <select [disabled]="pageType==='View'" [(ngModel)]="organization.sensorBlock" name="sensorBlock"
                   class="drop-down form-control org-create-font">
                   <option *ngFor="let sensorBlock of sensorBlocks" [value]="sensorBlock.optionId">
@@ -275,7 +294,7 @@
               </div>
 
               <div class="col-sm-3">
-                <label for="cellularBlock"><b>* Cellular Block Count : </b></label>
+                <label for="cellularBlock"><b>* Cellular Blocks: </b></label>
                 <select [disabled]="pageType==='View'" [(ngModel)]="organization.cellularBlocK" name="cellularBlock"
                   class="drop-down form-control org-create-font">
                   <option *ngFor="let cellularBlock of cellularBlocks" [value]="cellularBlock.optionId">
@@ -504,7 +523,7 @@
       </div>
 
       <div class="tab-pane fade" id="org-alert" role="tabpanle" area-labelledby="org-alert-tab">
-        <app-votm-cloud-alerts-home [alertList]="alertList"></app-votm-cloud-alerts-home>
+        <app-votm-cloud-alerts-home [alertList]="alertRuleList"></app-votm-cloud-alerts-home>
       </div>
     </div>
 

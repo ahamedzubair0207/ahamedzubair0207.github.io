@@ -121,21 +121,24 @@
               </div>
             </div>
 
-            <div class="col-3">
+            <div class="col-4">
               <div class="row form-group">
-                <label class="col-sm-4 col-form-label" for="asset-Type"><b>Asset Type:</b></label>
+                <label class="col-sm-5 col-form-label" for="asset-Type"><b>Asset Type:</b></label>
                 <input type="text" [(ngModel)]="asset.assetType" placeholder="Enter Asset Type"
                   [disabled]="pageType === 'View'" #assetType="ngModel" name="assetType" (blur)="onAssetTypeChange()"
-                  maxlength="50" class="col-sm-8 form-control asset-create-font" />
+                  maxlength="50" class="col-sm-7 form-control asset-create-font" />
               </div>
             </div>
 
-            <div class="col-2" *ngIf="asset.templateId">
-              <label for="asset-temp"><b>Created from Template</b></label>
+            <div class="col-4" *ngIf="asset.templateId">
+
+                <div class="row form-group">
+              <label class="col-sm-5 col-form-label" for="asset-temp"><b>Created from Template</b></label>
               <br>
               <!-- <label for="temp-contain">{{asset.templateName? asset.templateName: '-'}}</label> -->
-              <input name="asset-template" disabled class="form-control asset-create-font" type="text"
+              <input name="asset-template" disabled class="col-sm-7 form-control asset-create-font" type="text"
                 placeholder="{{asset.templateName? asset.templateName: '-'}}">
+                </div>
               <div class="mt-2">
                 <div class="checkbox">
                   <label>
@@ -148,7 +151,7 @@
             </div>
 
 
-            <div class="col-3">
+            <div class="col-4">
               <div class="row form-group">
                 <label class="col-sm-5 col-form-label" for="parentAsset"><b>Parent Asset:</b></label>
                 <!-- <input type="text" [(ngModel)]="asset.parentAssetName" placeholder="{{asset.parentAssetName}}" [disabled]="pageType==='View'"
@@ -163,11 +166,13 @@
               </div>
             </div>
 
-            <div class="col-6">
-              <label for="assetId"><b>Asset ID:</b></label>
-              <input type="text" [(ngModel)]="asset.assetNumber" class="form-control asset-create-font"
+            <div class="col-4">
+                <div class="row form-group">
+              <label class="col-sm-5 col-form-label" for="assetId"><b>Asset ID:</b></label>
+              <input type="text" [(ngModel)]="asset.assetNumber" class="col-sm-7 form-control asset-create-font"
                 [disabled]="pageType === 'View'" #assetId="ngModel" placeholder="Enter Asset ID" name="assetNumber"
                 maxlength="50" />
+            </div>
             </div>
 
           </div>
@@ -313,7 +318,7 @@
           (click)="closemodal('cancel')">
           Cancel
         </button>
-        <button id="asset-temp-save" type="button" class="btn button-mod btn-color" (click)="closemodal('save')">
+        <button id="asset-temp-save" type="button" class="btn button-mod btn-info" (click)="closemodal('save')">
           Ok
         </button>
       </div>
@@ -332,24 +337,33 @@
       <div class="modal-body">
         <div class="input-group">
           <form class="form-inline">
-            <label>Choose your Organization: </label>
-            <select required [(ngModel)]="asset.organizationId" name="parentorg"
-              class="drop-down form-control asset-create-font" #parentorgModel="ngModel">
-              <option *ngFor="let organization of organizationList" [value]="organization.organizationId">
-                {{organization.name}}
-              </option>
-            </select>
-            <!-- <select   name="parentorg" 
-                    class="drop-down form-control asset-create-font ml-2 mr-2">
-                    <option value="defaultParentOrg"  selected>Org</option>
-                    <option value="defaultParentOrg2">org2</option>
-                </select> -->
-            <label>Template Name: </label>
-            <input class="ml-2 mr-2 form-control asset-create-font" [(ngModel)]="templateNameToSave" type="text"
-              placeholder="Template Name" name="templateNameToSave" #templateName="ngModel" maxlength="50" required>
-            <div *ngIf="templateName.dirty && templateName.invalid">
-              <app-votm-cloud-validator message="Template name is required"></app-votm-cloud-validator>
+
+            <div class="row">
+              <div class="col-6">
+                <div class="row form-group">
+                    <label class="col-sm-5 col-form-label" >Choose your Organization: </label>
+                    <select required [(ngModel)]="asset.organizationId" name="parentorg"
+                      class="col-sm-7 drop-down form-control asset-create-font" #parentorgModel="ngModel">
+                      <option *ngFor="let organization of organizationList" [value]="organization.organizationId">
+                        {{organization.name}}
+                      </option>
+                    </select>
+                </div>
+              </div>
+              <div class="col-6">
+                  <div class="row form-group"> 
+                      <label class="col-sm-5 col-form-label">Template Name: </label>
+                      <input class="col-sm-7 form-control asset-create-font" [(ngModel)]="templateNameToSave" type="text"
+                        placeholder="Template Name" name="templateNameToSave" #templateName="ngModel" maxlength="50" required>
+                      <div *ngIf="templateName.dirty && templateName.invalid">
+                        <app-votm-cloud-validator message="Template name is required"></app-votm-cloud-validator>
+                      </div>
+                  </div>
+                  
+                </div>
             </div>
+           
+
             <app-votm-cloud-char-validator [condition]="templateName && templateName.length>=50">
             </app-votm-cloud-char-validator>
           </form>
@@ -362,7 +376,7 @@
         <button id="asset-temp-cancle" type="button" class="btn button-mod btn-secondary"
           (click)="closemodal('cancel')">Cancel
         </button>
-        <button id="asset-temp-save" type="button" class="btn button-mod btn-color"
+        <button id="asset-temp-save" type="button" class="btn button-mod btn-info"
           (click)="onSaveAsTemplateClick('save')">Save</button>
       </div>
 

@@ -26,12 +26,13 @@ export class AppConstants {
     public static CREATE_ASSET_TEMPLATE = '/Asset/Template';
     public static DEL_ASSET = '/Asset';
 
-    public static GET_AVAILABLE_SIGNALS = 'SignalsTree';
+    public static GET_AVAILABLE_SIGNALS = 'Signals/SignalsTree';
     public static GET_ASSET_SIGNAL_ASSOCIATION = 'SignalsTree';
     public static GET_LOCATION_SIGNAL_ASSOCIATION = 'SignalsTree/{0}/Association';
     public static CREATE_SIGNAL_ASSOCIATION = 'Signals/Association';
 
     public static GET_ALERT = '/Alert';
+    public static GET_ALERT_BYORGID = '/AlertRules';
 
     public static NAVIGATION_URL = '/BreadcrumbNavigation';
 
