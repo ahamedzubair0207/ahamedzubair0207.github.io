@@ -1,10 +1,10 @@
 <!-- <h3 class="flt-left mt-3 mb-3 ml-2 asset-table-header" id="templateList">List</h3> -->
 <form class="form-inline">
-    <label for="typeahead-config">Type to filter events:</label>
-    <input class="form-control ml-2 mb-3 mt-3" id="searchBox" type="search" placeholder="Search" aria-label="Search">
-    <button class="btn btn-outline-info mr-2 ml-2" id="searchButton" type="submit">Search</button>
-    
-  </form>
+  <label for="typeahead-config">Type to filter events:</label>
+  <input class="form-control ml-2 mb-3 mt-3" id="searchBox" type="search" placeholder="Search" aria-label="Search">
+  <button class="btn btn-outline-info mr-2 ml-2" id="searchButton" type="submit">Search</button>
+
+</form>
 <table class="table table-sm table-bordered asset-table-fonts">
   <thead class="thead-dark">
     <tr>
@@ -18,18 +18,20 @@
   <tbody>
     <tr *ngFor="let item of templateList">
       <th>
-        <i class="fa fa-industry"></i>
-        {{item.templateName}}
+        <a style="color: #212529;" [routerLink]="['/template/view',item.templateId]">
+          <i class="fa fa-industry"></i>
+          {{item.templateName}}
+        </a>
       </th>
       <td class="align-center">{{item.assetType}}</td>
       <td class="align-center">{{item.templateId}}</td>
       <td class="align-center">{{item.organizationName}}</td>
       <td class="align-center">
-       
-        <a class="action-icon" title="View" (click)="onEditViewClick(item, 'view')">
+
+        <!-- <a class="action-icon" title="View">
 
           <i class="fa fa-eye"></i>
-        </a>
+        </a> -->
         <!-- [routerLink]="['/asset/view',item.parentOrganizationId, item.parentOrganizationName, item.parentLocationId, item.parentLocationName, item.id]"> -->
         <a class="action-icon" title="Edit" (click)="onEditViewClick(item, 'edit')">
           <i class="fa fa-edit"></i>

@@ -551,9 +551,11 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
  
 
   onAlertRuleTabClick() {
+    console.log('onAlertRuleTabClick')
     if (!this.alertRuleList || this.alertRuleList.length === 0) {
-      this.alertRuleservice.getAllAlerts()
+      this.alertRuleservice.getAllAlertsByOrgId(this.curOrgId)
         .subscribe(response => {
+          console.log('response ', response)
           this.alertRuleList = response;
         });
     }

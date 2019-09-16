@@ -50,8 +50,8 @@
 
         <div class="col-4">
           <div class="row form-group">
-            <label class="col-sm-5 col-form-label" for="parentAsset"><b>Parent Asset:</b></label>
-            <select [(ngModel)]="template.parentAssetId" name="parentAsset" [disabled]="pageType==='View'"
+            <label class="col-sm-5 col-form-label" for="assetName"><b>Asset Name:</b></label>
+            <select [(ngModel)]="template.assetId" name="asset" [disabled]="pageType==='View'"
               class=" col-sm-7 drop-down form-control asset-create-font" #parentAsset="ngModel">
               <option *ngFor="let asset of parentAssetListForDropDown" [value]="asset.assetId">
                 {{asset.assetName}}
@@ -126,36 +126,16 @@
           <label style="font-weight: bold" *ngIf="template && template.logo"></label>
           <img [src]="imgURL" height="200" width="235" *ngIf="imgURL">
         </div>
-        <!-- (change)="(!template.templateId||(template.templateId && isConfirmToChangeImage==='change'))?onFileChange($event):null" -->
         <div class="col-md-3 form-group">
           <label for="exampleFormControlFile1"><b>Documentation:</b></label>
           <input type="file" id="documentUpload" name="documentUpload" (change)="onDocChangeClick();"
             class="form-control-file asset-create-font" #fileInput>
-          <!-- <button type="button" class="btn btn-sm btn-default" (click)="clearFile()">clear file</button> -->
-          <!-- <label style="font-weight: bold" *ngIf="template && template.logo">Image</label> -->
-          <a *ngIf="template.documentation" style="color:blue;"
-            (click)="onFileOpen()"><u>{{template.documentation.fileName}}</u></a>
-        </div>
-
-        <div class="col-md-3" *ngIf="template.templateId">
-          <label for="asset-temp"><b>* Asset Template</b></label>
-          <br>
-          <label for="temp-contain">{{template.templateName? template.templateName: '-'}}</label>
-          <br>
-          <div>
-            <div class="checkbox">
-              <label>
-                <input type="checkbox" [(ngModel)]="acceptedTemplateChages" (click)="onTemplateChangeAccept($event)"
-                  name="templateAccept">Accept Template Changes</label>
-            </div>
-            <!-- <input class="form-check-input templt-radio" type="radio"> -->
-            <!-- <label for="temp-change" class="templt-label">Accept Template Changes</label> -->
-          </div>
+          <a *ngIf="template.fileStore" style="color:blue;"
+            (click)="onFileOpen()"><u>{{template.fileStore.fileName}}</u></a>
         </div>
       </div>
 
       <div class="row">
-
         <div class="col-12 action-btn-asset">
           <button id="template-cancel" for="form-cancel" type="button" (click)="onCancelClick($event)"
             class="btn btn-secondary btn-sm button-right-mod">Cancel</button>
@@ -172,6 +152,7 @@
 
   <div class="tab-pane fade" id="template-signal" role="tabpanle" area-labelledby="template-signal-tab">
     <!-- <app-votom-cloud-assets-signal></app-votom-cloud-assets-signal> -->
+    <app-votm-cloud-templates-signal [imgURL]="imgURL" [template]="template"></app-votm-cloud-templates-signal>
   </div>
 
 </div>
