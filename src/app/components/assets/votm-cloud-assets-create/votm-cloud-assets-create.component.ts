@@ -706,7 +706,7 @@ export class VotmCloudAssetsCreateComponent implements OnInit {
   }
 
   openConfirmDialog() {
-    this.message = `Do you want to delete the "${this.asset.assetName}" Asset?`;
+    this.message = `Are you sure you want to delete the "${this.asset.assetName}" Asset?`;
     this.confirmBox.open();
   }
 
@@ -728,7 +728,7 @@ export class VotmCloudAssetsCreateComponent implements OnInit {
 
   onAssetTypeChange() {
     if (this.acceptedTemplateChages && this.asset.assetType !== this.previousAsset.assetType) {
-      this.templateWarningMessage = 'Asset Type is inherited from the asset template, changing the value for this field breaks the binding to the asset template.  Do you want to continue?'
+      this.templateWarningMessage = 'Asset Type is inherited from the asset template, changing the value for this field breaks the binding to the asset template.  Are you sure you want to continue?'
       this.templateConfirmBox.open();
     }
   }

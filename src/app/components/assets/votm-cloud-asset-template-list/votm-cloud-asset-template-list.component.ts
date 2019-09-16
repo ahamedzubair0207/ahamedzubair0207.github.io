@@ -27,6 +27,7 @@ export class VotmCloudAssetTemplateListComponent implements OnInit {
   parentOrgName: string;
   assetId: string;
   assetName: string;
+  templateName: string;
   assetNameToDelete: any;
   message: any;
   supscriptions: any;
@@ -43,7 +44,7 @@ export class VotmCloudAssetTemplateListComponent implements OnInit {
 
   openConfirmDialog(delAssetId, name) {
     this.assetToDelete = delAssetId;
-    this.message = `Do you want to delete the "${name}" Template?`;
+    this.message = `Deleting this template will break all asset bindings. Are you sure you want to delete this Template?`;
     this.confirmBox.open();
     this.assetNameToDelete = name;
   }
