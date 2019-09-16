@@ -1,18 +1,19 @@
-<div class="row event-header">
-    <div class="event-search-bar-wrapper">
-        <form class="form-inline">
-          <label for="typeahead-config">Type to filter events:</label>
-          <input class="form-control-sm ml-2 mb-3 mt-3" id="searchBox" type="search" placeholder="Search" aria-label="Search">
-          <button class="btn btn-outline-info btn-sm mr-2 ml-2" id="searchButton" type="submit">Search</button>
-        </form>
-    </div>
-    <div class="add-event-btn-wrapper">
-      <button class="btn btn-info btn-group-right btn-sm create-event-btn"  (click)="openAddEventModal()" id="createEventButton" type="button"><i
-        class="fa fa-industry mr-2"></i>Add Event</button>
-    </div>
-    <div></div>
+<div class="event-header">
+  <div class="event-search-bar-wrapper">
+    <form class="form-inline">
+      <label for="typeahead-config">Type to filter events:</label>
+      <input class="form-control-sm ml-2 mb-3 mt-3" id="searchBox" type="search" placeholder="Search"
+        aria-label="Search">
+      <button class="btn btn-outline-info mr-2 ml-2" id="searchButton" type="submit">Search</button>
+    </form>
   </div>
-  <!-- <ng-template #recursiveTableList let-list="eventList" let-lvl="level">
+  <div class="add-event-btn-wrapper">
+    <button class="btn btn-info btn-group-right create-event-btn" (click)="openAddEventModal()"
+      id="createEventButton" type="button"><i class="fa fa-industry mr-2"></i>Add Event</button>
+  </div>
+  <div></div>
+</div>
+<!-- <ng-template #recursiveTableList let-list="eventList" let-lvl="level">
     <ng-container *ngFor="let item of list">
       <tr>
         <td class="align-center"></td>
@@ -26,9 +27,9 @@
       </tr>
     </ng-container>
   </ng-template> -->
-  
-  
-  
+
+
+<div class="table-responsive">
   <table class="table table-sm table-bordered org-table-fonts">
     <thead class="thead-dark">
       <tr>
@@ -44,7 +45,7 @@
     </thead>
     <tbody>
       <!-- <ng-container *ngTemplateOutlet="recursiveTableList; context:{ eventList: eventList, level: 0 }">
-      </ng-container> -->
+        </ng-container> -->
       <tr class="event-information">
         <td class="align-center">
           <i class="fa fa-info-circle"></i>
@@ -83,73 +84,77 @@
         <td class="align-left">Closed</td>
       </tr>
       <tr class="event-stop">
-        <td colspan="2">
-          <div class="form-group">
-            <label class="form-check-label"><input type="radio"> Acknowledge & close alert</label>
-          </div>
-        </td>
-        <td colspan="3">
-          <div class="input-group row">            
-            <label for="closeby" class="col-sm-4 col-form-label">Close by</label>
-            <div class="col-sm-8">
-              <div class="input-group">            
-                  <input type="text" class="form-control" placeholder="dd/mm/yyy mm:hh">
-                  <div class="input-group-append">
-                      <span class="input-group-text"><i class="fa fa-calendar"></i></span>
-                  </div>
-              </div>
-          </div>
-          </div>
-        </td>
-        <td colspan="2">
-          <div class="form-group row">
-            <label for="closeby" class="col-sm-4 col-form-label">Close by</label>
-            <div class="col-sm-8">
-                <input type="text" class="form-control" id="closeby" placeholder="Ashish Bhatt">
-            </div>
-          </div>
-        </td>
-      </tr>
-      <tr class="event-stop">
-        <td colspan="2">
-          <div class="form-group">
-            <label class="form-check-label"><input type="radio"> Close alert with activity event</label>
-          </div>
-        </td>
-        <td colspan="5">
-          <div class="form-group row">
-            <label for="" class="col-sm-4 col-form-label">Closure Activity Event</label>
-            <div class="col-sm-8">
-                <select class="form-control">
-                  <option>Asset Maintainance</option>
-                </select>
-            </div>
-          </div>
-        </td>
-      </tr>
-      <tr class="event-stop">
-        <td colspan="2">
-          <div class="form-group">
-            <label class="form-check-label"><input type="radio"> Force alert escalation</label>
-          </div>
-        </td>
-        <td colspan="5">
-          <div class="form-group row">
-            <label for="" class="col-sm-4 col-form-label">Closure Notes</label>
-            <div class="col-sm-8">
-                <textarea class="form-control" rows="2"></textarea>
-            </div>
-          </div>
-        </td>
-      </tr>
-      <tr class="event-stop">
         <td colspan="7">
-          <button class="btn btn-primary btn-sm mr-2">Save</button>
-          <button class="btn btn-secondary btn-sm">Cancel</button>
+          <div class="row">
+            <div class="col-md-3">
+              <div class="form-group pt-1">
+                <label class="form-check-label"><input type="radio"> Acknowledge & close alert</label>
+              </div>
+            </div>
+            <div class="col-md-8 pr-0">
+              <div class="input-group row mb-3">
+                <label for="closeby" class="col-sm-2 col-form-label">Close on</label>
+                <div class="col-sm-4">
+                  <div class="input-group">
+                    <input type="text" class="form-control" placeholder="dd/mm/yyy mm:hh">
+                    <div class="input-group-append">
+                      <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                    </div>
+                  </div>
+                </div>
+                <label for="closeby" class="col-sm-2 col-form-label">Close by</label>
+                <div class="col-sm-4 pr-0">
+                  <input type="text" class="form-control" id="closeby" placeholder="Ashish Bhatt">
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-3">
+                <div class="form-group pt-1">
+                  <label class="form-check-label"><input type="radio"> Close alert with activity event</label>
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="form-group row">
+                  <label for="" class="col-sm-4 col-form-label">Closure Activity Event</label>
+                  <div class="col-sm-8">
+                    <select class="form-control">
+                      <option>Asset Maintainance</option>
+                    </select>
+                  </div>
+                </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-3">
+              <div class="form-group pt-1">
+                <label class="form-check-label"><input type="radio"> Force alert escalation</label>
+              </div>
+            </div>
+            <div class="col-md-8">
+              <div class="form-group row">
+                <label for="" class="col-sm-4 col-form-label">Closure Notes</label>
+                <div class="col-sm-8">
+                  <textarea class="form-control" rows="2"></textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+        </td>
+      </tr>
+      <tr class="event-stop">
+        <td colspan="7" class="text-right">
+          <button class="btn btn-secondary mr-3" disabled>Cancel</button>
+          <button class="btn btn-primary">Save</button>
         </td>
       </tr>
     </tbody>
   </table>
+</div>
 
 
 <!-- Add Event Model Start-->
@@ -164,71 +169,97 @@
         </button>
       </div>
       <div class="modal-body event-create-font">
-          <form #organizationForm="ngForm" class="form needs-validation" novalidate>
-              <div class="form-group row">
-                  <label for="" class="col-md-2 col-form-label">Event Name</label>
-                  <div class="col-sm-5">
-                      <select class="form-control">
-                          <option>Select</option>
-                          <option>Plant Shut Down</option>
-                          <option>Pump Motor Temprature</option>
-                          <option>Compressor Over Pressure</option>
-                      </select>
-                  </div>
+        <form #organizationForm="ngForm" class="form needs-validation" novalidate>
+          <div class="form-group row">
+            <label for="" class="col-md-2 col-form-label">Event Name</label>
+            <div class="col-sm-4">
+              <select class="form-control">
+                <option>Select</option>
+                <option>Plant Shut Down</option>
+                <option>Pump Motor Temprature</option>
+                <option>Compressor Over Pressure</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="" class="col-md-2 col-form-label">Created By</label>
+            <div class="col-md-4">
+              <input type="text" class="form-control" id="" placeholder="" value="Sean Healy">
+            </div>
+            <label for="" class="col-sm-1 col-form-label">On</label>
+            <div class="col-md-4">
+              <div class="input-group">
+                <input type="text" class="form-control" placeholder="dd/mm/yyy mm:hh">
+                <div class="input-group-append">
+                  <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                </div>
               </div>
-              <div class="form-group row">
-                  <label for="" class="col-md-2 col-form-label">Created By</label>
-                  <div class="col-md-4">
-                      <input type="text" class="form-control" id="" placeholder="" value="Sean Healy">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="" class="col-md-2 col-form-label">Applies To</label>
+            <div class="col-md-4">
+              <select class="form-control">
+                <option>Select</option>
+                <option>Compressor Room</option>
+                <option>Pump Room</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="" class="col-md-2 col-form-label">Notes</label>
+            <div class="col-md-6">
+              <textarea class="form-control" rows="3"></textarea>
+            </div>
+          </div>
+          <fieldset class="form-group">
+            <legend>Alarm Blackout</legend>
+
+            <div class="row">
+              <div class="col-sm-4">
+                <label for="startDate">Start Date</label>
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="dd/mm/yyy mm:hh">
+                    <div class="input-group-append">
+                      <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                    </div>
                   </div>
-                  <label for="" class="col-sm-1 col-form-label">Or</label>
-                  <div class="col-md-4">
-                      <input type="text" class="form-control" id="" value="12/9/2019 7:52">
-                  </div>
-              </div>
-              <div class="form-group row">
-                  <label for="" class="col-md-2 col-form-label">Applies To</label>
-                  <div class="col-md-4">
-                      <select class="form-control">
-                          <option>Select</option>
-                          <option>Compressor Room</option>
-                          <option>Pump Room</option>
-                      </select>
-                  </div>
-              </div>
-              <div class="form-group row">
-                  <label for="" class="col-md-2 col-form-label">Notes</label>
-                  <div class="col-md-6">
-                      <textarea class="form-control" rows="3"></textarea>
-                  </div>
-              </div>
-              <fieldset class="form-group">
-                <legend>Alarm Blackout</legend>
-        
-                <div class="row">
-                    <div class="col-sm-3">
-                      <label for="startDate">Start Date</label>
-                      <input type="date" class="form-control org-create-font" (change)="onStartDateChange()" (click)="onStartDateChange()"
-                        (keyup)="onStartDateChange()" placeholder="Start Date" name="startDate" required>
-                      <!-- <div *ngIf="startDate.dirty && startDate.invalid">
+                <!-- <input type="date" class="form-control org-create-font" (change)="onStartDateChange()"
+                  (click)="onStartDateChange()" (keyup)="onStartDateChange()" placeholder="Start Date" name="startDate"
+                  required> -->
+                <!-- <div *ngIf="startDate.dirty && startDate.invalid">
                         <app-votm-cloud-validator *ngIf="startDate.errors && startDate.errors.required"
                           message="Start Date is required"></app-votm-cloud-validator>
                         <app-votm-cloud-validator *ngIf="startDate.errors && startDate.errors.invalidDate"
                           message="Start Date can not be greater than or equal to end date"></app-votm-cloud-validator>
                       </div> -->
+              </div>
+
+              <div class="col-sm-4">
+                <label for="endDate">End Date</label>
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="dd/mm/yyy mm:hh">
+                    <div class="input-group-append">
+                      <span class="input-group-text"><i class="fa fa-calendar"></i></span>
                     </div>
-          
-                    <div class="col-sm-3">
-                      <label for="endDate">End Date</label>
-                      <input type="date" class="form-control org-create-font" (change)="onEndDateChange()"
-                        (click)="onEndDateChange()" (keyup)="onEndDateChange()" placeholder="End Date" name="endDate" required>
-                      <!-- <div *ngIf="endDate.dirty && endDate.invalid">
+                  </div>
+                <!-- <input type="date" class="form-control org-create-font" (change)="onEndDateChange()"
+                  (click)="onEndDateChange()" (keyup)="onEndDateChange()" placeholder="End Date" name="endDate"
+                  required> -->
+                <!-- <div *ngIf="endDate.dirty && endDate.invalid">
                         <app-votm-cloud-validator message="End Date is required"></app-votm-cloud-validator>
                       </div> -->
-                    </div>
+              </div>
+              <div class="col-sm-4">
+                <label for="">&nbsp;</label>
+                <div class="input-group">
+                  <button class="btn btn-secondary mr-3">Clear</button>
+                  <button class="btn btn-primary">Set</button>
                 </div>
-              </fieldset>
-          </form>
+              </div>
+            </div>
+          </fieldset>
+        </form>
       </div>
       <div class="modal-footer">
         <button id="add-event-cancle" type="button" class="btn button-mod btn-secondary btn-sm"
