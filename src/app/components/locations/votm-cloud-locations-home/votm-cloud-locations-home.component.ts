@@ -57,6 +57,10 @@ export class VotmCloudLocationsHomeComponent implements OnInit {
     this.router.navigate([`loc/create/${this.parentOrgId}/${this.parentOrgName}`])
   }
 
+  onCreateNewAsset(){
+    this.router.navigate([`asset/create/${this.parentOrgId}/${this.parentOrgName}`])
+  }
+
   private fetchlocationTree() {
     this.locService.getAllLocationTree().subscribe(response => {
       this.locationsList = response.map(x => ({

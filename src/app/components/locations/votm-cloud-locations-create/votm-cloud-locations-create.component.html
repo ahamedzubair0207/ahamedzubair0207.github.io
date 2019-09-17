@@ -33,6 +33,10 @@
           (click)="onSignalAssociateRuleTab()" data-toggle="tab" role="tab" aria-controls="loc-signal"
           aria-selected="false"><i class="fa fa-podcast"></i> Signal & Gateway Association</a>
       </li>
+      <i class="fa fa-lock edit-view-lock" name="loclockbutton" *ngIf="pageType.toLowerCase() === 'view'"
+        (click)="onLockClick()"></i>
+      <i class="fa fa-unlock edit-view-lock" name="locunlockbutton" *ngIf="pageType.toLowerCase() === 'edit'"
+        (click)="onLockClick()"></i>
     </ul>
   
   
@@ -42,19 +46,6 @@
   
       <form #locationForm="ngForm" class="create-loc-container loc-create-font needs-validation"
         (ngSubmit)="onLocationSubmit()" novalidate>
-  
-        <div class="row">
-          <!-- <h4 class="col-md-6">{{pageTitle}}</h4> -->
-          <div class="col-md-12 mb-3">
-            <!-- <i [ngClass]="{'fas fa-lock-open': (pageType.toLowerCase() !== 'view')}" (click)="onLockClick()"></i> -->
-            <!-- For View/Edit page -->
-            <i class="fa fa-lock edit-view-lock" name="loclockbutton" *ngIf="pageType.toLowerCase() === 'view'"
-              (click)="onLockClick()"></i>
-            <i class="fa fa-unlock edit-view-lock" name="locunlockbutton" *ngIf="pageType.toLowerCase() === 'edit'"
-              (click)="onLockClick()"></i>
-  
-          </div>
-        </div>
   
         <div class="row loc-create-font">
   
@@ -135,8 +126,7 @@
           <div class="col-6">
             <div class="row form-group">
               <label class="col-sm-5 col-form-label" for="primarydistribute"><b>*
-                  {{pageLabels.PrimaryDistributor.labelName}}
-                  :</b></label>
+                  Primary Distributor:</b></label>
               <div class="col-sm-7">
                 <input type="text" [(ngModel)]="location.primaryDistributor" class="form-control loc-create-font"
                   placeholder="Enter Primary Distributor" [disabled]="pageType==='View'" #primarydistribute="ngModel"
@@ -430,8 +420,7 @@
            
             <div class="col">
                 <div class="row form-group"> 
-                    <label class="col-sm-1 col-form-label" for="f-description"><b>{{pageLabels.DescriptionofLocation.labelName}}
-                        :</b></label>
+                    <label class="col-sm-1 col-form-label" for="f-description"><b>Description:</b></label>
                     <div class="col-sm-11">
                       <textarea class="form-control loc-create-font" [disabled]="pageType==='View'"
                         [(ngModel)]="location.description" name="locDescription" rows="3" id="f-description"></textarea>

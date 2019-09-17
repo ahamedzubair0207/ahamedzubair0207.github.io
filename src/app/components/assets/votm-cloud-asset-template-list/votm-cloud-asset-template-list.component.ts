@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, Output, EventEmitter } from '@angular/core';
 import { AssetsService } from 'src/app/services/assets/assets.service';
 import { BreadcrumbsService } from './../../../services/breadcrumbs/breadcrumbs.service';
 import { ActivatedRoute, ParamMap, Params } from "@angular/router";
@@ -42,9 +42,9 @@ export class VotmCloudAssetTemplateListComponent implements OnInit {
     this.router.navigate([`template/${action}/${template.templateId}`]);
   }
 
-  openConfirmDialog(delAssetId, name) {
-    this.assetToDelete = delAssetId;
-    this.message = `Deleting this template will break all asset bindings. Are you sure you want to delete this Template?`;
+  openConfirmDialog(template) {
+    this.assetToDelete = template.templateId;
+    this.message = `Deleting this template will break all asset bindings. Are you sure you want to delete ${template.templateName} Template?`;
     this.confirmBox.open();
     this.assetNameToDelete = name;
   }
@@ -56,7 +56,7 @@ export class VotmCloudAssetTemplateListComponent implements OnInit {
         .subscribe(response => {
           this.toaster.onSuccess(`You have deleted ${this.assetNameToDelete} successfully.`, 'Delete Success!');
           this.assetNameToDelete = '';
-
+          this.getAllTemplate();
         }, error => {
           this.toaster.onFailure('Something went wrong on server. Please try after sometiime.', 'Delete Fail!');
           this.assetNameToDelete = '';
@@ -64,6 +64,14 @@ export class VotmCloudAssetTemplateListComponent implements OnInit {
     }
     this.assetToDelete = '';
 
+  }
+
+  getAllTemplate() {
+    this.assetService.getAllTemplates()
+      .subscribe(response => {
+        console.log('response of templates ', response);
+        this.templateList = response;
+      });
   }
 
 }
