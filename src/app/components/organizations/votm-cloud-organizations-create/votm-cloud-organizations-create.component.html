@@ -37,6 +37,10 @@
           Alert
           Rule</a>
       </li>
+      <i class="fa fa-lock edit-view-lock" name="lockTogglebutton" *ngIf="pageType.toLowerCase() === 'view'"
+        (click)="onLockClick()"></i>
+      <i class="fa fa-unlock edit-view-lock" name="unlockTogglebutton" *ngIf="pageType.toLowerCase() === 'edit'"
+        (click)="onLockClick()"></i>
     </ul>
 
     <div class="tab-content">
@@ -46,20 +50,6 @@
 
         <form #organizationForm="ngForm" class="org-create-font create-org-container needs-validation"
           (ngSubmit)="onOrganizationSubmit()" novalidate>
-
-          <div class="row">
-            <!-- <h4 class="col-md-6">{{pageTitle}}</h4> -->
-            <div class="col-md-12 mb-3">
-              <!-- <i [ngClass]="{'fas fa-lock-open': (pageType.toLowerCase() !== 'view')}" (click)="onLockClick()"></i> -->
-              <!-- For View/Edit page -->
-              <i class="fa fa-lock edit-view-lock" name="lockTogglebutton" *ngIf="pageType.toLowerCase() === 'view'"
-                (click)="onLockClick()"></i>
-              <i class="fa fa-unlock edit-view-lock" name="unlockTogglebutton" *ngIf="pageType.toLowerCase() === 'edit'"
-                (click)="onLockClick()"></i>
-
-            </div>
-
-          </div>
 
           <div class="row">
 

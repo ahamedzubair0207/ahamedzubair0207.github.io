@@ -106,8 +106,8 @@ export class AssetsService {
       );
   }
 
-  deleteAsset(orgId: string) {
-    return this.http.delete(AppConstants.DEL_ASSET + '/' + orgId, orgId)
+  deleteAsset(assetId: string) {
+    return this.http.delete(AppConstants.DEL_ASSET + '/' + assetId, assetId)
       .pipe(
         map(response => response)
       );

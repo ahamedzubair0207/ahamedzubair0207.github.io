@@ -1,4 +1,4 @@
-<app-votm-cloud-confim-dialog (onClose)="deleteAssetById($event)" #confirmBox message="{{message}}"
+<app-votm-cloud-confim-dialog (onClose)="deleteTemplateById($event)" #confirmBox message="{{message}}"
   headerMessage="Warning"></app-votm-cloud-confim-dialog>
  
 <ul class="nav nav-tabs mt-3">
@@ -61,12 +61,8 @@
         <div class="col-4">
           <div class="row form-group">
             <label class="col-sm-5 col-form-label" id="template-asset-label" for="assetName"><b>Asset Name:</b></label>
-            <select id="template-asset-dropdown" [(ngModel)]="template.assetId" name="asset" disabled
-              class=" col-sm-7 drop-down form-control asset-create-font" #parentAsset="ngModel">
-              <option *ngFor="let asset of parentAssetListForDropDown" [value]="asset.assetId">
-                {{asset.assetName}}
-              </option>
-            </select>
+            <input type="text" [(ngModel)]="template.assetName" disabled
+            class="col-sm-7 form-control asset-create-font" name="parentAsset">
           </div>
           <!-- <div class="row form-group"> 
                 <label class="col-sm-5 col-form-label" for="parentLoc"><b>* Asset Name:</b></label>
@@ -104,7 +100,7 @@
               </option>
             </select> -->
             <input for="parentorganizationname" disabled class="col-sm-7 form-control asset-create-font" type="text"
-              placeholder="{{org.name}}">
+              placeholder="{{template.organizationName}}" [(ngModel)]="template.organizationName" name="organizationName" #organizationName="ngModel">
             <div *ngIf="organizationName.dirty && organizationName.invalid">
               <app-votm-cloud-validator message="Organization is required"></app-votm-cloud-validator>
             </div>

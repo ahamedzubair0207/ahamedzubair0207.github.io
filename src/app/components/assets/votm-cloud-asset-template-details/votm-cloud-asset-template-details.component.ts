@@ -9,6 +9,7 @@ import { Toaster } from '../../shared/votm-cloud-toaster/votm-cloud-toaster';
 import { ToastrService } from 'ngx-toastr';
 import { Logo, VOTMFile } from 'src/app/models/logo.model';
 import { DomSanitizer } from '@angular/platform-browser';
+import { VotmCloudConfimDialogComponent } from '../../shared/votm-cloud-confim-dialog/votm-cloud-confim-dialog.component';
 
 @Component({
   selector: 'app-votm-cloud-asset-template-details',
@@ -25,6 +26,7 @@ export class VotmCloudAssetTemplateDetailsComponent implements OnInit {
   asset: any;
   imgURL: any;
   toaster: Toaster = new Toaster(this.toastr);
+  @ViewChild('confirmBox', null) confirmBox: VotmCloudConfimDialogComponent;
   @ViewChild('templateForm', null) templateForm: NgForm;
   @ViewChild('file', null) locationImage: ElementRef;
   @ViewChild('fileInput', null) docFileInput: ElementRef;
@@ -44,8 +46,8 @@ export class VotmCloudAssetTemplateDetailsComponent implements OnInit {
         }
       });
     this.pageType = this.route.snapshot.data['type'];
-    this.getAllAssets();
-    this.getAllOrganization();
+    // this.getAllAssets();
+    // this.getAllOrganization();
   }
 
   onCancelClick(event) {
@@ -276,5 +278,23 @@ export class VotmCloudAssetTemplateDetailsComponent implements OnInit {
   onFileOpen() {
     const fileURL = URL.createObjectURL(this.docFile);
     window.open(fileURL, '_blank');
+  }
+
+  openConfirmDialog() {
+    this.message = `Do you want to delete ${this.template.templateName}?`
+    this.confirmBox.open();
+
+  }
+
+  deleteTemplateById(event) {
+    if (event) {
+      this.assetService.deleteAsset(this.template.templateId)
+        .subscribe(response => {
+          this.toaster.onSuccess(`You have deleted ${this.template.templateName} successfully`, 'Delete Success!');
+          this.routerLocation.back();
+        }, error => {
+          this.toaster.onFailure('Something went wrong on server. Please try after sometiime.', 'Delete Fail!');
+        });
+    }
   }
 }
