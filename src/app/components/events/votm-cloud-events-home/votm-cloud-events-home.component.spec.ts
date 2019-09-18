@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { VotmCloudEventsHomeComponent } from './votm-cloud-events-home.component';
+import { FormsModule } from '@angular/forms';
 
 describe('VotmCloudEventsHomeComponent', () => {
   let component: VotmCloudEventsHomeComponent;
@@ -8,7 +9,8 @@ describe('VotmCloudEventsHomeComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ VotmCloudEventsHomeComponent ]
+      imports: [FormsModule],
+      declarations: [VotmCloudEventsHomeComponent]
     })
     .compileComponents();
   }));

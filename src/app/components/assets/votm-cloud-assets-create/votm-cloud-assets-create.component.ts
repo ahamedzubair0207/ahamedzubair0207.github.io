@@ -19,7 +19,8 @@ import { LocationService } from 'src/app/services/locations/location.service';
 @Component({
   selector: 'app-votm-cloud-assets-create',
   templateUrl: './votm-cloud-assets-create.component.html',
-  styleUrls: ['./votm-cloud-assets-create.component.scss']
+  styleUrls: ['./votm-cloud-assets-create.component.scss'],
+  providers: [DatePipe]
 })
 export class VotmCloudAssetsCreateComponent implements OnInit {
   public imagePath;

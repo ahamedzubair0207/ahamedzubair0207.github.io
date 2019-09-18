@@ -28,7 +28,8 @@ import { countyList } from 'src/app/services/countryList/countryStateList';
 @Component({
   selector: 'app-votm-cloud-locations-create',
   templateUrl: './votm-cloud-locations-create.component.html',
-  styleUrls: ['./votm-cloud-locations-create.component.scss']
+  styleUrls: ['./votm-cloud-locations-create.component.scss'],
+  providers: [DatePipe]
 })
 export class VotmCloudLocationsCreateComponent implements OnInit {
 

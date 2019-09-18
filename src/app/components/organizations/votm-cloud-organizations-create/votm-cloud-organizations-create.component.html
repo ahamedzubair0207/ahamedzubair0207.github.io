@@ -58,7 +58,7 @@
                 <label class="col-sm-3 col-form-label" votmrequired for="name"><b>{{pageLabels.Name.labelName}} :</b></label>
                 <div class="col-sm-9">
                   <input type="text" maxlength="100" [(ngModel)]="organization.name"
-                    class="form-control org-create-font" placeholder="Name" name="name" [disabled]="pageType==='View'"
+                    class="form-control org-create-font" id="org-dtl-name" placeholder="Name" name="name" [disabled]="pageType==='View'"
                     #orgName="ngModel" required>
                   <div *ngIf="orgName.dirty && orgName.invalid">
                     <app-votm-cloud-validator message="Name is required"></app-votm-cloud-validator>

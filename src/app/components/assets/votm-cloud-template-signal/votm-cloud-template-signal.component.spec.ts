@@ -1,5 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { VotomCloudTemplateSignalComponent } from './votm-cloud-template-signal.component';
+import { OverlayPanel } from 'primeng/overlaypanel';
+import { RouterTestingModule } from '@angular/router/testing';
+import { HttpClientModule } from '@angular/common/http';
 
 
 describe('VotomCloudTemplateSignalComponent', () => {
@@ -8,7 +11,8 @@ describe('VotomCloudTemplateSignalComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ VotomCloudTemplateSignalComponent ]
+      imports:[RouterTestingModule, HttpClientModule],
+      declarations: [ VotomCloudTemplateSignalComponent, OverlayPanel]
     })
     .compileComponents();
   }));
