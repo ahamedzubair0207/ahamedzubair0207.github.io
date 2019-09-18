@@ -33,8 +33,15 @@ export class AssetsService {
       );
   }
 
-  getAllAssets(): Observable<any> {
+  getAllAssetsTree(): Observable<any> {
     return this.http.get(AppConstants.GET_ASSET_TREE)
+      .pipe(
+        map(response => response)
+      );
+  }
+
+  getAllAssets(): Observable<any> {
+    return this.http.get(AppConstants.GET_ALLASSETS)
       .pipe(
         map(response => response)
       );
@@ -42,6 +49,13 @@ export class AssetsService {
 
   getAllTemplates(): Observable<any> {
     return this.http.get(AppConstants.GET_TEMPLATES)
+      .pipe(
+        map(response => response)
+      );
+  }
+
+  getAllTemplatesIdAndName(): Observable<any> {
+    return this.http.get(AppConstants.GET_TEMPLATESNAMELIST)
       .pipe(
         map(response => response)
       );
@@ -76,6 +90,14 @@ export class AssetsService {
       );
   }
 
+  updateTemplate(body: any) {
+
+    return this.http.patch(AppConstants.EDIT_TEMPLATE, body)
+      .pipe(
+        map(response => response)
+      );
+  }
+
   updateAsset(body: Asset) {
 
     return this.http.patch(AppConstants.EDIT_ASSET + '/' + body.assetId, body)
@@ -84,8 +106,8 @@ export class AssetsService {
       );
   }
 
-  deleteAsset(orgId: string) {
-    return this.http.delete(AppConstants.DEL_ASSET + '/' + orgId, orgId)
+  deleteAsset(assetId: string) {
+    return this.http.delete(AppConstants.DEL_ASSET + '/' + assetId, assetId)
       .pipe(
         map(response => response)
       );

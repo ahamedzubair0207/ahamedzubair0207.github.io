@@ -1,6 +1,6 @@
 
 
-export const countyList =
+export const countyList: any[] =
   [
     {
       countryName: 'Afghanistan',
@@ -131,7 +131,7 @@ export const countyList =
         'Sakikdah',
         'Satif',
         `Sayda\\'`,
-      `Sidi ban-al-\\'Abbas`,
+        `Sidi ban-al-\\'Abbas`,
         'Suq Ahras',
         'Tamanghasat',
         'Tibazah',

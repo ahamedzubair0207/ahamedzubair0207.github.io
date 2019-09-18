@@ -63,6 +63,8 @@ import {DragDropModule} from 'primeng/dragdrop';
 import {TooltipModule} from 'primeng/tooltip';
 import {OverlayPanelModule} from 'primeng/overlaypanel';
 import { VotmCloudEventsHomeComponent } from './components/events/votm-cloud-events-home/votm-cloud-events-home.component';
+import { VotomCloudTemplateSignalComponent } from './components/assets/votm-cloud-template-signal/votm-cloud-template-signal.component';
+import { VotmCloudRequiredAttributeDirective } from './components/shared/required-attribute/votm-cloud-required-attribute.directive';
 
 @NgModule({
   declarations: [
@@ -103,7 +105,9 @@ import { VotmCloudEventsHomeComponent } from './components/events/votm-cloud-eve
     VotmCloudLocationsSignalComponent,
     VotmCloudAssetTemplateListComponent,
     VotmCloudAssetTemplateDetailsComponent,
-    VotmCloudEventsHomeComponent
+    VotmCloudEventsHomeComponent,
+    VotomCloudTemplateSignalComponent,
+    VotmCloudRequiredAttributeDirective,
   ],
 
  

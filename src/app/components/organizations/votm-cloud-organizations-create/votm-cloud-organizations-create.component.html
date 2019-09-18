@@ -21,7 +21,7 @@
 <!-- Second Level Nav -->
 
 <div class="tab-content">
-  
+
   <div class="org-outside-border tab-content tab-pane fade show active" id="org-details-tab"
     *ngIf="(!orgId && pageLabels) || (orgId && pageLabels && organization)" role="tabpanle"
     area-labelledby="org-info-tab">
@@ -37,6 +37,10 @@
           Alert
           Rule</a>
       </li>
+      <i class="fa fa-lock edit-view-lock" name="lockTogglebutton" *ngIf="pageType.toLowerCase() === 'view'"
+        (click)="onLockClick()"></i>
+      <i class="fa fa-unlock edit-view-lock" name="unlockTogglebutton" *ngIf="pageType.toLowerCase() === 'edit'"
+        (click)="onLockClick()"></i>
     </ul>
 
     <div class="tab-content">
@@ -48,25 +52,11 @@
           (ngSubmit)="onOrganizationSubmit()" novalidate>
 
           <div class="row">
-            <!-- <h4 class="col-md-6">{{pageTitle}}</h4> -->
-            <div class="col-md-12 mb-3">
-              <!-- <i [ngClass]="{'fas fa-lock-open': (pageType.toLowerCase() !== 'view')}" (click)="onLockClick()"></i> -->
-              <!-- For View/Edit page -->
-              <i class="fa fa-lock edit-view-lock" name="lockTogglebutton" *ngIf="pageType.toLowerCase() === 'view'"
-                (click)="onLockClick()"></i>
-              <i class="fa fa-unlock edit-view-lock" name="unlockTogglebutton" *ngIf="pageType.toLowerCase() === 'edit'"
-                (click)="onLockClick()"></i>
-
-            </div>
-
-          </div>
-
-          <div class="row">
 
             <div class="col-6">
               <div class="row form-group">
-                <label class="col-sm-3 col-form-label mr-3" for="name"><b>* {{pageLabels.Name.labelName}} :</b></label>
-                <div class="col-sm-7">
+                <label class="col-sm-3 col-form-label" votmrequired for="name"><b>{{pageLabels.Name.labelName}} :</b></label>
+                <div class="col-sm-9">
                   <input type="text" maxlength="100" [(ngModel)]="organization.name"
                     class="form-control org-create-font" placeholder="Name" name="name" [disabled]="pageType==='View'"
                     #orgName="ngModel" required>
@@ -81,10 +71,10 @@
 
             <div class="col-6">
               <div class="row form-group">
-                <label class="col-sm-5 col-form-label" for="parentOrgLbl"><b>{{pageLabels.ParentOrganization.labelName}}
+                <label class="col-sm-5 col-form-label" id="parentOrgLbl"><b>{{pageLabels.ParentOrganization.labelName}}
                     :</b></label>
                 <div class="col-sm-7">
-                  <select [disabled]="pageType==='View'" [(ngModel)]="organization.parentOrganizationId"
+                  <select [disabled]="pageType==='View'" id="parentOrgLblList" [(ngModel)]="organization.parentOrganizationId"
                     name="parentOrganizationName" class="drop-down form-control org-create-font" required>
                     <option *ngFor="let org of organizationList" [value]="org.id">
                       {{org.name}}
@@ -103,23 +93,21 @@
 
           <div class="row">
 
-            <div class="col-4">
+            <div class="col-3">
               <div class="row form-group">
-                <label class="col-sm-5 col-form-label" for="nameShort"><b>Short Name :</b></label>
-                <div class="col-sm-7">
-                  <input type="text" class="form-control org-create-font" placeholder="Short Name" maxlength="500"
+                <label class="col-sm-6 col-form-label" id="nameShortLbl"><b>Short Name:</b></label>
+                <div class="col-sm-6">
+                  <input type="text" class="form-control org-create-font" id="nameShort" placeholder="Short Name" maxlength="500"
                     [disabled]="pageType==='View'" name="shortName" required>
                 </div>
               </div>
             </div>
 
-            <div class="col-4">
+            <div class="col-3">
               <div class="row form-group">
-                <label class="col-sm-6 col-form-label px-0" for="customerNum"><b>*
-                    {{pageLabels.CustomerNumber.labelName}}
-                    :</b></label>
+                <label class="col-sm-6 col-form-label px-0" votmrequired id="customerNumLbl"><b>Customer No.:</b></label>
                 <div class="col-sm-6">
-                  <input type="text" [(ngModel)]="organization.customerNumber" class="form-control org-create-font"
+                  <input type="text" [(ngModel)]="organization.customerNumber" id="customerNum" class="form-control org-create-font"
                     placeholder="Customer Number" maxlength="500" #customerNum="ngModel" [disabled]="pageType==='View'"
                     name="customerNum" required>
                   <div *ngIf="customerNum.dirty && customerNum.invalid">
@@ -132,12 +120,12 @@
               </div>
             </div>
 
-            <div class="col-4">
+            <div class="col-6">
               <div class="row form-group">
-                <label class="col-sm-6 col-form-label" for="customerNum"
-                  for="organizationType"><b>{{pageLabels.OrganizationType.labelName}} :</b></label>
-                <div class="col-sm-6">
-                  <input type="text" [disabled]="pageType==='View'" [(ngModel)]="organization.organizationType"
+                <label class="col-sm-5 col-form-label" id="orgTypeLbl"
+                  for="organizationType"><b>{{pageLabels.OrganizationType.labelName}}:</b></label>
+                <div class="col-sm-7">
+                  <input type="text" [disabled]="pageType==='View'" id="orgTypeInput" [(ngModel)]="organization.organizationType"
                     class="form-control org-create-font" maxlength="100" placeholder="Organization Type"
                     name="organizationType">
                   <app-votm-cloud-char-validator
@@ -150,32 +138,45 @@
           </div>
 
           <div class="row">
-            <div class="col-sm-6 form-group">
-              <label for="primarycontact"><b>* {{pageLabels.PrimaryContact.labelName}} :</b></label>
-              <input type="email" [disabled]="pageType==='View'" [(ngModel)]="organization.primaryContactEmailAddress"
-                class="form-control org-create-font" email #primaryContact="ngModel" maxlength="100"
-                placeholder="Email Address" name="contact" required>
-              <div *ngIf="primaryContact.dirty && primaryContact.invalid">
-                <app-votm-cloud-validator *ngIf="primaryContact.errors && primaryContact.errors.required"
-                  message="Primary Contact is required"></app-votm-cloud-validator>
-                <app-votm-cloud-validator *ngIf="primaryContact.errors && primaryContact.errors.email"
-                  message="This is not valid mail id"></app-votm-cloud-validator>
+            <div class="col-6">
+              <div class="row form-group">
+                <label class="col-sm-5 col-form-label" id="primarycontactLbl"><b>* {{pageLabels.PrimaryContact.labelName}}:</b></label>
+                    <div class="col-sm-7">
+                        <input type="email" id="primarycontact" [disabled]="pageType==='View'" [(ngModel)]="organization.primaryContactEmailAddress"
+                        class="form-control org-create-font" email #primaryContact="ngModel" maxlength="100"
+                        placeholder="Email Address" name="contact" required>
+                    </div>
+                
+                <div *ngIf="primaryContact.dirty && primaryContact.invalid">
+                  <app-votm-cloud-validator *ngIf="primaryContact.errors && primaryContact.errors.required"
+                    message="Primary Contact is required"></app-votm-cloud-validator>
+                  <app-votm-cloud-validator *ngIf="primaryContact.errors && primaryContact.errors.email"
+                    message="This is not valid mail id"></app-votm-cloud-validator>
+
+                </div>
+                <app-votm-cloud-char-validator
+                  [condition]="organization.primaryContactEmailAddress && organization.primaryContactEmailAddress.length>=100">
+                </app-votm-cloud-char-validator>
               </div>
 
-              <app-votm-cloud-char-validator
-                [condition]="organization.primaryContactEmailAddress && organization.primaryContactEmailAddress.length>=100">
-              </app-votm-cloud-char-validator>
+
             </div>
 
-            <div class="col-sm-6 form-group">
-              <label for="primarycontactnumber"><b>* Contact Phone :</b></label>
-              <input type="text" [disabled]="pageType==='View'" class="form-control org-create-font" number
-                maxlength="100" placeholder="Phone Number" name="contact" required>
-              <div *ngIf="primaryContact.dirty && primaryContact.invalid">
-                <app-votm-cloud-validator *ngIf="primaryContact.errors && primaryContact.errors.required"
-                  message="Primary Contact is required"></app-votm-cloud-validator>
-                <app-votm-cloud-validator *ngIf="primaryContact.errors && primaryContact.errors.email"
-                  message="This is not valid mail id"></app-votm-cloud-validator>
+            <div class="col-6">
+              <div class="row form-group">
+                <label class="col-sm-5 col-form-label" id="primarycontactnumberlbl"><b>* Contact Phone:</b></label>
+                <div class="col-sm-7">
+                    <input type="text" id="primarycontactnumber" [disabled]="pageType==='View'" class="form-control org-create-font" number
+                    maxlength="100" placeholder="Phone Number" name="contact" required>
+                </div>
+                
+                <div *ngIf="primaryContact.dirty && primaryContact.invalid">
+                  <app-votm-cloud-validator *ngIf="primaryContact.errors && primaryContact.errors.required"
+                    message="Primary Contact is required"></app-votm-cloud-validator>
+                  <app-votm-cloud-validator *ngIf="primaryContact.errors && primaryContact.errors.email"
+                    message="This is not valid mail id"></app-votm-cloud-validator>
+                </div>
+
               </div>
 
               <app-votm-cloud-char-validator
@@ -185,13 +186,16 @@
           </div>
 
           <div class="row">
-            <div class="col-sm-6 form-group">
-              <label for="primaryDistributorName"><b>* {{pageLabels.PrimaryDistributor.labelName}} : </b></label>
-              <input type="text" [disabled]="pageType==='View'" name="primaryDistributorName"
+            <div class="col-6">
+                <div class="row form-group">
+              <label class="col-sm-5 col-form-label" id="primaryDistributorNamelbl"><b>* Distributor: </b></label>
+              <div class="col-sm-7"><input type="text" id="primaryDistributorName" [disabled]="pageType==='View'" name="primaryDistributorName"
                 [(ngModel)]="organization.primaryDistributorName" class="form-control org-create-font"
-                placeholder="Primary Distributor Name" #primaryDistributorName="ngModel" maxlength="50" required>
+                placeholder="Primary Distributor Name" #primaryDistributorName="ngModel" maxlength="50" required></div>
+              
               <div *ngIf="primaryDistributorName.dirty && primaryDistributorName.invalid">
                 <app-votm-cloud-validator message="Primary Distributor Name is required"></app-votm-cloud-validator>
+              </div>
               </div>
 
               <app-votm-cloud-char-validator
@@ -199,18 +203,23 @@
               </app-votm-cloud-char-validator>
             </div>
 
-            <div class="col-sm-6 form-group">
-              <label for="primaryDistributorEmail"><b>* {{pageLabels.PrimaryDistributorEmail.labelName}} : </b></label>
-              <input type="email" [disabled]="pageType==='View'" name="primaryDistributorEmail"
+            <div class="col-6">
+                <div class="row form-group">
+              <label class="col-sm-5 col-form-label" id="primaryDistributorEmailLbl"><b>* Distributor Contact: </b></label>
+              <div class="col-sm-7">
+                <input type="email" id="primaryDistributorEmail" [disabled]="pageType==='View'" name="primaryDistributorEmail"
                 [(ngModel)]="organization.primaryDistributorEmailAddress" #primaryDistributorEmail="ngModel"
                 class="form-control org-create-font" email placeholder="Primary Distributor Email" maxlength="100"
                 required>
+              </div>
+              
               <div *ngIf="primaryDistributorEmail.dirty && primaryDistributorEmail.invalid">
                 <app-votm-cloud-validator
                   *ngIf="primaryDistributorEmail.errors && primaryDistributorEmail.errors.required"
                   message="Primary Distributor Contact is required"></app-votm-cloud-validator>
                 <app-votm-cloud-validator *ngIf="primaryDistributorEmail.errors && primaryDistributorEmail.errors.email"
                   message="This is not valid mail id"></app-votm-cloud-validator>
+              </div>
               </div>
               <app-votm-cloud-char-validator
                 [condition]="organization.primaryDistributorEmail && organization.primaryDistributorEmail.length>=100">
@@ -219,13 +228,13 @@
           </div>
 
           <fieldset class="form-group">
-            <legend><b>{{pageLabels.Contract.labelName}}</b></legend>
+            <legend><b id="contractHeadingLbl">{{pageLabels.Contract.labelName}}</b></legend>
 
             <div class="row org-create-font">
 
               <div class="col-sm-2">
-                <label for="startDate"><b>* {{pageLabels.StartDate.labelName}} :</b></label>
-                <input type="date" [disabled]="pageType==='View'" [(ngModel)]="organization.contractStartDate"
+                <label id="startDatelbl"><b>* {{pageLabels.StartDate.labelName}}:</b></label>
+                <input type="date" id="startDate" [disabled]="pageType==='View'" [(ngModel)]="organization.contractStartDate"
                   class="form-control org-create-font" (change)="onStartDateChange()" (click)="onStartDateChange()"
                   (keyup)="onStartDateChange()" #startDate="ngModel" placeholder="Start Date" name="startDate" required>
                 <div *ngIf="startDate.dirty && startDate.invalid">
@@ -237,8 +246,8 @@
               </div>
 
               <div class="col-sm-2">
-                <label for="endDate"><b>* {{pageLabels.EndDate.labelName}} :</b></label>
-                <input type="date" [disabled]="pageType==='View'" [(ngModel)]="organization.contractEndDate"
+                <label id="endDateLbl"><b>* {{pageLabels.EndDate.labelName}}:</b></label>
+                <input type="date" id="endDate" [disabled]="pageType==='View'" [(ngModel)]="organization.contractEndDate"
                   class="form-control org-create-font" #endDate="ngModel" (change)="onEndDateChange()"
                   (click)="onEndDateChange()" (keyup)="onEndDateChange()" placeholder="End Date" name="endDate"
                   required>
@@ -248,8 +257,8 @@
               </div>
 
               <div class="col-sm-2">
-                <label for="serviceLabel"><b>* {{pageLabels.SVCLevel.labelName}} : </b></label>
-                <select [disabled]="pageType==='View'" [(ngModel)]="organization.svclevel" name="svcLevels"
+                <label id="serviceLbl"><b>* {{pageLabels.SVCLevel.labelName}}: </b></label>
+                <select [disabled]="pageType==='View'" id="service" [(ngModel)]="organization.svclevel" name="svcLevels"
                   class="drop-down form-control org-create-font" required>
                   <option *ngFor="let svcLevel of svcLevels" [value]="svcLevel.optionId">
                     {{svcLevel.optionValue}}
@@ -263,8 +272,8 @@
               </div>
 
               <div class="col-sm-3">
-                <label for="sensorBlock"><b>* Sensor Block Count : </b></label>
-                <select [disabled]="pageType==='View'" [(ngModel)]="organization.sensorBlock" name="sensorBlock"
+                <label id="sensorBlockLbl"><b>* Sensor Blocks: </b></label>
+                <select [disabled]="pageType==='View'" id="sensorBlockLbl" [(ngModel)]="organization.sensorBlock" name="sensorBlock"
                   class="drop-down form-control org-create-font">
                   <option *ngFor="let sensorBlock of sensorBlocks" [value]="sensorBlock.optionId">
                     {{sensorBlock.optionValue}}
@@ -275,8 +284,8 @@
               </div>
 
               <div class="col-sm-3">
-                <label for="cellularBlock"><b>* Cellular Block Count : </b></label>
-                <select [disabled]="pageType==='View'" [(ngModel)]="organization.cellularBlocK" name="cellularBlock"
+                <label id="cellularBlockLbl"><b>* Cellular Blocks: </b></label>
+                <select [disabled]="pageType==='View'" id="cellularBlock" [(ngModel)]="organization.cellularBlocK" name="cellularBlock"
                   class="drop-down form-control org-create-font">
                   <option *ngFor="let cellularBlock of cellularBlocks" [value]="cellularBlock.optionId">
                     {{cellularBlock.optionValue}}
@@ -294,12 +303,12 @@
 
             <div class="col-6">
               <fieldset class="form-group">
-                <legend for="billingaddress"><b>* {{pageLabels.BillingAddress.labelName}} :</b></legend>
+                <legend id="billingaddress"><b>* {{pageLabels.BillingAddress.labelName}} :</b></legend>
                 <div class="row org-create-font">
 
                   <div class="col-12 form-group">
                     <!-- <label for="address2"><b>* {{pageLabels.Address1.labelName}} :</b></label> -->
-                    <input type="text" [disabled]="pageType==='View'" [(ngModel)]="organization.address[0].address1"
+                    <input type="text" id="address1" [disabled]="pageType==='View'" [(ngModel)]="organization.address[0].address1"
                       class="form-control org-create-font" #address1="ngModel" placeholder="Street Name" name="address1"
                       required>
                     <div *ngIf="address1.dirty && address1.invalid">
@@ -309,7 +318,7 @@
 
                   <div class="col-12 form-group">
                     <!-- <label for="address1"><b>* {{pageLabels.Address2.labelName}} :</b></label> -->
-                    <input type="text" [disabled]="pageType==='View'" [(ngModel)]="organization.address[0].address2"
+                    <input type="text" id="address2" [disabled]="pageType==='View'" [(ngModel)]="organization.address[0].address2"
                       class="form-control org-create-font" placeholder="Apt/Suite Number" #address2="ngModel"
                       name="address2">
                     <!-- <div *ngIf="address1.dirty && address1.invalid">
@@ -319,7 +328,7 @@
 
                   <div class="col-6 form-group">
                     <!-- <label for="city"><b>* {{pageLabels.City.labelName}} :</b></label> -->
-                    <input type="text" [disabled]="pageType==='View'" [(ngModel)]="organization.address[0].city"
+                    <input type="text" id="city" [disabled]="pageType==='View'" [(ngModel)]="organization.address[0].city"
                       class="form-control org-create-font" #city="ngModel" placeholder="City" name="city" required>
                     <div *ngIf="city.dirty && city.invalid">
                       <app-votm-cloud-validator message="City is required"></app-votm-cloud-validator>
@@ -327,7 +336,7 @@
                   </div>
 
                   <div class="col-6">
-                    <select #state="ngModel" [disabled]="pageType==='View'" [(ngModel)]="organization.address[0].state"
+                    <select #state="ngModel" id="state" [disabled]="pageType==='View'" [(ngModel)]="organization.address[0].state"
                       name="state" class="drop-down form-control org-create-font" required>
                       <option *ngFor="let state of states" [value]="state.value">
                         {{state.text}}
@@ -339,7 +348,7 @@
                   </div>
 
                   <div class="col-6">
-                    <select [disabled]="pageType==='View'" [(ngModel)]="organization.address[0].country" name="country"
+                    <select [disabled]="pageType==='View'" id="country" [(ngModel)]="organization.address[0].country" name="country"
                       class="drop-down form-control loc-create-font" (change)="onCountryChange($event)" required
                       #country="ngModel">
                       <option value="" disabled selected>Country</option>
@@ -362,7 +371,7 @@
 
                   <div class="col-6">
                     <!-- <label for="zipcode"><b>* {{pageLabels.Zipcode.labelName}} :</b></label> -->
-                    <input type="text" [disabled]="pageType==='View'" [(ngModel)]="organization.address[0].postalCode"
+                    <input type="text" id="zipCode" [disabled]="pageType==='View'" [(ngModel)]="organization.address[0].postalCode"
                       class="form-control org-create-font" #zipcode="ngModel" placeholder="Zip Code" name="zipCode"
                       required>
                     <div *ngIf="zipcode.dirty && zipcode.invalid">
@@ -376,10 +385,10 @@
 
             <div class="col-6">
               <div class="row form-group" *ngIf="!orgId && applicationConfiguration">
-                <label class="col-sm-5 col-form-label" for="DefaultLang"><b>* {{pageLabels.Language.labelName}}
+                <label class="col-sm-5 col-form-label" id="DefaultLangLbl"><b>* {{pageLabels.Language.labelName}}
                     :</b></label>
                 <div class="col-sm-7">
-                  <select required [(ngModel)]="organization.localeId" name="language"
+                  <select required [(ngModel)]="organization.localeId" id="DefaultLang" name="language"
                     class="drop-down form-control org-create-font" #defLanguage="ngModel">
                     <option value="" data-default selected>Select Language</option>
                     <option *ngFor="let locale of applicationConfiguration.locale" [value]="locale.localeId">
@@ -392,10 +401,10 @@
                 </div>
               </div>
               <div class="row form-group" *ngIf="orgId && applicationConfiguration">
-                <label class="col-sm-5 col-form-label" for="DefaultLang"><b>* {{pageLabels.Language.labelName}}
+                <label class="col-sm-5 col-form-label" id="DefaultLangViewLbl"><b>* {{pageLabels.Language.labelName}}
                     :</b></label>
                 <div class="col-sm-7">
-                  <select required #language="ngModel" [disabled]="pageType==='View'" [(ngModel)]="organization.locale"
+                  <select required #language="ngModel" id="DefaultLangView" [disabled]="pageType==='View'" [(ngModel)]="organization.locale"
                     name="language" class="drop-down form-control org-create-font">
                     <!-- <option value="" data-default selected>Select Language</option> -->
                     <option *ngFor="let locale of applicationConfiguration.locale" [value]="locale.localeId">
@@ -409,10 +418,10 @@
               </div>
               <div class="row form-group" *ngIf="!orgId && applicationConfiguration">
                 <!-- <label for="DefatimezoneultLang"><b>* {{pageLabels.TimeZone.labelName}} :</b></label> -->
-                <label class="col-sm-5 col-form-label" for="timezone"><b>* {{pageLabels.DefaultTimeZone.labelName}}
+                <label class="col-sm-5 col-form-label" id="timezoneLbl"><b>* {{pageLabels.DefaultTimeZone.labelName}}
                     :</b></label>
                 <div class="col-sm-7">
-                  <select required #timezone="ngModel" [disabled]="pageType==='View'"
+                  <select required #timezone="ngModel" id="timezone" [disabled]="pageType==='View'"
                     [(ngModel)]="organization.timeZoneId" name="timezone"
                     class="drop-down form-control org-create-font">
                     <!-- <option value="" data-default selected>Select Timezone</option> -->
@@ -427,10 +436,10 @@
               </div>
               <div class="row form-group" *ngIf="orgId && applicationConfiguration">
                 <!-- <label for="DefatimezoneultLang"><b>* {{pageLabels.TimeZone.labelName}} :</b></label> -->
-                <label class="col-sm-5 col-form-label" for="timezone"><b>* {{pageLabels.DefaultTimeZone.labelName}}
+                <label class="col-sm-5 col-form-label" id="timezonelblView"><b>* {{pageLabels.DefaultTimeZone.labelName}}
                     :</b></label>
                 <div class="col-sm-7">
-                  <select required #timezone="ngModel" [disabled]="pageType==='View'"
+                  <select required #timezone="ngModel" id="timezoneView" [disabled]="pageType==='View'"
                     [(ngModel)]="organization.timeZone" name="timezone" class="drop-down form-control org-create-font">
                     <!-- <option value="" data-default selected>Select Timezone</option> -->
                     <option *ngFor="let timeZone of applicationConfiguration.timeZone" [value]="timeZone.timeZoneId">
@@ -504,7 +513,7 @@
       </div>
 
       <div class="tab-pane fade" id="org-alert" role="tabpanle" area-labelledby="org-alert-tab">
-        <app-votm-cloud-alerts-home [alertList]="alertList"></app-votm-cloud-alerts-home>
+        <app-votm-cloud-alerts-home [alertList]="alertRuleList"></app-votm-cloud-alerts-home>
       </div>
     </div>
 

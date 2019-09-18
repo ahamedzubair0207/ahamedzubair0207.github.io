@@ -23,10 +23,10 @@ export class VotmCloudConfimDialogComponent implements OnInit {
 
   ngOnInit() {
     if(!this.confirmName){
-      this.confirmName = 'Delete';
+      this.confirmName = 'Yes';
     }
     if(!this.cancelName){
-      this.cancelName = 'Cancel';
+      this.cancelName = 'No';
     }
   }
 

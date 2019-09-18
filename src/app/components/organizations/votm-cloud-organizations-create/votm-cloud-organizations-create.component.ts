@@ -16,6 +16,7 @@ import { Toaster } from '../../shared/votm-cloud-toaster/votm-cloud-toaster';
 import { ToastrService } from 'ngx-toastr';
 import { AlertsService } from '../../../services/alerts/alerts.service';
 import { countyList } from 'src/app/services/countryList/countryStateList';
+import { SortArrays } from '../../shared/votm-sort';
 
 @Component({
   selector: 'app-votm-cloud-organizations-create',
@@ -102,7 +103,6 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
       //   }
       // });
       this.countries = countyList;
-      console.log(' this.countries ',  this.countries)
 
       this.getOptionsListData('Sensor Blocks');
       this.getOptionsListData('Cellular Blocks');
@@ -143,7 +143,7 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
   onCountryChange(event) {
     console.log('Country change ', this.organization.address[0].country);
     if (this.organization.address && this.organization.address.length > 0) {
-      this.organization.address[0].state = null;     
+      this.organization.address[0].state = null;
     } else {
       this.organization.address = [new Address()];
       this.organization.address[0].state = null;
@@ -223,6 +223,15 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
           this.organization.logo.imageType = this.fileExtension;
         }
 
+        this.countries.forEach(country => {
+          if (country.countryName === this.organization.address[0].country) {
+            this.states = [];
+            country.states.forEach((state: any) => {
+              this.states.push({ value: state, text: state });
+            });
+          }
+        });
+
       });
   }
 
@@ -257,7 +266,6 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
         .subscribe(response => {
           this.toaster.onSuccess(`You have deleted ${this.organization.name} successfully`, 'Delete Success!');
           this.route.navigate([`org/home/${this.curOrgId}/${this.curOrgName}`]);
-
         }, error => {
           this.toaster.onFailure('Something went wrong on server. Please try after sometiime.', 'Delete Fail!');
         });
@@ -543,39 +551,19 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
         if (!orgFound) {
           this.organizationList.push({ id: this.curOrgId, name: this.curOrgName });
         }
-        this.organizationList.sort(this.compareValues('name'));
+        this.organizationList.sort(SortArrays.compareValues('name'));
         // this.organization.parentOrganizationId = JSON.parse(JSON.stringify(this.organization.parentOrganizationId));
       })
   }
 
-  compareValues(key: string, order = 'asc') {
-    return function (a, b) {
-      if (!a.hasOwnProperty(key) || !b.hasOwnProperty(key)) {
-        // property doesn't exist on either object
-        return 0;
-      }
 
-      const varA = (typeof a[key] === 'string') ?
-        a[key].toUpperCase() : a[key];
-      const varB = (typeof b[key] === 'string') ?
-        b[key].toUpperCase() : b[key];
-
-      let comparison = 0;
-      if (varA > varB) {
-        comparison = 1;
-      } else if (varA < varB) {
-        comparison = -1;
-      }
-      return (
-        (order == 'desc') ? (comparison * -1) : comparison
-      );
-    };
-  }
 
   onAlertRuleTabClick() {
+    console.log('onAlertRuleTabClick')
     if (!this.alertRuleList || this.alertRuleList.length === 0) {
-      this.alertRuleservice.getAllAlerts()
+      this.alertRuleservice.getAllAlertsByOrgId(this.curOrgId)
         .subscribe(response => {
+          console.log('response ', response)
           this.alertRuleList = response;
         });
     }

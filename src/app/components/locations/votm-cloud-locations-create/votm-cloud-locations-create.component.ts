@@ -21,6 +21,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Toaster } from '../../shared/votm-cloud-toaster/votm-cloud-toaster';
 // import { } from '@types/googlemaps';
 import * as moment from 'moment-timezone';
+import { countyList } from 'src/app/services/countryList/countryStateList';
 
 
 
@@ -97,16 +98,18 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.locationService.getCountries()
-      .subscribe(response => {
-        if (response) {
-          this.countryObject = response;
-          this.countries = [];
-          response.forEach(country => {
-            this.countries.push({ value: country.countryName, text: country.countryName })
-          });
-        }
-      });
+    // this.locationService.getCountries()
+    //   .subscribe(response => {
+    //     if (response) {
+    //       this.countryObject = response;
+    //       this.countries = [];
+    //       response.forEach(country => {
+    //         this.countries.push({ value: country.countryName, text: country.countryName })
+    //       });
+    //     }
+    //   });
+    
+    this.countries = countyList;
     this.curOrgId = this.activatedRoute.snapshot.paramMap.get("curOrgId");
     this.curOrgName = this.activatedRoute.snapshot.paramMap.get("curOrgName");
     this.parentLocId = this.activatedRoute.snapshot.paramMap.get("parentLocId");
@@ -216,7 +219,7 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
       this.location.address = [new Address()];
       this.location.address[0].state = null;
     }
-    this.countryObject.forEach(country => {
+    this.countries.forEach(country => {
       if (country.countryName === this.location.address[0].country) {
         this.states = [];
         country.states.forEach((state: any) => {

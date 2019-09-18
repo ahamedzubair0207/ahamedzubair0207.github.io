@@ -16,7 +16,7 @@ export class Asset {
     logo: Logo;
     // active: true;
     description: string;
-    documentationUrl: string;
+    // documentationUrl: string;
     // documentation?: File;
     fileStore?: VOTMFile;
     // template?: string;

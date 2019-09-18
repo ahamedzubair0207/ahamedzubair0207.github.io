@@ -14,6 +14,8 @@ import { Observable } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { Toaster } from '../../shared/votm-cloud-toaster/votm-cloud-toaster';
 import { OrganizationService } from 'src/app/services/organizations/organization.service';
+import { SortArrays } from '../../shared/votm-sort';
+import { LocationService } from 'src/app/services/locations/location.service';
 @Component({
   selector: 'app-votm-cloud-assets-create',
   templateUrl: './votm-cloud-assets-create.component.html',
@@ -79,11 +81,15 @@ export class VotmCloudAssetsCreateComponent implements OnInit {
   allTemplates: any[] = [];
   templateNameToSave: string;
   organizationList: any[] = [];
+  parentAssetsList: any[] = [];
+  locationList: any[] = [];
+  locationListForDropDown: any[] = [];
+  parentAssetListForDropDown: any[];
   constructor(private modalService: NgbModal, private assetService: AssetsService,
     private configSettingsService: ConfigSettingsService, private domSanitizer: DomSanitizer,
     private activatedRoute: ActivatedRoute, private route: Router, private datePipe: DatePipe,
     private routerLocation: RouterLocation, private toastr: ToastrService,
-    private changeDetectorRef: ChangeDetectorRef, private orgService: OrganizationService) {
+    private changeDetectorRef: ChangeDetectorRef, private locService: LocationService, private orgService: OrganizationService) {
     this.subscriptions = route.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         if (this.previousUrl) {
@@ -105,37 +111,23 @@ export class VotmCloudAssetsCreateComponent implements OnInit {
     this.pageTitle = `${this.pageType} Asset`;
     this.assetId = this.activatedRoute.snapshot.params['assetId'];
     this.templateWarningMessage = 'This is message';
-    // this.asset = {
-    //   "organizationId": "ca58be27-9b16-4fff-afcc-0602fbb71f5e",
-    //   "organizationName": "Parker Test",
-    //   "locationName": "Parent Loc KK",
-    //   "locationId": "629c640e-5468-42e3-8f6a-0b97cb63f274",
-    //   "parentLocationId": "",
-    //   "parentAssetId": "",
-    //   "assetNumber": "string",
-    //   "parentAssetName": null,
-    //   "assetName": "dfdfdfererererer",
-    //   "parentLocationName": '',
-    //   "assetType": "string",
-    //   documentationUrl: '',
-    //   "description": "string",
-    //   assetId: 'null'
-    // };
-
-    // this.templates = [];
-    // for (let i = 0; i < 10; i++) {
-    //   this.templates.push({ text: 'Template' + i, value: 'template' + i })
-    // }
+    this.getAllAssets();
+    this.getAllOrganization();
+    this.getAllLocations();
 
     if (this.assetId) {
       this.assetService.getAssetById(this.assetId)
         .subscribe(response => {
-          console.log('response from get ', response);
           this.asset = response;
           if (this.asset) {
             this.asset.organizationName = this.curOrgName;
             this.asset.locationName = this.parentLocName;
             this.asset.parentAssetName = this.parentAssetName;
+            if (this.asset.logo && this.asset.logo.imageName) {
+              this.fileExtension = this.asset.logo.imageName.slice((Math.max(0, this.asset.logo.imageName.lastIndexOf(".")) || Infinity) + 1);
+              this.imgURL = this.domSanitizer.bypassSecurityTrustUrl(`data:image/${this.fileExtension};base64,${this.asset.logo.image}`);
+              this.asset.logo.imageType = this.fileExtension;
+            }
           }
         });
     }
@@ -151,7 +143,6 @@ export class VotmCloudAssetsCreateComponent implements OnInit {
   }
 
   createNestedAsset(event) {
-    console.log('this.asset ', this.asset)
     this.route.navigate([`asset/create/${this.asset.organizationId}/${this.asset.organizationName}/${this.asset.locationId}/${this.asset.locationName}/${this.asset.assetId}/${this.asset.assetName}`])
 
   }
@@ -203,7 +194,6 @@ export class VotmCloudAssetsCreateComponent implements OnInit {
       this.templateWarningMessage = 'Image is inherited from the asset template, changing the value for this field breaks the binding to the asset template.  Do you want to continue?'
       this.imageChangeConfirmBox.open();
     } else {
-      console.log('locationImage ', this.docFileInput.nativeElement.files[0]);
       this.preview(this.locationImage.nativeElement.files[0]);
     }
   }
@@ -213,7 +203,6 @@ export class VotmCloudAssetsCreateComponent implements OnInit {
       this.templateWarningMessage = 'Documentation is inherited from the asset template, changing the value for this field breaks the binding to the asset template.  Do you want to continue?'
       this.documentChangeConfirmBox.open();
     } else {
-      console.log('docFileInput ', this.docFileInput.nativeElement.files[0]);
       this.onFileChange(this.docFileInput.nativeElement.files[0]);
     }
   }
@@ -401,9 +390,8 @@ export class VotmCloudAssetsCreateComponent implements OnInit {
   getAllTemplates() {
     if (!this.templates || this.templates.length === 0) {
       this.templates = [];
-      this.assetService.getAllTemplates()
+      this.assetService.getAllTemplatesIdAndName()
         .subscribe(response => {
-          console.log('response ', response);
           this.allTemplates = response;
           if (response && response.length > 0) {
             response.forEach(template => {
@@ -454,7 +442,6 @@ export class VotmCloudAssetsCreateComponent implements OnInit {
   }
 
   onTemplateChangeAccept(event) {
-    console.log(event, this.acceptedTemplateChages);
     if (this.acceptedTemplateChages) {
       if (window.confirm('This will break the binding to the asset template. Do you want to continue?')) {
         this.acceptedTemplateChages = !this.acceptedTemplateChages;
@@ -477,8 +464,80 @@ export class VotmCloudAssetsCreateComponent implements OnInit {
     // }    
   }
 
+  getAllAssets() {
+    this.assetService.getAllAssets()
+      .subscribe(response => {
+        this.parentAssetsList = response;
+        this.parentAssetsList.sort(SortArrays.compareValues('assetName'));
+        this.filterAssets();
+      })
+  }
+
+  getAllOrganization() {
+    if (!this.organizationList || this.organizationList.length === 0) {
+      this.orgService.getAllOrganizationsList()
+        .subscribe(orgList => {
+          this.organizationList = orgList;
+          this.organizationList.push({ organizationId: this.asset.organizationId, name: this.asset.organizationName });
+          this.organizationList.sort(SortArrays.compareValues('name'));
+          this.filterLocations();
+          this.filterAssets();
+        });
+    }
+  }
+
+  onParentOrgChange(event) {
+    this.asset.locationId = null;
+    this.asset.locationName = null;
+    this.asset.parentAssetId = null;
+    this.asset.parentAssetName = null;
+    this.filterLocations();
+    this.filterAssets();
+  }
+
+  filterLocations() {
+    if (this.locationList && this.locationList.length > 0) {
+      this.locationListForDropDown = [];
+      this.locationList.forEach(loc => {
+        if (this.asset.organizationId === loc.organizationId) {
+          this.locationListForDropDown.push(loc);
+        }
+      });
+      if (this.locationListForDropDown && this.locationListForDropDown.length > 0) {
+        this.locationListForDropDown.sort(SortArrays.compareValues('locationName'));
+      }
+    }
+  }
+
+  filterAssets() {
+    if (this.parentAssetsList && this.parentAssetsList.length > 0) {
+      this.parentAssetListForDropDown = [];
+      this.parentAssetsList.forEach(asset => {
+        if (this.asset.organizationId === asset.organizationId) {
+          this.parentAssetListForDropDown.push(asset);
+        }
+      });
+      if (this.parentAssetListForDropDown && this.parentAssetListForDropDown.length > 0) {
+        this.parentAssetListForDropDown.sort(SortArrays.compareValues('assetName'));
+      }
+    }
+  }
+
+  getAllLocations() {
+    this.locService.getAllLocations()
+      .subscribe(locList => {
+        this.locationList = locList;
+        this.filterLocations();
+        // this.locationList.push({ organizationId: this.asset.organizationId, name: this.asset.organizationName });
+        // this.locationList.sort(SortArrays.compareValues('name'));
+      });
+  }
+
+  onParentAssetChange(event) {
+
+  }
+
   fillDataFromTemplate(name: string) {
-    console.log(' this.templateId ', this.templateId);
     this.isTemplateSelected = true;
     this.assetForm.resetForm();
     setTimeout(() => {
@@ -490,67 +549,82 @@ export class VotmCloudAssetsCreateComponent implements OnInit {
       if (this.docFileInput && this.docFileInput.nativeElement) {
         this.docFileInput.nativeElement.value = '';
       }
-      let selectedTemplate: Asset;
-      this.allTemplates.forEach(template => {
-        if (template.templateId === this.templateId) {
-          console.log('template ', template);
-          selectedTemplate = template;
-        }
-      })
-      this.asset = {
-        assetId: null,
-        assetName: selectedTemplate.templateName,
-        assetNumber: selectedTemplate.assetNumber,
-        assetType: selectedTemplate.assetType,
-        description: selectedTemplate.description,
-        documentationUrl: selectedTemplate.documentationUrl,
-        // fileStore: selectedTemplate.fileStore,
-        locationId: this.parentLocId,
-        locationName: this.parentLocName,
-        organizationId: this.curOrgId,
-        logo: selectedTemplate.logo,
-        organizationName: this.curOrgName,
-        parentAssetId: this.parentAssetId,
-        parentAssetName: this.parentAssetName,
-        parentLocationId: this.parentLocId,
-        parentLocationName: this.parentLocName,
-        templateId: selectedTemplate.templateId,
-        templateName: selectedTemplate.templateName
-      };
-      if (selectedTemplate.logo && selectedTemplate.logo.imageName) {
-        this.fileExtension = selectedTemplate.logo.imageName.slice((Math.max(0, selectedTemplate.logo.imageName.lastIndexOf(".")) || Infinity) + 1);
-        this.imgURL = this.domSanitizer.bypassSecurityTrustUrl(`data:image/${this.fileExtension};base64,${selectedTemplate.logo.image}`);
-        selectedTemplate.logo.imageType = this.fileExtension;
-      }
-
-      // Please Don't Touch the below code
-
-      // if (selectedTemplate.fileStore && selectedTemplate.fileStore.fileName) {
-      //   selectedTemplate.fileStore.fileName = selectedTemplate.fileStore.fileName + '.xlsx';
-      //   this.fileExtensionDoc = selectedTemplate.fileStore.fileName.slice((Math.max(0, selectedTemplate.fileStore.fileName.lastIndexOf(".")) || Infinity) + 1);
-      //   // let abcd = this.domSanitizer.bypassSecurityTrustUrl(`data:image/xlsx;base64,${selectedTemplate.fileStore.file}`);
-
-
-      //   // Temp
-      //   const url = `data:image/xlsx;base64,${selectedTemplate.fileStore.file}`;
-      //   fetch(url)
-      //     .then(res => res.blob())
-      //     .then(blob => {
-      //       let abcd = new File([blob], "File name");
-      //       var binaryData = [];
-      //       binaryData.push(abcd);
-      //       this.docFile = new Blob(binaryData, { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' })
-      //       this.asset.fileStore.fileType = this.fileExtensionDoc;
-      //     });
-
-
-      //   // this.docFileInput.nativeElement = abcd;
-      // }
-      this.previousAsset = JSON.parse(JSON.stringify(this.asset));
-      this.acceptedTemplateChages = true;
+      this.getAssetFromTemplate();
     });
 
     console.log('this.assetForm ', this.assetForm);
+  }
+
+  getAssetFromTemplate() {
+    let selectedTemplate: Asset;
+
+
+    this.assetService.getTemplateById(this.templateId)
+      .subscribe(response => {
+        console.log(response);
+        selectedTemplate = response[0];
+        this.asset = {
+          assetId: null,
+          assetName: selectedTemplate.assetName,
+          assetNumber: selectedTemplate.assetNumber,
+          assetType: selectedTemplate.assetType,
+          description: selectedTemplate.description,
+          // documentationUrl: selectedTemplate.documentationUrl,
+          // fileStore: selectedTemplate.fileStore,
+          locationId: this.parentLocId,
+          locationName: this.parentLocName,
+          organizationId: this.curOrgId,
+          logo: selectedTemplate.logo,
+          organizationName: this.curOrgName,
+          parentAssetId: this.parentAssetId,
+          parentAssetName: this.parentAssetName,
+          parentLocationId: this.parentLocId,
+          parentLocationName: this.parentLocName,
+          templateId: selectedTemplate.templateId,
+          templateName: selectedTemplate.templateName
+        };
+        if (selectedTemplate.logo && selectedTemplate.logo.imageName) {
+          this.fileExtension = selectedTemplate.logo.imageName.slice((Math.max(0, selectedTemplate.logo.imageName.lastIndexOf(".")) || Infinity) + 1);
+          this.imgURL = this.domSanitizer.bypassSecurityTrustUrl(`data:image/${this.fileExtension};base64,${selectedTemplate.logo.image}`);
+          selectedTemplate.logo.imageType = this.fileExtension;
+        }
+    
+        // Please Don't Touch the below code
+    
+        // if (selectedTemplate.fileStore && selectedTemplate.fileStore.fileName) {
+        //   selectedTemplate.fileStore.fileName = selectedTemplate.fileStore.fileName + '.xlsx';
+        //   this.fileExtensionDoc = selectedTemplate.fileStore.fileName.slice((Math.max(0, selectedTemplate.fileStore.fileName.lastIndexOf(".")) || Infinity) + 1);
+        //   // let abcd = this.domSanitizer.bypassSecurityTrustUrl(`data:image/xlsx;base64,${selectedTemplate.fileStore.file}`);
+    
+    
+        //   // Temp
+        //   const url = `data:image/xlsx;base64,${selectedTemplate.fileStore.file}`;
+        //   fetch(url)
+        //     .then(res => res.blob())
+        //     .then(blob => {
+        //       let abcd = new File([blob], "File name");
+        //       var binaryData = [];
+        //       binaryData.push(abcd);
+        //       this.docFile = new Blob(binaryData, { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' })
+        //       this.asset.fileStore.fileType = this.fileExtensionDoc;
+        //     });
+    
+    
+        //   // this.docFileInput.nativeElement = abcd;
+        // }
+        this.previousAsset = JSON.parse(JSON.stringify(this.asset));
+        this.acceptedTemplateChages = true;
+    
+      })
+
+
+    // this.allTemplates.forEach(template => {
+    //   if (template.templateId === this.templateId) {
+    //     console.log('template ', template);
+    //     selectedTemplate = template;
+    //   }
+    // })
+    
   }
 
   onDocSelcetion(event) {
@@ -559,8 +633,17 @@ export class VotmCloudAssetsCreateComponent implements OnInit {
   }
 
   onAssetSubmit() {
-    this.asset.documentationUrl = 'ABDFE';
-    console.log('ASSET INFO ', this.asset);
+    // this.asset.documentationUrl = 'ABDFE';
+    console.log('ASSET INFO ', this.assetForm);
+
+    if (this.asset) {
+      if (!this.asset.logo) {
+        this.asset.logo = null;
+      }
+      if (!this.asset.fileStore) {
+        this.asset.fileStore = null;
+      }
+    }
 
     if (this.assetForm && this.assetForm.invalid) {
       this.toaster.onFailure('Please fill the form correctly.', 'Form is invalid!')
@@ -638,12 +721,11 @@ export class VotmCloudAssetsCreateComponent implements OnInit {
   }
 
   openConfirmDialog() {
-    this.message = `Do you want to delete the "${this.asset.assetName}" Asset?`;
+    this.message = `Are you sure you want to delete the "${this.asset.assetName}" Asset?`;
     this.confirmBox.open();
   }
 
   deleteAssetById(event) {
-    console.log('event on close ', event);
     if (event) {
       this.assetService.deleteAsset(this.asset.assetId)
         .subscribe(response => {
@@ -660,21 +742,18 @@ export class VotmCloudAssetsCreateComponent implements OnInit {
   }
 
   onAssetTypeChange() {
-    console.log('onAssetTypeChange');
     if (this.acceptedTemplateChages && this.asset.assetType !== this.previousAsset.assetType) {
-      this.templateWarningMessage = 'Asset Type is inherited from the asset template, changing the value for this field breaks the binding to the asset template.  Do you want to continue?'
+      this.templateWarningMessage = 'Asset Type is inherited from the asset template, changing the value for this field breaks the binding to the asset template.  Are you sure you want to continue?'
       this.templateConfirmBox.open();
     }
   }
 
   removeTemplate(event) {
-    console.log(event);
     if (!event) {
       // this.assetForm.resetForm();
-      console.log('this.previousAsset ', this.previousAsset, this.asset);
       this.asset.assetType = this.previousAsset.assetType;
       this.asset.logo = this.previousAsset.logo;
-      this.asset.documentationUrl = this.previousAsset.documentationUrl;
+      // this.asset.documentationUrl = this.previousAsset.documentationUrl;
       this.acceptedTemplateChages = true;
       this.imgURL = null;
       if (this.locationImage && this.locationImage.nativeElement) {
@@ -683,7 +762,6 @@ export class VotmCloudAssetsCreateComponent implements OnInit {
       if (this.docFileInput && this.docFileInput.nativeElement) {
         this.docFileInput.nativeElement.value = '';
       }
-      console.log('this.assetForm ', this.docFileInput)
     } else {
       // this.asset.templateId = null;
       // this.asset.templateName = null;
@@ -693,26 +771,23 @@ export class VotmCloudAssetsCreateComponent implements OnInit {
   }
 
   onSaveAsTemplateClick(event) {
-    // console.log('onSaveAsTemplateClick ', this.asset);
     if (event === 'save') {
       this.asset.templateName = this.templateNameToSave;
       this.assetService.createAssetTemplate(this.asset)
         .subscribe(response => {
           this.templates = [];
-          console.log('response ', response);
           this.modal.style.display = "none";
         });
       // this.modal.style.display = "none";
-      // console.log('Asset ', this.asset);
     }
   }
 
 
-  onLockClick(){
-    if(this.pageType.toLowerCase() === 'view'){
-    this.route.navigate([`asset/edit/${this.parentLocId}/${this.parentLocName}/${this.parentAssetId}/${this.parentAssetName}/${this.asset.assetId}`])
-  } else{
-    this.route.navigate([`asset/view/${this.parentLocId}/${this.parentLocName}/${this.parentAssetId}/${this.parentAssetName}/${this.asset.assetId}`])
+  onLockClick() {
+    if (this.pageType.toLowerCase() === 'view') {
+      this.route.navigate([`asset/edit/${this.parentLocId}/${this.parentLocName}/${this.parentAssetId}/${this.parentAssetName}/${this.asset.assetId}`])
+    } else {
+      this.route.navigate([`asset/view/${this.parentLocId}/${this.parentLocName}/${this.parentAssetId}/${this.parentAssetName}/${this.asset.assetId}`])
     }
   }
 

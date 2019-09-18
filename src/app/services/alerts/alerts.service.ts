@@ -21,4 +21,10 @@ export class AlertsService {
       );
   }
 
+  getAllAlertsByOrgId(orgId: string): Observable<any> {
+    return this.http.get(`${AppConstants.GET_ALERT_BYORGID}/${orgId}`)
+      .pipe(
+        map(response => response)
+      );
+  }
 }
