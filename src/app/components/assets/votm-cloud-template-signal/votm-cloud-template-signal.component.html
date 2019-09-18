@@ -1,4 +1,4 @@
-<div>
+<div class="header-font">
   <p-overlayPanel
     #op
     id="op"
@@ -27,7 +27,7 @@
       <option>3</option>
     </select><br/>
     <button (click)="onClickOfCreateAssociateRule()" class="btn btn-default"> Create & Associate Rule</button> -->
-    <div class="row">
+    <div class="row org-create-font">
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header">Alarm Rule Association</div>
@@ -48,9 +48,9 @@
   </p-overlayPanel>
 
   <form class="form">
-    <h4 class="col">Associate Signal</h4>
+    <h4 class="col mt-2">Associate Signal Type</h4>
 
-    <div class="row org-create-font mar-top-30">
+    <div class="row mar-top-30">
       <div class="col-md-4">
         <div class="enclosing-div">
           <h5>Available Signals</h5>
@@ -89,7 +89,7 @@
           <!-- *ngIf="assetImageURL" -->
         <div id="dropdiv" class="enclosing-div" style="position: relative">
           <img #templateImage *ngIf="imgURL" [src]="imgURL" style="padding-top: 30px;" width="100%" />
-          <span *ngIf="!imgURL" style="font-size: 16px; font-family: 'Roboto', sans-serif;">Image is not selected in template tab.</span>
+          <span *ngIf="!imgURL" style="font-size: 16px;">Image is not selected in template tab.</span>
         </div>
       </div>
     </div>
@@ -100,8 +100,7 @@
         for="form-cancel"
         type="button"
         (click)="onCancelClick($event)"
-        class="btn btn-secondary"
-      >
+        class="btn btn-sm btn-secondary">
         Cancel
       </button>
     </div>

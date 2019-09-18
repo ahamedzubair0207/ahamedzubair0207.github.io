@@ -39,8 +39,7 @@
       <li class="nav-item">
         <a class="nav-link" id="asset-signal-tab" (click)="onClickOfNavTab('signal_association')" name="signal-association-edit"
           href="#asset-signal" data-toggle="tab" role="tab" aria-controls="asset-signal" aria-selected="false"><i
-            class="fa fa-podcast"></i> Signal & Gateway
-          Association</a>
+            class="fa fa-podcast"></i> Signal Association</a>
       </li>
       <i class="fa fa-lock edit-view-lock" name="assetlockbutton" *ngIf="pageType.toLowerCase() === 'view'"
         (click)="onLockClick()"></i>
@@ -193,7 +192,7 @@
 
               <label for="assetImage"><b>Asset Image : </b></label>
               <span style="color:rgb(106,96,85);" *ngIf="message">{{message}}</span>
-              <input *ngIf="pageType!=='View'" #file type="file" accept='image/*'
+              <input [disabled]="pageType==='View'" #file type="file" accept='image/*'
                 class="form-control-file asset-create-font" (change)="onImageChangeClick()" />
               <label style="font-weight: bold" *ngIf="asset && asset.logo">{{asset.logo.imageName}}</label>
               <img [src]="imgURL" height="200" width="235" *ngIf="imgURL">
@@ -202,7 +201,7 @@
             <div class="col-md-6 form-group">
 
               <label for="exampleFormControlFile1"><b>Documentation:</b></label>
-              <input type="file" id="documentUpload" name="documentUpload" *ngIf="pageType !=='View'"
+              <input type="file" id="documentUpload" name="documentUpload" [disabled]="pageType==='View'"
                 (change)="onDocChangeClick();" class="form-control-file asset-create-font" #fileInput>
               <a *ngIf="asset.fileStore" style="color:blue;"
                 (click)="onFileOpen()"><u>{{asset.fileStore.fileName}}</u></a>
@@ -216,7 +215,7 @@
 
               <!-- <button id="nest-loc-create" type="button" *ngIf="asset.assetId" class="btn btn-secondary button-left-mod"
                           routerLink="/asset/signal">Associate Signal</button> -->
-              <button id="asset-create-temp" type="button" *ngIf="pageType !=='View'"
+              <button id="asset-create-temp" type="button" *ngIf="pageType !=='View' && pageType !=='Edit'"
                 class="btn btn-secondary button-left-mod btm-sm asset-create-font" (click)="openmodal()"><i
                   class="pr-2 fa fa-desktop"></i>Create from Asset Template</button>
               <button id="asset-save-temp" *ngIf="pageType !=='View'" type="button"

@@ -509,7 +509,7 @@ export class VotmCloudAssetsCreateComponent implements OnInit {
     }
   }
 
-  filterAssets(){
+  filterAssets() {
     if (this.parentAssetsList && this.parentAssetsList.length > 0) {
       this.parentAssetListForDropDown = [];
       this.parentAssetsList.forEach(asset => {
@@ -549,67 +549,82 @@ export class VotmCloudAssetsCreateComponent implements OnInit {
       if (this.docFileInput && this.docFileInput.nativeElement) {
         this.docFileInput.nativeElement.value = '';
       }
-      let selectedTemplate: Asset;
-      this.allTemplates.forEach(template => {
-        if (template.templateId === this.templateId) {
-          console.log('template ', template);
-          selectedTemplate = template;
-        }
-      })
-      this.asset = {
-        assetId: null,
-        assetName: selectedTemplate.templateName,
-        assetNumber: selectedTemplate.assetNumber,
-        assetType: selectedTemplate.assetType,
-        description: selectedTemplate.description,
-        // documentationUrl: selectedTemplate.documentationUrl,
-        // fileStore: selectedTemplate.fileStore,
-        locationId: this.parentLocId,
-        locationName: this.parentLocName,
-        organizationId: this.curOrgId,
-        logo: selectedTemplate.logo,
-        organizationName: this.curOrgName,
-        parentAssetId: this.parentAssetId,
-        parentAssetName: this.parentAssetName,
-        parentLocationId: this.parentLocId,
-        parentLocationName: this.parentLocName,
-        templateId: selectedTemplate.templateId,
-        templateName: selectedTemplate.templateName
-      };
-      if (selectedTemplate.logo && selectedTemplate.logo.imageName) {
-        this.fileExtension = selectedTemplate.logo.imageName.slice((Math.max(0, selectedTemplate.logo.imageName.lastIndexOf(".")) || Infinity) + 1);
-        this.imgURL = this.domSanitizer.bypassSecurityTrustUrl(`data:image/${this.fileExtension};base64,${selectedTemplate.logo.image}`);
-        selectedTemplate.logo.imageType = this.fileExtension;
-      }
-
-      // Please Don't Touch the below code
-
-      // if (selectedTemplate.fileStore && selectedTemplate.fileStore.fileName) {
-      //   selectedTemplate.fileStore.fileName = selectedTemplate.fileStore.fileName + '.xlsx';
-      //   this.fileExtensionDoc = selectedTemplate.fileStore.fileName.slice((Math.max(0, selectedTemplate.fileStore.fileName.lastIndexOf(".")) || Infinity) + 1);
-      //   // let abcd = this.domSanitizer.bypassSecurityTrustUrl(`data:image/xlsx;base64,${selectedTemplate.fileStore.file}`);
-
-
-      //   // Temp
-      //   const url = `data:image/xlsx;base64,${selectedTemplate.fileStore.file}`;
-      //   fetch(url)
-      //     .then(res => res.blob())
-      //     .then(blob => {
-      //       let abcd = new File([blob], "File name");
-      //       var binaryData = [];
-      //       binaryData.push(abcd);
-      //       this.docFile = new Blob(binaryData, { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' })
-      //       this.asset.fileStore.fileType = this.fileExtensionDoc;
-      //     });
-
-
-      //   // this.docFileInput.nativeElement = abcd;
-      // }
-      this.previousAsset = JSON.parse(JSON.stringify(this.asset));
-      this.acceptedTemplateChages = true;
+      this.getAssetFromTemplate();
     });
 
     console.log('this.assetForm ', this.assetForm);
+  }
+
+  getAssetFromTemplate() {
+    let selectedTemplate: Asset;
+
+
+    this.assetService.getTemplateById(this.templateId)
+      .subscribe(response => {
+        console.log(response);
+        selectedTemplate = response[0];
+        this.asset = {
+          assetId: null,
+          assetName: selectedTemplate.assetName,
+          assetNumber: selectedTemplate.assetNumber,
+          assetType: selectedTemplate.assetType,
+          description: selectedTemplate.description,
+          // documentationUrl: selectedTemplate.documentationUrl,
+          // fileStore: selectedTemplate.fileStore,
+          locationId: this.parentLocId,
+          locationName: this.parentLocName,
+          organizationId: this.curOrgId,
+          logo: selectedTemplate.logo,
+          organizationName: this.curOrgName,
+          parentAssetId: this.parentAssetId,
+          parentAssetName: this.parentAssetName,
+          parentLocationId: this.parentLocId,
+          parentLocationName: this.parentLocName,
+          templateId: selectedTemplate.templateId,
+          templateName: selectedTemplate.templateName
+        };
+        if (selectedTemplate.logo && selectedTemplate.logo.imageName) {
+          this.fileExtension = selectedTemplate.logo.imageName.slice((Math.max(0, selectedTemplate.logo.imageName.lastIndexOf(".")) || Infinity) + 1);
+          this.imgURL = this.domSanitizer.bypassSecurityTrustUrl(`data:image/${this.fileExtension};base64,${selectedTemplate.logo.image}`);
+          selectedTemplate.logo.imageType = this.fileExtension;
+        }
+    
+        // Please Don't Touch the below code
+    
+        // if (selectedTemplate.fileStore && selectedTemplate.fileStore.fileName) {
+        //   selectedTemplate.fileStore.fileName = selectedTemplate.fileStore.fileName + '.xlsx';
+        //   this.fileExtensionDoc = selectedTemplate.fileStore.fileName.slice((Math.max(0, selectedTemplate.fileStore.fileName.lastIndexOf(".")) || Infinity) + 1);
+        //   // let abcd = this.domSanitizer.bypassSecurityTrustUrl(`data:image/xlsx;base64,${selectedTemplate.fileStore.file}`);
+    
+    
+        //   // Temp
+        //   const url = `data:image/xlsx;base64,${selectedTemplate.fileStore.file}`;
+        //   fetch(url)
+        //     .then(res => res.blob())
+        //     .then(blob => {
+        //       let abcd = new File([blob], "File name");
+        //       var binaryData = [];
+        //       binaryData.push(abcd);
+        //       this.docFile = new Blob(binaryData, { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' })
+        //       this.asset.fileStore.fileType = this.fileExtensionDoc;
+        //     });
+    
+    
+        //   // this.docFileInput.nativeElement = abcd;
+        // }
+        this.previousAsset = JSON.parse(JSON.stringify(this.asset));
+        this.acceptedTemplateChages = true;
+    
+      })
+
+
+    // this.allTemplates.forEach(template => {
+    //   if (template.templateId === this.templateId) {
+    //     console.log('template ', template);
+    //     selectedTemplate = template;
+    //   }
+    // })
+    
   }
 
   onDocSelcetion(event) {
