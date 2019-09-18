@@ -1,6 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { VotmCloudAlertsHomeComponent } from './votm-cloud-alerts-home.component';
+import { RouterTestingModule } from '@angular/router/testing';
+import { VotmCloudConfimDialogComponent } from '../../shared/votm-cloud-confim-dialog/votm-cloud-confim-dialog.component';
 
 describe('VotmCloudAlertsHomeComponent', () => {
   let component: VotmCloudAlertsHomeComponent;
@@ -8,7 +10,8 @@ describe('VotmCloudAlertsHomeComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ VotmCloudAlertsHomeComponent ]
+      imports: [RouterTestingModule],
+      declarations: [VotmCloudAlertsHomeComponent, VotmCloudConfimDialogComponent]
     })
     .compileComponents();
   }));

@@ -3,7 +3,7 @@
   <ul class="list-unstyled components left-menu-margin">
     <li *ngFor="let eachItem of menuItems"  routerLinkActive="active" [ngClass]="{ 'super-admin' : eachItem.id == 'super' }" >
       <a *ngIf="eachItem.enabled" routerLink="{{eachItem.url}}"  (click)="setActiveItem(eachItem.id)" data-toggle="collapse" aria-expanded="false" data-toggle="tooltip" data-placement="right" title="{{eachItem.name}}">
-          <i [ngClass]="eachItem.icon"></i>
+          <i [ngClass]="eachItem.icon" class="dropdown-icon-size"></i>
           <span class="icon-text" >{{eachItem.name}}</span>
       </a>
     </li>

@@ -10,7 +10,7 @@
     <tr>
       <th scope="row" (click)="item.opened = !item.opened" [ngStyle]="{'padding-left.px': 15*(lvl+1)}">
         <i class="fa fa-thermometer-half"></i>
-        {{item.name}} <i *ngIf="item.node.length > 0 " 
+        {{item.name}} <i *ngIf="item || item.node.length > 0 " 
           [ngClass]="{'fa': true, 'fa-caret-right': !item.opened, 'fa-caret-down': item.opened}"></i>
       </th>
       <td class="align-center" >{{item.serialNumber}}</td>

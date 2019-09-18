@@ -21,7 +21,8 @@ import { SortArrays } from '../../shared/votm-sort';
 @Component({
   selector: 'app-votm-cloud-organizations-create',
   templateUrl: './votm-cloud-organizations-create.component.html',
-  styleUrls: ['./votm-cloud-organizations-create.component.scss']
+  styleUrls: ['./votm-cloud-organizations-create.component.scss'],
+  providers: [DatePipe]
 })
 export class VotmCloudOrganizationsCreateComponent implements OnInit {
   public imagePath;

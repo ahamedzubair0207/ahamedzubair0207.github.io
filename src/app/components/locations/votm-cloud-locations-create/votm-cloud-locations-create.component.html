@@ -54,7 +54,7 @@
               <label class="col-sm-5 col-form-label" for="name"><b>* {{pageLabels.Name.labelName}}</b></label>
               <div class="col-sm-7">
                 <input type="text" [(ngModel)]="location.locationName" class="form-control loc-create-font"
-                  [disabled]="pageType==='View'" #locName="ngModel" placeholder="Enter Name" name="name" required
+                  [disabled]="pageType==='View'" #locName="ngModel" id="locDtlName" placeholder="Enter Name" name="name" required
                   maxlength="50">
                 <div *ngIf="locName.dirty && locName.invalid">
                   <app-votm-cloud-validator message="Name is required"></app-votm-cloud-validator>
@@ -72,7 +72,7 @@
                   :</b></label>
               <div class="col-sm-7">
                 <input for="parentorganizationname" class="form-control loc-create-font" type="text"
-                  placeholder="{{parentOrganizationInfo.parentOrganizationName}}" readonly disabled>
+                  placeholder="{{parentOrganizationInfo.parentOrganizationName}}" id="locDtlParentOrg" readonly disabled>
                 <!-- <label for="parentorganizationname"></label> -->
               </div>
             </div>
@@ -85,7 +85,7 @@
               <div class="col-sm-7">
                 <input type="text" [(ngModel)]="location.locationType" class="form-control loc-create-font"
                   placeholder="Enter Location Type" [disabled]="pageType==='View'" #locationType="ngModel"
-                  name="locationType" maxlength="50">
+                  name="locationType" maxlength="50" id="locDtllocType">
                 <div *ngIf="locationType.dirty && locationType.invalid">
                   <app-votm-cloud-validator message="Location type is required"></app-votm-cloud-validator>
                 </div>
@@ -99,7 +99,7 @@
                   :</b></label>
               <div class="col-sm-7">
                 <input for="parentLocname" class="form-control loc-create-font" type="text"
-                  placeholder="{{parentLocName}}" readonly disabled>
+                  placeholder="{{parentLocName}}" id="locDtlParentLoc" readonly disabled>
                 <!-- <label for="parentLocname">{{parentLocName}}</label> -->
               </div>
             </div>
@@ -112,7 +112,7 @@
               <div class="col-sm-7">
                 <input type="email" [disabled]="pageType==='View'" [(ngModel)]="location.primaryContact"
                   class="form-control loc-create-font" #primaryContact="ngModel" maxlength="100"
-                  placeholder="Email Address" name="primaryContact" required>
+                  placeholder="Email Address" name="primaryContact" id="locDtlPrmyCotact" required>
                 <div *ngIf="primaryContact.dirty && primaryContact.invalid">
                   <app-votm-cloud-validator message="Primary Contact is required"></app-votm-cloud-validator>
                 </div>
@@ -130,7 +130,7 @@
               <div class="col-sm-7">
                 <input type="text" [(ngModel)]="location.primaryDistributor" class="form-control loc-create-font"
                   placeholder="Enter Primary Distributor" [disabled]="pageType==='View'" #primarydistribute="ngModel"
-                  name="primarydistribute" required>
+                  name="primarydistribute" id="locDtlPrmyDistrbstrName" required>
                 <div *ngIf="primarydistribute.dirty && primarydistribute.invalid">
                   <app-votm-cloud-validator message="Primary Distributor is required"></app-votm-cloud-validator>
                 </div>
@@ -153,7 +153,7 @@
   
                   <input [disabled]="pageType==='View'" type="text" [(ngModel)]="location.address[0].address1"
                     for="address1" class="form-control loc-create-font" placeholder="Street Name" name="address1"
-                    #address1="ngModel" required>
+                    #address1="ngModel" id="locDtlstrName" required>
                   <div *ngIf="address1.dirty && address1.invalid">
                     <app-votm-cloud-validator message="Street Name is required"></app-votm-cloud-validator>
                   </div>
@@ -163,14 +163,14 @@
   
                   <input [disabled]="pageType==='View'" type="text" [(ngModel)]="location.address[0].address2"
                     for="address2" class="form-control loc-create-font" placeholder="Apt/Suite Number" #address2="ngModel"
-                    name="address2">
+                    name="address2" id="locDtlAptNumber">
   
                 </div>
 
                 <div class="col-6 form-group">
                     <!-- <label for="city"><b>* {{pageLabels.City.labelName}}:</b></label> -->
                     <input [disabled]="pageType==='View'" type="text" [(ngModel)]="location.address[0].city"
-                      class="form-control loc-create-font" required #city="ngModel" placeholder="City" name="city">
+                      class="form-control loc-create-font" required #city="ngModel" placeholder="City" name="city" id="locDtlStrtCity">
                     <div *ngIf="city.dirty && city.invalid">
                       <app-votm-cloud-validator message="City is required"></app-votm-cloud-validator>
                     </div>
@@ -180,7 +180,7 @@
   
                   <select [disabled]="pageType==='View' || !location.address[0].country"
                     [(ngModel)]="location.address[0].state" name="state" class="drop-down form-control loc-create-font"
-                    #state="ngModel" required aria-placeholder="State">
+                    #state="ngModel" required aria-placeholder="State" id="locDtlStrtState">
                     <option value="default" disabled selected>State</option>
                     <option *ngFor="let state of states" [value]="state.value">
                       {{state.text}}
@@ -195,7 +195,7 @@
                   <!-- <label for="country"><b>* {{pageLabels.Country.labelName}}:</b></label> -->
                   <select [disabled]="pageType==='View'" [(ngModel)]="location.address[0].country" name="country"
                     class="drop-down form-control loc-create-font" (change)="onCountryChange($event)" required
-                    #country="ngModel">
+                    #country="ngModel" id="locDtlStrtCountry">
                     <option value="countryselect" disabled selected>Country</option>
                     <option *ngFor="let country of countries" [value]="country.countryName">
                       {{country.countryName}}
@@ -209,7 +209,7 @@
                 <div class="col-6">
                   <!-- <label for="zipcode"><b>* {{pageLabels.Zipcode.labelName}}:</b></label> -->
                   <input [disabled]="pageType==='View'" type="text" [(ngModel)]="location.address[0].postalCode"
-                    class="form-control loc-create-font" placeholder="Zip Code" name="orgName" #zipCode="ngModel"
+                    class="form-control loc-create-font" placeholder="Zip Code" name="orgName" #zipCode="ngModel" id="locDtlStrtZipCode"
                     required>
                   <div *ngIf="zipCode.dirty && zipCode.invalid">
                     <app-votm-cloud-validator message="Zip Code is required"></app-votm-cloud-validator>
@@ -229,7 +229,7 @@
               <div class="col-sm-7">
                 <span style="color:rgb(106,96,85);" *ngIf="message">{{message}}</span>
                 <input *ngIf="pageType!=='View'" #file type="file" accept='image/*' (change)="preview(file.files)"
-                  class="form-control loc-create-font" />
+                  class="form-control loc-create-font" id="locDtlLocImg" />
                 <label style="font-weight: bold" *ngIf="location && location.logo">{{location.logo.imageName}}</label>
                 <img [src]="imgURL" *ngIf="imgURL" style="max-width:511px; max-height:479px;">
               </div>
@@ -249,10 +249,10 @@
                 <div class="col-sm-10 d-flex align-items-center">
                   <input type="text" [disabled]="pageType==='View'" [(ngModel)]="location.latitude"
                     class="geo-loc-long form-control loc-create-font" placeholder="Longitude" name="geoLocationLong"
-                    #geoLocationLong="ngModel" maxlength="50">&nbsp;/&nbsp;
+                    #geoLocationLong="ngModel" maxlength="50" id="locDtlGeoLong">&nbsp;/&nbsp;
                   <input type="text" [disabled]="pageType==='View'" [(ngModel)]="location.longitude"
                     class="geo-loc-lat form-control loc-create-font" placeholder="Latitude" name="geoLocationLat"
-                    #geoLocationLat="ngModel" maxlength="50">
+                    #geoLocationLat="ngModel" maxlength="50" id="locDtlGeoLatitude">
                   <button id="geo-loc-btn" type="button" class="btn rounded-circle loc-create-font"
                     (click)="onGeoLocationClick()"><i class="fa fa-bullseye"></i></button>
                   <div
@@ -270,7 +270,7 @@
                     :</b></label>
                 <div class="col-sm-7">
                   <select required #timezone="ngModel" [disabled]="true" [(ngModel)]="location.timeZoneId" name="timezone"
-                    class="drop-down form-control loc-create-font">
+                    class="drop-down form-control loc-create-font" id="locDtlDfltTimezone1">
                     <!-- <option value="" data-default selected>Select Timezone</option> -->
                     <option *ngFor="let timeZone of applicationConfiguration.timeZone" [value]="timeZone.timeZoneId">
                       {{timeZone.timeZoneName}}
@@ -289,7 +289,7 @@
                     :</b></label>
                 <div class="col-sm-7">
                   <select required #timezone="ngModel" [disabled]="true" [(ngModel)]="location.timeZoneId" name="timezone"
-                    class="drop-down form-control loc-create-font">
+                    class="drop-down form-control loc-create-font" id="locDtlDfltTimezone2">
                     <!-- <option value="" data-default selected>Select Timezone</option> -->
                     <option *ngFor="let timeZone of applicationConfiguration.timeZone" [value]="timeZone.timeZoneId">
                       {{timeZone.timeZoneName}}
@@ -321,9 +321,9 @@
                       <div *ngIf="location && location.geoFenceType && location.geoFenceType ==='bf0bc7b5-1bf8-4a59-a3b5-35904937e89e'"
                         ng-show="geofence == 'f-radius'" class="d-flex">
                         <input type="number" class="form-control loc-create-font geo-text-box w-50" name="radius"
-                          [(ngModel)]="location.geoRadius" placeholder="Radius" [disabled]="pageType==='View'">
+                          [(ngModel)]="location.geoRadius" placeholder="Radius" [disabled]="pageType==='View'" id="locDtlRadiusVal">
                         <select name="radiusUnit" [disabled]="pageType==='View'" [(ngModel)]="location.geoFenceValue"
-                          class="drop-down geo-drop-down form-control loc-create-font w-50">
+                          class="drop-down geo-drop-down form-control loc-create-font w-50" id="locDtlRadiusGeoFecVal" >
                           <option value="ft">Feet</option>
                           <option value="meters">Meters</option>
                         </select>
@@ -333,11 +333,11 @@
                         class="col-12">
                         <div class="row">
                           <input type="number" [disabled]="pageType==='View'" name="width" [(ngModel)]="location.geoWidth"
-                            class="form-control loc-create-font col" placeholder="Width" maxlength="50"> *
+                            class="form-control loc-create-font col" placeholder="Width" maxlength="50" id="locDtlSqrGeoWidth"> *
                           <input [disabled]="pageType==='View'" type="number" name="height" [(ngModel)]="location.geoHeight"
-                            class="form-control loc-create-font col" placeholder="Height" maxlength="50">
+                            class="form-control loc-create-font col" placeholder="Height" maxlength="50" id="locDtlSqrGeoHeight">
                           <select name="rectangleUnit" [disabled]="pageType==='View'" [(ngModel)]="location.geoFenceValue"
-                            class="drop-down geo-drop-down col form-control loc-create-font">
+                            class="drop-down geo-drop-down col form-control loc-create-font" id="locDtlSqrGeofncVal">
                             <option value="ft">Feet</option>
                             <option value="meters">Meters</option>
                           </select>
@@ -357,7 +357,7 @@
                     :</b></label>
                 <div class="col-sm-7">
                   <select required [(ngModel)]="location.localeId" name="language"
-                    class="drop-down form-control loc-create-font" #defLanguage="ngModel">
+                    class="drop-down form-control loc-create-font" #defLanguage="ngModel" id="locDtlGeoLang1">
                     <option *ngFor="let locale of applicationConfiguration.locale" [value]="locale.localeId">
                       {{locale.localeName}}
                     </option>
@@ -374,7 +374,7 @@
                     :</b></label>
                 <div class="col-sm-7">
                   <select required #language="ngModel" [disabled]="pageType==='View'" [(ngModel)]="location.localeId"
-                    name="language" class="drop-down form-control loc-create-font">
+                    name="language" class="drop-down form-control loc-create-font" id="locDtlGeoLang2">
                     <option *ngFor="let locale of applicationConfiguration.locale" [value]="locale.localeId">
                       {{locale.localeName}}
                     </option>
@@ -408,7 +408,7 @@
                                                         </ng-multiselect-dropdown> -->
                 <!-- <select2 [data]="gatewayList" width="260px" multiple="true"></select2> -->
                 <select2 [disabled]="pageType === 'View'" [data]="gatewayList" [options]="options" [width]="260"
-                  [value]="selectedGateways" (valueChanged)="onItemSelect($event)"></select2>
+                  [value]="selectedGateways" (valueChanged)="onItemSelect($event)" id="locDtlGeoClaimedGateway"></select2>
                 <!-- <button class="btn-save btn btn-primary btn-sm">Save</button> -->
               </div>
             </div>
