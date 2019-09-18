@@ -452,21 +452,21 @@
                 </div>
               </div>
               <div class="row form-group">
-                <label class="col-sm-5 col-form-label" name="uom-change-lbl" for="unitsOfMeasure"><b>*
+                <label class="col-sm-5 col-form-label" name="uom-change-lbl" id="unitsOfMeasureLbl"><b>*
                     {{pageLabels.DefaultUnitOfMeasure.labelName}}
                     :</b></label>
                 <div class="col-sm-7">
-                  <label name="uom-logo" for="unitsOfMeasure" class="mr-3"><b>{{UOM}}</b></label>
-                  <button id="uom-change-btn" class="btn btn-sm btn-secondary org-create-font"
+                  <label name="uom-logo" id="unitsOfMeasureSelected" class="mr-3"><b>{{UOM}}</b></label>
+                  <button id="uom-change-btn" id="UomChance Button" class="btn btn-sm btn-secondary org-create-font"
                     *ngIf="pageType !=='View'" type="button" (click)="openmodal()">Change</button>
                 </div>
               </div>
               <div class="row form-group org-create-font">
                 <div class="col-md-9">
-                  <label for="Logo"><b>{{pageLabels.LogoFile.labelName}} :</b></label>
+                  <label id="logoLbl"><b>{{pageLabels.LogoFile.labelName}} :</b></label>
                   <span style="color:rgb(106,96,85);" *ngIf="message">{{message}}</span>
-                  <input #file type="file" accept='image/*' *ngIf="pageType !=='View'" (change)="preview(file.files)" />
-                  <label style="font-weight: bold"
+                  <input #file id="imageUploadButton" type="file" accept='image/*' *ngIf="pageType !=='View'" (change)="preview(file.files)" />
+                  <label id="imageLbl" style="font-weight: bold"
                     *ngIf="organization && organization.logo">{{organization.logo.imageName}}</label>
                   <img [src]="imgURL" height="70" *ngIf="imgURL">
 
@@ -480,10 +480,10 @@
 
 
           <div class="row org-create-font">
-            <label for="orgDescription" class="col-2"><b>{{pageLabels.DescriptionofOrganization.labelName}}
+            <label id="orgDescriptionLbl" class="col-2"><b>{{pageLabels.DescriptionofOrganization.labelName}}
                 :</b></label>
             <div class="col-10">
-              <textarea class="form-control" #description="ngModel" [disabled]="pageType==='View'"
+              <textarea class="form-control" id="orgDesText" #description="ngModel" [disabled]="pageType==='View'"
                 [(ngModel)]="organization.description" (keyup)="onDescriptionChange()" name="orgDescription" rows="3"
                 id="f-orgDescription"></textarea><br />
               <div *ngIf="description.dirty && description.invalid">
