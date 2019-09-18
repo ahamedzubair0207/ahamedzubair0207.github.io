@@ -15,6 +15,9 @@ import { ToastrService } from 'ngx-toastr';
 export class VotmCloudOrganizationsHomeComponent implements OnInit {
 
   organizationsList = [];
+  svcLevels: any[] = [];
+  sensorBlocks: any[] = [];
+  cellularBlocks: any[] = [];
   curOrgId: string;
   curOrgName: string;
   orgToDelete: string;
@@ -24,7 +27,7 @@ export class VotmCloudOrganizationsHomeComponent implements OnInit {
   orgNameToDelete: any;
   message: any;
 
-  constructor(private orgservice: OrganizationService, private route: ActivatedRoute, private toastr: ToastrService, private router: Router, private breadcrumbs : BreadcrumbsService) { }
+  constructor(private orgservice: OrganizationService, private organizationService: OrganizationService, private route: ActivatedRoute, private toastr: ToastrService, private router: Router, private breadcrumbs : BreadcrumbsService) { }
 
   ngOnInit() {
     this.route.paramMap.subscribe((params: ParamMap) => {
@@ -79,6 +82,24 @@ export class VotmCloudOrganizationsHomeComponent implements OnInit {
         );
       }
     );
+  }
+
+  getOptionsListData(listData: string) {
+    this.organizationService.getOptionsListData(listData)
+      .subscribe(response => {
+        if (listData === 'Service Levels') {
+          this.svcLevels = [];
+          this.svcLevels = response;
+        }
+        if (listData === 'Sensor Blocks') {
+          this.sensorBlocks = [];
+          this.sensorBlocks = response;
+        }
+        if (listData === 'Cellular Blocks') {
+          this.cellularBlocks = [];
+          this.cellularBlocks = response;
+        }
+      });
   }
 
 }

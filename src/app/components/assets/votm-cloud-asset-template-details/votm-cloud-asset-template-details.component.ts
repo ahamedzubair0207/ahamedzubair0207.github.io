@@ -124,7 +124,7 @@ export class VotmCloudAssetTemplateDetailsComponent implements OnInit {
         this.template.fileStore = null;
       }
     }
-    this.template.assetName = null;
+    // this.template.assetName = null;
     if (this.template && this.template.invalid) {
       this.toaster.onFailure('Please fill the form correctly.', 'Form is invalid!')
       console.log('If block ');

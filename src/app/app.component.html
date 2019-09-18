@@ -1,11 +1,10 @@
-<!--The content below is only a placeholder and can be replaced.-->
+
 
 <div class="wrapper">
   <app-votm-cloud-side-menu *ngIf="router.url !== '/login'"></app-votm-cloud-side-menu>
   <div id="content" [ngClass]="{ 'active': menuOpen}">
       <app-votm-cloud-header *ngIf="router.url !== '/login'" ></app-votm-cloud-header>
       <div [ngClass]="{ 'menu-opened' : !menuOpen && router.url !== '/login', 'menu-closed' : menuOpen && router.url !== '/login', 'col-md-12' : router.url !== '/login'}">
-        <!-- <hr *ngIf="router.url !== '/login'" > -->
 				<div class="card border-0 shadow">
             <div class="card-body pt-3">
               <router-outlet ></router-outlet>

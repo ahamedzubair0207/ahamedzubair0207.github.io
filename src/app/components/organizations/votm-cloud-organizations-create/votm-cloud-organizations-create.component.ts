@@ -143,7 +143,7 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
   onCountryChange(event) {
     console.log('Country change ', this.organization.address[0].country);
     if (this.organization.address && this.organization.address.length > 0) {
-      this.organization.address[0].state = null;     
+      this.organization.address[0].state = null;
     } else {
       this.organization.address = [new Address()];
       this.organization.address[0].state = null;
@@ -223,6 +223,15 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
           this.organization.logo.imageType = this.fileExtension;
         }
 
+        this.countries.forEach(country => {
+          if (country.countryName === this.organization.address[0].country) {
+            this.states = [];
+            country.states.forEach((state: any) => {
+              this.states.push({ value: state, text: state });
+            });
+          }
+        });
+
       });
   }
 
@@ -257,7 +266,6 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
         .subscribe(response => {
           this.toaster.onSuccess(`You have deleted ${this.organization.name} successfully`, 'Delete Success!');
           this.route.navigate([`org/home/${this.curOrgId}/${this.curOrgName}`]);
-
         }, error => {
           this.toaster.onFailure('Something went wrong on server. Please try after sometiime.', 'Delete Fail!');
         });
@@ -548,7 +556,7 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
       })
   }
 
- 
+
 
   onAlertRuleTabClick() {
     console.log('onAlertRuleTabClick')
