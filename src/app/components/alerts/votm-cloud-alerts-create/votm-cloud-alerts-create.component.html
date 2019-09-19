@@ -7,24 +7,24 @@
   </div>
   <div class="form-group row">
       <div class="col-md-4 row">
-          <label for="" class="col-md-6 col-form-label txt-r">Alert Rule Name</label>
+          <label id="alertRuleNameLbl" for="alertRuleName" class="col-md-6 col-form-label txt-r">Alert Rule Name</label>
           <div class="col-md-6">
-              <input type="text" class="form-control" id="" placeholder="Alert Rule Name">
+              <input type="text" class="form-control" id="alertRuleName" placeholder="Alert Rule Name">
           </div>
       </div>
       <div class="col-md-4 row">
-          <label for="" class="col-md-6 col-form-label txt-r">Metric Type</label>
+          <label for="alertRuleMetricType" id="alertRuleMetricTypeLbl" class="col-md-6 col-form-label txt-r">Metric Type</label>
           <div class="col-md-6">
-              <select class="form-control">
+              <select class="form-control" id="alertRuleMetricType">
                   <option>Pressure</option>
               </select>
           </div>
       </div>
       <div class="col-md-4">
           <div class="row">
-              <label for="" class="col-md-6 col-form-label txt-r">Access Scope</label>
+              <label for="alertRuleAccessScope" id="alertRuleAccessScopeLbl" class="col-md-6 col-form-label txt-r">Access Scope</label>
               <div class="col-md-6">
-                  <select class="form-control">
+                  <select class="form-control" id="alertRuleAccessScope">
                       <option>QCD</option>
                   </select>
               </div>
@@ -33,18 +33,18 @@
   </div>
   <div class="form-group row">
       <div class="col-md-3 row">
-          <label for="" class="col-md-6 col-form-label txt-r">Rule Type</label>
+          <label for="alertRuleRuleType" id="alertRuleRuleTypeLbl" class="col-md-6 col-form-label txt-r">Rule Type</label>
           <div class="col-md-6">
-              <select class="form-control">
+              <select class="form-control" id="alertRuleRuleType">
                   <option>Absolute Thresholds</option>
               </select>
           </div>
       </div>
       <div class="col-md-4 row">
-          <label for="" class="col-md-7 col-form-label">Minimum Sustain Time</label>
+          <label for="alert-rule-min-sustain-time" id="alert-rule-min-sustain-time-lbl" class="col-md-7 col-form-label">Minimum Sustain Time</label>
           <div class="col-md-5 pl-0">
               <div class="input-group">
-                  <input type="text" class="form-control" placeholder="60">
+                  <input type="text" id="alert-rule-min-sustain-time" class="form-control" placeholder="60">
                   <div class="input-group-append">
                       <span class="input-group-text">Second</span>
                   </div>
@@ -53,14 +53,14 @@
       </div>
       <div class="col-md-2 pl-0 pr-0 pt-2">
           <div class="radio">
-              <label><input type="radio" class="mr-2">Closure Require</label>
+              <label id="alert-rule-closure-req-lbl" for="alert-rule-closure-req"><input type="radio" id="alert-rule-closure-req" class="mr-2">Closure Require</label>
           </div>
       </div>
       <div class="col-md-3 row pl-0 pr-0">
-          <label for="" class="col-md-5 col-form-label pl-0">Escalate After</label>
+          <label for="alert-rule-esc-after" id="alert-rule-esc-after-lbl" class="col-md-5 col-form-label pl-0">Escalate After</label>
           <div class="col-md-7 pr-0">
               <div class="input-group">
-                  <input type="text" class="form-control" placeholder="60">
+                  <input type="text" id="alert-rule-esc-after" class="form-control" placeholder="60">
                   <div class="input-group-append">
                       <span class="input-group-text">Minutes</span>
                   </div>
@@ -83,38 +83,43 @@
                   <tr>
                       <td>
                           <div class="custom-control custom-switch">
-                              <input type="checkbox" class="custom-control-input" id="customSwitch1">
-                              <label class="custom-control-label" for="customSwitch1"><input type="text"
-                                      class="form-control-sm mr-1 w-25" />psi</label>
+                            <input type="checkbox" class="custom-control-input" id="alert-low-critical-switch">
+                            <label id="alert-low-critical-lbl" class="custom-control-label" for="alert-low-critical">
+                                <input type="text" id="alert-low-critical" class="form-control-sm mr-1 w-25" />psi
+                            </label>
                           </div>
                       </td>
                       <td>
                           <div class="custom-control custom-switch">
-                              <input type="checkbox" class="custom-control-input" id="customSwitch2">
-                              <label class="custom-control-label" for="customSwitch2"><input type="text"
-                                      class="form-control-sm mr-1 w-25" />psi</label>
+                            <input type="checkbox" class="custom-control-input" id="alert-low-warning-switch">
+                            <label id="alert-low-warning-lbl" class="custom-control-label" for="alert-low-warning">
+                                <input type="text" id="alert-low-warning" class="form-control-sm mr-1 w-25" />psi
+                            </label>
                           </div>
                       </td>
                       <td>
                           <div class="custom-control custom-switch">
-                              <input type="checkbox" class="custom-control-input" id="customSwitch3" />
-                              <label class="custom-control-label" for="customSwitch3"><input type="text"
-                                      class="form-control-sm mr-1 w-25" />psi</label>
+                            <input type="checkbox" class="custom-control-input" id="alert-baseline-switch" />
+                            <label id="alert-baseline-lbl" class="custom-control-label" for="alert-baseline">
+                                <input type="text" id="alert-baseline" class="form-control-sm mr-1 w-25" />psi
+                            </label>
                           </div>
                       </td>
                       <td>
-                          <div class="custom-control custom-switch">
-                              <input type="checkbox" class="custom-control-input" id="customSwitch4">
-                              <label class="custom-control-label" for="customSwitch4"><input type="text"
-                                      class="form-control-sm mr-1 w-25" />psi</label>
-                          </div>
+                        <div class="custom-control custom-switch">
+                            <input type="checkbox" class="custom-control-input" id="alert-high-warning-switch" />
+                            <label id="alert-high-warning-lbl" class="custom-control-label" for="alert-high-warning">
+                                <input type="text" id="alert-high-warning" class="form-control-sm mr-1 w-25" />psi
+                            </label>
+                        </div>
                       </td>
                       <td>
-                          <div class="custom-control custom-switch">
-                              <input type="checkbox" class="custom-control-input" id="customSwitch5">
-                              <label class="custom-control-label" for="customSwitch5"><input type="text"
-                                      class="form-control-sm mr-1 w-25" />psi</label>
-                          </div>
+                        <div class="custom-control custom-switch">
+                            <input type="checkbox" class="custom-control-input" id="alert-high-critical-switch" />
+                            <label id="alert-high-critical-lbl" class="custom-control-label" for="alert-high-critical">
+                                <input type="text" id="alert-high-critical" class="form-control-sm mr-1 w-25" />psi
+                            </label>
+                        </div>
                       </td>
                   </tr>
               </tbody>
@@ -136,10 +141,10 @@
               <div class="tab-content">
                   <div class="tab-pane fade show active" id="Assets">
                       <div class="row mt-3 mb-3">
-                          <label for="" class="col-sm-6 col-form-label">Type to filter names</label>
+                          <label for="alert-search-filter" class="col-sm-6 col-form-label">Type to filter names</label>
                           <div class="col-sm-6">
                               <div class="input-group">
-                                  <input type="text" class="form-control" placeholder="enter">
+                                  <input type="text" id="alert-search-filter" class="form-control" placeholder="enter">
                                   <div class="input-group-append">
                                       <span class="input-group-text"><i class="fa fa-search"></i></span>
                                   </div>
@@ -159,7 +164,7 @@
                                       <td>Air Compressor 1</td>
                                       <td class="text-center">
                                           <div class="checkbox">
-                                              <label><input type="checkbox"></label>
+                                              <label><input id="association_1" type="checkbox"></label>
                                           </div>
                                       </td>
                                   </tr>
@@ -167,7 +172,7 @@
                                       <td>Air Compressor 1</td>
                                       <td class="text-center">
                                           <div class="checkbox">
-                                              <label><input type="checkbox"></label>
+                                              <label><input id="association_2" type="checkbox"></label>
                                           </div>
                                       </td>
                                   </tr>
@@ -175,7 +180,7 @@
                                       <td>Air Compressor 1</td>
                                       <td class="text-center">
                                           <div class="checkbox">
-                                              <label><input type="checkbox"></label>
+                                              <label><input id="association_3" type="checkbox"></label>
                                           </div>
                                       </td>
                                   </tr>
@@ -183,7 +188,7 @@
                                       <td>Air Compressor 1</td>
                                       <td class="text-center">
                                           <div class="checkbox">
-                                              <label><input type="checkbox"></label>
+                                              <label><input id="association_4" type="checkbox"></label>
                                           </div>
                                       </td>
                                   </tr>
@@ -191,7 +196,7 @@
                                       <td>Air Compressor 1</td>
                                       <td class="text-center">
                                           <div class="checkbox">
-                                              <label><input type="checkbox"></label>
+                                              <label><input id="association_5" type="checkbox"></label>
                                           </div>
                                       </td>
                                   </tr>
@@ -231,7 +236,7 @@
                               <tr>
                                   <td><i class="fa fa-user mr-2"></i>Sean Haley</td>
                                   <td>
-                                      <select>
+                                      <select name="notified-parties-1" id="notified-parties-1">
                                           <option>1</option>
                                       </select>
                                   </td>
@@ -240,7 +245,7 @@
                               <tr>
                                   <td><i class="fa fa-user mr-2"></i>Sean Haley</td>
                                   <td>
-                                      <select>
+                                      <select name="notified-parties-2" id="notified-parties-2">
                                           <option>1</option>
                                       </select>
                                   </td>
@@ -249,7 +254,7 @@
                               <tr>
                                   <td><i class="fa fa-user mr-2"></i>Sean Haley</td>
                                   <td>
-                                      <select>
+                                      <select name="notified-parties-3" id="notified-parties-3">
                                           <option>1</option>
                                       </select>
                                   </td>
@@ -258,7 +263,7 @@
                               <tr>
                                   <td><i class="fa fa-user mr-2"></i>Sean Haley</td>
                                   <td>
-                                      <select>
+                                      <select name="notified-parties-5" id="notified-parties-5">
                                           <option>1</option>
                                       </select>
                                   </td>
@@ -267,7 +272,7 @@
                               <tr>
                                   <td><i class="fa fa-user mr-2"></i>Sean Haley</td>
                                   <td>
-                                      <select>
+                                      <select name="notified-parties-6" id="notified-parties-6">
                                           <option>1</option>
                                       </select>
                                   </td>
@@ -283,8 +288,8 @@
   <hr>
   <div class="row">
       <div class="col-md-12 text-right">
-          <button class="btn btn-secondary mr-2">Cancel</button>
-          <button class="btn btn-primary mr-2">Save</button>
+          <button id="notified-parties-cancel-btn" class="btn btn-secondary mr-2">Cancel</button>
+          <button id="notified-parties-save-btn" class="btn btn-primary mr-2">Save</button>
       </div>
   </div>
 </form>

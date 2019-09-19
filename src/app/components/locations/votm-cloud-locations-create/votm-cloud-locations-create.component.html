@@ -5,15 +5,15 @@
       aria-controls="loc-info" aria-selected="true"><i class="fa fa-location-arrow"></i> Location</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" id="loc-event-tab" href="#event-details-tab" data-toggle="tab" role="tab"
+    <a class="nav-link" id="loc-event-tab" (click)="onClickOfNavTab('event_logs')" href="#event-details-tab" data-toggle="tab" role="tab"
       aria-controls="event-details" aria-selected="false"><i class="fa fa-warning"></i> Event Log</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" id="loc-dashboard1-tab" href="#dashboard1-details-tab" data-toggle="tab" role="tab"
+    <a class="nav-link" id="loc-dashboard1-tab" (click)="onClickOfNavTab('dashboard1')" href="#dashboard1-details-tab" data-toggle="tab" role="tab"
       aria-controls="dashboard1-details" aria-selected="false"><i class="fa fa-laptop"></i> Dashboard 1</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" id="loc-dashboard2-tab" href="#dashboard2-details-tab" data-toggle="tab" role="tab"
+    <a class="nav-link" id="loc-dashboard2-tab" (click)="onClickOfNavTab('dashboard2')" href="#dashboard2-details-tab" data-toggle="tab" role="tab"
       aria-controls="dashboard2-details" aria-selected="false"><i class="fa fa-laptop"></i> Dashboard 2</a>
   </li>
 </ul>
@@ -22,15 +22,15 @@
 <div class="tab-content">
     <div class="loc-outside-border tab-content tab-pane fade show active" id="loc-details-tab"
     *ngIf="(!locId && pageLabels) || (locId && pageLabels && location)" role="tabpanle" area-labelledby="loc-info-tab">
-  
+
     <ul class="nav nav-tabs mt-3">
       <li class="nav-item">
-        <a class="nav-link active" id="loc-details-tab" name="loc-view-edit" href="#loc-details" data-toggle="tab"
+        <a class="nav-link active" id="loc-details-tab"  (click)="onClickOfNavTab('location_details')" name="loc-view-edit" href="#loc-details" data-toggle="tab"
           role="tab" aria-controls="loc-details" aria-selected="true"><i class="fa fa-location-arrow"></i> Details</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" id="loc-signal-tab" name="signal-association-edit" href="#loc-signal"
-          (click)="onSignalAssociateRuleTab()" data-toggle="tab" role="tab" aria-controls="loc-signal"
+        <a class="nav-link" id="loc-signal-tab"  (click)="onClickOfNavTab('signal_association')" name="signal-association-edit" href="#loc-signal"
+          data-toggle="tab" role="tab" aria-controls="loc-signal"
           aria-selected="false"><i class="fa fa-podcast"></i> Signal & Gateway Association</a>
       </li>
       <i class="fa fa-lock edit-view-lock" name="loclockbutton" *ngIf="pageType.toLowerCase() === 'view'"
@@ -38,17 +38,17 @@
       <i class="fa fa-unlock edit-view-lock" name="locunlockbutton" *ngIf="pageType.toLowerCase() === 'edit'"
         (click)="onLockClick()"></i>
     </ul>
-  
-  
+
+
     <div class="loc-outside-border tab-pane fade show active"
       *ngIf="(!locId && pageLabels) || (locId && pageLabels && location)" id="loc-details" role="tabpanle"
       area-labelledby="loc-details-tab">
-  
+
       <form #locationForm="ngForm" class="create-loc-container loc-create-font needs-validation"
         (ngSubmit)="onLocationSubmit()" novalidate>
-  
+
         <div class="row loc-create-font">
-  
+
           <div class="col-6">
             <div class="row form-group">
               <label class="col-sm-5 col-form-label" for="name"><b>* {{pageLabels.Name.labelName}}</b></label>
@@ -64,7 +64,7 @@
               </div>
             </div>
           </div>
-  
+
           <div class="col-6">
             <div class="row form-group">
               <label class="col-sm-5 col-form-label"
@@ -77,7 +77,7 @@
               </div>
             </div>
           </div>
-  
+
           <div class="col-6">
             <div class="row form-group">
               <label class="col-sm-5 col-form-label" for="locationType"><b>{{pageLabels.LocationType.labelName}}:
@@ -92,7 +92,7 @@
               </div>
             </div>
           </div>
-  
+
           <div class="col-6">
             <div class="row form-group">
               <label class="col-sm-5 col-form-label" for="parentLoc"><b>{{pageLabels.ParentLocation.labelName}}
@@ -104,7 +104,7 @@
               </div>
             </div>
           </div>
-  
+
           <div class="col-6">
             <div class="row form-group">
               <label class="col-sm-5 col-form-label" for="primaryContact"><b>* {{pageLabels.PrimaryContact.labelName}}
@@ -122,7 +122,7 @@
               </div>
             </div>
           </div>
-  
+
           <div class="col-6">
             <div class="row form-group">
               <label class="col-sm-5 col-form-label" for="primarydistribute"><b>*
@@ -137,20 +137,20 @@
               </div>
             </div>
           </div>
-  
+
         </div>
-  
+
         <div class="row loc-create-font" *ngIf="location && location.address && location.address.length>0">
-  
+
           <div class="col-6">
-  
+
             <!-- Street Address  -->
             <fieldset>
               <legend id="loc-street-add"><b>* {{pageLabels.BillingAddress.labelName}} </b></legend>
-  
+
               <div class="row loc-create-font">
                 <div class="col-12 form-group">
-  
+
                   <input [disabled]="pageType==='View'" type="text" [(ngModel)]="location.address[0].address1"
                     for="address1" class="form-control loc-create-font" placeholder="Street Name" name="address1"
                     #address1="ngModel" id="locDtlstrName" required>
@@ -158,13 +158,13 @@
                     <app-votm-cloud-validator message="Street Name is required"></app-votm-cloud-validator>
                   </div>
                 </div>
-  
+
                 <div class="col-12 form-group">
-  
+
                   <input [disabled]="pageType==='View'" type="text" [(ngModel)]="location.address[0].address2"
                     for="address2" class="form-control loc-create-font" placeholder="Apt/Suite Number" #address2="ngModel"
                     name="address2" id="locDtlAptNumber">
-  
+
                 </div>
 
                 <div class="col-6 form-group">
@@ -175,9 +175,9 @@
                       <app-votm-cloud-validator message="City is required"></app-votm-cloud-validator>
                     </div>
                   </div>
-  
+
                 <div class="col-6 form-group">
-  
+
                   <select [disabled]="pageType==='View' || !location.address[0].country"
                     [(ngModel)]="location.address[0].state" name="state" class="drop-down form-control loc-create-font"
                     #state="ngModel" required aria-placeholder="State" id="locDtlStrtState">
@@ -190,7 +190,7 @@
                     <app-votm-cloud-validator message="State is required"></app-votm-cloud-validator>
                   </div>
                 </div>
-  
+
                 <div class="col-6 form-group">
                   <!-- <label for="country"><b>* {{pageLabels.Country.labelName}}:</b></label> -->
                   <select [disabled]="pageType==='View'" [(ngModel)]="location.address[0].country" name="country"
@@ -205,7 +205,7 @@
                     <app-votm-cloud-validator message="Country is required"></app-votm-cloud-validator>
                   </div>
                 </div>
-  
+
                 <div class="col-6">
                   <!-- <label for="zipcode"><b>* {{pageLabels.Zipcode.labelName}}:</b></label> -->
                   <input [disabled]="pageType==='View'" type="text" [(ngModel)]="location.address[0].postalCode"
@@ -215,14 +215,14 @@
                     <app-votm-cloud-validator message="Zip Code is required"></app-votm-cloud-validator>
                   </div>
                 </div>
-  
+
               </div>
             </fieldset>
-  
+
           </div>
-  
+
           <div class="col-6">
-  
+
             <!-- Logo -->
             <div class="row form-group">
               <label class="col-sm-5 col-form-label" for="locImage"><b>{{pageLabels.LogoFile.labelName}} : </b></label>
@@ -234,12 +234,12 @@
                 <img [src]="imgURL" *ngIf="imgURL" style="max-width:511px; max-height:479px;">
               </div>
             </div>
-  
-          
+
+
           </div>
-  
+
         </div>
-  
+
         <div class="row mt-2">
 
             <!-- Geo Location -->
@@ -301,10 +301,10 @@
                 </div>
               </div>
             </div>
-            
+
              <!-- Geo fence  -->
              <div class="col-4">
-                <div class="row form-group"> 
+                <div class="row form-group">
                     <label for="geofence" class="col-sm-3 col-form-label"><b>{{pageLabels.GeoFence.labelName}}:</b></label>
                     <div class="col-sm-9">
                       <div class="form-check form-check-inline ">
@@ -345,10 +345,10 @@
                       </div>
                     </div>
                 </div>
-                
+
               </div>
 
-              
+
 
              <!-- Language -->
            <div class="col-md-2" *ngIf="!locId && applicationConfiguration">
@@ -385,7 +385,7 @@
                 </div>
               </div>
             </div>
-  
+
          <!-- UOM  -->
          <div class="col-md-3">
             <label class="col-sm-5 col-form-label" for="unitsOfMeasure"><b>*
@@ -415,22 +415,22 @@
           </div>
 
         </div>
-  
+
         <div class="row" >
-           
+
             <div class="col">
-                <div class="row form-group"> 
+                <div class="row form-group">
                     <label class="col-sm-1 col-form-label" for="f-description"><b>Description:</b></label>
                     <div class="col-sm-11">
                       <textarea class="form-control loc-create-font" [disabled]="pageType==='View'"
                         [(ngModel)]="location.description" name="locDescription" rows="3" id="f-description"></textarea>
                     </div>
                 </div>
-                
+
             </div>
-  
+
         </div>
-  
+
         <!-- <div class="row loc-create-font form-group mt-2">
           <label class="col-sm-1 col-form-label" for="f-description"><b>{{pageLabels.DescriptionofLocation.labelName}}
               :</b></label>
@@ -438,9 +438,9 @@
             <textarea class="form-control loc-create-font" [disabled]="pageType==='View'"
               [(ngModel)]="location.description" name="locDescription" rows="3" id="f-description"></textarea>
           </div>
-  
+
         </div> -->
-  
+
         <div class="row loc-create-font">
           <div class="col-12">
             <button id="nest-asset-create" type="button" *ngIf="location.locationId"
@@ -461,27 +461,48 @@
               Location</button>
           </div>
         </div>
-  
+
       </form>
-      
+
     </div>
-  
+
     <div class="tab-pane fade" id="loc-signal" role="tabpanle" area-labelledby="loc-signal-tab">
-      <app-votm-cloud-locations-signal></app-votm-cloud-locations-signal>
+      <ul class="nav nav-tabs">
+        <li class="nav-item">
+          <a class="nav-link active"  id="signal"  (click)="onClickOfNavTab('signal_association')" href="#signal-tab" data-toggle="tab" role="tab"
+            aria-controls="signal" aria-selected="true"> Signals</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link"  id="gateway"  (click)="onClickOfNavTab('gateway_association')" href="#gateway-tab" data-toggle="tab" role="tab"
+            aria-controls="gateway" aria-selected="true"> Gateways</a>
+        </li>
+      </ul>
+
+      <div class="tab-content">
+        <div class="loc-outside-border tab-pane fade show active" *ngIf="isSignalAssociationClicked" id="signal-tab"
+          role="tabpanle" area-labelledby="signal-tab">
+          <app-votm-cloud-locations-signal></app-votm-cloud-locations-signal>
+        </div>
+        <div class="tab-pane fade" id="gateway-tab" area-labelledby="gateway-tab"
+          role="tabpanle">
+          <!-- <app-votm-cloud-locations-signal></app-votm-cloud-locations-signal> -->
+          Gateway Association
+        </div>
+      </div>
     </div>
-  
+
   </div>
-  
-  
+
+
   <div class="loc-outside-border tab-pane fade" id="event-details-tab" role="tabpanle"
     area-labelledby="event-details-tab">
     <app-votm-cloud-events-home></app-votm-cloud-events-home>
   </div>
-  
+
   <div class="loc-outside-border tab-pane fade" id="dashboard1-details-tab" role="tabpanle"
     area-labelledby="dashboard1-details-tab">
   </div>
-  
+
   <div class="loc-outside-border tab-pane fade" id="dashboard2-details-tab" role="tabpanle"
     area-labelledby="dashboard2-details-tab">
   </div>

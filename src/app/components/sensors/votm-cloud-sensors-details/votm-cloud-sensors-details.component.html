@@ -8,31 +8,31 @@
     <div class="row form-group">
       <label class="col-sm-3 col-form-label"><b>Sensor Name</b></label>
       <div class="col-sm-7">
-        <input type="text" class="form-control sensor-details-font">
+        <input id="sensor-name" type="text" class="form-control sensor-details-font">
       </div>
     </div>
     <div class="row form-group">
       <label class="col-sm-3 col-form-label"><b>Serial Number</b></label>
       <div class="col-sm-7">
-        <input type="text" class="form-control sensor-details-font">
+        <input id="sensor-number" type="text" class="form-control sensor-details-font">
       </div>
     </div>
     <div class="row form-group">
       <label class="col-sm-3 col-form-label"><b>Description</b></label>
       <div class="col-sm-7">
-        <input type="text" class="form-control sensor-details-font">
+        <input id="sensor-description" type="text" class="form-control sensor-details-font">
       </div>
     </div>
     <div class="row form-group">
       <label class="col-sm-3 col-form-label"><b>Sensor Type</b></label>
       <div class="col-sm-7">
-        <input type="text" class="form-control sensor-details-font">
+        <input id="sensor-type" type="text" class="form-control sensor-details-font">
       </div>
     </div>
     <div class="row form-group">
       <label class="col-sm-3 col-form-label"><b>Model Number</b></label>
       <div class="col-sm-7">
-        <input type="text" class="form-control sensor-details-font">
+        <input id="sensor-model-number" type="text" class="form-control sensor-details-font">
       </div>
     </div>
   </div>
@@ -40,13 +40,13 @@
     <div class="row form-group">
       <label class="col-sm-4 col-form-label"><b>Owning Organization</b></label>
       <div class="col-sm-8">
-        <input type="text" class="form-control sensor-details-font">
+        <input id="sensor-own-org" type="text" class="form-control sensor-details-font">
       </div>
     </div>
     <div class="row form-group">
       <label class="col-sm-4 col-form-label"><b>Installed Location</b></label>
       <div class="col-sm-8">
-        <select class="custom-select sensor-details-font">
+        <select class="custom-select sensor-details-font" id="sensor-installed-loc">
           <option>--</option>
           <option>1</option>
         </select>
@@ -58,13 +58,13 @@
       <div class="row form-group">
         <label class="col-sm-4 col-form-label"><b>GW Serial Number</b></label>
         <div class="col-sm-8">
-          <input type="text" class="form-control sensor-details-font">
+          <input type="text" id="sensor-gw-ser-no" class="form-control sensor-details-font">
         </div>
       </div>
       <div class="row form-group">
         <label class="col-sm-4 col-form-label"><b>GW Location</b></label>
         <div class="col-sm-8">
-          <input type="text" class="form-control sensor-details-font">
+          <input type="text" id="sensor-gw-loc" class="form-control sensor-details-font">
         </div>
       </div>
     </fieldset>
@@ -75,7 +75,7 @@
     <div class="row form-group">
       <label class="col-sm-4 col-form-label mr-3"><b>Sensor State</b></label>
       <div class="col-sm-7">
-        <input type="text" class="form-control sensor-details-font">
+        <input type="text" id="sensor-state" class="form-control sensor-details-font">
       </div>
     </div>
   </div>
@@ -83,7 +83,7 @@
     <div class="row form-group">
       <label class="col-sm-5 col-form-label text-right"><b>Battery Level </b><i class="fa fa-battery"></i></label>
       <div class="col-sm-7">
-        <input type="text" class="form-control sensor-details-font">
+        <input type="text" id="sensor-bettery-level" class="form-control sensor-details-font">
       </div>
     </div>
   </div>
@@ -91,7 +91,7 @@
     <div class="row form-group">
       <label class="col-sm-5 col-form-label text-right"><b>Signal Strength</b><i class="fa fa-wifi"></i></label>
       <div class="col-sm-7">
-        <input type="text" class="form-control sensor-details-font">
+        <input type="text" id="sensor-signal-strength" class="form-control sensor-details-font">
       </div>
     </div>
   </div>
@@ -103,7 +103,7 @@
       <div class="row form-group">
         <label class="col-sm-4 col-form-label"><b>Mapped Signal Name</b></label>
         <div class="col-sm-8">
-          <input type="text" class="form-control sensor-details-font">
+          <input type="text" id="sensor-mapped-sig-name" class="form-control sensor-details-font">
         </div>
       </div>
     </div>
@@ -111,7 +111,7 @@
       <div class="row form-group">
         <label class="col-sm-4 col-form-label text-right"><b>Signal Type</b></label>
         <div class="col-sm-8">
-          <select class="custom-select sensor-details-font">
+          <select class="custom-select sensor-details-font" id="sensor-signal-type">
             <option>--</option>
             <option>1</option>
           </select>
@@ -124,7 +124,7 @@
       <div class="row form-group">
         <label class="col-sm-5 col-form-label"><b>Source UOM</b></label>
         <div class="col-sm-6">
-          <input type="text" class="form-control sensor-details-font">
+          <input type="text" id="sensor-source-uom" class="form-control sensor-details-font">
         </div>
       </div>
     </div>
@@ -132,7 +132,7 @@
       <div class="row form-group">
         <label class="col-sm-4 col-form-label"><b>Precision</b></label>
         <div class="col-sm-8">
-          <input type="text" class="form-control sensor-details-font">
+          <input type="text" id="sensor-precision" class="form-control sensor-details-font">
         </div>
       </div>
     </div>
@@ -140,7 +140,7 @@
       <div class="row form-group">
         <label class="col-sm-6 col-form-label"><b>Low</b> (00000>>>>)</label>
         <div class="col-sm-6">
-          <input type="text" class="form-control sensor-details-font">
+          <input type="text" id="sensor-low-lbl" class="form-control sensor-details-font">
         </div>
       </div>
     </div>
@@ -148,7 +148,7 @@
       <div class="row form-group">
         <label class="col-sm-6 col-form-label"><b>High</b> (20000>>>>)</label>
         <div class="col-sm-6">
-          <input type="text" class="form-control sensor-details-font">
+          <input type="text" id="sensor-high-lbl" class="form-control sensor-details-font">
         </div>
       </div>
     </div>
