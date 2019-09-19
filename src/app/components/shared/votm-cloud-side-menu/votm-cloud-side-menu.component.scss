@@ -73,7 +73,8 @@ span {
     min-width: 50px;
     max-width: 50px;
     text-align: center;
-    background: #00a2ae;
+    background: #00b9c3;
+   
 }
 
 #sidebar.active .sidebar-header h3,
@@ -153,6 +154,8 @@ span {
 a[aria-expanded="true"] {
     color: #fff;
     background:#00aaac;
+    border-right: solid 8px #0d6960;
+    border-radius: 4px;
     // background: #00a2ae;
 
 }

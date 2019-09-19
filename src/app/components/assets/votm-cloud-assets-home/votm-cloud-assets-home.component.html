@@ -25,10 +25,9 @@
     <ng-template #recursiveTableList let-list="assetList" let-lvl="level">
       <ng-container *ngFor="let item of list">
         <tr>
-          <th scope="row" (click)="item.opened = !item.opened" [ngStyle]="{'padding-left.px': 15*(lvl+1)}">
+          <th class="underline-on-hover" scope="row" (click)="item.opened = !item.opened" [ngStyle]="{'padding-left.px': 15*(lvl+1)}">
             <i class="fa fa-industry"></i>
-            <a style="color: #212529; text-decoration: underline; cursor: pointer;"
-              (click)="onEditViewClick(item, 'view')"> {{item.name}}</a>&nbsp; <i *ngIf="item.node.length > 0 "
+            <a (click)="onEditViewClick(item, 'view')"> {{item.name}}</a>&nbsp; <i *ngIf="item.node.length > 0 "
               [ngClass]="{'fa': true, 'fa-caret-right': !item.opened, 'fa-caret-down': item.opened}"></i>
 
 

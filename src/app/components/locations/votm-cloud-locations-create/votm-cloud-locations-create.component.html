@@ -178,7 +178,8 @@
   
                 <div class="col-6 form-group">
   
-                  <select [disabled]="pageType==='View' || !location.address[0].country"
+                  <!-- <select [disabled]="pageType==='View' || !location.address[0].country" -->
+                  <select [disabled]="pageType==='View'"
                     [(ngModel)]="location.address[0].state" name="state" class="drop-down form-control loc-create-font"
                     #state="ngModel" required aria-placeholder="State" id="locDtlStrtState">
                     <option value="default" disabled selected>State</option>

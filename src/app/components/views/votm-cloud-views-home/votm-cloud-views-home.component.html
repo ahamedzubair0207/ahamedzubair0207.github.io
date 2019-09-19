@@ -1,96 +1,109 @@
-<div class="ContentPlaceHolder"class="views-body">
+<div class="ContentPlaceHolder" class="views-body">
 
-  <main class="views-body">
+        <main class="views-body">
 
-          <input class="views-input"id="tab1" type="radio" name="tabs" checked>
-          <label class="views-label views-label-before" for="tab1">Asset</label>
+                <input class="views-input" id="tab1" type="radio" name="tabs" checked>
+                <label class="views-label views-label-before" for="tab1">Asset</label>
 
-          <input class="views-input" id="tab2" type="radio" name="tabs">
-          <label class="views-label views-label-before" for="tab2">Gauges</label>
+                <input class="views-input" id="tab2" type="radio" name="tabs">
+                <label class="views-label views-label-before" for="tab2">Gauges</label>
 
-          <input class="views-input"id="tab3" type="radio" name="tabs">
-          <label class="views-label views-label-before" for="tab3">Charts</label>
+                <input class="views-input" id="tab3" type="radio" name="tabs">
+                <label class="views-label views-label-before" for="tab3">Charts</label>
 
-          <input class="views-input" id="tab4" type="radio" name="tabs">
-          <label class="views-label views-label-before" for="tab4">Misc</label>
-          <input class="views-input" id="tab5" type="radio" name="tabs">
-          <label class="views-label views-label-before" for="tab4">Misc2</label>
+                <input class="views-input" id="tab4" type="radio" name="tabs">
+                <label class="views-label views-label-before" for="tab4">Misc</label>
+                <input class="views-input" id="tab5" type="radio" name="tabs">
+                <label class="views-label views-label-before" for="tab4">Misc2</label>
 
-          <section id="content1" class="views-section">
-                  
-                  <div class="row">
+                <section id="content1" class="views-section">
 
-
-                        <div class="col-2 shadow p-3 mb-5 ml-3 bg-white rounded">
-                                <app-votm-simple-gauge></app-votm-simple-gauge>
-                        </div>
+                        <div class="row">
 
 
-                        <div class="col-6 shadow p-3 mb-5 ml-2 bg-white rounded">
-                                <app-votm-simple-gauge></app-votm-simple-gauge>
+                                <div class="col-2 shadow p-3 mb-5 ml-3 bg-white rounded">
+                                        <app-votm-simple-gauge></app-votm-simple-gauge>
                                 </div>
-                        
-                        <div class="col-2 shadow p-3 mb-5 ml-1 bg-white rounded">
-                                <app-votm-simple-gauge></app-votm-simple-gauge>
+
+
+                                <div class="col-6 shadow p-3 mb-5 ml-2 bg-white rounded">
+                                        <app-votm-simple-gauge></app-votm-simple-gauge>
                                 </div>
-                        
-                  </div> 
-                  <div class="row">
-                        <div class="col-12 shadow p-3 mb-5  bg-white rounded">
-                                <app-votm-line-graph></app-votm-line-graph>
-                        </div>
-                        
-                  </div> 
-          </section>
-          <section id="content2" class="views-section">
-                <div class="row">
-                        <div class="col-6 shadow p-3 mb-5  bg-white rounded">
-                                <app-votm-animated-gauge></app-votm-animated-gauge>
-                        </div>
-                        <div class="col-6 shadow p-3 mb-5  bg-white rounded">
-                                <app-votm-animated-gauge></app-votm-animated-gauge>
-                        </div>
-                        
-                </div>
-                <div class="row">
-                        <div class="col-6 shadow p-3 mb-5  bg-white rounded">
-                                <app-votm-two-axes-gauge></app-votm-two-axes-gauge>
-                        </div>
-                        <div class="col-6 shadow p-3 mb-5  bg-white rounded">
-                                <app-votm-multi-gauge></app-votm-multi-gauge>
-                        </div>
-                        
-                </div> 
-              
-          </section>
 
-          <section id="content3" class="views-section">
-                <div class="row">
-                       
-                        <div class="col p-3 shadow p-3 mb-5  bg-white rounded">
-                                <app-votm-clustered-column-chart></app-votm-clustered-column-chart>
-                        </div>
-                </div>
-                <div class="row">
-                       
-                        <div class="col p-3 shadow p-3 mb-5  bg-white rounded">
-                                <app-votm-cylinder-gauge></app-votm-cylinder-gauge>
-                        </div>
-                </div>
-                
-        </section>
+                                <div class="col-2 shadow p-3 mb-5 ml-1 bg-white rounded">
+                                        <app-votm-simple-gauge></app-votm-simple-gauge>
+                                </div>
 
-        <section id="content4" class="views-section">
-                <div class="row">
-                       
-                        <div class="col-6 shadow p-3 mb-5  bg-white rounded">
-                               <app-votm-pictorial-chart></app-votm-pictorial-chart> 
                         </div>
-                        <div class="col-6 shadow p-3 mb-5  bg-white rounded">
-                              <app-votm-pie-slice-chart></app-votm-pie-slice-chart>
+                        <div class="row">
+                                <div class="col-12 shadow p-3 mb-5  bg-white rounded">
+                                        <app-votm-line-graph></app-votm-line-graph>
+                                </div>
+
                         </div>
-                </div>
-            
-        </section>
-  </main>
+                </section>
+                <section id="content2" class="views-section">
+                        <div class="row">
+                                <div class="col-6 shadow p-3 mb-5  bg-white rounded">
+                                        <app-votm-animated-gauge></app-votm-animated-gauge>
+                                </div>
+                                <div class="col-6 shadow p-3 mb-5  bg-white rounded">
+                                        <app-votm-animated-gauge></app-votm-animated-gauge>
+                                </div>
+
+                        </div>
+                        <div class="row">
+                                <div class="col-6 shadow p-3 mb-5  bg-white rounded">
+                                        <app-votm-two-axes-gauge></app-votm-two-axes-gauge>
+                                </div>
+                                <div class="col-6 shadow p-3 mb-5  bg-white rounded">
+                                        <app-votm-multi-gauge></app-votm-multi-gauge>
+                                </div>
+
+                        </div>
+
+                </section>
+
+                <section id="content3" class="views-section">
+                        <div class="row">
+
+                                <div class="col p-3 shadow p-3 mb-5  bg-white rounded">
+                                        <app-votm-clustered-column-chart></app-votm-clustered-column-chart>
+                                </div>
+                        </div>
+                        <div class="row">
+
+                                <div class="col p-3 shadow p-3 mb-5  bg-white rounded">
+                                        <app-votm-cylinder-gauge></app-votm-cylinder-gauge>
+                                </div>
+                        </div>
+
+                </section>
+
+                <section id="content4" class="views-section">
+                        <div class="row">
+
+                                <div class="col-6 shadow p-3 mb-5  bg-white rounded">
+                                        <app-votm-pictorial-chart></app-votm-pictorial-chart>
+                                </div>
+                                <div class="col-6 shadow p-3 mb-5  bg-white rounded">
+                                        <app-votm-pie-slice-chart></app-votm-pie-slice-chart>
+                                </div>
+                        </div>
+
+                </section>
+
+                <section id="content5" class="views-section">
+                        <div class="row">
+
+                                <div class="col-6 shadow p-3 mb-5  bg-white rounded">
+                                        <app-votm-pictorial-chart></app-votm-pictorial-chart>
+                                </div>
+                                <div class="col-6 shadow p-3 mb-5  bg-white rounded">
+                                        <app-votm-pie-slice-chart></app-votm-pie-slice-chart>
+                                </div>
+                        </div>
+
+                </section>
+        </main>
 </div>
