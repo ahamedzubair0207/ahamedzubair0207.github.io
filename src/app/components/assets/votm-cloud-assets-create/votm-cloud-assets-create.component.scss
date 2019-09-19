@@ -23,19 +23,15 @@
   }
 
   // Tabs Border // 
-
-  .tab-pane {
-
-    border-left: 1px solid #ddd;
-    border-right: 1px solid #ddd;
-    border-bottom: 1px solid #ddd;
-    border-radius: 0px 0px 5px 5px;
-    padding: 10px;
-}
-
-.nav-tabs {
-    margin-bottom: 0;
-}
+  .nav-link{
+    color: gray;
+  }
+  .nav-tabs .nav-link.active{
+    color: #030303;
+  }
+  .second-nav{
+    color: #1d6f9f;
+  }
 
   .create-asset-container {
     padding: 15px;

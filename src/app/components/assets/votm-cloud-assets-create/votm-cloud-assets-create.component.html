@@ -1,21 +1,21 @@
 <!-- Top Level Nav -->
-<ul class="nav nav-tabs">
+<ul class="nav nav-tabs" id="myTab">
   <li class="nav-item">
     <a class="nav-link active" (click)="onClickOfNavTab('asset')" id="asset-tab" href="#asset-details-tab"
       data-toggle="tab" role="tab" aria-controls="asset-info" aria-selected="true"><i class="fa fa-industry"></i>
       Asset</a>
   </li>
-  <li class="nav-item">
+  <li class="nav-item nav-border-tab">
     <a class="nav-link" id="asset-event-tab" (click)="onClickOfNavTab('event_logs')" href="#event-details-tab"
       data-toggle="tab" role="tab" aria-controls="event-details" aria-selected="false"><i class="fa fa-warning"></i>
       Event Log</a>
   </li>
-  <li class="nav-item">
+  <li class="nav-item nav-border-tab">
     <a class="nav-link" id="asset-dashboard1-tab" (click)="onClickOfNavTab('dashboard1')" href="#dashboard1-details-tab"
       data-toggle="tab" role="tab" aria-controls="dashboard1-details" aria-selected="false"><i class="fa fa-laptop"></i>
       Dashboard 1</a>
   </li>
-  <li class="nav-item">
+  <li class="nav-item nav-border-tab">
     <a class="nav-link" id="asset-dashboard2-tab" (click)="onClickOfNavTab('dashboard2')" href="#dashboard2-details-tab"
       data-toggle="tab" role="tab" aria-controls="dashboard2-details" aria-selected="false"><i class="fa fa-laptop"></i>
       Dashboard 2</a>
@@ -32,12 +32,12 @@
 
     <ul class="nav nav-tabs mt-3">
       <li class="nav-item">
-        <a class="nav-link active" (click)="onClickOfNavTab('asset_details')" id="asset-details-tab"
+        <a class="nav-link second-nav active" (click)="onClickOfNavTab('asset_details')" id="asset-details-tab"
           name="asset-view-edit" href="#asset-details" data-toggle="tab" role="tab" aria-controls="asset-details"
           aria-selected="true"><i class="fa fa-industry"></i> Details</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" id="asset-signal-tab" (click)="onClickOfNavTab('signal_association')" name="signal-association-edit"
+        <a class="nav-link second-nav" id="asset-signal-tab" (click)="onClickOfNavTab('signal_association')" name="signal-association-edit"
           href="#asset-signal" data-toggle="tab" role="tab" aria-controls="asset-signal" aria-selected="false"><i
             class="fa fa-podcast"></i> Signal Association</a>
       </li>
@@ -68,7 +68,7 @@
               <div class="row form-group">
                 <label class="col-sm-5 col-form-label" for="assetName"><b>* Asset Name:</b></label>
                 <input class="col-sm-7 form-control asset-create-font" type="text" [(ngModel)]="asset.assetName"
-                  [disabled]="pageType === 'View'" #assetName="ngModel" placeholder="Enter Name" name="assetName1"
+                  [disabled]="pageType === 'View'" #assetName="ngModel" placeholder="Enter Name" id="assetName1" name="assetName1"
                   required maxlength="50" />
                 <div *ngIf="assetName.dirty && assetName.invalid">
                   <app-votm-cloud-validator message="Name is required"></app-votm-cloud-validator>
@@ -81,7 +81,7 @@
             <div class="col-4">
               <div class="row form-group">
                 <label class="col-sm-5 col-form-label" for="assetparentOrg"><b>* Owning Organization:</b></label>
-                <select [(ngModel)]="asset.organizationId" name="organizationName"
+                <select [(ngModel)]="asset.organizationId" id="organizationName" name="organizationName"
                   [disabled]="pageType==='View'" class=" col-sm-7 drop-down form-control asset-create-font"
                   (change)="onParentOrgChange($event)" #organizationName="ngModel">
                   <option *ngFor="let org of organizationList" [value]="org.organizationId">
@@ -97,7 +97,7 @@
             <div class="col-4">
               <div class="row form-group">
                 <label class="col-sm-3 col-form-label" for="f-description"><b>Description :</b></label>
-                <input for="assetDescription" class="col-sm-9 form-control asset-create-font" type="text"
+                <input id="assetDescription" class="col-sm-9 form-control asset-create-font" type="text"
                   placeholder="Description" [disabled]="pageType==='View'">
                 <!-- <textarea class="form-control asset-create-font" [disabled]="pageType === 'View'"
                           [(ngModel)]="asset.description" name="assetDescription" rows="5" id="f-description"></textarea> -->
@@ -109,7 +109,7 @@
                 <label class="col-sm-5 col-form-label" for="assetparentLoc"><b>* Installed Location:</b></label>
                 <!-- <input for="parentLocname" class="col-sm-7 form-control asset-create-font" type="text"
                   placeholder="{{parentLocName}}" [disabled]="pageType==='View'"> -->
-                <select [disabled]="pageType==='View'" [(ngModel)]="asset.locationId" name="installedLocation"
+                <select [disabled]="pageType==='View'" [(ngModel)]="asset.locationId" id="installedLocation" name="installedLocation"
                   class=" col-sm-7 drop-down form-control asset-create-font" #installedLocation="ngModel" required>
                   <option *ngFor="let loc of locationListForDropDown" [value]="loc.locationId">
                     {{loc.locationName}}
@@ -125,7 +125,7 @@
               <div class="row form-group">
                 <label class="col-sm-5 col-form-label" for="asset-Type"><b>Asset Type:</b></label>
                 <input type="text" [(ngModel)]="asset.assetType" placeholder="Enter Asset Type"
-                  [disabled]="pageType === 'View'" #assetType="ngModel" name="assetType" (blur)="onAssetTypeChange()"
+                  [disabled]="pageType === 'View'" #assetType="ngModel" name="assetType" id="assetType" (blur)="onAssetTypeChange()"
                   maxlength="50" class="col-sm-7 form-control asset-create-font" />
               </div>
             </div>
@@ -136,13 +136,13 @@
               <label class="col-sm-5 col-form-label" for="asset-temp"><b>Created from Template</b></label>
               <br>
               <!-- <label for="temp-contain">{{asset.templateName? asset.templateName: '-'}}</label> -->
-              <input name="asset-template" disabled class="col-sm-7 form-control asset-create-font" type="text"
+              <input name="asset-template" id="asset-template" disabled class="col-sm-7 form-control asset-create-font" type="text"
                 placeholder="{{asset.templateName? asset.templateName: '-'}}">
                 </div>
               <div class="mt-2">
                 <div class="checkbox">
                   <label>
-                    <input type="checkbox" [(ngModel)]="acceptedTemplateChages" (click)="onTemplateChangeAccept($event)"
+                    <input type="checkbox" id="templateAccept" [(ngModel)]="acceptedTemplateChages" (click)="onTemplateChangeAccept($event)"
                       name="templateAccept">Check to Inherit Template Changes</label>
                 </div>
                 <!-- <input class="form-check-input templt-radio" type="radio"> -->
@@ -156,7 +156,7 @@
                 <label class="col-sm-5 col-form-label" for="parentAsset"><b>Parent Asset:</b></label>
                 <!-- <input type="text" [(ngModel)]="asset.parentAssetName" placeholder="{{asset.parentAssetName}}" [disabled]="pageType==='View'"
                                   class="form-control asset-create-font" name="parentAsset"> -->
-                <select [(ngModel)]="asset.parentAssetId" name="parentAsset"
+                <select [(ngModel)]="asset.parentAssetId" name="parentAsset" id="parentAsset" 
                   [disabled]="pageType==='View'" class=" col-sm-7 drop-down form-control asset-create-font"
                   (change)="onParentAssetChange($event)" #parentAsset="ngModel">
                   <option *ngFor="let asset of parentAssetListForDropDown" [value]="asset.assetId">
@@ -169,7 +169,7 @@
             <div class="col-4">
                 <div class="row form-group">
               <label class="col-sm-5 col-form-label" for="assetId"><b>Asset ID:</b></label>
-              <input type="text" [(ngModel)]="asset.assetNumber" class="col-sm-7 form-control asset-create-font"
+              <input type="text" id="assetNumber" [(ngModel)]="asset.assetNumber" class="col-sm-7 form-control asset-create-font"
                 [disabled]="pageType === 'View'" #assetId="ngModel" placeholder="Enter Asset ID" name="assetNumber"
                 maxlength="50" />
             </div>
@@ -192,7 +192,7 @@
 
               <label for="assetImage"><b>Asset Image : </b></label>
               <span style="color:rgb(106,96,85);" *ngIf="message">{{message}}</span>
-              <input [disabled]="pageType==='View'" #file type="file" accept='image/*'
+              <input [disabled]="pageType==='View'" #file type="file" id="asset-image" accept='image/*'
                 class="form-control-file asset-create-font" (change)="onImageChangeClick()" />
               <label style="font-weight: bold" *ngIf="asset && asset.logo">{{asset.logo.imageName}}</label>
               <img [src]="imgURL" height="200" width="235" *ngIf="imgURL">
@@ -201,7 +201,7 @@
             <div class="col-md-6 form-group">
 
               <label for="exampleFormControlFile1"><b>Documentation:</b></label>
-              <input type="file" id="documentUpload" name="documentUpload" [disabled]="pageType==='View'"
+              <input type="file" id="documentUpload" name="documentUpload" id="documentUpload" [disabled]="pageType==='View'"
                 (change)="onDocChangeClick();" class="form-control-file asset-create-font" #fileInput>
               <a *ngIf="asset.fileStore" style="color:blue;"
                 (click)="onFileOpen()"><u>{{asset.fileStore.fileName}}</u></a>
@@ -295,7 +295,7 @@
       </div>
       <div class="modal-body">
         <div>
-          <select class="custom-select" size="6" [(ngModel)]="templateId" name="templateId"
+          <select class="custom-select" size="6" [(ngModel)]="templateId" id="templateId" name="templateId"
             class="drop-down form-control org-create-font">
             <option *ngFor="let template of templates" [value]="template.value">
               {{ template.text }}
@@ -342,7 +342,7 @@
               <div class="col-6">
                 <div class="row form-group">
                     <label class="col-sm-5 col-form-label" >Choose your Organization: </label>
-                    <select required [(ngModel)]="asset.organizationId" name="parentorg"
+                    <select id="parentorg" required [(ngModel)]="asset.organizationId" name="parentorg"
                       class="col-sm-7 drop-down form-control asset-create-font" #parentorgModel="ngModel">
                       <option *ngFor="let organization of organizationList" [value]="organization.organizationId">
                         {{organization.name}}
@@ -353,7 +353,7 @@
               <div class="col-6">
                   <div class="row form-group"> 
                       <label class="col-sm-5 col-form-label">Template Name: </label>
-                      <input class="col-sm-7 form-control asset-create-font" [(ngModel)]="templateNameToSave" type="text"
+                      <input id="templateNameToSave" class="col-sm-7 form-control asset-create-font" [(ngModel)]="templateNameToSave" type="text"
                         placeholder="Template Name" name="templateNameToSave" #templateName="ngModel" maxlength="50" required>
                       <div *ngIf="templateName.dirty && templateName.invalid">
                         <app-votm-cloud-validator message="Template name is required"></app-votm-cloud-validator>

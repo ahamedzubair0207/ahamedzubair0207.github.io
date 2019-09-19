@@ -1,290 +1,292 @@
 <form #organizationForm="ngForm" class="form needs-validation" novalidate>
-  <div class="row mt-3">
-      <div class="col-md-6">
-          <h5>Alert Rule Configuration</h5>
-      </div>
-      <a href="" class="col-md-6 text-right"><i class="fa fa-lock"></i></a>
-  </div>
-  <div class="form-group row">
-      <div class="col-md-4 row">
-          <label for="" class="col-md-6 col-form-label txt-r">Alert Rule Name</label>
-          <div class="col-md-6">
-              <input type="text" class="form-control" id="" placeholder="Alert Rule Name">
-          </div>
-      </div>
-      <div class="col-md-4 row">
-          <label for="" class="col-md-6 col-form-label txt-r">Metric Type</label>
-          <div class="col-md-6">
-              <select class="form-control">
-                  <option>Pressure</option>
-              </select>
-          </div>
-      </div>
-      <div class="col-md-4">
-          <div class="row">
-              <label for="" class="col-md-6 col-form-label txt-r">Access Scope</label>
-              <div class="col-md-6">
-                  <select class="form-control">
-                      <option>QCD</option>
-                  </select>
-              </div>
-          </div>
-      </div>
-  </div>
-  <div class="form-group row">
-      <div class="col-md-3 row">
-          <label for="" class="col-md-6 col-form-label txt-r">Rule Type</label>
-          <div class="col-md-6">
-              <select class="form-control">
-                  <option>Absolute Thresholds</option>
-              </select>
-          </div>
-      </div>
-      <div class="col-md-4 row">
-          <label for="" class="col-md-7 col-form-label">Minimum Sustain Time</label>
-          <div class="col-md-5 pl-0">
-              <div class="input-group">
-                  <input type="text" class="form-control" placeholder="60">
-                  <div class="input-group-append">
-                      <span class="input-group-text">Second</span>
-                  </div>
-              </div>
-          </div>
-      </div>
-      <div class="col-md-2 pl-0 pr-0 pt-2">
-          <div class="radio">
-              <label><input type="radio" class="mr-2">Closure Require</label>
-          </div>
-      </div>
-      <div class="col-md-3 row pl-0 pr-0">
-          <label for="" class="col-md-5 col-form-label pl-0">Escalate After</label>
-          <div class="col-md-7 pr-0">
-              <div class="input-group">
-                  <input type="text" class="form-control" placeholder="60">
-                  <div class="input-group-append">
-                      <span class="input-group-text">Minutes</span>
-                  </div>
-              </div>
-          </div>
-      </div>
-  </div>
-  <div class="form-group">
-      <fieldset>
-          <legend>Thresholds</legend>
-          <table class="table table-borderless table-sm">
-              <tbody>
-                  <tr>
-                      <td class="alert-danger text-center">Low Critical</td>
-                      <td class="alert-warning text-center">Low Warning</td>
-                      <td class="alert-success text-center">Baseline</td>
-                      <td class="alert-warning text-center">High Warning</td>
-                      <td class="alert-danger text-center">High Critical</td>
-                  </tr>
-                  <tr>
-                      <td>
-                          <div class="custom-control custom-switch">
-                              <input type="checkbox" class="custom-control-input" id="customSwitch1">
-                              <label class="custom-control-label" for="customSwitch1"><input type="text"
-                                      class="form-control-sm mr-1 w-25" />psi</label>
-                          </div>
-                      </td>
-                      <td>
-                          <div class="custom-control custom-switch">
-                              <input type="checkbox" class="custom-control-input" id="customSwitch2">
-                              <label class="custom-control-label" for="customSwitch2"><input type="text"
-                                      class="form-control-sm mr-1 w-25" />psi</label>
-                          </div>
-                      </td>
-                      <td>
-                          <div class="custom-control custom-switch">
-                              <input type="checkbox" class="custom-control-input" id="customSwitch3" />
-                              <label class="custom-control-label" for="customSwitch3"><input type="text"
-                                      class="form-control-sm mr-1 w-25" />psi</label>
-                          </div>
-                      </td>
-                      <td>
-                          <div class="custom-control custom-switch">
-                              <input type="checkbox" class="custom-control-input" id="customSwitch4">
-                              <label class="custom-control-label" for="customSwitch4"><input type="text"
-                                      class="form-control-sm mr-1 w-25" />psi</label>
-                          </div>
-                      </td>
-                      <td>
-                          <div class="custom-control custom-switch">
-                              <input type="checkbox" class="custom-control-input" id="customSwitch5">
-                              <label class="custom-control-label" for="customSwitch5"><input type="text"
-                                      class="form-control-sm mr-1 w-25" />psi</label>
-                          </div>
-                      </td>
-                  </tr>
-              </tbody>
-          </table>
-      </fieldset>
-  </div>
-  <div class="row">
-      <div class="col-md-6">
-          <fieldset>
-              <legend>Signal Associations</legend>
-              <ul class="nav nav-tabs">
-                  <li class="nav-item">
-                      <a href="#Assets" class="nav-link active" data-toggle="tab">Assets/Location Signals</a>
-                  </li>
-                  <li class="nav-item">
-                      <a href="#Template" class="nav-link" data-toggle="tab">Assets Template Signals</a>
-                  </li>
-              </ul>
-              <div class="tab-content">
-                  <div class="tab-pane fade show active" id="Assets">
-                      <div class="row mt-3 mb-3">
-                          <label for="" class="col-sm-6 col-form-label">Type to filter names</label>
-                          <div class="col-sm-6">
-                              <div class="input-group">
-                                  <input type="text" class="form-control" placeholder="enter">
-                                  <div class="input-group-append">
-                                      <span class="input-group-text"><i class="fa fa-search"></i></span>
-                                  </div>
-                              </div>
-                          </div>
-                      </div>
-                      <div class="table-scroll scrollbar-primary">
-                          <table class="table table-bordered table-sm">
-                              <thead>
-                                  <tr>
-                                      <th>Name</th>
-                                      <th class="text-center">Associations</th>
-                                  </tr>
-                              </thead>
-                              <tbody>
-                                  <tr>
-                                      <td>Air Compressor 1</td>
-                                      <td class="text-center">
-                                          <div class="checkbox">
-                                              <label><input type="checkbox"></label>
-                                          </div>
-                                      </td>
-                                  </tr>
-                                  <tr>
-                                      <td>Air Compressor 1</td>
-                                      <td class="text-center">
-                                          <div class="checkbox">
-                                              <label><input type="checkbox"></label>
-                                          </div>
-                                      </td>
-                                  </tr>
-                                  <tr>
-                                      <td>Air Compressor 1</td>
-                                      <td class="text-center">
-                                          <div class="checkbox">
-                                              <label><input type="checkbox"></label>
-                                          </div>
-                                      </td>
-                                  </tr>
-                                  <tr>
-                                      <td>Air Compressor 1</td>
-                                      <td class="text-center">
-                                          <div class="checkbox">
-                                              <label><input type="checkbox"></label>
-                                          </div>
-                                      </td>
-                                  </tr>
-                                  <tr>
-                                      <td>Air Compressor 1</td>
-                                      <td class="text-center">
-                                          <div class="checkbox">
-                                              <label><input type="checkbox"></label>
-                                          </div>
-                                      </td>
-                                  </tr>
-                              </tbody>
-                          </table>
-                      </div>
-                  </div>
-                  <div class="tab-pane fade" id="Template">
-                      <h4 class="mt-2">Template tab content</h4>
-                      <p>Vestibulum nec erat eu nulla rhoncus fringilla ut non neque. Vivamus nibh urna, ornare id
-                          gravida ut, mollis a magna. Aliquam porttitor condimentum nisi, eu viverra ipsum porta ut.
-                          Nam hendrerit bibendum turpis, sed molestie mi fermentum id. Aenean volutpat velit sem. Sed
-                          consequat ante in rutrum convallis. Nunc facilisis leo at faucibus adipiscing.</p>
-                  </div>
-              </div>
-          </fieldset>
-      </div>
-      <div class="col-md-6">
-          <fieldset>
-              <legend>Notified Parties</legend>
-              <div class="">
-                  <button class="btn btn-sm btn-secondary mr-2"><i class="fa fa-user mr-2"></i>Notify Me</button>
-                  <button class="btn btn-sm btn-secondary mr-2"><i class="fa fa-user mr-2"></i>Add Notified User</button>
-                  <button class="btn btn-sm btn-secondary"><i class="fa fa-user mr-2"></i>Add Notified Group</button>
-              </div>
-              <div class="mt-3">
-                  <div class="table2-scroll scrollbar-primary">
-                      <table class="table table-bordered table-sm">
-                          <thead>
-                              <tr>
-                                  <th>User/Group Name</th>
-                                  <th>Responsibility</th>
-                                  <th class="text-center">Action</th>
-                              </tr>
-                          </thead>
-                          <tbody>
-                              <tr>
-                                  <td><i class="fa fa-user mr-2"></i>Sean Haley</td>
-                                  <td>
-                                      <select>
-                                          <option>1</option>
-                                      </select>
-                                  </td>
-                                  <td class="text-center"><a href=""><i class="fa fa-trash-o"></i></a></td>
-                              </tr>
-                              <tr>
-                                  <td><i class="fa fa-user mr-2"></i>Sean Haley</td>
-                                  <td>
-                                      <select>
-                                          <option>1</option>
-                                      </select>
-                                  </td>
-                                  <td class="text-center"><a href=""><i class="fa fa-trash-o"></i></a></td>
-                              </tr>
-                              <tr>
-                                  <td><i class="fa fa-user mr-2"></i>Sean Haley</td>
-                                  <td>
-                                      <select>
-                                          <option>1</option>
-                                      </select>
-                                  </td>
-                                  <td class="text-center"><a href=""><i class="fa fa-trash-o"></i></a></td>
-                              </tr>
-                              <tr>
-                                  <td><i class="fa fa-user mr-2"></i>Sean Haley</td>
-                                  <td>
-                                      <select>
-                                          <option>1</option>
-                                      </select>
-                                  </td>
-                                  <td class="text-center"><a href=""><i class="fa fa-trash-o"></i></a></td>
-                              </tr>
-                              <tr>
-                                  <td><i class="fa fa-user mr-2"></i>Sean Haley</td>
-                                  <td>
-                                      <select>
-                                          <option>1</option>
-                                      </select>
-                                  </td>
-                                  <td class="text-center"><a href=""><i class="fa fa-trash-o"></i></a></td>
-                              </tr>
-                          </tbody>
-                      </table>
-                  </div>
-              </div>
-          </fieldset>
-      </div>
-  </div>
-  <hr>
-  <div class="row">
-      <div class="col-md-12 text-right">
-          <button class="btn btn-secondary mr-2">Cancel</button>
-          <button class="btn btn-primary mr-2">Save</button>
-      </div>
-  </div>
+    <div class="row mt-3">
+        <div class="col-md-6">
+            <h5>Alert Rule Configuration</h5>
+        </div>
+        <a href="" class="col-md-6 text-right"><i class="fa fa-lock"></i></a>
+    </div>
+    <div class="form-group row">
+        <div class="col-md-4 row">
+            <label for="" class="col-md-6 col-form-label txt-r">Alert Rule Name</label>
+            <div class="col-md-6">
+                <input type="text" name="alertRuleName" [(ngModel)]="alert.alertRuleName" class="form-control" id=""
+                    placeholder="Alert Rule Name">
+            </div>
+        </div>
+        <div class="col-md-4 row">
+            <label for="" class="col-md-6 col-form-label txt-r">Metric Type</label>
+            <div class="col-md-6">
+                <select name="metricType" [(ngModel)]="alert.alertTypeId" class="form-control">
+                    <option>Pressure</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="row">
+                <label for="" class="col-md-6 col-form-label txt-r">Access Scope</label>
+                <div class="col-md-6">
+                    <select name="accessScope" [(ngModel)]="alert.organizationScopeId" class="form-control">
+                        <option>QCD</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-md-3 row">
+            <label for="" class="col-md-6 col-form-label txt-r">Rule Type</label>
+            <div class="col-md-6">
+                <select name="ruleType" [(ngModel)]="alert.alertRuleTypeId" class="form-control">
+                    <option>Absolute Thresholds</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-md-4 row">
+            <label for="" class="col-md-7 col-form-label">Minimum Sustain Time</label>
+            <div class="col-md-5 pl-0">
+                <div class="input-group">
+                    <input name="sustainTime" [(ngModel)]="alert.sustainTime" type="text" class="form-control" placeholder="60">
+                    <div class="input-group-append">
+                        <span class="input-group-text">Second</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2 pl-0 pr-0 pt-2">
+            <div class="checkbox">
+                <label><input type="checkbox"  name="closureRequired" [(ngModel)]="alert.closureRequired" class="mr-2">Closure Require</label>
+            </div>
+        </div>
+        <div class="col-md-3 row pl-0 pr-0">
+            <label for="" class="col-md-5 col-form-label pl-0">Escalate After</label>
+            <div class="col-md-7 pr-0">
+                <div class="input-group">
+                    <input type="text"  name="escalateTime" [(ngModel)]="alert.escalateTime" class="form-control" placeholder="60">
+                    <div class="input-group-append">
+                        <span class="input-group-text">Minutes</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <fieldset>
+            <legend>Thresholds</legend>
+            <table class="table table-borderless table-sm">
+                <tbody>
+                    <tr>
+                        <td class="alert-danger text-center">Low Critical</td>
+                        <td class="alert-warning text-center">Low Warning</td>
+                        <td class="alert-success text-center">Baseline</td>
+                        <td class="alert-warning text-center">High Warning</td>
+                        <td class="alert-danger text-center">High Critical</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="custom-control custom-switch">
+                                <input type="checkbox" class="custom-control-input" id="customSwitch1">
+                                <label class="custom-control-label" for="customSwitch1"><input type="text"
+                                        class="form-control-sm mr-1 w-25" />psi</label>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="custom-control custom-switch">
+                                <input type="checkbox" class="custom-control-input" id="customSwitch2">
+                                <label class="custom-control-label" for="customSwitch2"><input type="text"
+                                        class="form-control-sm mr-1 w-25" />psi</label>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="custom-control custom-switch">
+                                <input type="checkbox" class="custom-control-input" id="customSwitch3" />
+                                <label class="custom-control-label" for="customSwitch3"><input type="text"
+                                        class="form-control-sm mr-1 w-25" />psi</label>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="custom-control custom-switch">
+                                <input type="checkbox" class="custom-control-input" id="customSwitch4">
+                                <label class="custom-control-label" for="customSwitch4"><input type="text"
+                                        class="form-control-sm mr-1 w-25" />psi</label>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="custom-control custom-switch">
+                                <input type="checkbox" class="custom-control-input" id="customSwitch5">
+                                <label class="custom-control-label" for="customSwitch5"><input type="text"
+                                        class="form-control-sm mr-1 w-25" />psi</label>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </fieldset>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <fieldset>
+                <legend>Signal Associations</legend>
+                <ul class="nav nav-tabs">
+                    <li class="nav-item">
+                        <a href="#Assets" class="nav-link active" data-toggle="tab">Assets/Location Signals</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#Template" class="nav-link" data-toggle="tab">Assets Template Signals</a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane fade show active" id="Assets">
+                        <div class="row mt-3 mb-3">
+                            <label for="" class="col-sm-6 col-form-label">Type to filter names</label>
+                            <div class="col-sm-6">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" placeholder="enter">
+                                    <div class="input-group-append">
+                                        <span class="input-group-text"><i class="fa fa-search"></i></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="table-scroll scrollbar-primary">
+                            <table class="table table-bordered table-sm">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th class="text-center">Associations</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Air Compressor 1</td>
+                                        <td class="text-center">
+                                            <div class="checkbox">
+                                                <label><input type="checkbox"></label>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Air Compressor 1</td>
+                                        <td class="text-center">
+                                            <div class="checkbox">
+                                                <label><input type="checkbox"></label>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Air Compressor 1</td>
+                                        <td class="text-center">
+                                            <div class="checkbox">
+                                                <label><input type="checkbox"></label>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Air Compressor 1</td>
+                                        <td class="text-center">
+                                            <div class="checkbox">
+                                                <label><input type="checkbox"></label>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Air Compressor 1</td>
+                                        <td class="text-center">
+                                            <div class="checkbox">
+                                                <label><input type="checkbox"></label>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="Template">
+                        <h4 class="mt-2">Template tab content</h4>
+                        <p>Vestibulum nec erat eu nulla rhoncus fringilla ut non neque. Vivamus nibh urna, ornare id
+                            gravida ut, mollis a magna. Aliquam porttitor condimentum nisi, eu viverra ipsum porta ut.
+                            Nam hendrerit bibendum turpis, sed molestie mi fermentum id. Aenean volutpat velit sem. Sed
+                            consequat ante in rutrum convallis. Nunc facilisis leo at faucibus adipiscing.</p>
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+        <div class="col-md-6">
+            <fieldset>
+                <legend>Notified Parties</legend>
+                <div class="">
+                    <button class="btn btn-sm btn-secondary mr-2"><i class="fa fa-user mr-2"></i>Notify Me</button>
+                    <button class="btn btn-sm btn-secondary mr-2"><i class="fa fa-user mr-2"></i>Add Notified
+                        User</button>
+                    <button class="btn btn-sm btn-secondary"><i class="fa fa-user mr-2"></i>Add Notified Group</button>
+                </div>
+                <div class="mt-3">
+                    <div class="table2-scroll scrollbar-primary">
+                        <table class="table table-bordered table-sm">
+                            <thead>
+                                <tr>
+                                    <th>User/Group Name</th>
+                                    <th>Responsibility</th>
+                                    <th class="text-center">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><i class="fa fa-user mr-2"></i>Sean Haley</td>
+                                    <td>
+                                        <select>
+                                            <option>1</option>
+                                        </select>
+                                    </td>
+                                    <td class="text-center"><a href=""><i class="fa fa-trash-o"></i></a></td>
+                                </tr>
+                                <tr>
+                                    <td><i class="fa fa-user mr-2"></i>Sean Haley</td>
+                                    <td>
+                                        <select>
+                                            <option>1</option>
+                                        </select>
+                                    </td>
+                                    <td class="text-center"><a href=""><i class="fa fa-trash-o"></i></a></td>
+                                </tr>
+                                <tr>
+                                    <td><i class="fa fa-user mr-2"></i>Sean Haley</td>
+                                    <td>
+                                        <select>
+                                            <option>1</option>
+                                        </select>
+                                    </td>
+                                    <td class="text-center"><a href=""><i class="fa fa-trash-o"></i></a></td>
+                                </tr>
+                                <tr>
+                                    <td><i class="fa fa-user mr-2"></i>Sean Haley</td>
+                                    <td>
+                                        <select>
+                                            <option>1</option>
+                                        </select>
+                                    </td>
+                                    <td class="text-center"><a href=""><i class="fa fa-trash-o"></i></a></td>
+                                </tr>
+                                <tr>
+                                    <td><i class="fa fa-user mr-2"></i>Sean Haley</td>
+                                    <td>
+                                        <select>
+                                            <option>1</option>
+                                        </select>
+                                    </td>
+                                    <td class="text-center"><a href=""><i class="fa fa-trash-o"></i></a></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-md-12 text-right">
+            <button class="btn btn-secondary mr-2">Cancel</button>
+            <button class="btn btn-primary mr-2">Save</button>
+        </div>
+    </div>
 </form>

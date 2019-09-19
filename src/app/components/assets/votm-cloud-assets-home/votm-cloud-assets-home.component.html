@@ -17,18 +17,17 @@
 
     <form class="form-inline">
       <label for="typeahead-config">Type to filter events:</label>
-      <input class="form-control ml-2 mb-3 mt-3" id="searchBox" type="search" placeholder="Search" aria-label="Search">
-      <button class="btn btn-outline-info mr-2 ml-2" id="searchButton" type="submit">Search</button>
+      <input class="form-control ml-2 mb-3 mt-3" id="searchBoxAsset" type="search" placeholder="Search" aria-label="Search">
+      <button class="btn btn-outline-info mr-2 ml-2" id="searchButtonAsset" type="submit">Search</button>
 
     </form>
 
     <ng-template #recursiveTableList let-list="assetList" let-lvl="level">
       <ng-container *ngFor="let item of list">
         <tr>
-          <th scope="row" (click)="item.opened = !item.opened" [ngStyle]="{'padding-left.px': 15*(lvl+1)}">
+          <th class="underline-on-hover" scope="row" (click)="item.opened = !item.opened" [ngStyle]="{'padding-left.px': 15*(lvl+1)}">
             <i class="fa fa-industry"></i>
-            <a style="color: #212529; text-decoration: underline; cursor: pointer;"
-              (click)="onEditViewClick(item, 'view')"> {{item.name}}</a>&nbsp; <i *ngIf="item.node.length > 0 "
+            <a (click)="onEditViewClick(item, 'view')"> {{item.name}}</a>&nbsp; <i *ngIf="item.node.length > 0 "
               [ngClass]="{'fa': true, 'fa-caret-right': !item.opened, 'fa-caret-down': item.opened}"></i>
 
 

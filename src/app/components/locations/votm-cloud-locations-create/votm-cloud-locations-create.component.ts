@@ -46,7 +46,7 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
   tempUoM: UnitOfMeassurement;
   tempMeasurement: string;
   parentOrganizationInfo: any;
-
+  isSignalAssociationClicked = false;
   pageTitle: string;
   pageType: any;
 
@@ -665,4 +665,11 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
   //     });
   //   });
   // }
+
+  onClickOfNavTab(type) {
+    this.isSignalAssociationClicked = false;
+    if (type === 'signal_association') {
+      this.isSignalAssociationClicked = true;
+    }
+  }
 }

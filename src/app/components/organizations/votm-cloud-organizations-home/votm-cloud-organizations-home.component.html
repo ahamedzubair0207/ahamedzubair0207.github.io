@@ -2,16 +2,16 @@
   <!-- <h3 class="flt-left mt-3 mb-3 ml-2 org-header"> Organizations</h3> -->
   
   <div class="btn-group-right org-home-font">
-      <button [routerLink]="['/org/create', curOrgId, curOrgName]" type="button" class="btn btn-sm btn-info"><i
+      <button id="org-create" [routerLink]="['/org/create', curOrgId, curOrgName]" type="button" class="btn btn-sm btn-info"><i
           class="pr-2 fa fa-building"></i>Create
         Organization</button>
 
-      <button [routerLink]="['/loc/create', curOrgId, curOrgName]" type="button" class="btn btn-sm btn-info loc-table-fonts ml-2"
+      <button id="org-create-loc" [routerLink]="['/loc/create', curOrgId, curOrgName]" type="button" class="btn btn-sm btn-info loc-table-fonts ml-2"
         style="float: right;"><i class="pr-2 fa fa-location-arrow"></i>Create Location</button>
     </div>
 
   <form class="form-inline">
-    <label for="typeahead-config">Type to filter events:</label>
+    <label for="typeahead-config" id="org-filter">Type to filter events:</label>
     <input class="form-control ml-2" id="searchBox" type="search" placeholder="Search" aria-label="Search">
     <button class="btn btn-outline-info mr-2 ml-2" id="searchButton" type="submit">Search</button>
   </form>

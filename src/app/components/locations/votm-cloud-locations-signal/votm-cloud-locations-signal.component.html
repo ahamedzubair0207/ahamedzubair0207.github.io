@@ -1,0 +1,110 @@
+<!-- Top Level Nav -->
+
+<div>
+  <p-overlayPanel
+    #op
+    id="op"
+    [appendTo]="'body'"
+    [dismissable]="false"
+    [showCloseIcon]="true"
+  >
+    <h6 *ngIf="selectedSignal">
+      {{ selectedSignal.name }}&nbsp;
+      <a (click)="op2.toggle($event)"><i class="fa fa-pencil-square-o"></i></a
+      >&nbsp; <a (click)="op3.toggle($event)"><i class="fa fa-exclamation-triangle"></i></a>&nbsp;
+      <a ><i class="fa fa-trash"></i></a>
+    </h6>
+  </p-overlayPanel>
+
+  <p-overlayPanel #op2 [appendTo]="'body'">
+    Edit content
+  </p-overlayPanel>
+
+    <p-overlayPanel #op3 [appendTo]="'body'">
+    <!-- Alarm Rule Association
+    <br/>
+    <select type="text"  class="form-control">
+      <option>1</option>
+      <option>2</option>
+      <option>3</option>
+    </select><br/>
+    <button (click)="onClickOfCreateAssociateRule()" class="btn btn-default"> Create & Associate Rule</button> -->
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">Alarm Rule Association</div>
+                <div class="card-body">
+                    <select class="form-control">
+                        <option>1</option>
+                    </select>
+
+                </div>
+                <div class="card-footer text-muted">
+                    <button class="btn btn-primary mt-3 pull-left" (click)="onClickOfCreateAssociateRule()">Create & Associate Rule</button>
+                    &nbsp;&nbsp;
+                    <button class="btn btn-primary mt-3 pull-right" >Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+  </p-overlayPanel>
+
+  <form class="form">
+    <h4 class="col">Associate Signal</h4>
+
+    <div class="row org-create-font mar-top-30">
+      <div class="col-md-4">
+        <div class="enclosing-div">
+          <h5>Available Signals</h5>
+          <hr />
+          <ul>
+            <ng-container
+              *ngFor="let sensor of availableSignals; let sensorIndex = index"
+            >
+              <li *ngIf="sensor.node.length > 0">
+                <h6><i class="fa fa-plus"></i> &nbsp;{{ sensor.name }}</h6>
+                <ul>
+                  <li
+                    *ngFor="let signal of sensor.node; let signalIndex = index"
+
+                  >
+                  <a [class.disabled]="isSignalDisabled(signal)">
+                    <img
+                      [src]="signal.image"
+                      style="cursor:pointer"
+                      width="40"
+                      height="40"
+                      id="signal_{{ sensorIndex }}_{{ signalIndex }}"
+                    />
+                    </a>
+                    &nbsp; {{ signal.name }}
+
+                  </li>
+                </ul>
+              </li>
+            </ng-container>
+          </ul>
+        </div>
+      </div>
+
+      <div class="col-md-8" >
+          <!-- *ngIf="assetImageURL" -->
+        <div  class="enclosing-div" >
+          <img id="dropdiv" src="../../../../assets/images/images.jpg" width="70%" />
+        </div>
+      </div>
+    </div>
+    <br />
+    <div class="col">
+      <button
+        id="asset-cancel"
+        for="form-cancel"
+        type="button"
+        (click)="onCancelClick($event)"
+        class="btn btn-secondary"
+      >
+        Cancel
+      </button>
+    </div>
+  </form>
+</div>
