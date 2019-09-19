@@ -66,6 +66,7 @@ import { VotmCloudEventsHomeComponent } from './components/events/votm-cloud-eve
 import { VotomCloudTemplateSignalComponent } from './components/assets/votm-cloud-template-signal/votm-cloud-template-signal.component';
 import { VotmCloudRequiredAttributeDirective } from './components/shared/required-attribute/votm-cloud-required-attribute.directive';
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -107,7 +108,7 @@ import { VotmCloudRequiredAttributeDirective } from './components/shared/require
     VotmCloudAssetTemplateDetailsComponent,
     VotmCloudEventsHomeComponent,
     VotomCloudTemplateSignalComponent,
-    VotmCloudRequiredAttributeDirective,
+    VotmCloudRequiredAttributeDirective
   ],
 
  

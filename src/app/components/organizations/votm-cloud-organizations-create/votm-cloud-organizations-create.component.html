@@ -502,8 +502,7 @@
                 <div class="col-md-9">
                   <label id="logoLbl"><b>{{pageLabels.LogoFile.labelName}} :</b></label>
                   <span style="color:rgb(106,96,85);" *ngIf="message">{{message}}</span>
-                  <input #file id="imageUploadButton" type="file" accept='image/*' *ngIf="pageType !=='View'"
-                    (change)="preview(file.files)" />
+                  <input #file id="imageUploadButton" type="file" accept='image/*' *ngIf="pageType !=='View'" (change)="preview(file.files)" />
                   <label id="imageLbl" style="font-weight: bold"
                     *ngIf="organization && organization.logo">{{organization.logo.imageName}}</label>
                   <img [src]="imgURL" height="70" *ngIf="imgURL">
