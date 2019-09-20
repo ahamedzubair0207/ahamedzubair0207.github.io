@@ -16,6 +16,7 @@ import { Toaster } from '../../shared/votm-cloud-toaster/votm-cloud-toaster';
 import { ToastrService } from 'ngx-toastr';
 import { AlertsService } from '../../../services/alerts/alerts.service';
 import { countyList } from 'src/app/services/countryList/countryStateList';
+import { AssetsService } from '../../../services/assets/assets.service';
 import { SortArrays } from '../../shared/votm-sort';
 
 @Component({
@@ -38,6 +39,7 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
   tempUoM: UnitOfMeassurement;
   tempMeasurement: string;
   parentOrganizationInfo: any;
+  templateList: any[] = [];
 
   pageTitle: string;
   pageType: string;
@@ -71,7 +73,7 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
   organizationList: any[] = [];
   countryObject: any[] = [];
 
-  constructor(private modalService: NgbModal, private alertRuleservice: AlertsService, private organizationService: OrganizationService,
+  constructor(private assetService: AssetsService,private modalService: NgbModal, private alertRuleservice: AlertsService, private organizationService: OrganizationService,
     private configSettingsService: ConfigSettingsService, private domSanitizer: DomSanitizer,
     private activeroute: ActivatedRoute, private route: Router, private datePipe: DatePipe,
     private routerLocation: RouterLocation, private toastr: ToastrService) {
@@ -575,6 +577,16 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
       this.route.navigate([`org/edit/${this.curOrgId}/${this.curOrgName}/${this.organization.organizationId}`])
     } else {
       this.route.navigate([`org/view/${this.curOrgId}/${this.curOrgName}/${this.organization.organizationId}`])
+    }
+  }
+
+  onTemplateTabClick() {
+    if (!this.templateList || this.templateList.length === 0) {
+      this.assetService.getAllTemplates()
+        .subscribe(response => {
+          console.log('response of templates ', response);
+          this.templateList = response;
+        });
     }
   }
 }

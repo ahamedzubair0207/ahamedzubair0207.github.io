@@ -33,6 +33,7 @@ export class AppConstants {
 
     public static GET_ALERT = '/Alert';
     public static GET_ALERT_BYORGID = '/AlertRules';
+    public static GET_ALERT_RULESIGNALS_ASSOCIATION_ASSETS = '/AlertRuleSignalAssociatedwithAsset';
 
     public static NAVIGATION_URL = '/BreadcrumbNavigation';
 
