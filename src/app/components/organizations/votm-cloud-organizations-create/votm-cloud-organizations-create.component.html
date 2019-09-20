@@ -62,6 +62,14 @@
           Alert
           Rule</a>
       </li>
+
+      <!-- Asset Template Tab  -->
+      <li class="nav-item">
+          <a class="nav-link" id="asset-template-tab" name="asset-template-list" href="#asset-template"
+            data-toggle="tab" role="tab" aria-controls="asset-template" aria-selected="false"><i class="pr-2 fa fa-archive"></i>
+            Asset Template</a>
+        </li>
+
       <i class="fa fa-lock edit-view-lock" id="view-lock" name="lockTogglebutton" *ngIf="pageType.toLowerCase() === 'view'"
         (click)="onLockClick()"></i>
       <i class="fa fa-unlock edit-view-lock" id="edit-lock" name="unlockTogglebutton" *ngIf="pageType.toLowerCase() === 'edit'"
@@ -69,6 +77,7 @@
     </ul>
 
     <div class="tab-content">
+
       <div class="org-outside-border tab-pane fade show active org-create-font"
         *ngIf="(!orgId && pageLabels) || (orgId && pageLabels && organization)" id="org-details" role="tabpanle"
         area-labelledby="org-details-tab">
@@ -551,6 +560,10 @@
 
       <div class="tab-pane fade" id="org-alert" role="tabpanle" area-labelledby="org-alert-tab">
         <app-votm-cloud-alerts-home [alertList]="alertRuleList"></app-votm-cloud-alerts-home>
+      </div>
+
+      <div class="tab-pane fade" id="asset-template" data-toggle="tab" role="tabpanle" area-labelledby="asset-template-tab">
+        <app-votm-cloud-asset-template-list [templateList]="templateList"></app-votm-cloud-asset-template-list>
       </div>
     </div>
 
