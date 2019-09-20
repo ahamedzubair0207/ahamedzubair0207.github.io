@@ -21,8 +21,8 @@ legend{
  
   .edit-view-lock{
     float: right; 
-    font-size: 40px; 
-    color:  #02b3bf;
+    font-size: 35px; 
+    color:  #00b9c3;
     margin-left: auto;
   }
  
@@ -48,6 +48,21 @@ legend{
     background-color: rgb(0,185,195);
     float: left;
   }
+
+  // .active{
+  //   background-color: #00b9c3;
+  // }
+
+  .nav-pills .nav-link.active, .nav-pills .show>.nav-link {
+    color: #fff;
+    background-color: #00b9c3;
+    
+}
+
+.tab-icon{
+  color: #00b9c3;
+}
+
 
   .uom-modal-list{
     width:140px;

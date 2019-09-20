@@ -36,9 +36,18 @@ export class AlertRuleConfigurationMapping {
     alertRuleMapingId: string;
     alertRuleTypeId: string;
     alertRuleId: string;
-    alertConfigurationId: string; // ThreshHOld ID in Array []
+    alertConfigurationId: string; // Thresholds ID in Array []
+
+    // Rule Type: Absolute Threshholds 
+    // 4E045A60-4BEE-44B4-9AF9-151725534706    High Critical
+    // 277B236A-C642-461A-A615-175EA69F2FAD    TargetValue
+    // 4FA3DDCA-56FA-47FA-9251-5D1D7C04C322    High Warning
+    // 3A54142B-3453-4232-85C2-EEF4C62E4C77    Low Critical
+    // C89DBBDF-E927-4044-9A76-F40EF1CE6611    Low Warning
+
     alertConfigurationValue: string; // Thereshold Value in Array []
-    active: boolean;
+    // Pass Active as true false for enable/disable
+    active: boolean; 
     createdBy: string;
     createdOn: string;
     modifiedBy: string;
