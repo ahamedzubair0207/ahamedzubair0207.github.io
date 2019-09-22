@@ -290,6 +290,12 @@ a.article:hover {
     // font-family: 'Roboto', sans-serif;
 }
 
+#votom-tab-border{
+    border-left: 1px solid rgba(0,0,0,.125);
+    border-right: 1px solid rgba(0,0,0,.125);
+    border-bottom: 1px solid rgba(0,0,0,.125);
+  }
+
 * {
     font-family: 'Roboto', sans-serif;
     font-size: 14px;

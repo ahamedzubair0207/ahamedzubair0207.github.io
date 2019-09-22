@@ -187,13 +187,13 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
   }
 
   compareDate() {
-    if (this.organization.contractStartDate && this.organization.contractEndDate) {
-      if (this.organization.contractStartDate >= this.organization.contractEndDate) {
-        this.organizationForm.form.controls['startDate'].setErrors({ 'invalidDate': true })
-      } else {
-        this.organizationForm.form.controls['startDate'].setErrors(null);
-      }
-    }
+    // if (this.organization.contractStartDate && this.organization.contractEndDate) {
+    //   if (this.organization.contractStartDate >= this.organization.contractEndDate) {
+    //     this.organizationForm.form.controls['startDate'].setErrors({ 'invalidDate': true })
+    //   } else {
+    //     this.organizationForm.form.controls['startDate'].setErrors(null);
+    //   }
+    // }
   }
 
   onEndDateChange() {
@@ -510,6 +510,10 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
   }
 
   onOrganizationSubmit() {
+    let startDate: any= this.organization.contractStartDate;
+    let endDate: any= this.organization.contractEndDate;
+    this.organization.contractStartDate = new Date(startDate.year, startDate.month, startDate.day).toDateString();
+    this.organization.contractEndDate = new Date(endDate.year, endDate.month, endDate.day).toDateString();
     if (this.organizationForm && this.organizationForm.invalid) {
       this.toaster.onFailure('Please fill the form correctly.', 'Form is invalid!')
       Object.keys(this.organizationForm.form.controls).forEach(element => {
