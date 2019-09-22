@@ -10,14 +10,19 @@ legend{
 }
 .create-org-container {
     padding: 15px;
-    background-color: white;
+    // background-color: white;
+    border-left: 1px solid rgba(0,0,0,.125);
+    border-right: 1px solid rgba(0,0,0,.125);
+    border-bottom: 1px solid rgba(0,0,0,.125);
    
   }
  
-  .org-create-font{
-    font-family: 'Roboto', sans-serif;
-    font-size: 14px;
-  }
+
+  // .org-form-border{
+  //   border-left: 1px solid #000;
+  //   border-right: 1px solid #000;
+  //   border-bottom: 1px solid #000;
+  // }
  
   .edit-view-lock{
     float: right; 
@@ -32,6 +37,7 @@ legend{
   }
 
   .uom-btn{
+    
     margin: -35px 0px 8px 100px;
   }
 
@@ -82,7 +88,6 @@ legend{
   
   /* Full-width input fields */
   input[type=text],input[type=date], input[type=password],input[type=email],input[type=file] {
-    
     display: inline-block;
     border: 1px solid #ddd;
   }
