@@ -21,10 +21,12 @@ import { VotmCloudAdminPanelComponent } from './components/admin/votm-cloud-admi
 import { VotmCloudSuperAdminComponent } from './components/super/votm-cloud-super-admin/votm-cloud-super-admin.component';
 import { VotmCloudLoginComponent } from './components/shared/votm-cloud-login/votm-cloud-login.component';
 import { VotmCloudSensorsDetailsComponent } from './components/sensors/votm-cloud-sensors-details/votm-cloud-sensors-details.component';
+import { VotmCloudOrganizationDashboardComponent } from './components/organizations/votm-cloud-organization-dashboard/votm-cloud-organization-dashboard.component';
 
 const routes: Routes = [
   { path: 'fav', component: VotmCloudViewsHomeComponent },
   { path: 'view/home', component: VotmCloudViewsHomeComponent },
+  { path: 'org/dashboard', component: VotmCloudOrganizationDashboardComponent },
   // { path: 'alerts/home', component: VotmCloudAlertsHomeComponent },
   // { path: 'alerts/create', component: VotmCloudAlertsCreateComponent },
   // { path: 'alerts/create', component: VotmCloudAlertsCreateComponent },

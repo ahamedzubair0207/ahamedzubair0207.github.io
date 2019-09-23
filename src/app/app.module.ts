@@ -65,6 +65,12 @@ import {OverlayPanelModule} from 'primeng/overlaypanel';
 import { VotmCloudEventsHomeComponent } from './components/events/votm-cloud-events-home/votm-cloud-events-home.component';
 import { VotomCloudTemplateSignalComponent } from './components/assets/votm-cloud-template-signal/votm-cloud-template-signal.component';
 import { VotmCloudRequiredAttributeDirective } from './components/shared/required-attribute/votm-cloud-required-attribute.directive';
+import { VotmCloudOrganizationDashboardComponent } from './components/organizations/votm-cloud-organization-dashboard/votm-cloud-organization-dashboard.component';
+import { VotmLiveOrderBookDepthChartComponent } from './components/shared/charts/votm-live-order-book-depth-chart/votm-live-order-book-depth-chart.component';
+import { VotmLiveDataComponent } from './components/shared/charts/votm-live-data/votm-live-data.component';
+import { VotmCloudLocationsDashboardComponent } from './components/locations/votm-cloud-locations-dashboard/votm-cloud-locations-dashboard.component';
+import { VotmCloudAssetDashboardComponent } from './components/assets/votm-cloud-asset-dashboard/votm-cloud-asset-dashboard.component';
+
 
 
 @NgModule({
@@ -108,7 +114,12 @@ import { VotmCloudRequiredAttributeDirective } from './components/shared/require
     VotmCloudAssetTemplateDetailsComponent,
     VotmCloudEventsHomeComponent,
     VotomCloudTemplateSignalComponent,
-    VotmCloudRequiredAttributeDirective
+    VotmCloudRequiredAttributeDirective,
+    VotmCloudOrganizationDashboardComponent,
+    VotmLiveOrderBookDepthChartComponent,
+    VotmLiveDataComponent,
+    VotmCloudLocationsDashboardComponent,
+    VotmCloudAssetDashboardComponent
   ],
 
  

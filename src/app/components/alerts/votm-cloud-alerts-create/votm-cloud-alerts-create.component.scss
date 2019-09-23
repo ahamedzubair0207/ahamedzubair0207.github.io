@@ -1,17 +1,16 @@
-.alert-view-font{
-  font-family: 'Open Sans', sans-serif;
-  font-size: 14px;
-}
+
 .edit-view-lock{
   float: right;
-  font-size: 40px;
+  font-size: 35px;
   color:  #02b3bf;
 }
 
-.alert-list-font{
-  font-family: 'Roboto', sans-serif;
-  font-size: 14px;
+.tab-border{
+  border-left: 1px solid rgba(0,0,0,.125);
+  border-right: 1px solid rgba(0,0,0,.125);
+  border-bottom: 1px solid rgba(0,0,0,.125);
 }
+
 fieldset{
   padding: 10px;
   border: 1px solid #ddd;
@@ -29,6 +28,7 @@ legend{
   max-height: 180px;
   overflow: hidden;
   overflow-y: scroll;
+  display: block; 
 }
 .table-scroll::-webkit-scrollbar {
   width: 8px;
@@ -39,3 +39,4 @@ legend{
   -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
   background-color: rgba(0,0,0,0.25);
 }
+

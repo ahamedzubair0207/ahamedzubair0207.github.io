@@ -10,6 +10,6 @@ export const MENU_ITEMS: Array<{ id: string, enabled: boolean, url: string, icon
     {  id: "sensors", enabled: true, url: "sensor/home", icon: "menu-icon fa fa-thermometer-half", name: 'Sensors' },
     // {  id: "gateways", enabled: true, url: "gateway/home", icon: "menu-icon fa fa-signal", name: 'Gateways' },
     // {  id: "alerts", enabled: true, url: "alerts/home", icon: "menu-icon fa fa-exclamation-triangle", name: 'Alerts' },
-    {  id: "admin", enabled: true, url: "admin", icon: "menu-icon fa fa-user", name: 'Admin Panel' },
+    {  id: "admin", enabled: true, url: "admin", icon: "menu-icon fa fa-cogs", name: 'Admin Panel' },
     {  id: "super", enabled: true, url: "super", icon: "menu-icon fa fa-lock", name: 'Super Admin' }
 ];

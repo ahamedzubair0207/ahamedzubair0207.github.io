@@ -1,24 +1,61 @@
-
 export class Alert {
-    assetId: string;
+    alertRuleId: string;
+    alertRuleName: string; //Alert Rule Name
+    alertTypeId: string; // Drop Down for Metric Type
+    alertRuleTypeId: string; // Rule Type
+    organizationScopeId: string; // Access Scope 
+    closureRequired: boolean;
+    sustainTime: number; // Minimum Sustain
+    escalateTime: number; //Escalate Time
     organizationId: string;
-    organizationName: string;
-    locationName: string;
     locationId: string;
-    parentLocationId: string;
-    parentLocationName: string;
-    parentAssetId: string;
-    parentAssetName: string;
-    assetNumber: string;
-    assetName: string;
-    assetType: string;
-   
-    // active: true;
-    description: string;
-    documentationUrl: string;
-    // documentation?: File;
-   
-    // template?: string;
-    templateId: string;
-    templateName: string;
+    active: boolean;
+    createdBy: string;
+    createdOn: string;
+    modifiedBy: string;
+    modifiedOn: string;
+    alertRuleConfigurationMapping: Array<AlertRuleConfigurationMapping>;
+    alertRuleSignalMapping: Array<AlertRuleSignalMapping>;
+    alertRuleUserGroup: Array<AlertRuleUserGroup>;
 }
+
+export class AlertRuleUserGroup {
+    alertUserGroupId?: string;
+    alertRuleId?: string;
+    userId?: string;
+    userGroupId?: string;
+    alertUserGroupRoleId?: string; // GET: /v1/UserManagement/UserGroups 
+    active?: boolean;
+    createdBy?: string;
+    createdOn?: string;
+    modifiedBy?: string;
+    modifiedOn?: string;
+}
+
+export class AlertRuleConfigurationMapping {
+    alertRuleMapingId?: string;
+    alertRuleTypeId?: string;
+    alertRuleId?: string;
+    alertConfigurationId?: string; // Thresholds ID in Array []
+    alertConfigurationValue?: string; // Thereshold Value in Array []
+    // Pass Active as true false for enable/disable
+    active?: boolean;
+    createdBy?: string;
+    createdOn?: string;
+    modifiedBy?: string;
+    modifiedOn?: string;
+}
+
+export class AlertRuleSignalMapping {
+    alertSignalMappingId?: string;
+    signalId: string;
+    alertRuleId?: string;
+    active?: boolean;
+    createdBy?: string;
+    createdOn?: string;
+    modifiedBy?: string;
+    modifiedOn?: string;
+}
+
+// Signal Association URL /v1/AlertRuleSignalAssociatedwithAsset/{organizationId}
+// Add User Group URL /v1/UserManagement/UserGroups

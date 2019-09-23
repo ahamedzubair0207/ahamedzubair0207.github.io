@@ -1,295 +1,336 @@
-<form #organizationForm="ngForm" class="form needs-validation" novalidate>
-  <div class="row mt-3">
-      <div class="col-md-6">
-          <h5>Alert Rule Configuration</h5>
-      </div>
-      <a href="" class="col-md-6 text-right"><i class="fa fa-lock"></i></a>
-  </div>
-  <div class="form-group row">
-      <div class="col-md-4 row">
-          <label id="alertRuleNameLbl" for="alertRuleName" class="col-md-6 col-form-label txt-r">Alert Rule Name</label>
-          <div class="col-md-6">
-              <input type="text" class="form-control" id="alertRuleName" placeholder="Alert Rule Name">
-          </div>
-      </div>
-      <div class="col-md-4 row">
-          <label for="alertRuleMetricType" id="alertRuleMetricTypeLbl" class="col-md-6 col-form-label txt-r">Metric Type</label>
-          <div class="col-md-6">
-              <select class="form-control" id="alertRuleMetricType">
-                  <option>Pressure</option>
-              </select>
-          </div>
-      </div>
-      <div class="col-md-4">
-          <div class="row">
-              <label for="alertRuleAccessScope" id="alertRuleAccessScopeLbl" class="col-md-6 col-form-label txt-r">Access Scope</label>
-              <div class="col-md-6">
-                  <select class="form-control" id="alertRuleAccessScope">
-                      <option>QCD</option>
-                  </select>
-              </div>
-          </div>
-      </div>
-  </div>
-  <div class="form-group row">
-      <div class="col-md-3 row">
-          <label for="alertRuleRuleType" id="alertRuleRuleTypeLbl" class="col-md-6 col-form-label txt-r">Rule Type</label>
-          <div class="col-md-6">
-              <select class="form-control" id="alertRuleRuleType">
-                  <option>Absolute Thresholds</option>
-              </select>
-          </div>
-      </div>
-      <div class="col-md-4 row">
-          <label for="alert-rule-min-sustain-time" id="alert-rule-min-sustain-time-lbl" class="col-md-7 col-form-label">Minimum Sustain Time</label>
-          <div class="col-md-5 pl-0">
-              <div class="input-group">
-                  <input type="text" id="alert-rule-min-sustain-time" class="form-control" placeholder="60">
-                  <div class="input-group-append">
-                      <span class="input-group-text">Second</span>
-                  </div>
-              </div>
-          </div>
-      </div>
-      <div class="col-md-2 pl-0 pr-0 pt-2">
-          <div class="radio">
-              <label id="alert-rule-closure-req-lbl" for="alert-rule-closure-req"><input type="radio" id="alert-rule-closure-req" class="mr-2">Closure Require</label>
-          </div>
-      </div>
-      <div class="col-md-3 row pl-0 pr-0">
-          <label for="alert-rule-esc-after" id="alert-rule-esc-after-lbl" class="col-md-5 col-form-label pl-0">Escalate After</label>
-          <div class="col-md-7 pr-0">
-              <div class="input-group">
-                  <input type="text" id="alert-rule-esc-after" class="form-control" placeholder="60">
-                  <div class="input-group-append">
-                      <span class="input-group-text">Minutes</span>
-                  </div>
-              </div>
-          </div>
-      </div>
-  </div>
-  <div class="form-group">
-      <fieldset>
-          <legend>Thresholds</legend>
-          <table class="table table-borderless table-sm">
-              <tbody>
-                  <tr>
-                      <td class="alert-danger text-center">Low Critical</td>
-                      <td class="alert-warning text-center">Low Warning</td>
-                      <td class="alert-success text-center">Baseline</td>
-                      <td class="alert-warning text-center">High Warning</td>
-                      <td class="alert-danger text-center">High Critical</td>
-                  </tr>
-                  <tr>
-                      <td>
-                          <div class="custom-control custom-switch">
-                            <input type="checkbox" class="custom-control-input" id="alert-low-critical-switch">
-                            <label id="alert-low-critical-lbl" class="custom-control-label" for="alert-low-critical">
-                                <input type="text" id="alert-low-critical" class="form-control-sm mr-1 w-25" />psi
-                            </label>
-                          </div>
-                      </td>
-                      <td>
-                          <div class="custom-control custom-switch">
-                            <input type="checkbox" class="custom-control-input" id="alert-low-warning-switch">
-                            <label id="alert-low-warning-lbl" class="custom-control-label" for="alert-low-warning">
-                                <input type="text" id="alert-low-warning" class="form-control-sm mr-1 w-25" />psi
-                            </label>
-                          </div>
-                      </td>
-                      <td>
-                          <div class="custom-control custom-switch">
-                            <input type="checkbox" class="custom-control-input" id="alert-baseline-switch" />
-                            <label id="alert-baseline-lbl" class="custom-control-label" for="alert-baseline">
-                                <input type="text" id="alert-baseline" class="form-control-sm mr-1 w-25" />psi
-                            </label>
-                          </div>
-                      </td>
-                      <td>
-                        <div class="custom-control custom-switch">
-                            <input type="checkbox" class="custom-control-input" id="alert-high-warning-switch" />
-                            <label id="alert-high-warning-lbl" class="custom-control-label" for="alert-high-warning">
-                                <input type="text" id="alert-high-warning" class="form-control-sm mr-1 w-25" />psi
-                            </label>
+<form #alertRuleForm="ngForm" (ngSubmit)="onAlertRuleSubmit()" class="form needs-validation" novalidate>
+    <div class="row mt-3">
+        <div class="col-md-6">
+            <h5>Alert Rule Configuration</h5>
+        </div>
+        <a href="" class="col-md-6 text-right"><i class="fa fa-lock"></i></a>
+    </div>
+    <div class="form-group row">
+        <div class="col-md-4 row">
+            <label for="" class="col-md-6 col-form-label txt-r">Alert Rule Name</label>
+            <div class="col-md-6">
+                <input type="text" name="alertRuleName" [(ngModel)]="alert.alertRuleName"
+                    class="form-control form-control-sm" id="" placeholder="Alert Rule Name">
+            </div>
+        </div>
+        <div class="col-md-4 row">
+            <label for="" class="col-md-6 col-form-label txt-r">Metric Type</label>
+            <div class="col-md-6">
+                <select name="metricType" [(ngModel)]="alert.alertTypeId" class="form-control form-control-sm">
+                    <option>Pressure</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="row">
+                <label for="" class="col-md-6 col-form-label txt-r">Access Scope</label>
+                <div class="col-md-6">
+                    <select name="accessScope" [(ngModel)]="alert.organizationScopeId"
+                        class="form-control form-control-sm">
+                        <option>QCD</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-md-3 row">
+            <label for="" class="col-md-6 col-form-label txt-r">Rule Type</label>
+            <div class="col-md-6">
+                <select name="ruleType" [(ngModel)]="alert.alertRuleTypeId" class="form-control form-control-sm">
+                    <option>Absolute Thresholds</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-md-4 row">
+            <label for="" class="col-md-7 col-form-label">Minimum Sustain Time</label>
+            <div class="col-md-5 pl-0">
+                <div class="input-group">
+                    <input name="sustainTime" [(ngModel)]="alert.sustainTime" type="text"
+                        class="form-control form-control-sm" placeholder="60">
+                    <div class="input-group-append">
+                        <span class="input-group-text form-control-sm">Second</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2 pl-0 pr-0 pt-2">
+            <div class="checkbox">
+                <label><input type="checkbox" name="closureRequired" [(ngModel)]="alert.closureRequired"
+                        class="mr-2">Closure Require</label>
+            </div>
+        </div>
+        <div class="col-md-3 row pl-0 pr-0">
+            <label for="" class="col-md-5 col-form-label pl-0">Escalate After</label>
+            <div class="col-md-7 pr-0">
+                <div class="input-group">
+                    <input type="text" name="escalateTime" [(ngModel)]="alert.escalateTime"
+                        class="form-control form-control-sm" placeholder="60">
+                    <div class="input-group-append">
+                        <span class="input-group-text form-control-sm">Minutes</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="form-group" *ngIf="absoluteThresholds">
+        <fieldset>
+            <legend>Thresholds</legend>
+            <table class="table table-borderless table-sm">
+                <tbody>
+                    <tr>
+                        <td class="{{threshold.class}}" *ngFor="let threshold of absoluteThresholds">
+                            {{threshold.alertConfigurationLabel}}</td>
+                    </tr>
+                    <tr>
+                        <td *ngFor="let threshold of absoluteThresholds">
+                            <div class="custom-control custom-switch">
+                                <input type="checkbox" [(ngModel)]="threshold.active"
+                                    name="{{'checkbox_'+threshold.alertConfigurationId}}" class="custom-control-input"
+                                    id="{{threshold.alertConfigurationId}}">
+                                <label class="custom-control-label" for="{{threshold.alertConfigurationId}}"><input
+                                        type="text" name="{{threshold.alertConfigurationId}}"
+                                        [(ngModel)]="threshold.alertConfigurationValue"
+                                        class="form-control-sm mr-1 w-25" />psi</label>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </fieldset>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <fieldset>
+                <legend>Signal Associations</legend>
+                <ul class="nav nav-tabs">
+                    <li class="nav-item">
+                        <a href="#Assets" class="nav-link active" data-toggle="tab">Assets/Location Signals</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#Template" class="nav-link" data-toggle="tab">Assets Template Signals</a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane fade show active" id="Assets">
+                        <div class="row mt-3 mb-3">
+                            <label for="" class="col-sm-6 col-form-label">Type to filter names</label>
+                            <div class="col-sm-6">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" placeholder="enter">
+                                    <div class="input-group-append">
+                                        <span class="input-group-text"><i class="fa fa-search"></i></span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                      </td>
-                      <td>
-                        <div class="custom-control custom-switch">
-                            <input type="checkbox" class="custom-control-input" id="alert-high-critical-switch" />
-                            <label id="alert-high-critical-lbl" class="custom-control-label" for="alert-high-critical">
-                                <input type="text" id="alert-high-critical" class="form-control-sm mr-1 w-25" />psi
-                            </label>
+                        <div class="table-scroll scrollbar-primary">
+                            <table class="table table-bordered table-sm">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th class="text-center">Associations</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                   <!-- <tr> <td>AHAMED</td><td>ZUBAIR</td></tr> -->
+                                    <div *ngFor="let location of alertRuleSignalAssociatedAsset.locations">
+                                        <div *ngIf="location.signalId">
+                                            <tr>
+                                                <td>
+                                                    {{'Organizaation > '+location.locationName}}
+                                                </td>
+                                                <td class="text-center">
+                                                    <div class="checkbox">
+                                                        <label><input type="checkbox"
+                                                                (change)="onSignalSelectionChange($event, location.signalId)"></label>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>&nbsp;&nbsp;&nbsp;&nbsp;{{location.signalName}}</td>
+                                                <td class="text-center">
+                                                    <div class="checkbox">
+                                                        <label><input type="checkbox"
+                                                                (change)="onSignalSelectionChange($event, location.signalId)"></label>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </div>
+                                        <div *ngFor="let asset of location.assets">
+                                            <tr>
+                                                <td>{{'Organization > '+location.locationName +' > '+asset.assetName}}
+                                                </td>
+                                                <!-- <td>{{asset.assetName}}</td> -->
+                                                <td class="text-center">
+                                                    <div class="checkbox">
+                                                        <label><input type="checkbox" (change)="onAssetChecked($event, asset)" [(ngModel)]="assetsChecked[asset.assetId]" [name]="asset.assetId"></label>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <div *ngFor="let signal of asset.signals">
+                                                <tr>
+                                                    <td>&nbsp;&nbsp;&nbsp;&nbsp;{{signal.signalName}}</td>
+                                                    <td class="text-center">
+                                                        <div class="checkbox">
+                                                            <label><input type="checkbox"
+                                                                    [checked]="selectedSignals.indexOf(signal.signalId)>=0"
+                                                                    (change)="onSignalSelectionChange($event, signal.signalId, asset)"></label>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </tbody>
+                            </table>
                         </div>
-                      </td>
-                  </tr>
-              </tbody>
-          </table>
-      </fieldset>
-  </div>
-  <div class="row">
-      <div class="col-md-6">
-          <fieldset>
-              <legend>Signal Associations</legend>
-              <ul class="nav nav-tabs">
-                  <li class="nav-item">
-                      <a href="#Assets" class="nav-link active" data-toggle="tab">Assets/Location Signals</a>
-                  </li>
-                  <li class="nav-item">
-                      <a href="#Template" class="nav-link" data-toggle="tab">Assets Template Signals</a>
-                  </li>
-              </ul>
-              <div class="tab-content">
-                  <div class="tab-pane fade show active" id="Assets">
-                      <div class="row mt-3 mb-3">
-                          <label for="alert-search-filter" class="col-sm-6 col-form-label">Type to filter names</label>
-                          <div class="col-sm-6">
-                              <div class="input-group">
-                                  <input type="text" id="alert-search-filter" class="form-control" placeholder="enter">
-                                  <div class="input-group-append">
-                                      <span class="input-group-text"><i class="fa fa-search"></i></span>
-                                  </div>
-                              </div>
-                          </div>
-                      </div>
-                      <div class="table-scroll scrollbar-primary">
-                          <table class="table table-bordered table-sm">
-                              <thead>
-                                  <tr>
-                                      <th>Name</th>
-                                      <th class="text-center">Associations</th>
-                                  </tr>
-                              </thead>
-                              <tbody>
-                                  <tr>
-                                      <td>Air Compressor 1</td>
-                                      <td class="text-center">
-                                          <div class="checkbox">
-                                              <label><input id="association_1" type="checkbox"></label>
-                                          </div>
-                                      </td>
-                                  </tr>
-                                  <tr>
-                                      <td>Air Compressor 1</td>
-                                      <td class="text-center">
-                                          <div class="checkbox">
-                                              <label><input id="association_2" type="checkbox"></label>
-                                          </div>
-                                      </td>
-                                  </tr>
-                                  <tr>
-                                      <td>Air Compressor 1</td>
-                                      <td class="text-center">
-                                          <div class="checkbox">
-                                              <label><input id="association_3" type="checkbox"></label>
-                                          </div>
-                                      </td>
-                                  </tr>
-                                  <tr>
-                                      <td>Air Compressor 1</td>
-                                      <td class="text-center">
-                                          <div class="checkbox">
-                                              <label><input id="association_4" type="checkbox"></label>
-                                          </div>
-                                      </td>
-                                  </tr>
-                                  <tr>
-                                      <td>Air Compressor 1</td>
-                                      <td class="text-center">
-                                          <div class="checkbox">
-                                              <label><input id="association_5" type="checkbox"></label>
-                                          </div>
-                                      </td>
-                                  </tr>
-                              </tbody>
-                          </table>
-                      </div>
-                  </div>
-                  <div class="tab-pane fade" id="Template">
-                      <h4 class="mt-2">Template tab content</h4>
-                      <p>Vestibulum nec erat eu nulla rhoncus fringilla ut non neque. Vivamus nibh urna, ornare id
-                          gravida ut, mollis a magna. Aliquam porttitor condimentum nisi, eu viverra ipsum porta ut.
-                          Nam hendrerit bibendum turpis, sed molestie mi fermentum id. Aenean volutpat velit sem. Sed
-                          consequat ante in rutrum convallis. Nunc facilisis leo at faucibus adipiscing.</p>
-                  </div>
-              </div>
-          </fieldset>
-      </div>
-      <div class="col-md-6">
-          <fieldset>
-              <legend>Notified Parties</legend>
-              <div class="">
-                  <button class="btn btn-sm btn-secondary mr-2"><i class="fa fa-user mr-2"></i>Notify Me</button>
-                  <button class="btn btn-sm btn-secondary mr-2"><i class="fa fa-user mr-2"></i>Add Notified User</button>
-                  <button class="btn btn-sm btn-secondary"><i class="fa fa-user mr-2"></i>Add Notified Group</button>
-              </div>
-              <div class="mt-3">
-                  <div class="table2-scroll scrollbar-primary">
-                      <table class="table table-bordered table-sm">
-                          <thead>
-                              <tr>
-                                  <th>User/Group Name</th>
-                                  <th>Responsibility</th>
-                                  <th class="text-center">Action</th>
-                              </tr>
-                          </thead>
-                          <tbody>
-                              <tr>
-                                  <td><i class="fa fa-user mr-2"></i>Sean Haley</td>
-                                  <td>
-                                      <select name="notified-parties-1" id="notified-parties-1">
-                                          <option>1</option>
-                                      </select>
-                                  </td>
-                                  <td class="text-center"><a href=""><i class="fa fa-trash-o"></i></a></td>
-                              </tr>
-                              <tr>
-                                  <td><i class="fa fa-user mr-2"></i>Sean Haley</td>
-                                  <td>
-                                      <select name="notified-parties-2" id="notified-parties-2">
-                                          <option>1</option>
-                                      </select>
-                                  </td>
-                                  <td class="text-center"><a href=""><i class="fa fa-trash-o"></i></a></td>
-                              </tr>
-                              <tr>
-                                  <td><i class="fa fa-user mr-2"></i>Sean Haley</td>
-                                  <td>
-                                      <select name="notified-parties-3" id="notified-parties-3">
-                                          <option>1</option>
-                                      </select>
-                                  </td>
-                                  <td class="text-center"><a href=""><i class="fa fa-trash-o"></i></a></td>
-                              </tr>
-                              <tr>
-                                  <td><i class="fa fa-user mr-2"></i>Sean Haley</td>
-                                  <td>
-                                      <select name="notified-parties-5" id="notified-parties-5">
-                                          <option>1</option>
-                                      </select>
-                                  </td>
-                                  <td class="text-center"><a href=""><i class="fa fa-trash-o"></i></a></td>
-                              </tr>
-                              <tr>
-                                  <td><i class="fa fa-user mr-2"></i>Sean Haley</td>
-                                  <td>
-                                      <select name="notified-parties-6" id="notified-parties-6">
-                                          <option>1</option>
-                                      </select>
-                                  </td>
-                                  <td class="text-center"><a href=""><i class="fa fa-trash-o"></i></a></td>
-                              </tr>
-                          </tbody>
-                      </table>
-                  </div>
-              </div>
-          </fieldset>
-      </div>
-  </div>
-  <hr>
-  <div class="row">
-      <div class="col-md-12 text-right">
-          <button id="notified-parties-cancel-btn" class="btn btn-secondary mr-2">Cancel</button>
-          <button id="notified-parties-save-btn" class="btn btn-primary mr-2">Save</button>
-      </div>
-  </div>
+                    </div>
+                    <div class="tab-pane fade" id="Template">
+                        <h4 class="mt-2">Template tab content</h4>
+                        <div class="row mt-3 mb-3">
+                            <label for="" class="col-sm-6 col-form-label">Type to filter names</label>
+                            <div class="col-sm-6">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" placeholder="enter">
+                                    <div class="input-group-append">
+                                        <span class="input-group-text"><i class="fa fa-search"></i></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="table-scroll scrollbar-primary">
+                            <table class="table table-bordered table-sm">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th class="text-center">Associations</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <div *ngFor="let location of alertRuleSignalAssociatedAsset.locations">
+
+                                        <!-- <div *ngIf="location.signalId">
+                                            <tr>
+                                                <td>
+                                                    {{'Organizaation > '+location.locationName+' > '+location.signalName}}
+                                                </td>
+                                                <td class="text-center">
+                                                    <div class="checkbox">
+                                                        <label><input type="checkbox"
+                                                                (change)="onSignalSelectionChange($event, location.signalId)"></label>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </div> -->
+                                        <div *ngFor="let asset of location.assets">
+                                            <tr>
+                                                <!-- <td>{{'Organization > '+location.locationName +' > '+asset.assetName}}</td> -->
+                                                <td>{{asset.assetName}}</td>
+                                                <td class="text-center">
+                                                    <div class="checkbox">
+                                                        <label><input type="checkbox"></label>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <div *ngFor="let signal of asset.signals">
+                                                <tr>
+                                                    <td>{{signal.signalName}}</td>
+                                                    <td class="text-center">
+                                                        <div class="checkbox">
+                                                            <label><input type="checkbox"
+                                                                    [checked]="selectedSignals.indexOf(signal.signalId)>=0"
+                                                                    (change)="onSignalSelectionChange($event, signal.signalId)"></label>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- <tr>
+                                        <td>Air Compressor 1</td>
+                                        <td class="text-center">
+                                            <div class="checkbox">
+                                                <label><input type="checkbox"></label>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Air Compressor 1</td>
+                                        <td class="text-center">
+                                            <div class="checkbox">
+                                                <label><input type="checkbox"></label>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Air Compressor 1</td>
+                                        <td class="text-center">
+                                            <div class="checkbox">
+                                                <label><input type="checkbox"></label>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Air Compressor 1</td>
+                                        <td class="text-center">
+                                            <div class="checkbox">
+                                                <label><input type="checkbox"></label>
+                                            </div>
+                                        </td>
+                                    </tr> -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+        <div class="col-md-6">
+            <fieldset>
+                <legend>Notified Parties</legend>
+                <div class="">
+                    <button class="btn btn-sm btn-secondary mr-2"><i class="fa fa-user mr-2"></i>Notify Me</button>
+                    <button class="btn btn-sm btn-secondary mr-2"><i class="fa fa-user mr-2"></i>Add Notified
+                        User</button>
+                    <button class="btn btn-sm btn-secondary"><i class="fa fa-user mr-2"></i>Add Notified Group</button>
+                </div>
+                <div class="mt-3">
+                    <div class="table2-scroll scrollbar-primary">
+                        <table class="table table-bordered table-sm">
+                            <thead>
+                                <tr>
+                                    <th>User/Group Name</th>
+                                    <th>Responsibility</th>
+                                    <th class="text-center">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let userGroup of userGroups">
+                                    <td><i class="fa fa-user mr-2"></i>{{userGroup.userGroupName}}</td>
+                                    <td>
+                                        <select chan [(ngModel)]="userResponsibities[userGroup.userGroupId]"
+                                            (change)="onResponsibityChange($event, userGroup)"
+                                            [name]="userGroup.userGroupId">
+                                            <option *ngFor="let role of userRoles" [value]="role.roleId">
+                                                {{role.roleName}}
+                                            </option>
+                                        </select>
+                                    </td>
+                                    <td class="text-center"><a href=""><i class="fa fa-trash-o"></i></a></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-md-12 text-right">
+            <button class="btn btn-secondary mr-2">Cancel</button>
+            <button type="submit" class="btn btn-primary mr-2">Save</button>
+        </div>
+    </div>
 </form>

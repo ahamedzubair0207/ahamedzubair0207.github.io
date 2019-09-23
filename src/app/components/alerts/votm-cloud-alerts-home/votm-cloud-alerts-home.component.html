@@ -1,12 +1,12 @@
-<div class="tab-content" id="myTabContent">
+<div class="tab-content votom-tab-border pr-1 pl-1" id="myTabContent">
   <div class="tab-pane fade show active" id="assets" role="tabpanel" aria-labelledby="assets-tab">
 
-    <button class="btn btn-info mt-3" style="float: right;" id="alert-create" (click)="onCreateAlertClick()"><i
+    <button class="btn btn-info mt-3 btn-sm" style="float: right;" id="alert-org-create" (click)="onCreateAlertClick()"><i
         class="fa fa-warning mr-2"></i>Create Alert rules</button>
     <form class="form-inline">
-      <label for="typeahead-config">Type to filter rules:</label>
-      <input class="form-control ml-2 mb-3 mt-3" id="searchBox" type="search" placeholder="Search" aria-label="Search">
-      <button class="btn btn-outline-info mr-2 ml-2" id="searchButton" type="submit">Search</button>
+      <label for="typeahead-config" id="alert-filter">Type to filter rules:</label>
+      <input class="form-control form-control-sm ml-2 mb-3 mt-3" id="alertSearchBox" type="search" placeholder="Search" aria-label="Search">
+      <button class="btn btn-sm btn-outline-info mr-2 ml-2" id="alertSearchButton" type="submit">Search</button>
     </form>
 
     <table class="table table-sm table-bordered asset-table-fonts">
@@ -23,17 +23,16 @@
       </thead>
       <tr *ngFor="let item of alertList">
         <th scope="row">
-          <i class="fa fa-industry"></i>
           <a style="color: #212529;" [routerLink]="['alertRule/view', item.alertRuleId]"> {{item.alertRuleName}}</a>
         </th>
-        <td class="align-left">{{item.alertTypeName}}</td>
+        <td class="align-left"><i class="fa fa-thermometer-half mr-1"></i>{{item.alertTypeName}}</td>
         <td class="align-left">{{item.ruleType}}</td>
         <td class="align-left">{{item.organizationScopeName}}</td>
         <td class="align-left">{{item.numberofSignalAssociated}}</td>
         <td class="align-left">{{item.numberofUserAssociated}}</td>
         <td class="align-center">
           <a style="color: #212529;" class="action-icon" title="Edit" [routerLink]="['alertRule/edit', item.alertRuleId]" >
-            <i class="fa fa-edit"></i>
+            <i class="fa fa-edit pr-1"></i>
           </a>
           <a class="action-icon" (click)="openConfirmDialog(item.id, item.name)" title="Delete">
             <i class="fa fa-trash"></i>

@@ -10,13 +10,25 @@ legend{
 } 
 .create-loc-container {
   padding: 15px;
-  background-color: white;
+  border-left: 1px solid rgba(0,0,0,.125);
+  border-right: 1px solid rgba(0,0,0,.125);
+  border-bottom: 1px solid rgba(0,0,0,.125);
 }
 
-.loc-create-font{
-  font-family: 'Roboto', sans-serif;
-  font-size: 14px;
+.nav-pills .nav-link.active, .nav-pills .show>.nav-link {
+  color: #fff;
+  background-color: #00b9c3;
+  
 }
+
+.tab-icon{
+color: #00b9c3;
+}
+
+
+.select2 {
+  width:100%!important;
+  }
 
 
 .edit-view-lock{

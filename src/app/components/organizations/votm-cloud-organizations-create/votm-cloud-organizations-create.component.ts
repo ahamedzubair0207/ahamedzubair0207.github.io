@@ -16,6 +16,7 @@ import { Toaster } from '../../shared/votm-cloud-toaster/votm-cloud-toaster';
 import { ToastrService } from 'ngx-toastr';
 import { AlertsService } from '../../../services/alerts/alerts.service';
 import { countyList } from 'src/app/services/countryList/countryStateList';
+import { AssetsService } from '../../../services/assets/assets.service';
 import { SortArrays } from '../../shared/votm-sort';
 
 @Component({
@@ -38,6 +39,7 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
   tempUoM: UnitOfMeassurement;
   tempMeasurement: string;
   parentOrganizationInfo: any;
+  templateList: any[] = [];
 
   pageTitle: string;
   pageType: string;
@@ -55,7 +57,8 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
   curOrgId: any;
   curOrgName: any;
   previousUrl: any;
-
+  tempContractStartDate: { year?: number, month?: number, day?: number } = {};
+  tempContractEndDate: { year?: number, month?: number, day?: number } = {};
 
   @ViewChild('startDate', null) startDate: NgForm;
   @ViewChild('organizationForm', null) organizationForm: NgForm;
@@ -71,7 +74,7 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
   organizationList: any[] = [];
   countryObject: any[] = [];
 
-  constructor(private modalService: NgbModal, private alertRuleservice: AlertsService, private organizationService: OrganizationService,
+  constructor(private assetService: AssetsService, private modalService: NgbModal, private alertRuleservice: AlertsService, private organizationService: OrganizationService,
     private configSettingsService: ConfigSettingsService, private domSanitizer: DomSanitizer,
     private activeroute: ActivatedRoute, private route: Router, private datePipe: DatePipe,
     private routerLocation: RouterLocation, private toastr: ToastrService) {
@@ -180,21 +183,23 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
   }
 
   onStartDateChange() {
+    console.log('Start Date ', this.tempContractStartDate);
     this.organizationForm.form.controls['startDate'].markAsDirty();
     this.compareDate();
   }
 
   compareDate() {
-    if (this.organization.contractStartDate && this.organization.contractEndDate) {
-      if (this.organization.contractStartDate >= this.organization.contractEndDate) {
-        this.organizationForm.form.controls['startDate'].setErrors({ 'invalidDate': true })
-      } else {
-        this.organizationForm.form.controls['startDate'].setErrors(null);
-      }
-    }
+    // if (this.organization.contractStartDate && this.organization.contractEndDate) {
+    //   if (this.organization.contractStartDate >= this.organization.contractEndDate) {
+    //     this.organizationForm.form.controls['startDate'].setErrors({ 'invalidDate': true })
+    //   } else {
+    //     this.organizationForm.form.controls['startDate'].setErrors(null);
+    //   }
+    // }
   }
 
   onEndDateChange() {
+    console.log('End Date ', this.tempContractEndDate)
     this.organizationForm.form.controls['endDate'].markAsDirty();
     this.compareDate();
   }
@@ -214,10 +219,15 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
         this.organization.timeZoneId = this.organization.timeZone;
         this.organization.localeId = this.organization.locale;
         this.organization.uoMId = this.organization.uoM;
-
-        this.organization.contractStartDate = this.datePipe.transform(this.organization.contractStartDate, 'yyyy-MM-dd')
-        this.organization.contractEndDate = this.datePipe.transform(this.organization.contractEndDate, 'yyyy-MM-dd')
-
+        if (this.organization.contractStartDate) {
+          let startDate = new Date(this.organization.contractStartDate);
+          this.tempContractStartDate = {year: startDate.getFullYear(),month: startDate.getMonth(), day: startDate.getDate()};
+        }
+        if (this.organization.contractEndDate) {
+          let endDate = new Date(this.organization.contractEndDate);
+          this.tempContractEndDate = {year: endDate.getFullYear(),month: endDate.getMonth(), day: endDate.getDate()};
+        }
+        
         if (this.organization.logo && this.organization.logo.imageName) {
           this.fileExtension = this.organization.logo.imageName.slice((Math.max(0, this.organization.logo.imageName.lastIndexOf(".")) || Infinity) + 1);
           this.imgURL = this.domSanitizer.bypassSecurityTrustUrl(`data:image/${this.fileExtension};base64,${this.organization.logo.image}`);
@@ -508,6 +518,15 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
   }
 
   onOrganizationSubmit() {
+    // let startDate: any = this.organization.contractStartDate;
+    // let endDate: any = this.organization.contractEndDate;
+    if (this.tempContractStartDate) {
+      this.organization.contractStartDate = new Date(this.tempContractStartDate.year, this.tempContractStartDate.month, this.tempContractStartDate.day).toDateString();
+    }
+    if (this.tempContractEndDate) {
+      this.organization.contractEndDate = new Date(this.tempContractEndDate.year, this.tempContractEndDate.month, this.tempContractEndDate.day).toDateString();
+    }
+    console.log('this.organization ', this.organization)
     if (this.organizationForm && this.organizationForm.invalid) {
       this.toaster.onFailure('Please fill the form correctly.', 'Form is invalid!')
       Object.keys(this.organizationForm.form.controls).forEach(element => {
@@ -575,6 +594,16 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
       this.route.navigate([`org/edit/${this.curOrgId}/${this.curOrgName}/${this.organization.organizationId}`])
     } else {
       this.route.navigate([`org/view/${this.curOrgId}/${this.curOrgName}/${this.organization.organizationId}`])
+    }
+  }
+
+  onTemplateTabClick() {
+    if (!this.templateList || this.templateList.length === 0) {
+      this.assetService.getAllTemplates()
+        .subscribe(response => {
+          console.log('response of templates ', response);
+          this.templateList = response;
+        });
     }
   }
 }
