@@ -1,133 +1,14 @@
 
 
 
-.create-org-container {
-  padding: 15px;
-  background-color: white;
-  // margin-top: 40px;
-}
-
-
-.auto-width{
-  width:auto;
-}
-
-.inline-input{
-  display: inline-block;
-}
-
-
-.org-outside-border{
-  background:#dbdada;
-  margin: -12px -15px -20px -25px;
-  padding: 20px;
-  // height: 116%;
-  height: 106%;
-}
-
-
-.btn-color{
-  background-color: rgb(0,185,195);
-  float: left;
-}
-
-.modal-uom-label{
-  margin-left: 15px;
-}
-.button-mod {
-  border: none;
-  color: white;
-  padding: 10px 30px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 14px;
-  margin: 4px 2px;
-  cursor: pointer;
-  float: right;
-}
-
-/* Full-width input fields */
-input[type=text],input[type=date], input[type=password],input[type=email],input[type=file] {
-  padding: 5px 0px 7px 15px;
-  display: inline-block;
-  border: 1px solid #ddd;
-  
-}
-
-input[type=text]:focus, input[type=password]:focus,input[type=email]:focus,input[type=file]:focus {
-  background-color: #ddd;
-  outline: none;
-}
-
-.mar-top-30{
-  margin-top: 30px;
-}
-
-.mar-top-15{
-  margin-top: 15px;
-}
-
-.mar-left-30{
-  margin-left: 30px;
-}
-
-.mar-left-10{
-  margin-left: 10px;
-}
-
-
-.container {
-  position: relative;
-  text-align: center;
-  color: white;
-}
-
-
 .enclosing-div{
   border: 1px solid #000;
-  min-height: 800px;
-  max-height: 800px;
+  min-height: 500px;
+  max-height: 500px;
   padding: 10px;
   overflow-y: auto;
 }
 
-.assoc-table{
-  width: 80%;
-  margin: 20px;
-}
-
-.assoc-table  th, .assoc-table  td{
-  padding: 10px;
-}
-
-.align-center{
-  text-align: center;
-}
-
-.assoc-name{
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-.warning-color{
-  color: #e7bd24;
-}
-
-.critical-color{
-  color: red;
-}
-
-.r-interval-width{
-  width: 50px;
-}
-
-.nav-pills .nav-link.active, .nav-pills .show>.nav-link {
-  color: #fff;
-  background-color: #00b9c3;
-  
-}
-
-.tab-icon{
-color: #00b9c3;
+.mar-top-5{
+  margin-top: 5px;
 }

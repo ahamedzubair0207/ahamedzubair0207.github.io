@@ -2,7 +2,7 @@
 
 <div class="wrapper">
   <app-votm-cloud-side-menu *ngIf="router.url !== '/login'"></app-votm-cloud-side-menu>
-  <div id="content" [ngClass]="{ 'active': menuOpen}">
+  <div id="{{router.url !== '/login' ? 'content' : 'login-page'}}" [ngClass]="{ 'active': menuOpen}">
       <app-votm-cloud-header *ngIf="router.url !== '/login'" ></app-votm-cloud-header>
       <div [ngClass]="{ 'menu-opened' : !menuOpen && router.url !== '/login', 'menu-closed' : menuOpen && router.url !== '/login', 'col-md-12' : router.url !== '/login'}">
 				<div class="card border-0 shadow">
@@ -12,4 +12,4 @@
         </div>
       </div>
   </div>
-</div>
+</div> 
