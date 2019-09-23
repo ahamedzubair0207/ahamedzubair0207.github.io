@@ -1,4 +1,4 @@
-<form #organizationForm="ngForm" class="form needs-validation" novalidate>
+<form #alertRuleForm="ngForm" (ngSubmit)="onAlertRuleSubmit()" class="form needs-validation" novalidate>
     <div class="row mt-3">
         <div class="col-md-6">
             <h5>Alert Rule Configuration</h5>
@@ -9,8 +9,8 @@
         <div class="col-md-4 row">
             <label for="" class="col-md-6 col-form-label txt-r">Alert Rule Name</label>
             <div class="col-md-6">
-                <input type="text" name="alertRuleName" [(ngModel)]="alert.alertRuleName" class="form-control form-control-sm" id=""
-                    placeholder="Alert Rule Name">
+                <input type="text" name="alertRuleName" [(ngModel)]="alert.alertRuleName"
+                    class="form-control form-control-sm" id="" placeholder="Alert Rule Name">
             </div>
         </div>
         <div class="col-md-4 row">
@@ -25,7 +25,8 @@
             <div class="row">
                 <label for="" class="col-md-6 col-form-label txt-r">Access Scope</label>
                 <div class="col-md-6">
-                    <select name="accessScope" [(ngModel)]="alert.organizationScopeId" class="form-control form-control-sm">
+                    <select name="accessScope" [(ngModel)]="alert.organizationScopeId"
+                        class="form-control form-control-sm">
                         <option>QCD</option>
                     </select>
                 </div>
@@ -45,8 +46,8 @@
             <label for="" class="col-md-7 col-form-label">Minimum Sustain Time</label>
             <div class="col-md-5 pl-0">
                 <div class="input-group">
-                    <input name="sustainTime" [(ngModel)]="alert.sustainTime" type="text" class="form-control form-control-sm"
-                        placeholder="60">
+                    <input name="sustainTime" [(ngModel)]="alert.sustainTime" type="text"
+                        class="form-control form-control-sm" placeholder="60">
                     <div class="input-group-append">
                         <span class="input-group-text form-control-sm">Second</span>
                     </div>
@@ -63,8 +64,8 @@
             <label for="" class="col-md-5 col-form-label pl-0">Escalate After</label>
             <div class="col-md-7 pr-0">
                 <div class="input-group">
-                    <input type="text" name="escalateTime" [(ngModel)]="alert.escalateTime" class="form-control form-control-sm"
-                        placeholder="60">
+                    <input type="text" name="escalateTime" [(ngModel)]="alert.escalateTime"
+                        class="form-control form-control-sm" placeholder="60">
                     <div class="input-group-append">
                         <span class="input-group-text form-control-sm">Minutes</span>
                     </div>
@@ -132,64 +133,55 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr *ngFor="let location of alertRuleSignalAssociatedAsset.locations">
+                                   <!-- <tr> <td>AHAMED</td><td>ZUBAIR</td></tr> -->
+                                    <div *ngFor="let location of alertRuleSignalAssociatedAsset.locations">
                                         <div *ngIf="location.signalId">
-                                            <td>
-                                                {{'Organizaation > '+location.locationName+' > '+location.signalName}}
-                                            </td>
-                                            <td class="text-center">
-                                                <div class="checkbox">
-                                                    <label><input type="checkbox"
-                                                            (change)="onSignalSelectionChange($event, location.signalId)"></label>
-                                                </div>
-                                            </td>
-                                        </div>
-                                        <div *ngFor="let asset of location.assets">
-                                            <div *ngFor="let signal of asset.signals">
-                                                <td>{{'Organizaation > '+location.locationName +' > '+asset.assetName + ' > ' + signal.signalName}}
+                                            <tr>
+                                                <td>
+                                                    {{'Organizaation > '+location.locationName}}
                                                 </td>
                                                 <td class="text-center">
                                                     <div class="checkbox">
                                                         <label><input type="checkbox"
-                                                                [checked]="selectedSignals.indexOf(signal.signalId)>=0"
-                                                                (change)="onSignalSelectionChange($event, signal.signalId)"></label>
+                                                                (change)="onSignalSelectionChange($event, location.signalId)"></label>
                                                     </div>
                                                 </td>
+                                            </tr>
+                                            <tr>
+                                                <td>&nbsp;&nbsp;&nbsp;&nbsp;{{location.signalName}}</td>
+                                                <td class="text-center">
+                                                    <div class="checkbox">
+                                                        <label><input type="checkbox"
+                                                                (change)="onSignalSelectionChange($event, location.signalId)"></label>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </div>
+                                        <div *ngFor="let asset of location.assets">
+                                            <tr>
+                                                <td>{{'Organization > '+location.locationName +' > '+asset.assetName}}
+                                                </td>
+                                                <!-- <td>{{asset.assetName}}</td> -->
+                                                <td class="text-center">
+                                                    <div class="checkbox">
+                                                        <label><input type="checkbox" (change)="onAssetChecked($event, asset)" [(ngModel)]="assetsChecked[asset.assetId]" [name]="asset.assetId"></label>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <div *ngFor="let signal of asset.signals">
+                                                <tr>
+                                                    <td>&nbsp;&nbsp;&nbsp;&nbsp;{{signal.signalName}}</td>
+                                                    <td class="text-center">
+                                                        <div class="checkbox">
+                                                            <label><input type="checkbox"
+                                                                    [checked]="selectedSignals.indexOf(signal.signalId)>=0"
+                                                                    (change)="onSignalSelectionChange($event, signal.signalId, asset)"></label>
+                                                        </div>
+                                                    </td>
+                                                </tr>
                                             </div>
                                         </div>
-                                    </tr>
-                                    <!-- <tr>
-                                        <td>Air Compressor 1</td>
-                                        <td class="text-center">
-                                            <div class="checkbox">
-                                                <label><input type="checkbox"></label>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Air Compressor 1</td>
-                                        <td class="text-center">
-                                            <div class="checkbox">
-                                                <label><input type="checkbox"></label>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Air Compressor 1</td>
-                                        <td class="text-center">
-                                            <div class="checkbox">
-                                                <label><input type="checkbox"></label>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Air Compressor 1</td>
-                                        <td class="text-center">
-                                            <div class="checkbox">
-                                                <label><input type="checkbox"></label>
-                                            </div>
-                                        </td>
-                                    </tr> -->
+                                    </div>
                                 </tbody>
                             </table>
                         </div>
@@ -216,32 +208,45 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr *ngFor="let location of alertRuleSignalAssociatedAsset.locations">
-                                        <div *ngIf="location.signalId">
-                                            <td>
-                                                {{'Organizaation > '+location.locationName+' > '+location.signalName}}
-                                            </td>
-                                            <td class="text-center">
-                                                <div class="checkbox">
-                                                    <label><input type="checkbox"
-                                                            (change)="onSignalSelectionChange($event, location.signalId)"></label>
-                                                </div>
-                                            </td>
-                                        </div>
-                                        <div *ngFor="let asset of location.assets">
-                                            <div *ngFor="let signal of asset.signals">
-                                                <td>{{'Organizaation > '+location.locationName +' > '+asset.assetName + ' > ' + signal.signalName}}
+                                    <div *ngFor="let location of alertRuleSignalAssociatedAsset.locations">
+
+                                        <!-- <div *ngIf="location.signalId">
+                                            <tr>
+                                                <td>
+                                                    {{'Organizaation > '+location.locationName+' > '+location.signalName}}
                                                 </td>
                                                 <td class="text-center">
                                                     <div class="checkbox">
                                                         <label><input type="checkbox"
-                                                                [checked]="selectedSignals.indexOf(signal.signalId)>=0"
-                                                                (change)="onSignalSelectionChange($event, signal.signalId)"></label>
+                                                                (change)="onSignalSelectionChange($event, location.signalId)"></label>
                                                     </div>
                                                 </td>
+                                            </tr>
+                                        </div> -->
+                                        <div *ngFor="let asset of location.assets">
+                                            <tr>
+                                                <!-- <td>{{'Organization > '+location.locationName +' > '+asset.assetName}}</td> -->
+                                                <td>{{asset.assetName}}</td>
+                                                <td class="text-center">
+                                                    <div class="checkbox">
+                                                        <label><input type="checkbox"></label>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <div *ngFor="let signal of asset.signals">
+                                                <tr>
+                                                    <td>{{signal.signalName}}</td>
+                                                    <td class="text-center">
+                                                        <div class="checkbox">
+                                                            <label><input type="checkbox"
+                                                                    [checked]="selectedSignals.indexOf(signal.signalId)>=0"
+                                                                    (change)="onSignalSelectionChange($event, signal.signalId)"></label>
+                                                        </div>
+                                                    </td>
+                                                </tr>
                                             </div>
                                         </div>
-                                    </tr>
+                                    </div>
                                     <!-- <tr>
                                         <td>Air Compressor 1</td>
                                         <td class="text-center">
@@ -305,8 +310,10 @@
                                     <td><i class="fa fa-user mr-2"></i>{{userGroup.userGroupName}}</td>
                                     <td>
                                         <select chan [(ngModel)]="userResponsibities[userGroup.userGroupId]"
-                                         (change)="onResponsibityChange($event, userGroup)" [name]="userGroup.userGroupId">
-                                            <option *ngFor="let role of userRoles" [value]="role.roleId">{{role.roleName}}
+                                            (change)="onResponsibityChange($event, userGroup)"
+                                            [name]="userGroup.userGroupId">
+                                            <option *ngFor="let role of userRoles" [value]="role.roleId">
+                                                {{role.roleName}}
                                             </option>
                                         </select>
                                     </td>
@@ -323,7 +330,7 @@
     <div class="row">
         <div class="col-md-12 text-right">
             <button class="btn btn-secondary mr-2">Cancel</button>
-            <button class="btn btn-primary mr-2">Save</button>
+            <button type="submit" class="btn btn-primary mr-2">Save</button>
         </div>
     </div>
 </form>

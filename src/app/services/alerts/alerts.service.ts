@@ -34,4 +34,11 @@ export class AlertsService {
         map(response => response)
       );
   }
+
+  createAlertRule(alertRule: Alert){
+    return this.http.post(AppConstants.CREATE_ALERT, alertRule)
+    .pipe(
+      map(response => response)
+    );
+  }
 }
