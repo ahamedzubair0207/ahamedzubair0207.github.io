@@ -2,7 +2,7 @@
 	text-align: center;	
 	display:grid;
 	align-items: center;
-	width: 100vw;
+	width: 98.5vw;
 	height: 100vh;
 	background-color: #231f20;
 }
@@ -35,27 +35,3 @@
     border-color: rgb(110, 112, 112);
 }
 
-.login-inp{
-	color: white;
-	text-align: center;
-	justify-items: center;
-	align-items: center;
-	box-shadow: #ffffff;
-}
-.login-inp-container{
-    width: 80%;
-    border-bottom: 0px solid white;
-    width:315px; 
-    margin-left:80px;
-}
-
-.modal-content{
-	background-color: #231f20;
-	height: 352px;
-	width: 500px;
-	border: 0px;
-}
-
-.modal-heading h2{
-	color:#ffffff;
-}

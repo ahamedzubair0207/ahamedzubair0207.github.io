@@ -14,19 +14,59 @@
     </h6>
   </p-overlayPanel>
 
-  <p-overlayPanel #op2 [appendTo]="'body'">
-    Edit content
+  <p-overlayPanel #op2 [appendTo]="'body'" [dismissable]="false"
+  [showCloseIcon]="true">
+    <div class="row">
+      <div class="col-md-12">
+          <div class="card">
+              <div class="card-header">Signal Association</div>
+              <div class="card-body">
+                <div class="row">
+
+                  <div class="col-sm-3"><label>Name: &nbsp;</label></div>
+
+                  <div class="col-sm-9">
+                    <input type="text" id="signal_name" class="form-control" placeholder="Enter Signal Name">
+                  </div>
+                </div>
+                <div class="row mar-top-5">
+                  <div class="col-sm-3"><label>Position: &nbsp; X: &nbsp;</label></div>
+
+                  <div class="col-sm-4">
+                    <input type="text" id="position_x" class="form-control" placeholder="Enter Postion X">
+                  </div>
+
+                    <div class="col-sm-1">Y:  &nbsp;</div>
+                    <div class="col-sm-4">
+                      <input type="text" id="position_y" class="form-control" placeholder="Enter Position Y">
+                    </div>
+
+
+                </div>
+                <div class="row mar-top-5">
+                  <div class="col-sm-12">
+                  <label> Source Signal Type: </label> Gage Pressure
+                  </div>
+                </div>
+                <div class="row mar-top-5">
+                    <div class="col-sm-12">
+                    <label> Source Sensor: </label> Pressure Sensor E300025
+                    </div>
+                  </div>
+
+              </div>
+              <div class="card-footer text-muted">
+
+                  <button class="btn btn-primary mt-3 pull-right" >Save</button>
+              </div>
+          </div>
+      </div>
+  </div>
   </p-overlayPanel>
 
-    <p-overlayPanel #op3 [appendTo]="'body'">
-    <!-- Alarm Rule Association
-    <br/>
-    <select type="text"  class="form-control">
-      <option>1</option>
-      <option>2</option>
-      <option>3</option>
-    </select><br/>
-    <button (click)="onClickOfCreateAssociateRule()" class="btn btn-default"> Create & Associate Rule</button> -->
+    <p-overlayPanel #op3 [appendTo]="'body'" [dismissable]="false"
+    [showCloseIcon]="true">
+
     <div class="row">
         <div class="col-md-12">
             <div class="card">
@@ -88,7 +128,7 @@
       <div class="col-md-8" >
           <!-- *ngIf="assetImageURL" -->
         <div  class="enclosing-div" >
-          <img id="dropdiv" src="../../../../assets/images/images.jpg" width="70%" />
+          <img id="dropdiv" src="../../../../assets/images/Parker.jpg" width="100%" />
         </div>
       </div>
     </div>

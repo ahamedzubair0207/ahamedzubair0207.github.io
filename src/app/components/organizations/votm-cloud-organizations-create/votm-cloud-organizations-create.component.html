@@ -58,6 +58,23 @@
               Asset Template</a>
           </li>
 
+          <!-- Sensor Tab  -->
+          <li class="nav-item">
+            <a class="nav-link tab-icon" id="asset-template-tab" name="asset-template-list" href="#asset-template"
+              (click)="onTemplateTabClick()" data-toggle="tab" role="tab" aria-controls="asset-template" aria-selected="false">
+              <i class="fa fa-thermometer-full"></i>
+              Sensors</a>
+          </li>
+
+          <!-- Gateways Tab  -->
+
+          <li class="nav-item">
+            <a class="nav-link tab-icon" id="asset-template-tab" name="asset-template-list" href="#asset-template"
+              (click)="onTemplateTabClick()" data-toggle="tab" role="tab" aria-controls="asset-template" aria-selected="false"><i
+                class="fa fa-server"></i>
+              Gateways</a>
+          </li>
+
           <i class="fa fa-lock edit-view-lock" id="view-lock" name="lockTogglebutton"
             *ngIf="pageType.toLowerCase() === 'view'" (click)="onLockClick()"></i>
           <i class="fa fa-unlock edit-view-lock" id="edit-lock" name="unlockTogglebutton"
@@ -208,7 +225,7 @@
                       <app-votm-cloud-validator *ngIf="primaryContact.errors && primaryContact.errors.required"
                         message="Primary Contact is required"></app-votm-cloud-validator>
                       <app-votm-cloud-validator *ngIf="primaryContact.errors && primaryContact.errors.email"
-                        message="This is not valid mail id"></app-votm-cloud-validator>
+                        message="This is not valid phone #"></app-votm-cloud-validator>
                     </div>
 
                   </div>
@@ -596,6 +613,17 @@
             area-labelledby="asset-template-tab">
             <app-votm-cloud-asset-template-list [templateList]="templateList"></app-votm-cloud-asset-template-list>
           </div>
+
+          <div class="create-org-container tab-pane fade" id="org-sensor" data-toggle="tab" role="tabpanle"
+            area-labelledby="asset-template-tab">
+            
+          </div>
+
+          <div class="create-org-container tab-pane fade" id="org-gateways" data-toggle="tab" role="tabpanle"
+            area-labelledby="asset-template-tab">
+            
+          </div>
+
         </div>
 
       </div>
