@@ -35,6 +35,7 @@ export class AppConstants {
     public static CREATE_SIGNAL_ASSOCIATION = 'Signals/Association';
 
     public static GET_ALERT = '/Alert';
+    public static CREATE_ALERT = '/AlertRule';
     public static GET_ALERT_BYORGID = '/AlertRules';
     public static GET_ALERT_RULESIGNALS_ASSOCIATION_ASSETS = '/AlertRuleSignalAssociatedwithAsset';
 

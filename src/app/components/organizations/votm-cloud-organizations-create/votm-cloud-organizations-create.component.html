@@ -53,7 +53,7 @@
           <!-- Asset Template Tab  -->
           <li class="nav-item">
             <a class="nav-link tab-icon" id="asset-template-tab" name="asset-template-list" href="#asset-template"
-              data-toggle="tab" role="tab" aria-controls="asset-template" aria-selected="false"><i
+              (click)="onTemplateTabClick()" data-toggle="tab" role="tab" aria-controls="asset-template" aria-selected="false"><i
                 class="fa fa-archive"></i>
               Asset Template</a>
           </li>
@@ -283,7 +283,7 @@
                           class="fa fa-calendar"></i></button> -->
                     <!-- </div> -->
                     <input class="form-control form-control-sm" (click)="contractStartDate.toggle(); onStartDateChange();" placeholder="yyyy-mm-dd" 
-                    [disabled]="pageType==='View'" [(ngModel)]="organization.contractStartDate"
+                    [disabled]="pageType==='View'" [(ngModel)]="tempContractStartDate"
                     name="startDate"  ngbDatepicker #contractStartDate="ngbDatepicker"
                     (change)="onStartDateChange()"
                     (keyup)="onStartDateChange()" #startDate="ngModel" required>
@@ -303,7 +303,7 @@
                   <div class="col-sm-2">
                     <label id="endDateLbl"><b>{{pageLabels.EndDate.labelName}}:</b></label>
                     <input class="form-control form-control-sm" (click)="contractEndDate.toggle(); onEndDateChange();" placeholder="yyyy-mm-dd" 
-                    [disabled]="pageType==='View'" [(ngModel)]="organization.contractEndDate"
+                    [disabled]="pageType==='View'" [(ngModel)]="tempContractEndDate"
                     name="endDate"  ngbDatepicker #contractEndDate="ngbDatepicker"
                     (change)="onEndDateChange()"
                     (keyup)="onEndDateChange()" #endDate="ngModel" required>
@@ -526,7 +526,7 @@
                   </div>
                   <div class="row form-group">
                     <label class="col-sm-5 col-form-label" name="uom-change-lbl" votmrequired id="unitsOfMeasureLbl"><b>
-                        {{pageLabels.DefaultUnitOfMeasure.labelName}}
+                        Default UOM
                         :</b></label>
                     <div class="col-sm-7">
                       <label name="uom-logo" id="unitsOfMeasureSelected" class="mr-3"><b>{{UOM}}</b></label>
@@ -588,11 +588,11 @@
 
           </div>
 
-          <div class="tab-pane fade" id="org-alert" role="tabpanle" area-labelledby="org-alert-tab">
+          <div class="create-org-container tab-pane fade" id="org-alert" role="tabpanle" area-labelledby="org-alert-tab">
             <app-votm-cloud-alerts-home [alertList]="alertRuleList"></app-votm-cloud-alerts-home>
           </div>
 
-          <div class="tab-pane fade" id="asset-template" data-toggle="tab" role="tabpanle"
+          <div class="create-org-container tab-pane fade" id="asset-template" data-toggle="tab" role="tabpanle"
             area-labelledby="asset-template-tab">
             <app-votm-cloud-asset-template-list [templateList]="templateList"></app-votm-cloud-asset-template-list>
           </div>
@@ -605,45 +605,11 @@
         <app-votm-cloud-events-home></app-votm-cloud-events-home>
       </div>
 
-      <!-- Add Dashboard Below -->
-      <!-- For adding dashboard add below format -->
-
-      <!-- <div class="org-outside-border tab-pane fade" id="dashboard2-details-tab" 
-      role="tabpanle" area-labelledby="dashboard2-details-tab"> -->
-
-      <!-- for adding a Dashboard tab need to change id & aria-labelledby accordingly -->
-
-      <!-- Below is the format to Add an extra Tab -->
 
       <div class="org-outside-border tab-pane fade" id="dashboard1-details-tab" role="tabpanle"
         area-labelledby="dashboard1-details-tab">
         <app-votm-cloud-organization-dashboard></app-votm-cloud-organization-dashboard>
       </div>
-
-      <!-- <div class="org-outside-border tab-pane fade" id="dashboard2-details-tab" role="tabpanle"
-        area-labelledby="dashboard2-details-tab">
-        <div class="row">
-          <div class="col-4 shadow p-3 mb-5 ml-3 bg-white rounded">
-            <app-votm-simple-gauge></app-votm-simple-gauge>
-          </div>
-
-        </div>
-      </div>
-
-      <div class="org-outside-border tab-pane fade" id="dashboard3-details-tab" role="tabpanle"
-        area-labelledby="dashboard3-details-tab">
-        <div class="row">
-
-          <div class="col-6 shadow p-3 mb-5  bg-white rounded">
-            <app-votm-animated-gauge></app-votm-animated-gauge>
-          </div>
-          <div class="col-6 shadow p-3 mb-5  bg-white rounded">
-            <app-votm-animated-gauge></app-votm-animated-gauge>
-          </div>
-
-        </div>
-      </div> -->
-
     </div>
   </div>
 

@@ -7,14 +7,6 @@
   // margin-top: 40px;
 }
 
-.org-create-font{
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  font-size: 12px;
-}
-
-.org-h5{
-  margin-top: 14px;
-}
 
 .auto-width{
   width:auto;
@@ -32,32 +24,8 @@
   // height: 116%;
   height: 106%;
 }
-.drop-down{
-  width: 100%;
-  padding:  5px 0px 7px 20px;
-  margin: 5px 0 22px 0;
-  display: inline-block;
-  border: none;
-  background: #f1f1f1;
-}
 
-.create-org-head{
-  padding: 0px;
-}
 
-.uom-btn{
-  margin: -35px 0px 8px 100px;
-}
-
-.uom-body{
-  width:140px;
-  float:left;
-  padding-top:3px;
-}
-
-.uom-drop-down{
-  width:100px;
-}
 .btn-color{
   background-color: rgb(0,185,195);
   float: left;
@@ -84,8 +52,7 @@ input[type=text],input[type=date], input[type=password],input[type=email],input[
   padding: 5px 0px 7px 15px;
   display: inline-block;
   border: 1px solid #ddd;
-  background: #f1f1f1;
-  box-shadow: #069;
+  
 }
 
 input[type=text]:focus, input[type=password]:focus,input[type=email]:focus,input[type=file]:focus {
@@ -153,4 +120,14 @@ input[type=text]:focus, input[type=password]:focus,input[type=email]:focus,input
 
 .r-interval-width{
   width: 50px;
+}
+
+.nav-pills .nav-link.active, .nav-pills .show>.nav-link {
+  color: #fff;
+  background-color: #00b9c3;
+  
+}
+
+.tab-icon{
+color: #00b9c3;
 }
