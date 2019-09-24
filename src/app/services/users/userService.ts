@@ -21,6 +21,13 @@ export class UserService {
             );
     }
 
+    getAllUsers() {
+        return this.http.get(`${AppConstants.GET_ALL_USERS}/All`)
+            .pipe(
+                map(response => response)
+            );
+    }
+
     getUserRoles(): Observable<Array<UserRole>> {
         return this.http.get(AppConstants.GET_USER_ROLES)
             .pipe(
