@@ -1,233 +1,80 @@
-<!-- <div class="row">
-  <h4 class="col-md-6">User Profile</h4>
-  <h4 class="col-md-6 text-right"><a href=""><i class="fa fa-lock"></i></a></h4>
-</div>
 <div class="row">
-  <div class="col-md-12">
-    <ul class="nav nav-tabs">
-      <li class="nav-item">
-        <a href="#Information" class="nav-link active" data-toggle="tab">Information</a>
-      </li>
-      <li class="nav-item">
-        <a href="#Notification" class="nav-link" data-toggle="tab">Notification</a>
-      </li>
-    </ul>
-    <div class="tab-content">
-      <div class="tab-pane fade show active" id="Information">
-        <div class="row">
-          <div class="col-md-6">
-            <div class="row-flex p-3">
-              <div class="form-group row">
-                <label for="" class="col-sm-4 col-form-label">Display Name</label>
-                <div class="col-sm-4">
-                  <input type="text" class="form-control" id="" placeholder="First name">
-                </div>
-                <div class="col-sm-4">
-                  <input type="text" class="form-control" id="" placeholder="Last name">
-                </div>
-              </div>
-              <div class="form-group row">
-                <label for="" class="col-sm-4 col-form-label">Email</label>
-                <div class="col-sm-8">
-                  <input type="email" class="form-control" id="" placeholder="email">
-                </div>
-              </div>
-              <div class="form-group row">
-                <label for="" class="col-sm-4 col-form-label">Phone Number</label>
-                <div class="col-sm-8">
-                  <input type="text" class="form-control" id="" placeholder="+1 (763) 123-456">
-                </div>
-              </div>
-              <div class="form-group row">
-                <label for="" class="col-sm-4 col-form-label">Role</label>
-                <div class="col-sm-8">
-                  <select class="form-control">
-                    <option>1</option>
-                  </select>
-                </div>
-              </div>
-              <div class="form-group row">
-                <label for="" class="col-sm-4 col-form-label">User Image</label>
-                <div class="col-sm-8">
-                  <input type="file" class="form-control" id="" placeholder="Browse">
-                </div>
-              </div>
-            </div>
-            <fieldset>
-              <legend>Preferences</legend>
-              <div class="form-group row">
-                <label for="" class="col-sm-4 col-form-label">Language</label>
-                <div class="col-sm-8">
-                  <select class="form-control">
-                    <option>English(US)</option>
-                  </select>
-                </div>
-              </div>
-              <div class="form-group row">
-                <label for="" class="col-sm-4 col-form-label">Timezone</label>
-                <div class="col-sm-8">
-                  <select class="form-control">
-                    <option>American/Chicago</option>
-                  </select>
-                </div>
-              </div>
-              <div class="form-group row">
-                <label for="" class="col-sm-4 col-form-label">Units of Measure</label>
-                <div class="col-sm-4">
-                  <select class="form-control">
-                    <option>Metric</option>
-                    <option>Imperial</option>
-                    <option>SI</option>
-                  </select>
-                </div>
-                <div class="col-sm-4">
-                  <button class="btn btn-primary btn-block">Custom</button>
-                </div>
-              </div>
-            </fieldset>
-          </div>
-          <div class="col-md-6">
-            <fieldset>
-              <legend>Favorites</legend>
-              <table class="table table-borderless table-sm mb-3" id="example">
-                <thead class="thead-light">
-                  <tr>
-                    <th>Favorite Name</th>
-                    <th>Order</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>QCD Dashboard</td>
-                    <td>1</td>
-                  </tr>
-                  <tr>
-                    <td>Workcell 214</td>
-                    <td>2</td>
-                  </tr>
-                  <tr>
-                    <td>Lab Dashboard</td>
-                    <td>3</td>
-                  </tr>
-                </tbody>
-              </table>
-              <div class="border-top text-right pt-2">
-                <button class="btn btn-outline-secondary mr-2">Edit</button>
-                <button class="btn btn-info">Save</button>
-              </div>
-            </fieldset>
-            <fieldset class="mt-3">
-              <legend>Organization Access</legend>
-              <div class="form-group row">
-                <label for="" class="col-sm-4 col-form-label">Home Access</label>
-                <div class="col-sm-8">
-                  <input type="text" class="form-control" />
-                </div>
-              </div>
-              <div class="form-group row">
-                <label for="" class="col-sm-4 col-form-label">Guest Access</label>
-                <div class="col-sm-8">
-                  <table class="table table-borderless table-sm mb-3">
-                    <thead class="thead-light">
-                      <tr>
-                        <th>Organization Name</th>
-                        <th>Role</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td>Ford</td>
-                        <td>View</td>
-                      </tr>
-                      <tr>
-                        <td>Exotic</td>
-                        <td>View</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
+  <h5 class="col-md-6 text-black-50">User Management</h5>
+</div>
 
-              <div class="border-top text-right pt-2">
-                <button class="btn btn-outline-secondary mr-2">Cancel</button>
-                <button class="btn btn-info">Save</button>
-              </div>
-            </fieldset>
+<form class="text-body">
+  <div class="row">
+    <div class="col-md-3">
+      <div class="form-group">
+        <label for="role_name">Role Name</label>
+        <input type="text" class="form-control" id="role_name" placeholder="Role Name">
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="form-group">
+        <label for="organization_name">Organization Name</label>
+        <input type="text" class="form-control" id="organization_name" placeholder="Organization Name">
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="form-group">
+        <label for="select_role">Select Role</label>
+        <select class="form-control" id="select_role">
+          <option>List of role</option>
+        </select>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="form-group">
+        <label for="role_search">Search</label>
+        <div class="input-group">
+          <input type="text" id="role_search" class="form-control" placeholder="Search">
+          <div class="input-group-append">
+            <span class="input-group-text"><i class="fa fa-search"></i></span>
           </div>
         </div>
       </div>
-      <div class="tab-pane fade" id="Notification">
-        <fieldset class="mt-3">
-          <legend>Notification Delivery Methods</legend>
-          <div class="row mb-3">
-            <div class="col-sm-3">Critical Alarm</div>
-            <div class="col-sm-3">
-                <div class="custom-control custom-radio">
-                    <input type="radio" class="custom-control-input" name="customRadio" id="customRadio0" checked>
-                    <label class="custom-control-label" for="customRadio0">SMS</label>
-                </div>
-            </div>
-            <div class="col-sm-3">
-                <div class="custom-control custom-radio">
-                    <input type="radio" class="custom-control-input" name="customRadio" id="customRadio1" checked>
-                    <label class="custom-control-label" for="customRadio1">Email</label>
-                </div>
-            </div>
-            <div class="col-sm-3">
-                <div class="custom-control custom-radio">
-                    <input type="radio" class="custom-control-input" name="customRadio" id="customRadio2" checked>
-                    <label class="custom-control-label" for="customRadio2">Web Only</label>
-                </div>
-            </div>
-          </div>
-          <div class="row mb-3">
-              <div class="col-sm-3">Warning Alarm</div>
-              <div class="col-sm-3">
-                  <div class="custom-control custom-radio">
-                      <input type="radio" class="custom-control-input" name="customRadio" id="customRadio3" checked>
-                      <label class="custom-control-label" for="customRadio3">SMS</label>
-                  </div>
+    </div>
+  </div>
+  <div class="">
+    <div class="table-responsive">
+      <table class="table table-bordered table-sm table-stripped table-hover">
+        <thead class="thead-dark">
+          <tr>
+            <th>Organization/Site Name</th>
+            <th class="text-center">View</th>
+            <th class="text-center">Create</th>
+            <th class="text-center">Delete</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Quik Coupling Division</td>
+            <td class="text-center">
+              <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" name="customCheck" id="customCheck1" checked>
+                <label class="custom-control-label" for="customCheck1"></label>
               </div>
-              <div class="col-sm-3">
-                  <div class="custom-control custom-radio">
-                      <input type="radio" class="custom-control-input" name="customRadio" id="customRadio4" checked>
-                      <label class="custom-control-label" for="customRadio4">Email</label>
-                  </div>
+            </td>
+            <td class="text-center">
+              <div class="custom-control custom-switch">
+                <input type="checkbox" class="custom-control-input" id="customSwitch1">
+                <label class="custom-control-label" for="customSwitch1"></label>
               </div>
-              <div class="col-sm-3">
-                  <div class="custom-control custom-radio">
-                      <input type="radio" class="custom-control-input" name="customRadio" id="customRadio5" checked>
-                      <label class="custom-control-label" for="customRadio5">Web Only</label>
-                  </div>
+            </td>
+            <td class="text-center">
+              <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" name="customCheck" id="customCheck2">
+                <label class="custom-control-label" for="customCheck2"></label>
               </div>
-            </div>
-            <div class="row mb-3">
-                <div class="col-sm-3">Info Message</div>
-                <div class="col-sm-3">
-                    <div class="custom-control custom-radio">
-                        <input type="radio" class="custom-control-input" name="customRadio" id="customRadio6" checked>
-                        <label class="custom-control-label" for="customRadio6">SMS</label>
-                    </div>
-                </div>
-                <div class="col-sm-3">
-                    <div class="custom-control custom-radio">
-                        <input type="radio" class="custom-control-input" name="customRadio" id="customRadio7" checked>
-                        <label class="custom-control-label" for="customRadio7">Email</label>
-                    </div>
-                </div>
-                <div class="col-sm-3">
-                    <div class="custom-control custom-radio">
-                        <input type="radio" class="custom-control-input" name="customRadio" id="customRadio8" checked>
-                        <label class="custom-control-label" for="customRadio8">Web Only</label>
-                    </div>
-                </div>
-              </div>
-          <div class="border-top text-right pt-2">
-            <button class="btn btn-outline-secondary mr-2">Cancel</button>
-            <button class="btn btn-info">Save</button>
-          </div>
-        </fieldset>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="text-right">
+        <button class="btn btn-secondary mr-3" id="um_cancel">Cancel</button>
+        <button class="btn btn-info" id="um_save">Save</button>
       </div>
     </div>
   </div>
-</div> -->
+</form>

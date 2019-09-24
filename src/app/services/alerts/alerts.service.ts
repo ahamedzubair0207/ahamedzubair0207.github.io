@@ -21,6 +21,27 @@ export class AlertsService {
       );
   }
 
+  getAllMetricTypes(): Observable<any> {
+    return this.http.get(AppConstants.GET_ALERT_METRICS)
+      .pipe(
+        map(response => response)
+      );
+  }
+
+  getUserGroupRoles(): Observable<any> {
+    return this.http.get(AppConstants.GET_ALERT_USERGROUPROLE)
+      .pipe(
+        map(response => response)
+      );
+  }
+
+  getAccessScopeByOrgId(orgId: string): Observable<any> {
+    return this.http.get(`${AppConstants.GET_ALERT_ACCESSSCOPE}/${orgId}`)
+      .pipe(
+        map(response => response)
+      );
+  }
+
   getAllAlertsByOrgId(orgId: string): Observable<any> {
     return this.http.get(`${AppConstants.GET_ALERT_BYORGID}/${orgId}`)
       .pipe(
@@ -35,10 +56,10 @@ export class AlertsService {
       );
   }
 
-  createAlertRule(alertRule: Alert){
+  createAlertRule(alertRule: Alert) {
     return this.http.post(AppConstants.CREATE_ALERT, alertRule)
-    .pipe(
-      map(response => response)
-    );
+      .pipe(
+        map(response => response)
+      );
   }
 }

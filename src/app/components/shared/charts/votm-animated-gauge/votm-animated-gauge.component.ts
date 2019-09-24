@@ -4,6 +4,7 @@ import * as am4charts from "@amcharts/amcharts4/charts";
 import am4themes_animated from "@amcharts/amcharts4/themes/animated";
 
 am4core.useTheme(am4themes_animated);
+
 @Component({
   selector: 'app-votm-animated-gauge',
   templateUrl: './votm-animated-gauge.component.html',
@@ -13,18 +14,22 @@ export class VotmAnimatedGaugeComponent implements OnInit {
 
   private chart: am4charts.XYChart;
   id: any;
+  hideCredits: true;
+  
 
   constructor(private zone: NgZone) {
     this.id = Math.floor((Math.random() * 100) + 1);
-   }
+  }
 
   ngOnInit() {
   }
 
   ngAfterViewInit() {
-   
-    let chart = am4core.create("chartdiv-animated-"+this.id, am4charts.GaugeChart);
 
+    
+
+    let chart = am4core.create("chartdiv-animated-" + this.id, am4charts.GaugeChart);
+    hideCredits: true;
     chart.paddingRight = 20;
 
     chart.innerRadius = -25;
@@ -41,7 +46,7 @@ export class VotmAnimatedGaugeComponent implements OnInit {
     axis.renderer.ticks.template.length = 10;
     axis.renderer.grid.template.disabled = true;
     axis.renderer.labels.template.radius = 40;
-    axis.renderer.labels.template.adapter.add("text", function(text) {
+    axis.renderer.labels.template.adapter.add("text", function (text) {
       return text + "%";
     })
 
@@ -97,13 +102,13 @@ export class VotmAnimatedGaugeComponent implements OnInit {
     hand.pin.disabled = true;
     hand.value = 50;
 
-    hand.events.on("propertychanged", function(ev) {
+    hand.events.on("propertychanged", function (ev) {
       range0.endValue = ev.target.value;
       range1.value = ev.target.value;
       axis2.invalidate();
     });
 
-    setInterval(function() {
+    setInterval(function () {
       var value = Math.round(Math.random() * 100);
       label.text = value + "%";
       var animation = new am4core.Animation(hand, {
@@ -111,7 +116,7 @@ export class VotmAnimatedGaugeComponent implements OnInit {
         to: value
       }, 1000, am4core.ease.cubicOut).start();
     }, 2000);
-  
+
   }
 
   ngOnDestroy() {

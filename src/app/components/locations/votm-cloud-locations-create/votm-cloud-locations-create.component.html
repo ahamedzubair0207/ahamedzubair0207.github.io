@@ -505,9 +505,9 @@
               role="tabpanle" area-labelledby="signal-tab">
               <app-votm-cloud-locations-signal></app-votm-cloud-locations-signal>
             </div>
-            <div class="tab-pane fade" id="gateway-tab" area-labelledby="gateway-tab" role="tabpanle">
+            <div class="tab-pane fade" id="gateway-tab" area-labelledby="gateway-tab" *ngIf="isGatewayAssociationClicked" role="tabpanle">
               <!-- <app-votm-cloud-locations-signal></app-votm-cloud-locations-signal> -->
-              Gateway Association
+              <app-votm-cloud-locations-gateway></app-votm-cloud-locations-gateway>
             </div>
           </div>
         </div>

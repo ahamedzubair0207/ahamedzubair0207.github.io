@@ -5,6 +5,7 @@ import { Alert } from 'src/app/models/alert.model';
 import { ActivatedRoute } from '@angular/router';
 import { AlertsService } from 'src/app/services/alerts/alerts.service';
 import { UserService } from 'src/app/services/users/userService';
+import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { UserGroup } from 'src/app/models/user-groups';
 import { UserRole } from 'src/app/models/user-role';
 
@@ -19,6 +20,7 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
   curOrgId: string;
   curOrgName: string;
   orgId: string;
+  modal: any;
   alertRuleSignalAssociatedAsset: any = {};
   absoluteThresholds: any[] = [];
   selectedSignals: string[] = [];
@@ -27,8 +29,13 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
   responsibilities: any[] = [];
   userResponsibities = {};
   assetsChecked = {};
+  ruleTypes: any[] = [];
+  metricTypes: any[] = [];
+  accessScopes: any[] = [];
+  alertId: string;
+  notifyUsers: any[] = [];
 
-  constructor(private activeroute: ActivatedRoute, private alertsService: AlertsService, private userService: UserService) {
+  constructor(private activeroute: ActivatedRoute, private modalService: NgbModal, private alertsService: AlertsService, private userService: UserService) {
 
   }
 
@@ -38,16 +45,30 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
       this.curOrgId = params.get("curOrgId");
       this.curOrgName = params.get("curOrgName");
       this.orgId = params.get('orgId');
+      this.alertId = params.get('alertId');
       this.getAbsoluteThreshold();
       this.getAlertRuleSignalAssociatedAssetByOrgId();
+      this.getAccessScopeByOrgId();
     });
+    this.getMeticTypes();
+    this.getUserGroupRoles();
+    this.ruleTypes = [
+      {
+        id: '3D97A28E-7D8E-4C7D-98CE-251909FED1A9',
+        name: 'Absolute'
+      },
+      {
+        id: 'B45A2094-C4D6-4D36-B26C-3A9F195C6D6F',
+        name: 'Relative'
+      }
+    ]
     if (this.pageType.toUpperCase() === ' CREATE') {
       this.alert.alertRuleConfigurationMapping = [];
       // this.alert.alertRuleConfigurationMapping.push({})
     }
     // this.selectedSignals = ['fa7b422d-2018-4fdb-ba50-0b4be9bf2735'];
     this.getAllUserGroups();
-    this.getUserRoles();
+    // this.getUserRoles();
     this.responsibilities = [
       { text: 'None', value: 'None' },
       { text: 'Responsibilty1', value: 'Responsibilty1' },
@@ -56,10 +77,46 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
     ];
 
     this.alert.alertRuleUserGroup = [{ alertUserGroupId: "d042f524-d834-4a03-a21d-06bb3c743679", alertUserGroupRoleId: "1ed266f3-87f7-484a-b402-17a8b4a86836" }];
+
+
   }
 
-  getUserRoles() {
-    this.userService.getUserRoles()
+  getMeticTypes() {
+    this.alertsService.getAllMetricTypes()
+      .subscribe(response => {
+        console.log('getMeticTypes ', response);
+        this.metricTypes = [];
+        if (response && response.length > 0) {
+          response.forEach(item => {
+            this.metricTypes.push({ id: item.alertTypeId, name: item.alertTypeName });
+          });
+        }
+      });
+  }
+  /* 
+    // getUserGroupRoles() {
+    //   this.alertsService.getUserGroupRoles()
+    //     .subscribe(response => {
+    //       console.log('getUserGroupRoles ', response);
+    //     });
+    // } */
+
+  getAccessScopeByOrgId() {
+    this.alertsService.getAccessScopeByOrgId(this.orgId)
+      .subscribe(response => {
+        console.log('getAccessScopeByOrgId ', response);
+        // accessScopes
+        this.accessScopes = [];
+        if (response && response.length > 0) {
+          response.forEach(item => {
+            this.accessScopes.push({ id: item.id, name: item.name });
+          });
+        }
+      });
+  }
+
+  getUserGroupRoles() {
+    this.alertsService.getUserGroupRoles()
       .subscribe(response => {
         console.log('user Roles ', response);
         this.userRoles = response;
@@ -68,8 +125,8 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
         });
       });
     setTimeout(() => {
-      this.userResponsibities['3e1427fe-792c-405b-92d4-196f37b13119'] = '1ed266f3-87f7-484a-b402-17a8b4a86836';
-      this.userResponsibities['6f9b732f-d269-462b-90f3-13bdf285b082'] = '0fe90108-9073-45b4-b8fb-192ce722140d';
+      // this.userResponsibities['3e1427fe-792c-405b-92d4-196f37b13119'] = '1ed266f3-87f7-484a-b402-17a8b4a86836';
+      // this.userResponsibities['6f9b732f-d269-462b-90f3-13bdf285b082'] = '0fe90108-9073-45b4-b8fb-192ce722140d';
     }, 1000);
   }
 
@@ -259,4 +316,30 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
     console.log('onResponsibityChange ', this.alert);
   }
 
+  notifiedUserModal() {
+    // Get the modal
+    var modal = document.getElementById("userModal");
+    modal.style.display = "block";
+    this.modal = document.getElementById("userModal");
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("close")[0];
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function (event) {
+      if (event.target == modal) {
+        modal.style.display = "none";
+      }
+    }
+  }
+
+  onAddNotifiedUsersClick() {
+    if (!this.notifyUsers || this.notifyUsers.length === 0) {
+      this.userService.getAllUsers()
+        .subscribe(response => {
+          console.log('response ', response);
+          this.notifyUsers = [];
+          this.notifyUsers = response;
+        });
+    }
+  }
 }

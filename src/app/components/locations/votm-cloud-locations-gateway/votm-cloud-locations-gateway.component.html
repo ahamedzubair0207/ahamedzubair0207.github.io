@@ -88,39 +88,28 @@
     </p-overlayPanel>
 
     <form class="form">
-      <h4 class="col">Associate Signals</h4>
+      <h4 class="col">Associate Gateways</h4>
 
       <div class="row org-create-font mar-top-30">
         <div class="col-md-4">
           <div class="enclosing-div">
-            <a (click)="onClickOfAddCalculatedSignal()" class="cursor-point">f(x) Add Calculated Signal</a>
-            <hr>
-            <h5>Available Signals</h5>
+            <h5>Available Gateways</h5>
             <hr />
             <ul>
               <ng-container
                 *ngFor="let sensor of availableSignals; let sensorIndex = index"
               >
-                <li *ngIf="sensor.node.length > 0">
-                  <h6><i class="fa fa-plus"></i> &nbsp;{{ sensor.name }}</h6>
-                  <ul>
-                    <li
-                      *ngFor="let signal of sensor.node; let signalIndex = index"
+                <li>
+                    <a [class.disabled]="isSignalDisabled(sensor)">
+                        <img
+                          [src]="sensor.image"
+                          style="cursor:pointer"
+                          width="40"
+                          height="40"
+                          id="signal_{{ sensorIndex }}"
+                        />
+                        </a> &nbsp;{{ sensor.name }}
 
-                    >
-                    <a [class.disabled]="isSignalDisabled(signal)">
-                      <img
-                        [src]="signal.image"
-                        style="cursor:pointer"
-                        width="40"
-                        height="40"
-                        id="signal_{{ sensorIndex }}_{{ signalIndex }}"
-                      />
-                      </a>
-                      &nbsp; {{ signal.name }}
-
-                    </li>
-                  </ul>
                 </li>
               </ng-container>
             </ul>
@@ -148,69 +137,3 @@
       </div>
     </form>
   </div>
-
-  <!-- Add calculated signal Model Start-->
-<div id="calculatedSignalModal" class="modal backdrop" [ngStyle]="{'display': display}">
-    <div class="modal-dialog modal-lg modal-dialog-scrollable event-create-font">
-      <!-- Modal content -->
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Calculated Signal Configuration</h5>
-          <button type="button" id="closeModalButton" class="close" aria-label="Close" (click)="closeCaluculatedSignalModal()">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body event-create-font">
-          <form >
-            <div class="row">
-              <div class="col-md-8">
-                <div class="form-group">
-                  <label for="inputEmail">Calculated Signal Name</label>
-                  <input type="text" class="form-control" placeholder="Enter Calculated Signal Name" />
-                </div>
-              </div>
-              <div class="col-md-4">
-                <div class="form-group">
-                  <label for="inputEmail">Icon</label>
-                  <select class="form-control" >
-                      <option value="flow">Flow</option>
-                      <option value="battery">Battery</option>
-                    </select>
-                </div>
-              </div>
-              <span class="clearfix"></span>
-              <div class="col-md-12">
-                <div class="form-group">
-                  <label for="inputEmail">Function Name</label>
-                  <select class="form-control" >
-                      <option value="flow">&Sigma;Period Sum</option>
-                    </select>
-                </div>
-              </div>
-              <span class="clearfix"></span>
-              <div class="col-md-12">
-                <div class="form-group">
-                  <label for="inputEmail">Every period sum the measurements during the period for up to 10 signals.</label>
-                </div>
-              </div>
-              <span class="clearfix"></span>
-              <div class="col-md-12" >
-                <div style="border: 1px solid black;">
-                </div>
-              </div>
-            </div>
-          </form>
-        </div>
-        <div class="modal-footer">
-          <button id="add-event-cancle" type="button" class="btn button-mod btn-secondary btn-sm"
-            (click)="closeCaluculatedSignalModal()" id="addEvntCancle">Cancel
-          </button>
-          <button id="add-event-save" type="button" class="btn btn-info btn-color btn-sm"
-            id="addEvntAdd">Add</button>
-        </div>
-
-      </div>
-
-    </div>
-  </div>
-  <!-- Add  calculated signal Model End-->

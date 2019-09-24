@@ -24,6 +24,7 @@ export class VotmCloudLocationsSignalComponent implements OnInit, OnDestroy {
   selectedSignal: any; // selected signal to display overlay panel.
   asset: Asset = new Asset(); // to store selected asset's data
   assetImageURL: any;
+  display: string; // to store thedisplay style value of bootstrap modal pf add calculated signal
   constructor(
     private activatedRoute: ActivatedRoute,
     private route: Router,
@@ -410,6 +411,14 @@ export class VotmCloudLocationsSignalComponent implements OnInit, OnDestroy {
 
   onClickOfCreateAssociateRule() {
     this.route.navigate(['alerts', 'home']);
+  }
+
+  onClickOfAddCalculatedSignal() {
+    this.display = 'block';
+  }
+
+  closeCaluculatedSignalModal() {
+    this.display = 'none';
   }
 
   ngOnDestroy() {
