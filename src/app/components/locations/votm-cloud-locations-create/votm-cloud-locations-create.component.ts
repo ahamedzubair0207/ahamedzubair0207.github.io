@@ -47,6 +47,7 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
   tempMeasurement: string;
   parentOrganizationInfo: any;
   isSignalAssociationClicked = false;
+  isGatewayAssociationClicked = false;
   pageTitle: string;
   pageType: any;
 
@@ -668,8 +669,11 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
 
   onClickOfNavTab(type) {
     this.isSignalAssociationClicked = false;
+    this.isGatewayAssociationClicked = false;
     if (type === 'signal_association') {
       this.isSignalAssociationClicked = true;
+    } else if (type === 'gateway_association') {
+      this.isGatewayAssociationClicked = true;
     }
   }
 }

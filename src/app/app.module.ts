@@ -70,6 +70,7 @@ import { VotmLiveOrderBookDepthChartComponent } from './components/shared/charts
 import { VotmLiveDataComponent } from './components/shared/charts/votm-live-data/votm-live-data.component';
 import { VotmCloudLocationsDashboardComponent } from './components/locations/votm-cloud-locations-dashboard/votm-cloud-locations-dashboard.component';
 import { VotmCloudAssetDashboardComponent } from './components/assets/votm-cloud-asset-dashboard/votm-cloud-asset-dashboard.component';
+import { VotmCloudLocationsGatewayComponent } from './components/locations/votm-cloud-locations-gateway/votm-cloud-locations-gateway.component';
 
 
 
@@ -119,7 +120,8 @@ import { VotmCloudAssetDashboardComponent } from './components/assets/votm-cloud
     VotmLiveOrderBookDepthChartComponent,
     VotmLiveDataComponent,
     VotmCloudLocationsDashboardComponent,
-    VotmCloudAssetDashboardComponent
+    VotmCloudAssetDashboardComponent,
+    VotmCloudLocationsGatewayComponent
   ],
 
  

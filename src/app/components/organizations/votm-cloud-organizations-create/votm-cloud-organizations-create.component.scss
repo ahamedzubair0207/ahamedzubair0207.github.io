@@ -24,14 +24,17 @@ legend{
 
   .add-sub-org-btn{
     margin-bottom: 10px;
+    float: right;
+    // margin-left:auto;
   }
  
  
   .edit-view-lock{
     float: right; 
-    font-size: 35px; 
+    font-size: 28px; 
     color:  #00b9c3;
-    margin-left: auto;
+    margin-left: 11px;
+    margin-top: 4px;
   }
  
   .drop-modal{
