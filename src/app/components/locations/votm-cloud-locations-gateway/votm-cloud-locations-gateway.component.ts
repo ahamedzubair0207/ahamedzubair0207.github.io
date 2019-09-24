@@ -41,14 +41,7 @@ export class VotmCloudLocationsGatewayComponent implements OnInit, OnDestroy {
     this.assetSignalService.getAvailableSignals().subscribe(response => {
       console.log(response);
       this.availableSignals = [
-        {
-          id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-          name: 'ZZ-XX-DD-FF',
-          entityType: 'Sensor',
-          image:
-            '../assets/images/gateway.svg',
 
-        },
         {
           id: '3fa85f64-5717-4562-b3fc-q2wergf',
           name: 'AA-BB-CC-DD',
@@ -62,7 +55,7 @@ export class VotmCloudLocationsGatewayComponent implements OnInit, OnDestroy {
       this.copyAvailableSignals = [
         {
           id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-          name: 'ParkerSensor1',
+          name: 'ZZ-XX-FF-DD',
           entityType: 'Sensor',
           image:
             '../assets/images/gateway.svg',
@@ -70,7 +63,7 @@ export class VotmCloudLocationsGatewayComponent implements OnInit, OnDestroy {
         },
         {
           id: '3fa85f64-5717-4562-b3fc-q2wergf',
-          name: 'ParkerSensor2',
+          name: 'AA-BB-CC-DD',
           entityType: 'Sensor',
 
           image:
@@ -172,33 +165,15 @@ export class VotmCloudLocationsGatewayComponent implements OnInit, OnDestroy {
   getAssetSignalAssociation() {
     this.associatedSignals = [
       {
-        id: '3fa85f64-5717-4562-b3fc-asedrt45rf',
-        name: 'Temperature signal',
-        entityType: 'signal',
-        image: '../assets/images/temperature.svg',
+        id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
+          name: 'ZZ-XX-FF-DD',
+          entityType: 'Sensor',
+          image:
+            '../assets/images/gateway.svg',
+
         imageCoordinates: {
           x: 65.88,
           y: 44.87
-        }
-      },
-      {
-        id: '3fa85f64-5717-4562-b3fc-qwerfdc',
-        name: 'Battery signal',
-        entityType: 'signal',
-        image: '../assets/images/battery.svg',
-        imageCoordinates: {
-          x: 53.89,
-          y: 39.89
-        }
-      },
-      {
-        id: '3fa85f64-5717-4562-b3fc-kjht45gt',
-        name: 'Pressure signal',
-        entityType: 'signal',
-        image: '../assets/images/pressure.svg',
-        imageCoordinates: {
-          x: 73.05,
-          y: 42.74
         }
       }
     ];

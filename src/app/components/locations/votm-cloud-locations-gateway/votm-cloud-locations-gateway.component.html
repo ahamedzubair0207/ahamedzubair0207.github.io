@@ -9,7 +9,7 @@
       <h6 *ngIf="selectedSignal">
         {{ selectedSignal.name }}&nbsp;
         <a (click)="op2.toggle($event)"><i class="fa fa-pencil-square-o"></i></a
-        >&nbsp; <a (click)="op3.toggle($event)"><i class="fa fa-exclamation-triangle"></i></a>&nbsp;
+        >&nbsp;
         <a ><i class="fa fa-trash"></i></a>
       </h6>
     </p-overlayPanel>
@@ -19,7 +19,7 @@
       <div class="row">
         <div class="col-md-12">
             <div class="card">
-                <div class="card-header">Signal Association</div>
+                <div class="card-header">Gateway Association</div>
                 <div class="card-body">
                   <div class="row">
 
@@ -45,12 +45,12 @@
                   </div>
                   <div class="row mar-top-5">
                     <div class="col-sm-12">
-                    <label> Source Signal Type: </label> Gage Pressure
+                    <label> Gateway Type: </label> SensoNode Gateway
                     </div>
                   </div>
                   <div class="row mar-top-5">
                       <div class="col-sm-12">
-                      <label> Source Sensor: </label> Pressure Sensor E300025
+                      <label> Gateway ID: </label> 11-22-33-AA-BB
                       </div>
                     </div>
 
@@ -64,28 +64,6 @@
     </div>
     </p-overlayPanel>
 
-      <p-overlayPanel #op3 [appendTo]="'body'" [dismissable]="false"
-      [showCloseIcon]="true">
-
-      <div class="row">
-          <div class="col-md-12">
-              <div class="card">
-                  <div class="card-header">Alarm Rule Association</div>
-                  <div class="card-body">
-                      <select class="form-control">
-                          <option>1</option>
-                      </select>
-
-                  </div>
-                  <div class="card-footer text-muted">
-                      <button class="btn btn-primary mt-3 pull-left" (click)="onClickOfCreateAssociateRule()">Create & Associate Rule</button>
-                      &nbsp;&nbsp;
-                      <button class="btn btn-primary mt-3 pull-right" >Save</button>
-                  </div>
-              </div>
-          </div>
-      </div>
-    </p-overlayPanel>
 
     <form class="form">
       <h4 class="col">Associate Gateways</h4>
