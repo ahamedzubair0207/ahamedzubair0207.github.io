@@ -25,11 +25,11 @@
   <div class="col-11">
     <div class="tab-content">
 
-      <div class="asset-outside-border tab-content tab-pane fade show active" id="asset-details-tab"
+      <div class="tab-content tab-pane fade show active" id="asset-details-tab"
         *ngIf="(!assetId && pageLabels) || (assetId && pageLabels && asset)" role="tabpanle"
         area-labelledby="asset-info-tab">
 
-        <ul class="nav nav-tabs mt-3">
+        <ul class="nav nav-tabs">
           <li class="nav-item">
             <a class="nav-link tab-icon active" (click)="onClickOfNavTab('asset_details')" id="asset-details-tab"
               name="asset-view-edit" href="#asset-details" data-toggle="tab" role="tab" aria-controls="asset-details"
@@ -46,7 +46,7 @@
             (click)="onLockClick()"></i>
         </ul>
         <div class="tab-content">
-          <div class="asset-outside-border tab-pane fade show active"
+          <div class="tab-pane fade show active"
             *ngIf="(!assetId && pageLabels) || (assetId && pageLabels && asset)" id="asset-details" role="tabpanle"
             area-labelledby="asset-details-tab">
             <form #assetForm="ngForm" class="asset-create-font create-asset-container needs-validation"
@@ -256,16 +256,16 @@
 
       </div>
 
-      <div class="asset-outside-border tab-pane fade" id="event-details-tab" role="tabpanle"
+      <div class="tab-pane fade" id="event-details-tab" role="tabpanle"
         area-labelledby="event-details-tab">
         <app-votm-cloud-events-home></app-votm-cloud-events-home>
       </div>
 
-      <div class="asset-outside-border tab-pane fade" id="dashboard1-details-tab" role="tabpanle"
+      <div class="tab-pane fade" id="dashboard1-details-tab" role="tabpanle"
         area-labelledby="dashboard1-details-tab">
       </div>
 
-      <div class="asset-outside-border tab-pane fade" id="dashboard2-details-tab" role="tabpanle"
+      <div class="tab-pane fade" id="dashboard2-details-tab" role="tabpanle"
         area-labelledby="dashboard2-details-tab">
       </div>
 

@@ -29,77 +29,81 @@
 
       <!-- organization details tab  -->
 
-      <div class="org-outside-border tab-content tab-pane fade show active" id="org-details-tab"
+      <div class="tab-content tab-pane fade show active" id="org-details-tab"
         *ngIf="(!orgId && pageLabels) || (orgId && pageLabels && organization)" role="tabpanle"
         area-labelledby="org-info-tab">
 
 
 
         <ul class="nav nav-tabs">
-      
-              <!-- details view/edit  -->
-              <li class="nav-item">
-                <a class="nav-link active tab-icon" id="org-details-tab" name="org-view-edit" href="#org-details"
-                  data-toggle="tab" role="tab" aria-controls="org-details" aria-selected="true"><i
-                    class="fa fa-building"></i> Details</a>
-              </li>
-              <!-- Alerts Tab  -->
-              <li class="nav-item">
-                <a class="nav-link tab-icon" id="org-alert-tab" name="alert-view-edit" href="#org-alert"
-                  (click)="onAlertRuleTabClick()" data-toggle="tab" role="tab" aria-controls="org-alert"
-                  aria-selected="false"><i class="fa fa-warning"></i>
-                  Alert
-                  Rule</a>
-              </li>
 
-              <!-- Asset Template Tab  -->
-              <li class="nav-item">
-                <a class="nav-link tab-icon" id="asset-template-tab" name="asset-template-list" href="#asset-template"
-                  (click)="onTemplateTabClick()" data-toggle="tab" role="tab" aria-controls="asset-template"
-                  aria-selected="false"><i class="fa fa-archive"></i>
-                  Asset Template</a>
-              </li>
+          <!-- details view/edit  -->
+          <li class="nav-item">
+            <a class="nav-link active tab-icon" id="org-details-tab" name="org-view-edit" href="#org-details"
+              data-toggle="tab" role="tab" aria-controls="org-details" aria-selected="true"><i
+                class="fa fa-building"></i> Details</a>
+          </li>
+          <!-- Alerts Tab  -->
+          <li class="nav-item">
+            <a class="nav-link tab-icon" id="org-alert-tab" name="alert-view-edit" href="#org-alert"
+              (click)="onAlertRuleTabClick()" data-toggle="tab" role="tab" aria-controls="org-alert"
+              aria-selected="false"><i class="fa fa-warning"></i>
+              Alert
+              Rule</a>
+          </li>
 
-              <!-- Sensor Tab  -->
-              <li class="nav-item">
-                <a class="nav-link tab-icon" id="asset-template-tab" name="asset-template-list" href="#asset-template"
-                  (click)="onTemplateTabClick()" data-toggle="tab" role="tab" aria-controls="asset-template"
-                  aria-selected="false">
-                  <i class="fa fa-thermometer-full"></i>
-                  Sensors</a>
-              </li>
+          <!-- Asset Template Tab  -->
+          <li class="nav-item">
+            <a class="nav-link tab-icon" id="asset-template-tab" name="asset-template-list" href="#asset-template"
+              (click)="onTemplateTabClick()" data-toggle="tab" role="tab" aria-controls="asset-template"
+              aria-selected="false"><i class="fa fa-archive"></i>
+              Asset Template</a>
+          </li>
 
-              <!-- Gateways Tab  -->
+          <!-- Sensor Tab  -->
+          <li class="nav-item">
+            <a class="nav-link tab-icon" id="org-sensor-tab" name="org-sensor-list" href="#org-sensor" data-toggle="tab"
+              role="tab" aria-controls="org-sensor" aria-selected="false">
+              <i class="fa fa-thermometer-full"></i>
+              Sensors</a>
+          </li>
 
-              <li class="nav-item">
-                <a class="nav-link tab-icon" id="asset-template-tab" name="asset-template-list" href="#asset-template"
-                  (click)="onTemplateTabClick()" data-toggle="tab" role="tab" aria-controls="asset-template"
-                  aria-selected="false"><i class="fa fa-server"></i>
-                  Gateways</a>
-              </li>
+          <!-- Gateways Tab  -->
+
+          <li class="nav-item">
+            <a class="nav-link tab-icon" id="org-gateways-tab" name="org-gateways-list" href="#org-gateways"
+              data-toggle="tab" role="tab" aria-controls="org-gateways" aria-selected="false"><i
+                class="fa fa-server"></i>
+              Gateways</a>
+          </li>
+
+
           
 
-                <button id="loc-org-create" *ngIf="organization.organizationId" (click)="createNestedLocation($event)"
-                  type="button" class="btn btn-sm btn-info add-loc-btn"><i class="fa fa-location-arrow"></i> Add Location</button>
-                <button id="suborg-create" *ngIf="organization.organizationId" (click)="createNestedOrganization($event)"
-                  type="button" class="btn btn-sm btn-info ml-1 add-sub-org-btn"><i class="fa fa-building"></i> Add
-                  Suborganization</button>
-  
-                <i class="fa fa-lock edit-view-lock" id="view-lock" name="lockTogglebutton"
-                  *ngIf="pageType.toLowerCase() === 'view'" (click)="onLockClick()"></i>
-                <i class="fa fa-unlock edit-view-lock" id="edit-lock" name="unlockTogglebutton"
-                  *ngIf="pageType.toLowerCase() === 'edit'" (click)="onLockClick()"></i>
-            
+          
+
+            <button id="loc-org-create" *ngIf="organization.organizationId" (click)="createNestedLocation($event)"
+            type="button" class="btn btn-sm btn-outline-info add-loc-btn"><i class="fa fa-location-arrow"></i> Add
+            Location</button>
+          <button id="suborg-create" *ngIf="organization.organizationId" (click)="createNestedOrganization($event)"
+            type="button" class="btn btn-sm btn-outline-info ml-1 add-sub-org-btn"><i class="fa fa-building"></i> Add
+            Suborganization</button>
+
+            <i class="fa fa-lock edit-view-lock" id="view-lock" name="lockTogglebutton"
+            *ngIf="pageType.toLowerCase() === 'view'" (click)="onLockClick()"></i>
+          <i class="fa fa-unlock edit-view-lock" id="edit-lock" name="unlockTogglebutton"
+            *ngIf="pageType.toLowerCase() === 'edit'" (click)="onLockClick()"></i>
 
         </ul>
+        
 
         <div class="tab-content">
 
-          <div class="org-outside-border tab-pane fade show active org-create-font"
+          <div class="tab-pane fade show active org-create-font"
             *ngIf="(!orgId && pageLabels) || (orgId && pageLabels && organization)" id="org-details" role="tabpanle"
             area-labelledby="org-details-tab">
 
-            <form #organizationForm="ngForm" class="org-form-border create-org-container needs-validation"
+            <form #organizationForm="ngForm" class="create-org-container needs-validation"
               (ngSubmit)="onOrganizationSubmit()" novalidate>
 
               <div class="row">
@@ -597,21 +601,21 @@
               </div>
 
 
-              <div class="col-md-12">
-                <!-- <button id="loc-org-create" *ngIf="organization.organizationId" (click)="createNestedLocation($event)"
+              <!-- <div class="col-md-12"> -->
+              <!-- <button id="loc-org-create" *ngIf="organization.organizationId" (click)="createNestedLocation($event)"
                   type="button" class="btn btn-sm btn-info"><i class="fa fa-location-arrow"></i> Add Location</button>
                 <button id="suborg-create" *ngIf="organization.organizationId"
                   (click)="createNestedOrganization($event)" type="button" class="btn btn-sm btn-info ml-1"><i
                     class="fa fa-building"></i> Add Suborganization</button> -->
-                <button id="org-cancel" type="button" (click)="onCancelClick($event)"
+              <!-- <button id="org-cancel" type="button" (click)="onCancelClick($event)"
                   class="btn btn-secondary btn-sm button-mod"><i class="pr-2 fa fa-window-close-o"></i> Cancel</button>
                 <button id="org-delete" *ngIf="organization.organizationId && pageType !=='View'" type="button"
                   class="btn btn-secondary btn-sm button-mod" (click)="openConfirmDialog()"><i
                     class="pr-2 fa fa-trash"></i>
                   Delete</button>
                 <button id="org-save" type="submit" *ngIf="pageType !=='View'" class="btn btn-sm btn-info button-mod"><i
-                    class="pr-2 fa fa-building"></i> Save Organization</button>
-              </div>
+                    class="pr-2 fa fa-building"></i> Save Organization</button> -->
+              <!-- </div> -->
 
             </form>
 
@@ -628,27 +632,33 @@
           </div>
 
           <div class="create-org-container tab-pane fade" id="org-sensor" data-toggle="tab" role="tabpanle"
-            area-labelledby="asset-template-tab">
-
+            area-labelledby="org-sensor-tab">
+            <app-votm-cloud-sensors-home></app-votm-cloud-sensors-home>
           </div>
 
           <div class="create-org-container tab-pane fade" id="org-gateways" data-toggle="tab" role="tabpanle"
-            area-labelledby="asset-template-tab">
-
+            area-labelledby="org-gateways-tab">
+            <app-votm-cloud-gateways-home></app-votm-cloud-gateways-home>
           </div>
 
         </div>
 
+        <button id="org-cancel" type="button" (click)="onCancelClick($event)"
+          class="btn btn-secondary btn-sm button-mod"><i class="pr-2 fa fa-window-close-o"></i> Cancel</button>
+        <button id="org-delete" *ngIf="organization.organizationId && pageType !=='View'" type="button"
+          class="btn btn-secondary btn-sm button-mod" (click)="openConfirmDialog()"><i class="pr-2 fa fa-trash"></i>
+          Delete</button>
+        <button id="org-save" type="submit" *ngIf="pageType !=='View'" class="btn btn-sm btn-info button-mod"><i
+            class="pr-2 fa fa-building"></i> Save Organization</button>
       </div>
 
-      <div class="org-outside-border tab-pane fade" id="event-details-tab" role="tabpanle"
-        area-labelledby="event-details-tab">
+      <!-- Event Details Tab  -->
+      <div class="tab-pane fade" id="event-details-tab" role="tabpanle" area-labelledby="event-details-tab">
         <app-votm-cloud-events-home></app-votm-cloud-events-home>
       </div>
 
 
-      <div class="org-outside-border tab-pane fade" id="dashboard1-details-tab" role="tabpanle"
-        area-labelledby="dashboard1-details-tab">
+      <div class="tab-pane fade" id="dashboard1-details-tab" role="tabpanle" area-labelledby="dashboard1-details-tab">
         <app-votm-cloud-organization-dashboard></app-votm-cloud-organization-dashboard>
       </div>
     </div>

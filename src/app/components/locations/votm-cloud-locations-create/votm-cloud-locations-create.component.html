@@ -9,37 +9,40 @@
             aria-controls="loc-info" aria-selected="true"><i class="fa fa-location-arrow"></i></a>
         </li>
         <li class="nav-item">
-          <a class="nav-link tab-icon" id="loc-event-tab" (click)="onClickOfNavTab('event_logs')" href="#event-details-tab"
-            data-toggle="pill" role="tab" aria-controls="event-details" aria-selected="false"><i
-              class="fa fa-warning"></i></a>
+          <a class="nav-link tab-icon" id="loc-event-tab" (click)="onClickOfNavTab('event_logs')"
+            href="#event-details-tab" data-toggle="pill" role="tab" aria-controls="event-details"
+            aria-selected="false"><i class="fa fa-warning"></i></a>
         </li>
         <li class="nav-item">
           <a class="nav-link tab-icon" id="loc-dashboard1-tab" (click)="onClickOfNavTab('dashboard1')"
             href="#dashboard1-details-tab" data-toggle="pill" role="tab" aria-controls="dashboard1-details"
             aria-selected="false"><i class="fa fa-laptop"></i></a>
         </li>
-        
+
       </ul>
     </div>
   </div>
   <!-- Second Level Nav -->
   <div class="col-11">
     <div class="tab-content" id="v-pills-tabContent">
-      <div class="loc-outside-border tab-content tab-pane fade show active" id="loc-details-tab"
+
+      <!-- Location Details Tab  -->
+      <div class="tab-content tab-pane fade show active" id="loc-details-tab"
         *ngIf="(!locId && pageLabels) || (locId && pageLabels && location)" role="tabpanle"
         area-labelledby="loc-info-tab">
 
         <ul class="nav nav-tabs">
           <li class="nav-item">
-            <a class="nav-link active tab-icon" id="loc-details-tab" (click)="onClickOfNavTab('location_details')" name="loc-view-edit"
-              href="#loc-details" data-toggle="tab" role="tab" aria-controls="loc-details" aria-selected="true"><i
-                class="fa fa-location-arrow"></i> Details</a>
+            <a class="nav-link active tab-icon" id="loc-details-tab" (click)="onClickOfNavTab('location_details')"
+              name="loc-view-edit" href="#loc-details" data-toggle="tab" role="tab" aria-controls="loc-details"
+              aria-selected="true"><i class="fa fa-location-arrow"></i> Details</a>
           </li>
           <li class="nav-item">
             <a class="nav-link tab-icon" id="loc-signal-tab" (click)="onClickOfNavTab('signal_association')"
               name="signal-association-edit" href="#loc-signal" data-toggle="tab" role="tab" aria-controls="loc-signal"
               aria-selected="false"><i class="fa fa-podcast"></i> Signal & Gateway Association</a>
           </li>
+
           <i class="fa fa-lock edit-view-lock" name="loclockbutton" *ngIf="pageType.toLowerCase() === 'view'"
             (click)="onLockClick()"></i>
           <i class="fa fa-unlock edit-view-lock" name="locunlockbutton" *ngIf="pageType.toLowerCase() === 'edit'"
@@ -47,18 +50,18 @@
         </ul>
 
 
-        <div class="loc-outside-border tab-pane fade show active"
-          *ngIf="(!locId && pageLabels) || (locId && pageLabels && location)" id="loc-details" role="tabpanle"
-          area-labelledby="loc-details-tab">
+        <div class="tab-pane fade show active" *ngIf="(!locId && pageLabels) || (locId && pageLabels && location)"
+          id="loc-details" role="tabpanle" area-labelledby="loc-details-tab">
 
-          <form #locationForm="ngForm" class="create-loc-container needs-validation"
-            (ngSubmit)="onLocationSubmit()" novalidate>
+          <form #locationForm="ngForm" class="create-loc-container needs-validation" (ngSubmit)="onLocationSubmit()"
+            novalidate>
 
             <div class="row">
 
               <div class="col-md-6 col-4">
                 <div class="row form-group">
-                  <label class="col-sm-5 col-form-label" for="name" votmrequired><b>{{pageLabels.Name.labelName}}</b></label>
+                  <label class="col-sm-5 col-form-label" for="name"
+                    votmrequired><b>{{pageLabels.Name.labelName}}</b></label>
                   <div class="col-sm-7">
                     <input type="text" [(ngModel)]="location.locationName" class="form-control form-control-sm"
                       [disabled]="pageType==='View'" #locName="ngModel" id="locDtlName" placeholder="Enter Name"
@@ -300,7 +303,8 @@
               <div class="col-6" *ngIf="locId && applicationConfiguration">
                 <div class="row form-group">
                   <!-- <label for="DefatimezoneultLang"><b>* {{pageLabels.TimeZone.labelName}} :</b></label> -->
-                  <label class="col-sm-5 col-form-label" for="timezone" votmrequired><b>{{pageLabels.DefaultTimeZone.labelName}}
+                  <label class="col-sm-5 col-form-label" for="timezone"
+                    votmrequired><b>{{pageLabels.DefaultTimeZone.labelName}}
                       :</b></label>
                   <div class="col-sm-7">
                     <select required #timezone="ngModel" [disabled]="true" [(ngModel)]="location.timeZoneId"
@@ -374,7 +378,8 @@
               <!-- Language -->
               <div class="col-md-6 col-2" *ngIf="!locId && applicationConfiguration">
                 <div class="row form-group">
-                  <label class="col-sm-5 col-form-label" for="DefaultLang" votmrequired><b>{{pageLabels.Language.labelName}}
+                  <label class="col-sm-5 col-form-label" for="DefaultLang"
+                    votmrequired><b>{{pageLabels.Language.labelName}}
                       :</b></label>
                   <div class="col-sm-7">
                     <select required [(ngModel)]="location.localeId" name="language"
@@ -391,7 +396,8 @@
               </div>
               <div class="col-md-6 col-2" *ngIf="locId && applicationConfiguration">
                 <div class="row form-group">
-                  <label class="col-sm-5 col-form-label" for="DefaultLang" votmrequired><b>{{pageLabels.Language.labelName}}
+                  <label class="col-sm-5 col-form-label" for="DefaultLang"
+                    votmrequired><b>{{pageLabels.Language.labelName}}
                       :</b></label>
                   <div class="col-sm-7">
                     <select required #language="ngModel" [disabled]="pageType==='View'" [(ngModel)]="location.localeId"
@@ -473,13 +479,12 @@
                     class="pr-2 fa fa-location-arrow"></i>Add
                   Sub-Location</button>
                 <button id="loc-cancel" for="form-cancel" type="button" (click)="onCancelClick($event)"
-                  class="btn btn-secondary btn-sm button-mod"><i
-                    class="pr-2 fa fa-window-close-o"></i>Cancel</button>
+                  class="btn btn-secondary btn-sm button-mod"><i class="pr-2 fa fa-window-close-o"></i>Cancel</button>
                 <button id="loc-delete" type="button" *ngIf="location.locationId && pageType !=='View'"
                   (click)="openConfirmDialog()" class="btn btn-secondary btn-sm button-mod"><i
                     class="pr-2 fa fa-trash"></i>Delete</button>
-                <button id="loc-save" type="submit" *ngIf="pageType !=='View'"
-                  class="btn btn-sm btn-info button-mod"><i class="pr-2 fa fa-location-arrow"></i>Save
+                <button id="loc-save" type="submit" *ngIf="pageType !=='View'" class="btn btn-sm btn-info button-mod"><i
+                    class="pr-2 fa fa-location-arrow"></i>Save
                   Location</button>
               </div>
             </div>
@@ -488,7 +493,8 @@
 
         </div>
 
-        <div class="create-loc-container tab-pane fade" id="loc-signal" role="tabpanle" area-labelledby="loc-signal-tab">
+        <div class="create-loc-container tab-pane fade" id="loc-signal" role="tabpanle"
+          area-labelledby="loc-signal-tab">
           <ul class="nav nav-tabs">
             <li class="nav-item">
               <a class="nav-link active" id="signal" (click)="onClickOfNavTab('signal_association')" href="#signal-tab"
@@ -501,11 +507,12 @@
           </ul>
 
           <div class="tab-content">
-            <div class="loc-outside-border tab-pane fade show active" *ngIf="isSignalAssociationClicked" id="signal-tab"
-              role="tabpanle" area-labelledby="signal-tab">
+            <div class="tab-pane fade show active" *ngIf="isSignalAssociationClicked" id="signal-tab" role="tabpanle"
+              area-labelledby="signal-tab">
               <app-votm-cloud-locations-signal></app-votm-cloud-locations-signal>
             </div>
-            <div class="tab-pane fade" id="gateway-tab" area-labelledby="gateway-tab" *ngIf="isGatewayAssociationClicked" role="tabpanle">
+            <div class="tab-pane fade" id="gateway-tab" area-labelledby="gateway-tab"
+              *ngIf="isGatewayAssociationClicked" role="tabpanle">
               <!-- <app-votm-cloud-locations-signal></app-votm-cloud-locations-signal> -->
               <app-votm-cloud-locations-gateway></app-votm-cloud-locations-gateway>
             </div>
@@ -515,18 +522,15 @@
       </div>
 
 
-      <div class="loc-outside-border tab-pane fade" id="event-details-tab" role="tabpanle"
-        area-labelledby="event-details-tab">
+      <div class="tab-pane fade" id="event-details-tab" role="tabpanle" area-labelledby="event-details-tab">
         <app-votm-cloud-events-home></app-votm-cloud-events-home>
       </div>
 
-      <div class="loc-outside-border tab-pane fade" id="dashboard1-details-tab" role="tabpanle"
-        area-labelledby="dashboard1-details-tab">
+      <div class="tab-pane fade" id="dashboard1-details-tab" role="tabpanle" area-labelledby="dashboard1-details-tab">
       </div>
 
-      <div class="loc-outside-border tab-pane fade" id="dashboard2-details-tab" role="tabpanle"
-        area-labelledby="dashboard2-details-tab">
-      </div>
+
+
     </div>
   </div>
 </div>
