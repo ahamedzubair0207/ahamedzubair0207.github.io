@@ -13,6 +13,8 @@ export class VotmCylinderGaugeComponent implements OnInit {
 
   private chart: am4charts.XYChart;
   id: any;
+  hideCredits: true;
+  
 
   constructor(private zone: NgZone) {
     this.id = Math.floor((Math.random() * 100) + 1);
@@ -23,6 +25,7 @@ export class VotmCylinderGaugeComponent implements OnInit {
 
   ngAfterViewInit() {
    
+    hideCredits: true;
     let chart = am4core.create("chartdiv-cylinder-"+this.id, am4charts.XYChart3D);
     chart.titles.create().text = "Crude oil reserves";
 

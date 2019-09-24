@@ -17,7 +17,7 @@
             <label for="" class="col-md-6 col-form-label txt-r">Metric Type</label>
             <div class="col-md-6">
                 <select name="metricType" [(ngModel)]="alert.alertTypeId" class="form-control form-control-sm">
-                    <option>Pressure</option>
+                    <option *ngFor="let metricType of metricTypes" [value]="metricType.id">{{metricType.name}}</option>
                 </select>
             </div>
         </div>
@@ -27,7 +27,7 @@
                 <div class="col-md-6">
                     <select name="accessScope" [(ngModel)]="alert.organizationScopeId"
                         class="form-control form-control-sm">
-                        <option>QCD</option>
+                        <option *ngFor="let accessScope of accessScopes" [value]="accessScope.id">{{accessScope.name}}</option>
                     </select>
                 </div>
             </div>
@@ -38,7 +38,7 @@
             <label for="" class="col-md-6 col-form-label txt-r">Rule Type</label>
             <div class="col-md-6">
                 <select name="ruleType" [(ngModel)]="alert.alertRuleTypeId" class="form-control form-control-sm">
-                    <option>Absolute Thresholds</option>
+                    <option *ngFor="let ruleType of ruleTypes" [value]="ruleType.id">{{ruleType.name}}</option>
                 </select>
             </div>
         </div>
@@ -133,7 +133,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                   <!-- <tr> <td>AHAMED</td><td>ZUBAIR</td></tr> -->
+                                    <!-- <tr> <td>AHAMED</td><td>ZUBAIR</td></tr> -->
                                     <div *ngFor="let location of alertRuleSignalAssociatedAsset.locations">
                                         <div *ngIf="location.signalId">
                                             <tr>
@@ -164,7 +164,10 @@
                                                 <!-- <td>{{asset.assetName}}</td> -->
                                                 <td class="text-center">
                                                     <div class="checkbox">
-                                                        <label><input type="checkbox" (change)="onAssetChecked($event, asset)" [(ngModel)]="assetsChecked[asset.assetId]" [name]="asset.assetId"></label>
+                                                        <label><input type="checkbox"
+                                                                (change)="onAssetChecked($event, asset)"
+                                                                [(ngModel)]="assetsChecked[asset.assetId]"
+                                                                [name]="asset.assetId"></label>
                                                     </div>
                                                 </td>
                                             </tr>
@@ -291,9 +294,15 @@
                 <legend>Notified Parties</legend>
                 <div class="">
                     <button class="btn btn-sm btn-secondary mr-2"><i class="fa fa-user mr-2"></i>Notify Me</button>
-                    <button class="btn btn-sm btn-secondary mr-2"><i class="fa fa-user mr-2"></i>Add Notified
-                        User</button>
-                    <button class="btn btn-sm btn-secondary"><i class="fa fa-user mr-2"></i>Add Notified Group</button>
+                    <button type="button" class="btn btn-sm btn-secondary mr-2" data-toggle="modal" (click)="onAddNotifiedUsersClick()"
+                        data-target="#notifiedUserModal"><i class="fa fa-user mr-2"></i>Add Notified User</button>
+                    <button type="button" class="btn btn-sm btn-secondary" data-toggle="modal"
+                        data-target="#notifiedUserGroupModal"><i class="fa fa-user mr-2"></i>Add Notified Group</button>
+
+                    <!-- Button trigger modal -->
+                    <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
+                            Launch demo modal
+                        </button> -->
                 </div>
                 <div class="mt-3">
                     <div class="table2-scroll scrollbar-primary">
@@ -312,7 +321,7 @@
                                         <select chan [(ngModel)]="userResponsibities[userGroup.userGroupId]"
                                             (change)="onResponsibityChange($event, userGroup)"
                                             [name]="userGroup.userGroupId">
-                                            <option *ngFor="let role of userRoles" [value]="role.roleId">
+                                            <option *ngFor="let role of userRoles" [value]="role.alertUserGroupRoleId">
                                                 {{role.roleName}}
                                             </option>
                                         </select>
@@ -334,3 +343,119 @@
         </div>
     </div>
 </form>
+
+
+<!-- Add Notified User Modal -->
+<div id="notifiedUserModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="userModal"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Available User</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body table-responsive">
+                <table class="table table-sm table-bordered">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">First</th>
+                            <th scope="col">Last</th>
+                            <th scope="col">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let notifyUser of notifyUsers; let i=index;">
+                            <th scope="row">{{i+1}}</th>
+                            <td>{{notifyUser.firstName}}</td>
+                            <td>{{notifyUser.lastName}}</td>
+                            <td>@mdo</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-info">Save changes</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Add Notified Group Modal  -->
+
+<div id="notifiedUserGroupModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="userGroupModal"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Available Groups</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <table class="table table-sm table-bordered">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">First</th>
+                            <th scope="col">Last</th>
+                            <th scope="col">Handle</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">1</th>
+                            <td>Mark</td>
+                            <td>Otto</td>
+                            <td>@mdo</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">2</th>
+                            <td>Jacob</td>
+                            <td>Thornton</td>
+                            <td>@fat</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">3</th>
+                            <td colspan="2">Larry the Bird</td>
+                            <td>@twitter</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-info">Save changes</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<!-- Modal -->
+<!-- <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              ...
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+          </div>
+        </div>
+      </div> -->
