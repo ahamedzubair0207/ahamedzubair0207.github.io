@@ -1,4 +1,3 @@
-
 <div class="row">
   <!-- Top Level Nav -->
   <div class="col-1">
@@ -6,8 +5,9 @@
       <ul class="nav flex-column nav-pills" aria-orientation="vertical">
         <li class="nav-item">
           <a class="nav-link active tab-icon" id="org-tab" href="#org-details-tab" data-toggle="pill" role="tab"
-            aria-controls="org-info" aria-selected="true" aria-orientation="vertical"><i class="ml-1 fa fa-building"></i>
-            </a>
+            aria-controls="org-info" aria-selected="true" aria-orientation="vertical"><i
+              class="ml-1 fa fa-building"></i>
+          </a>
         </li>
         <li class="nav-item">
           <a class="nav-link tab-icon" id="event-tab" href="#event-details-tab" data-toggle="pill" role="tab"
@@ -19,12 +19,12 @@
             aria-controls="dashboard1-details" aria-selected="false" aria-orientation="vertical"><i
               class="ml-1 fa fa-laptop"></i> </a>
         </li>
-        </ul>
+      </ul>
     </div>
   </div>
 
   <!-- Second Level Nav -->
-  <div class="col-11" >
+  <div class="col-11">
     <div class="tab-content" id="v-pills-tabContent">
 
       <!-- organization details tab  -->
@@ -36,49 +36,61 @@
 
 
         <ul class="nav nav-tabs">
-          <!-- details view/edit  -->
-          <li class="nav-item">
-            <a class="nav-link active tab-icon" id="org-details-tab" name="org-view-edit" href="#org-details" data-toggle="tab"
-              role="tab" aria-controls="org-details" aria-selected="true"><i class="fa fa-building"></i> Details</a>
-          </li>
-          <!-- Alerts Tab  -->
-          <li class="nav-item">
-            <a class="nav-link tab-icon" id="org-alert-tab" name="alert-view-edit" href="#org-alert"
-              (click)="onAlertRuleTabClick()" data-toggle="tab" role="tab" aria-controls="org-alert"
-              aria-selected="false"><i class="fa fa-warning"></i>
-              Alert
-              Rule</a>
-          </li>
+      
+              <!-- details view/edit  -->
+              <li class="nav-item">
+                <a class="nav-link active tab-icon" id="org-details-tab" name="org-view-edit" href="#org-details"
+                  data-toggle="tab" role="tab" aria-controls="org-details" aria-selected="true"><i
+                    class="fa fa-building"></i> Details</a>
+              </li>
+              <!-- Alerts Tab  -->
+              <li class="nav-item">
+                <a class="nav-link tab-icon" id="org-alert-tab" name="alert-view-edit" href="#org-alert"
+                  (click)="onAlertRuleTabClick()" data-toggle="tab" role="tab" aria-controls="org-alert"
+                  aria-selected="false"><i class="fa fa-warning"></i>
+                  Alert
+                  Rule</a>
+              </li>
 
-          <!-- Asset Template Tab  -->
-          <li class="nav-item">
-            <a class="nav-link tab-icon" id="asset-template-tab" name="asset-template-list" href="#asset-template"
-              (click)="onTemplateTabClick()" data-toggle="tab" role="tab" aria-controls="asset-template" aria-selected="false"><i
-                class="fa fa-archive"></i>
-              Asset Template</a>
-          </li>
+              <!-- Asset Template Tab  -->
+              <li class="nav-item">
+                <a class="nav-link tab-icon" id="asset-template-tab" name="asset-template-list" href="#asset-template"
+                  (click)="onTemplateTabClick()" data-toggle="tab" role="tab" aria-controls="asset-template"
+                  aria-selected="false"><i class="fa fa-archive"></i>
+                  Asset Template</a>
+              </li>
 
-          <!-- Sensor Tab  -->
-          <li class="nav-item">
-            <a class="nav-link tab-icon" id="asset-template-tab" name="asset-template-list" href="#asset-template"
-              (click)="onTemplateTabClick()" data-toggle="tab" role="tab" aria-controls="asset-template" aria-selected="false">
-              <i class="fa fa-thermometer-full"></i>
-              Sensors</a>
-          </li>
+              <!-- Sensor Tab  -->
+              <li class="nav-item">
+                <a class="nav-link tab-icon" id="asset-template-tab" name="asset-template-list" href="#asset-template"
+                  (click)="onTemplateTabClick()" data-toggle="tab" role="tab" aria-controls="asset-template"
+                  aria-selected="false">
+                  <i class="fa fa-thermometer-full"></i>
+                  Sensors</a>
+              </li>
 
-          <!-- Gateways Tab  -->
+              <!-- Gateways Tab  -->
 
-          <li class="nav-item">
-            <a class="nav-link tab-icon" id="asset-template-tab" name="asset-template-list" href="#asset-template"
-              (click)="onTemplateTabClick()" data-toggle="tab" role="tab" aria-controls="asset-template" aria-selected="false"><i
-                class="fa fa-server"></i>
-              Gateways</a>
-          </li>
+              <li class="nav-item">
+                <a class="nav-link tab-icon" id="asset-template-tab" name="asset-template-list" href="#asset-template"
+                  (click)="onTemplateTabClick()" data-toggle="tab" role="tab" aria-controls="asset-template"
+                  aria-selected="false"><i class="fa fa-server"></i>
+                  Gateways</a>
+              </li>
+          
 
-          <i class="fa fa-lock edit-view-lock" id="view-lock" name="lockTogglebutton"
-            *ngIf="pageType.toLowerCase() === 'view'" (click)="onLockClick()"></i>
-          <i class="fa fa-unlock edit-view-lock" id="edit-lock" name="unlockTogglebutton"
-            *ngIf="pageType.toLowerCase() === 'edit'" (click)="onLockClick()"></i>
+                <button id="loc-org-create" *ngIf="organization.organizationId" (click)="createNestedLocation($event)"
+                  type="button" class="btn btn-sm btn-info add-loc-btn"><i class="fa fa-location-arrow"></i> Add Location</button>
+                <button id="suborg-create" *ngIf="organization.organizationId" (click)="createNestedOrganization($event)"
+                  type="button" class="btn btn-sm btn-info ml-1 add-sub-org-btn"><i class="fa fa-building"></i> Add
+                  Suborganization</button>
+  
+                <i class="fa fa-lock edit-view-lock" id="view-lock" name="lockTogglebutton"
+                  *ngIf="pageType.toLowerCase() === 'view'" (click)="onLockClick()"></i>
+                <i class="fa fa-unlock edit-view-lock" id="edit-lock" name="unlockTogglebutton"
+                  *ngIf="pageType.toLowerCase() === 'edit'" (click)="onLockClick()"></i>
+            
+
         </ul>
 
         <div class="tab-content">
@@ -124,7 +136,7 @@
                       </select>
 
 
-                      
+
                       <!-- <input for="parentOrgName" class="form-control org-create-font" type="text"
                 placeholder="{{parentOrganizationInfo? parentOrganizationInfo.parentOrganizationName: organization.parentOrganizationName}}"
                 readonly disabled> -->
@@ -192,21 +204,21 @@
                       <input type="email" id="primarycontact" [disabled]="pageType==='View'"
                         [(ngModel)]="organization.primaryContactEmailAddress" class="form-control form-control-sm" email
                         #primaryContact="ngModel" maxlength="100" placeholder="Email Address" name="contact" required>
-                    
 
-                    <div *ngIf="primaryContact.dirty && primaryContact.invalid">
-                      <app-votm-cloud-validator *ngIf="primaryContact.errors && primaryContact.errors.required"
-                        message="Primary Contact is required"></app-votm-cloud-validator>
-                      <app-votm-cloud-validator *ngIf="primaryContact.errors && primaryContact.errors.email"
-                        message="This is not valid mail id"></app-votm-cloud-validator>
 
+                      <div *ngIf="primaryContact.dirty && primaryContact.invalid">
+                        <app-votm-cloud-validator *ngIf="primaryContact.errors && primaryContact.errors.required"
+                          message="Primary Contact is required"></app-votm-cloud-validator>
+                        <app-votm-cloud-validator *ngIf="primaryContact.errors && primaryContact.errors.email"
+                          message="This is not valid mail id"></app-votm-cloud-validator>
+
+                      </div>
+                      <app-votm-cloud-char-validator
+                        [condition]="organization.primaryContactEmailAddress && organization.primaryContactEmailAddress.length>=100">
+                      </app-votm-cloud-char-validator>
                     </div>
-                    <app-votm-cloud-char-validator
-                      [condition]="organization.primaryContactEmailAddress && organization.primaryContactEmailAddress.length>=100">
-                    </app-votm-cloud-char-validator>
-                  </div>
 
-                </div>
+                  </div>
 
 
                 </div>
@@ -219,22 +231,22 @@
                       <input type="text" id="primarycontactnumber" [disabled]="pageType==='View'"
                         class="form-control form-control-sm" number maxlength="100" placeholder="Phone Number"
                         name="contact" required>
-                    
 
-                    <div *ngIf="primaryContact.dirty && primaryContact.invalid">
-                      <app-votm-cloud-validator *ngIf="primaryContact.errors && primaryContact.errors.required"
-                        message="Primary Contact is required"></app-votm-cloud-validator>
-                      <app-votm-cloud-validator *ngIf="primaryContact.errors && primaryContact.errors.email"
-                        message="This is not valid phone #"></app-votm-cloud-validator>
+
+                      <div *ngIf="primaryContact.dirty && primaryContact.invalid">
+                        <app-votm-cloud-validator *ngIf="primaryContact.errors && primaryContact.errors.required"
+                          message="Primary Contact is required"></app-votm-cloud-validator>
+                        <app-votm-cloud-validator *ngIf="primaryContact.errors && primaryContact.errors.email"
+                          message="This is not valid phone #"></app-votm-cloud-validator>
+                      </div>
+
                     </div>
 
+                    <app-votm-cloud-char-validator
+                      [condition]="organization.primaryContactEmailAddress && organization.primaryContactEmailAddress.length>=100">
+                    </app-votm-cloud-char-validator>
                   </div>
-
-                  <app-votm-cloud-char-validator
-                    [condition]="organization.primaryContactEmailAddress && organization.primaryContactEmailAddress.length>=100">
-                  </app-votm-cloud-char-validator>
                 </div>
-              </div>
               </div>
 
               <div class="row">
@@ -247,11 +259,11 @@
                         class="form-control form-control-sm" placeholder="Primary Distributor Name"
                         #primaryDistributorName="ngModel" maxlength="50" required>
 
-                    <div *ngIf="primaryDistributorName.dirty && primaryDistributorName.invalid">
-                      <app-votm-cloud-validator message="Primary Distributor Name is required">
-                      </app-votm-cloud-validator>
+                      <div *ngIf="primaryDistributorName.dirty && primaryDistributorName.invalid">
+                        <app-votm-cloud-validator message="Primary Distributor Name is required">
+                        </app-votm-cloud-validator>
+                      </div>
                     </div>
-                  </div>
                   </div>
 
                   <app-votm-cloud-char-validator
@@ -269,17 +281,17 @@
                         name="primaryDistributorEmail" [(ngModel)]="organization.primaryDistributorEmailAddress"
                         #primaryDistributorEmail="ngModel" class="form-control form-control-sm" email
                         placeholder="Primary Distributor Email" maxlength="100" required>
-                    
 
-                    <div *ngIf="primaryDistributorEmail.dirty && primaryDistributorEmail.invalid">
-                      <app-votm-cloud-validator
-                        *ngIf="primaryDistributorEmail.errors && primaryDistributorEmail.errors.required"
-                        message="Primary Distributor Contact is required"></app-votm-cloud-validator>
-                      <app-votm-cloud-validator
-                        *ngIf="primaryDistributorEmail.errors && primaryDistributorEmail.errors.email"
-                        message="This is not valid mail id"></app-votm-cloud-validator>
+
+                      <div *ngIf="primaryDistributorEmail.dirty && primaryDistributorEmail.invalid">
+                        <app-votm-cloud-validator
+                          *ngIf="primaryDistributorEmail.errors && primaryDistributorEmail.errors.required"
+                          message="Primary Distributor Contact is required"></app-votm-cloud-validator>
+                        <app-votm-cloud-validator
+                          *ngIf="primaryDistributorEmail.errors && primaryDistributorEmail.errors.email"
+                          message="This is not valid mail id"></app-votm-cloud-validator>
+                      </div>
                     </div>
-                  </div>
                   </div>
                   <app-votm-cloud-char-validator
                     [condition]="organization.primaryDistributorEmail && organization.primaryDistributorEmail.length>=100">
@@ -295,16 +307,16 @@
                   <div class="col-sm-2">
                     <!-- <label id="startDatelbl"><b>{{pageLabels.StartDate.labelName}}:</b></label> -->
                     <!-- <div class="input-group-append"> -->
-                        <label id="startDatelbl"><b>Term:</b></label>
-                      <!-- <button class="ml-5 btn btn-light calendar" (click)="d.toggle()" type="button"><i
+                    <label id="startDatelbl"><b>Term:</b></label>
+                    <!-- <button class="ml-5 btn btn-light calendar" (click)="d.toggle()" type="button"><i
                           class="fa fa-calendar"></i></button> -->
                     <!-- </div> -->
-                    <input class="form-control form-control-sm" (click)="contractStartDate.toggle(); onStartDateChange();" placeholder="yyyy-mm-dd" 
-                    [disabled]="pageType==='View'" [(ngModel)]="tempContractStartDate"
-                    name="startDate"  ngbDatepicker #contractStartDate="ngbDatepicker"
-                    (change)="onStartDateChange()"
-                    (keyup)="onStartDateChange()" #startDate="ngModel" required>
-                    
+                    <input class="form-control form-control-sm"
+                      (click)="contractStartDate.toggle(); onStartDateChange();" placeholder="yyyy-mm-dd"
+                      [disabled]="pageType==='View'" [(ngModel)]="tempContractStartDate" name="startDate" ngbDatepicker
+                      #contractStartDate="ngbDatepicker" (change)="onStartDateChange()" (keyup)="onStartDateChange()"
+                      #startDate="ngModel" required>
+
                     <!-- <input type="date" id="startDate" [disabled]="pageType==='View'"
                       [(ngModel)]="organization.contractStartDate" class="form-control org-create-font"
                       (change)="onStartDateChange()" (click)="onStartDateChange()" (keyup)="onStartDateChange()"
@@ -319,11 +331,10 @@
 
                   <div class="col-sm-2">
                     <label id="endDateLbl"><b>{{pageLabels.EndDate.labelName}}:</b></label>
-                    <input class="form-control form-control-sm" (click)="contractEndDate.toggle(); onEndDateChange();" placeholder="yyyy-mm-dd" 
-                    [disabled]="pageType==='View'" [(ngModel)]="tempContractEndDate"
-                    name="endDate"  ngbDatepicker #contractEndDate="ngbDatepicker"
-                    (change)="onEndDateChange()"
-                    (keyup)="onEndDateChange()" #endDate="ngModel" required>
+                    <input class="form-control form-control-sm" (click)="contractEndDate.toggle(); onEndDateChange();"
+                      placeholder="yyyy-mm-dd" [disabled]="pageType==='View'" [(ngModel)]="tempContractEndDate"
+                      name="endDate" ngbDatepicker #contractEndDate="ngbDatepicker" (change)="onEndDateChange()"
+                      (keyup)="onEndDateChange()" #endDate="ngModel" required>
 
                     <!-- <input type="date" id="endDate" [disabled]="pageType==='View'"
                       [(ngModel)]="organization.contractEndDate" class="form-control org-create-font" #endDate="ngModel"
@@ -574,9 +585,10 @@
                 <label id="orgDescriptionLbl" class="col-2"><b>{{pageLabels.DescriptionofOrganization.labelName}}
                     :</b></label>
                 <div class="col-10">
-                  <textarea class="form-control form-control-sm" id="orgDesText" #description="ngModel" [disabled]="pageType==='View'"
-                    [(ngModel)]="organization.description" (keyup)="onDescriptionChange()" name="orgDescription"
-                    rows="3" id="f-orgDescription"></textarea><br />
+                  <textarea class="form-control form-control-sm" id="orgDesText" #description="ngModel"
+                    [disabled]="pageType==='View'" [(ngModel)]="organization.description"
+                    (keyup)="onDescriptionChange()" name="orgDescription" rows="3"
+                    id="f-orgDescription"></textarea><br />
                   <div *ngIf="description.dirty && description.invalid">
                     <app-votm-cloud-validator *ngIf="description.errors && description.errors.invalidDescription"
                       message="Can not add more than 4000 characters"></app-votm-cloud-validator>
@@ -586,11 +598,11 @@
 
 
               <div class="col-md-12">
-                <button id="loc-org-create" *ngIf="organization.organizationId" (click)="createNestedLocation($event)"
+                <!-- <button id="loc-org-create" *ngIf="organization.organizationId" (click)="createNestedLocation($event)"
                   type="button" class="btn btn-sm btn-info"><i class="fa fa-location-arrow"></i> Add Location</button>
                 <button id="suborg-create" *ngIf="organization.organizationId"
                   (click)="createNestedOrganization($event)" type="button" class="btn btn-sm btn-info ml-1"><i
-                    class="fa fa-building"></i> Add Suborganization</button>
+                    class="fa fa-building"></i> Add Suborganization</button> -->
                 <button id="org-cancel" type="button" (click)="onCancelClick($event)"
                   class="btn btn-secondary btn-sm button-mod"><i class="pr-2 fa fa-window-close-o"></i> Cancel</button>
                 <button id="org-delete" *ngIf="organization.organizationId && pageType !=='View'" type="button"
@@ -605,7 +617,8 @@
 
           </div>
 
-          <div class="create-org-container tab-pane fade" id="org-alert" role="tabpanle" area-labelledby="org-alert-tab">
+          <div class="create-org-container tab-pane fade" id="org-alert" role="tabpanle"
+            area-labelledby="org-alert-tab">
             <app-votm-cloud-alerts-home [alertList]="alertRuleList"></app-votm-cloud-alerts-home>
           </div>
 
@@ -616,12 +629,12 @@
 
           <div class="create-org-container tab-pane fade" id="org-sensor" data-toggle="tab" role="tabpanle"
             area-labelledby="asset-template-tab">
-            
+
           </div>
 
           <div class="create-org-container tab-pane fade" id="org-gateways" data-toggle="tab" role="tabpanle"
             area-labelledby="asset-template-tab">
-            
+
           </div>
 
         </div>
