@@ -1,8 +1,14 @@
+<!-- <h3 class="flt-left sensor-header"> Sensors</h3> -->
+<form class="form-inline">
+  <label for="typeahead-config">Type to filter events:</label>
+  <input class="form-control form-control-sm ml-2 mb-3 mt-3" id="searchBox" type="search" placeholder="Search"
+    aria-label="Search">
+  <button class="btn btn-sm btn-outline-info mr-2 ml-2" id="searchButton" type="submit">Search</button>
+  <div class="btn-group-right">
+      <button [routerLink]="['/sensor/detail']" type="button" class="btn btn-info btn-sm">Configure Sensors</button>
+    </div>
+</form>
 
-<h3 class="flt-left sensor-header"> Sensors</h3>
-<div class="btn-group-right">
-    <button [routerLink]="['/sensor/detail']" type="button" class="btn btn-dark">Configure Sensors</button>
-</div>
 
 <ng-template #recursiveTableList let-list="sensorList" let-lvl="level">
   <ng-container *ngFor="let item of list">
@@ -12,13 +18,13 @@
         <i class="fa fa-thermometer-half"></i>
         {{item.name}}
       </th>
-      <td class="align-center" >{{item.serialNumber}}</td>
-      <td class="align-center" >{{item.assetNumber}}</td>
-      <td class="align-center" ></td>
-      <td class="align-center" ></td>
-      <td class="align-center" ></td>
-      <td class="align-center" ></td>
-      <td class="align-center" ></td>
+      <td class="align-center">{{item.serialNumber}}</td>
+      <td class="align-center">{{item.assetNumber}}</td>
+      <td class="align-center"></td>
+      <td class="align-center"></td>
+      <td class="align-center"></td>
+      <td class="align-center"></td>
+      <td class="align-center"></td>
       <td class="align-center">
         <!-- <a class="action-icon" title="List" [routerLink]="['/sensor/home', item.id]">
           <i class="fa fa-list"></i>
@@ -39,24 +45,24 @@
 
 
 <table class="table table-sm table-bordered">
-    <thead class="thead-dark">
-      <tr>
-        <th scope="col" class="align-center table-col-name" >Sensor/Signal Name</th>
-        <th scope="col" class="align-center" >Serial #</th>
-        <th scope="col" class="align-center" >Sensor Type</th>
-        <th scope="col" class="align-center table-col-small" >Location</th>
-        <th scope="col" class="align-center table-col-small" >Organization</th>
-        <th scope="col" class="align-center table-col-small" >Reported Value</th>
-        <th scope="col" class="align-center table-col-small" >Last Reported Time</th>
-        <th scope="col" class="align-center table-col-small" >State</th>
-        <th scope="col" class="align-center" >Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-        <ng-container *ngTemplateOutlet="recursiveTableList; context:{ sensorList: sensorList, level: 0 }"></ng-container>
-    </tbody>
-  </table>
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col" class="align-center table-col-name">Sensor/Signal Name</th>
+      <th scope="col" class="align-center">Serial #</th>
+      <th scope="col" class="align-center">Sensor Type</th>
+      <th scope="col" class="align-center table-col-small">Location</th>
+      <th scope="col" class="align-center table-col-small">Organization</th>
+      <th scope="col" class="align-center table-col-small">Reported Value</th>
+      <th scope="col" class="align-center table-col-small">Last Reported Time</th>
+      <th scope="col" class="align-center table-col-small">State</th>
+      <th scope="col" class="align-center">Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <ng-container *ngTemplateOutlet="recursiveTableList; context:{ sensorList: sensorList, level: 0 }"></ng-container>
+  </tbody>
+</table>
 
 
-  <app-votm-cloud-confim-dialog (onClose)="deleteSensorById($event)" #confirmBox
+<app-votm-cloud-confim-dialog (onClose)="deleteSensorById($event)" #confirmBox
   message="Do you want to delete the Asset?" headerMessage="Warning"></app-votm-cloud-confim-dialog>

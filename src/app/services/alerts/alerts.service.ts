@@ -21,6 +21,13 @@ export class AlertsService {
       );
   }
 
+  getAlertByAlertId(alertId: string) {
+    return this.http.get(`${AppConstants.GET_ALERT_BYALERTID}/${alertId}`)
+      .pipe(
+        map(response => response)
+      );
+  }
+
   getAllMetricTypes(): Observable<any> {
     return this.http.get(AppConstants.GET_ALERT_METRICS)
       .pipe(

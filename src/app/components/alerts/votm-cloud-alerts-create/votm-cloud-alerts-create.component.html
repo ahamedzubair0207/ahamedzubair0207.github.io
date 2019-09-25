@@ -3,7 +3,10 @@
         <div class="col-md-6">
             <h5>Alert Rule Configuration</h5>
         </div>
-        <a href="" class="col-md-6 text-right"><i class="fa fa-lock"></i></a>
+        <i class="fa fa-lock edit-view-lock" id="view-lock" name="lockTogglebutton"
+        *ngIf="pageType.toLowerCase() === 'view'" (click)="onLockClick()"></i>
+      <i class="fa fa-unlock edit-view-lock" id="edit-lock" name="unlockTogglebutton"
+         (click)="onLockClick()"></i>
     </div>
     <div class="form-group row">
         <div class="col-md-4 row">
@@ -292,11 +295,11 @@
             <fieldset>
                 <legend>Notified Parties</legend>
                 <div class="">
-                    <button class="btn btn-sm btn-secondary mr-2"><i class="fa fa-user mr-2"></i>Notify Me</button>
+                    <button class="btn btn-sm btn-secondary mr-2"><i class="fa fa-star mr-2"></i>Notify Me</button>
                     <button type="button" class="btn btn-sm btn-secondary mr-2" data-toggle="modal" (click)="onAddNotifiedUsersClick()"
                         data-target="#notifiedUserModal"><i class="fa fa-user mr-2"></i>Add Notified User</button>
                     <button type="button" class="btn btn-sm btn-secondary" data-toggle="modal"
-                        data-target="#notifiedUserGroupModal"><i class="fa fa-user mr-2"></i>Add Notified Group</button>
+                        data-target="#notifiedUserGroupModal"><i class="fa fa-users mr-2"></i>Add Notified Group</button>
 
                     <!-- Button trigger modal -->
                     <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
@@ -356,7 +359,12 @@
                 </button>
             </div>
             <div class="modal-body table-responsive">
-                <table class="table table-sm table-bordered">
+                    <form class="form-inline">
+                        <label for="typeahead-config" id="user-filter">Type to filter:</label>
+                        <input class="form-control mr-sm-2 ml-2" type="search" placeholder="Search" aria-label="Search">
+                        <button class="btn btn-outline-info btn-sm my-2 my-sm-0" type="submit">Search</button>
+                    </form>
+                <table class="table table-sm table-bordered mt-2">
                     <thead>
                         <tr>
                             <th scope="col">#</th>
@@ -370,7 +378,7 @@
                             <th scope="row">{{i+1}}</th>
                             <td>{{notifyUser.firstName}}</td>
                             <td>{{notifyUser.lastName}}</td>
-                            <td>@mdo</td>
+                            <td><i class="fa fa-user-plus"></i></td>
                         </tr>
                     </tbody>
                 </table>
@@ -388,7 +396,7 @@
 
 <div id="notifiedUserGroupModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="userGroupModal"
     aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Available Groups</h5>
@@ -396,33 +404,27 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body">
-                <table class="table table-sm table-bordered">
+            <div class="modal-body table-responsive">
+                <form class="form-inline">
+                    <label for="typeahead-config" id="group-filter">Type to filter:</label>
+                    <input class="form-control mr-sm-2 ml-2" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-info btn-sm my-2 my-sm-0" type="submit">Search</button>
+                </form>
+                <table class="table table-sm table-bordered mt-2">
                     <thead>
                         <tr>
                             <th scope="col">#</th>
-                            <th scope="col">First</th>
-                            <th scope="col">Last</th>
-                            <th scope="col">Handle</th>
+                            <th scope="col">Group Name</th>
+                            <th scope="col">Action</th>
+                            
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <th scope="row">1</th>
-                            <td>Mark</td>
-                            <td>Otto</td>
-                            <td>@mdo</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">2</th>
-                            <td>Jacob</td>
-                            <td>Thornton</td>
-                            <td>@fat</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">3</th>
-                            <td colspan="2">Larry the Bird</td>
-                            <td>@twitter</td>
+                        <tr *ngFor="let userGroup of userGroups let i=index;" >
+                            <th scope="row">{{i+1}}</th>
+                            <td>{{userGroup.userGroupName}}</td>
+                            <td><i class="fa fa-user-plus"></i></td>
+                            
                         </tr>
                     </tbody>
                 </table>
@@ -434,27 +436,3 @@
         </div>
     </div>
 </div>
-
-
-
-
-<!-- Modal -->
-<!-- <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
-              ...
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary">Save changes</button>
-            </div>
-          </div>
-        </div>
-      </div> -->

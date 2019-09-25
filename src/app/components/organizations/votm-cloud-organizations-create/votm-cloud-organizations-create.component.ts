@@ -528,11 +528,13 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
     }
     console.log('this.organization ', this.organization)
     if (this.organizationForm && this.organizationForm.invalid) {
+      console.log('Invalid Form');
       this.toaster.onFailure('Please fill the form correctly.', 'Form is invalid!')
       Object.keys(this.organizationForm.form.controls).forEach(element => {
         this.organizationForm.form.controls[element].markAsDirty();
       });
     } else {
+      console.log('Valid Form');
       if (this.orgId) {
         this.organizationService.updateOrganization(this.organization)
           .subscribe(response => {

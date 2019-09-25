@@ -7,9 +7,9 @@ export const MENU_ITEMS: Array<{ id: string, enabled: boolean, url: string, icon
     // {  id: "locations", enabled: true, url: "loc/home/7a59bdd8-6e1d-48f9-a961-aa60b2918dde/VOTM", icon: "menu-icon fa fa-location-arrow", name: 'Locations' },
     {  id: "locations", enabled: true, url: "loc/home/7a59bdd8-6e1d-48f9-a961-aa60b2918dde/VOTM", icon: "menu-icon fa fa-location-arrow", name: 'Locations' },
     {  id: "assets", enabled: true, url: "asset/home/7a59bdd8-6e1d-48f9-a961-aa60b2918dde/VOTM", icon: "menu-icon fa fa-industry", name: 'Assets' },
-    {  id: "sensors", enabled: true, url: "sensor/home", icon: "menu-icon fa fa-thermometer-half", name: 'Sensors' },
+    // {  id: "sensors", enabled: true, url: "sensor/home", icon: "menu-icon fa fa-thermometer-half", name: 'Sensors' },
     // {  id: "gateways", enabled: true, url: "gateway/home", icon: "menu-icon fa fa-signal", name: 'Gateways' },
     // {  id: "alerts", enabled: true, url: "alerts/home", icon: "menu-icon fa fa-exclamation-triangle", name: 'Alerts' },
-    {  id: "admin", enabled: true, url: "admin", icon: "menu-icon fa fa-cogs", name: 'Admin Panel' },
-    {  id: "super", enabled: true, url: "super", icon: "menu-icon fa fa-lock", name: 'Super Admin' }
+    {  id: "admin", enabled: true, url: "admin", icon: "menu-icon fa fa-cogs", name: 'Admin Panel' }
+    // {  id: "super", enabled: true, url: "super", icon: "menu-icon fa fa-lock", name: 'Super Admin' }
 ];

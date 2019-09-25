@@ -43,6 +43,13 @@
               aria-selected="false"><i class="fa fa-podcast"></i> Signal & Gateway Association</a>
           </li>
 
+          <button id="nest-asset-create" type="button" *ngIf="location.locationId"
+            class="btn btn-sm btn-outline-info sub-asset-btn mr-2" (click)="creteAsset($event)"><i
+              class="pr-2 fa fa-industry"></i>Add Asset</button>
+          <button id="nest-loc-create" *ngIf="location.locationId" (click)="createNestedLocation($event)" type="button"
+            class="btn btn-sm btn-outline-info sub-loc-btn"><i class="pr-2 fa fa-location-arrow"></i>Add
+            Sub-Location</button>
+
           <i class="fa fa-lock edit-view-lock" name="loclockbutton" *ngIf="pageType.toLowerCase() === 'view'"
             (click)="onLockClick()"></i>
           <i class="fa fa-unlock edit-view-lock" name="locunlockbutton" *ngIf="pageType.toLowerCase() === 'edit'"
@@ -469,28 +476,15 @@
 
         </div> -->
 
-            <div class="row">
-              <div class="col-12">
-                <button id="nest-asset-create" type="button" *ngIf="location.locationId"
-                  class="btn btn-sm btn-info  create-loc-asset-btn" (click)="creteAsset($event)"><i
-                    class="pr-2 fa fa-industry"></i>Add Asset</button>
-                <button id="nest-loc-create" *ngIf="location.locationId" (click)="createNestedLocation($event)"
-                  type="button" class="btn btn-sm btn-info  create-loc-asset-btn"><i
-                    class="pr-2 fa fa-location-arrow"></i>Add
-                  Sub-Location</button>
-                <button id="loc-cancel" for="form-cancel" type="button" (click)="onCancelClick($event)"
-                  class="btn btn-secondary btn-sm button-mod"><i class="pr-2 fa fa-window-close-o"></i>Cancel</button>
-                <button id="loc-delete" type="button" *ngIf="location.locationId && pageType !=='View'"
-                  (click)="openConfirmDialog()" class="btn btn-secondary btn-sm button-mod"><i
-                    class="pr-2 fa fa-trash"></i>Delete</button>
-                <button id="loc-save" type="submit" *ngIf="pageType !=='View'" class="btn btn-sm btn-info button-mod"><i
-                    class="pr-2 fa fa-location-arrow"></i>Save
-                  Location</button>
-              </div>
-            </div>
-
           </form>
-
+          <button id="loc-cancel" for="form-cancel" type="button" (click)="onCancelClick($event)"
+            class="btn btn-secondary btn-sm button-mod"><i class="pr-2 fa fa-window-close-o"></i>Cancel</button>
+          <button id="loc-delete" type="button" *ngIf="location.locationId && pageType !=='View'"
+            (click)="openConfirmDialog()" class="btn btn-secondary btn-sm button-mod"><i
+              class="pr-2 fa fa-trash"></i>Delete</button>
+          <button id="loc-save" type="submit" *ngIf="pageType !=='View'" class="btn btn-sm btn-info button-mod"><i
+              class="pr-2 fa fa-location-arrow"></i>Save
+            Location</button>
         </div>
 
         <div class="create-loc-container tab-pane fade" id="loc-signal" role="tabpanle"
