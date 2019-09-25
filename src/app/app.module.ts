@@ -71,6 +71,8 @@ import { VotmLiveDataComponent } from './components/shared/charts/votm-live-data
 import { VotmCloudLocationsDashboardComponent } from './components/locations/votm-cloud-locations-dashboard/votm-cloud-locations-dashboard.component';
 import { VotmCloudAssetDashboardComponent } from './components/assets/votm-cloud-asset-dashboard/votm-cloud-asset-dashboard.component';
 import { VotmCloudLocationsGatewayComponent } from './components/locations/votm-cloud-locations-gateway/votm-cloud-locations-gateway.component';
+import { VotmCloudEventsLocComponent } from './components/events/votm-cloud-events-loc/votm-cloud-events-loc.component';
+import { VotmCloudEventsAssetComponent } from './components/events/votm-cloud-events-asset/votm-cloud-events-asset.component';
 
 
 
@@ -121,7 +123,9 @@ import { VotmCloudLocationsGatewayComponent } from './components/locations/votm-
     VotmLiveDataComponent,
     VotmCloudLocationsDashboardComponent,
     VotmCloudAssetDashboardComponent,
-    VotmCloudLocationsGatewayComponent
+    VotmCloudLocationsGatewayComponent,
+    VotmCloudEventsLocComponent,
+    VotmCloudEventsAssetComponent
   ],
 
  

@@ -1,11 +1,14 @@
 <!-- <h3 class="flt-left mt-3 mb-3 ml-2 asset-table-header" id="templateList">List</h3> -->
 <form class="form-inline">
   <label for="typeahead-config">Type to filter events:</label>
-  <input class="form-control form-control-sm ml-2 mb-3 mt-3" id="searchBox" type="search" placeholder="Search" aria-label="Search">
+  <input class="form-control form-control-sm ml-2 mb-3 mt-3" id="searchBox" type="search" placeholder="Search"
+    aria-label="Search">
   <button class="btn btn-sm btn-outline-info mr-2 ml-2" id="searchButton" type="submit">Search</button>
-
+  <div class="btn-group-right">
+    <button [routerLink]="['/sensor/detail']" type="button" class="btn btn-info btn-sm">Create Template</button>
+  </div>
 </form>
-<table class="table table-sm table-bordered asset-table-fonts">
+<table class="table table-sm table-bordered">
   <thead class="thead-dark">
     <tr>
       <th scope="col" class="align-center table-col-name">Template Name</th>
