@@ -46,6 +46,13 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
       this.curOrgName = params.get("curOrgName");
       this.orgId = params.get('orgId');
       this.alertId = params.get('alertId');
+      if (this.alertId) {
+        this.alertsService.getAlertByAlertId(this.alertId)
+          .subscribe(response => {
+            console.log('Alert Record', response);
+            this.alert = response;
+          });
+      }
       this.getAbsoluteThreshold();
       this.getAlertRuleSignalAssociatedAssetByOrgId();
       this.getAccessScopeByOrgId();

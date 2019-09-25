@@ -159,7 +159,7 @@
                     <label class="col-sm-6 col-form-label" votmrequired id="nameShortLbl"><b>Short Name:</b></label>
                     <div class="col-sm-6">
                       <input type="text" class="form-control form-control-sm" id="nameShort" placeholder="Short Name"
-                        maxlength="500" [disabled]="pageType==='View'" name="shortName" required>
+                        maxlength="500" [disabled]="pageType==='View'" [(ngModel)]="organization.shortName" name="shortName" required>
                     </div>
                   </div>
                 </div>
@@ -233,7 +233,7 @@
                         Phone:</b></label>
                     <div class="col-sm-7">
                       <input type="text" id="primarycontactnumber" [disabled]="pageType==='View'"
-                        class="form-control form-control-sm" number maxlength="100" placeholder="Phone Number"
+                        class="form-control form-control-sm" [(ngModel)]="organization.contactPhone" number maxlength="100" placeholder="Phone Number"
                         name="contact" required>
 
 
@@ -352,7 +352,7 @@
 
                   <div class="col-sm-2">
                     <label id="serviceLbl"><b>{{pageLabels.SVCLevel.labelName}}: </b></label>
-                    <select [disabled]="pageType==='View'" id="service" [(ngModel)]="organization.svclevel"
+                    <select [disabled]="pageType==='View'" id="service" [(ngModel)]="organization.svclevels"
                       name="svcLevels" class="drop-down form-control form-control-sm" required>
                       <option *ngFor="let svcLevel of svcLevels" [value]="svcLevel.optionId">
                         {{svcLevel.optionValue}}
@@ -367,7 +367,7 @@
 
                   <div class="col-sm-3">
                     <label id="sensorBlockLbl"><b>Sensor Blocks: </b></label>
-                    <select [disabled]="pageType==='View'" id="sensorBlock" [(ngModel)]="organization.sensorBlock"
+                    <select [disabled]="pageType==='View'" id="sensorBlock" [(ngModel)]="organization.sensorBlocks"
                       name="sensorBlock" class="drop-down form-control form-control-sm">
                       <option *ngFor="let sensorBlock of sensorBlocks" [value]="sensorBlock.optionId">
                         {{sensorBlock.optionValue}}
@@ -379,7 +379,7 @@
 
                   <div class="col-sm-3">
                     <label id="cellularBlockLbl"><b>Cellular Blocks: </b></label>
-                    <select [disabled]="pageType==='View'" id="cellularBlock" [(ngModel)]="organization.cellularBlocK"
+                    <select [disabled]="pageType==='View'" id="cellularBlock" [(ngModel)]="organization.cellularBlocks"
                       name="cellularBlock" class="drop-down form-control form-control-sm">
                       <option *ngFor="let cellularBlock of cellularBlocks" [value]="cellularBlock.optionId">
                         {{cellularBlock.optionValue}}
@@ -617,6 +617,13 @@
                     class="pr-2 fa fa-building"></i> Save Organization</button> -->
               <!-- </div> -->
 
+              <button id="org-cancel" type="button" (click)="onCancelClick($event)"
+              class="btn btn-secondary btn-sm button-mod"><i class="pr-2 fa fa-window-close-o"></i> Cancel</button>
+            <button id="org-delete" *ngIf="organization.organizationId && pageType !=='View'" type="button"
+              class="btn btn-secondary btn-sm button-mod" (click)="openConfirmDialog()"><i class="pr-2 fa fa-trash"></i>
+              Delete</button>
+            <button id="org-save" type="submit" *ngIf="pageType !=='View'" class="btn btn-sm btn-info button-mod"><i
+                class="pr-2 fa fa-building"></i> Save Organization</button>
             </form>
 
           </div>
@@ -643,13 +650,6 @@
 
         </div>
 
-        <button id="org-cancel" type="button" (click)="onCancelClick($event)"
-          class="btn btn-secondary btn-sm button-mod"><i class="pr-2 fa fa-window-close-o"></i> Cancel</button>
-        <button id="org-delete" *ngIf="organization.organizationId && pageType !=='View'" type="button"
-          class="btn btn-secondary btn-sm button-mod" (click)="openConfirmDialog()"><i class="pr-2 fa fa-trash"></i>
-          Delete</button>
-        <button id="org-save" type="submit" *ngIf="pageType !=='View'" class="btn btn-sm btn-info button-mod"><i
-            class="pr-2 fa fa-building"></i> Save Organization</button>
       </div>
 
       <!-- Event Details Tab  -->
