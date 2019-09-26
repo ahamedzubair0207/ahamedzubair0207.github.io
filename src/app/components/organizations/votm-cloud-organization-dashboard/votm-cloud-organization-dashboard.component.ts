@@ -95,7 +95,7 @@ export class VotmCloudOrganizationDashboardComponent implements OnInit {
     //   });
     // console.log('response====', this.dashboardResponseHTML);
     // return this.dashboardResponseHTML;
-    this.organizationService.getDashboardHTML(formName);
+    //this.organizationService.getDashboardHTML(formName);
   }
 
   openAddDashboardModal(dashboardAct: string, dashboardId: any, dashboardNames: string) {
