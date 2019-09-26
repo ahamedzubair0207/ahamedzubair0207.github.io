@@ -18,6 +18,8 @@ export class BreadcrumbsComponent {
   locId: string;
   orgName: string;
   parentOrgId: string;
+  mainOrganizationId: string;
+  mainOrganizationName: string;
   constructor(private router: Router, private activeroute: ActivatedRoute, private navigationService: NavigationService) {
     router.events.pipe(
       filter(e => e instanceof RouterEvent)
@@ -30,15 +32,18 @@ export class BreadcrumbsComponent {
   }
 
   getData() {
-    if (this.currentUrl.startsWith(`/org/home`)) {
-      let parts = this.currentUrl.split('/');
-      //console.log('parts ', parts)
-      this.orgId = parts[3];
-      this.pageType = 'Organization';
-      this.breadcrumbs = [];
-      this.breadcrumbs.push({ name: parts[4], nodes: [] });
-      // this.loadOrganizations(this.orgId);
-    } else if (this.currentUrl.startsWith(`/org/edit`) || this.currentUrl.startsWith(`/org/view`)) {
+    this.mainOrganizationId = '7a59bdd8-6e1d-48f9-a961-aa60b2918dde';
+    this.mainOrganizationName = 'VOTM';
+    // if (this.currentUrl.startsWith(`/org/home`)) {
+    //   let parts = this.currentUrl.split('/');
+    //   //console.log('parts ', parts)
+    //   this.orgId = parts[3];
+    //   this.pageType = 'Organization';
+    //   this.breadcrumbs = [];
+    //   this.breadcrumbs.push({ name: parts[4], nodes: [] });
+    //   // this.loadOrganizations(this.orgId);
+    // } else 
+    if (this.currentUrl.startsWith(`/org/edit`) || this.currentUrl.startsWith(`/org/view`)) {
       let parts = this.currentUrl.split('/');
       //console.log('parts ', parts)
       this.orgId = parts[5];
@@ -47,11 +52,11 @@ export class BreadcrumbsComponent {
       this.pageType = 'Organization';
       this.parentOrgId = parts[3];
       this.breadcrumbs = [];
-      if (this.orgId.toLowerCase() === this.parentOrgId.toLowerCase()) {
-        this.breadcrumbs.push({ name: parts[4], nodes: [] });
-      } else {
+      // if (this.orgId.toLowerCase() === this.parentOrgId.toLowerCase()) {
+      //   this.breadcrumbs.push({ name: parts[4], nodes: [] });
+      // } else {
         this.loadOrganizations(this.orgId);
-      }
+      // }
     } else if (this.currentUrl.startsWith(`/loc/home`)) {
       let parts = this.currentUrl.split('/');
       this.orgId = parts[3];
@@ -59,6 +64,11 @@ export class BreadcrumbsComponent {
       this.pageType = 'Location';
       this.breadcrumbs = [];
       // this.loadOrganizations(this.orgId);
+    } else{
+      this.pageType = '';
+      this.breadcrumbs = [];
+      this.loadOrganizations(this.mainOrganizationId);
+      // this.breadcrumbs.push({ name: this.mainOrganizationName, nodes: [] });
     }
   }
 
@@ -71,7 +81,7 @@ export class BreadcrumbsComponent {
   }
 
   loadOrganizations(orgId: string) {
-    //console.log('orgid ', orgId)
+    console.log('orgid ', orgId)
     this.navigationService.getAllSibling('Organization', orgId)
       .subscribe(response => {
         if (response && response.length > 0) {
@@ -80,35 +90,22 @@ export class BreadcrumbsComponent {
           for (let i = 0; i < response.length; i++) {
 
             if (response[i].id.toLowerCase() === orgId.toLowerCase()) {
-              // childFound = true;
+              console.log('AHAMED ', response[i].name)
               this.breadcrumbs.push({ name: response[i].name, nodes: response });
-              if (response[i].parentId && response[i].parentId.toLowerCase() === this.parentOrgId.toLowerCase()) {
-                this.breadcrumbs.push({ name: this.orgName, nodes: [] });
-                this.breadcrumbs.reverse();
-                break;
-              } else {
+              if (response[i].parentId) {
+                console.log('Came to check Parent Id', orgId, (response[i].parentId))
                 this.loadOrganizations(response[i].parentId);
+              } else {
+                // this.breadcrumbs.push({ name: this.orgName, nodes: response });
+                this.breadcrumbs.reverse();
+                if (this.pageType === 'Location') {
+                  this.locBreadcrumbs = [];
+                  if (this.locId) {
+                    this.loadLocations(this.locId);
+                  }
+                }
               }
             }
-
-
-
-            // if (response[i].id.toLowerCase() === orgId.toLowerCase()) {
-            //   this.breadcrumbs.push({ name: response[i].name, nodes: response });
-            //   if (response[i].parentId) {
-            //     //console.log('Came to check Parent Id', orgId, (response[i].parentId))
-            //     this.loadOrganizations(response[i].parentId);
-            //   } else {
-            //     this.breadcrumbs.push({ name: this.orgName, nodes: [] });
-            //     this.breadcrumbs.reverse();
-            //     if (this.pageType === 'Location') {
-            //       this.locBreadcrumbs = [];
-            //       if (this.locId) {
-            //         this.loadLocations(this.locId);
-            //       }
-            //     }
-            //   }
-            // }
           }
         }
 
@@ -149,6 +146,8 @@ export class BreadcrumbsComponent {
         this.router.navigate(['loc/home', item.parentOrgId, item.parentOrgName, item.id, item.name]);
       }
       //console.log('item selected ', item)
+    } else{
+      this.router.navigate(['org/view',this.mainOrganizationId, this.mainOrganizationName, this.mainOrganizationId]);
     }
   }
 }
