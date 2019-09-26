@@ -4,7 +4,8 @@
       aria-selected="true">
       Organization Dashboard
       <!-- <i class="fa fa-pencil ml-2"></i>&nbsp; -->
-      <i class="fa fa-gear ml-2" (click)="openAddDashboardModal('editDashboard')" title="Configure Dashboard"></i>&nbsp;
+      <i class="fa fa-pencil ml-2" (click)="openAddDashboardModal('editDashboard')"
+        title="Configure Dashboard"></i>&nbsp;
       <i class="fa fa-trash" (click)="openConfirmDialog(dashboardData.id, dashboardData.name)"
         title="Delete Dashboard"></i>
     </a>
@@ -13,14 +14,20 @@
     <a class="nav-link" id="dashboard2-tab" data-toggle="tab" href="#locDashboard" role="tab" aria-controls="loc"
       aria-selected="false">
       Asset Dashboard
-      <i class="fa fa-gear ml-2" (click)="openAddDashboardModal('editDashboard')" title="Configure Dashboard"></i>&nbsp;
+      <i class="fa fa-pencil ml-2" (click)="openAddDashboardModal('editDashboard')"
+        title="Configure Dashboard"></i>&nbsp;
       <i class="fa fa-trash" (click)="openConfirmDialog(dashboardData.id, dashboardData.name)"
-        title="Delete Dashboard"></i>    
+        title="Delete Dashboard"></i>
     </a>
   </li>
   <li class="nav-item">
     <a class="nav-link" id="dashboard3-tab" data-toggle="tab" href="#assetDashboard" role="tab" aria-controls="asset"
-      aria-selected="false">Location Dashboard</a>
+      aria-selected="false">Location Dashboard
+      <i class="fa fa-pencil ml-2" (click)="openAddDashboardModal('editDashboard')"
+        title="Configure Dashboard"></i>&nbsp;
+      <i class="fa fa-trash" (click)="openConfirmDialog(dashboardData.id, dashboardData.name)"
+        title="Delete Dashboard"></i>
+    </a>
   </li>
   <li class="nav-item">
     <div class="add-dashboard-btn-wrapper ml-2">
@@ -33,34 +40,38 @@
 <div class="tab-content" id="myTabContent">
   <div class="tab-pane fade show active" id="orgDashboard" role="tabpanel" aria-labelledby="org-tab">
     <div class="row">
-      <div class="col-6">
+      <div class="col-6 dashboard-gear-icon-wrapper">
+        <div class="dashboard-gear-icon"><i class="fa fa-gear" (click)="op3.toggle($event)"></i></div>
         <app-votm-animated-gauge></app-votm-animated-gauge>
       </div>
-      <div class="col-6">
+      <div class="col-6 dashboard-gear-icon-wrapper">
+        <div class="dashboard-gear-icon"><i class="fa fa-gear" (click)="op3.toggle($event)"></i></div>
         <app-votm-simple-gauge></app-votm-simple-gauge>
       </div>
     </div>
 
     <div class="row">
-      <div class="col-12">
+      <div class="col-12 dashboard-gear-icon-wrapper">
+        <div class="dashboard-gear-icon"><i class="fa fa-gear" (click)="op3.toggle($event)"></i></div>
         <app-votm-line-graph></app-votm-line-graph>
       </div>
     </div>
-
-
   </div>
 
   <div class="tab-pane fade" id="locDashboard" role="tabpanel" aria-labelledby="loc-tab">
     <div class="row">
-      <div class="col-6">
+      <div class="col-6 dashboard-gear-icon-wrapper">
+        <div class="dashboard-gear-icon"><i class="fa fa-gear" (click)="op3.toggle($event)"></i></div>
         <app-votm-pie-slice-chart></app-votm-pie-slice-chart>
       </div>
-      <div class="col-6">
+      <div class="col-6 dashboard-gear-icon-wrapper">
+        <div class="dashboard-gear-icon"><i class="fa fa-gear" (click)="op3.toggle($event)"></i></div>
         <app-votm-cylinder-gauge></app-votm-cylinder-gauge>
       </div>
     </div>
     <div class="row">
-      <div class="col-12">
+      <div class="col-12 dashboard-gear-icon-wrapper">
+        <div class="dashboard-gear-icon"><i class="fa fa-gear" (click)="op3.toggle($event)"></i></div>
         <app-votm-live-order-book-depth-chart></app-votm-live-order-book-depth-chart>
       </div>
     </div>
@@ -68,13 +79,15 @@
 
   <div class="tab-pane fade" id="assetDashboard" role="tabpanel" aria-labelledby="asset-tab">
     <div class="row">
-      <div class="col-12">
+      <div class="col-12 dashboard-gear-icon-wrapper">
+        <div class="dashboard-gear-icon"><i class="fa fa-gear" (click)="op3.toggle($event)"></i></div>
         <app-votm-live-data></app-votm-live-data>
       </div>
     </div>
 
     <div class="row">
-      <div class="col-12">
+      <div class="col-12 dashboard-gear-icon-wrapper">
+        <div class="dashboard-gear-icon"><i class="fa fa-gear" (click)="op3.toggle($event)"></i></div>
         <app-votm-live-order-book-depth-chart></app-votm-live-order-book-depth-chart>
       </div>
     </div>
@@ -82,6 +95,26 @@
 </div>
 
 
+<p-overlayPanel #op3 [appendTo]="'body'" [dismissable]="true" [showCloseIcon]="false">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header overlay-title">Type of Data</div>
+        <div class="card-body">
+            <select class="form-control" id="dashboard-data-type">
+              <option>Pressure</option>
+              <option>Temprature</option>
+              <option>Humidity</option>
+              <option>Battery</option>
+            </select>
+        </div>
+        <div class="card-footer">
+          <button class="btn btn-primary pull-right">Save</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</p-overlayPanel>
 
 <!-- Add/Edit Dashboard Model Start-->
 <div id="addDashboardModalWrapper" class="modal">
@@ -110,17 +143,6 @@
             <div class="col-md-7">
               <input type="text" class="form-control" id="dashboard-name" placeholder="" name="dashboardName"
                 [(ngModel)]="dashboardData.dashboardName">
-            </div>
-          </div>
-          <div class="form-group row">
-            <label for="" class="col-md-3 col-form-label">Type of Data</label>
-            <div class="col-sm-7">
-              <select class="form-control" id="dashboard-data-type">
-                <option>Pressure</option>
-                <option>Temprature</option>
-                <option>Humidity</option>
-                <option>Battery</option>
-              </select>
             </div>
           </div>
           <div class="form-group row">

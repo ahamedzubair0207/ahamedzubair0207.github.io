@@ -1,3 +1,4 @@
+import { OverlayPanel } from 'primeng/overlaypanel';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { VotmCloudConfimDialogComponent } from '../../shared/votm-cloud-confim-dialog/votm-cloud-confim-dialog.component';
@@ -16,6 +17,7 @@ export class VotmCloudOrganizationDashboardComponent implements OnInit {
 
   message: string;
   @ViewChild('confirmBox', null) confirmBox: VotmCloudConfimDialogComponent;
+  @ViewChild('op', null) panel: OverlayPanel;
   userdashboardData: { id: string; templateName: string; dashboardName: string; }[];
 
   constructor(
@@ -76,7 +78,7 @@ export class VotmCloudOrganizationDashboardComponent implements OnInit {
     if (dashboardAct === 'editDashboard') {
       this.dashboardData = {
         act: 'edit',
-        title : 'Configure Dashboard',
+        title : 'Edit Dashboard',
         dashboardName: 'Organization Dashboard'
 
       };

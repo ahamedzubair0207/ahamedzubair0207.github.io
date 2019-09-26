@@ -9,10 +9,11 @@ legend{
     margin:0;
 }
 .create-org-container {
-    padding: 15px;
-    border-left: 1px solid rgba(0,0,0,.125);
-    border-right: 1px solid rgba(0,0,0,.125);
-    border-bottom: 1px solid rgba(0,0,0,.125);
+    // padding: 15px;
+    // border-left: 1px solid rgba(0,0,0,.125);
+    // border-right: 1px solid rgba(0,0,0,.125);
+    // border-bottom: 1px solid rgba(0,0,0,.125);
+    margin-top: 5px;
    
   }
 
@@ -71,6 +72,10 @@ legend{
     
 }
 
+  .side-tab-border{
+    border: solid 1px #00b9c3;
+  }
+
 .tab-icon{
   color: #00b9c3;
 }
@@ -117,4 +122,16 @@ legend{
   }
 .modal-label{
   font-size: 14px;
+}
+.bottom-fixed{
+  background: -moz-linear-gradient(left,  rgba(255,255,255,0) 0%, rgba(255,255,255,1) 100%); /* FF3.6-15 */
+  background: -webkit-linear-gradient(left,  rgba(255,255,255,0) 0%,rgba(255,255,255,1) 100%); /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(to right,  rgba(255,255,255,0) 0%,rgba(255,255,255,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', endColorstr='#ffffff',GradientType=1 ); /* IE6-9 */
+  padding: 0.875rem;
+  box-shadow: 0px 0px 10px #ccc;
+  z-index: 0;
+  position: fixed;
+  right: 15px;
+  bottom: 0;
 }
