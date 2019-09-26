@@ -93,4 +93,25 @@ export class OrganizationService {
     return this.httpClient.get("../../../assets/countryList/countryWithStates.json").pipe(
                     map((res:any) => res));
   }
+
+  getDashboardHTML(formName) {
+    
+
+    //.toPromise().then(res => res.json())
+
+    let promise = new Promise((resolve, reject) => {
+      this.httpClient.get(`../../../assets/dashboards/${formName}.html`, {responseType: 'text'})
+        .toPromise()
+        .then(
+          res => {
+            resolve();
+          },
+          msg => { // Error
+            reject(msg);
+          }
+        );
+    });
+    return promise;
+  }
+
 }

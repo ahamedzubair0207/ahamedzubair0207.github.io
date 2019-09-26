@@ -1,9 +1,8 @@
 <ul class="nav nav-tabs" id="dashboardTab" role="tablist">
-  <li class="nav-item">
+  <!-- <li class="nav-item">
     <a class="nav-link active" id="dashboard1-tab" data-toggle="tab" href="#orgDashboard" role="tab" aria-controls="org"
       aria-selected="true">
-      Organization Dashboard
-      <!-- <i class="fa fa-pencil ml-2"></i>&nbsp; -->
+      Organization Dashboard      
       <i class="fa fa-pencil ml-2" (click)="openAddDashboardModal('editDashboard')"
         title="Configure Dashboard"></i>&nbsp;
       <i class="fa fa-trash" (click)="openConfirmDialog(dashboardData.id, dashboardData.name)"
@@ -28,7 +27,18 @@
       <i class="fa fa-trash" (click)="openConfirmDialog(dashboardData.id, dashboardData.name)"
         title="Delete Dashboard"></i>
     </a>
+  </li> -->
+  <!-- dynamic dashboard -->
+  <li *ngFor="let dashboardDataUser of dashboardData; let i = index">
+    <a class="nav-link"  [ngClass]="(i==0)?'active':''" id="dashboard{{dashboardDataUser.id}}-tab" data-toggle="tab" href="#Dashboard_{{i}}" role="tab" aria-controls="loc"
+      aria-selected="false">{{dashboardDataUser.dashboardName}}
+      <i class="fa fa-pencil ml-2" (click)="openAddDashboardModal('editDashboard', dashboardDataUser.id, dashboardDataUser.dashboardName)"
+        title="Configure Dashboard"></i>&nbsp;
+      <i class="fa fa-trash" (click)="openConfirmDialog(dashboardDataUser.id, dashboardDataUser.dashboardName)"
+        title="Delete Dashboard"></i>
+    </a>
   </li>
+
   <li class="nav-item">
     <div class="add-dashboard-btn-wrapper ml-2">
       <button class="btn btn-info btn-group-right create-event-btn" (click)="openAddDashboardModal('addDashboard')"
@@ -38,7 +48,7 @@
 </ul>
 
 <div class="tab-content" id="myTabContent">
-  <div class="tab-pane fade show active" id="orgDashboard" role="tabpanel" aria-labelledby="org-tab">
+  <!-- <div class="tab-pane fade show active" id="Dashboard_1" role="tabpanel" aria-labelledby="org-tab">
     <div class="row">
       <div class="col-6 dashboard-gear-icon-wrapper">
         <div class="dashboard-gear-icon"><i class="fa fa-gear" (click)="op3.toggle($event)"></i></div>
@@ -58,7 +68,7 @@
     </div>
   </div>
 
-  <div class="tab-pane fade" id="locDashboard" role="tabpanel" aria-labelledby="loc-tab">
+  <div class="tab-pane fade" id="Dashboard_2" role="tabpanel" aria-labelledby="loc-tab">
     <div class="row">
       <div class="col-6 dashboard-gear-icon-wrapper">
         <div class="dashboard-gear-icon"><i class="fa fa-gear" (click)="op3.toggle($event)"></i></div>
@@ -77,7 +87,7 @@
     </div>
   </div>
 
-  <div class="tab-pane fade" id="assetDashboard" role="tabpanel" aria-labelledby="asset-tab">
+  <div class="tab-pane fade" id="Dashboard_3" role="tabpanel" aria-labelledby="asset-tab">
     <div class="row">
       <div class="col-12 dashboard-gear-icon-wrapper">
         <div class="dashboard-gear-icon"><i class="fa fa-gear" (click)="op3.toggle($event)"></i></div>
@@ -91,7 +101,49 @@
         <app-votm-live-order-book-depth-chart></app-votm-live-order-book-depth-chart>
       </div>
     </div>
+  </div> -->
+
+  <!-- Dynamic dashboard container start-->
+  <div class="tab-pane fade" *ngFor="let dashboardDataUser of dashboardData; let ij = index" id="Dashboard_{{ij}}"  [ngClass]="(ij==0)?'show active':''" role="tabpanel">
+    <div class="row">{{dashboardDataUser.dashboardHTML}}</div>
+    <div class="row" *ngIf="ij==0 || ij==3 || ij==6">
+      <div class="col-6 dashboard-gear-icon-wrapper">
+        <div class="dashboard-gear-icon"><i class="fa fa-gear" (click)="op3.toggle($event)"></i></div>
+        <app-votm-animated-gauge></app-votm-animated-gauge>
+      </div>
+      <div class="col-6 dashboard-gear-icon-wrapper">
+        <div class="dashboard-gear-icon"><i class="fa fa-gear" (click)="op3.toggle($event)"></i></div>
+        <app-votm-simple-gauge></app-votm-simple-gauge>
+      </div>
+    </div>
+
+    <div class="row" *ngIf="ij==0 || ij==3 || ij==6">
+      <div class="col-12 dashboard-gear-icon-wrapper">
+        <div class="dashboard-gear-icon"><i class="fa fa-gear" (click)="op3.toggle($event)"></i></div>
+        <app-votm-live-order-book-depth-chart></app-votm-live-order-book-depth-chart>
+      </div>
+    </div>
+
+    <div class="row" *ngIf="ij==1 || ij==4 || ij==7">
+      <div class="col-6 dashboard-gear-icon-wrapper">
+        <div class="dashboard-gear-icon"><i class="fa fa-gear" (click)="op3.toggle($event)"></i></div>
+        <app-votm-pie-slice-chart></app-votm-pie-slice-chart>
+      </div>
+      <div class="col-6 dashboard-gear-icon-wrapper">
+        <div class="dashboard-gear-icon"><i class="fa fa-gear" (click)="op3.toggle($event)"></i></div>
+        <app-votm-cylinder-gauge></app-votm-cylinder-gauge>
+      </div>
+    </div>
+
+    <div class="row" *ngIf="ij==2 || ij==5 || ij==7">
+      <div class="col-12 dashboard-gear-icon-wrapper">
+        <div class="dashboard-gear-icon"><i class="fa fa-gear" (click)="op3.toggle($event)"></i></div>
+        <app-votm-line-graph></app-votm-line-graph>
+      </div>
+    </div>
   </div>
+  <!-- Dynamic dashboard container end-->
+
 </div>
 
 
@@ -118,21 +170,22 @@
 
 <!-- Add/Edit Dashboard Model Start-->
 <div id="addDashboardModalWrapper" class="modal">
-  <div class="modal-dialog modal-lg modal-dialog-scrollable dashboard-create-font" *ngIf="dashboardData">
+  <div class="modal-dialog modal-lg modal-dialog-scrollable dashboard-create-font" *ngIf="dashboardDataById">
     <!-- Modal content -->
+    <form #dashBoardForm="ngForm" (ngSubmit)="onDashboardFormSubmit()" class="form needs-validation" novalidate>
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">{{dashboardData.title}}</h5>
+        <h5 class="modal-title">{{dashboardDataById.title}}</h5>
         <button type="button" class="close" aria-label="Close" (click)="closeAddDashboardModal()">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body event-create-font">
-        <form #organizationForm="ngForm" class="form needs-validation" novalidate>
+        
           <div class="form-group row">
             <label for="" class="col-md-3 col-form-label">Template Name</label>
             <div class="col-sm-7">
-              <select class="form-control" id="dashboard-template-name">
+              <select class="form-control" id="dashboard-template-name" name="dashboardTemplate" [(ngModel)]="dashboardDataById.dashboardTemplate" >
                 <option *ngFor="let dashboardTemplate of dashboardTemplates" [value]="dashboardTemplate.id">
                   {{dashboardTemplate.templateName}}</option>
               </select>
@@ -142,7 +195,7 @@
             <label for="" class="col-md-3 col-form-label">Dashboard Name</label>
             <div class="col-md-7">
               <input type="text" class="form-control" id="dashboard-name" placeholder="" name="dashboardName"
-                [(ngModel)]="dashboardData.dashboardName">
+                [(ngModel)]="dashboardDataById.dashboardName">
             </div>
           </div>
           <div class="form-group row">
@@ -153,25 +206,25 @@
             <label for="" class="col-sm-1 col-form-label">On</label>
             <div class="col-md-3">
               <div class="input-group">
-                <input type="text" class="form-control" id="dashboard-created-On" placeholder="dd/mm/yyy mm:hh">
-                <div class="input-group-append">
+                <input type="text" class="form-control" id="dashboard-created-On" readonly placeholder="25/09/2019 03:19">
+                <!-- <div class="input-group-append">
                   <span class="input-group-text"><i class="fa fa-calendar"></i></span>
-                </div>
+                </div> -->
               </div>
             </div>
           </div>
-        </form>
+        
       </div>
       <div class="modal-footer">
         <button id="add-dashboard-cancle" type="button" class="btn button-mod btn-secondary btn-sm"
           (click)="closeAddDashboardModal('cancel')" id="addDashboardCancle">Cancel
         </button>
-        <button id="add-dashboard-save" type="button" class="btn btn-info btn-color btn-sm"
-          (click)="closeAddDashboardModal(dashboardData.act)" id="addDashboardAdd">Save</button>
+        <button id="add-dashboard-save" type="submit" class="btn btn-info btn-color btn-sm" id="addDashboardAdd">Save</button>
+        <!-- <button id="add-dashboard-save" type="submit" class="btn btn-info btn-color btn-sm"
+          (click)="closeAddDashboardModal(dashboardDataById.act)" id="addDashboardAdd">Save</button> -->
       </div>
-
     </div>
-
+  </form>
   </div>
 </div>
 <!-- Add/Edit Dashboard Model End-->
