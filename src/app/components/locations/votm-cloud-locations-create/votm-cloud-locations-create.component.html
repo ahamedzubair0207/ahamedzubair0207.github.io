@@ -422,10 +422,10 @@
 
               <!-- UOM  -->
               <div class="col-md-6 col-3">
-                <label class="col-8 col-form-label" for="unitsOfMeasure"><b>*
+                <label class="col-8 col-form-label" id="unitsOfMeasure"><b>*
                     Default UOM:</b></label>
                 <div class="col-4">
-                  <label for="unitsOfMeasure"><b>{{UOM}}</b></label>
+                  <label id="unitsOfMeasureSelected"><b>{{UOM}}</b></label>
                   <button id="loc-uom-change" class="btn btn-sm btn-secondary ml-3" type="button"
                     *ngIf="pageType !=='View'" (click)="openmodal()">Change</button>
                 </div>
@@ -434,7 +434,7 @@
               <div class="col-md-6 col-2">
                 <!-- Claimed Gateway -->
                 <div class="row form-group">
-                  <label class="col-5 col-form-label" for="gateway"><b>Claimed Gateway: </b></label>
+                  <label class="col-5 col-form-label" id="gateway"><b>Claimed Gateway: </b></label>
                   <div class="col-6">
                     <!-- <ng-multiselect-dropdown [disabled]="pageType==='View'" class="gateway-dropdown" [placeholder]="'Gateway List'"
                                                           [data]="gatewayList" name="claimedGateway" [(ngModel)]="selectedItems" [settings]="dropdownSettings"
@@ -455,7 +455,7 @@
 
               <div class="col">
                 <div class="row form-group">
-                  <label class="col-md-2 col-1 col-form-label" for="f-description"><b>Description:</b></label>
+                  <label class="col-md-2 col-1 col-form-label" id="f-description"><b>Description:</b></label>
                   <div class="col-md-12 col-11">
                     <textarea class="form-control form-control-sm" [disabled]="pageType==='View'"
                       [(ngModel)]="location.description" name="locDescription" rows="3" id="f-description"></textarea>
