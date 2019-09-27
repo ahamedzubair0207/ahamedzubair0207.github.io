@@ -11,6 +11,7 @@ export class AppConstants {
     public static EDIT_LOC = '/Location';
     public static CREATE_LOC = '/Location';
     public static DEL_LOC = '/Location';
+    public static GATEWAYS_LOC = 'Location/Gateways';
 
     public static GET_USER_GROUPS = '/UserManagement/UserGroups';
     public static GET_USER_ROLES = '/UserManagement/Roles';
@@ -31,9 +32,9 @@ export class AppConstants {
     public static DEL_ASSET = '/Asset';
 
     public static GET_AVAILABLE_SIGNALS = 'Signals/SignalsTree';
-    public static GET_ASSET_SIGNAL_ASSOCIATION = 'SignalsTree';
-    public static GET_LOCATION_SIGNAL_ASSOCIATION = 'SignalsTree/{0}/Association';
+    public static GET_SIGNAL_ASSOCIATION = 'Signals';
     public static CREATE_SIGNAL_ASSOCIATION = 'Signals/Association';
+    public static DETACH_SIGNAL_ASSOCIATION = 'Signals';
 
     public static GET_ALERT = '/Alert';
     public static GET_ALERT_BYALERTID = '/AlertRule';

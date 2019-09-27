@@ -24,10 +24,7 @@ export class AssetSignalService {
       );
   }
 
-  getAssetSignalAssociation(assetId: string): Observable<any> {
-    return this.http.get(AppConstants.GET_ASSET_SIGNAL_ASSOCIATION + '/' + assetId + '/' + 'Association')
-    .pipe(
-      map(response => response)
-    );
+  getAssetSignalAssociation(assetId: string) {
+
   }
 }
