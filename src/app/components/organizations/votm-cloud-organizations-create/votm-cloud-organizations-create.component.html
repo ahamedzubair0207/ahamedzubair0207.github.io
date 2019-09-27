@@ -519,7 +519,7 @@
                           <!-- <label for="DefatimezoneultLang"><b>* {{pageLabels.TimeZone.labelName}} :</b></label> -->
                           <label class="" votmrequired id="timezoneLbl"><b>{{pageLabels.DefaultTimeZone.labelName}}
                               :</b></label>
-                          <div class="">
+                          <!-- <div class=""> -->
                             <select required #timezone="ngModel" id="timezone" [disabled]="pageType==='View'"
                               [(ngModel)]="organization.timeZoneId" name="timezone" class="drop-down form-control form-control-sm">
                               <!-- <option value="" data-default selected>Select Timezone</option> -->
@@ -530,7 +530,7 @@
                             <div *ngIf="timezone.dirty && timezone.invalid">
                               <app-votm-cloud-validator message="Timezone is required"></app-votm-cloud-validator>
                             </div>
-                          </div>
+                          <!-- </div> -->
                         </div>
                       </div>
                       <div class="col-lg-6" *ngIf="orgId && applicationConfiguration">
