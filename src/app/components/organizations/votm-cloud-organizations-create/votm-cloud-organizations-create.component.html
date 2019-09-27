@@ -482,7 +482,7 @@
                       <div class="col-lg-6">
                           <div class="form-group" *ngIf="!orgId && applicationConfiguration">
                             <label class="" votmrequired id="DefaultLangLbl"><b>{{pageLabels.Language.labelName}}:</b></label>
-                            <div class="">
+                            <!-- <div class=""> -->
                               <select required [(ngModel)]="organization.localeId" id="DefaultLang" name="language"
                                 class="drop-down form-control form-control-sm" #defLanguage="ngModel">
                                 <option value="" data-default selected>Select Language</option>
@@ -493,14 +493,14 @@
                               <div *ngIf="defLanguage.dirty && defLanguage.invalid">
                                 <app-votm-cloud-validator message="Language is required"></app-votm-cloud-validator>
                               </div>
-                            </div>
+                            <!-- </div> -->
                           </div>
                       </div>
                       <div class="col-lg-6" *ngIf="orgId && applicationConfiguration">
                         <div class="form-group" >
                           <label class="" votmrequired id="DefaultLangLbl"><b>{{pageLabels.Language.labelName}}
                               :</b></label>
-                          <div class="">
+                          <!-- <div class=""> -->
                             <select required #language="ngModel" id="DefaultLang" [disabled]="pageType==='View'"
                               [(ngModel)]="organization.locale" name="language" class="drop-down form-control form-control-sm">
                               <!-- <option value="" data-default selected>Select Language</option> -->
@@ -511,7 +511,7 @@
                             <div *ngIf="language.dirty && language.invalid">
                               <app-votm-cloud-validator message="Language is required"></app-votm-cloud-validator>
                             </div>
-                          </div>
+                          <!-- </div> -->
                         </div>
                       </div>
                       <div class="col-lg-6">
