@@ -465,7 +465,14 @@
               </div>
 
             </div>
-
+            <button id="loc-cancel" for="form-cancel" type="button" (click)="onCancelClick($event)"
+              class="btn btn-secondary btn-sm button-mod"><i class="pr-2 fa fa-window-close-o"></i>Cancel</button>
+            <button id="loc-delete" type="button" *ngIf="location.locationId && pageType !=='View'"
+              (click)="openConfirmDialog()" class="btn btn-secondary btn-sm button-mod"><i
+                class="pr-2 fa fa-trash"></i>Delete</button>
+            <button id="loc-save" type="submit" *ngIf="pageType !=='View'" class="btn btn-sm btn-info button-mod"><i
+                class="pr-2 fa fa-location-arrow"></i>Save
+              Location</button>
             <!-- <div class="row form-control-sm form-group mt-2">
           <label class="col-sm-1 col-form-label" for="f-description"><b>{{pageLabels.DescriptionofLocation.labelName}}
               :</b></label>
@@ -477,14 +484,14 @@
         </div> -->
 
           </form>
-          <button id="loc-cancel" for="form-cancel" type="button" (click)="onCancelClick($event)"
+          <!-- <button id="loc-cancel" for="form-cancel" type="button" (click)="onCancelClick($event)"
             class="btn btn-secondary btn-sm button-mod"><i class="pr-2 fa fa-window-close-o"></i>Cancel</button>
           <button id="loc-delete" type="button" *ngIf="location.locationId && pageType !=='View'"
             (click)="openConfirmDialog()" class="btn btn-secondary btn-sm button-mod"><i
               class="pr-2 fa fa-trash"></i>Delete</button>
           <button id="loc-save" type="submit" *ngIf="pageType !=='View'" class="btn btn-sm btn-info button-mod"><i
               class="pr-2 fa fa-location-arrow"></i>Save
-            Location</button>
+            Location</button> -->
         </div>
 
         <div class="create-loc-container tab-pane fade" id="loc-signal" role="tabpanle"

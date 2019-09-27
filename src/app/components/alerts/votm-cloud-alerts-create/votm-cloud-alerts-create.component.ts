@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-
+import { DatePipe, Location as RouterLocation } from '@angular/common';
 import { Select2OptionData } from 'ng2-select2';
+import { Toaster } from '../../shared/votm-cloud-toaster/votm-cloud-toaster';
+import { ToastrService } from 'ngx-toastr';
 import { Alert } from 'src/app/models/alert.model';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AlertsService } from 'src/app/services/alerts/alerts.service';
 import { UserService } from 'src/app/services/users/userService';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
@@ -35,7 +37,9 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
   alertId: string;
   notifyUsers: any[] = [];
 
-  constructor(private activeroute: ActivatedRoute, private modalService: NgbModal, private alertsService: AlertsService, private userService: UserService) {
+  constructor(private activeroute: ActivatedRoute, private modalService: NgbModal, 
+    private routerLocation: RouterLocation, private toastr: ToastrService, 
+    private route: Router, private alertsService: AlertsService, private userService: UserService) {
 
   }
 
@@ -347,6 +351,18 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
           this.notifyUsers = [];
           this.notifyUsers = response;
         });
+    }
+  }
+
+  onCancelClick(event) {
+    this.routerLocation.back();
+  }
+
+  onLockClick() {
+    if (this.pageType.toLowerCase() === 'view') {
+      this.route.navigate([`preferences/edit`])
+    } else {
+      this.route.navigate([`preferences/view`])
     }
   }
 }
