@@ -1,1 +1,46 @@
-<h1>this is dashboard HTML from file</h1>
+<div class="">
+    <div class="col-12 dashboard-gear-icon-wrapper">
+        <h5>Content is Loaded From static HTML file</h5>
+        <div class="dashboard-gear-icon"><i class="fa fa-gear" (click)="op3.toggle($event)"></i></div>
+
+        <table class="table table-borderless table-sm mb-3" id="noti_fav">
+            <thead class="thead-light">
+                <tr>
+                    <th>Name</th>
+                    <th>Sensor</th>
+                    <th>Sensor Id</th>
+                    <th>Data</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Pressure</td>
+                    <td>25%</td>
+                    <td>E4000082</td>
+                    <td>298psi</td>
+                </tr>
+                <tr>
+                    <td>Pressure</td>
+                    <td>20%</td>
+                    <td>E4000081</td>
+                    <td>395psi</td>
+                </tr>
+                <tr>
+                    <td>Humidity</td>
+                    <td>25%</td>
+                    <td>E4000092</td>
+                    <td>15%</td>
+                </tr>
+                <tr>
+                    <td>Flow</td>
+                    <td>27%</td>
+                    <td>E4000092</td>
+                    <td>750SCFM</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="col-12">
+        <p id="world"></p>
+    </div>
+</div>

@@ -5,6 +5,7 @@ import { Location as RouterLocation } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AssetSignalService } from 'src/app/services/assetSignal/asset-signal.service';
 import { DomSanitizer } from '@angular/platform-browser';
+import { LocationSignalService } from '../../../services/locationSignal/location-signal.service';
 
 @Component({
   selector: 'app-votm-cloud-locations-gateway',
@@ -26,57 +27,53 @@ export class VotmCloudLocationsGatewayComponent implements OnInit, OnDestroy {
     private activatedRoute: ActivatedRoute,
     private route: Router,
     private routerLocation: RouterLocation,
-    private assetSignalService: AssetSignalService,
+    private locationSignalService: LocationSignalService,
     private domSanitizer: DomSanitizer,
   ) {}
 
   ngOnInit() {
-    this.locationId = this.activatedRoute.snapshot.params.locationId;
-    this.getAllAvailableSignals();
-    this.getAssetSignalAssociation();
+    this.locationId = this.activatedRoute.snapshot.params.locId;
+    // this.getAllAvailableSignals();
+    // this.getAssetSignalAssociation();
 
   }
 
   getAllAvailableSignals() {
-    this.assetSignalService.getAvailableSignals().subscribe(response => {
-      console.log(response);
-      this.availableSignals = [
+    this.availableSignals = [
 
-        {
-          id: '3fa85f64-5717-4562-b3fc-q2wergf',
-          name: 'AA-BB-CC-DD',
-          entityType: 'Sensor',
+      {
+        id: '3fa85f64-5717-4562-b3fc-q2wergf',
+        name: 'AA-BB-CC-DD',
+        entityType: 'Sensor',
 
-          image:
-            '../assets/images/gateway.svg',
+        image:
+          '../assets/images/gateway.svg',
+      }
+    ];
+    this.copyAvailableSignals = [
+      {
+        id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
+        name: 'ZZ-XX-FF-DD',
+        entityType: 'Sensor',
+        image:
+          '../assets/images/gateway.svg',
 
-        }
-      ];
-      this.copyAvailableSignals = [
-        {
-          id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-          name: 'ZZ-XX-FF-DD',
-          entityType: 'Sensor',
-          image:
-            '../assets/images/gateway.svg',
+      },
+      {
+        id: '3fa85f64-5717-4562-b3fc-q2wergf',
+        name: 'AA-BB-CC-DD',
+        entityType: 'Sensor',
 
-        },
-        {
-          id: '3fa85f64-5717-4562-b3fc-q2wergf',
-          name: 'AA-BB-CC-DD',
-          entityType: 'Sensor',
+        image:
+          '../assets/images/gateway.svg',
 
-          image:
-            '../assets/images/gateway.svg',
-
-        }
-      ];
-      setTimeout(() => {
-        for (let i = 0; i < this.availableSignals.length; i++) {
-            this.onClickOfAvailableSignals(i);
-        }
-      }, 200);
-    });
+      }
+    ];
+    setTimeout(() => {
+      for (let i = 0; i < this.availableSignals.length; i++) {
+          this.onClickOfAvailableSignals(i);
+      }
+    }, 200);
   }
 
   onClickOfAvailableSignals(index1) {
