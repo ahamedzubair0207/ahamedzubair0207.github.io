@@ -30,9 +30,9 @@
   </li> -->
   <!-- dynamic dashboard -->
   <li *ngFor="let dashboardDataUser of dashboardData; let i = index">
-    <a class="nav-link"  [ngClass]="(i==0)?'active':''" id="dashboard{{dashboardDataUser.id}}-tab" data-toggle="tab" href="#Dashboard_{{i}}" role="tab" aria-controls="loc"
+    <a class="nav-link" (click)="getDashboardHTML('parkerdashboard', i)"  [ngClass]="(i==0)?'active':''" id="dashboard{{dashboardDataUser.id}}-tab" data-toggle="tab" href="#Dashboard_{{i}}" role="tab" aria-controls="loc"
       aria-selected="false">{{dashboardDataUser.dashboardName}}
-      <i class="fa fa-pencil ml-2" (click)="openAddDashboardModal('editDashboard', dashboardDataUser.id, dashboardDataUser.dashboardName)"
+      <i class="fa fa-pencil ml-2" (click)="openAddDashboardModal('editDashboard', dashboardDataUser.id, dashboardDataUser.dashboardName); stopPropagation();"
         title="Configure Dashboard"></i>&nbsp;
       <i class="fa fa-trash" (click)="openConfirmDialog(dashboardDataUser.id, dashboardDataUser.dashboardName)"
         title="Delete Dashboard"></i>
@@ -105,7 +105,7 @@
 
   <!-- Dynamic dashboard container start-->
   <div class="tab-pane fade" *ngFor="let dashboardDataUser of dashboardData; let ij = index" id="Dashboard_{{ij}}"  [ngClass]="(ij==0)?'show active':''" role="tabpanel">
-    <div class="row">{{dashboardDataUser.dashboardHTML}}</div>
+    <div class="row" *ngIf="dashboardDataUser.dashboardHTML" [innerHTML]="dashboardDataUser.dashboardHTML"></div>
     <div class="row" *ngIf="ij==0 || ij==3 || ij==6">
       <div class="col-6 dashboard-gear-icon-wrapper">
         <div class="dashboard-gear-icon"><i class="fa fa-gear" (click)="op3.toggle($event)"></i></div>

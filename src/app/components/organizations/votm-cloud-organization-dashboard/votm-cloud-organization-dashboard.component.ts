@@ -1,8 +1,10 @@
+import { DomSanitizer } from '@angular/platform-browser';
 import { OverlayPanel } from 'primeng/overlaypanel';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { VotmCloudConfimDialogComponent } from '../../shared/votm-cloud-confim-dialog/votm-cloud-confim-dialog.component';
 import { OrganizationService } from 'src/app/services/organizations/organization.service';
+import { setData } from 'src/assets/js/data';
 
 @Component({
   selector: 'app-votm-cloud-organization-dashboard',
@@ -23,10 +25,10 @@ export class VotmCloudOrganizationDashboardComponent implements OnInit {
   dashboardDataById: { act: string; title: string; dashboardName: string; dashboardHTML: any; };
   addDashboardArray: any;
   http: any;
-  dashboardResponseHTML: any;
 
   constructor(
     private modalService: NgbModal,
+    private sanitizer: DomSanitizer,
     private organizationService: OrganizationService
   ) { }
 
@@ -55,6 +57,7 @@ export class VotmCloudOrganizationDashboardComponent implements OnInit {
     ];
     console.log(this.dashboardTemplates);
     console.log(this.dashboardData);
+    this.getDashboardHTML('parkerdashboard', 0);
   }
 
   getDashboards() {
@@ -65,37 +68,37 @@ export class VotmCloudOrganizationDashboardComponent implements OnInit {
         id: '1',
         templateName: 'Standard Organization Dashboard',
         dashboardName: 'Organization Dashboard',
-        dashboardHTML: '<h1>temp dashbaord html</h1>'
+        dashboardHTML: ''
       },
       {
         id: '2',
         templateName: 'Standard Location Dashboard',
         dashboardName: 'Location Dashboard',
-        dashboardHTML: this.getDashboardHTML('parkerdashboard')
+        dashboardHTML: ''
       },
       {
         id: '3',
         templateName: 'Standard Asset Dashboard',
         dashboardName: 'Asset Dashboard',
-        dashboardHTML: this.getDashboardHTML('parkerdashboard')
+        dashboardHTML: ''
       }
     ];
 
     return this.userdashboardData;
   }
 
-  async getDashboardHTML(formName) {
-    console.log(formName, '--getDashboardHTML');
-    // return this.http.get('./assets/dashboards/' + formName  + '.html', {responseType: 'text'});
-    // await this.organizationService.getDashboardHTML(formName)
-    //   .subscribe(response => {
-    //     console.log(response);
-    //     this.dashboardResponseHTML = response;
-    //     console.log(this.dashboardResponseHTML);
-    //   });
-    // console.log('response====', this.dashboardResponseHTML);
-    // return this.dashboardResponseHTML;
-    //this.organizationService.getDashboardHTML(formName);
+  async getDashboardHTML(formName: string, index) {
+    console.log(formName, '--getDashboardHTML functiona called');
+
+    await this.organizationService.getDashboardHTML(formName)
+      .subscribe(response => {
+        console.log('return response---', response);
+        this.userdashboardData[index].dashboardHTML = this.sanitizer.bypassSecurityTrustHtml(response);
+        setTimeout( () => {
+            // setData('Hello');
+          }, 300);
+
+      });
   }
 
   openAddDashboardModal(dashboardAct: string, dashboardId: any, dashboardNames: string) {
@@ -108,7 +111,7 @@ export class VotmCloudOrganizationDashboardComponent implements OnInit {
         act: 'edit',
         title : 'Edit Dashboard',
         dashboardName: dashboardNames,
-        dashboardHTML: this.getDashboardHTML('parkerdashboard')
+        dashboardHTML: ''
       };
     } else if (dashboardAct === 'addDashboard') {
       this.dashboardDataById = {
