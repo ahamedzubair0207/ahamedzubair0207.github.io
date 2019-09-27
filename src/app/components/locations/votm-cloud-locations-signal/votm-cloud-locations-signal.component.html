@@ -7,16 +7,16 @@
       [showCloseIcon]="true"
     >
       <h6 *ngIf="selectedSignal">
-        {{ selectedSignal.name }}&nbsp;
+        {{ selectedSignal.associationName }}&nbsp;
         <a (click)="op2.toggle($event)"><i class="fa fa-pencil-square-o"></i></a
         >&nbsp; <a (click)="op3.toggle($event)"><i class="fa fa-exclamation-triangle"></i></a>&nbsp;
-        <a ><i class="fa fa-trash"></i></a>
+        <a (click)="onDetachSignalFromAsset()"><i class="fa fa-trash"></i></a>
       </h6>
     </p-overlayPanel>
 
     <p-overlayPanel #op2 [appendTo]="'body'" [dismissable]="false"
     [showCloseIcon]="true">
-      <div class="row">
+      <div class="row"  *ngIf="selectedSignal">
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header">Signal Association</div>
@@ -26,38 +26,39 @@
                     <div class="col-sm-3"><label>Name: &nbsp;</label></div>
 
                     <div class="col-sm-9">
-                      <input type="text" id="signal_name" class="form-control" placeholder="Enter Signal Name">
+                      <input type="text" id="signal_name" class="form-control" [(ngModel)]="selectedSignal.associationName" placeholder="Enter Signal Name">
                     </div>
                   </div>
                   <div class="row mar-top-5">
                     <div class="col-sm-3"><label>Position: &nbsp; X: &nbsp;</label></div>
 
                     <div class="col-sm-4">
-                      <input type="text" id="position_x" class="form-control" placeholder="Enter Postion X">
+                      <input type="text" id="position_x" class="form-control" [(ngModel)]="selectedSignal.imageCoordinates.x" placeholder="Enter Postion X">
                     </div>
 
                       <div class="col-sm-1">Y:  &nbsp;</div>
                       <div class="col-sm-4">
-                        <input type="text" id="position_y" class="form-control" placeholder="Enter Position Y">
+                        <input type="text" id="position_y" class="form-control" [(ngModel)]="selectedSignal.imageCoordinates.y" placeholder="Enter Position Y">
                       </div>
 
 
                   </div>
                   <div class="row mar-top-5">
                     <div class="col-sm-12">
-                    <label> Source Signal Type: </label> Gage Pressure
+                    <label> Source Signal Type: </label> {{selectedSignal.name}}
                     </div>
                   </div>
                   <div class="row mar-top-5">
                       <div class="col-sm-12">
-                      <label> Source Sensor: </label> Pressure Sensor E300025
+                      <label> Source Sensor: </label> {{selectedSignal.sensorName}}
                       </div>
                     </div>
 
                 </div>
                 <div class="card-footer text-muted">
+                    <button class="btn btn-primary pull-right" (click)="op2.hide()">Close</button>
+                    <button class="btn btn-primary pull-right mr-1" (click)="onClickOfSaveSignalAssociationPanel()">Save</button>
 
-                    <button class="btn btn-primary mt-3 pull-right" >Save</button>
                 </div>
             </div>
         </div>
@@ -97,16 +98,55 @@
             <hr>
             <h5>Available Signals</h5>
             <hr />
-            <ul>
+            <ng-container *ngIf="!isGetAvailableSignalsAPILoading">
+              <ng-container *ngFor="let sensor of availableSignals; let sensorIndex = index">
+                <div
+                  class="sensor-circle list-bkg docked">
+
+                    <img
+                      [src]="sensor.image"
+                      style="cursor:pointer"
+                      width="23"
+                      height="23"
+                    />
+
+                  &nbsp; {{ sensor.name }}
+                </div>
+              <ng-container *ngFor="let signal of sensor.node; let signalIndex = index">
+                <div
+                  class="sensor-circle secondary-ds docked list-bkg" id="signalDiv_{{sensorIndex}}_{{signalIndex}}">
+
+                    <img
+                      [src]="signal.image"
+                      style="cursor:pointer"
+                      width="23"
+                      height="23"
+                      id="signal_{{ sensorIndex }}_{{ signalIndex }}"
+                    />
+
+                  &nbsp; {{ signal.name }}
+                </div>
+              </ng-container >
+              </ng-container>
+            </ng-container>
+            <!-- <ul *ngIf="!isGetAvailableSignalsAPILoading">
               <ng-container
                 *ngFor="let sensor of availableSignals; let sensorIndex = index"
               >
-                <li *ngIf="sensor.node.length > 0">
-                  <h6><i class="fa fa-plus"></i> &nbsp;{{ sensor.name }}</h6>
+                <li *ngIf="sensor.node.length > 0" >
+                    <a >
+                        <img
+                          [src]="sensor.image"
+                          style="cursor:pointer"
+                          width="40"
+                          height="40"
+                        />
+                        </a>
+                        &nbsp; {{ sensor.name }}
                   <ul>
                     <li
                       *ngFor="let signal of sensor.node; let signalIndex = index"
-
+                      [ngClass]="signal.disabled ? 'signals-disabled' : 'signals'"
                     >
                     <a [class.disabled]="isSignalDisabled(signal)">
                       <img
@@ -123,28 +163,37 @@
                   </ul>
                 </li>
               </ng-container>
-            </ul>
+            </ul> -->
+            <div class="center" *ngIf="isGetAvailableSignalsAPILoading">
+                <i class="fa fa-spinner fa-spin fa-2x fa-fw"></i>
+              </div>
           </div>
         </div>
 
         <div class="col-md-8" >
             <!-- *ngIf="assetImageURL" -->
-          <div  class="enclosing-div" >
-            <img id="dropdiv" src="../../../../assets/images/Parker.jpg" width="100%" />
+          <div  class="enclosing-div" *ngIf="!isGetAssociatedSignalsAPILoading">
+            <img id="dropdiv" [src]="imgURL" *ngIf="imgURL" width="100%" />
           </div>
+          <div class="enclosing-div center" *ngIf="isGetAssociatedSignalsAPILoading">
+              <i class="fa fa-spinner fa-spin fa-2x fa-fw"></i>
+            </div>
         </div>
       </div>
       <br />
       <div class="col">
-        <button
+          <button id="loc-signal-association-save" type="button" class="btn mr-1 btn-secondary button-right-mod btn-info btn-sm button-margin-asset"
+          (click)="onSaveSignalAssociation()" [disabled]="associatedSignals.length === 0">Save</button>
+          <button
           id="asset-cancel"
           for="form-cancel"
           type="button"
           (click)="onCancelClick($event)"
-          class="btn btn-secondary"
+          class="btn btn-secondary button-right-mod btn-sm button-margin-asset "
         >
           Cancel
         </button>
+
       </div>
     </form>
   </div>

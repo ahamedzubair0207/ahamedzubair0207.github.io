@@ -25,3 +25,114 @@
 .cursor-point {
   cursor: pointer;
 }
+
+.signals {
+  color: white;
+  background-color: #606060;
+  border: 1px solid white;
+}
+
+.signals-disabled {
+  color: black;
+  opacity: 0.7;
+  background-color: #606060;
+  border: 1px solid white;
+  cursor: pointer;
+}
+
+
+
+.sensor-circle {
+  position: absolute;
+  height: 30px;
+  white-space: nowrap;
+  line-height: 30px;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  font-weight: bold;
+  color: #333;
+  text-shadow: none;
+  padding-left: 35px;
+  padding-right: 10px;
+  background-color: #fff;
+  border: 1px solid #000;
+  border-radius: 15px;
+  text-align: left;
+  text-overflow: ellipsis;
+  z-index: 5;
+  margin-left: -15px;
+  margin-top: -15px;
+}
+
+.sensor-circle {
+  cursor: move;
+}
+
+.sensor-circle.docked {
+  display: none;
+}
+
+.sensor-circle:after,
+.sensor-popover:after {
+  position: absolute;
+  left: -1px;
+  top: -1px;
+  height: 30px;
+  width: 30px;
+  line-height: 29px;
+  font-size: 20px;
+  color: #333;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
+  text-align: center;
+  text-indent: 1px;
+  background-color: rgba(200, 200, 200, 0.85);
+  border: 1px solid rgba(128, 128, 128, 1);
+  border-radius: 15px;
+}
+
+/*.sensor-popover:before {
+    font-family: "data-sources";
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    position: absolute;
+    z-index: 1000;
+    color: #aaa;
+    bottom: 4px;
+    left: 0;
+    width: 30px;
+    text-align: center;
+    text-indent: 0;
+    white-space: pre;
+    line-height: 1.2;
+    content: '\e808\a\e804';
+
+}
+*/
+.sensor-circle.list-bkg {
+  opacity: 0.15;
+  display: block;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  width: 100%;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  overflow: hidden;
+  padding-right: 0;
+  position: relative;
+  margin: 0 0 5px 0;
+}
+.sensor-circle.list-bkg.secondary-ds {
+  left: 15px;
+  width: calc(100% - 15px);
+}
+.sensor-circle.list-bkg.docked {
+  opacity: 1;
+  display: block;
+}
+
+.secondary-ds.sensor-circle {
+  font-weight: normal;
+}
