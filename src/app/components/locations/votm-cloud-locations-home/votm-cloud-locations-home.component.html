@@ -48,7 +48,7 @@
             <tr *ngIf="item.opened && subItem.entityType == 'Location'">
               <th scope="row" (click)="subItem.opened = !subItem.opened" [ngStyle]="{'padding-left.px': 15*(lvl+2)}">
                 <i class="fa fa-location-arrow"></i>
-                <a style="color: #212529;" [routerLink]="['/loc/view',subItem.parentId, subItem.parentName, subItem.parentOrgId, subItemparentOrgName,  subItem.id]">
+                <a style="color: #212529;" [routerLink]="['/loc/view',subItem.parentId, subItem.parentName, subItem.parentOrgId, subItem.parentOrgName,  subItem.id]">
                   {{subItem.name}}</a>&nbsp;<i *ngIf="subItem.node.length > 0 "
                   [ngClass]="{'fa': true, 'fa-caret-right': !subItem.opened, 'fa-caret-down': subItem.opened}"></i>
               </th>

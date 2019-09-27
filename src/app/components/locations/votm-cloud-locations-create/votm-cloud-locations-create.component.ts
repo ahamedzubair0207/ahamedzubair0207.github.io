@@ -41,7 +41,7 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
   UOM: any;
   pageLabels: any;
   locationTypes: Array<any>;
-  states: Array<any>=[];
+  states: Array<any> = [];
   countries: Array<any>;
   tempUoM: UnitOfMeassurement;
   tempMeasurement: string;
@@ -110,7 +110,7 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
     //       });
     //     }
     //   });
-    
+
     this.countries = countyList;
     this.curOrgId = this.activatedRoute.snapshot.paramMap.get("curOrgId");
     this.curOrgName = this.activatedRoute.snapshot.paramMap.get("curOrgName");
@@ -216,7 +216,7 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
   onCountryChange(event) {
     console.log('Country change ', this.location.address[0].country);
     if (this.location.address && this.location.address.length > 0) {
-      this.location.address[0].state = null;     
+      this.location.address[0].state = null;
     } else {
       this.location.address = [new Address()];
       this.location.address[0].state = null;
@@ -639,11 +639,16 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
     }
   }
 
-  onLockClick(){
-    if(this.pageType.toLowerCase() === 'view'){
-    this.route.navigate([`loc/edit/${this.parentLocId}/${this.parentLocName}/${this.curOrgId}/${this.curOrgName}/${this.location.locationId}`])
-  } else{
-    this.route.navigate([`loc/view/${this.parentLocId}/${this.parentLocName}/${this.curOrgId}/${this.curOrgName}/${this.location.locationId}`])
+  onLockClick() {
+    let event = 'view';
+    if (this.pageType.toLowerCase() === 'view') {
+      event = 'edit';
+    }
+
+    if (this.location.parentLocationId) {
+      this.route.navigate([`loc/${event}/${this.location.parentLocationId}/${this.location.parentLocationName}/${this.curOrgId}/${this.curOrgName}/${this.location.locationId}`]);
+    } else {
+      this.route.navigate([`loc/${event}/${this.curOrgId}/${this.curOrgName}/${this.location.locationId}`]);
     }
   }
 
