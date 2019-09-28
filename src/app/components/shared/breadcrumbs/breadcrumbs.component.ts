@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, NavigationEnd, RouterEvent } from '@angular/router';
 import { NavigationService } from 'src/app/services/navigation/navigation.service';
 import { filter } from 'rxjs/operators';
+import { truncateWithEllipsis } from '@amcharts/amcharts4/.internal/core/utils/Utils';
 
 @Component({
   selector: 'app-breadcrumbs',
@@ -16,12 +17,16 @@ export class BreadcrumbsComponent {
   breadcrumbs: any[];
   locBreadcrumbs: any[];
   assetBreadcrumbs: any[];
+  finalBreadcrumbs: any[] = [];
+  minimizedBreadcrumbs: any[] = [];
   locId: string;
+  isDotLoaded: boolean = false;
   assetId: string; //Asset Bread Crumbs
   orgName: string;
   parentOrgId: string;
   mainOrganizationId: string;
   mainOrganizationName: string;
+  count: number = 0;
   constructor(private router: Router, private activeroute: ActivatedRoute, private navigationService: NavigationService) {
     router.events.pipe(
       filter(e => e instanceof RouterEvent)
@@ -75,11 +80,19 @@ export class BreadcrumbsComponent {
     }
     else if (this.currentUrl.startsWith(`/asset/view`) || this.currentUrl.startsWith(`/asset/edit`)) {
       let parts = this.currentUrl.split('/');
-      this.orgId = parts[3];
-      this.locId = parts[5];
+      if (parts.length >= 9) {
+        this.orgId = parts[3];
+        this.locId = parts[5];
+        this.assetId = parts[9];
+      } else {
+        this.orgId = parts[3];
+        this.locId = parts[5];
+        this.assetId = parts[7];
+      }
+
       this.pageType = 'Asset';
       this.breadcrumbs = [];
-      // this.loadOrganizations(this.orgId);
+      this.loadOrganizations(this.orgId);
     } else {
       this.pageType = '';
       this.breadcrumbs = [];
@@ -107,18 +120,21 @@ export class BreadcrumbsComponent {
 
             if (response[i].id.toLowerCase() === orgId.toLowerCase()) {
               console.log('AHAMED ', response[i].name)
-              this.breadcrumbs.push({ name: response[i].name, nodes: response });
+              this.breadcrumbs.push({ name: response[i].name, nodes: response, isVisible: true });
               if (response[i].parentId) {
                 console.log('Came to check Parent Id', orgId, (response[i].parentId))
                 this.loadOrganizations(response[i].parentId);
               } else {
                 // this.breadcrumbs.push({ name: this.orgName, nodes: response });
                 this.breadcrumbs.reverse();
+                // this.checkForVisibility();
                 if (this.pageType === 'Location' || this.pageType === 'Asset') {
                   this.locBreadcrumbs = [];
                   if (this.locId) {
                     this.loadLocations(this.locId);
                   }
+                } else {
+                  this.checkForVisibility();
                 }
               }
             }
@@ -135,7 +151,7 @@ export class BreadcrumbsComponent {
           response = this.getUniqueValues(response);
           for (let i = 0; i < response.length; i++) {
             if (response[i].id.toLowerCase() === locId.toLowerCase()) {
-              this.locBreadcrumbs.push({ name: response[i].name, nodes: response });
+              this.locBreadcrumbs.push({ name: response[i].name, nodes: response, isVisible: true });
               if (response[i].parentId) {
                 this.loadLocations(response[i].parentId);
               } else {
@@ -145,8 +161,10 @@ export class BreadcrumbsComponent {
                 if (this.pageType === 'Asset') {
                   this.assetBreadcrumbs = [];
                   if (this.assetId) {
-                    this.loadAssets(this.locId);
+                    this.loadAssets(this.assetId);
                   }
+                } else {
+                  this.checkForVisibility();
                 }
               }
             }
@@ -158,25 +176,55 @@ export class BreadcrumbsComponent {
 
   // Asset breadCrumbs
   loadAssets(assetId: string) {
-    this.navigationService.getAllSibling('Location', assetId)
+    this.navigationService.getAllSibling('Asset', assetId)
       .subscribe(response => {
         //console.log('response ', response)
         if (response && response.length > 0) {
           response = this.getUniqueValues(response);
           for (let i = 0; i < response.length; i++) {
             if (response[i].id.toLowerCase() === assetId.toLowerCase()) {
-              this.assetBreadcrumbs.push({ name: response[i].name, nodes: response });
+              this.assetBreadcrumbs.push({ name: response[i].name, nodes: response, isVisible: true });
               if (response[i].parentId) {
                 this.loadAssets(response[i].parentId);
               } else {
                 this.assetBreadcrumbs.reverse();
                 //console.log('this.locationbreadcrum ', this.locBreadcrumbs)
                 this.breadcrumbs = this.breadcrumbs.concat(this.assetBreadcrumbs);
+                this.checkForVisibility();
               }
             }
           }
         }
       });
+  }
+
+  checkForVisibility() {
+    this.isDotLoaded = false;
+    let count = this.breadcrumbs.length;
+    if (count > 5) {
+      this.breadcrumbs.forEach((breadcrumb, index) => {
+        if (index === 0) {
+          breadcrumb.isVisible = true;
+        } else if (index >= count - 4) {
+          breadcrumb.isVisible = true;
+        } else {
+          breadcrumb.isVisible = false;
+          // minimizedBreadcrumbs
+        }
+      });
+    }
+    this.finalBreadcrumbs = [];
+    this.finalBreadcrumbs = [...this.breadcrumbs];
+  }
+
+  checkDotLoaded() {
+    console.log('checkDotLoaded')
+    if (this.count === 0) {
+      this.count = 1;
+      return true;
+    } else {
+      return false;
+    }
   }
 
   onItemSelection(item: any) {
@@ -188,7 +236,7 @@ export class BreadcrumbsComponent {
         console.log('ITEM     ', item)
         if (item.parentId) {
           this.router.navigate(['org/view', item.parentId, item.parentName, item.id]);
-        } else{
+        } else {
           this.router.navigate(['org/view', item.id, item.name, item.id]);
         }
       } else if (item.entityType === 'Location') {
@@ -201,8 +249,43 @@ export class BreadcrumbsComponent {
         // this.router.navigate(['loc/home', item.parentOrgId, item.parentOrgName, item.id, item.name]);
       }
       //console.log('item selected ', item)
+    } else if (this.pageType === 'Asset') {
+      console.log('item selected ', item)
+      if (item.entityType === 'Organization') {
+        this.renderOrganization(item);
+      } else if (item.entityType === 'Location') {
+        console.log('ITEM     ', item);
+        this.renderLocation(item);
+      } else if (item.entityType === 'Asset') {
+        console.log('ITEM     ', item);
+        this.renderAsset(item);
+      }
     } else {
       this.router.navigate(['org/view', this.mainOrganizationId, this.mainOrganizationName, this.mainOrganizationId]);
+    }
+  }
+
+  renderAsset(item) {
+    if (item.parentId) {
+      this.router.navigate([`asset/view/${item.parentOrgId}/${item.parentOrgName}/${item.parentLocationId}/${item.parentLocationName}/${item.parentId}/${item.parentName}/${item.id}`]);
+    } else {
+      this.router.navigate([`asset/view/${item.parentOrgId}/${item.parentOrgName}/${item.parentLocationId}/${item.parentLocationName}/${item.id}`]);
+    }
+  }
+
+  renderLocation(item) {
+    if (item.parentId) {
+      this.router.navigate([`loc/view/${item.parentId}/${item.parentName}/${item.parentOrgId}/${item.parentOrgName}/${item.id}`]);
+    } else {
+      this.router.navigate([`loc/view/${item.parentOrgId}/${item.parentOrgName}/${item.id}`]);
+    }
+  }
+
+  renderOrganization(item) {
+    if (item.parentId) {
+      this.router.navigate(['org/view', item.parentId, item.parentName, item.id]);
+    } else {
+      this.router.navigate(['org/view', item.id, item.name, item.id]);
     }
   }
 }
