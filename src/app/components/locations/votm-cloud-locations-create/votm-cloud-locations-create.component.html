@@ -288,45 +288,6 @@
                 </div>
               </div>
 
-              <!-- Time Zone  -->
-              <div class="col-6" *ngIf="!locId && applicationConfiguration">
-                <div class="row form-group">
-                  <label class="col-sm-5 col-form-label" for="timezone"><b>* {{pageLabels.DefaultTimeZone.labelName}}
-                      :</b></label>
-                  <div class="col-sm-7">
-                    <select required #timezone="ngModel" [disabled]="true" [(ngModel)]="location.timeZoneId"
-                      name="timezone" class="drop-down form-control form-control-sm" id="locDtlDfltTimezone1">
-                      <!-- <option value="" data-default selected>Select Timezone</option> -->
-                      <option *ngFor="let timeZone of applicationConfiguration.timeZone" [value]="timeZone.timeZoneId">
-                        {{timeZone.timeZoneName}}
-                      </option>
-                    </select>
-                    <div *ngIf="timezone.dirty && timezone.invalid">
-                      <app-votm-cloud-validator message="TimeZone is required"></app-votm-cloud-validator>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-6" *ngIf="locId && applicationConfiguration">
-                <div class="row form-group">
-                  <!-- <label for="DefatimezoneultLang"><b>* {{pageLabels.TimeZone.labelName}} :</b></label> -->
-                  <label class="col-sm-5 col-form-label" for="timezone"
-                    votmrequired><b>{{pageLabels.DefaultTimeZone.labelName}}
-                      :</b></label>
-                  <div class="col-sm-7">
-                    <select required #timezone="ngModel" [disabled]="true" [(ngModel)]="location.timeZoneId"
-                      name="timezone" class="drop-down form-control form-control-sm" id="locDtlDfltTimezone2">
-                      <!-- <option value="" data-default selected>Select Timezone</option> -->
-                      <option *ngFor="let timeZone of applicationConfiguration.timeZone" [value]="timeZone.timeZoneId">
-                        {{timeZone.timeZoneName}}
-                      </option>
-                    </select>
-                    <div *ngIf="timezone.dirty && timezone.invalid">
-                      <app-votm-cloud-validator message="TimeZone is required"></app-votm-cloud-validator>
-                    </div>
-                  </div>
-                </div>
-              </div>
 
               <!-- Geo fence  -->
               <div class="col-4 col-md-6">
@@ -379,6 +340,48 @@
                 </div>
 
               </div>
+
+              <!-- Time Zone  -->
+              <div class="col-6" *ngIf="!locId && applicationConfiguration">
+                <div class="row form-group">
+                  <label class="col-sm-5 col-form-label" for="timezone"><b>* {{pageLabels.DefaultTimeZone.labelName}}
+                      :</b></label>
+                  <div class="col-sm-7">
+                    <select required #timezone="ngModel" [disabled]="true" [(ngModel)]="location.timeZoneId"
+                      name="timezone" class="drop-down form-control form-control-sm" id="locDtlDfltTimezone1">
+                      <!-- <option value="" data-default selected>Select Timezone</option> -->
+                      <option *ngFor="let timeZone of applicationConfiguration.timeZone" [value]="timeZone.timeZoneId">
+                        {{timeZone.timeZoneName}}
+                      </option>
+                    </select>
+                    <div *ngIf="timezone.dirty && timezone.invalid">
+                      <app-votm-cloud-validator message="TimeZone is required"></app-votm-cloud-validator>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-6" *ngIf="locId && applicationConfiguration">
+                <div class="row form-group">
+                  <!-- <label for="DefatimezoneultLang"><b>* {{pageLabels.TimeZone.labelName}} :</b></label> -->
+                  <label class="col-sm-5 col-form-label" for="timezone"
+                    votmrequired><b>{{pageLabels.DefaultTimeZone.labelName}}
+                      :</b></label>
+                  <div class="col-sm-7">
+                    <select required #timezone="ngModel" [disabled]="true" [(ngModel)]="location.timeZoneId"
+                      name="timezone" class="drop-down form-control form-control-sm" id="locDtlDfltTimezone2">
+                      <!-- <option value="" data-default selected>Select Timezone</option> -->
+                      <option *ngFor="let timeZone of applicationConfiguration.timeZone" [value]="timeZone.timeZoneId">
+                        {{timeZone.timeZoneName}}
+                      </option>
+                    </select>
+                    <div *ngIf="timezone.dirty && timezone.invalid">
+                      <app-votm-cloud-validator message="TimeZone is required"></app-votm-cloud-validator>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              
 
 
 
