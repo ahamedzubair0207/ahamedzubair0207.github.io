@@ -1,3 +1,4 @@
+import { VotmCloudAdminNetworkManagementComponent } from './components/admin/votm-cloud-admin-network-management/votm-cloud-admin-network-management.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
@@ -73,6 +74,7 @@ const routes: Routes = [
   { path: 'sensor/view', component: VotmCloudSensorsHomeComponent },
   { path: 'sensor/detail', component: VotmCloudSensorsDetailsComponent },
   { path: 'gateway/home', component: VotmCloudGatewaysHomeComponent },
+  { path: 'admin/networkmanagement', component: VotmCloudAdminNetworkManagementComponent },
   { path: 'admin', component: VotmCloudAdminPanelComponent },
   { path: 'super', component: VotmCloudSuperAdminComponent },
   { path: 'login', component: VotmCloudLoginComponent },
