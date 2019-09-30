@@ -67,7 +67,7 @@
 
               <div class="col-md-6 col-4">
                 <div class="row form-group">
-                  <label class="col-sm-5 col-form-label" for="name"
+                  <label class="col-sm-5 col-form-label" id="name"
                     votmrequired><b>{{pageLabels.Name.labelName}}</b></label>
                   <div class="col-sm-7">
                     <input type="text" [(ngModel)]="location.locationName" class="form-control form-control-sm"
@@ -126,7 +126,7 @@
 
               <div class="col-md-6 col-4">
                 <div class="row form-group">
-                  <label class="col-sm-5 col-form-label" for="primaryContact" votmrequired><b>
+                  <label class="col-sm-5 col-form-label" id="primaryContact" votmrequired><b>
                       {{pageLabels.PrimaryContact.labelName}}
                       :</b></label>
                   <div class="col-sm-7">
@@ -134,7 +134,10 @@
                       class="form-control form-control-sm" #primaryContact="ngModel" maxlength="100"
                       placeholder="Email Address" name="primaryContact" id="locDtlPrmyCotact" required>
                     <div *ngIf="primaryContact.dirty && primaryContact.invalid">
-                      <app-votm-cloud-validator message="Primary Contact is required"></app-votm-cloud-validator>
+                      <app-votm-cloud-validator *ngIf="primaryContact.errors && primaryContact.errors.required"
+                        message="Primary Contact is required"></app-votm-cloud-validator>
+                      <app-votm-cloud-validator *ngIf="primaryContact.errors && primaryContact.errors.email"
+                        message="This is not valid mail id"></app-votm-cloud-validator>
                     </div>
                     <app-votm-cloud-char-validator
                       [condition]="location.primaryContact && location.primaryContact.length>=100">
@@ -344,7 +347,7 @@
               <!-- Time Zone  -->
               <div class="col-6" *ngIf="!locId && applicationConfiguration">
                 <div class="row form-group">
-                  <label class="col-sm-5 col-form-label" for="timezone"><b>* {{pageLabels.DefaultTimeZone.labelName}}
+                  <label class="col-sm-5 col-form-label" id="timezone"><b>* {{pageLabels.DefaultTimeZone.labelName}}
                       :</b></label>
                   <div class="col-sm-7">
                     <select required #timezone="ngModel" [disabled]="true" [(ngModel)]="location.timeZoneId"
@@ -363,7 +366,7 @@
               <div class="col-6" *ngIf="locId && applicationConfiguration">
                 <div class="row form-group">
                   <!-- <label for="DefatimezoneultLang"><b>* {{pageLabels.TimeZone.labelName}} :</b></label> -->
-                  <label class="col-sm-5 col-form-label" for="timezone"
+                  <label class="col-sm-5 col-form-label" id="timezone"
                     votmrequired><b>{{pageLabels.DefaultTimeZone.labelName}}
                       :</b></label>
                   <div class="col-sm-7">
@@ -381,14 +384,14 @@
                 </div>
               </div>
 
-              
+
 
 
 
               <!-- Language -->
               <div class="col-md-6 col-2" *ngIf="!locId && applicationConfiguration">
                 <div class="row form-group">
-                  <label class="col-sm-5 col-form-label" for="DefaultLang"
+                  <label class="col-sm-5 col-form-label" id="DefaultLang"
                     votmrequired><b>{{pageLabels.Language.labelName}}
                       :</b></label>
                   <div class="col-sm-7">
@@ -406,7 +409,7 @@
               </div>
               <div class="col-md-6 col-2" *ngIf="locId && applicationConfiguration">
                 <div class="row form-group">
-                  <label class="col-sm-5 col-form-label" for="DefaultLang"
+                  <label class="col-sm-5 col-form-label" id="DefaultLang"
                     votmrequired><b>{{pageLabels.Language.labelName}}
                       :</b></label>
                   <div class="col-sm-7">

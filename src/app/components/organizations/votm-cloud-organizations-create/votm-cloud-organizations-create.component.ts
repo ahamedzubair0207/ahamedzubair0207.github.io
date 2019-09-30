@@ -115,8 +115,10 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
       this.organization.svclevels = null;
       this.organization.localeId = null;
       this.organization.timeZoneId = null;
-      this.organization.timeZone = null;
-      this.organization.locale = null;
+      this.organization.cellularBlocks = null;
+      this.organization.sensorBlocks = null;
+      // this.organization.timeZone = null;
+      // this.organization.locale = null;
       this.activeroute.paramMap.subscribe(params => {
       this.curOrgId = params.get("curOrgId");
       this.curOrgName = params.get("curOrgName");
