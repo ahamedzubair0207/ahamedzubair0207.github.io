@@ -18,7 +18,7 @@ export class BreadcrumbsComponent {
   locBreadcrumbs: any[];
   assetBreadcrumbs: any[];
   finalBreadcrumbs: any[] = [];
-  minimizedBreadcrumbs: any[] = [];
+  minimizedBreadcrumbs: any = {};
   locId: string;
   isDotLoaded: boolean = false;
   assetId: string; //Asset Bread Crumbs
@@ -43,7 +43,6 @@ export class BreadcrumbsComponent {
     this.mainOrganizationName = 'VOTM';
     // if (this.currentUrl.startsWith(`/org/home`)) {
     //   let parts = this.currentUrl.split('/');
-    //   //console.log('parts ', parts)
     //   this.orgId = parts[3];
     //   this.pageType = 'Organization';
     //   this.breadcrumbs = [];
@@ -52,10 +51,8 @@ export class BreadcrumbsComponent {
     // } else 
     if (this.currentUrl.startsWith(`/org/edit`) || this.currentUrl.startsWith(`/org/view`)) {
       let parts = this.currentUrl.split('/');
-      //console.log('parts ', parts)
       this.orgId = parts[5];
       this.orgName = parts[4];
-      //console.log('Inside ', this.orgId)
       this.pageType = 'Organization';
       this.parentOrgId = parts[3];
       this.breadcrumbs = [];
@@ -110,7 +107,6 @@ export class BreadcrumbsComponent {
   }
 
   loadOrganizations(orgId: string) {
-    console.log('orgid ', orgId)
     this.navigationService.getAllSibling('Organization', orgId)
       .subscribe(response => {
         if (response && response.length > 0) {
@@ -119,10 +115,8 @@ export class BreadcrumbsComponent {
           for (let i = 0; i < response.length; i++) {
 
             if (response[i].id.toLowerCase() === orgId.toLowerCase()) {
-              console.log('AHAMED ', response[i].name)
-              this.breadcrumbs.push({ name: response[i].name, nodes: response, isVisible: true });
+              this.breadcrumbs.push({ name: response[i].name, id: response[i].id, nodes: response, isVisible: true });
               if (response[i].parentId) {
-                console.log('Came to check Parent Id', orgId, (response[i].parentId))
                 this.loadOrganizations(response[i].parentId);
               } else {
                 // this.breadcrumbs.push({ name: this.orgName, nodes: response });
@@ -146,17 +140,15 @@ export class BreadcrumbsComponent {
   loadLocations(locId: string) {
     this.navigationService.getAllSibling('Location', locId)
       .subscribe(response => {
-        //console.log('response ', response)
         if (response && response.length > 0) {
           response = this.getUniqueValues(response);
           for (let i = 0; i < response.length; i++) {
             if (response[i].id.toLowerCase() === locId.toLowerCase()) {
-              this.locBreadcrumbs.push({ name: response[i].name, nodes: response, isVisible: true });
+              this.locBreadcrumbs.push({ name: response[i].name, id: response[i].id, nodes: response, isVisible: true });
               if (response[i].parentId) {
                 this.loadLocations(response[i].parentId);
               } else {
                 this.locBreadcrumbs.reverse();
-                //console.log('this.locationbreadcrum ', this.locBreadcrumbs)
                 this.breadcrumbs = this.breadcrumbs.concat(this.locBreadcrumbs);
                 if (this.pageType === 'Asset') {
                   this.assetBreadcrumbs = [];
@@ -178,17 +170,15 @@ export class BreadcrumbsComponent {
   loadAssets(assetId: string) {
     this.navigationService.getAllSibling('Asset', assetId)
       .subscribe(response => {
-        //console.log('response ', response)
         if (response && response.length > 0) {
           response = this.getUniqueValues(response);
           for (let i = 0; i < response.length; i++) {
             if (response[i].id.toLowerCase() === assetId.toLowerCase()) {
-              this.assetBreadcrumbs.push({ name: response[i].name, nodes: response, isVisible: true });
+              this.assetBreadcrumbs.push({ name: response[i].name, id: response[i].id, nodes: response, isVisible: true });
               if (response[i].parentId) {
                 this.loadAssets(response[i].parentId);
               } else {
                 this.assetBreadcrumbs.reverse();
-                //console.log('this.locationbreadcrum ', this.locBreadcrumbs)
                 this.breadcrumbs = this.breadcrumbs.concat(this.assetBreadcrumbs);
                 this.checkForVisibility();
               }
@@ -200,16 +190,21 @@ export class BreadcrumbsComponent {
 
   checkForVisibility() {
     this.isDotLoaded = false;
+    this.minimizedBreadcrumbs = { name: '...', nodes: [] };
     let count = this.breadcrumbs.length;
-    if (count > 5) {
+    if (count > 3) {
       this.breadcrumbs.forEach((breadcrumb, index) => {
         if (index === 0) {
           breadcrumb.isVisible = true;
-        } else if (index >= count - 4) {
+        } else if (index >= count - 2) {
           breadcrumb.isVisible = true;
         } else {
           breadcrumb.isVisible = false;
-          // minimizedBreadcrumbs
+          breadcrumb.nodes.forEach(node => {
+            if (node.id === breadcrumb.id) {
+              this.minimizedBreadcrumbs.nodes.push(node);
+            }
+          });
         }
       });
     }
@@ -218,7 +213,6 @@ export class BreadcrumbsComponent {
   }
 
   checkDotLoaded() {
-    console.log('checkDotLoaded')
     if (this.count === 0) {
       this.count = 1;
       return true;
@@ -229,18 +223,15 @@ export class BreadcrumbsComponent {
 
   onItemSelection(item: any) {
     if (this.pageType === 'Organization') {
-      console.log('item ', item)
       this.router.navigate(['org/view', this.parentOrgId, this.orgName, item.id]);
     } else if (this.pageType === 'Location') {
       if (item.entityType === 'Organization') {
-        console.log('ITEM     ', item)
         if (item.parentId) {
           this.router.navigate(['org/view', item.parentId, item.parentName, item.id]);
         } else {
           this.router.navigate(['org/view', item.id, item.name, item.id]);
         }
       } else if (item.entityType === 'Location') {
-        console.log('ITEM     ', item);
         if (item.parentId) {
           this.router.navigate([`loc/view/${item.parentId}/${item.parentName}/${item.parentOrgId}/${item.parentOrgName}/${item.id}`]);
         } else {
@@ -248,16 +239,12 @@ export class BreadcrumbsComponent {
         }
         // this.router.navigate(['loc/home', item.parentOrgId, item.parentOrgName, item.id, item.name]);
       }
-      //console.log('item selected ', item)
     } else if (this.pageType === 'Asset') {
-      console.log('item selected ', item)
       if (item.entityType === 'Organization') {
         this.renderOrganization(item);
       } else if (item.entityType === 'Location') {
-        console.log('ITEM     ', item);
         this.renderLocation(item);
       } else if (item.entityType === 'Asset') {
-        console.log('ITEM     ', item);
         this.renderAsset(item);
       }
     } else {
