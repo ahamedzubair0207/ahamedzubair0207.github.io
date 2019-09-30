@@ -236,6 +236,12 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
     this.compareDate();
   }
 
+  checkForUOM(){
+    if(!this.organization.uoMId || this.organization.uoMId.length===0){
+      this.organizationForm.form.controls['startDate'].setErrors({ 'invalidDate': true })
+    }
+  }
+
   compareDate() {
     console.log('ENTERED')
     if (this.tempContractStartDate && this.tempContractEndDate) {
