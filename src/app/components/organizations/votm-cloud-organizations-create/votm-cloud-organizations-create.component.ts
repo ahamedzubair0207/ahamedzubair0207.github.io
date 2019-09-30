@@ -57,8 +57,8 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
   curOrgId: any;
   curOrgName: any;
   previousUrl: any;
-  tempContractStartDate: { year?: number, month?: number, day?: number } = {};
-  tempContractEndDate: { year?: number, month?: number, day?: number } = {};
+  tempContractStartDate: { year?: number, month?: number, day?: number };
+  tempContractEndDate: { year?: number, month?: number, day?: number };
 
   @ViewChild('startDate', null) startDate: NgForm;
   @ViewChild('organizationForm', null) organizationForm: NgForm;
@@ -107,6 +107,11 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.organization.svclevels = null;
+    this.organization.localeId = null;
+    this.organization.timeZoneId = null;
+    this.organization.timeZone = null;
+    this.organization.locale = null;
     this.activeroute.paramMap.subscribe(params => {
       this.curOrgId = params.get("curOrgId");
       this.curOrgName = params.get("curOrgName");
@@ -145,6 +150,8 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
         this.UOM = 'SI';
         this.organization.address = [new Address()];
         this.organization.address[0].addressType = 'Billing';
+        this.organization.address[0].country = null;
+        this.organization.address[0].state = null;
 
       }
     });
@@ -161,7 +168,7 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
 
     this.dashboardData = {
       act: 'add',
-      title : 'Dashboard',
+      title: 'Dashboard',
       id: '1',
       templateName: 'Standard Organization Dashboard'
     };
@@ -230,13 +237,17 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
   }
 
   compareDate() {
-    // if (this.organization.contractStartDate && this.organization.contractEndDate) {
-    //   if (this.organization.contractStartDate >= this.organization.contractEndDate) {
-    //     this.organizationForm.form.controls['startDate'].setErrors({ 'invalidDate': true })
-    //   } else {
-    //     this.organizationForm.form.controls['startDate'].setErrors(null);
-    //   }
-    // }
+    console.log('ENTERED')
+    if (this.tempContractStartDate && this.tempContractEndDate) {
+      let startDate = new Date(this.tempContractStartDate.year, this.tempContractStartDate.month, this.tempContractStartDate.day);
+      let endDate = new Date(this.tempContractEndDate.year, this.tempContractEndDate.month, this.tempContractEndDate.day);
+      console.log('Start Date , End Date ', startDate, endDate)
+      if (startDate >= endDate) {
+        this.organizationForm.form.controls['startDate'].setErrors({ 'invalidDate': true })
+      } else {
+        this.organizationForm.form.controls['startDate'].setErrors(null);
+      }
+    }
   }
 
   onEndDateChange() {
@@ -262,13 +273,13 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
         this.organization.uoMId = this.organization.uoM;
         if (this.organization.contractStartDate) {
           let startDate = new Date(this.organization.contractStartDate);
-          this.tempContractStartDate = {year: startDate.getFullYear(),month: startDate.getMonth(), day: startDate.getDate()};
+          this.tempContractStartDate = { year: startDate.getFullYear(), month: startDate.getMonth(), day: startDate.getDate() };
         }
         if (this.organization.contractEndDate) {
           let endDate = new Date(this.organization.contractEndDate);
-          this.tempContractEndDate = {year: endDate.getFullYear(),month: endDate.getMonth(), day: endDate.getDate()};
+          this.tempContractEndDate = { year: endDate.getFullYear(), month: endDate.getMonth(), day: endDate.getDate() };
         }
-        
+
         if (this.organization.logo && this.organization.logo.imageName) {
           this.fileExtension = this.organization.logo.imageName.slice((Math.max(0, this.organization.logo.imageName.lastIndexOf(".")) || Infinity) + 1);
           this.imgURL = this.domSanitizer.bypassSecurityTrustUrl(`data:image/${this.fileExtension};base64,${this.organization.logo.image}`);
@@ -699,14 +710,14 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
     if (dashboardAct === 'editDashboard') {
       this.dashboardDataById = {
         act: 'edit',
-        title : 'Edit Dashboard',
+        title: 'Edit Dashboard',
         dashboardName: dashboardNames,
         dashboardHTML: this.getDashboardHTML('parkerdashboard')
       };
     } else if (dashboardAct === 'addDashboard') {
       this.dashboardDataById = {
         act: 'create',
-        title : 'Create Dashboard',
+        title: 'Create Dashboard',
         dashboardName: '',
         dashboardHTML: ''
       };

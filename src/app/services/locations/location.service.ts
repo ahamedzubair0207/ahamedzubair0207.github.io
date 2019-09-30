@@ -39,8 +39,8 @@ export class LocationService {
       );
   }
 
-  getAllLocationTree(): Observable<any> {
-    return this.http.get(AppConstants.GET_LOC_TREE)
+  getAllLocationTree(orgId: string): Observable<any> {
+    return this.http.get(`${AppConstants.GET_LOCTREE}/${orgId}${AppConstants.GET_LOC_TREE_BY_ORGID}`)
       .pipe(
         map(response => response)
       );

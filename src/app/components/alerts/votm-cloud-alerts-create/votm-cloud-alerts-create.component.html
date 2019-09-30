@@ -4,9 +4,8 @@
             <h5>Alert Rule Configuration</h5>
         </div>
         <i class="fa fa-lock edit-view-lock" id="view-lock" name="lockTogglebutton"
-        *ngIf="pageType.toLowerCase() === 'view'" (click)="onLockClick()"></i>
-      <i class="fa fa-unlock edit-view-lock" id="edit-lock" name="unlockTogglebutton"
-         (click)="onLockClick()"></i>
+            *ngIf="pageType.toLowerCase() === 'view'" (click)="onLockClick()"></i>
+        <i class="fa fa-unlock edit-view-lock" id="edit-lock" name="unlockTogglebutton" (click)="onLockClick()"></i>
     </div>
     <div class="form-group row">
         <div class="col-md-4 row">
@@ -30,7 +29,8 @@
                 <div class="col-md-6">
                     <select name="accessScope" [(ngModel)]="alert.organizationScopeId"
                         class="form-control form-control-sm">
-                        <option *ngFor="let accessScope of accessScopes" [value]="accessScope.id">{{accessScope.name}}</option>
+                        <option *ngFor="let accessScope of accessScopes" [value]="accessScope.id">{{accessScope.name}}
+                        </option>
                     </select>
                 </div>
             </div>
@@ -91,8 +91,8 @@
                                 <input type="checkbox" [(ngModel)]="threshold.active"
                                     name="{{'checkbox_'+threshold.alertConfigurationId}}" class="custom-control-input"
                                     id="{{threshold.alertConfigurationId}}">
-                                <label class="custom-control-label" for="{{threshold.alertConfigurationId}}"><input
-                                        type="text" name="{{threshold.alertConfigurationId}}"
+                                <label class="custom-control-label" for="{{threshold.alertConfigurationId}}">
+                                    <input [disabled]="!threshold.active" type="text" name="{{threshold.alertConfigurationId}}"
                                         [(ngModel)]="threshold.alertConfigurationValue"
                                         class="form-control-sm mr-1 w-25" />psi</label>
                             </div>
@@ -296,10 +296,12 @@
                 <legend>Notified Parties</legend>
                 <div class="">
                     <button class="btn btn-sm btn-secondary mr-2"><i class="fa fa-star mr-2"></i>Notify Me</button>
-                    <button type="button" class="btn btn-sm btn-secondary mr-2" data-toggle="modal" (click)="onAddNotifiedUsersClick()"
-                        data-target="#notifiedUserModal"><i class="fa fa-user mr-2"></i>Add Notified User</button>
+                    <button type="button" class="btn btn-sm btn-secondary mr-2" data-toggle="modal"
+                        (click)="onAddNotifiedUsersClick()" data-target="#notifiedUserModal"><i
+                            class="fa fa-user mr-2"></i>Add Notified User</button>
                     <button type="button" class="btn btn-sm btn-secondary" data-toggle="modal"
-                        data-target="#notifiedUserGroupModal"><i class="fa fa-users mr-2"></i>Add Notified Group</button>
+                        data-target="#notifiedUserGroupModal"><i class="fa fa-users mr-2"></i>Add Notified
+                        Group</button>
 
                     <!-- Button trigger modal -->
                     <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
@@ -359,11 +361,11 @@
                 </button>
             </div>
             <div class="modal-body table-responsive">
-                    <form class="form-inline">
-                        <label for="typeahead-config" id="user-filter">Type to filter:</label>
-                        <input class="form-control mr-sm-2 ml-2" type="search" placeholder="Search" aria-label="Search">
-                        <button class="btn btn-outline-info btn-sm my-2 my-sm-0" type="submit">Search</button>
-                    </form>
+                <form class="form-inline">
+                    <label for="typeahead-config" id="user-filter">Type to filter:</label>
+                    <input class="form-control mr-sm-2 ml-2" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-info btn-sm my-2 my-sm-0" type="submit">Search</button>
+                </form>
                 <table class="table table-sm table-bordered mt-2">
                     <thead>
                         <tr>
@@ -416,15 +418,15 @@
                             <th scope="col">#</th>
                             <th scope="col">Group Name</th>
                             <th scope="col">Action</th>
-                            
+
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let userGroup of userGroups let i=index;" >
+                        <tr *ngFor="let userGroup of userGroups let i=index;">
                             <th scope="row">{{i+1}}</th>
                             <td>{{userGroup.userGroupName}}</td>
                             <td><i class="fa fa-user-plus"></i></td>
-                            
+
                         </tr>
                     </tbody>
                 </table>

@@ -150,7 +150,6 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
 
   getAbsoluteThreshold() {
     this.absoluteThresholds = [
-
       {
         alertConfigurationId: '3A54142B-3453-4232-85C2-EEF4C62E4C77',
         alertConfigurationLabel: 'Low Critical',
