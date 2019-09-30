@@ -63,6 +63,7 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
   @ViewChild('startDate', null) startDate: NgForm;
   @ViewChild('organizationForm', null) organizationForm: NgForm;
   @ViewChild('confirmBox', null) confirmBox: VotmCloudConfimDialogComponent;
+  @ViewChild('confirmBoxDash', null) confirmBoxDash: VotmCloudConfimDialogComponent;
   @ViewChild('file', null) logoImage: any;
   fileName: any;
   fileExtension: string;
@@ -74,26 +75,30 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
   organizationList: any[] = [];
   countryObject: any[] = [];
 
-  // Dashboard Item 
-
+  // Dashboard Item
   addDashboardmodal: any;
   dashboardData: any;
   dashboardTemplates: {};
   delDashboardId: any;
-
-  // message: string;
-  // @ViewChild('confirmBox', null) confirmBox: VotmCloudConfimDialogComponent;
   // @ViewChild('op', null) panel: OverlayPanel;
   userdashboardData: { id: string; templateName: string; dashboardName: string; dashboardHTML: any; }[];
   dashboardDataById: { act: string; title: string; dashboardName: string; dashboardHTML: any; };
   addDashboardArray: any;
-  http: any;
-  dashboardResponseHTML: any;
 
-  constructor(private assetService: AssetsService, private modalService: NgbModal, private alertRuleservice: AlertsService, private organizationService: OrganizationService,
-    private configSettingsService: ConfigSettingsService, private domSanitizer: DomSanitizer,
-    private activeroute: ActivatedRoute, private route: Router, private datePipe: DatePipe,
-    private routerLocation: RouterLocation, private toastr: ToastrService) {
+  constructor(
+    private assetService: AssetsService,
+    private modalService: NgbModal,
+    private alertRuleservice: AlertsService,
+    private organizationService: OrganizationService,
+    private configSettingsService: ConfigSettingsService,
+    private domSanitizer: DomSanitizer,
+    private activeroute: ActivatedRoute,
+    private route: Router,
+    private datePipe: DatePipe,
+    private routerLocation: RouterLocation,
+    private toastr: ToastrService,
+    private sanitizer: DomSanitizer
+    ) {
     this.UOM = "SI";
     this.subscription = route.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
@@ -107,12 +112,12 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.organization.svclevels = null;
-    this.organization.localeId = null;
-    this.organization.timeZoneId = null;
-    this.organization.timeZone = null;
-    this.organization.locale = null;
-    this.activeroute.paramMap.subscribe(params => {
+      this.organization.svclevels = null;
+      this.organization.localeId = null;
+      this.organization.timeZoneId = null;
+      this.organization.timeZone = null;
+      this.organization.locale = null;
+      this.activeroute.paramMap.subscribe(params => {
       this.curOrgId = params.get("curOrgId");
       this.curOrgName = params.get("curOrgName");
       this.orgId = params.get('orgId');
@@ -166,15 +171,15 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
 
     this.organizationTypes = [{ value: 'organizationType1', text: 'organizationType1' }, { value: 'organizationType2', text: 'organizationType2' }]
 
-    this.dashboardData = {
-      act: 'add',
-      title: 'Dashboard',
-      id: '1',
-      templateName: 'Standard Organization Dashboard'
-    };
-    this.dashboardData = this.getDashboards();
-
-    this.dashboardTemplates = [
+    //   this.dashboardData = {
+    //   act: 'add',
+    //   title: 'Dashboard',
+    //   id: '1',
+    //   templateName: 'Standard Organization Dashboard'
+    // };
+      this.dashboardData = this.getDashboards();
+      this.getDashboardsTemplates();
+      this.dashboardTemplates = [
       {
         id: '1',
         templateName: 'Standard Organization Dashboard'
@@ -188,8 +193,8 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
         templateName: 'Standard Asset Dashboard'
       }
     ];
-    console.log(this.dashboardTemplates);
-    console.log(this.dashboardData);
+      console.log(this.dashboardTemplates);
+      console.log(this.dashboardData);
   }
 
   onCountryChange(event) {
@@ -661,63 +666,75 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
     }
   }
 
+  getDashboardsTemplates() {
+    this.dashboardTemplates = [
+      {
+        id: '1',
+        templateName: 'Standard Organization Dashboard'
+      },
+      {
+        id: '2',
+        templateName: 'Standard Location Dashboard'
+      },
+      {
+        id: '3',
+        templateName: 'Standard Asset Dashboard'
+      }
+    ];
+  }
+
   getDashboards() {
     // service to get all dashboards by userid
-
     this.userdashboardData = [
       {
         id: '1',
         templateName: 'Standard Organization Dashboard',
         dashboardName: 'Organization Dashboard',
-        dashboardHTML: '<h1>temp dashbaord html</h1>'
+        dashboardHTML: ''
       },
       {
         id: '2',
         templateName: 'Standard Location Dashboard',
         dashboardName: 'Location Dashboard',
-        dashboardHTML: this.getDashboardHTML('parkerdashboard')
+        dashboardHTML: ''
       },
       {
         id: '3',
         templateName: 'Standard Asset Dashboard',
         dashboardName: 'Asset Dashboard',
-        dashboardHTML: this.getDashboardHTML('parkerdashboard')
+        dashboardHTML: ''
       }
     ];
-
     return this.userdashboardData;
   }
 
-  async getDashboardHTML(formName) {
-    console.log(formName, '--getDashboardHTML');
-    // return this.http.get('./assets/dashboards/' + formName  + '.html', {responseType: 'text'});
-    // await this.organizationService.getDashboardHTML(formName)
-    //   .subscribe(response => {
-    //     console.log(response);
-    //     this.dashboardResponseHTML = response;
-    //     console.log(this.dashboardResponseHTML);
-    //   });
-    // console.log('response====', this.dashboardResponseHTML);
-    // return this.dashboardResponseHTML;
-    this.organizationService.getDashboardHTML(formName);
+  async getDashboardHTML(formName: string, index) {
+    console.log(formName, '--getDashboardHTML functiona called');
+
+    await this.organizationService.getDashboardHTML(formName)
+      .subscribe(response => {
+        console.log('return response---', response);
+        this.userdashboardData[index].dashboardHTML = this.sanitizer.bypassSecurityTrustHtml(response);
+        setTimeout( () => {
+            // setData('Hello');
+          }, 300);
+      });
   }
 
   openAddDashboardModal(dashboardAct: string, dashboardId: any, dashboardNames: string) {
-
     // this.dashBoardDataByID = getDashboardById(dashboardId)
     console.log(dashboardNames);
-
     if (dashboardAct === 'editDashboard') {
       this.dashboardDataById = {
         act: 'edit',
-        title: 'Edit Dashboard',
+        title : 'Edit Dashboard',
         dashboardName: dashboardNames,
-        dashboardHTML: this.getDashboardHTML('parkerdashboard')
+        dashboardHTML: ''
       };
     } else if (dashboardAct === 'addDashboard') {
       this.dashboardDataById = {
         act: 'create',
-        title: 'Create Dashboard',
+        title : 'Create Dashboard',
         dashboardName: '',
         dashboardHTML: ''
       };
@@ -748,7 +765,6 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
     };
     this.dashboardData.push(this.addDashboardArray);
     console.log('this.dashboardData---added', this.dashboardData);
-
     this.closeAddDashboardModal(true);
   }
 
@@ -762,11 +778,11 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
     // }
   }
 
-  // openConfirmDialog(delDashboardId, dashboardName) {
-  //   this.delDashboardId = delDashboardId;
-  //   this.message = `Do you want to delete the "${dashboardName}" Dashboard?`;
-  //   this.confirmBox.open();
-  // }
+  openDashboardConfirmDialog(delDashboardId, dashboardName) {
+    this.delDashboardId = delDashboardId;
+    this.message = `Do you want to delete the "${dashboardName}" Dashboard?`;
+    this.confirmBoxDash.open();
+  }
 
   deleteOrganizationDashboardById(event) {
     console.log('deleteOrganizationDashboardById===', event);
@@ -777,6 +793,6 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
 
   getDashboardById(dashboardId: any) {
     this.dashboardData = this.getDashboards();
-    //return this.dashboardById = this.dashboardData.id;
+    // return this.dashboardById = this.dashboardData.id;
   }
 }
