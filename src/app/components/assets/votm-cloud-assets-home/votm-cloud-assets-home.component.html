@@ -60,7 +60,7 @@
           <i class="fa fa-industry"></i>
 
           <a style="color: #212529; text-decoration: underline; cursor: pointer;"
-            (click)="onEditViewClick(item, 'view')">
+            (click)="onEditViewClick(subItem, 'view')">
             {{subItem.name}}</a>&nbsp;<i *ngIf="subItem.node.length > 0 "
             [ngClass]="{'fa': true, 'fa-caret-right': !subItem.opened, 'fa-caret-down': subItem.opened}"></i>
         </th>

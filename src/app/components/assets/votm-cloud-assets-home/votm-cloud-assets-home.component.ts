@@ -33,6 +33,7 @@ export class VotmCloudAssetsHomeComponent implements OnInit {
   supscriptions: any;
   subscriptions: Subscription[] = [];
   templateList: any[] = [];
+  locationId: any;
 
 
   constructor(private assetService: AssetsService, private route: ActivatedRoute, private toastr: ToastrService, private router: Router, private breadcrumbs: BreadcrumbsService) { }
@@ -42,8 +43,8 @@ export class VotmCloudAssetsHomeComponent implements OnInit {
       (params: Params) => {
         this.parentOrgId = params.orgId;
         this.parentOrgName = params.orgName;
-        this.assetId = params.assetId;
-        if (!this.assetId) {
+        this.locationId = params.locId
+        if (!this.locationId) {
           this.fetchAllAssetsTree();
         } else {
           this.fetchAssetsTreeById();
@@ -89,7 +90,7 @@ export class VotmCloudAssetsHomeComponent implements OnInit {
   }
 
   fetchAssetsTreeById() {
-    this.subscriptions.push(this.assetService.getAssetTreeById(this.assetId)
+    this.subscriptions.push(this.assetService.getAssetTreeByLocId(this.locationId)
       .subscribe(response => {
         this.assetsList = response
         console.log(' this.assetsList ', this.assetsList)

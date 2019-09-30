@@ -26,13 +26,15 @@ export class VotmCloudPreferencesComponent implements OnInit {
   pageType: string;
   closeResult: string;
   applicationConfiguration: ApplicationConfiguration = new ApplicationConfiguration();
-  userprofile: UserProfile;
+  userprofile: UserProfile = new UserProfile();
   toaster: Toaster = new Toaster(this.toastr);
 
   constructor(private modalService: NgbModal, private configSettingsService: ConfigSettingsService,private activeroute: ActivatedRoute, private route: Router, private datePipe: DatePipe,
     private routerLocation: RouterLocation, private toastr: ToastrService) { }
 
   ngOnInit() {
+    this.getAllAppInfo();
+    this.tempMeasurement = 'SI';
   }
 
   getAllAppInfo() {
@@ -89,28 +91,31 @@ export class VotmCloudPreferencesComponent implements OnInit {
     }
   }
 
-  openmodal() {
+  openModal() {
     if (!this.userprofile.uoMId) {
       this.userprofile.uoMId = [];
     }
     this.previousUOM = JSON.parse(JSON.stringify(this.userprofile.uoMId))
     // Get the modal
-    var modal = document.getElementById("myModal");
+    var modal = document.getElementById("uomModal");
     modal.style.display = "block";
-    this.modal = document.getElementById("myModal");
+    this.modal = document.getElementById("uomModal");
     // Get the <span> element that closes the modal
     var span = document.getElementsByClassName("close")[0];
 
     // When the user clicks anywhere outside of the modal, close it
-    window.onclick = function (event) {
-      if (event.target == modal) {
-        modal.style.display = "none";
-      }
-    }
+    // window.onclick = function (event) {
+    //   if (event.target == modal) {
+    //     console.log('AHAMED');
+    //     modal.style.display = "none";
+    //   }
+    // }
 
   }
+  
   closemodal(event: string) {
-    this.modal.style.display = "none";
+     document.getElementById("uomModal").style.display = "none";
+    // this.modal.style.display = "none";
     if (event === 'save') {
       this.UOM = this.tempMeasurement;
       this.userprofile.uoMId = [];

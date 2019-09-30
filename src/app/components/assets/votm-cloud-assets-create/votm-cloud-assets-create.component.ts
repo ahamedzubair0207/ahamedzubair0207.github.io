@@ -102,36 +102,27 @@ export class VotmCloudAssetsCreateComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.asset.organizationId = this.curOrgId = this.activatedRoute.snapshot.paramMap.get("parentOrgId");
-    this.asset.organizationName = this.curOrgName = this.activatedRoute.snapshot.paramMap.get("parentOrgName");
-    this.asset.locationId = this.parentLocId = this.activatedRoute.snapshot.paramMap.get("parentLocId");
-    this.asset.locationName = this.parentLocName = this.activatedRoute.snapshot.paramMap.get("parentLocName");
-    this.asset.parentAssetId = this.parentAssetId = this.activatedRoute.snapshot.paramMap.get("parentAssetId");
-    this.asset.parentAssetName = this.parentAssetName = this.activatedRoute.snapshot.paramMap.get("parentAssetName");
+    this.activatedRoute.paramMap.subscribe(params => {
+      this.asset.organizationId = this.curOrgId = params.get("parentOrgId");
+      this.asset.organizationName = this.curOrgName = params.get("parentOrgName");
+      this.asset.locationId = this.parentLocId = params.get("parentLocId");
+      this.asset.locationName = this.parentLocName = params.get("parentLocName");
+      this.asset.parentAssetId = this.parentAssetId = params.get("parentAssetId");
+      this.asset.parentAssetName = this.parentAssetName = params.get("parentAssetName");
+      this.assetId = params.get('assetId');
+      if (this.assetId) {
+        this.getAssetById();
+      }
+    });
+
     this.pageType = this.activatedRoute.snapshot.data['type'];
     this.pageTitle = `${this.pageType} Asset`;
-    this.assetId = this.activatedRoute.snapshot.params['assetId'];
+
     this.templateWarningMessage = 'This is message';
     this.getAllAssets();
     this.getAllOrganization();
     this.getAllLocations();
 
-    if (this.assetId) {
-      this.assetService.getAssetById(this.assetId)
-        .subscribe(response => {
-          this.asset = response;
-          if (this.asset) {
-            this.asset.organizationName = this.curOrgName;
-            this.asset.locationName = this.parentLocName;
-            this.asset.parentAssetName = this.parentAssetName;
-            if (this.asset.logo && this.asset.logo.imageName) {
-              this.fileExtension = this.asset.logo.imageName.slice((Math.max(0, this.asset.logo.imageName.lastIndexOf(".")) || Infinity) + 1);
-              this.imgURL = this.domSanitizer.bypassSecurityTrustUrl(`data:image/${this.fileExtension};base64,${this.asset.logo.image}`);
-              this.asset.logo.imageType = this.fileExtension;
-            }
-          }
-        });
-    }
 
     this.getScreenLabels();
     this.getAllAppInfo();
@@ -141,6 +132,23 @@ export class VotmCloudAssetsCreateComponent implements OnInit {
 
   ngOnDestroy() {
     this.subscriptions.unsubscribe();
+  }
+
+  getAssetById() {
+    this.assetService.getAssetById(this.assetId)
+      .subscribe(response => {
+        this.asset = response;
+        if (this.asset) {
+          this.asset.organizationName = this.curOrgName;
+          this.asset.locationName = this.parentLocName;
+          this.asset.parentAssetName = this.parentAssetName;
+          if (this.asset.logo && this.asset.logo.imageName) {
+            this.fileExtension = this.asset.logo.imageName.slice((Math.max(0, this.asset.logo.imageName.lastIndexOf(".")) || Infinity) + 1);
+            this.imgURL = this.domSanitizer.bypassSecurityTrustUrl(`data:image/${this.fileExtension};base64,${this.asset.logo.image}`);
+            this.asset.logo.imageType = this.fileExtension;
+          }
+        }
+      });
   }
 
   createNestedAsset(event) {
@@ -589,15 +597,15 @@ export class VotmCloudAssetsCreateComponent implements OnInit {
           this.imgURL = this.domSanitizer.bypassSecurityTrustUrl(`data:image/${this.fileExtension};base64,${selectedTemplate.logo.image}`);
           selectedTemplate.logo.imageType = this.fileExtension;
         }
-    
+
         // Please Don't Touch the below code
-    
+
         // if (selectedTemplate.fileStore && selectedTemplate.fileStore.fileName) {
         //   selectedTemplate.fileStore.fileName = selectedTemplate.fileStore.fileName + '.xlsx';
         //   this.fileExtensionDoc = selectedTemplate.fileStore.fileName.slice((Math.max(0, selectedTemplate.fileStore.fileName.lastIndexOf(".")) || Infinity) + 1);
         //   // let abcd = this.domSanitizer.bypassSecurityTrustUrl(`data:image/xlsx;base64,${selectedTemplate.fileStore.file}`);
-    
-    
+
+
         //   // Temp
         //   const url = `data:image/xlsx;base64,${selectedTemplate.fileStore.file}`;
         //   fetch(url)
@@ -609,13 +617,13 @@ export class VotmCloudAssetsCreateComponent implements OnInit {
         //       this.docFile = new Blob(binaryData, { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' })
         //       this.asset.fileStore.fileType = this.fileExtensionDoc;
         //     });
-    
-    
+
+
         //   // this.docFileInput.nativeElement = abcd;
         // }
         this.previousAsset = JSON.parse(JSON.stringify(this.asset));
         this.acceptedTemplateChages = true;
-    
+
       })
 
 
@@ -625,7 +633,7 @@ export class VotmCloudAssetsCreateComponent implements OnInit {
     //     selectedTemplate = template;
     //   }
     // })
-    
+
   }
 
   onDocSelcetion(event) {

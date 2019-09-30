@@ -54,7 +54,7 @@ const routes: Routes = [
   { path: 'loc/view/:curOrgId/:curOrgName/:locId', component: VotmCloudLocationsCreateComponent, data: { type: 'View' } },
   { path: 'loc/signal', component: VotmCloudLocationsSignalComponent },
   { path: 'asset/home/:orgId/:orgName', component: VotmCloudAssetsHomeComponent },
-  { path: 'asset/home/:orgId/:orgName/:assetId', component: VotmCloudAssetsHomeComponent },
+  { path: 'asset/home/:orgId/:orgName/:locId', component: VotmCloudAssetsHomeComponent },
   { path: 'asset/create/:parentOrgId/:parentOrgName', component: VotmCloudAssetsCreateComponent, data: { type: 'Create' } },
   { path: 'asset/edit/:parentOrgId/:parentOrgName/:assetId', component: VotmCloudAssetsCreateComponent, data: { type: 'Edit' } },
   { path: 'asset/view/:parentOrgId/:parentOrgName/:assetId', component: VotmCloudAssetsCreateComponent, data: { type: 'View' } },

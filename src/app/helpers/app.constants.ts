@@ -7,6 +7,8 @@ export class AppConstants {
     public static DEL_ORG = '/Organization';
 
     public static GET_LOC_TREE = '/LocationTree/type/location';
+    public static GET_LOCTREE = '/LocationTree';
+    public static GET_LOC_TREE_BY_ORGID = '/type/Organization';
     public static GET_LOC = '/Location';
     public static EDIT_LOC = '/Location';
     public static CREATE_LOC = '/Location';
@@ -20,6 +22,8 @@ export class AppConstants {
     public static GET_OPTIONSLISTDATA = '/Location/optionsListData';
 
     public static GET_ASSET_TREE = '/AssetTree/type/asset';
+    public static GET_ASSETTREE = '/AssetTree';
+    public static GET_ASSETTREE_BYID = '/type/location';
     public static GET_ALLASSETS = '/Asset';
     public static GET_TEMPLATES = '/Asset/Template';
     public static GET_TEMPLATESNAMELIST = '/Asset/TemplateNameList';
