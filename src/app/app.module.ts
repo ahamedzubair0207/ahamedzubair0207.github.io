@@ -74,6 +74,8 @@ import { VotmCloudLocationsGatewayComponent } from './components/locations/votm-
 import { VotmCloudEventsLocComponent } from './components/events/votm-cloud-events-loc/votm-cloud-events-loc.component';
 import { VotmCloudEventsAssetComponent } from './components/events/votm-cloud-events-asset/votm-cloud-events-asset.component';
 import { VotmCloudAdminNetworkManagementComponent } from './components/admin/votm-cloud-admin-network-management/votm-cloud-admin-network-management.component';
+import { OnlyNumber } from './components/shared/votm-cloud-only-numbers/only-numbers.directive';
+
 
 
 
@@ -127,7 +129,8 @@ import { VotmCloudAdminNetworkManagementComponent } from './components/admin/vot
     VotmCloudLocationsGatewayComponent,
     VotmCloudEventsLocComponent,
     VotmCloudEventsAssetComponent,
-    VotmCloudAdminNetworkManagementComponent
+    VotmCloudAdminNetworkManagementComponent,
+    OnlyNumber
   ],
 
  

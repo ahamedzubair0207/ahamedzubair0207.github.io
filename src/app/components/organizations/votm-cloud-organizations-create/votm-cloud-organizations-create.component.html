@@ -4,11 +4,11 @@
   <ul class="nav">
     <li class="nav-item">
       <a class="nav-link active tab-icon" id="org-tab" href="#org-details-tab" data-toggle="tab" role="tab"
-        aria-controls="org-info" aria-selected="true"><i class="mr-2 fa fa-building"></i>Details</a>
+        aria-controls="org-info" aria-selected="true"><i class="mr-2 icon-org-company list"></i>Details</a>
     </li>
     <li class="nav-item">
       <a class="nav-link tab-icon" id="event-tab" href="#event-details-tab" data-toggle="tab" role="tab"
-        aria-controls="event-details" aria-selected="false"><i class="mr-2 fa fa-warning"></i>Events Log</a>
+        aria-controls="event-details" aria-selected="false"><i class="mr-2 icon-warn"></i>Events Log</a>
     </li>
     <!-- <li class="nav-item">
       <a class="nav-link tab-icon" id="dashboard1-tab" href="#dashboard1-details-tab" data-toggle="tab" role="tab"
@@ -17,15 +17,19 @@
 
     <!-- dynamic dashboard -->
     <li *ngFor="let dashboardDataUser of dashboardData; let i = index">
-      <a class="nav-link tab-icon" (click)="getDashboardHTML('parkerdashboard', i)" id="dashboard{{dashboardDataUser.id}}-tab" data-toggle="tab" href="#Dashboard_{{i}}" role="tab" aria-controls="loc"
-        aria-selected="false">{{dashboardDataUser.dashboardName}}
-        <i class="fa fa-pencil ml-2" (click)="openAddDashboardModal('editDashboard', dashboardDataUser.id, dashboardDataUser.dashboardName); stopPropagation();"
+      <a class="nav-link tab-icon" (click)="getDashboardHTML('parkerdashboard', i)"
+        id="dashboard{{dashboardDataUser.id}}-tab" data-toggle="tab" href="#Dashboard_{{i}}" role="tab"
+        aria-controls="loc" aria-selected="false"><i
+          class="mr-2  icon-dashboard"></i>{{dashboardDataUser.dashboardName}}
+        <i class="fa fa-pencil ml-2"
+          (click)="openAddDashboardModal('editDashboard', dashboardDataUser.id, dashboardDataUser.dashboardName); stopPropagation();"
           title="Configure Dashboard"></i>&nbsp;
-        <i class="fa fa-trash" (click)="openDashboardConfirmDialog(dashboardDataUser.id, dashboardDataUser.dashboardName)"
+        <i class="fa fa-trash"
+          (click)="openDashboardConfirmDialog(dashboardDataUser.id, dashboardDataUser.dashboardName)"
           title="Delete Dashboard"></i>
       </a>
     </li>
-  
+
     <li class="nav-item">
       <div class="add-dashboard-btn-wrapper ml-2">
         <button class="btn btn-info btn-group-right create-event-btn" (click)="openAddDashboardModal('addDashboard')"
@@ -48,468 +52,478 @@
     *ngIf="(!orgId && pageLabels) || (orgId && pageLabels && organization)" role="tabpanle"
     area-labelledby="org-info-tab">
 
-    <div class="row">
-      <div class="col-1">
-        <ul class="nav flex-column" aria-orientation="vertical">
+    <!-- <div class="row"> -->
+    <!-- <div class="col-1"> -->
+    <div class="d-flex flex-row">
+      <ul class="nav nav-tabs nav-tabs-vertical nav-tabs-left" aria-orientation="vertical">
 
-          <!-- details view/edit  -->
-          <li class="nav-item">
-            <a class="nav-link active tab-icon" id="org-details-tab" name="org-view-edit" href="#org-details"
-              data-toggle="tab" role="tab" aria-controls="org-details" aria-selected="true"><i
-                class="fa fa-building"></i></a>
-          </li>
-          <!-- Alerts Tab  -->
-          <li class="nav-item">
-            <a class="nav-link tab-icon" id="org-alert-tab" name="alert-view-edit" href="#org-alert"
-              (click)="onAlertRuleTabClick()" data-toggle="tab" role="tab" aria-controls="org-alert"
-              aria-selected="false"><i class="fa fa-warning"></i></a>
-          </li>
+        <!-- details view/edit  -->
+        <li class="nav-item">
+          <a class="nav-link active tab-icon" id="org-details-tab" name="org-view-edit" href="#org-details"
+            data-toggle="tab" role="tab" aria-controls="org-details" aria-selected="true"><i
+              class="icon-org-company list"></i></a>
+        </li>
+        <!-- Alerts Tab  -->
+        <li class="nav-item">
+          <a class="nav-link tab-icon" id="org-alert-tab" name="alert-view-edit" href="#org-alert"
+            (click)="onAlertRuleTabClick()" data-toggle="tab" role="tab" aria-controls="org-alert"
+            aria-selected="false"><i class="icon-warn"></i></a>
+        </li>
 
-          <!-- Asset Template Tab  -->
-          <li class="nav-item">
-            <a class="nav-link tab-icon" id="asset-template-tab" name="asset-template-list" href="#asset-template"
-              (click)="onTemplateTabClick()" data-toggle="tab" role="tab" aria-controls="asset-template"
-              aria-selected="false"><i class="fa fa-archive"></i></a>
-          </li>
+        <!-- Asset Template Tab  -->
+        <li class="nav-item">
+          <a class="nav-link tab-icon" id="asset-template-tab" name="asset-template-list" href="#asset-template"
+            (click)="onTemplateTabClick()" data-toggle="tab" role="tab" aria-controls="asset-template"
+            aria-selected="false"><i class="icon-asset-robot template"></i></a>
+        </li>
 
-          <!-- Sensor Tab  -->
-          <li class="nav-item">
-            <a class="nav-link tab-icon" id="org-sensor-tab" name="org-sensor-list" href="#org-sensor" data-toggle="tab"
-              role="tab" aria-controls="org-sensor" aria-selected="false">
-              <i class="fa fa-thermometer-full"></i></a>
-          </li>
+        <!-- Sensor Tab  -->
+        <li class="nav-item">
+          <a class="nav-link tab-icon" id="org-sensor-tab" name="org-sensor-list" href="#org-sensor" data-toggle="tab"
+            role="tab" aria-controls="org-sensor" aria-selected="false">
+            <i class="icon-sensonode"></i></a>
+        </li>
 
-          <!-- Gateways Tab  -->
+        <!-- Gateways Tab  -->
 
-          <li class="nav-item">
-            <a class="nav-link tab-icon" id="org-gateways-tab" name="org-gateways-list" href="#org-gateways"
-              data-toggle="tab" role="tab" aria-controls="org-gateways" aria-selected="false"><i
-                class="fa fa-server"></i></a>
-          </li>
+        <li class="nav-item">
+          <a class="nav-link tab-icon" id="org-gateways-tab" name="org-gateways-list" href="#org-gateways"
+            data-toggle="tab" role="tab" aria-controls="org-gateways" aria-selected="false"><i
+              class="icon-gateway"></i></a>
+        </li>
 
-        </ul>
-      </div>
+      </ul>
 
-      <div class="col-11">
-        <div class="tab-content">
+      <!-- </div> -->
 
-          <div class="tab-pane fade show active org-create-font"
-            *ngIf="(!orgId && pageLabels) || (orgId && pageLabels && organization)" id="org-details" role="tabpanle"
-            area-labelledby="org-details-tab">
 
-            <form #organizationForm="ngForm" class="create-org-container needs-validation"
-              (ngSubmit)="onOrganizationSubmit()" novalidate>
+      <!-- <div class="col-11"> -->
 
-              <div class="row">
-                <div class="col">
-                  <i class="fa fa-lock edit-view-lock" id="view-lock" name="lockTogglebutton"
-                    *ngIf="pageType.toLowerCase() === 'view'" (click)="onLockClick()"></i>
-                  <i class="fa fa-unlock edit-view-lock" id="edit-lock" name="unlockTogglebutton"
-                    *ngIf="pageType.toLowerCase() === 'edit'" (click)="onLockClick()"></i>
+      <div class="tab-content">
+
+        <div class="tab-pane fade show active org-create-font"
+          *ngIf="(!orgId && pageLabels) || (orgId && pageLabels && organization)" id="org-details" role="tabpanle"
+          area-labelledby="org-details-tab">
+
+          <form #organizationForm="ngForm" class="create-org-container needs-validation"
+            (ngSubmit)="onOrganizationSubmit()" novalidate>
+
+            <div class="row">
+              <div class="col">
+                <i class="fa fa-lock edit-view-lock" id="view-lock" name="lockTogglebutton"
+                  *ngIf="pageType.toLowerCase() === 'view'" (click)="onLockClick()"></i>
+                <i class="fa fa-unlock edit-view-lock" id="edit-lock" name="unlockTogglebutton"
+                  *ngIf="pageType.toLowerCase() === 'edit'" (click)="onLockClick()"></i>
+              </div>
+            </div>
+
+
+            <div class="row">
+              <div class="col-lg-4 col-xl-4">
+                <div class="form-group">
+                  <label class="temp" votmrequired id="org-name">Name: Long</label>
+                  <input type="text" maxlength="100" [(ngModel)]="organization.name"
+                    class="form-control form-control-sm" id="org-dtl-name" placeholder="Name" name="name"
+                    [disabled]="pageType==='View'" #orgName="ngModel" required>
+                  <div *ngIf="orgName.dirty && orgName.invalid">
+                    <app-votm-cloud-validator message="Name is required"></app-votm-cloud-validator>
+                  </div>
+                  <app-votm-cloud-char-validator [condition]="organization.name && organization.name.length>=100">
+                  </app-votm-cloud-char-validator>
                 </div>
               </div>
-
-
-              <div class="row">
-                <div class="col-lg-4 col-xl-4">
-                  <div class="form-group">
-                    <label for="inputEmail" votmrequired id="org-name"><b>Name: Long</b></label>
-                    <input type="text" maxlength="100" [(ngModel)]="organization.name"
-                      class="form-control form-control-sm" id="org-dtl-name" placeholder="Name" name="name"
-                      [disabled]="pageType==='View'" #orgName="ngModel" required>
-                    <div *ngIf="orgName.dirty && orgName.invalid">
-                      <app-votm-cloud-validator message="Name is required"></app-votm-cloud-validator>
+              <div class="col-lg-4 col-xl-1 pl-0">
+                <div class="form-group">
+                  <label class="temp" votmrequired id="nameShortLbl">Short</label>
+                  <div class="">
+                    <input type="text" class="form-control form-control-sm" id="nameShort" placeholder="Short"
+                      maxlength="500" [disabled]="pageType==='View'" [(ngModel)]="organization.shortName"
+                      name="shortName" #shortName="ngModel" required>
+                  </div>
+                  <div *ngIf="shortName.dirty && shortName.invalid">
+                    <app-votm-cloud-validator message="Short Name is required"></app-votm-cloud-validator>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-4 col-xl-2">
+                <div class="form-group">
+                  <label class="temp" votmrequired id="customerNumLbl">Customer #:</label>
+                  <div class="input-group">
+                    <input type="text" [(ngModel)]="organization.customerNumber" id="customerNum"
+                      class="form-control form-control-sm" placeholder="Customer Number" maxlength="500"
+                      #customerNum="ngModel" [disabled]="pageType==='View'" name="customerNum" required>
+                    <!-- <div class="input-group-append">
+                              <span class="input-group-text"><i class="fa fa-phone"></i></span>
+                          </div> -->
+                    <div *ngIf="customerNum.dirty && customerNum.invalid">
+                      <app-votm-cloud-validator message="Customer No. is required"></app-votm-cloud-validator>
                     </div>
-                    <app-votm-cloud-char-validator [condition]="organization.name && organization.name.length>=100">
+                    <app-votm-cloud-char-validator
+                      [condition]="organization.customerNumber && organization.customerNumber.length>=500">
                     </app-votm-cloud-char-validator>
                   </div>
                 </div>
-                <div class="col-lg-4 col-xl-1 pl-0">
-                  <div class="form-group">
-                    <label class="" votmrequired id="nameShortLbl"><b>Short</b></label>
-                    <div class="">
-                      <input type="text" class="form-control form-control-sm" id="nameShort" placeholder="Short"
-                        maxlength="500" [disabled]="pageType==='View'" [(ngModel)]="organization.shortName"
-                        name="shortName" #shortName="ngModel" required>
-                    </div>
-                    <div *ngIf="shortName.dirty && shortName.invalid">
-                      <app-votm-cloud-validator message="Short Name is required"></app-votm-cloud-validator>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-lg-4 col-xl-2">
-                  <div class="form-group">
-                    <label class="" votmrequired id="customerNumLbl"><b>Customer #:</b></label>
-                    <div class="input-group">
-                      <input type="text" [(ngModel)]="organization.customerNumber" id="customerNum"
-                        class="form-control form-control-sm" placeholder="Customer Number" maxlength="500"
-                        #customerNum="ngModel" [disabled]="pageType==='View'" name="customerNum" required>
-                      <!-- <div class="input-group-append">
-                              <span class="input-group-text"><i class="fa fa-phone"></i></span>
-                          </div> -->
-                      <div *ngIf="customerNum.dirty && customerNum.invalid">
-                        <app-votm-cloud-validator message="Customer No. is required"></app-votm-cloud-validator>
-                      </div>
-                      <app-votm-cloud-char-validator
-                        [condition]="organization.customerNumber && organization.customerNumber.length>=500">
-                      </app-votm-cloud-char-validator>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-lg-4 col-xl-3">
-                  <div class="form-group">
-                    <label class="" id="parentOrgLbl"><b>{{pageLabels.ParentOrganization.labelName}}:</b></label>
-                    <div class="">
-                      <select [disabled]="pageType==='View'" id="parentOrgLblList"
-                        [(ngModel)]="organization.parentOrganizationId" name="parentOrganizationName"
-                        class="drop-down form-control form-control-sm" required>
-                        <option *ngFor="let org of organizationList" class="dropdown-item" [value]="org.id">
-                          {{org.name}}
-                        </option>
-                      </select>
-                      <!-- <input for="parentOrgName" class="form-control org-create-font" type="text"
+              </div>
+              <div class="col-lg-4 col-xl-3">
+                <div class="form-group">
+                  <label class="" id="parentOrgLbl">{{pageLabels.ParentOrganization.labelName}}:</label>
+                  <div class="">
+                    <select [disabled]="pageType==='View'" id="parentOrgLblList"
+                      [(ngModel)]="organization.parentOrganizationId" name="parentOrganizationName"
+                      class="drop-down form-control form-control-sm" required>
+                      <option *ngFor="let org of organizationList" class="dropdown-item" [value]="org.id">
+                        {{org.name}}
+                      </option>
+                    </select>
+                    <!-- <input for="parentOrgName" class="form-control org-create-font" type="text"
                                   placeholder="{{parentOrganizationInfo? parentOrganizationInfo.parentOrganizationName: organization.parentOrganizationName}}"
                                   readonly disabled> -->
-                      <!-- <label
+                    <!-- <label
                                           for="parentOrgName">{{parentOrganizationInfo? parentOrganizationInfo.parentOrganizationName: organization.parentOrganizationName}}</label> -->
-                    </div>
                   </div>
                 </div>
-                <div class="col-lg-4 col-xl-2">
-                  <div class="form-group">
-                    <label class="" id="orgTypeLbl" for="organizationType"><b>Type:</b></label>
-                    <div class="">
-                      <input type="text" [disabled]="pageType==='View'" id="orgTypeInput"
-                        [(ngModel)]="organization.organizationType" class="form-control form-control-sm" maxlength="100"
-                        placeholder="Organization Type" name="organizationType">
-                      <app-votm-cloud-char-validator
-                        [condition]="organization.organizationType && organization.organizationType.length>=100">
-                      </app-votm-cloud-char-validator>
-                    </div>
+              </div>
+              <div class="col-lg-4 col-xl-2">
+                <div class="form-group">
+                  <label class="" id="orgTypeLbl" for="organizationType">Type:</label>
+                  <div class="">
+                    <input type="text" [disabled]="pageType==='View'" id="orgTypeInput"
+                      [(ngModel)]="organization.organizationType" class="form-control form-control-sm" maxlength="100"
+                      placeholder="Organization Type" name="organizationType">
+                    <app-votm-cloud-char-validator
+                      [condition]="organization.organizationType && organization.organizationType.length>=100">
+                    </app-votm-cloud-char-validator>
                   </div>
                 </div>
-                <div class="col-lg-4 col-xl-2">
-                  <div class="form-group">
-                    <label class="" id="icon" for="organizationType"><b>Icon</b></label>
-                    <div class="input-group">
-                      <input type="text" id="icon" class="form-control form-control-sm" placeholder="icon" name="icon">
+              </div>
+              <div class="col-lg-4 col-xl-2">
+                <div class="form-group">
+                  <label class="" id="icon" for="organizationType">Icon</label>
+                  <div class="input-group">
+                      <select class="selectpicker form-control-sm form-control">
+                          <option data-icon="icon-org-company"></option>
+                          <option data-icon="icon-loc-office"></option>
+                          <option data-icon="icon-org-struct"></option>
+                        </select>
+                    <!-- <input type="text" id="icon" class="form-control form-control-sm" placeholder="icon" name="icon">
                       <app-votm-cloud-char-validator> </app-votm-cloud-char-validator>
                       <div class="input-group-append">
                         <span class="input-group-text"><i class="fa fa-image"></i></span>
-                      </div>
-                    </div>
+                      </div> -->
                   </div>
                 </div>
-                <div class="col-lg-4 col-xl-3">
-                  <div class="form-group">
-                    <label class="input-group" votmrequired id="primarycontactLbl"><b>
-                        {{pageLabels.PrimaryContact.labelName}}:</b></label>
-                    <div class="input-group">
-                      <input type="email" id="primarycontact" [disabled]="pageType==='View'"
-                        [(ngModel)]="organization.primaryContactEmailAddress" class="form-control form-control-sm" email
-                        #primaryContact="ngModel" maxlength="100" placeholder="Email Address" name="contact" required>
-                      <div class="input-group-append">
-                        <span class="input-group-text"><i class="fa fa-at"></i></span>
-                      </div>
+              </div>
+              <div class="col-lg-4 col-xl-3">
+                <div class="form-group">
+                  <label class="input-group temp" votmrequired id="primarycontactLbl">
+                    &nbsp;{{pageLabels.PrimaryContact.labelName}}:</label>
+                  <div class="input-group">
+                    <input type="email" id="primarycontact" [disabled]="pageType==='View'"
+                      [(ngModel)]="organization.primaryContactEmailAddress" class="form-control form-control-sm" email
+                      #primaryContact="ngModel" maxlength="100" placeholder="Email Address" name="contact" required>
+                    <div class="input-group-append">
+                      <span class="input-group-text"><i class="fa fa-at"></i></span>
                     </div>
-                    <div *ngIf="primaryContact.dirty && primaryContact.invalid">
-                      <app-votm-cloud-validator *ngIf="primaryContact.errors && primaryContact.errors.required"
-                        message="Primary Contact is required"></app-votm-cloud-validator>
-                      <app-votm-cloud-validator *ngIf="primaryContact.errors && primaryContact.errors.email"
-                        message="This is not valid mail id"></app-votm-cloud-validator>
-                    </div>
-                    <app-votm-cloud-char-validator
-                      [condition]="organization.primaryContactEmailAddress && organization.primaryContactEmailAddress.length>=100">
-                    </app-votm-cloud-char-validator>
                   </div>
-                </div>
-                <div class="col-lg-4 col-xl-2">
-                  <div class="form-group">
-                    <label class="" votmrequired id="primarycontactnumberlbl"><b> Contact
-                        Phone:</b></label>
-                    <div class="input-group">
-                      <input type="text" id="primarycontactnumber" [disabled]="pageType==='View'"
-                        class="form-control form-control-sm" [(ngModel)]="organization.contactPhone" number
-                        maxlength="100" placeholder="Phone Number" name="contact" required>
-                      <div class="input-group-append">
-                        <span class="input-group-text"><i class="fa fa-phone"></i></span>
-                      </div>
-                    </div>
-                    <div *ngIf="primaryContact.dirty && primaryContact.invalid">
-                      <app-votm-cloud-validator *ngIf="primaryContact.errors && primaryContact.errors.required"
-                        message="Primary Contact is required"></app-votm-cloud-validator>
-                      <app-votm-cloud-validator *ngIf="primaryContact.errors && primaryContact.errors.email"
-                        message="This is not valid phone #"></app-votm-cloud-validator>
-                    </div>
-                    <app-votm-cloud-char-validator
-                      [condition]="organization.primaryContactEmailAddress && organization.primaryContactEmailAddress.length>=100">
-                    </app-votm-cloud-char-validator>
-                  </div>
-                </div>
-                <div class="col-lg-4 col-xl-2">
-                  <div class="form-group">
-                    <label class="" votmrequired id="primaryDistributorNamelbl"><b>Distributor:
-                      </b></label>
-                    <div class=""><input type="text" id="primaryDistributorName" [disabled]="pageType==='View'"
-                        name="primaryDistributorName" [(ngModel)]="organization.primaryDistributorName"
-                        class="form-control form-control-sm" placeholder="Primary Distributor Name"
-                        #primaryDistributorName="ngModel" maxlength="50" required>
-                      <div *ngIf="primaryDistributorName.dirty && primaryDistributorName.invalid">
-                        <app-votm-cloud-validator message="Primary Distributor Name is required">
-                        </app-votm-cloud-validator>
-                      </div>
-                    </div>
+                  <div *ngIf="primaryContact.dirty && primaryContact.invalid">
+                    <app-votm-cloud-validator *ngIf="primaryContact.errors && primaryContact.errors.required"
+                      message="Primary Contact is required"></app-votm-cloud-validator>
+                    <app-votm-cloud-validator *ngIf="primaryContact.errors && primaryContact.errors.email"
+                      message="This is not valid mail id"></app-votm-cloud-validator>
                   </div>
                   <app-votm-cloud-char-validator
-                    [condition]="organization.primaryDistributorName && organization.primaryDistributorName.length>=50">
-                  </app-votm-cloud-char-validator>
-                </div>
-                <div class="col-lg-4 col-xl-3">
-                  <div class="form-group">
-                    <label class="" votmrequired id="primaryDistributorEmailLbl"><b>Distributor
-                        Contact:
-                      </b></label>
-                    <div class="input-group">
-                      <input type="email" id="primaryDistributorEmail" [disabled]="pageType==='View'"
-                        name="primaryDistributorEmail" [(ngModel)]="organization.primaryDistributorEmailAddress"
-                        #primaryDistributorEmail="ngModel" class="form-control form-control-sm" email
-                        placeholder="Primary Distributor Email" maxlength="100" required>
-                      <div class="input-group-append">
-                        <span class="input-group-text"><i class="fa fa-at"></i></span>
-                      </div>
-                      <div *ngIf="primaryDistributorEmail.dirty && primaryDistributorEmail.invalid">
-                        <app-votm-cloud-validator
-                          *ngIf="primaryDistributorEmail.errors && primaryDistributorEmail.errors.required"
-                          message="Primary Distributor Contact is required"></app-votm-cloud-validator>
-                        <app-votm-cloud-validator
-                          *ngIf="primaryDistributorEmail.errors && primaryDistributorEmail.errors.email"
-                          message="This is not valid mail id"></app-votm-cloud-validator>
-                      </div>
-                    </div>
-                  </div>
-                  <app-votm-cloud-char-validator
-                    [condition]="organization.primaryDistributorEmail && organization.primaryDistributorEmail.length>=100">
+                    [condition]="organization.primaryContactEmailAddress && organization.primaryContactEmailAddress.length>=100">
                   </app-votm-cloud-char-validator>
                 </div>
               </div>
-
-              <fieldset class="form-group">
-                <legend><b id="contractHeadingLbl" votmrequired>{{pageLabels.Contract.labelName}}</b></legend>
-                <div class="row org-create-font">
-                  <div class="col-sm-3">
-                    <!-- <label id="startDatelbl"><b>{{pageLabels.StartDate.labelName}}:</b></label> -->
-                    <!-- <div class="input-group-append"> -->
-                    <label id="startDatelbl"><b>Term:</b></label>
-                    <!-- <button class="ml-5 btn btn-light calendar" (click)="d.toggle()" type="button"><i
-                            class="fa fa-calendar"></i></button> -->
-                    <!-- </div> -->
-                    <div class="input-group">
-                      <input class="form-control form-control-sm"
-                        (click)="contractStartDate.toggle(); onStartDateChange();" placeholder="yyyy-mm-dd"
-                        [disabled]="pageType==='View'" [(ngModel)]="tempContractStartDate" name="startDate"
-                        ngbDatepicker #contractStartDate="ngbDatepicker" (change)="onStartDateChange()"
-                        (keyup)="onStartDateChange()" #startDate="ngModel" required (ngModelChange)="compareDate()">
-                      <div class="input-group-append"><span class="input-group-text"><i
-                            class="fa fa-calendar"></i></span></div>
+              <div class="col-lg-4 col-xl-2">
+                <div class="form-group">
+                  <label class="temp" votmrequired id="primarycontactnumberlbl"> Contact
+                    Phone:</label>
+                  <div class="input-group">
+                    <input type="text" id="primarycontactnumber" [disabled]="pageType==='View'"
+                      class="form-control form-control-sm" [(ngModel)]="organization.contactPhone" number
+                      maxlength="100" OnlyNumber="true" placeholder="Phone Number" #contactPhone="ngModel" name="contactPhone" required>
+                    <div class="input-group-append">
+                      <span class="input-group-text"><i class="fa fa-phone"></i></span>
                     </div>
-                    <!-- <input type="date" id="startDate" [disabled]="pageType==='View'"
+                  </div>
+                  <div *ngIf="contactPhone.dirty && contactPhone.invalid">
+                    <app-votm-cloud-validator *ngIf="contactPhone.errors && contactPhone.errors.required"
+                      message="Primary Contact is required"></app-votm-cloud-validator>
+                    <!-- <app-votm-cloud-validator *ngIf="contactPhone.errors && contactPhone.errors.email"
+                      message="This is not valid phone #"></app-votm-cloud-validator> -->
+                  </div>
+                  <app-votm-cloud-char-validator
+                    [condition]="organization.primaryContactEmailAddress && organization.primaryContactEmailAddress.length>=100">
+                  </app-votm-cloud-char-validator>
+                </div>
+              </div>
+              <div class="col-lg-4 col-xl-2">
+                <div class="form-group">
+                  <label class="temp" votmrequired id="primaryDistributorNamelbl">Distributor:
+                  </label>
+                  <div class=""><input type="text" id="primaryDistributorName" [disabled]="pageType==='View'"
+                      name="primaryDistributorName" [(ngModel)]="organization.primaryDistributorName"
+                      class="form-control form-control-sm" placeholder="Primary Distributor Name"
+                      #primaryDistributorName="ngModel" maxlength="50" required>
+                    <div *ngIf="primaryDistributorName.dirty && primaryDistributorName.invalid">
+                      <app-votm-cloud-validator message="Primary Distributor Name is required">
+                      </app-votm-cloud-validator>
+                    </div>
+                  </div>
+                </div>
+                <app-votm-cloud-char-validator
+                  [condition]="organization.primaryDistributorName && organization.primaryDistributorName.length>=50">
+                </app-votm-cloud-char-validator>
+              </div>
+              <div class="col-lg-4 col-xl-3">
+                <div class="form-group">
+                  <label class="temp" votmrequired id="primaryDistributorEmailLbl">Distributor
+                    Contact:
+                  </label>
+                  <div class="input-group">
+                    <input type="email" id="primaryDistributorEmail" [disabled]="pageType==='View'"
+                      name="primaryDistributorEmail" [(ngModel)]="organization.primaryDistributorEmailAddress"
+                      #primaryDistributorEmail="ngModel" class="form-control form-control-sm" email
+                      placeholder="Primary Distributor Email" maxlength="100" required>
+                    <div class="input-group-append">
+                      <span class="input-group-text"><i class="fa fa-at"></i></span>
+                    </div>
+                    <div *ngIf="primaryDistributorEmail.dirty && primaryDistributorEmail.invalid">
+                      <app-votm-cloud-validator
+                        *ngIf="primaryDistributorEmail.errors && primaryDistributorEmail.errors.required"
+                        message="Primary Distributor Contact is required"></app-votm-cloud-validator>
+                      <app-votm-cloud-validator
+                        *ngIf="primaryDistributorEmail.errors && primaryDistributorEmail.errors.email"
+                        message="This is not valid mail id"></app-votm-cloud-validator>
+                    </div>
+                  </div>
+                </div>
+                <app-votm-cloud-char-validator
+                  [condition]="organization.primaryDistributorEmail && organization.primaryDistributorEmail.length>=100">
+                </app-votm-cloud-char-validator>
+              </div>
+            </div>
+
+            <fieldset class="form-group">
+              <legend id="contractHeadingLbl" votmrequired> {{pageLabels.Contract.labelName}}</legend>
+              <div class="row org-create-font">
+                <div class="col-sm-3">
+                  <!-- <label id="startDatelbl">{{pageLabels.StartDate.labelName}}:</label> -->
+                  <!-- <div class="input-group-append"> -->
+                  <label id="startDatelbl">Term:</label>
+                  <!-- <button class="ml-5 btn btn-light calendar" (click)="d.toggle()" type="button"><i
+                            class="fa fa-calendar"></i></button> -->
+                  <!-- </div> -->
+                  <div class="input-group">
+                    <input class="form-control form-control-sm"
+                      (click)="contractStartDate.toggle(); onStartDateChange();" placeholder="yyyy-mm-dd"
+                      [disabled]="pageType==='View'" [(ngModel)]="tempContractStartDate" name="startDate" ngbDatepicker
+                      #contractStartDate="ngbDatepicker" (change)="onStartDateChange()" (keyup)="onStartDateChange()"
+                      #startDate="ngModel" required (ngModelChange)="compareDate()">
+                    <div class="input-group-append"><span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                    </div>
+                  </div>
+                  <!-- <input type="date" id="startDate" [disabled]="pageType==='View'"
                         [(ngModel)]="organization.contractStartDate" class="form-control org-create-font"
                         (change)="onStartDateChange()" (click)="onStartDateChange()" (keyup)="onStartDateChange()"
                         #startDate="ngModel" placeholder="Start Date" name="startDate" required> -->
-                    <div *ngIf="startDate.dirty && startDate.invalid">
-                      <app-votm-cloud-validator *ngIf="startDate.errors && startDate.errors.required"
-                        message="Start Date is required"></app-votm-cloud-validator>
-                      <app-votm-cloud-validator *ngIf="startDate.errors && startDate.errors.invalidDate"
-                        message="Start Date can not be greater than or equal to end date"></app-votm-cloud-validator>
+                  <div *ngIf="startDate.dirty && startDate.invalid">
+                    <app-votm-cloud-validator *ngIf="startDate.errors && startDate.errors.required"
+                      message="Start Date is required"></app-votm-cloud-validator>
+                    <app-votm-cloud-validator *ngIf="startDate.errors && startDate.errors.invalidDate"
+                      message="Start Date can not be greater than or equal to end date"></app-votm-cloud-validator>
+                  </div>
+                </div>
+
+                <div class="col-sm-3">
+                  <label id="endDateLbl">{{pageLabels.EndDate.labelName}}:</label>
+                  <div class="input-group">
+                    <input class="form-control form-control-sm" (click)="contractEndDate.toggle(); onEndDateChange();"
+                      placeholder="yyyy-mm-dd" [disabled]="pageType==='View'" [(ngModel)]="tempContractEndDate"
+                      name="endDate" ngbDatepicker #contractEndDate="ngbDatepicker" (change)="onEndDateChange()"
+                      (keyup)="onEndDateChange()" #endDate="ngModel" required (ngModelChange)="compareDate()">
+                    <div class="input-group-append"><span class="input-group-text"><i class="fa fa-calendar"></i></span>
                     </div>
                   </div>
-
-                  <div class="col-sm-3">
-                    <label id="endDateLbl"><b>{{pageLabels.EndDate.labelName}}:</b></label>
-                    <div class="input-group">
-                      <input class="form-control form-control-sm" (click)="contractEndDate.toggle(); onEndDateChange();"
-                        placeholder="yyyy-mm-dd" [disabled]="pageType==='View'" [(ngModel)]="tempContractEndDate"
-                        name="endDate" ngbDatepicker #contractEndDate="ngbDatepicker" (change)="onEndDateChange()"
-                        (keyup)="onEndDateChange()" #endDate="ngModel" required (ngModelChange)="compareDate()">
-                      <div class="input-group-append"><span class="input-group-text"><i
-                            class="fa fa-calendar"></i></span></div>
-                    </div>
-                    <!-- <input type="date" id="endDate" [disabled]="pageType==='View'"
+                  <!-- <input type="date" id="endDate" [disabled]="pageType==='View'"
                         [(ngModel)]="organization.contractEndDate" class="form-control org-create-font" #endDate="ngModel"
                         (change)="onEndDateChange()" (click)="onEndDateChange()" (keyup)="onEndDateChange()"
                         placeholder="End Date" name="endDate" required> -->
 
-                    <div *ngIf="endDate.dirty && endDate.invalid">
-                      <app-votm-cloud-validator message="End Date is required"></app-votm-cloud-validator>
-                    </div>
+                  <div *ngIf="endDate.dirty && endDate.invalid">
+                    <app-votm-cloud-validator message="End Date is required"></app-votm-cloud-validator>
                   </div>
-
-                  <div class="col-sm-2">
-                    <label id="serviceLbl"><b>{{pageLabels.SVCLevel.labelName}}: </b></label>
-                    <select [disabled]="pageType==='View'" id="service" [(ngModel)]="organization.svclevels"
-                      name="svcLevel" #svcLevel="ngModel" class="drop-down form-control form-control-sm" required>
-                      <option value="null" disabled selected>Select SVC Level</option>
-                      <option *ngFor="let svcLevel of svcLevels" [value]="svcLevel.optionId">
-                        {{svcLevel.optionValue}}
-                      </option>
-                    </select>
-                    <div *ngIf="svcLevel.dirty && svcLevel.invalid">
-                      <app-votm-cloud-validator message="SVC Level is required"></app-votm-cloud-validator>
-                    </div>
-                  </div>
-
-                  <div class="col-sm-2">
-                    <label id="sensorBlockLbl"><b>Sensor Blocks: </b></label>
-                    <input type="text" maxlength="5" class="form-control org-create-font form-control-sm"
-                      placeholder="Sensor Block" [(ngModel)]="sensorBlock" name="sensorBlockCt" required
-                      #sensorBlockCt="ngModel">
-                    <div *ngIf="sensorBlockCt.dirty && sensorBlockCt.invalid">
-                      <app-votm-cloud-validator message="Sensor Blocks is required"></app-votm-cloud-validator>
-                    </div>
-                  </div>
-
-                  <div class="col-sm-2">
-                    <label id="cellularBlockLbl"><b>Cellular Blocks: </b></label>
-                    <input type="text" maxlength="5" [(ngModel)]="cellularBlock"
-                      class="form-control org-create-font form-control-sm" placeholder="Cellular Block"
-                      name="cellularBlock" required #cellularBlockCt="ngModel">
-                    <div *ngIf="cellularBlockCt.dirty && cellularBlockCt.invalid">
-                      <app-votm-cloud-validator message="Cellular Blocks is required"></app-votm-cloud-validator>
-                    </div>
-                  </div>
-
                 </div>
 
-              </fieldset>
+                <div class="col-sm-2">
+                  <label id="serviceLbl">{{pageLabels.SVCLevel.labelName}}: </label>
+                  <select [disabled]="pageType==='View'" id="service" [(ngModel)]="organization.svclevels"
+                    name="svcLevel" #svcLevel="ngModel" class="drop-down form-control form-control-sm" required>
+                    <option value="null" disabled selected>Select Level</option>
+                    <option *ngFor="let svcLevel of svcLevels" [value]="svcLevel.optionId">
+                      {{svcLevel.optionValue}}
+                    </option>
+                  </select>
+                  <div *ngIf="svcLevel.dirty && svcLevel.invalid">
+                    <app-votm-cloud-validator message="SVC Level is required"></app-votm-cloud-validator>
+                  </div>
+                </div>
 
-              <div *ngIf="organization.address" class="row">
+                <div class="col-sm-2">
+                  <label id="sensorBlockLbl">Sensor Blocks: </label>
+                  <input type="text" maxlength="5" class="form-control org-create-font form-control-sm"
+                    [disabled]="pageType==='View'" placeholder="Sensor Block" [(ngModel)]="organization.sensorBlocks"
+                    name="sensorBlockCt" required #sensorBlockCt="ngModel">
+                  <div *ngIf="sensorBlockCt.dirty && sensorBlockCt.invalid">
+                    <app-votm-cloud-validator message="Sensor Blocks is required"></app-votm-cloud-validator>
+                  </div>
+                </div>
 
-                <div class="col-6">
-                  <fieldset class="mb-2">
-                    <legend id="billingaddress" votmrequired><b>{{pageLabels.BillingAddress.labelName}} :</b></legend>
-                    <div class="form-row">
+                <div class="col-sm-2">
+                  <label id="cellularBlockLbl">Cellular Blocks: </label>
+                  <input type="text" maxlength="5" [(ngModel)]="organization.cellularBlocks" [disabled]="pageType==='View'"
+                    class="form-control org-create-font form-control-sm" placeholder="Cellular Block"
+                    name="cellularBlock" required #cellularBlockCt="ngModel">
+                  <div *ngIf="cellularBlockCt.dirty && cellularBlockCt.invalid">
+                    <app-votm-cloud-validator message="Cellular Blocks is required"></app-votm-cloud-validator>
+                  </div>
+                </div>
 
-                      <div class="col-lg-6">
-                        <div class="form-group">
-                          <!-- <label for="address2"><b>* {{pageLabels.Address1.labelName}} :</b></label> -->
-                          <div class="input-group">
-                            <input type="text" id="address1" [disabled]="pageType==='View'"
-                              [(ngModel)]="organization.address[0].address1" class="form-control form-control-sm"
-                              #address1="ngModel" placeholder="Street Name" name="address1" required>
-                            <div class="input-group-append">
-                              <span class="input-group-text"><i class="fa fa-building"></i></span>
-                            </div>
-                          </div>
-                          <div *ngIf="address1.dirty && address1.invalid">
-                            <app-votm-cloud-validator message="Street name is required"></app-votm-cloud-validator>
+              </div>
+
+            </fieldset>
+
+            <div *ngIf="organization.address" class="row">
+
+              <div class="col-6">
+                <fieldset class="mb-2">
+                  <legend id="billingaddress" votmrequired>{{pageLabels.BillingAddress.labelName}} :</legend>
+                  <div class="form-row">
+
+                    <div class="col-lg-6">
+                      <div class="form-group">
+                        <!-- <label for="address2">* {{pageLabels.Address1.labelName}} :</label> -->
+                        <div class="input-group">
+                          <input type="text" id="address1" [disabled]="pageType==='View'"
+                            [(ngModel)]="organization.address[0].address1" class="form-control form-control-sm"
+                            #address1="ngModel" placeholder="Street Name" name="address1" required>
+                          <div class="input-group-append">
+                            <span class="input-group-text"><i class="fa fa-building"></i></span>
                           </div>
                         </div>
+                        <div *ngIf="address1.dirty && address1.invalid">
+                          <app-votm-cloud-validator message="Street name is required"></app-votm-cloud-validator>
+                        </div>
                       </div>
+                    </div>
 
-                      <div class="col-lg-6">
-                        <div class="form-group">
-                          <!-- <label for="address1"><b>* {{pageLabels.Address2.labelName}} :</b></label> -->
-                          <div class="input-group">
-                            <input type="text" id="address2" [disabled]="pageType==='View'"
-                              [(ngModel)]="organization.address[0].address2" class="form-control form-control-sm"
-                              placeholder="Apt/Suite Number" #address2="ngModel" name="address2">
-                            <div class="input-group-append">
-                              <span class="input-group-text"><i class="fa fa-building"></i></span>
-                            </div>
+                    <div class="col-lg-6">
+                      <div class="form-group">
+                        <!-- <label for="address1">* {{pageLabels.Address2.labelName}} :</label> -->
+                        <div class="input-group">
+                          <input type="text" id="address2" [disabled]="pageType==='View'"
+                            [(ngModel)]="organization.address[0].address2" class="form-control form-control-sm"
+                            placeholder="Apt/Suite Number" #address2="ngModel" name="address2">
+                          <div class="input-group-append">
+                            <span class="input-group-text"><i class="fa fa-building"></i></span>
                           </div>
-                          <!-- <div *ngIf="address1.dirty && address1.invalid">
+                        </div>
+                        <!-- <div *ngIf="address1.dirty && address1.invalid">
                                                                           <app-votm-cloud-validator message="Apt/Suite Number is required"></app-votm-cloud-validator>
                                                                         </div> -->
 
-                        </div>
                       </div>
+                    </div>
 
-                      <div class="col-8 form-group">
-                        <!-- <label for="city"><b>* {{pageLabels.City.labelName}} :</b></label> -->
-                        <input type="text" id="city" [disabled]="pageType==='View'"
-                          [(ngModel)]="organization.address[0].city" class="form-control form-control-sm"
-                          #city="ngModel" placeholder="City" name="city" required>
-                        <div *ngIf="city.dirty && city.invalid">
-                          <app-votm-cloud-validator message="City is required"></app-votm-cloud-validator>
-                        </div>
+                    <div class="col-8 form-group">
+                      <!-- <label for="city">* {{pageLabels.City.labelName}} :</label> -->
+                      <input type="text" id="city" [disabled]="pageType==='View'"
+                        [(ngModel)]="organization.address[0].city" class="form-control form-control-sm" #city="ngModel"
+                        placeholder="City" name="city" required>
+                      <div *ngIf="city.dirty && city.invalid">
+                        <app-votm-cloud-validator message="City is required"></app-votm-cloud-validator>
                       </div>
+                    </div>
 
-                      <div class="col-4">
-                        <select #state="ngModel" id="state" [disabled]="pageType==='View'"
-                          [(ngModel)]="organization.address[0].state" name="state"
-                          class="drop-down form-control form-control-sm" required>
-                          <option value="null" disabled selected>State</option>
-                          <option *ngFor="let state of states" [value]="state.value">
-                            {{state.text}}
-                          </option>
-                        </select>
-                        <div *ngIf="state.dirty && state.invalid">
-                          <app-votm-cloud-validator message="State is required"></app-votm-cloud-validator>
-                        </div>
+                    <div class="col-4">
+                      <select #state="ngModel" id="state" [disabled]="pageType==='View'"
+                        [(ngModel)]="organization.address[0].state" name="state"
+                        class="drop-down form-control form-control-sm" required>
+                        <option value="null" disabled selected>State</option>
+                        <option *ngFor="let state of states" [value]="state.value">
+                          {{state.text}}
+                        </option>
+                      </select>
+                      <div *ngIf="state.dirty && state.invalid">
+                        <app-votm-cloud-validator message="State is required"></app-votm-cloud-validator>
                       </div>
+                    </div>
 
-                      <div class="col-8">
-                        <select [disabled]="pageType==='View'" id="country"
-                          [(ngModel)]="organization.address[0].country" name="country"
-                          class="drop-down form-control form-control-sm loc-create-font"
-                          (change)="onCountryChange($event)" required #country="ngModel">
-                          <option value="null" disabled selected>Country</option>
-                          <option *ngFor="let country of countries" [value]="country.countryName">
-                            {{country.countryName}}
-                          </option>
-                        </select>
+                    <div class="col-8">
+                      <select [disabled]="pageType==='View'" id="country" [(ngModel)]="organization.address[0].country"
+                        name="country" class="drop-down form-control form-control-sm loc-create-font"
+                        (change)="onCountryChange($event)" required #country="ngModel">
+                        <option value="null" disabled selected>Country</option>
+                        <option *ngFor="let country of countries" [value]="country.countryName">
+                          {{country.countryName}}
+                        </option>
+                      </select>
 
 
-                        <!-- <select required [disabled]="pageType==='View'" [(ngModel)]="organization.address[0].country"
+                      <!-- <select required [disabled]="pageType==='View'" [(ngModel)]="organization.address[0].country"
                     name="country" class="drop-down form-control form-control-sm" #country="ngModel">
                     <option *ngFor="let country of countries" [value]="country.value">
                       {{country.text}}
                     </option>
                   </select> -->
-                        <div *ngIf="country.dirty && country.invalid">
-                          <app-votm-cloud-validator message="Country is required"></app-votm-cloud-validator>
-                        </div>
-                      </div>
-
-                      <div class="col-4">
-                        <!-- <label for="zipcode"><b>* {{pageLabels.Zipcode.labelName}} :</b></label> -->
-                        <input type="text" id="zipCode" [disabled]="pageType==='View'"
-                          [(ngModel)]="organization.address[0].postalCode" class="form-control form-control-sm"
-                          #zipcode="ngModel" placeholder="Zip Code" name="zipCode" required>
-                        <div *ngIf="zipcode.dirty && zipcode.invalid">
-                          <app-votm-cloud-validator message="Zip Code is required"></app-votm-cloud-validator>
-                        </div>
-                      </div>
-
-                    </div>
-                  </fieldset>
-                </div>
-
-                <div class="col-6">
-                  <div class="row">
-                    <div class="col-lg-6">
-                      <div class="form-group" *ngIf="!orgId && applicationConfiguration">
-                        <label class="" votmrequired
-                          id="DefaultLangLbl"><b>{{pageLabels.Language.labelName}}:</b></label>
-                        <!-- <div class=""> -->
-                        <select required [(ngModel)]="organization.localeId" id="DefaultLang" name="language"
-                          class="drop-down form-control form-control-sm" #defLanguage="ngModel">
-                          <option value="null" disabled selected>Select Language</option>
-                          <option *ngFor="let locale of applicationConfiguration.locale" [value]="locale.localeId">
-                            {{locale.localeName}}
-                          </option>
-                        </select>
-                        <div *ngIf="defLanguage.dirty && defLanguage.invalid">
-                          <app-votm-cloud-validator message="Language is required"></app-votm-cloud-validator>
-                        </div>
-                        <!-- </div> -->
+                      <div *ngIf="country.dirty && country.invalid">
+                        <app-votm-cloud-validator message="Country is required"></app-votm-cloud-validator>
                       </div>
                     </div>
-                    <div class="col-lg-6" *ngIf="orgId && applicationConfiguration">
+
+                    <div class="col-4">
+                      <!-- <label for="zipcode">* {{pageLabels.Zipcode.labelName}} :</label> -->
+                      <input type="text" id="zipCode" [disabled]="pageType==='View'"
+                        [(ngModel)]="organization.address[0].postalCode" class="form-control form-control-sm"
+                        #zipcode="ngModel" placeholder="Zip Code" name="zipCode" required>
+                      <div *ngIf="zipcode.dirty && zipcode.invalid">
+                        <app-votm-cloud-validator message="Zip Code is required"></app-votm-cloud-validator>
+                      </div>
+                    </div>
+
+                  </div>
+                </fieldset>
+              </div>
+
+              <div class="col-6">
+                <div class="row">
+                  <div class="col-lg-6">
+                    <div class="form-group"
+                      *ngIf="orgId && applicationConfiguration || !orgId && applicationConfiguration ">
+                      <!-- <div class="form-group" *ngIf="!orgId && applicationConfiguration"> -->
+                      <label class="" votmrequired id="DefaultLangLbl">{{pageLabels.Language.labelName}}:</label>
+                      <!-- <div class=""> -->
+                      <select required [(ngModel)]="organization.localeId" id="DefaultLang" name="language"
+                        class="drop-down form-control form-control-sm" #defLanguage="ngModel"
+                        [disabled]="pageType==='View'">
+                        <option value="null" disabled selected>Select Language</option>
+                        <option *ngFor="let locale of applicationConfiguration.locale" [value]="locale.localeId">
+                          {{locale.localeName}}
+                        </option>
+                      </select>
+                      <div *ngIf="defLanguage.dirty && defLanguage.invalid">
+                        <app-votm-cloud-validator message="Language is required"></app-votm-cloud-validator>
+                      </div>
+                      <!-- </div> -->
+                    </div>
+                  </div>
+                  <!-- <div class="col-lg-6" *ngIf="orgId && applicationConfiguration">
                       <div class="form-group">
-                        <label class="" votmrequired id="DefaultLangLbl"><b>{{pageLabels.Language.labelName}}
-                            :</b></label>
-                        <!-- <div class=""> -->
+                        <label class="" votmrequired id="DefaultLangLbl">{{pageLabels.Language.labelName}}
+                            :</label>
+                       
                         <select required #language="ngModel" id="DefaultLang" [disabled]="pageType==='View'"
                           [(ngModel)]="organization.locale" name="language"
                           class="drop-down form-control form-control-sm">
@@ -521,36 +535,38 @@
                         <div *ngIf="language.dirty && language.invalid">
                           <app-votm-cloud-validator message="Language is required"></app-votm-cloud-validator>
                         </div>
-                        <!-- </div> -->
+                      
                       </div>
-                    </div>
-                    <div class="col-lg-6">
-                      <div class="form-group" *ngIf="!orgId && applicationConfiguration">
-                        <!-- <label for="DefatimezoneultLang"><b>* {{pageLabels.TimeZone.labelName}} :</b></label> -->
-                        <label class="" votmrequired id="timezoneLbl"><b>{{pageLabels.DefaultTimeZone.labelName}}
-                            :</b></label>
-                        <!-- <div class=""> -->
-                        <select required #timezone="ngModel" id="timezone" [disabled]="pageType==='View'"
-                          [(ngModel)]="organization.timeZoneId" name="timezone"
-                          class="drop-down form-control form-control-sm">
-                          <option value="null" disabled selected>Select Timezone</option>
-                          <option *ngFor="let timeZone of applicationConfiguration.timeZone"
-                            [value]="timeZone.timeZoneId">
-                            {{timeZone.timeZoneName}}
-                          </option>
-                        </select>
-                        <div *ngIf="timezone.dirty && timezone.invalid">
-                          <app-votm-cloud-validator message="Timezone is required"></app-votm-cloud-validator>
-                        </div>
-                        <!-- </div> -->
+                    </div> -->
+
+                  <div class="col-lg-6">
+                    <div class="form-group">
+                      <!-- <div class="form-group" *ngIf="!orgId && applicationConfiguration"> -->
+                      <!-- <label for="DefatimezoneultLang">* {{pageLabels.TimeZone.labelName}} :</label> -->
+                      <label class="" votmrequired id="timezoneLbl">{{pageLabels.DefaultTimeZone.labelName}}
+                        :</label>
+                      <!-- <div class=""> -->
+                      <select required #timezone="ngModel" id="timezone" [disabled]="pageType==='View'"
+                        [(ngModel)]="organization.timeZoneId" name="timezone"
+                        class="drop-down form-control form-control-sm">
+                        <option value="null" disabled selected>Select Timezone</option>
+                        <option *ngFor="let timeZone of applicationConfiguration.timeZone"
+                          [value]="timeZone.timeZoneId">
+                          {{timeZone.timeZoneName}}
+                        </option>
+                      </select>
+                      <div *ngIf="timezone.dirty && timezone.invalid">
+                        <app-votm-cloud-validator message="Timezone is required"></app-votm-cloud-validator>
                       </div>
+                      <!-- </div> -->
                     </div>
-                    <div class="col-lg-6" *ngIf="orgId && applicationConfiguration">
+                  </div>
+
+                  <!-- <div class="col-lg-6" *ngIf="orgId && applicationConfiguration">
                       <div class="form-group">
-                        <!-- <label for="DefatimezoneultLang"><b>* {{pageLabels.TimeZone.labelName}} :</b></label> -->
-                        <label class="" votmrequired id="timezoneLbl"><b>
+                        <label class="" votmrequired id="timezoneLbl">
                             {{pageLabels.DefaultTimeZone.labelName}}
-                            :</b></label>
+                            :</label>
                         <div class="">
                           <select required #timezone="ngModel" id="timezone" [disabled]="pageType==='View'"
                             [(ngModel)]="organization.timeZone" name="timezone"
@@ -566,88 +582,88 @@
                           </div>
                         </div>
                       </div>
-                    </div>
-                    <div class="col-lg-6">
-                      <div class="form-group">
-                        <label class="" name="uom-change-lbl" votmrequired id="unitsOfMeasureLbl"><b>Default
-                            UOM</b></label>
-                        <div class="input-group input-group-sm">
-                          <div class="input-group-prepend">
-                            <span class="input-group-text" name="uom-logo" id="unitsOfMeasureSelected">{{UOM}}</span>
-                          </div>
-                          <!-- <input type="text" class="form-control form-control-sm" placeholder=""> -->
-                          <div class="input-group-append">
-                            <span class="">
-                              <!-- Asish Please keep this button while Designing. I need it for the Pop up for UOM  -->
-                              <button id="uom-change-btn" id="UomChance Button" class="btn btn-sm btn-secondary"
-                                *ngIf="pageType !=='View'" type="button" (click)="openmodal()"
-                                style="z-index: 0;">Change</button>
-                            </span>
-                          </div>
+                    </div> -->
+
+                  <div class="col-lg-6">
+                    <div class="form-group">
+                      <label class="" name="uom-change-lbl" votmrequired id="unitsOfMeasureLbl">Default
+                        UOM</label>
+                      <div class="input-group input-group-sm">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text" name="uom-logo" id="unitsOfMeasureSelected">{{UOM}}</span>
+                        </div>
+                        <!-- <input type="text" class="form-control form-control-sm" placeholder=""> -->
+                        <div class="input-group-append">
+                          <span class="">
+                            <!-- Asish Please keep this button while Designing. I need it for the Pop up for UOM  -->
+                            <button id="uom-change-btn" id="UomChance Button" class="btn btn-sm btn-secondary"
+                              *ngIf="pageType !=='View'" type="button" (click)="openmodal()"
+                              style="z-index: 0;">Change</button>
+                          </span>
                         </div>
                       </div>
                     </div>
-                    <div class="col-lg-6">
-                      <div class="form-group org-create-font">
-                        <div class="">
-                          <label id="logoLbl"><b>{{pageLabels.LogoFile.labelName}} :</b></label>
-                          <span style="color:rgb(106,96,85);" *ngIf="message">{{message}}</span>
-                          <input #file id="imageUploadButton" type="file" accept='image/*'
-                            [disabled]="pageType==='View'" (change)="preview(file.files)"
-                            class="form-control form-control-sm" />
-                          <!-- <label id="imageLbl" style="font-weight: bold"
+                  </div>
+                  <div class="col-lg-6">
+                    <div class="form-group org-create-font">
+                      <div class="">
+                        <label id="logoLbl">{{pageLabels.LogoFile.labelName}} :</label>
+                        <span style="color:rgb(106,96,85);" *ngIf="message">{{message}}</span>
+                        <input #file id="imageUploadButton" type="file" accept='image/*' [disabled]="pageType==='View'"
+                          (change)="preview(file.files)" class="form-control form-control-sm" />
+                        <!-- <label id="imageLbl" style="font-weight: bold"
                               *ngIf="organization && organization.logo">{{organization.logo.imageName}}</label> -->
-                          <img [src]="imgURL" height="70" width="100%" style="object-fit: contain;" *ngIf="imgURL">
-                        </div>
+                        <img [src]="imgURL" height="70" width="100%" style="object-fit: contain;" *ngIf="imgURL">
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
+            </div>
 
 
-              <div class="row org-create-font">
-                <div class="col-lg-12">
-                  <label id="orgDescriptionLbl" class=""><b>{{pageLabels.DescriptionofOrganization.labelName}}
-                      :</b></label>
-                  <textarea class="form-control form-control-sm" id="orgDesText" #description="ngModel"
-                    [disabled]="pageType==='View'" [(ngModel)]="organization.description"
-                    (keyup)="onDescriptionChange()" name="orgDescription" rows="3" id="f-orgDescription"></textarea>
-                  <div *ngIf="description.dirty && description.invalid">
-                    <app-votm-cloud-validator *ngIf="description.errors && description.errors.invalidDescription"
-                      message="Can not add more than 4000 characters"></app-votm-cloud-validator>
-                  </div>
+            <div class="row org-create-font">
+              <div class="col-lg-12">
+                <label id="orgDescriptionLbl" class="">{{pageLabels.DescriptionofOrganization.labelName}}
+                  :</label>
+                <textarea class="form-control form-control-sm" id="orgDesText" #description="ngModel"
+                  [disabled]="pageType==='View'" [(ngModel)]="organization.description" (keyup)="onDescriptionChange()"
+                  name="orgDescription" rows="3" id="f-orgDescription"></textarea>
+                <div *ngIf="description.dirty && description.invalid">
+                  <app-votm-cloud-validator *ngIf="description.errors && description.errors.invalidDescription"
+                    message="Can not add more than 4000 characters"></app-votm-cloud-validator>
                 </div>
+              </div>
+            </div>
+
+
+            <div class="row mb-2 mt-2">
+              <div class="col">
+                <button id="loc-org-create" *ngIf="organization.organizationId" (click)="createNestedLocation($event)"
+                  type="button" class="btn btn-sm btn-outline-info"><i class="fa fa-location-arrow"></i> Add
+                  Location</button>
+                <button id="suborg-create" *ngIf="organization.organizationId"
+                  (click)="createNestedOrganization($event)" type="button" class="btn btn-sm btn-outline-info ml-1"><i
+                    class="fa fa-building"></i> Add
+                  Suborganization</button>
+
+                <button id="org-cancel" type="button" (click)="onCancelClick($event)"
+                  class="btn btn-secondary btn-sm button-mod"><i class="pr-2 fa fa-window-close-o"></i>
+                  Cancel</button>
+                <button id="org-delete" *ngIf="organization.organizationId && pageType !=='View'" type="button"
+                  class="btn btn-secondary btn-sm button-mod" (click)="openConfirmDialog()"><i
+                    class="pr-2 fa fa-trash"></i>
+                  Delete</button>
+                <button id="org-save" type="submit" *ngIf="pageType !=='View'" class="btn btn-sm btn-info button-mod"><i
+                    class="pr-2 fa fa-building"></i> Save
+                  Organization</button>
               </div>
 
 
-              <div class="row mb-2 mt-2">
-                <div class="col">
-                  <button id="loc-org-create" *ngIf="organization.organizationId" (click)="createNestedLocation($event)"
-                    type="button" class="btn btn-sm btn-outline-info"><i class="fa fa-location-arrow"></i> Add
-                    Location</button>
-                  <button id="suborg-create" *ngIf="organization.organizationId"
-                    (click)="createNestedOrganization($event)" type="button" class="btn btn-sm btn-outline-info ml-1"><i
-                      class="fa fa-building"></i> Add
-                    Suborganization</button>
-
-                  <button id="org-cancel" type="button" (click)="onCancelClick($event)"
-                    class="btn btn-secondary btn-sm button-mod"><i class="pr-2 fa fa-window-close-o"></i>
-                    Cancel</button>
-                  <button id="org-delete" *ngIf="organization.organizationId && pageType !=='View'" type="button"
-                    class="btn btn-secondary btn-sm button-mod" (click)="openConfirmDialog()"><i
-                      class="pr-2 fa fa-trash"></i>
-                    Delete</button>
-                  <button id="org-save" type="submit" *ngIf="pageType !=='View'"
-                    class="btn btn-sm btn-info button-mod"><i class="pr-2 fa fa-building"></i> Save
-                    Organization</button>
-                </div>
+            </div>
 
 
-              </div>
-
-
-              <!-- <div class="col-md-12 mt-2">
+            <!-- <div class="col-md-12 mt-2">
                 <button id="loc-org-create" *ngIf="organization.organizationId" (click)="createNestedLocation($event)"
                     type="button" class="btn btn-sm btn-info"><i class="fa fa-location-arrow"></i> Add Location</button>
                   <button id="suborg-create" *ngIf="organization.organizationId"
@@ -664,36 +680,37 @@
                 </div> -->
 
 
-            </form>
-
-          </div>
-
-          <div class="create-org-container tab-pane fade" id="org-alert" role="tabpanle"
-            area-labelledby="org-alert-tab">
-            <app-votm-cloud-alerts-home [alertList]="alertRuleList"></app-votm-cloud-alerts-home>
-          </div>
-
-          <div class="create-org-container tab-pane fade" id="asset-template" data-toggle="tab" role="tabpanle"
-            area-labelledby="asset-template-tab">
-            <app-votm-cloud-asset-template-list [templateList]="templateList"></app-votm-cloud-asset-template-list>
-          </div>
-
-          <div class="create-org-container tab-pane fade" id="org-sensor" data-toggle="tab" role="tabpanle"
-            area-labelledby="org-sensor-tab">
-            <app-votm-cloud-sensors-home></app-votm-cloud-sensors-home>
-          </div>
-
-          <div class="create-org-container tab-pane fade" id="org-gateways" data-toggle="tab" role="tabpanle"
-            area-labelledby="org-gateways-tab">
-            <app-votm-cloud-gateways-home></app-votm-cloud-gateways-home>
-          </div>
-
-
+          </form>
 
         </div>
-      </div>
-    </div>
 
+        <div class="create-org-container tab-pane fade" id="org-alert" data-toggle="tab" role="tabpanle" 
+          area-labelledby="org-alert-tab">
+          <app-votm-cloud-alerts-home [alertList]="alertRuleList"></app-votm-cloud-alerts-home>
+        </div>
+
+        <div class="create-org-container tab-pane fade" id="asset-template" data-toggle="tab" role="tabpanle"
+          area-labelledby="asset-template-tab">
+          <app-votm-cloud-asset-template-list [templateList]="templateList"></app-votm-cloud-asset-template-list>
+        </div>
+
+        <div class="create-org-container tab-pane fade" id="org-sensor" data-toggle="tab" role="tabpanle"
+          area-labelledby="org-sensor-tab">
+          <app-votm-cloud-sensors-home></app-votm-cloud-sensors-home>
+        </div>
+
+        <div class="create-org-container tab-pane fade" id="org-gateways" data-toggle="tab" role="tabpanle"
+          area-labelledby="org-gateways-tab">
+          <app-votm-cloud-gateways-home></app-votm-cloud-gateways-home>
+        </div>
+
+
+
+      </div>
+
+      <!-- </div> -->
+      <!-- </div> -->
+    </div>
   </div>
 
   <!-- Event Details Tab  -->
@@ -706,7 +723,8 @@
     <app-votm-cloud-organization-dashboard></app-votm-cloud-organization-dashboard>
   </div> -->
   <!-- Dynamic dashboard container start-->
-  <div class="tab-pane fade" *ngFor="let dashboardDataUser of dashboardData; let ij = index" id="Dashboard_{{ij}}"  role="tabpanel">
+  <div class="tab-pane fade" *ngFor="let dashboardDataUser of dashboardData; let ij = index" id="Dashboard_{{ij}}"
+    role="tabpanel">
     <div class="row" *ngIf="dashboardDataUser.dashboardHTML" [innerHTML]="dashboardDataUser.dashboardHTML"></div>
     <div class="row" *ngIf="ij==0 || ij==3 || ij==6">
       <div class="col-6 dashboard-gear-icon-wrapper">
@@ -778,7 +796,7 @@
     <!-- Modal content -->
     <div class="modal-content">
       <div class="modal-header">
-        <label for="UOM" class="pr-2"><b>Units of Measure :</b></label>
+        <label for="UOM" class="pr-2">Units of Measure :</label>
         <div class="form-check form-check-inline">
           <input [disabled]="pageType==='View'" class="form-check-input org-create-font" type="radio" value="SI"
             name="UOM" (change)="onUnitChange($event)" checked id="f-si">
@@ -808,7 +826,7 @@
 
             <div class="col-4">
               <div class="row form-group">
-                <label class="col-sm-4 col-form-label" for="uom.uomTypeName"><b>{{uom.uomTypeName}}:</b></label>
+                <label class="col-sm-4 col-form-label" for="uom.uomTypeName">{{uom.uomTypeName}}:</label>
                 <div class="col-sm-8 org-create-font">
                   <select [(ngModel)]="uomModels[uom.uomTypeName]"
                     (change)="onUoMDropdownChange($event,uom.uomTypeName)" name="uom.uomTypeName"
@@ -824,7 +842,7 @@
 
             <div class="col-4">
               <div class="row form-group">
-                <label class="col-sm-4 col-form-label" for="uom.uomTypeName"><b>{{uom.uomTypeName}}:</b></label>
+                <label class="col-sm-4 col-form-label" for="uom.uomTypeName">{{uom.uomTypeName}}:</label>
                 <div class="col-sm-8 org-create-font">
                   <select [(ngModel)]="uomModels[uom.uomTypeName]"
                     (change)="onUoMDropdownChange($event,uom.uomTypeName)" name="uom.uomTypeName"
@@ -841,7 +859,7 @@
             <div class="col-4" *ngIf="applicationConfiguration.unitOfMeassurement[i+1]">
               <div class="row form-group">
                 <label class="col-sm-4 col-form-label"
-                  for="applicationConfiguration.unitOfMeassurement[i+1].uomTypeName"><b>{{applicationConfiguration.unitOfMeassurement[i+1].uomTypeName}}:</b></label>
+                  for="applicationConfiguration.unitOfMeassurement[i+1].uomTypeName">{{applicationConfiguration.unitOfMeassurement[i+1].uomTypeName}}:</label>
                 <div class="col-sm-8 org-create-font">
                   <select [(ngModel)]="uomModels[applicationConfiguration.unitOfMeassurement[i+1].uomTypeName]"
                     (change)="onUoMDropdownChange($event, applicationConfiguration.unitOfMeassurement[i+1].uomTypeName)"
@@ -878,19 +896,20 @@
   <div class="modal-dialog modal-lg modal-dialog-scrollable dashboard-create-font" *ngIf="dashboardDataById">
     <!-- Modal content -->
     <form #dashBoardForm="ngForm" (ngSubmit)="onDashboardFormSubmit()" class="form needs-validation" novalidate>
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">{{dashboardDataById.title}}</h5>
-        <button type="button" class="close" aria-label="Close" (click)="closeAddDashboardModal()">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body event-create-font">
-        
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">{{dashboardDataById.title}}</h5>
+          <button type="button" class="close" aria-label="Close" (click)="closeAddDashboardModal()">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body event-create-font">
+
           <div class="form-group row">
             <label for="" class="col-md-3 col-form-label">Template Name</label>
             <div class="col-sm-7">
-              <select class="form-control" id="dashboard-template-name" name="dashboardTemplate" [(ngModel)]="dashboardDataById.dashboardTemplate" >
+              <select class="form-control" id="dashboard-template-name" name="dashboardTemplate"
+                [(ngModel)]="dashboardDataById.dashboardTemplate">
                 <option *ngFor="let dashboardTemplate of dashboardTemplates" [value]="dashboardTemplate.id">
                   {{dashboardTemplate.templateName}}</option>
               </select>
@@ -911,25 +930,27 @@
             <label for="" class="col-sm-1 col-form-label">On</label>
             <div class="col-md-3">
               <div class="input-group">
-                <input type="text" class="form-control" id="dashboard-created-On" readonly placeholder="25/09/2019 03:19">
+                <input type="text" class="form-control" id="dashboard-created-On" readonly
+                  placeholder="25/09/2019 03:19">
                 <!-- <div class="input-group-append">
                   <span class="input-group-text"><i class="fa fa-calendar"></i></span>
                 </div> -->
               </div>
             </div>
           </div>
-        
-      </div>
-      <div class="modal-footer">
-        <button id="add-dashboard-cancle" type="button" class="btn button-mod btn-secondary btn-sm"
-          (click)="closeAddDashboardModal('cancel')" id="addDashboardCancle">Cancel
-        </button>
-        <button id="add-dashboard-save" type="submit" class="btn btn-info btn-color btn-sm" id="addDashboardAdd">Save</button>
-        <!-- <button id="add-dashboard-save" type="submit" class="btn btn-info btn-color btn-sm"
+
+        </div>
+        <div class="modal-footer">
+          <button id="add-dashboard-cancle" type="button" class="btn button-mod btn-secondary btn-sm"
+            (click)="closeAddDashboardModal('cancel')" id="addDashboardCancle">Cancel
+          </button>
+          <button id="add-dashboard-save" type="submit" class="btn btn-info btn-color btn-sm"
+            id="addDashboardAdd">Save</button>
+          <!-- <button id="add-dashboard-save" type="submit" class="btn btn-info btn-color btn-sm"
           (click)="closeAddDashboardModal(dashboardDataById.act)" id="addDashboardAdd">Save</button> -->
+        </div>
       </div>
-    </div>
-  </form>
+    </form>
   </div>
 </div>
 <!-- Add/Edit Dashboard Model End-->

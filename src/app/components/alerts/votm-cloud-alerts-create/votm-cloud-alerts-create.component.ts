@@ -63,6 +63,7 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
     });
     this.getMeticTypes();
     this.getUserGroupRoles();
+    this.getAllUserGroups();
     this.ruleTypes = [
       {
         id: '3D97A28E-7D8E-4C7D-98CE-251909FED1A9',
@@ -78,7 +79,7 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
       // this.alert.alertRuleConfigurationMapping.push({})
     }
     // this.selectedSignals = ['fa7b422d-2018-4fdb-ba50-0b4be9bf2735'];
-    this.getAllUserGroups();
+    
     // this.getUserRoles();
     this.responsibilities = [
       { text: 'None', value: 'None' },
