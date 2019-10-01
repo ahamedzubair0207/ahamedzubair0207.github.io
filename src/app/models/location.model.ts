@@ -12,7 +12,7 @@ export class Location {
     primaryContact: string;
     primaryDistributor: string;
     gateways?: Array<string>;
-    // gatewayId:string; 
+    // gatewayId:string;
     geoFenceType: string;
     geoFenceValue?: string;
     geoWidth: string;

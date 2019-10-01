@@ -1,4 +1,6 @@
-import { VotmCloudAdminNetworkManagementComponent } from './components/admin/votm-cloud-admin-network-management/votm-cloud-admin-network-management.component';
+import {
+  VotmCloudAdminNetworkManagementComponent
+} from './components/admin/votm-cloud-admin-network-management/votm-cloud-admin-network-management.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
@@ -6,82 +8,269 @@ import { VotmCloudViewsHomeComponent } from './components/views/votm-cloud-views
 import { VotmCloudAlertsHomeComponent } from './components/alerts/votm-cloud-alerts-home/votm-cloud-alerts-home.component';
 import { VotmCloudAlertsCreateComponent } from './components/alerts/votm-cloud-alerts-create/votm-cloud-alerts-create.component';
 import { VotmCloudPreferencesComponent } from './components/shared/votm-cloud-preferences/votm-cloud-preferences.component';
-import { VotmCloudOrganizationsHomeComponent } from './components/organizations/votm-cloud-organizations-home/votm-cloud-organizations-home.component';
-import { VotmCloudOrganizationsCreateComponent } from './components/organizations/votm-cloud-organizations-create/votm-cloud-organizations-create.component';
-import { VotmCloudLocationsHomeComponent } from './components/locations/votm-cloud-locations-home/votm-cloud-locations-home.component';
-import { VotmCloudLocationsCreateComponent } from './components/locations/votm-cloud-locations-create/votm-cloud-locations-create.component';
-import { VotmCloudLocationsSignalComponent } from './components/locations/votm-cloud-locations-signal/votm-cloud-locations-signal.component';
-import { VotmCloudAssetsHomeComponent } from './components/assets/votm-cloud-assets-home/votm-cloud-assets-home.component';
-import { VotmCloudAssetsCreateComponent } from './components/assets/votm-cloud-assets-create/votm-cloud-assets-create.component';
-import { VotomCloudAssetsSignalComponent } from './components/assets/votm-cloud-assets-signal/votom-cloud-assets-signal.component';
-import { VotmCloudAssetTemplateDetailsComponent } from './components/assets/votm-cloud-asset-template-details/votm-cloud-asset-template-details.component';
-import { VotmCloudAssetTemplateListComponent } from './components/assets/votm-cloud-asset-template-list/votm-cloud-asset-template-list.component';
-import { VotmCloudSensorsHomeComponent } from './components/sensors/votm-cloud-sensors-home/votm-cloud-sensors-home.component';
+import {
+  VotmCloudOrganizationsHomeComponent
+} from './components/organizations/votm-cloud-organizations-home/votm-cloud-organizations-home.component';
+import {
+  VotmCloudOrganizationsCreateComponent
+} from './components/organizations/votm-cloud-organizations-create/votm-cloud-organizations-create.component';
+import {
+  VotmCloudLocationsHomeComponent
+} from './components/locations/votm-cloud-locations-home/votm-cloud-locations-home.component';
+import {
+  VotmCloudLocationsCreateComponent
+} from './components/locations/votm-cloud-locations-create/votm-cloud-locations-create.component';
+import {
+  VotmCloudLocationsSignalComponent
+} from './components/locations/votm-cloud-locations-signal/votm-cloud-locations-signal.component';
+import {
+  VotmCloudAssetsHomeComponent
+} from './components/assets/votm-cloud-assets-home/votm-cloud-assets-home.component';
+import {
+  VotmCloudAssetsCreateComponent
+} from './components/assets/votm-cloud-assets-create/votm-cloud-assets-create.component';
+import {
+  VotomCloudAssetsSignalComponent
+} from './components/assets/votm-cloud-assets-signal/votom-cloud-assets-signal.component';
+import {
+  VotmCloudAssetTemplateDetailsComponent
+} from './components/assets/votm-cloud-asset-template-details/votm-cloud-asset-template-details.component';
+import {
+  VotmCloudAssetTemplateListComponent
+} from './components/assets/votm-cloud-asset-template-list/votm-cloud-asset-template-list.component';
+import {
+  VotmCloudSensorsHomeComponent
+} from './components/sensors/votm-cloud-sensors-home/votm-cloud-sensors-home.component';
 import { VotmCloudGatewaysHomeComponent } from './components/gateways/votm-cloud-gateways-home/votm-cloud-gateways-home.component';
 import { VotmCloudAdminPanelComponent } from './components/admin/votm-cloud-admin-panel/votm-cloud-admin-panel.component';
 import { VotmCloudSuperAdminComponent } from './components/super/votm-cloud-super-admin/votm-cloud-super-admin.component';
 import { VotmCloudLoginComponent } from './components/shared/votm-cloud-login/votm-cloud-login.component';
 import { VotmCloudSensorsDetailsComponent } from './components/sensors/votm-cloud-sensors-details/votm-cloud-sensors-details.component';
+<<<<<<< HEAD
 import { VotmCloudOrganizationDashboardComponent } from './components/organizations/votm-cloud-organization-dashboard/votm-cloud-organization-dashboard.component';
 import { VotmCloudAdminUserManagementComponent } from './components/admin/votm-cloud-admin-user-management/votm-cloud-admin-user-management.component';
+=======
+import {
+  VotmCloudOrganizationDashboardComponent
+} from './components/organizations/votm-cloud-organization-dashboard/votm-cloud-organization-dashboard.component';
+>>>>>>> 8b19acc94727a503da0a9d68774f78feb4b5f65c
 
 const routes: Routes = [
-  { path: 'fav', component: VotmCloudViewsHomeComponent },
-  { path: 'view/home', component: VotmCloudViewsHomeComponent },
-  { path: 'org/dashboard', component: VotmCloudOrganizationDashboardComponent },
+  {
+    path: 'fav',
+    component: VotmCloudViewsHomeComponent
+  },
+  {
+    path: 'view/home',
+    component: VotmCloudViewsHomeComponent
+  },
+  {
+    path: 'org/dashboard',
+    component: VotmCloudOrganizationDashboardComponent
+  },
   // { path: 'alerts/home', component: VotmCloudAlertsHomeComponent },
   // { path: 'alerts/create', component: VotmCloudAlertsCreateComponent },
   // { path: 'alerts/create', component: VotmCloudAlertsCreateComponent },
-  { path: 'preferences', component: VotmCloudPreferencesComponent },
-  { path: 'org/home/:orgId/:orgName', component: VotmCloudOrganizationsHomeComponent, data:{type: 'Organization'} },
-  { path: 'org/create/:curOrgId/:curOrgName', component: VotmCloudOrganizationsCreateComponent, data: { type: 'Create' } },
-  { path: 'org/view/:curOrgId/:curOrgName/:orgId', component: VotmCloudOrganizationsCreateComponent, data: { type: 'View' } },
-  { path: 'org/edit/:curOrgId/:curOrgName/:orgId', component: VotmCloudOrganizationsCreateComponent, data: { type: 'Edit' } },
-  
-  { path: 'org/view/:curOrgId/:curOrgName/:orgId/alertRule/create', component: VotmCloudAlertsCreateComponent, data: { type: 'Create' } },
-  { path: 'org/view/:curOrgId/:curOrgName/:orgId/alertRule/edit/:alertId', component: VotmCloudAlertsCreateComponent, data: { type: 'Edit' } },
-  { path: 'org/view/:curOrgId/:curOrgName/:orgId/alertRule/view/:alertId', component: VotmCloudAlertsCreateComponent, data: { type: 'View' } },
-  { path: 'org/edit/:curOrgId/:curOrgName/:orgId/alertRule/create', component: VotmCloudAlertsCreateComponent, data: { type: 'Create' } },
-  { path: 'org/edit/:curOrgId/:curOrgName/:orgId/alertRule/edit/:alertId', component: VotmCloudAlertsCreateComponent, data: { type: 'Edit' } },
-  { path: 'org/edit/:curOrgId/:curOrgName/:orgId/alertRule/view/:alertId', component: VotmCloudAlertsCreateComponent, data: { type: 'View' } },
- 
+  {
+    path: 'preferences',
+    component: VotmCloudPreferencesComponent
+  },
+  {
+    path: 'org/home/:orgId/:orgName',
+    component: VotmCloudOrganizationsHomeComponent,
+    data: { type: 'Organization' }
+  },
+  {
+    path: 'org/create/:curOrgId/:curOrgName',
+    component: VotmCloudOrganizationsCreateComponent,
+    data: { type: 'Create' }
+  },
+  {
+    path: 'org/view/:curOrgId/:curOrgName/:orgId',
+    component: VotmCloudOrganizationsCreateComponent,
+    data: { type: 'View' }
+  },
+  {
+    path: 'org/edit/:curOrgId/:curOrgName/:orgId',
+    component: VotmCloudOrganizationsCreateComponent,
+    data: { type: 'Edit' }
+  },
+  {
+    path: 'org/view/:curOrgId/:curOrgName/:orgId/alertRule/create',
+    component: VotmCloudAlertsCreateComponent,
+    data: { type: 'Create' }
+  },
+  {
+    path: 'org/view/:curOrgId/:curOrgName/:orgId/alertRule/edit/:alertId',
+    component: VotmCloudAlertsCreateComponent, data: { type: 'Edit' }
+  },
+  {
+    path: 'org/view/:curOrgId/:curOrgName/:orgId/alertRule/view/:alertId',
+    component: VotmCloudAlertsCreateComponent, data: { type: 'View' }
+  },
+  {
+    path: 'org/edit/:curOrgId/:curOrgName/:orgId/alertRule/create',
+    component: VotmCloudAlertsCreateComponent, data: { type: 'Create' }
+  },
+  {
+    path: 'org/edit/:curOrgId/:curOrgName/:orgId/alertRule/edit/:alertId',
+    component: VotmCloudAlertsCreateComponent, data: { type: 'Edit' }
+  },
+  {
+    path: 'org/edit/:curOrgId/:curOrgName/:orgId/alertRule/view/:alertId',
+    component: VotmCloudAlertsCreateComponent, data: { type: 'View' }
+  },
   // { path: 'loc/home', component: VotmCloudLocationsHomeComponent },
-  { path: 'loc/home/:orgId/:orgName', component: VotmCloudLocationsHomeComponent, data:{type: 'Location'} },
-  { path: 'loc/home/:orgId/:orgName/:locId/:locName', component: VotmCloudLocationsHomeComponent },
-  { path: 'loc/create/:parentLocId/:parentLocName/:curOrgId/:curOrgName', component: VotmCloudLocationsCreateComponent, data: { type: 'Create' } },
-  { path: 'loc/view/:parentLocId/:parentLocName/:curOrgId/:curOrgName/:locId', component: VotmCloudLocationsCreateComponent, data: { type: 'View' } },
-  { path: 'loc/edit/:parentLocId/:parentLocName/:curOrgId/:curOrgName/:locId', component: VotmCloudLocationsCreateComponent, data: { type: 'Edit' } },
-  { path: 'loc/create/:curOrgId/:curOrgName', component: VotmCloudLocationsCreateComponent, data: { type: 'Create' } },
-  { path: 'loc/edit/:curOrgId/:curOrgName/:locId', component: VotmCloudLocationsCreateComponent, data: { type: 'Edit' } },
-  { path: 'loc/view/:curOrgId/:curOrgName/:locId', component: VotmCloudLocationsCreateComponent, data: { type: 'View' } },
-  { path: 'loc/signal', component: VotmCloudLocationsSignalComponent },
-  { path: 'asset/home/:orgId/:orgName', component: VotmCloudAssetsHomeComponent },
-  { path: 'asset/home/:orgId/:orgName/:locId', component: VotmCloudAssetsHomeComponent },
-  { path: 'asset/create/:parentOrgId/:parentOrgName', component: VotmCloudAssetsCreateComponent, data: { type: 'Create' } },
-  { path: 'asset/edit/:parentOrgId/:parentOrgName/:assetId', component: VotmCloudAssetsCreateComponent, data: { type: 'Edit' } },
-  { path: 'asset/view/:parentOrgId/:parentOrgName/:assetId', component: VotmCloudAssetsCreateComponent, data: { type: 'View' } },
-  { path: 'asset/create/:parentOrgId/:parentOrgName/:parentLocId/:parentLocName', component: VotmCloudAssetsCreateComponent, data: { type: 'Create' } },
-  { path: 'asset/edit/:parentOrgId/:parentOrgName/:parentLocId/:parentLocName/:assetId', component: VotmCloudAssetsCreateComponent, data: { type: 'Edit' } },
-  { path: 'asset/view/:parentOrgId/:parentOrgName/:parentLocId/:parentLocName/:assetId', component: VotmCloudAssetsCreateComponent, data: { type: 'View' } },
-  { path: 'asset/create/:parentOrgId/:parentOrgName/:parentLocId/:parentLocName/:parentAssetId/:parentAssetName', component: VotmCloudAssetsCreateComponent, data: { type: 'Create' } },
-  { path: 'asset/edit/:parentOrgId/:parentOrgName/:parentLocId/:parentLocName/:parentAssetId/:parentAssetName/:assetId', component: VotmCloudAssetsCreateComponent, data: { type: 'Edit' } },
-  { path: 'asset/view/:parentOrgId/:parentOrgName/:parentLocId/:parentLocName/:parentAssetId/:parentAssetName/:assetId', component: VotmCloudAssetsCreateComponent, data: { type: 'View' } },
-  { path: 'template/edit/:templateId', component: VotmCloudAssetTemplateDetailsComponent, data: { type: 'Edit' } },
-  { path: 'template/view/:templateId', component: VotmCloudAssetTemplateDetailsComponent, data: { type: 'View' } },
-  { path: 'template/create', component: VotmCloudAssetTemplateDetailsComponent, data: { type: 'Create' } },
+  {
+    path: 'loc/home/:orgId/:orgName',
+    component: VotmCloudLocationsHomeComponent,
+    data: { type: 'Location' }
+  },
+  {
+    path: 'loc/home/:orgId/:orgName/:locId/:locName',
+    component: VotmCloudLocationsHomeComponent
+  },
+  {
+    path: 'loc/create/:parentLocId/:parentLocName/:curOrgId/:curOrgName',
+    component: VotmCloudLocationsCreateComponent, data: { type: 'Create' }
+  },
+  {
+    path: 'loc/view/:parentLocId/:parentLocName/:curOrgId/:curOrgName/:locId',
+    component: VotmCloudLocationsCreateComponent, data: { type: 'View' }
+  },
+  {
+    path: 'loc/edit/:parentLocId/:parentLocName/:curOrgId/:curOrgName/:locId',
+    component: VotmCloudLocationsCreateComponent, data: { type: 'Edit' }
+  },
+  {
+    path: 'loc/create/:curOrgId/:curOrgName',
+    component: VotmCloudLocationsCreateComponent,
+    data: { type: 'Create' }
+  },
+  {
+    path: 'loc/edit/:curOrgId/:curOrgName/:locId',
+    component: VotmCloudLocationsCreateComponent,
+    data: { type: 'Edit' }
+  },
+  {
+    path: 'loc/view/:curOrgId/:curOrgName/:locId',
+    component: VotmCloudLocationsCreateComponent,
+    data: { type: 'View' }
+  },
+  {
+    path: 'loc/signal',
+    component: VotmCloudLocationsSignalComponent
+  },
+  {
+    path: 'asset/home/:orgId/:orgName',
+    component: VotmCloudAssetsHomeComponent
+  },
+  {
+    path: 'asset/home/:orgId/:orgName/:locId',
+    component: VotmCloudAssetsHomeComponent
+  },
+  {
+    path: 'asset/create/:parentOrgId/:parentOrgName',
+    component: VotmCloudAssetsCreateComponent,
+    data: { type: 'Create' }
+  },
+  {
+    path: 'asset/edit/:parentOrgId/:parentOrgName/:assetId',
+    component: VotmCloudAssetsCreateComponent,
+    data: { type: 'Edit' }
+  },
+  {
+    path: 'asset/view/:parentOrgId/:parentOrgName/:assetId',
+    component: VotmCloudAssetsCreateComponent,
+    data: { type: 'View' }
+  },
+  {
+    path: 'asset/create/:parentOrgId/:parentOrgName/:parentLocId/:parentLocName',
+    component: VotmCloudAssetsCreateComponent, data: { type: 'Create' }
+  },
+  {
+    path: 'asset/edit/:parentOrgId/:parentOrgName/:parentLocId/:parentLocName/:assetId',
+    component: VotmCloudAssetsCreateComponent, data: { type: 'Edit' }
+  },
+  {
+    path: 'asset/view/:parentOrgId/:parentOrgName/:parentLocId/:parentLocName/:assetId',
+    component: VotmCloudAssetsCreateComponent,
+    data: { type: 'View' }
+  },
+  {
+    path: 'asset/create/:parentOrgId/:parentOrgName/:parentLocId/:parentLocName/:parentAssetId/:parentAssetName',
+    component: VotmCloudAssetsCreateComponent,
+    data: { type: 'Create' }
+  },
+  {
+    path: 'asset/edit/:parentOrgId/:parentOrgName/:parentLocId/:parentLocName/:parentAssetId/:parentAssetName/:assetId',
+    component: VotmCloudAssetsCreateComponent,
+    data: { type: 'Edit' }
+  },
+  {
+    path: 'asset/view/:parentOrgId/:parentOrgName/:parentLocId/:parentLocName/:parentAssetId/:parentAssetName/:assetId',
+    component: VotmCloudAssetsCreateComponent,
+    data: { type: 'View' }
+  },
+  {
+    path: 'template/edit/:templateId', component: VotmCloudAssetTemplateDetailsComponent, data: { type: 'Edit' }
+  },
+  {
+    path: 'template/view/:templateId', component: VotmCloudAssetTemplateDetailsComponent, data: { type: 'View' }
+  },
+  {
+    path: 'template/create', component: VotmCloudAssetTemplateDetailsComponent, data: { type: 'Create' }
+  },
   // { path: 'template/list', component: VotmCloudAssetTemplateListComponent },
-  { path: 'asset/signal', component: VotomCloudAssetsSignalComponent },
-  { path: 'sensor/home', component: VotmCloudSensorsHomeComponent },
-  { path: 'sensor/edit', component: VotmCloudSensorsHomeComponent },
-  { path: 'sensor/view', component: VotmCloudSensorsHomeComponent },
-  { path: 'sensor/detail', component: VotmCloudSensorsDetailsComponent },
-  { path: 'gateway/home', component: VotmCloudGatewaysHomeComponent },
-  { path: 'admin/networkmanagement', component: VotmCloudAdminNetworkManagementComponent },
-  { path: 'admin/usermanagement', component: VotmCloudAdminUserManagementComponent },
-  { path: 'admin', component: VotmCloudAdminPanelComponent },
-  { path: 'super', component: VotmCloudSuperAdminComponent },
-  { path: 'login', component: VotmCloudLoginComponent },
-  { path: '', redirectTo: '/login', pathMatch: 'full' },
+  {
+    path: 'asset/signal',
+    component: VotomCloudAssetsSignalComponent
+  },
+  {
+    path: 'sensor/home',
+    component: VotmCloudSensorsHomeComponent
+  },
+  {
+    path: 'sensor/edit',
+    component: VotmCloudSensorsHomeComponent
+  },
+  {
+    path: 'sensor/view',
+    component: VotmCloudSensorsHomeComponent
+  },
+  {
+    path: 'sensor/detail',
+    component: VotmCloudSensorsDetailsComponent
+  },
+  {
+    path: 'gateway/home',
+    component: VotmCloudGatewaysHomeComponent
+  },
+  {
+    path: 'admin/networkmanagement',
+    component: VotmCloudAdminNetworkManagementComponent
+  },
+  {
+    path: 'admin/usermanagement',
+    component: VotmCloudAdminUserManagementComponent
+  },
+  {
+    path: 'admin',
+    component: VotmCloudAdminPanelComponent
+  },
+  {
+    path: 'super',
+    component: VotmCloudSuperAdminComponent
+  },
+  {
+    path: 'login',
+    component: VotmCloudLoginComponent
+  },
+  {
+    path: '',
+    redirectTo: '/login',
+    pathMatch: 'full'
+  },
 ];
 
 @NgModule({
