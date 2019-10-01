@@ -107,13 +107,14 @@
 
                   >
                   <a [class.disabled]="isSignalDisabled(signal)">
-                    <img
+                    <!-- <img
                       [src]="signal.image"
                       style="cursor:pointer"
                       width="40"
                       height="40"
                       id="signal_{{ sensorIndex }}_{{ signalIndex }}"
-                    />
+                    /> -->
+                    <i class="icon-sig-temperature"></i>
                     </a>
                     &nbsp; {{ signal.name }}
 

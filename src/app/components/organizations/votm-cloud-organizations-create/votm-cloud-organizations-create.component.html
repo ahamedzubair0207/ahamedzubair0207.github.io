@@ -4,7 +4,7 @@
   <ul class="nav">
     <li class="nav-item">
       <a class="nav-link active tab-icon" id="org-tab" href="#org-details-tab" data-toggle="tab" role="tab"
-        aria-controls="org-info" aria-selected="true"><i class="mr-2 icon-org-company list"></i>Details</a>
+        aria-controls="org-info" aria-selected="true"><i class="mr-2 icon-org-company"></i>Details</a>
     </li>
     <li class="nav-item">
       <a class="nav-link tab-icon" id="event-tab" href="#event-details-tab" data-toggle="tab" role="tab"
@@ -55,13 +55,13 @@
     <!-- <div class="row"> -->
     <!-- <div class="col-1"> -->
     <div class="d-flex flex-row">
-      <ul class="nav nav-tabs nav-tabs-vertical nav-tabs-left" aria-orientation="vertical">
+      <ul class="nav nav-tabs nav-tabs-vertical nav-tabs-left pt-3" aria-orientation="vertical">
 
         <!-- details view/edit  -->
         <li class="nav-item">
           <a class="nav-link active tab-icon" id="org-details-tab" name="org-view-edit" href="#org-details"
             data-toggle="tab" role="tab" aria-controls="org-details" aria-selected="true"><i
-              class="icon-org-company list"></i></a>
+              class="icon-entity-list"></i></a>
         </li>
         <!-- Alerts Tab  -->
         <li class="nav-item">
@@ -199,8 +199,8 @@
               <div class="col-lg-4 col-xl-2">
                 <div class="form-group">
                   <label class="" id="icon" for="organizationType">Icon</label>
-                  <div class="input-group">
-                      <select class="selectpicker form-control-sm form-control">
+                  <div class="bootstrap-select drop-down form-control">
+                      <select class="selectpicker form-control-sm form-control" data-style-base="form-control">
                           <option data-icon="icon-org-company"></option>
                           <option data-icon="icon-loc-office"></option>
                           <option data-icon="icon-org-struct"></option>
@@ -613,7 +613,7 @@
                           (change)="preview(file.files)" class="form-control form-control-sm" />
                         <!-- <label id="imageLbl" style="font-weight: bold"
                               *ngIf="organization && organization.logo">{{organization.logo.imageName}}</label> -->
-                        <img [src]="imgURL" height="70" width="100%" style="object-fit: contain;" *ngIf="imgURL">
+                        <img [src]="imgURL" class="imag-size" *ngIf="imgURL">
                       </div>
                     </div>
                   </div>
