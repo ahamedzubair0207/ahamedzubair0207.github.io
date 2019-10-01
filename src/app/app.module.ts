@@ -10,10 +10,18 @@ import { AppComponent } from './app.component';
 import { VotmCloudViewsHomeComponent } from './components/views/votm-cloud-views-home/votm-cloud-views-home.component';
 import { VotmCloudAlertsHomeComponent } from './components/alerts/votm-cloud-alerts-home/votm-cloud-alerts-home.component';
 import { VotmCloudPreferencesComponent } from './components/shared/votm-cloud-preferences/votm-cloud-preferences.component';
-import { VotmCloudOrganizationsHomeComponent } from './components/organizations/votm-cloud-organizations-home/votm-cloud-organizations-home.component';
-import { VotmCloudOrganizationsCreateComponent } from './components/organizations/votm-cloud-organizations-create/votm-cloud-organizations-create.component';
-import { VotmCloudLocationsHomeComponent } from './components/locations/votm-cloud-locations-home/votm-cloud-locations-home.component';
-import { VotmCloudLocationsCreateComponent } from './components/locations/votm-cloud-locations-create/votm-cloud-locations-create.component';
+import {
+  VotmCloudOrganizationsHomeComponent
+} from './components/organizations/votm-cloud-organizations-home/votm-cloud-organizations-home.component';
+import {
+  VotmCloudOrganizationsCreateComponent
+} from './components/organizations/votm-cloud-organizations-create/votm-cloud-organizations-create.component';
+import {
+  VotmCloudLocationsHomeComponent
+} from './components/locations/votm-cloud-locations-home/votm-cloud-locations-home.component';
+import {
+  VotmCloudLocationsCreateComponent
+} from './components/locations/votm-cloud-locations-create/votm-cloud-locations-create.component';
 import { VotmCloudAssetsHomeComponent } from './components/assets/votm-cloud-assets-home/votm-cloud-assets-home.component';
 import { VotmCloudAssetsCreateComponent } from './components/assets/votm-cloud-assets-create/votm-cloud-assets-create.component';
 import { VotmCloudSensorsHomeComponent } from './components/sensors/votm-cloud-sensors-home/votm-cloud-sensors-home.component';
@@ -45,7 +53,9 @@ import { VotmCylinderGaugeComponent } from './components/shared/charts/votm-cyli
 import { VotmTwoAxesGaugeComponent } from './components/shared/charts/votm-two-axes-gauge/votm-two-axes-gauge.component';
 import { VotmPictorialChartComponent } from './components/shared/charts/votm-pictorial-chart/votm-pictorial-chart.component';
 import { VotmPieSliceChartComponent } from './components/shared/charts/votm-pie-slice-chart/votm-pie-slice-chart.component';
-import { VotmClusteredColumnChartComponent } from './components/shared/charts/votm-clustered-column-chart/votm-clustered-column-chart.component';
+import {
+  VotmClusteredColumnChartComponent
+} from './components/shared/charts/votm-clustered-column-chart/votm-clustered-column-chart.component';
 import { VotmCloudNameValidatorDirective } from './components/shared/votm-cloud-name-validator/votm-cloud-name-validator.directive';
 import { Select2Module } from 'ng2-select2';
 import { VotmCloudSensorsDetailsComponent } from './components/sensors/votm-cloud-sensors-details/votm-cloud-sensors-details.component';
@@ -55,9 +65,15 @@ import { VotmCloudAlertsCreateComponent } from './components/alerts/votm-cloud-a
 import { BreadcrumbsComponent } from './components/shared/breadcrumbs/breadcrumbs.component';
 import { VotomCloudAssetsSignalComponent } from './components/assets/votm-cloud-assets-signal/votom-cloud-assets-signal.component';
 import { VotmCloudCharValidatorComponent } from './components/shared/votm-cloud-char-validator/votm-cloud-char-validator.component';
-import { VotmCloudLocationsSignalComponent } from './components/locations/votm-cloud-locations-signal/votm-cloud-locations-signal.component';
-import { VotmCloudAssetTemplateListComponent } from './components/assets/votm-cloud-asset-template-list/votm-cloud-asset-template-list.component';
-import { VotmCloudAssetTemplateDetailsComponent } from './components/assets/votm-cloud-asset-template-details/votm-cloud-asset-template-details.component';
+import {
+  VotmCloudLocationsSignalComponent
+} from './components/locations/votm-cloud-locations-signal/votm-cloud-locations-signal.component';
+import {
+  VotmCloudAssetTemplateListComponent
+} from './components/assets/votm-cloud-asset-template-list/votm-cloud-asset-template-list.component';
+import {
+  VotmCloudAssetTemplateDetailsComponent
+} from './components/assets/votm-cloud-asset-template-details/votm-cloud-asset-template-details.component';
 import {FileUploadModule} from 'primeng/fileupload';
 import {DragDropModule} from 'primeng/dragdrop';
 import {TooltipModule} from 'primeng/tooltip';
@@ -65,16 +81,27 @@ import {OverlayPanelModule} from 'primeng/overlaypanel';
 import { VotmCloudEventsHomeComponent } from './components/events/votm-cloud-events-home/votm-cloud-events-home.component';
 import { VotomCloudTemplateSignalComponent } from './components/assets/votm-cloud-template-signal/votm-cloud-template-signal.component';
 import { VotmCloudRequiredAttributeDirective } from './components/shared/required-attribute/votm-cloud-required-attribute.directive';
-import { VotmCloudOrganizationDashboardComponent } from './components/organizations/votm-cloud-organization-dashboard/votm-cloud-organization-dashboard.component';
-import { VotmLiveOrderBookDepthChartComponent } from './components/shared/charts/votm-live-order-book-depth-chart/votm-live-order-book-depth-chart.component';
+import {
+  VotmCloudOrganizationDashboardComponent
+} from './components/organizations/votm-cloud-organization-dashboard/votm-cloud-organization-dashboard.component';
+import {
+  VotmLiveOrderBookDepthChartComponent
+} from './components/shared/charts/votm-live-order-book-depth-chart/votm-live-order-book-depth-chart.component';
 import { VotmLiveDataComponent } from './components/shared/charts/votm-live-data/votm-live-data.component';
-import { VotmCloudLocationsDashboardComponent } from './components/locations/votm-cloud-locations-dashboard/votm-cloud-locations-dashboard.component';
+import {
+  VotmCloudLocationsDashboardComponent
+} from './components/locations/votm-cloud-locations-dashboard/votm-cloud-locations-dashboard.component';
 import { VotmCloudAssetDashboardComponent } from './components/assets/votm-cloud-asset-dashboard/votm-cloud-asset-dashboard.component';
-import { VotmCloudLocationsGatewayComponent } from './components/locations/votm-cloud-locations-gateway/votm-cloud-locations-gateway.component';
+import {
+  VotmCloudLocationsGatewayComponent
+} from './components/locations/votm-cloud-locations-gateway/votm-cloud-locations-gateway.component';
 import { VotmCloudEventsLocComponent } from './components/events/votm-cloud-events-loc/votm-cloud-events-loc.component';
 import { VotmCloudEventsAssetComponent } from './components/events/votm-cloud-events-asset/votm-cloud-events-asset.component';
-import { VotmCloudAdminNetworkManagementComponent } from './components/admin/votm-cloud-admin-network-management/votm-cloud-admin-network-management.component';
+import {
+  VotmCloudAdminNetworkManagementComponent
+} from './components/admin/votm-cloud-admin-network-management/votm-cloud-admin-network-management.component';
 import { OnlyNumber } from './components/shared/votm-cloud-only-numbers/only-numbers.directive';
+import { VotmCloudAdminUserManagementComponent } from './components/admin/votm-cloud-admin-user-management/votm-cloud-admin-user-management.component';
 
 
 
@@ -130,10 +157,11 @@ import { OnlyNumber } from './components/shared/votm-cloud-only-numbers/only-num
     VotmCloudEventsLocComponent,
     VotmCloudEventsAssetComponent,
     VotmCloudAdminNetworkManagementComponent,
-    OnlyNumber
+    OnlyNumber,
+    VotmCloudAdminUserManagementComponent
   ],
 
- 
+
   imports: [
     BrowserModule,
     BrowserAnimationsModule,

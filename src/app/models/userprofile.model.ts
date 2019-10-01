@@ -1,4 +1,4 @@
-export class UserProfile{
+export class UserProfile {
     timeZone?: string;
     locale?: string;
     uoM?: Array<string>;

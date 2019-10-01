@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef } from '@angular/core';
 import { SharedService } from '../../../services/shared.service';
 import { MenuService } from '../../../services/menu/menu.service';
 
@@ -13,7 +13,8 @@ export class VotmCloudSideMenuComponent implements OnInit {
   menuItems: Array<{ id: string, enabled: boolean, url: string, icon: string, name: string}>;
   activeItem: string;
 
-  constructor(private menuService: MenuService, private sharedService: SharedService) { 
+  constructor(private menuService: MenuService, private sharedService: SharedService, 
+    private elemRef: ElementRef) { 
     this.sharedService.getMenuOpen().subscribe(newVal => this.menuOpen = newVal); 
   }
 
@@ -31,7 +32,23 @@ export class VotmCloudSideMenuComponent implements OnInit {
   }
 
   setActiveItem(actItem: string){
+    const elem = this.elemRef.nativeElement.querySelectorAll('.dropdown-container')[0];
+    console.log(elem);
+    if (actItem !== 'admin') {
     this.sharedService.setActiveMenu(actItem);
     this.activeItem = this.sharedService.getActiveMenu();
+    elem.classList.remove('display-block');
+    elem.classList.add('display-none');
+    } else {
+      if (!elem.classList.contains('display-block')) {
+        elem.classList.add('display-block');
+        elem.classList.remove('display-none');
+      } else {
+        elem.classList.remove('display-block');
+        elem.classList.add('display-none');
+      }
+      
+    }
+    
   }
 }
