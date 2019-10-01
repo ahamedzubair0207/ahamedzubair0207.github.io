@@ -49,9 +49,9 @@ span {
 }
 
 #sidebar {
-    min-width: 180px;
-    max-width: 180px;
-    background: rgba(0,185,195,1);
+    min-width: 200px;
+    max-width: 200px;
+    background: #78C8D2;
 	/* background: -moz-linear-gradient(top, rgba(120,200,210,1) 0%, rgba(0,162,174,1) 100%);
 	background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(120,200,210,1)), color-stop(100%, rgba(0,162,174,1)));
 	background: -webkit-linear-gradient(top, rgba(120,200,210,1) 0%, rgba(0,162,174,1) 100%);
@@ -76,7 +76,47 @@ span {
     background: #00b9c3;
    
 }
+/* sidebar dropdown */
+/* Style the sidenav links and the dropdown button */
+.sidenav a, .dropdown-btn {
+    padding: 6px 8px 6px 16px;
+    text-decoration: none;
+    font-size: 20px;
+    color: #818181;
+    display: block;
+    border: none;
+    background: none;
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+    outline: none;
+  }
+  
+  /* On mouse-over */
+  .sidenav a:hover, .dropdown-btn:hover {
+    color: #f1f1f1;
+  }
+/* Add an active class to the active dropdown button */
+// .active {
+//     background-color: #00aaac;
+//     border-right: solid 8px #0d6960;
+//     color: white;
+//   }
+  
+  /* Dropdown container (hidden by default). Optional: add a lighter background color and some left padding to change the design of the dropdown content */
+  .dropdown-container {
+    background-color: #262626;
+    padding-left: 8px;
+  }
 
+  .display-block {
+      display: block;
+  }
+
+  .display-none {
+      display: none;
+  }
+    
 #sidebar.active .sidebar-header h3,
 #sidebar.active .CTAs {
     display: none;
@@ -211,7 +251,7 @@ a.article:hover {
     min-height: 100vh;
     transition: all 0.3s;
 	padding-top: 60px;
-	margin-left: 180px;
+	margin-left: 200px;
 }
 #content.active{
     margin-left: 50px;

@@ -23,6 +23,7 @@ import { VotmCloudSuperAdminComponent } from './components/super/votm-cloud-supe
 import { VotmCloudLoginComponent } from './components/shared/votm-cloud-login/votm-cloud-login.component';
 import { VotmCloudSensorsDetailsComponent } from './components/sensors/votm-cloud-sensors-details/votm-cloud-sensors-details.component';
 import { VotmCloudOrganizationDashboardComponent } from './components/organizations/votm-cloud-organization-dashboard/votm-cloud-organization-dashboard.component';
+import { VotmCloudAdminUserManagementComponent } from './components/admin/votm-cloud-admin-user-management/votm-cloud-admin-user-management.component';
 
 const routes: Routes = [
   { path: 'fav', component: VotmCloudViewsHomeComponent },
@@ -76,6 +77,7 @@ const routes: Routes = [
   { path: 'sensor/detail', component: VotmCloudSensorsDetailsComponent },
   { path: 'gateway/home', component: VotmCloudGatewaysHomeComponent },
   { path: 'admin/networkmanagement', component: VotmCloudAdminNetworkManagementComponent },
+  { path: 'admin/usermanagement', component: VotmCloudAdminUserManagementComponent },
   { path: 'admin', component: VotmCloudAdminPanelComponent },
   { path: 'super', component: VotmCloudSuperAdminComponent },
   { path: 'login', component: VotmCloudLoginComponent },
