@@ -1,5 +1,4 @@
 export class Sensor {
-  
     organizationName: string;
     locationName: string;
     serialNumber: string;
