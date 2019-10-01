@@ -94,7 +94,7 @@
       <div class="row org-create-font mar-top-30">
         <div class="col-md-4">
           <div class="enclosing-div">
-            <a (click)="onClickOfAddCalculatedSignal()" class="cursor-point">f(x) Add Calculated Signal</a>
+            <a (click)="onClickOfAddCalculatedSignal()" class="cursor-point"><i class="icon-sig-function"></i>&nbsp;Add Calculated Signal</a>
             <hr>
             <h5>Available Signals</h5>
             <hr />
@@ -103,12 +103,14 @@
                 <div
                   class="sensor-circle list-bkg docked">
 
-                    <img
+                    <!-- <img
                       [src]="sensor.image"
                       style="cursor:pointer"
                       width="23"
                       height="23"
-                    />
+                    /> -->
+
+                    <i class="icon-sig-pressure"></i>
 
                   &nbsp; {{ sensor.name }}
                 </div>
@@ -116,13 +118,16 @@
                 <div
                   class="sensor-circle secondary-ds docked list-bkg" id="signalDiv_{{sensorIndex}}_{{signalIndex}}">
 
-                    <img
+                    <!-- <img
                       [src]="signal.image"
                       style="cursor:pointer"
                       width="23"
                       height="23"
                       id="signal_{{ sensorIndex }}_{{ signalIndex }}"
-                    />
+                    /> -->
+
+                    <i class="icon-sig-temperature"></i>
+
 
                   &nbsp; {{ signal.name }}
                 </div>

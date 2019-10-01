@@ -40,7 +40,7 @@ color: #00b9c3;
   float: right; 
   font-size: 28px;
   color:  #02b3bf;
-  margin-left: 11px;
+  margin-left: auto;
   margin-top: 4px;
 
 }
@@ -78,20 +78,10 @@ color: #00b9c3;
   float: left;
 }
 .button-mod {
-  margin: 4px 2px;
-  float: right;
-}
-
-.sub-loc-btn{
-    float: right;
-    margin-bottom: 10px;
-}
-
-.sub-asset-btn{
-  float: right;
   margin-left: auto;
-  margin-bottom: 10px;
+  float: right;
 }
+
 /* Full-width input fields */
 input[type=text], input[type=password],input[type=email],input[type=file],input[type=number] {
   

@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
 
-  protocol:'https',
+  protocol: 'https',
   server: 'phc-pcm-dev-api.azurewebsites.net',
   virtualName: 'v1'
 };
