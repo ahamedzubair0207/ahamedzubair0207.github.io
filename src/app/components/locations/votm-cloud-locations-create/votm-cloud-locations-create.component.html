@@ -414,7 +414,7 @@
                       :</b></label>
                   <div class="col-sm-7">
                     <select required #language="ngModel" [disabled]="pageType==='View'" [(ngModel)]="location.localeId"
-                      name="language" class="drop-down form-control form-control-sm" id="locDtlGeoLang2">
+                      name="language" class="drop-down form-control form-control-sm" id="locDtlGeoLang1">
                       <option *ngFor="let locale of applicationConfiguration.locale" [value]="locale.localeId">
                         {{locale.localeName}}
                       </option>
