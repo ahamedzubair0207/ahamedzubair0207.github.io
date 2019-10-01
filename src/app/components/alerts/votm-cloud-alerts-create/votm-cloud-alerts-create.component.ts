@@ -190,7 +190,7 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
   }
 
   getAlertRuleSignalAssociatedAssetByOrgId() {
-    this.alertsService.getAlertRuleSignalAssociatedAssetByOrgId(this.orgId)
+    this.alertsService.getAlertRuleSignalAssociatedAssetByOrgId(this.orgId, this.alertId)
       .subscribe(response => {
         console.log('response ', response);
         this.alertRuleSignalAssociatedAsset = response;

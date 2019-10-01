@@ -88,11 +88,11 @@
                     <tr>
                         <td *ngFor="let threshold of absoluteThresholds">
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" [(ngModel)]="threshold.active"
+                                <input type="checkbox" id="thresholdsAlertbtn" [(ngModel)]="threshold.active"
                                     name="{{'checkbox_'+threshold.alertConfigurationId}}" class="custom-control-input"
                                     id="{{threshold.alertConfigurationId}}">
                                 <label class="custom-control-label" for="{{threshold.alertConfigurationId}}">
-                                    <input [disabled]="!threshold.active" type="text" name="{{threshold.alertConfigurationId}}"
+                                    <input [disabled]="!threshold.active" id="thresholdsAlertInput" type="text" name="{{threshold.alertConfigurationId}}"
                                         [(ngModel)]="threshold.alertConfigurationValue"
                                         class="form-control-sm mr-1 w-25" />psi</label>
                             </div>
