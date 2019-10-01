@@ -18,6 +18,7 @@ import { AlertsService } from '../../../services/alerts/alerts.service';
 import { countyList } from 'src/app/services/countryList/countryStateList';
 import { AssetsService } from '../../../services/assets/assets.service';
 import { SortArrays } from '../../shared/votm-sort';
+declare var jQuery: any;
 
 @Component({
   selector: 'app-votm-cloud-organizations-create',
@@ -112,6 +113,8 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
   }
 
   ngOnInit() {
+    
+    jQuery('.selectpicker').selectpicker();
       this.organization.svclevels = null;
       this.organization.localeId = null;
       this.organization.timeZoneId = null;
@@ -230,7 +233,6 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
 
   ngAfterViewInit() {
     this.showImageLogo();
-
   }
 
   ngOnDestroy() {
@@ -281,9 +283,9 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
       .subscribe(response => {
         this.organization = response;
         this.fillUoM();
-        this.organization.timeZoneId = this.organization.timeZone;
-        this.organization.localeId = this.organization.locale;
-        this.organization.uoMId = this.organization.uoM;
+        // this.organization.timeZoneId = this.organization.timeZone;
+        // this.organization.localeId = this.organization.locale;
+        // this.organization.uoMId = this.organization.uoM;
         if (this.organization.contractStartDate) {
           let startDate = new Date(this.organization.contractStartDate);
           this.tempContractStartDate = { year: startDate.getFullYear(), month: startDate.getMonth(), day: startDate.getDate() };

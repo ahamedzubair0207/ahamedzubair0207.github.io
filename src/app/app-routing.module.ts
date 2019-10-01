@@ -67,6 +67,7 @@ const routes: Routes = [
   { path: 'asset/view/:parentOrgId/:parentOrgName/:parentLocId/:parentLocName/:parentAssetId/:parentAssetName/:assetId', component: VotmCloudAssetsCreateComponent, data: { type: 'View' } },
   { path: 'template/edit/:templateId', component: VotmCloudAssetTemplateDetailsComponent, data: { type: 'Edit' } },
   { path: 'template/view/:templateId', component: VotmCloudAssetTemplateDetailsComponent, data: { type: 'View' } },
+  { path: 'template/create', component: VotmCloudAssetTemplateDetailsComponent, data: { type: 'Create' } },
   // { path: 'template/list', component: VotmCloudAssetTemplateListComponent },
   { path: 'asset/signal', component: VotomCloudAssetsSignalComponent },
   { path: 'sensor/home', component: VotmCloudSensorsHomeComponent },
