@@ -102,6 +102,8 @@ import {
 } from './components/admin/votm-cloud-admin-network-management/votm-cloud-admin-network-management.component';
 import { OnlyNumber } from './components/shared/votm-cloud-only-numbers/only-numbers.directive';
 import { VotmCloudAdminUserManagementComponent } from './components/admin/votm-cloud-admin-user-management/votm-cloud-admin-user-management.component';
+import { VotmCloudLocationEventComponent } from './components/locations/votm-cloud-location-event/votm-cloud-location-event.component';
+import { VotmCloudAssetEventComponent } from './components/assets/votm-cloud-asset-event/votm-cloud-asset-event.component';
 
 
 
@@ -158,7 +160,9 @@ import { VotmCloudAdminUserManagementComponent } from './components/admin/votm-c
     VotmCloudEventsAssetComponent,
     VotmCloudAdminNetworkManagementComponent,
     OnlyNumber,
-    VotmCloudAdminUserManagementComponent
+    VotmCloudAdminUserManagementComponent,
+    VotmCloudLocationEventComponent,
+    VotmCloudAssetEventComponent
   ],
 
 

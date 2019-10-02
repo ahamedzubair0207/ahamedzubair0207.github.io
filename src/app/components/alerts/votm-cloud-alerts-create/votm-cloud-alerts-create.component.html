@@ -5,7 +5,7 @@
         </div>
         <i class="fa fa-lock edit-view-lock" id="view-lock" name="lockTogglebutton"
             *ngIf="pageType.toLowerCase() === 'view'" (click)="onLockClick()"></i>
-        <i class="fa fa-unlock edit-view-lock" id="edit-lock" name="unlockTogglebutton" (click)="onLockClick()"></i>
+        <i *ngIf="pageType.toLowerCase() !== 'view'" class="fa fa-unlock edit-view-lock" id="edit-lock" name="unlockTogglebutton" (click)="onLockClick()"></i>
     </div>
     <div class="form-group row">
         <div class="col-md-4 row">
@@ -18,7 +18,8 @@
         <div class="col-md-4 row">
             <label id="metricTypeLbl" class="col-md-6 col-form-label txt-r">Metric Type</label>
             <div class="col-md-6">
-                <select name="metricType" id="metricTypeDropDown" [(ngModel)]="alert.alertTypeId" class="form-control form-control-sm">
+                <select name="metricType" id="metricTypeDropDown" [(ngModel)]="alert.alertTypeId"
+                    class="form-control form-control-sm">
                     <option *ngFor="let metricType of metricTypes" [value]="metricType.id">{{metricType.name}}</option>
                 </select>
             </div>
@@ -40,7 +41,8 @@
         <div class="col-md-3 row">
             <label id="ruleTypeLbl" class="col-md-6 col-form-label txt-r">Rule Type</label>
             <div class="col-md-6">
-                <select name="ruleType" id="ruleTypeDropDown" [(ngModel)]="alert.alertRuleTypeId" class="form-control form-control-sm">
+                <select name="ruleType" id="ruleTypeDropDown" [(ngModel)]="alert.alertRuleTypeId"
+                    class="form-control form-control-sm">
                     <option *ngFor="let ruleType of ruleTypes" [value]="ruleType.id">{{ruleType.name}}</option>
                 </select>
             </div>
@@ -59,8 +61,8 @@
         </div>
         <div class="col-md-2 pl-0 pr-0 pt-2">
             <div class="checkbox">
-                <label><input type="checkbox" name="closureRequired" id="closureCheckBox" [(ngModel)]="alert.closureRequired"
-                        class="mr-2">Closure Require</label>
+                <label><input type="checkbox" name="closureRequired" id="closureCheckBox"
+                        [(ngModel)]="alert.closureRequired" class="mr-2">Closure Require</label>
             </div>
         </div>
         <div class="col-md-3 row pl-0 pr-0">
@@ -82,7 +84,8 @@
             <table class="table table-borderless table-sm">
                 <tbody>
                     <tr>
-                        <td class="{{threshold.class}}" *ngFor="let threshold of absoluteThresholds" id="thresholdsAlertlbl">
+                        <td class="{{threshold.class}}" *ngFor="let threshold of absoluteThresholds"
+                            id="thresholdsAlertlbl">
                             {{threshold.alertConfigurationLabel}}</td>
                     </tr>
                     <tr>
@@ -92,7 +95,8 @@
                                     name="{{'checkbox_'+threshold.alertConfigurationId}}" class="custom-control-input"
                                     id="{{threshold.alertConfigurationId}}">
                                 <label class="custom-control-label" for="{{threshold.alertConfigurationId}}">
-                                    <input [disabled]="!threshold.active" id="thresholdsAlertInput" type="text" name="{{threshold.alertConfigurationId}}"
+                                    <input [disabled]="!threshold.active" id="thresholdsAlertInput" type="text"
+                                        name="{{threshold.alertConfigurationId}}"
                                         [(ngModel)]="threshold.alertConfigurationValue"
                                         class="form-control-sm mr-1 w-25" />psi</label>
                             </div>
@@ -105,22 +109,26 @@
     <div class="row">
         <div class="col-md-6">
             <fieldset>
-                <legend  id="alertRuleSignallbl">Signal Associations</legend>
+                <legend id="alertRuleSignallbl">Signal Associations</legend>
                 <ul class="nav nav-tabs">
                     <li class="nav-item">
-                        <a href="#Assets" class="nav-link active" data-toggle="tab" id="alertRuleAssetSignallbl">Assets/Location Signals</a>
+                        <a href="#Assets" class="nav-link active" data-toggle="tab"
+                            id="alertRuleAssetSignallbl">Assets/Location Signals</a>
                     </li>
                     <li class="nav-item">
-                        <a href="#Template" class="nav-link" data-toggle="tab" id="alertRuleTemplateSignallbl">Assets Template Signals</a>
+                        <a href="#Template" class="nav-link" data-toggle="tab" id="alertRuleTemplateSignallbl">Assets
+                            Template Signals</a>
                     </li>
                 </ul>
                 <div class="tab-content">
                     <div class="tab-pane fade show active" id="Assets">
                         <div class="row mt-3 mb-3">
-                            <label id="alertRuleSignalFilterLbl" class="col-sm-6 col-form-label">Type to filter names</label>
+                            <label id="alertRuleSignalFilterLbl" class="col-sm-6 col-form-label">Type to filter
+                                names</label>
                             <div class="col-sm-6">
                                 <div class="input-group">
-                                    <input type="text" class="form-control" placeholder="enter" id="alertRuleSignalFilterInput">
+                                    <input type="text" class="form-control" placeholder="enter"
+                                        id="alertRuleSignalFilterInput">
                                     <div class="input-group-append">
                                         <span class="input-group-text"><i class="fa fa-search"></i></span>
                                     </div>
@@ -194,10 +202,12 @@
                     </div>
                     <div class="tab-pane fade" id="Template">
                         <div class="row mt-3 mb-3">
-                            <label id="alertRuleSignalTemplateFilterLbl" class="col-sm-6 col-form-label">Type to filter names</label>
+                            <label id="alertRuleSignalTemplateFilterLbl" class="col-sm-6 col-form-label">Type to filter
+                                names</label>
                             <div class="col-sm-6">
                                 <div class="input-group">
-                                    <input type="text" class="form-control form-control-sm" placeholder="enter" id="alertRuleSignalTemplateFilterInput">
+                                    <input type="text" class="form-control form-control-sm" placeholder="enter"
+                                        id="alertRuleSignalTemplateFilterInput">
                                     <div class="input-group-append">
                                         <span class="input-group-text"><i class="fa fa-search"></i></span>
                                     </div>
@@ -295,12 +305,14 @@
             <fieldset>
                 <legend>Notified Parties</legend>
                 <div class="">
-                    <button class="btn btn-sm btn-secondary mr-2" id="notifyBtn"><i class="fa fa-star mr-2"></i>Notify Me</button>
+                    <button class="btn btn-sm btn-secondary mr-2" id="notifyBtn"><i class="fa fa-star mr-2"></i>Notify
+                        Me</button>
                     <button type="button" class="btn btn-sm btn-secondary mr-2" data-toggle="modal"
                         (click)="onAddNotifiedUsersClick()" data-target="#notifiedUserModal" id="notifyUserBtn"><i
                             class="fa fa-user mr-2"></i>Add Notified User</button>
                     <button type="button" class="btn btn-sm btn-secondary" data-toggle="modal"
-                        data-target="#notifiedUserGroupModal" id="notifyUserBtn"><i class="fa fa-users mr-2"></i>Add Notified
+                        data-target="#notifiedUserGroupModal" id="notifyUserBtn"><i class="fa fa-users mr-2"></i>Add
+                        Notified
                         Group</button>
 
                     <!-- Button trigger modal -->
@@ -319,17 +331,40 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr *ngFor="let userGroup of userGroups">
-                                    <td><i class="fa fa-user mr-2"></i>{{userGroup.userGroupName}}</td>
+                                <tr *ngFor="let userGroupSubscriber of alert.alertRuleUserGroup">
+                                    <td><i
+                                            class="fa fa-user mr-2"></i>{{userGroupSubscriber.userGroupName? userGroupSubscriber.userGroupName: userGroupSubscriber.userName}}
+                                    </td>
                                     <td>
-                                        <select chan [(ngModel)]="userResponsibities[userGroup.userGroupId]"
-                                            (change)="onResponsibityChange($event, userGroup)"
-                                            [name]="userGroup.userGroupId">
+                                        <div *ngIf="userGroupSubscriber.userGroupId">
+                                            <select [(ngModel)]="userResponsibities[userGroupSubscriber.alertUserGroupId]"
+                                                (change)="onResponsibityChangeForUserGroup($event, userGroupSubscriber)"
+                                                [name]="userGroupSubscriber.userGroupId">
+                                                <option *ngFor="let role of userRoles"
+                                                    [value]="role.alertUserGroupRoleId">
+                                                    {{role.roleName}}
+                                                </option>
+                                            </select>
+                                        </div>
+                                        <div *ngIf="userGroupSubscriber.userId">
+                                            <select [(ngModel)]="userResponsibities[userGroupSubscriber.alertUserGroupId]"
+                                                (change)="onResponsibityChangeForUserId($event, userGroupSubscriber)"
+                                                [name]="userGroupSubscriber.userId">
+                                                <option *ngFor="let role of userRoles"
+                                                    [value]="role.alertUserGroupRoleId">
+                                                    {{role.roleName}}
+                                                </option>
+                                            </select></div>
+                                    </td>
+                                    <!-- <td *ngIf="userGroup.userId">
+                                        <select chan [(ngModel)]="userResponsibities[userGroupSubscriber.userId]"
+                                            (change)="onResponsibityChange($event, userGroupSubscriber)"
+                                            [name]="userGroupSubscriber.userId">
                                             <option *ngFor="let role of userRoles" [value]="role.alertUserGroupRoleId">
                                                 {{role.roleName}}
                                             </option>
                                         </select>
-                                    </td>
+                                    </td> -->
                                     <td class="text-center"><a href=""><i class="fa fa-trash-o"></i></a></td>
                                 </tr>
                             </tbody>
@@ -342,7 +377,8 @@
     <hr>
     <div class="row">
         <div class="col-md-12 text-right">
-            <button class="btn btn-secondary btn-sm mr-2" (click)="onCancelClick($event)" id="alertRuleCancelBtn">Cancel</button>
+            <button class="btn btn-secondary btn-sm mr-2" (click)="onCancelClick($event)"
+                id="alertRuleCancelBtn">Cancel</button>
             <button type="submit" class="btn btn-info btn-sm mr-2" id="alertRuleSaveBtn">Save</button>
         </div>
     </div>
@@ -433,7 +469,8 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-info" id="userGroupModalSave">Save changes</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal" id="userGroupModalClose">Close</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                    id="userGroupModalClose">Close</button>
             </div>
         </div>
     </div>

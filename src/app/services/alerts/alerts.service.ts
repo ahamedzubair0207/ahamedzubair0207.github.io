@@ -69,4 +69,13 @@ export class AlertsService {
         map(response => response)
       );
   }
+
+
+
+  ALertRuleUserGroupSubscriber(alertRuleId) {
+    return this.http.get(`${AppConstants.GET_ALERTRULE_USERGROUP_SUBSCRIBER}/${alertRuleId}`)
+      .pipe(
+        map(response => response)
+      );
+  }
 }
