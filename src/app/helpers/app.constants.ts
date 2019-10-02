@@ -16,6 +16,7 @@ export class AppConstants {
     public static GATEWAYS_LOC = 'Location/Gateways';
 
     public static GET_USER_GROUPS = '/UserManagement/UserGroups';
+    public static GET_ALERTRULE_USERGROUP_SUBSCRIBER = '/ALertRuleUserGroupSubscriber';
     public static GET_USER_ROLES = '/UserManagement/Roles';
     public static GET_ALL_USERS = '/UserManagement/Users';
 

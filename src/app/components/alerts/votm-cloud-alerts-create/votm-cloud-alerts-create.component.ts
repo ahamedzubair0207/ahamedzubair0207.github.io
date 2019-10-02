@@ -3,7 +3,7 @@ import { DatePipe, Location as RouterLocation } from '@angular/common';
 import { Select2OptionData } from 'ng2-select2';
 import { Toaster } from '../../shared/votm-cloud-toaster/votm-cloud-toaster';
 import { ToastrService } from 'ngx-toastr';
-import { Alert } from 'src/app/models/alert.model';
+import { Alert, AlertRuleUserGroup } from 'src/app/models/alert.model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AlertsService } from 'src/app/services/alerts/alerts.service';
 import { UserService } from 'src/app/services/users/userService';
@@ -36,9 +36,10 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
   accessScopes: any[] = [];
   alertId: string;
   notifyUsers: any[] = [];
+  userGroupSubscribers: any[] = [];
 
-  constructor(private activeroute: ActivatedRoute, private modalService: NgbModal, 
-    private routerLocation: RouterLocation, private toastr: ToastrService, 
+  constructor(private activeroute: ActivatedRoute, private modalService: NgbModal,
+    private routerLocation: RouterLocation, private toastr: ToastrService,
     private route: Router, private alertsService: AlertsService, private userService: UserService) {
 
   }
@@ -55,8 +56,18 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
           .subscribe(response => {
             console.log('Alert Record', response);
             this.alert = response;
+            this.alert.alertRuleUserGroup[0].userId = 'ea8a69d9-50a1-4773-a7ef-324cd33b3296';
+            this.userResponsibities = [];
+            this.alert.alertRuleUserGroup.forEach(alertRuleUserGroup => {
+              this.userResponsibities[alertRuleUserGroup.alertUserGroupId] = alertRuleUserGroup.alertUserGroupRoleId;
+            });
+            // this.userResponsibities
           });
+        this.ALertRuleUserGroupSubscriber();
+      } else {
+        this.userGroupSubscribers = [];
       }
+      // this.alertId ='';
       this.getAbsoluteThreshold();
       this.getAlertRuleSignalAssociatedAssetByOrgId();
       this.getAccessScopeByOrgId();
@@ -64,6 +75,7 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
     this.getMeticTypes();
     this.getUserGroupRoles();
     this.getAllUserGroups();
+
     this.ruleTypes = [
       {
         id: '3D97A28E-7D8E-4C7D-98CE-251909FED1A9',
@@ -79,7 +91,7 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
       // this.alert.alertRuleConfigurationMapping.push({})
     }
     // this.selectedSignals = ['fa7b422d-2018-4fdb-ba50-0b4be9bf2735'];
-    
+
     // this.getUserRoles();
     this.responsibilities = [
       { text: 'None', value: 'None' },
@@ -132,9 +144,9 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
       .subscribe(response => {
         console.log('user Roles ', response);
         this.userRoles = response;
-        this.userRoles.forEach(tempRole => {
-          this.userResponsibities[tempRole.roleId] = '';
-        });
+        // this.userRoles.forEach(tempRole => {
+        //   this.userResponsibities[tempRole.roleId] = '';
+        // });
       });
     setTimeout(() => {
       // this.userResponsibities['3e1427fe-792c-405b-92d4-196f37b13119'] = '1ed266f3-87f7-484a-b402-17a8b4a86836';
@@ -146,6 +158,20 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
     this.userService.getUserGroups()
       .subscribe(response => {
         this.userGroups = response;
+      });
+  }
+
+  ALertRuleUserGroupSubscriber() {
+    this.alertsService.ALertRuleUserGroupSubscriber(this.alertId)
+      .subscribe(response => {
+        let tempUserGroupSubscribers: AlertRuleUserGroup[] = response;
+        this.userGroupSubscribers = [];
+        for (let i = 0; i < tempUserGroupSubscribers.length; i++) {
+          if (tempUserGroupSubscribers[i].userGroupId || tempUserGroupSubscribers[i].userId) {
+            this.userGroupSubscribers.push(tempUserGroupSubscribers[i]);
+          }
+        }
+        console.log('userGroupSubscribers ', this.userGroupSubscribers);
       });
   }
 
@@ -296,16 +322,43 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
     }
   }
 
-  onResponsibityChange(event, userGroup: UserGroup) {
-
-    let allKeys = Object.keys(this.userResponsibities);
-
-    this.alert.alertRuleUserGroup = [];
-    allKeys.forEach(key => {
-      if (this.userResponsibities[key]) {
-        this.alert.alertRuleUserGroup.push({ alertUserGroupId: key, alertUserGroupRoleId: this.userResponsibities[key] });
+  onResponsibityChangeForUserGroup(event, userGroup: AlertRuleUserGroup) {
+    console.log('onResponsibityChangeForUserGroup ', event)
+    this.alert.alertRuleUserGroup.forEach(alertRuleUserGroup => {
+      if (alertRuleUserGroup.userGroupId === userGroup.userGroupId) {
+        console.log(event.target.value);
       }
     });
+
+    // let allKeys = Object.keys(this.userResponsibities);
+
+    // this.alert.alertRuleUserGroup = [];
+    // allKeys.forEach(key => {
+    //   if (this.userResponsibities[key]) {
+    //     this.alert.alertRuleUserGroup.push({ alertUserGroupId: key, alertUserGroupRoleId: this.userResponsibities[key] });
+    //   }
+    // });
+  }
+
+  onResponsibityChangeForUserId(event, userGroup: AlertRuleUserGroup) {
+    console.log('onResponsibityChangeForUserId ', event, userGroup)
+    this.alert.alertRuleUserGroup.forEach(alertRuleUserGroup => {
+      if (alertRuleUserGroup.userId === userGroup.userId) {
+        console.log(event.target.value);
+      }
+    });
+    // this.alert.alertRuleUserGroup.forEach(alertRuleUserGroup=>{
+    //   if(alertRuleUserGroup.)
+    // })
+
+    // let allKeys = Object.keys(this.userResponsibities);
+
+    // this.alert.alertRuleUserGroup = [];
+    // allKeys.forEach(key => {
+    //   if (this.userResponsibities[key]) {
+    //     this.alert.alertRuleUserGroup.push({ alertUserGroupId: key, alertUserGroupRoleId: this.userResponsibities[key] });
+    //   }
+    // });
   }
 
   onAlertRuleSubmit() {

@@ -31,7 +31,7 @@
     </li>
 
     <li class="nav-item">
-      <div class="add-dashboard-btn-wrapper ml-2">
+      <div class="add-dashboard-btn-wrapper">
         <button class="btn btn-info btn-group-right create-event-btn" (click)="openAddDashboardModal('addDashboard')"
           id="createDashboardButton" type="button"><i class="fa fa-plus" title="Add New Dashboard"></i></button>
       </div>
@@ -612,8 +612,11 @@
                         <input #file id="imageUploadButton" type="file" accept='image/*' [disabled]="pageType==='View'"
                           (change)="preview(file.files)" class="form-control form-control-sm" />
                         <!-- <label id="imageLbl" style="font-weight: bold"
-                              *ngIf="organization && organization.logo">{{organization.logo.imageName}}</label> -->
-                        <img [src]="imgURL" class="imag-size" *ngIf="imgURL">
+                                                                        *ngIf="organization && organization.logo">{{organization.logo.imageName}}</label> -->
+                    
+                      </div>
+                      <div class="col-12 col-md-6 order-md-7 form-group">
+                        <img [src]="imgURL" class="imag-size border rounded-sm img-fluid" *ngIf="imgURL">
                       </div>
                     </div>
                   </div>
@@ -954,6 +957,7 @@
   </div>
 </div>
 <!-- Add/Edit Dashboard Model End-->
+
 <!-- Delete Organization Dashboard Start-->
 <app-votm-cloud-confim-dialog (onClose)="deleteOrganizationDashboardById($event)" #confirmBoxDash [message]="message"
   headerMessage="Warning"></app-votm-cloud-confim-dialog>
