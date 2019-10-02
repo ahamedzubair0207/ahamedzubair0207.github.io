@@ -1,247 +1,764 @@
 <div class="row">
-    <h4 class="col-md-6">User Profile</h4>
-    <h4 class="col-md-6 text-right"><a href=""><i class="fa fa-lock"></i></a></h4>
-  </div>
-  <!-- all id="up" prefix is stand for "User Profile" -->
-  <div class="row">
-    <div class="col-md-12">
-      <ul class="nav nav-tabs">
-        <li class="nav-item">
-          <a href="#Information" class="nav-link active" data-toggle="tab">Information</a>
-        </li>
-        <li class="nav-item">
-          <a href="#Notification" class="nav-link" data-toggle="tab">Notification</a>
-        </li>
-      </ul>
-      <div class="tab-content">
-        <div class="tab-pane fade show active" id="Information">
-          <div class="row">
-            <div class="col-md-6">
-              <div class="row-flex p-3">
-                <div class="form-group row">
-                  <label for="up_f_name" class="col-sm-4 col-form-label">Display Name</label>
-                  <div class="col-sm-4">
-                    <input type="text" class="form-control" id="up_f_name" placeholder="First name">
-                  </div>
-                  <div class="col-sm-4">
-                    <input type="text" class="form-control" id="up_l_name" placeholder="Last name">
-                  </div>
+  <h4 class="col-md-6">User Profile</h4>
+  <h4 class="col-md-6 text-right"><a href=""><i class="fa fa-lock"></i></a></h4>
+</div>
+<div class="row">
+  <div class="col-md-12">
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <a href="#information" class="nav-link active" data-toggle="tab">Information</a>
+      </li>
+      <li class="nav-item">
+        <a href="#notification" class="nav-link" data-toggle="tab">Notification</a>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane fade show active" id="information">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="row-flex p-3">
+              <div class="form-group row">
+                <label for="noti_fn" class="col-sm-4 col-form-label">Display Name</label>
+                <div class="col-sm-4">
+                  <input type="text" class="form-control" id="noti_fn" placeholder="First name">
                 </div>
-                <div class="form-group row">
-                  <label for="up_email" class="col-sm-4 col-form-label">Email</label>
-                  <div class="col-sm-8">
-                    <input type="email" class="form-control" id="up_email" placeholder="email">
-                  </div>
-                </div>
-                <div class="form-group row">
-                  <label for="up_ph_number" class="col-sm-4 col-form-label">Phone Number</label>
-                  <div class="col-sm-8">
-                    <input type="text" class="form-control" id="up_ph_number" placeholder="+1 (763) 123-456">
-                  </div>
-                </div>
-                <div class="form-group row">
-                  <label for="up_role" class="col-sm-4 col-form-label">Role</label>
-                  <div class="col-sm-8">
-                    <select class="form-control" id="up_role">
-                      <option>1</option>
-                    </select>
-                  </div>
-                </div>
-                <div class="form-group row">
-                  <label for="up_user_image" class="col-sm-4 col-form-label">User Image</label>
-                  <div class="col-sm-8">
-                    <input type="file" class="form-control" id="up_user_image" placeholder="Browse">
-                  </div>
+                <div class="col-sm-4">
+                  <input type="text" class="form-control" id="noti_ln" placeholder="Last name">
                 </div>
               </div>
-              <fieldset>
-                <legend>Preferences</legend>
-                <div class="form-group row">
-                  <label for="language" class="col-sm-4 col-form-label">Language</label>
-                  <div class="col-sm-8">
-                    <select class="form-control" id="up_language">
-                      <option>English(US)</option>
-                    </select>
-                  </div>
+              <div class="form-group row">
+                <label for="noti_email" class="col-sm-4 col-form-label">Email</label>
+                <div class="col-sm-8">
+                  <input type="email" class="form-control" id="noti_email" placeholder="email">
                 </div>
-                <div class="form-group row">
-                  <label for="up_timezone" class="col-sm-4 col-form-label">Timezone</label>
-                  <div class="col-sm-8">
-                    <select class="form-control" id="up_timezone">
-                      <option>American/Chicago</option>
-                    </select>
-                  </div>
+              </div>
+              <div class="form-group row">
+                <label for="noti_ph" class="col-sm-4 col-form-label">Phone Number</label>
+                <div class="col-sm-8">
+                  <input type="text" class="form-control" id="noti_ph" placeholder="+1 (763) 123-456">
                 </div>
-                <div class="form-group row">
-                  <label for="unit_measure" class="col-sm-4 col-form-label">Units of Measure</label>
-                  <div class="col-sm-4">
-                    <select class="form-control" id="up_unit_measure">
-                      <option>Metric</option>
-                    </select>
-                  </div>
-                  <div class="col-sm-4">
-                    <button class="btn btn-primary btn-block" id="up_custom">Custom</button>
-                  </div>
+              </div>
+              <div class="form-group row">
+                <label for="noti_role" class="col-sm-4 col-form-label">Role</label>
+                <div class="col-sm-8">
+                  <select class="form-control" id="noti_role">
+                    <option>1</option>
+                  </select>
                 </div>
-              </fieldset>
+              </div>
+              <div class="form-group row">
+                <label for="noti_user_image" class="col-sm-4 col-form-label">User Image</label>
+                <div class="col-sm-8">
+                  <input type="file" class="form-control" id="noti_user_image" placeholder="Browse">
+                </div>
+              </div>
             </div>
-            <div class="col-md-6">
-              <fieldset>
-                <legend>Favorites</legend>
-                <table class="table table-bordered table-sm mb-3" id="example">
-                  <thead class="thead-light">
-                    <tr>
-                      <th>Favorite Name</th>
-                      <th>Order</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>QCD Dashboard</td>
-                      <td>1</td>
-                    </tr>
-                    <tr>
-                      <td>Workcell 214</td>
-                      <td>2</td>
-                    </tr>
-                    <tr>
-                      <td>Lab Dashboard</td>
-                      <td>3</td>
-                    </tr>
-                  </tbody>
-                </table>
-                <div class="border-top text-right pt-2">
-                  <button class="btn btn-outline-secondary mr-2" id="up_fav_edit">Edit</button>
-                  <button class="btn btn-info" id="up_fav_save">Save</button>
+            <fieldset>
+              <legend>Preferences</legend>
+              <div class="form-group row">
+                <label for="noti_pre_lan" class="col-sm-4 col-form-label">Language</label>
+                <div class="col-sm-8">
+                  <select required #language="ngModel" id="DefaultLang"
+                        [(ngModel)]="userprofile.locale" name="language"
+                        class="drop-down form-control form-control-sm">
+                        <!-- <option value="" data-default selected>Select Language</option> -->
+                        <option *ngFor="let locale of applicationConfiguration.locale" [value]="locale.localeId">
+                          {{locale.localeName}}
+                        </option>
+                      </select>
                 </div>
-              </fieldset>
-              <fieldset class="mt-3">
-                <legend>Organization Access</legend>
-                <div class="form-group row">
-                  <label for="up_oa_home_access" class="col-sm-4 col-form-label">Home Access</label>
-                  <div class="col-sm-8">
-                    <input type="text" class="form-control" id="up_oa_home_access"/>
+              </div>
+              <div class="form-group row">
+                <label for="noti_pre_timezone" class="col-sm-4 col-form-label">Timezone</label>
+                <div class="col-sm-8">
+                  <select required #timezone="ngModel" id="timezone"
+                        [(ngModel)]="userprofile.timeZone" name="timezone"
+                        class="drop-down form-control form-control-sm">
+                        <!-- <option value="" data-default selected>Select Timezone</option> -->
+                        <option *ngFor="let timeZone of applicationConfiguration.timeZone"
+                          [value]="timeZone.timeZoneId">
+                          {{timeZone.timeZoneName}}
+                        </option>
+                      </select>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="noti_pre_timezone" class="col-sm-4 col-form-label">Clock</label>
+                <div class="col-sm-8">
+                  <select id="timeFormat"
+                        class="drop-down form-control form-control-sm">
+                        <!-- <option value="" data-default selected>Select Timezone</option> -->
+                        <option default selected value="format1">
+                          24 hours
+                        </option>
+                        <option value="format2">
+                          12 hours
+                        </option>
+                      </select>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="noti_pre_units" class="col-sm-4 col-form-label">Units of Measure</label>
+                <div class="input-group-prepend">
+                    <span class="input-group-text" name="uom-logo" id="unitsOfMeasureSelected">{{tempMeasurement}}</span>
                   </div>
+                <div class="col-sm-4">
+                  <button class="btn btn-primary btn-info btn-block" id="noti_pre_custom"  (click)="openModal()" >Custom</button>
                 </div>
-                <div class="form-group row">
-                  <label for="up_oa_guest_access" class="col-sm-4 col-form-label">Guest Access</label>
-                  <div class="col-sm-8">
-                    <table class="table table-borderless table-sm mb-3" id="up_oa_guest_access">
-                      <thead class="thead-light">
-                        <tr>
-                          <th>Organization Name</th>
-                          <th>Role</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td>Ford</td>
-                          <td>View</td>
-                        </tr>
-                        <tr>
-                          <td>Exotic</td>
-                          <td>View</td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
+              </div>
+            </fieldset>
+          </div>
+          <div class="col-md-6">
+            <fieldset>
+              <legend>Favorites</legend>
+              <table class="table table-borderless table-sm mb-3" id="noti_fav">
+                <thead class="thead-light">
+                  <tr>
+                    <th>Favorite Name</th>
+                    <th>Order</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>QCD Dashboard</td>
+                    <td>1</td>
+                  </tr>
+                  <tr>
+                    <td>Workcell 214</td>
+                    <td>2</td>
+                  </tr>
+                  <tr>
+                    <td>Lab Dashboard</td>
+                    <td>3</td>
+                  </tr>
+                </tbody>
+              </table>
+              <div class="border-top text-right pt-2">
+                <button class="btn btn-outline-secondary mr-2" id="noti_fav_edit">Edit</button>
+                <button class="btn btn-info" id="noti_fav_save">Save</button>
+              </div>
+            </fieldset>
+            <fieldset class="mt-3">
+              <legend>Organization Access</legend>
+              <div class="form-group row">
+                <label for="org_ha" class="col-sm-4 col-form-label">Home Access</label>
+                <div class="col-sm-8">
+                  <input type="text" class="form-control" id="org_ha" />
                 </div>
-  
-                <div class="border-top text-right pt-2">
-                  <button class="btn btn-outline-secondary mr-2" id="up_cancel">Cancel</button>
-                  <button class="btn btn-info" id="up_save">Save</button>
+              </div>
+              <div class="form-group row">
+                <label for="org_ga" class="col-sm-4 col-form-label">Guest Access</label>
+                <div class="col-sm-8">
+                  <table class="table table-bordered table-sm table-hover mb-3" id="org_ga">
+                    <thead class="thead-dark">
+                      <tr>
+                        <th>Organization Name</th>
+                        <th>Role</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>Ford</td>
+                        <td>View</td>
+                      </tr>
+                      <tr>
+                        <td>Exotic</td>
+                        <td>View</td>
+                      </tr>
+                    </tbody>
+                  </table>
                 </div>
-              </fieldset>
-            </div>
+              </div>
+            </fieldset>
           </div>
         </div>
-        <div class="tab-pane fade" id="Notification">
-          <fieldset class="mt-3">
-            <legend>Notification Delivery Methods</legend>
-            <div class="row mb-3">
-              <div class="col-sm-3">Critical Alarm</div>
-              <div class="col-sm-3">
-                  <div class="custom-control custom-radio">
-                      <input type="radio" class="custom-control-input" name="customRadio" id="noti_sms" checked>
-                      <label class="custom-control-label" for="noti_sms">SMS</label>
-                  </div>
-              </div>
-              <div class="col-sm-3">
-                  <div class="custom-control custom-radio">
-                      <input type="radio" class="custom-control-input" name="customRadio" id="noti_email" checked>
-                      <label class="custom-control-label" for="noti_email">Email</label>
-                  </div>
-              </div>
-              <div class="col-sm-3">
-                  <div class="custom-control custom-radio">
-                      <input type="radio" class="custom-control-input" name="customRadio" id="noti_web" checked>
-                      <label class="custom-control-label" for="noti_web">Web Only</label>
-                  </div>
-              </div>
-            </div>
-            <div class="row mb-3">
-                <div class="col-sm-3">Warning Alarm</div>
+        <hr>
+        <div class="text-right pt-2">
+          <button class="btn btn-outline-secondary mr-2" id="not_fav_cancel">Cancel</button>
+          <button class="btn btn-info" id="noti_fav_save">Save</button>
+        </div>
+      </div>
+      <div class="tab-pane fade" id="notification">
+        <fieldset class="mt-3">
+          <legend>Notification Delivery Methods</legend>
+          <div class="row mb-3">
+            <div class="col-md-8">
+              <div class="row mb-3">
+                <div class="col-sm-3">Critical Alarm</div>
                 <div class="col-sm-3">
-                    <div class="custom-control custom-radio">
-                        <input type="radio" class="custom-control-input" name="customRadio" id="warning_sms" checked>
-                        <label class="custom-control-label" for="warning_sms">SMS</label>
-                    </div>
+                  <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" name="noti_crit_sms" id="noti_crit_sms">
+                    <label class="custom-control-label" for="noti_crit_sms">SMS</label>
+                  </div>
                 </div>
                 <div class="col-sm-3">
-                    <div class="custom-control custom-radio">
-                        <input type="radio" class="custom-control-input" name="customRadio" id="warning_email" checked>
-                        <label class="custom-control-label" for="warning_email">Email</label>
-                    </div>
+                  <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" name="" id="noti_crit_email">
+                    <label class="custom-control-label" for="noti_crit_email">Email</label>
+                  </div>
                 </div>
                 <div class="col-sm-3">
-                    <div class="custom-control custom-radio">
-                        <input type="radio" class="custom-control-input" name="customRadio" id="warning_wab" checked>
-                        <label class="custom-control-label" for="warning_wab">Web Only</label>
-                    </div>
+                  <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" name="" id="noti_crit_web">
+                    <label class="custom-control-label" for="noti_crit_web">Web Only</label>
+                  </div>
                 </div>
               </div>
               <div class="row mb-3">
-                  <div class="col-sm-3">Info Message</div>
-                  <div class="col-sm-3">
-                      <div class="custom-control custom-radio">
-                          <input type="radio" class="custom-control-input" name="customRadio" id="info_sms" checked>
-                          <label class="custom-control-label" for="info_sms">SMS</label>
-                      </div>
-                  </div>
-                  <div class="col-sm-3">
-                      <div class="custom-control custom-radio">
-                          <input type="radio" class="custom-control-input" name="customRadio" id="info_email" checked>
-                          <label class="custom-control-label" for="info_email">Email</label>
-                      </div>
-                  </div>
-                  <div class="col-sm-3">
-                      <div class="custom-control custom-radio">
-                          <input type="radio" class="custom-control-input" name="customRadio" id="info_web" checked>
-                          <label class="custom-control-label" for="info_web">Web Only</label>
-                      </div>
+                <div class="col-sm-3">Warning Alarm</div>
+                <div class="col-sm-3">
+                  <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" name="" id="noti_war_sms">
+                    <label class="custom-control-label" for="noti_war_sms">SMS</label>
                   </div>
                 </div>
-            <div class="border-top text-right pt-2">
-              <button class="btn btn-info" id="noti_schedule"><i class="fa fa-calendar mr-2"></i>Set Notification Delivery Schedule</button>
+                <div class="col-sm-3">
+                  <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" name="" id="noti_war_email">
+                    <label class="custom-control-label" for="noti_war_email">Email</label>
+                  </div>
+                </div>
+                <div class="col-sm-3">
+                  <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" name="" id="noti_war_web">
+                    <label class="custom-control-label" for="noti_war_web">Web Only</label>
+                  </div>
+                </div>
+              </div>
+              <div class="row mb-3">
+                <div class="col-sm-3">Info Message</div>
+                <div class="col-sm-3">
+                  <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" name="" id="noti_info_sms">
+                    <label class="custom-control-label" for="noti_info_sms">SMS</label>
+                  </div>
+                </div>
+                <div class="col-sm-3">
+                  <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" name="" id="noti_info_email">
+                    <label class="custom-control-label" for="noti_info_email">Email</label>
+                  </div>
+                </div>
+                <div class="col-sm-3">
+                  <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" name="" id="noti_info_web">
+                    <label class="custom-control-label" for="noti_info_web">Web Only</label>
+                  </div>
+                </div>
+              </div>
             </div>
-          </fieldset>
-          <fieldset class="mt-3">
-            <legend>Alarm Subscriptions</legend>
-            <table class="table table-bordered table-sm table-striped">
-              <thead>
-                <tr>
-                  <th>Rule Name</th>
-                  <th>Metric Type</th>
-                  <th>Rule Type</th>
-                  <th>Access Scope</th>
-                  <th>Associations</th>
-                  <th>Notification</th>
-                  <th class="text-center">Action</th>
-                </tr>
-              </thead>
-            </table>
-          </fieldset>
+            <div class="col-md-4 text-right">
+              <button type="button" class="btn btn-info" data-toggle="modal" data-target="#myModal"><i class="fa fa-calendar mr-2"></i>Set Notification Delivery
+                Schedule</button>
+            </div>
+          </div>
+          <div class="border-top text-right pt-2">
+            <button class="btn btn-outline-secondary mr-2" id="noti_cancel">Cancel</button>
+            <button class="btn btn-info" id="noti_save">Save</button>
+          </div>
+        </fieldset>
+        <!-- Modal HTML -->
+        <div id="myModal" class="modal fade" tabindex="-1">
+            <div class="modal-dialog modal-xl modal-dialog-scrollable">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Notification Delivery Schedule</h5>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <table class="table table-sm table-bordered" id="noti_schedule">
+                          <thead class="thead-light">
+                              <tr>
+                                <th rowspan="2"></th>
+                                <th colspan="2" class="text-center">Sun</th>
+                                <th colspan="2" class="text-center">Mon</th>
+                                <th colspan="2" class="text-center">Tue</th>
+                                <th colspan="2" class="text-center">Wed</th>
+                                <th colspan="2" class="text-center">Thu</th>
+                                <th colspan="2" class="text-center">Fri</th>
+                                <th colspan="2" class="text-center">Sat</th>
+                              </tr>
+                            <tr>
+                              <th class="text-center">AM</th>
+                              <th class="text-center">PM</th>
+                              <th class="text-center">AM</th>
+                              <th class="text-center">PM</th>
+                              <th class="text-center">AM</th>
+                              <th class="text-center">PM</th>
+                              <th class="text-center">AM</th>
+                              <th class="text-center">PM</th>
+                              <th class="text-center">AM</th>
+                              <th class="text-center">PM</th>
+                              <th class="text-center">AM</th>
+                              <th class="text-center">PM</th>
+                              <th class="text-center">AM</th>
+                              <th class="text-center">PM</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr>
+                              <td class="text-center">1</td>
+                              <td class="text-center"></td>
+                              <td class="text-center active-cell"></td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                              <td class="text-center active-cell"></td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                            </tr>
+                            <tr>
+                              <td class="text-center">2</td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                            </tr>
+                            <tr>
+                              <td class="text-center">3</td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                            </tr>
+                            <tr>
+                              <td class="text-center">4</td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                            </tr>
+                            <tr>
+                              <td class="text-center">5</td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                            </tr>
+                            <tr>
+                              <td class="text-center">6</td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                            </tr>
+                            <tr>
+                              <td class="text-center">7</td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                            </tr>
+                            <tr>
+                              <td class="text-center">8</td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                            </tr>
+                            <tr>
+                              <td class="text-center">9</td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                            </tr>
+                            <tr>
+                              <td class="text-center">10</td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                            </tr>
+                            <tr>
+                              <td class="text-center">11</td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                            </tr>
+                            <tr>
+                              <td class="text-center">12</td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                              <td class="text-center"></td>
+                            </tr>
+                          </tbody>
+                        </table>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" id="noti_sch_clear">Clear</button>
+                        <button type="button" class="btn btn-info" id="noti_sch_save">Save</button>
+                    </div>
+                </div>
+            </div>
         </div>
+        <fieldset class="mt-3">
+          <legend>Alarm Subscriptions</legend>
+          <div class="row">
+            <div class="col-md-6 mb-2">
+                
+                    <div class="input-group">            
+                      <form class="form-inline">
+                        <label for="typeahead-config" id="alertRule-filter">Type to filter events:</label>
+                        <input class="form-control form-control-sm ml-2" id="userAlertsearchBox" type="search" placeholder="Search" aria-label="Search">
+                        <button class="btn btn-sm btn-outline-info mr-2 ml-2" id="userAlertSearchButton" type="submit">Search</button>
+                      </form>
+                    </div>
+                
+            </div>
+            <div class="col-md-6"></div>
+          </div>
+          <table class="table table-bordered table-sm table-striped">
+            <thead>
+              <tr>
+                <th>Rule Name</th>
+                <th>Metric Type</th>
+                <th>Rule Type</th>
+                <th>Access Scope</th>
+                <th>Associations</th>
+                <th>Notification</th>
+                <th class="text-center">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Compressor over pressure</td>
+                <td>Pressure</td>
+                <td>Absolute</td>
+                <td>QCD</td>
+                <td>3 Signals</td>
+                <td>5 user/group</td>
+                <td class="text-center">
+                  <a href="" class="mr-2"><i class="fa fa-trash"></i></a>
+                  <a href=""><i class="fa fa-edit"></i></a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </fieldset>
       </div>
     </div>
   </div>
+</div>
+
+
+
+<!-- UOM Modal -->
+<div id="uomModal" class="modal">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable modal-dialog-centered">
+      <!-- Modal content -->
+      <div class="modal-content">
+        <div class="modal-header">
+          <label for="UOM" class="pr-2"><b>Units of Measure :</b></label>
+          <div class="form-check form-check-inline">
+            <input [disabled]="pageType==='View'" class="form-check-input org-create-font" type="radio" value="SI"
+              name="UOM" (change)="onUnitChange($event)" checked id="f-si">
+            <label class="form-check-label" for="f-si">SI</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input [disabled]="pageType==='View'" class="form-check-input" type="radio" value="Imperial" name="UOM"
+              (change)="onUnitChange($event)" id="f-imperial">
+            <label class="form-check-label" for="f-imperial">Imperial</label>
+          </div> 
+          <div class="form-check form-check-inline"> 
+            <input [disabled]="pageType==='View'" class="form-check-input" type="radio" value="Metric" name="UOM"
+              (change)="onUnitChange($event)" id="f-metric">
+            <label class="form-check-label" for="f-metric">Metric</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input [disabled]="pageType==='View'" class="form-check-input" type="radio" value="Custom" name="UOM"
+              (change)="onUnitChange($event)" id="f-custom">
+            <label class="form-check-label" for="f-custom">Custom</label>
+          </div>
+        </div>
+        <div class="modal-body org-create-font">
+  
+          <div *ngFor="let uom of applicationConfiguration.unitOfMeassurement; let i = index" [attr.data-index]="i"
+            class="container-fluid">
+            <div class="row" *ngIf="i%2===0 && uom">
+  
+              <div class="col-4">
+                <div class="row form-group">
+                  <label class="col-sm-4 col-form-label" for="uom.uomTypeName"><b>{{uom.uomTypeName}}:</b></label>
+                  <div class="col-sm-8 org-create-font">
+                    <select [(ngModel)]="uomModels[uom.uomTypeName]"
+                      (change)="onUoMDropdownChange($event,uom.uomTypeName)" name="uom.uomTypeName"
+                      class="form-control org-create-font">
+                      <option></option>
+                      <option *ngFor="let view of uom.uoMView" [value]="view.uoMId">
+                        {{view.uoMName}}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+  
+              <div class="col-4">
+                <div class="row form-group">
+                  <label class="col-sm-4 col-form-label" for="uom.uomTypeName"><b>{{uom.uomTypeName}}:</b></label>
+                  <div class="col-sm-8 org-create-font">
+                    <select [(ngModel)]="uomModels[uom.uomTypeName]"
+                      (change)="onUoMDropdownChange($event,uom.uomTypeName)" name="uom.uomTypeName"
+                      class="form-control org-create-font">
+                      <option></option>
+                      <option *ngFor="let view of uom.uoMView" [value]="view.uoMId">
+                        {{view.uoMName}}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+  
+              <div class="col-4" *ngIf="applicationConfiguration.unitOfMeassurement[i+1]">
+                <div class="row form-group">
+                  <label class="col-sm-4 col-form-label"
+                    for="applicationConfiguration.unitOfMeassurement[i+1].uomTypeName"><b>{{applicationConfiguration.unitOfMeassurement[i+1].uomTypeName}}:</b></label>
+                  <div class="col-sm-8 org-create-font">
+                    <select [(ngModel)]="uomModels[applicationConfiguration.unitOfMeassurement[i+1].uomTypeName]"
+                      (change)="onUoMDropdownChange($event, applicationConfiguration.unitOfMeassurement[i+1].uomTypeName)"
+                      name="applicationConfiguration.unitOfMeassurement[i+1].uomTypeName"
+                      class="form-control org-create-font">
+                      <option></option>
+                      <option *ngFor="let view of applicationConfiguration.unitOfMeassurement[i+1].uoMView"
+                        [value]="view.uoMId">
+                        {{view.uoMName}}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+  
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button id="org-uom-cancle" type="button" class="btn btn-secondary btn-sm"
+            (click)="closemodal('cancel')">Cancel
+          </button>
+          <button id="org-uom-save" type="button" class="btn btn-info btn-sm"
+            (click)="closemodal('save')">Save</button>
+        </div>
+  
+      </div>
+  
+    </div>
+  </div>
+
+
+
+<!-- UOM Modal  -->
+<!-- <div class="modal fade" id="uomModal" tabindex="-1" role="dialog" aria-labelledby="uomSelection" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <label for="UOM" class="pr-2"><b>Units of Measure :</b></label>
+        <div class="form-check form-check-inline">
+          <input [disabled]="pageType==='View'" class="form-check-input org-create-font" type="radio" value="SI"
+            name="UOM" (change)="onUnitChange($event)" checked id="f-si">
+          <label class="form-check-label" for="f-si">SI</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input [disabled]="pageType==='View'" class="form-check-input" type="radio" value="Imperial" name="UOM"
+            (change)="onUnitChange($event)" id="f-imperial">
+          <label class="form-check-label" for="f-imperial">Imperial</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input [disabled]="pageType==='View'" class="form-check-input" type="radio" value="Metric" name="UOM"
+            (change)="onUnitChange($event)" id="f-metric">
+          <label class="form-check-label" for="f-metric">Metric</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input [disabled]="pageType==='View'" class="form-check-input" type="radio" value="Custom" name="UOM"
+            (change)="onUnitChange($event)" id="f-custom">
+          <label class="form-check-label" for="f-custom">Custom</label>
+        </div>
+      </div>
+      <div class="modal-body org-create-font">
+
+        <div *ngFor="let uom of applicationConfiguration.unitOfMeassurement; let i = index" [attr.data-index]="i"
+          class="container-fluid">
+          <div class="row" *ngIf="i%2===0 && uom">
+
+            <div class="col-4">
+              <div class="row form-group">
+                <label class="col-sm-4 col-form-label" for="uom.uomTypeName"><b>{{uom.uomTypeName}}:</b></label>
+                <div class="col-sm-8 org-create-font">
+                  <select [(ngModel)]="uomModels[uom.uomTypeName]"
+                    (change)="onUoMDropdownChange($event,uom.uomTypeName)" name="uom.uomTypeName"
+                    class="form-control org-create-font">
+                    <option></option>
+                    <option *ngFor="let view of uom.uoMView" [value]="view.uoMId">
+                      {{view.uoMName}}
+                    </option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-4">
+              <div class="row form-group">
+                <label class="col-sm-4 col-form-label" for="uom.uomTypeName"><b>{{uom.uomTypeName}}:</b></label>
+                <div class="col-sm-8 org-create-font">
+                  <select [(ngModel)]="uomModels[uom.uomTypeName]"
+                    (change)="onUoMDropdownChange($event,uom.uomTypeName)" name="uom.uomTypeName"
+                    class="form-control org-create-font">
+                    <option></option>
+                    <option *ngFor="let view of uom.uoMView" [value]="view.uoMId">
+                      {{view.uoMName}}
+                    </option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-4" *ngIf="applicationConfiguration.unitOfMeassurement[i+1]">
+              <div class="row form-group">
+                <label class="col-sm-4 col-form-label"
+                  for="applicationConfiguration.unitOfMeassurement[i+1].uomTypeName"><b>{{applicationConfiguration.unitOfMeassurement[i+1].uomTypeName}}:</b></label>
+                <div class="col-sm-8 org-create-font">
+                  <select [(ngModel)]="uomModels[applicationConfiguration.unitOfMeassurement[i+1].uomTypeName]"
+                    (change)="onUoMDropdownChange($event, applicationConfiguration.unitOfMeassurement[i+1].uomTypeName)"
+                    name="applicationConfiguration.unitOfMeassurement[i+1].uomTypeName"
+                    class="form-control org-create-font">
+                    <option></option>
+                    <option *ngFor="let view of applicationConfiguration.unitOfMeassurement[i+1].uoMView"
+                      [value]="view.uoMId">
+                      {{view.uoMName}}
+                    </option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button id="user-uom-cancle" type="button" class="btn btn-sm btn-secondary"
+          (click)="closemodal('cancel')">Cancel
+        </button>
+        <button id="user-uom-save" type="button" class="btn btn-sm btn-info"
+          (click)="closemodal('save')">Save</button>
+      </div>
+
+    </div>
+  </div>
+</div> -->

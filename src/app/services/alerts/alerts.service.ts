@@ -21,6 +21,34 @@ export class AlertsService {
       );
   }
 
+  getAlertByAlertId(alertId: string) {
+    return this.http.get(`${AppConstants.GET_ALERT_BYALERTID}/${alertId}`)
+      .pipe(
+        map(response => response)
+      );
+  }
+
+  getAllMetricTypes(): Observable<any> {
+    return this.http.get(AppConstants.GET_ALERT_METRICS)
+      .pipe(
+        map(response => response)
+      );
+  }
+
+  getUserGroupRoles(): Observable<any> {
+    return this.http.get(AppConstants.GET_ALERT_USERGROUPROLE)
+      .pipe(
+        map(response => response)
+      );
+  }
+
+  getAccessScopeByOrgId(orgId: string): Observable<any> {
+    return this.http.get(`${AppConstants.GET_ALERT_ACCESSSCOPE}/${orgId}`)
+      .pipe(
+        map(response => response)
+      );
+  }
+
   getAllAlertsByOrgId(orgId: string): Observable<any> {
     return this.http.get(`${AppConstants.GET_ALERT_BYORGID}/${orgId}`)
       .pipe(
@@ -28,8 +56,24 @@ export class AlertsService {
       );
   }
 
-  getAlertRuleSignalAssociatedAssetByOrgId(orgId: string): Observable<any> {
-    return this.http.get(`${AppConstants.GET_ALERT_RULESIGNALS_ASSOCIATION_ASSETS}/${orgId}`)
+  getAlertRuleSignalAssociatedAssetByOrgId(orgId: string, alertId: string): Observable<any> {
+    return this.http.get(`${AppConstants.GET_ALERT_RULESIGNALS_ASSOCIATION_ASSETS}/${orgId}/${alertId}`)
+      .pipe(
+        map(response => response)
+      );
+  }
+
+  createAlertRule(alertRule: Alert) {
+    return this.http.post(AppConstants.CREATE_ALERT, alertRule)
+      .pipe(
+        map(response => response)
+      );
+  }
+
+
+
+  ALertRuleUserGroupSubscriber(alertRuleId) {
+    return this.http.get(`${AppConstants.GET_ALERTRULE_USERGROUP_SUBSCRIBER}/${alertRuleId}`)
       .pipe(
         map(response => response)
       );

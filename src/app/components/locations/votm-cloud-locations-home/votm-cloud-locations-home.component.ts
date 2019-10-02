@@ -62,7 +62,7 @@ export class VotmCloudLocationsHomeComponent implements OnInit {
   }
 
   private fetchlocationTree() {
-    this.locService.getAllLocationTree().subscribe(response => {
+    this.locService.getAllLocationTree(this.parentOrgId).subscribe(response => {
       this.locationsList = response.map(x => ({
         ...x,
         opened: true

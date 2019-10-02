@@ -41,12 +41,13 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
   UOM: any;
   pageLabels: any;
   locationTypes: Array<any>;
-  states: Array<any>=[];
+  states: Array<any> = [];
   countries: Array<any>;
   tempUoM: UnitOfMeassurement;
   tempMeasurement: string;
   parentOrganizationInfo: any;
   isSignalAssociationClicked = false;
+  isGatewayAssociationClicked = false;
   pageTitle: string;
   pageType: any;
 
@@ -109,12 +110,21 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
     //       });
     //     }
     //   });
-    
+    this.activatedRoute.paramMap.subscribe(params => {
+      this.curOrgId = params.get("curOrgId");
+      this.curOrgName = params.get("curOrgName");
+      this.parentLocId = params.get("parentLocId");
+      this.parentLocName = params.get("parentLocName");
+      this.locId = params.get('locId');
+      if (!this.locId) {
+        this.locationObject();
+      } else {
+        this.getLocationById();
+      }
+    });
+
     this.countries = countyList;
-    this.curOrgId = this.activatedRoute.snapshot.paramMap.get("curOrgId");
-    this.curOrgName = this.activatedRoute.snapshot.paramMap.get("curOrgName");
-    this.parentLocId = this.activatedRoute.snapshot.paramMap.get("parentLocId");
-    this.parentLocName = this.activatedRoute.snapshot.paramMap.get("parentLocName");
+
     var abbrs = {
       EST: 'Eastern Standard Time',
       EDT: 'Eastern Daylight Time',
@@ -141,7 +151,7 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
 
     this.pageType = this.activatedRoute.snapshot.data['type'];
     this.pageTitle = `${this.pageType} Location`;
-    this.locId = this.activatedRoute.snapshot.params['locId'];
+
 
     this.parentOrganizationInfo = {
       parentOrganizationId: this.curOrgId,
@@ -164,58 +174,55 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
     this.location.address = [new Address()];
     this.location.address[0].addressType = 'Billing';
     this.multiDropdownConfigSetting();
-    if (!this.locId) {
+  }
 
-      this.locationObject();
-      // this.selectedItems = [];
-    } else {
-      this.locationService.getLocationById(this.locId)
-        .subscribe(response => {
-          this.location = response;
-          this.parentLocId = this.location.parentLocationId ? this.location.parentLocationId : this.parentLocId;
-          this.parentLocName = this.location.parentLocationName ? this.location.parentLocationName : this.parentLocName;
-          if (!this.location.address || this.location.address.length === 0) {
-            this.location.address = [new Address()];
-            this.location.address[0].addressType = 'Billing';
-          }
+  getLocationById() {
+    this.locationService.getLocationById(this.locId)
+      .subscribe(response => {
+        this.location = response;
+        this.parentLocId = this.location.parentLocationId ? this.location.parentLocationId : this.parentLocId;
+        this.parentLocName = this.location.parentLocationName ? this.location.parentLocationName : this.parentLocName;
+        if (!this.location.address || this.location.address.length === 0) {
+          this.location.address = [new Address()];
+          this.location.address[0].addressType = 'Billing';
+        }
 
-          this.selectedGateways = [];
-          if (this.location.gateways) {
-            this.selectedGateways = [...this.location.gateways];
-          }
-          if (this.location.logo && this.location.logo.imageName) {
-            this.fileExtension = this.location.logo.imageName.slice((Math.max(0, this.location.logo.imageName.lastIndexOf(".")) || Infinity) + 1);
-            this.imgURL = this.domSanitizer.bypassSecurityTrustUrl(`data:image/${this.fileExtension};base64,${this.location.logo.image}`);
-            this.location.logo.imageType = this.fileExtension;
-          }
-          // if (this.location.geoFenceType === 'bf0bc7b5-1bf8-4a59-a3b5-35904937e89e' && this.location.geoFenceValue.indexOf('undefined') < 0) {
-          //   var str = this.location.geoFenceValue;
-          //   var matches = str.match(/(\d+)/);
-          //   // console.log(matches[0], str.slice(matches[0].length, str.length - (matches[0].length - 1)));
-          //   if (matches && matches.length > 0) {
-          //     this.radiusValue = matches[0];
-          //     this.radiusUnit = str.slice(matches[0].length, str.length - (matches[0].length - 1));
-          //   }
-          // }
-          // if (this.location.geoFenceType === 'd5764af5-114b-48e6-9980-544634167826' && this.location.geoFenceValue.indexOf('undefined') < 0) {
-          //   let str = this.location.geoFenceValue;
-          //   var matches = str.split('*')[1].match(/(\d+)/);
-          //   var matches2 = str.split('*')[1].match(/[a-zA-Z]/gi);
-          //   this.rectangleValue1 = str.split('*')[0];
-          //   this.rectangleValue2 = matches[0];
-          //   this.rectangleUnit = matches2.join('');
-          // }
-          this.location.localeId = this.location.locale;
-          this.location.timeZoneId = this.location.timeZone;
-          this.location.uoMId = this.location.uoM;
-        })
-    }
+        this.selectedGateways = [];
+        if (this.location.gateways) {
+          this.selectedGateways = [...this.location.gateways];
+        }
+        if (this.location.logo && this.location.logo.imageName) {
+          this.fileExtension = this.location.logo.imageName.slice((Math.max(0, this.location.logo.imageName.lastIndexOf(".")) || Infinity) + 1);
+          this.imgURL = this.domSanitizer.bypassSecurityTrustUrl(`data:image/${this.fileExtension};base64,${this.location.logo.image}`);
+          this.location.logo.imageType = this.fileExtension;
+        }
+        // if (this.location.geoFenceType === 'bf0bc7b5-1bf8-4a59-a3b5-35904937e89e' && this.location.geoFenceValue.indexOf('undefined') < 0) {
+        //   var str = this.location.geoFenceValue;
+        //   var matches = str.match(/(\d+)/);
+        //   // console.log(matches[0], str.slice(matches[0].length, str.length - (matches[0].length - 1)));
+        //   if (matches && matches.length > 0) {
+        //     this.radiusValue = matches[0];
+        //     this.radiusUnit = str.slice(matches[0].length, str.length - (matches[0].length - 1));
+        //   }
+        // }
+        // if (this.location.geoFenceType === 'd5764af5-114b-48e6-9980-544634167826' && this.location.geoFenceValue.indexOf('undefined') < 0) {
+        //   let str = this.location.geoFenceValue;
+        //   var matches = str.split('*')[1].match(/(\d+)/);
+        //   var matches2 = str.split('*')[1].match(/[a-zA-Z]/gi);
+        //   this.rectangleValue1 = str.split('*')[0];
+        //   this.rectangleValue2 = matches[0];
+        //   this.rectangleUnit = matches2.join('');
+        // }
+        this.location.localeId = this.location.locale;
+        this.location.timeZoneId = this.location.timeZone;
+        this.location.uoMId = this.location.uoM;
+      });
   }
 
   onCountryChange(event) {
     console.log('Country change ', this.location.address[0].country);
     if (this.location.address && this.location.address.length > 0) {
-      this.location.address[0].state = null;     
+      this.location.address[0].state = null;
     } else {
       this.location.address = [new Address()];
       this.location.address[0].state = null;
@@ -638,11 +645,16 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
     }
   }
 
-  onLockClick(){
-    if(this.pageType.toLowerCase() === 'view'){
-    this.route.navigate([`loc/edit/${this.parentLocId}/${this.parentLocName}/${this.curOrgId}/${this.curOrgName}/${this.location.locationId}`])
-  } else{
-    this.route.navigate([`loc/view/${this.parentLocId}/${this.parentLocName}/${this.curOrgId}/${this.curOrgName}/${this.location.locationId}`])
+  onLockClick() {
+    let event = 'view';
+    if (this.pageType.toLowerCase() === 'view') {
+      event = 'edit';
+    }
+
+    if (this.location.parentLocationId) {
+      this.route.navigate([`loc/${event}/${this.location.parentLocationId}/${this.location.parentLocationName}/${this.curOrgId}/${this.curOrgName}/${this.location.locationId}`]);
+    } else {
+      this.route.navigate([`loc/${event}/${this.curOrgId}/${this.curOrgName}/${this.location.locationId}`]);
     }
   }
 
@@ -668,8 +680,11 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
 
   onClickOfNavTab(type) {
     this.isSignalAssociationClicked = false;
+    this.isGatewayAssociationClicked = false;
     if (type === 'signal_association') {
       this.isSignalAssociationClicked = true;
+    } else if (type === 'gateway_association') {
+      this.isGatewayAssociationClicked = true;
     }
   }
 }

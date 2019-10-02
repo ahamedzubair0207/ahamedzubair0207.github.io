@@ -1,12 +1,30 @@
 <div class="navbar-nav pl-2">
-  <div *ngFor="let breadcrumb of breadcrumbs; let i = index" [attr.data-index]="i" class="nav-item dropdown underline-on-hover">
-    <a href="#" class="nav-item nav-link dropdown"
-      [ngStyle]="{'color': i === breadcrumbs.length-1 ? 'white' : 'rgba(255,255,255,.5)'}"
-      data-toggle="dropdown">{{breadcrumb.name}}<i class="fa fa-chevron-right ml-2"></i></a>
-    <div class="dropdown-menu scrollable-menu">
-      <a *ngFor="let item of breadcrumb.nodes" style="cursor: pointer" (click)="onItemSelection(item)"
-        class="dropdown-item">{{item.name}}</a>
+  <div *ngFor="let breadcrumb of finalBreadcrumbs; let i = index" [attr.data-index]="i">
+    <div *ngIf="breadcrumb.isVisible; else elseTemplate">
+      <div class="nav-item dropdown underline-on-hover">
+        <a href="#" class="nav-item nav-link dropdown"
+          [ngStyle]="{'color': i === finalBreadcrumbs.length-1 ? 'white' : 'rgba(255,255,255,.5)'}"
+          data-toggle="dropdown">{{breadcrumb.name}}<i *ngIf="i!==finalBreadcrumbs.length-1"
+            class="fa fa-chevron-right ml-2"></i></a>
+        <div class="dropdown-menu scrollable-menu">
+          <a *ngFor="let item of breadcrumb.nodes" style="cursor: pointer" (click)="onItemSelection(item)"
+            class="dropdown-item">{{item.name}}</a>
+        </div>
+      </div>
     </div>
+    <ng-template #elseTemplate>
+      <div *ngIf="i===1" class="nav-item dropdown underline-on-hover">
+        <a href="#" style="color: white;" class="nav-item nav-link dropdown"
+          data-toggle="dropdown">{{minimizedBreadcrumbs.name}}<i style="color:grey;"
+            class="fa fa-chevron-right ml-2"></i></a>
+        <div class="dropdown-menu scrollable-menu">
+          <a *ngFor="let item of minimizedBreadcrumbs.nodes" style="cursor: pointer" (click)="onItemSelection(item)"
+            class="dropdown-item">{{item.name}}</a>
+        </div>
+      </div>
+      <!-- <span *ngIf="i===1" style="color: white; cursor: pointer;">...<i style="color: grey;"
+          class="fa fa-chevron-right ml-2"></i></span> -->
+    </ng-template>
   </div>
 </div>
 

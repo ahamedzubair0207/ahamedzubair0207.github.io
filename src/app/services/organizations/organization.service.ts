@@ -14,16 +14,16 @@ export class OrganizationService {
 
   parentOrganization: { orgId: string, orgName: string };
 
-  apiURL: string = '';
+  apiURL = '';
 
   constructor(private http: CustomHttp, private httpClient: HttpClient) { }
 
   getAllOrganization() {
     return ORG_LIST;
-  }  
+  }
 
   getOptionsListData(listName: string): Observable<any> {
-    let params = new HttpParams().set("listName", listName);
+    const params = new HttpParams().set('listName', listName);
     return this.http.get(AppConstants.GET_OPTIONSLISTDATA, params)
       .pipe(
         map(response => response)
@@ -31,7 +31,7 @@ export class OrganizationService {
   }
 
   getOrganizationTree(orgId: string): Observable<any> {
-    let params = new HttpParams().set("organizationId", orgId);
+    const params = new HttpParams().set('organizationId', orgId);
     return this.http.get(AppConstants.GET_ORG_TREE + '/' + orgId, params)
       .pipe(
         map(response => response)
@@ -89,8 +89,19 @@ export class OrganizationService {
       );
   }
 
-  getCountries(){
-    return this.httpClient.get("../../../assets/countryList/countryWithStates.json").pipe(
-                    map((res:any) => res));
+  getCountries() {
+    return this.httpClient.get('../../../assets/countryList/countryWithStates.json').pipe(
+                    map((res: any) => res));
   }
+
+  getDashboardHTML(formName) {
+    return this.httpClient.get(`../../../assets/dashboards/${formName}.html`, {responseType: 'text'})
+    .pipe(
+      map(
+        (res: any) => res
+        )
+    );
+
+  }
+
 }

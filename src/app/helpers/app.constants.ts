@@ -7,14 +7,24 @@ export class AppConstants {
     public static DEL_ORG = '/Organization';
 
     public static GET_LOC_TREE = '/LocationTree/type/location';
+    public static GET_LOCTREE = '/LocationTree';
+    public static GET_LOC_TREE_BY_ORGID = '/type/Organization';
     public static GET_LOC = '/Location';
     public static EDIT_LOC = '/Location';
     public static CREATE_LOC = '/Location';
     public static DEL_LOC = '/Location';
+    public static GATEWAYS_LOC = 'Location/Gateways';
+
+    public static GET_USER_GROUPS = '/UserManagement/UserGroups';
+    public static GET_ALERTRULE_USERGROUP_SUBSCRIBER = '/ALertRuleUserGroupSubscriber';
+    public static GET_USER_ROLES = '/UserManagement/Roles';
+    public static GET_ALL_USERS = '/UserManagement/Users';
 
     public static GET_OPTIONSLISTDATA = '/Location/optionsListData';
 
     public static GET_ASSET_TREE = '/AssetTree/type/asset';
+    public static GET_ASSETTREE = '/AssetTree';
+    public static GET_ASSETTREE_BYID = '/type/location';
     public static GET_ALLASSETS = '/Asset';
     public static GET_TEMPLATES = '/Asset/Template';
     public static GET_TEMPLATESNAMELIST = '/Asset/TemplateNameList';
@@ -27,13 +37,18 @@ export class AppConstants {
     public static DEL_ASSET = '/Asset';
 
     public static GET_AVAILABLE_SIGNALS = 'Signals/SignalsTree';
-    public static GET_ASSET_SIGNAL_ASSOCIATION = 'SignalsTree';
-    public static GET_LOCATION_SIGNAL_ASSOCIATION = 'SignalsTree/{0}/Association';
+    public static GET_SIGNAL_ASSOCIATION = 'Signals';
     public static CREATE_SIGNAL_ASSOCIATION = 'Signals/Association';
+    public static DETACH_SIGNAL_ASSOCIATION = 'Signals';
 
     public static GET_ALERT = '/Alert';
+    public static GET_ALERT_BYALERTID = '/AlertRule';
+    public static CREATE_ALERT = '/AlertRule';
     public static GET_ALERT_BYORGID = '/AlertRules';
-    public static GET_ALERT_RULESIGNALS_ASSOCIATION_ASSETS = '/AlertRuleSignalAssociatedwithAsset';
+    public static GET_ALERT_RULESIGNALS_ASSOCIATION_ASSETS = '/AlertRuleSignalAssociatedwithAsset'; // AlertRuleSignalAssociatedwithAsset/{organizationId}/{alertRuleId}
+    public static GET_ALERT_METRICS = "/AlertRules/MetricType"
+    public static GET_ALERT_USERGROUPROLE = "/AlertRules/UserGroupRoles";
+    public static GET_ALERT_ACCESSSCOPE="/BreadcrumbNavigation/GetChildOrganization"
 
     public static NAVIGATION_URL = '/BreadcrumbNavigation';
 

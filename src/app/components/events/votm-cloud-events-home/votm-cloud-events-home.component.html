@@ -1,14 +1,14 @@
 <div class="event-header">
   <div class="event-search-bar-wrapper">
     <form class="form-inline">
-      <label for="typeahead-config">Type to filter events:</label>
+      <label for="typeahead-config" id="event-log-search">Type to filter events:</label>
       <input class="form-control-sm ml-2 mb-3 mt-3" id="searchBoxEvent" type="search" placeholder="Search"
         aria-label="Search">
-      <button class="btn btn-outline-info mr-2 ml-2" id="searchButtonEvent" type="submit">Search</button>
+      <button class="btn btn-outline-info mr-2 ml-2 form-control-sm" id="searchButtonEvent" type="submit">Search</button>
     </form>
   </div>
   <div class="add-event-btn-wrapper">
-    <button class="btn btn-info btn-group-right create-event-btn" (click)="openAddEventModal()"
+    <button class="btn btn-info btn-group-right create-event-btn form-control-sm" (click)="openAddEventModal()"
       id="createEventButton" type="button"><i class="fa fa-industry mr-2"></i>Add Event</button>
   </div>
   <div></div>
@@ -177,7 +177,7 @@
       <div class="modal-body event-create-font">
         <form #organizationForm="ngForm" class="form needs-validation" novalidate>
           <div class="form-group row">
-            <label for="" class="col-md-2 col-form-label">Event Name</label>
+            <label for="createEvent" class="col-md-2 col-form-label">Event Name</label>
             <div class="col-sm-4">
               <select class="form-control" id="evntName">
                 <option>Select</option>

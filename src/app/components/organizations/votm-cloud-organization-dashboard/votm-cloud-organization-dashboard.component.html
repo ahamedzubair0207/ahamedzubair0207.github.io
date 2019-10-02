@@ -1,0 +1,233 @@
+<ul class="nav nav-tabs" id="dashboardTab" role="tablist">
+  <!-- <li class="nav-item">
+    <a class="nav-link active" id="dashboard1-tab" data-toggle="tab" href="#orgDashboard" role="tab" aria-controls="org"
+      aria-selected="true">
+      Organization Dashboard      
+      <i class="fa fa-pencil ml-2" (click)="openAddDashboardModal('editDashboard')"
+        title="Configure Dashboard"></i>&nbsp;
+      <i class="fa fa-trash" (click)="openConfirmDialog(dashboardData.id, dashboardData.name)"
+        title="Delete Dashboard"></i>
+    </a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" id="dashboard2-tab" data-toggle="tab" href="#locDashboard" role="tab" aria-controls="loc"
+      aria-selected="false">
+      Asset Dashboard
+      <i class="fa fa-pencil ml-2" (click)="openAddDashboardModal('editDashboard')"
+        title="Configure Dashboard"></i>&nbsp;
+      <i class="fa fa-trash" (click)="openConfirmDialog(dashboardData.id, dashboardData.name)"
+        title="Delete Dashboard"></i>
+    </a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" id="dashboard3-tab" data-toggle="tab" href="#assetDashboard" role="tab" aria-controls="asset"
+      aria-selected="false">Location Dashboard
+      <i class="fa fa-pencil ml-2" (click)="openAddDashboardModal('editDashboard')"
+        title="Configure Dashboard"></i>&nbsp;
+      <i class="fa fa-trash" (click)="openConfirmDialog(dashboardData.id, dashboardData.name)"
+        title="Delete Dashboard"></i>
+    </a>
+  </li> -->
+  <!-- dynamic dashboard -->
+  <li *ngFor="let dashboardDataUser of dashboardData; let i = index">
+    <a class="nav-link" (click)="getDashboardHTML('parkerdashboard', i)"  [ngClass]="(i==0)?'active':''" id="dashboard{{dashboardDataUser.id}}-tab" data-toggle="tab" href="#Dashboard_{{i}}" role="tab" aria-controls="loc"
+      aria-selected="false">{{dashboardDataUser.dashboardName}}
+      <i class="fa fa-pencil ml-2" (click)="openAddDashboardModal('editDashboard', dashboardDataUser.id, dashboardDataUser.dashboardName); stopPropagation();"
+        title="Configure Dashboard"></i>&nbsp;
+      <i class="fa fa-trash" (click)="openConfirmDialog(dashboardDataUser.id, dashboardDataUser.dashboardName)"
+        title="Delete Dashboard"></i>
+    </a>
+  </li>
+
+  <li class="nav-item">
+    <div class="add-dashboard-btn-wrapper ml-2">
+      <button class="btn btn-info btn-group-right create-event-btn" (click)="openAddDashboardModal('addDashboard')"
+        id="createDashboardButton" type="button"><i class="fa fa-plus" title="Add New Dashboard"></i></button>
+    </div>
+  </li>
+</ul>
+
+<div class="tab-content" id="myTabContent">
+  <!-- <div class="tab-pane fade show active" id="Dashboard_1" role="tabpanel" aria-labelledby="org-tab">
+    <div class="row">
+      <div class="col-6 dashboard-gear-icon-wrapper">
+        <div class="dashboard-gear-icon"><i class="fa fa-gear" (click)="op3.toggle($event)"></i></div>
+        <app-votm-animated-gauge></app-votm-animated-gauge>
+      </div>
+      <div class="col-6 dashboard-gear-icon-wrapper">
+        <div class="dashboard-gear-icon"><i class="fa fa-gear" (click)="op3.toggle($event)"></i></div>
+        <app-votm-simple-gauge></app-votm-simple-gauge>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-12 dashboard-gear-icon-wrapper">
+        <div class="dashboard-gear-icon"><i class="fa fa-gear" (click)="op3.toggle($event)"></i></div>
+        <app-votm-line-graph></app-votm-line-graph>
+      </div>
+    </div>
+  </div>
+
+  <div class="tab-pane fade" id="Dashboard_2" role="tabpanel" aria-labelledby="loc-tab">
+    <div class="row">
+      <div class="col-6 dashboard-gear-icon-wrapper">
+        <div class="dashboard-gear-icon"><i class="fa fa-gear" (click)="op3.toggle($event)"></i></div>
+        <app-votm-pie-slice-chart></app-votm-pie-slice-chart>
+      </div>
+      <div class="col-6 dashboard-gear-icon-wrapper">
+        <div class="dashboard-gear-icon"><i class="fa fa-gear" (click)="op3.toggle($event)"></i></div>
+        <app-votm-cylinder-gauge></app-votm-cylinder-gauge>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12 dashboard-gear-icon-wrapper">
+        <div class="dashboard-gear-icon"><i class="fa fa-gear" (click)="op3.toggle($event)"></i></div>
+        <app-votm-live-order-book-depth-chart></app-votm-live-order-book-depth-chart>
+      </div>
+    </div>
+  </div>
+
+  <div class="tab-pane fade" id="Dashboard_3" role="tabpanel" aria-labelledby="asset-tab">
+    <div class="row">
+      <div class="col-12 dashboard-gear-icon-wrapper">
+        <div class="dashboard-gear-icon"><i class="fa fa-gear" (click)="op3.toggle($event)"></i></div>
+        <app-votm-live-data></app-votm-live-data>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-12 dashboard-gear-icon-wrapper">
+        <div class="dashboard-gear-icon"><i class="fa fa-gear" (click)="op3.toggle($event)"></i></div>
+        <app-votm-live-order-book-depth-chart></app-votm-live-order-book-depth-chart>
+      </div>
+    </div>
+  </div> -->
+
+  <!-- Dynamic dashboard container start-->
+  <div class="tab-pane fade" *ngFor="let dashboardDataUser of dashboardData; let ij = index" id="Dashboard_{{ij}}"  [ngClass]="(ij==0)?'show active':''" role="tabpanel">
+    <div class="row" *ngIf="dashboardDataUser.dashboardHTML" [innerHTML]="dashboardDataUser.dashboardHTML"></div>
+    <div class="row" *ngIf="ij==0 || ij==3 || ij==6">
+      <div class="col-6 dashboard-gear-icon-wrapper">
+        <div class="dashboard-gear-icon"><i class="fa fa-gear" (click)="op3.toggle($event)"></i></div>
+        <app-votm-animated-gauge></app-votm-animated-gauge>
+      </div>
+      <div class="col-6 dashboard-gear-icon-wrapper">
+        <div class="dashboard-gear-icon"><i class="fa fa-gear" (click)="op3.toggle($event)"></i></div>
+        <app-votm-simple-gauge></app-votm-simple-gauge>
+      </div>
+    </div>
+
+    <div class="row" *ngIf="ij==0 || ij==3 || ij==6">
+      <div class="col-12 dashboard-gear-icon-wrapper">
+        <div class="dashboard-gear-icon"><i class="fa fa-gear" (click)="op3.toggle($event)"></i></div>
+        <app-votm-live-order-book-depth-chart></app-votm-live-order-book-depth-chart>
+      </div>
+    </div>
+
+    <div class="row" *ngIf="ij==1 || ij==4 || ij==7">
+      <div class="col-6 dashboard-gear-icon-wrapper">
+        <div class="dashboard-gear-icon"><i class="fa fa-gear" (click)="op3.toggle($event)"></i></div>
+        <app-votm-pie-slice-chart></app-votm-pie-slice-chart>
+      </div>
+      <div class="col-6 dashboard-gear-icon-wrapper">
+        <div class="dashboard-gear-icon"><i class="fa fa-gear" (click)="op3.toggle($event)"></i></div>
+        <app-votm-cylinder-gauge></app-votm-cylinder-gauge>
+      </div>
+    </div>
+
+    <div class="row" *ngIf="ij==2 || ij==5 || ij==7">
+      <div class="col-12 dashboard-gear-icon-wrapper">
+        <div class="dashboard-gear-icon"><i class="fa fa-gear" (click)="op3.toggle($event)"></i></div>
+        <app-votm-line-graph></app-votm-line-graph>
+      </div>
+    </div>
+  </div>
+  <!-- Dynamic dashboard container end-->
+
+</div>
+
+
+<p-overlayPanel #op3 [appendTo]="'body'" [dismissable]="true" [showCloseIcon]="false">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header overlay-title">Type of Data</div>
+        <div class="card-body">
+            <select class="form-control" id="dashboard-data-type">
+              <option>Pressure</option>
+              <option>Temprature</option>
+              <option>Humidity</option>
+              <option>Battery</option>
+            </select>
+        </div>
+        <div class="card-footer">
+          <button class="btn btn-primary pull-right">Save</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</p-overlayPanel>
+
+<!-- Add/Edit Dashboard Model Start-->
+<div id="addDashboardModalWrapper" class="modal">
+  <div class="modal-dialog modal-lg modal-dialog-scrollable dashboard-create-font" *ngIf="dashboardDataById">
+    <!-- Modal content -->
+    <form #dashBoardForm="ngForm" (ngSubmit)="onDashboardFormSubmit()" class="form needs-validation" novalidate>
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">{{dashboardDataById.title}}</h5>
+        <button type="button" class="close" aria-label="Close" (click)="closeAddDashboardModal()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body event-create-font">
+        
+          <div class="form-group row">
+            <label for="" class="col-md-3 col-form-label">Template Name</label>
+            <div class="col-sm-7">
+              <select class="form-control" id="dashboard-template-name" name="dashboardTemplate" [(ngModel)]="dashboardDataById.dashboardTemplate" >
+                <option *ngFor="let dashboardTemplate of dashboardTemplates" [value]="dashboardTemplate.id">
+                  {{dashboardTemplate.templateName}}</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="" class="col-md-3 col-form-label">Dashboard Name</label>
+            <div class="col-md-7">
+              <input type="text" class="form-control" id="dashboard-name" placeholder="" name="dashboardName"
+                [(ngModel)]="dashboardDataById.dashboardName">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="" class="col-md-3 col-form-label">Configured By</label>
+            <div class="col-md-3">
+              <input type="text" class="form-control" id="dashboard-config-by" readonly value="Sean Healy">
+            </div>
+            <label for="" class="col-sm-1 col-form-label">On</label>
+            <div class="col-md-3">
+              <div class="input-group">
+                <input type="text" class="form-control" id="dashboard-created-On" readonly placeholder="25/09/2019 03:19">
+                <!-- <div class="input-group-append">
+                  <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                </div> -->
+              </div>
+            </div>
+          </div>
+        
+      </div>
+      <div class="modal-footer">
+        <button id="add-dashboard-cancle" type="button" class="btn button-mod btn-secondary btn-sm"
+          (click)="closeAddDashboardModal('cancel')" id="addDashboardCancle">Cancel
+        </button>
+        <button id="add-dashboard-save" type="submit" class="btn btn-info btn-color btn-sm" id="addDashboardAdd">Save</button>
+        <!-- <button id="add-dashboard-save" type="submit" class="btn btn-info btn-color btn-sm"
+          (click)="closeAddDashboardModal(dashboardDataById.act)" id="addDashboardAdd">Save</button> -->
+      </div>
+    </div>
+  </form>
+  </div>
+</div>
+<!-- Add/Edit Dashboard Model End-->
+
+<app-votm-cloud-confim-dialog (onClose)="deleteOrganizationDashboardById($event)" #confirmBox [message]="message"
+  headerMessage="Warning"></app-votm-cloud-confim-dialog>

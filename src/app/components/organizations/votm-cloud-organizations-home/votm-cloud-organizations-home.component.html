@@ -12,8 +12,8 @@
 
   <form class="form-inline">
     <label for="typeahead-config" id="org-filter">Type to filter events:</label>
-    <input class="form-control ml-2" id="searchBox" type="search" placeholder="Search" aria-label="Search">
-    <button class="btn btn-outline-info mr-2 ml-2" id="searchButton" type="submit">Search</button>
+    <input class="form-control form-control-sm ml-2" id="searchBox" type="search" placeholder="Search" aria-label="Search">
+    <button class="btn btn-sm btn-outline-info mr-2 ml-2" id="searchButton" type="submit">Search</button>
   </form>
 </header>
     
@@ -63,7 +63,7 @@
               <td class="align-left">{{subItem.serviceLevel}}</td>
               <td class="align-left">{{item.state}}</td>
               <td class="align-center">
-                <a class="action-icon" title="List"  [routerLink]="['/loc/home', subItem.id, subItem.name]">
+                <a class="action-icon" title="Location"  [routerLink]="['/loc/home', subItem.id, subItem.name]">
                   <i class="fa fa-location-arrow"></i>
                 </a>
                 <!-- <a class="action-icon" title="View" [routerLink]="['/org/view',curOrgId, curOrgName, subItem.id]">
@@ -87,26 +87,26 @@
         </ng-container>
       </ng-template>
       
-      
-      <table class="table table-sm table-bordered table-hover org-table-fonts">
-        <thead class="thead-dark">
-          <tr>
-            <th scope="col" class="align-left table-col-name">Name</th>
-            <th scope="col" class="align-left">Type</th>
-            <th scope="col" class="align-left">Customer #</th>
-            <th scope="col" class="align-left table-col-small">Contract Start</th>
-            <th scope="col" class="align-left table-col-small">Contract End</th>
-            <th scope="col" class="align-left table-col-small">Service Level</th>
-            <th scope="col" class="align-left table-col-small">State</th>
-            <th scope="col" class="align-center table-col-small">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          <ng-container *ngTemplateOutlet="recursiveTableList; context:{ orgList: organizationsList, level: 0 }">
-          </ng-container>
-        </tbody>
-      </table>
-      
+      <div class="table-responsive">
+        <table class="table table-sm table-bordered table-hover org-table-fonts">
+          <thead class="thead-dark">
+            <tr>
+              <th scope="col" class="align-left table-col-name">Name</th>
+              <th scope="col" class="align-left">Type</th>
+              <th scope="col" class="align-left">Customer #</th>
+              <th scope="col" class="align-left table-col-small">Contract Start</th>
+              <th scope="col" class="align-left table-col-small">Contract End</th>
+              <th scope="col" class="align-left table-col-small">Service Level</th>
+              <th scope="col" class="align-left table-col-small">State</th>
+              <th scope="col" class="align-center table-col-small">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <ng-container *ngTemplateOutlet="recursiveTableList; context:{ orgList: organizationsList, level: 0 }">
+            </ng-container>
+          </tbody>
+        </table>
+      </div>
 <!-- </form> -->
 
 

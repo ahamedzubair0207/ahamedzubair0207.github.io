@@ -2,10 +2,22 @@
     <div class="sidebar-header"></div>
   <ul class="list-unstyled components left-menu-margin">
     <li *ngFor="let eachItem of menuItems"  routerLinkActive="active" [ngClass]="{ 'super-admin' : eachItem.id == 'super' }" >
-      <a *ngIf="eachItem.enabled" routerLink="{{eachItem.url}}"  (click)="setActiveItem(eachItem.id)" data-toggle="collapse" aria-expanded="false" data-toggle="tooltip" data-placement="right" title="{{eachItem.name}}">
+      <a *ngIf="eachItem.enabled && eachItem.id !== 'admin'" routerLink="{{eachItem.url}}"  (click)="setActiveItem(eachItem.id)" data-toggle="collapse" aria-expanded="false" data-toggle="tooltip" data-placement="right" title="{{eachItem.name}}">
           <i [ngClass]="eachItem.icon" class="dropdown-icon-size"></i>
           <span class="icon-text" >{{eachItem.name}}</span>
       </a>
+      <a *ngIf="eachItem.enabled && eachItem.id === 'admin'" (click)="setActiveItem(eachItem.id)" data-toggle="collapse" aria-expanded="false" data-toggle="tooltip" data-placement="right" title="{{eachItem.name}}">
+          <i [ngClass]="eachItem.icon" class="dropdown-icon-size"></i>
+          <span class="icon-text" >{{eachItem.name}}<i class="fa fa-caret-down"></i></span>
+      </a>
+      <ul class="dropdown-container display-none list-unstyled components left-menu-margin" *ngIf="eachItem.childs.length > 0">
+          <li *ngFor="let childItem of eachItem.childs"  routerLinkActive="active" [ngClass]="{ 'super-admin' : childItem.id == 'super' }" >
+              <a *ngIf="childItem.enabled" routerLink="{{childItem.url}}"  (click)="setActiveItem(childItem.id)" data-toggle="collapse" aria-expanded="false" data-toggle="tooltip" data-placement="right" title="{{childItem.name}}">
+                  <i [ngClass]="childItem.icon" class="dropdown-icon-size"></i>
+                  <span class="icon-text" >{{childItem.name}}</span>
+              </a>
+            </li>
+      </ul>
     </li>
   </ul>
 

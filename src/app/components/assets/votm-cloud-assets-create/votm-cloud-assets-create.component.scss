@@ -12,7 +12,7 @@
 
   .edit-view-lock{
     float: right; 
-    font-size: 40px; 
+    font-size: 28px;
     color:  #02b3bf;
     margin-left: auto;
   }
@@ -21,25 +21,23 @@
   }
 
   // Tabs Border // 
-  .nav-link{
-    color: gray;
+  .nav-pills .nav-link.active, .nav-pills .show>.nav-link {
+    color: #fff;
+    background-color: #00b9c3;
+    
   }
-  .nav-tabs .nav-link.active{
-    color: #030303;
-  }
-  .second-nav{
-    color: #1d6f9f;
+  
+  .tab-icon{
+    color: #00b9c3;
   }
 
   .create-asset-container {
     padding: 15px;
-    background-color: white;
+    border-left: 1px solid rgba(0,0,0,.125);
+    border-right: 1px solid rgba(0,0,0,.125);
+    border-bottom: 1px solid rgba(0,0,0,.125);
   }
-  .asset-create-font{
-    font-family: 'Roboto', sans-serif;
-    font-size: 14px;
-  }
-
+ 
   input[type=text], input[type=password],input[type=email],input[type=file],input[type=number] {
     
     display: inline-block;

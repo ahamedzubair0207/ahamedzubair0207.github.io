@@ -1,0 +1,23 @@
+.dashboard-gear-icon-wrapper {
+    position: relative;
+}
+
+.dashboard-gear-icon {
+    position: absolute;
+    top: 5px; 
+    left: 20px;
+    font-size: 20px;
+    color: lightslategrey;
+    z-index: 100;
+}
+.dashboard-gear-icon:hover{
+    color: #000;
+}
+
+#dashboardTab .nav-link.active {
+    font-weight: bold;
+}
+
+.overlay-title {
+    font-weight: bold;
+}

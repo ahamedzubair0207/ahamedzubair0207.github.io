@@ -18,6 +18,7 @@ import { AlertsService } from '../../../services/alerts/alerts.service';
 import { countyList } from 'src/app/services/countryList/countryStateList';
 import { AssetsService } from '../../../services/assets/assets.service';
 import { SortArrays } from '../../shared/votm-sort';
+declare var jQuery: any;
 
 @Component({
   selector: 'app-votm-cloud-organizations-create',
@@ -57,11 +58,13 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
   curOrgId: any;
   curOrgName: any;
   previousUrl: any;
-
+  tempContractStartDate: { year?: number, month?: number, day?: number };
+  tempContractEndDate: { year?: number, month?: number, day?: number };
 
   @ViewChild('startDate', null) startDate: NgForm;
   @ViewChild('organizationForm', null) organizationForm: NgForm;
   @ViewChild('confirmBox', null) confirmBox: VotmCloudConfimDialogComponent;
+  @ViewChild('confirmBoxDash', null) confirmBoxDash: VotmCloudConfimDialogComponent;
   @ViewChild('file', null) logoImage: any;
   fileName: any;
   fileExtension: string;
@@ -73,10 +76,30 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
   organizationList: any[] = [];
   countryObject: any[] = [];
 
-  constructor(private assetService: AssetsService,private modalService: NgbModal, private alertRuleservice: AlertsService, private organizationService: OrganizationService,
-    private configSettingsService: ConfigSettingsService, private domSanitizer: DomSanitizer,
-    private activeroute: ActivatedRoute, private route: Router, private datePipe: DatePipe,
-    private routerLocation: RouterLocation, private toastr: ToastrService) {
+  // Dashboard Item
+  addDashboardmodal: any;
+  dashboardData: any;
+  dashboardTemplates: {};
+  delDashboardId: any;
+  // @ViewChild('op', null) panel: OverlayPanel;
+  userdashboardData: { id: string; templateName: string; dashboardName: string; dashboardHTML: any; }[];
+  dashboardDataById: { act: string; title: string; dashboardName: string; dashboardHTML: any; };
+  addDashboardArray: any;
+
+  constructor(
+    private assetService: AssetsService,
+    private modalService: NgbModal,
+    private alertRuleservice: AlertsService,
+    private organizationService: OrganizationService,
+    private configSettingsService: ConfigSettingsService,
+    private domSanitizer: DomSanitizer,
+    private activeroute: ActivatedRoute,
+    private route: Router,
+    private datePipe: DatePipe,
+    private routerLocation: RouterLocation,
+    private toastr: ToastrService,
+    private sanitizer: DomSanitizer
+    ) {
     this.UOM = "SI";
     this.subscription = route.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
@@ -90,7 +113,16 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.activeroute.paramMap.subscribe(params => {
+    
+    jQuery('.selectpicker').selectpicker();
+      this.organization.svclevels = null;
+      this.organization.localeId = null;
+      this.organization.timeZoneId = null;
+      this.organization.cellularBlocks = null;
+      this.organization.sensorBlocks = null;
+      // this.organization.timeZone = null;
+      // this.organization.locale = null;
+      this.activeroute.paramMap.subscribe(params => {
       this.curOrgId = params.get("curOrgId");
       this.curOrgName = params.get("curOrgName");
       this.orgId = params.get('orgId');
@@ -128,6 +160,8 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
         this.UOM = 'SI';
         this.organization.address = [new Address()];
         this.organization.address[0].addressType = 'Billing';
+        this.organization.address[0].country = null;
+        this.organization.address[0].state = null;
 
       }
     });
@@ -141,6 +175,31 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
     this.getAllAppInfo();
 
     this.organizationTypes = [{ value: 'organizationType1', text: 'organizationType1' }, { value: 'organizationType2', text: 'organizationType2' }]
+
+    //   this.dashboardData = {
+    //   act: 'add',
+    //   title: 'Dashboard',
+    //   id: '1',
+    //   templateName: 'Standard Organization Dashboard'
+    // };
+      this.dashboardData = this.getDashboards();
+      this.getDashboardsTemplates();
+      this.dashboardTemplates = [
+      {
+        id: '1',
+        templateName: 'Standard Organization Dashboard'
+      },
+      {
+        id: '2',
+        templateName: 'Standard Location Dashboard'
+      },
+      {
+        id: '3',
+        templateName: 'Standard Asset Dashboard'
+      }
+    ];
+      console.log(this.dashboardTemplates);
+      console.log(this.dashboardData);
   }
 
   onCountryChange(event) {
@@ -174,7 +233,6 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
 
   ngAfterViewInit() {
     this.showImageLogo();
-
   }
 
   ngOnDestroy() {
@@ -182,13 +240,24 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
   }
 
   onStartDateChange() {
+    console.log('Start Date ', this.tempContractStartDate);
     this.organizationForm.form.controls['startDate'].markAsDirty();
     this.compareDate();
   }
 
+  checkForUOM(){
+    if(!this.organization.uoMId || this.organization.uoMId.length===0){
+      this.organizationForm.form.controls['startDate'].setErrors({ 'invalidDate': true })
+    }
+  }
+
   compareDate() {
-    if (this.organization.contractStartDate && this.organization.contractEndDate) {
-      if (this.organization.contractStartDate >= this.organization.contractEndDate) {
+    console.log('ENTERED')
+    if (this.tempContractStartDate && this.tempContractEndDate) {
+      let startDate = new Date(this.tempContractStartDate.year, this.tempContractStartDate.month, this.tempContractStartDate.day);
+      let endDate = new Date(this.tempContractEndDate.year, this.tempContractEndDate.month, this.tempContractEndDate.day);
+      console.log('Start Date , End Date ', startDate, endDate)
+      if (startDate >= endDate) {
         this.organizationForm.form.controls['startDate'].setErrors({ 'invalidDate': true })
       } else {
         this.organizationForm.form.controls['startDate'].setErrors(null);
@@ -197,6 +266,7 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
   }
 
   onEndDateChange() {
+    console.log('End Date ', this.tempContractEndDate)
     this.organizationForm.form.controls['endDate'].markAsDirty();
     this.compareDate();
   }
@@ -213,12 +283,17 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
       .subscribe(response => {
         this.organization = response;
         this.fillUoM();
-        this.organization.timeZoneId = this.organization.timeZone;
-        this.organization.localeId = this.organization.locale;
-        this.organization.uoMId = this.organization.uoM;
-
-        this.organization.contractStartDate = this.datePipe.transform(this.organization.contractStartDate, 'yyyy-MM-dd')
-        this.organization.contractEndDate = this.datePipe.transform(this.organization.contractEndDate, 'yyyy-MM-dd')
+        // this.organization.timeZoneId = this.organization.timeZone;
+        // this.organization.localeId = this.organization.locale;
+        // this.organization.uoMId = this.organization.uoM;
+        if (this.organization.contractStartDate) {
+          let startDate = new Date(this.organization.contractStartDate);
+          this.tempContractStartDate = { year: startDate.getFullYear(), month: startDate.getMonth(), day: startDate.getDate() };
+        }
+        if (this.organization.contractEndDate) {
+          let endDate = new Date(this.organization.contractEndDate);
+          this.tempContractEndDate = { year: endDate.getFullYear(), month: endDate.getMonth(), day: endDate.getDate() };
+        }
 
         if (this.organization.logo && this.organization.logo.imageName) {
           this.fileExtension = this.organization.logo.imageName.slice((Math.max(0, this.organization.logo.imageName.lastIndexOf(".")) || Infinity) + 1);
@@ -510,12 +585,23 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
   }
 
   onOrganizationSubmit() {
+    // let startDate: any = this.organization.contractStartDate;
+    // let endDate: any = this.organization.contractEndDate;
+    if (this.tempContractStartDate) {
+      this.organization.contractStartDate = new Date(this.tempContractStartDate.year, this.tempContractStartDate.month, this.tempContractStartDate.day).toDateString();
+    }
+    if (this.tempContractEndDate) {
+      this.organization.contractEndDate = new Date(this.tempContractEndDate.year, this.tempContractEndDate.month, this.tempContractEndDate.day).toDateString();
+    }
+    console.log('this.organization ', this.organization)
     if (this.organizationForm && this.organizationForm.invalid) {
+      console.log('Invalid Form');
       this.toaster.onFailure('Please fill the form correctly.', 'Form is invalid!')
       Object.keys(this.organizationForm.form.controls).forEach(element => {
         this.organizationForm.form.controls[element].markAsDirty();
       });
     } else {
+      console.log('Valid Form');
       if (this.orgId) {
         this.organizationService.updateOrganization(this.organization)
           .subscribe(response => {
@@ -588,5 +674,135 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
           this.templateList = response;
         });
     }
+  }
+
+  getDashboardsTemplates() {
+    this.dashboardTemplates = [
+      {
+        id: '1',
+        templateName: 'Standard Organization Dashboard'
+      },
+      {
+        id: '2',
+        templateName: 'Standard Location Dashboard'
+      },
+      {
+        id: '3',
+        templateName: 'Standard Asset Dashboard'
+      }
+    ];
+  }
+
+  getDashboards() {
+    // service to get all dashboards by userid
+    this.userdashboardData = [
+      {
+        id: '1',
+        templateName: 'Standard Organization Dashboard',
+        dashboardName: 'Organization Dashboard',
+        dashboardHTML: ''
+      },
+      {
+        id: '2',
+        templateName: 'Standard Location Dashboard',
+        dashboardName: 'Location Dashboard',
+        dashboardHTML: ''
+      },
+      {
+        id: '3',
+        templateName: 'Standard Asset Dashboard',
+        dashboardName: 'Asset Dashboard',
+        dashboardHTML: ''
+      }
+    ];
+    return this.userdashboardData;
+  }
+
+  async getDashboardHTML(formName: string, index) {
+    console.log(formName, '--getDashboardHTML functiona called');
+
+    await this.organizationService.getDashboardHTML(formName)
+      .subscribe(response => {
+        console.log('return response---', response);
+        this.userdashboardData[index].dashboardHTML = this.sanitizer.bypassSecurityTrustHtml(response);
+        setTimeout( () => {
+            // setData('Hello');
+          }, 300);
+      });
+  }
+
+  openAddDashboardModal(dashboardAct: string, dashboardId: any, dashboardNames: string) {
+    // this.dashBoardDataByID = getDashboardById(dashboardId)
+    console.log(dashboardNames);
+    if (dashboardAct === 'editDashboard') {
+      this.dashboardDataById = {
+        act: 'edit',
+        title : 'Edit Dashboard',
+        dashboardName: dashboardNames,
+        dashboardHTML: ''
+      };
+    } else if (dashboardAct === 'addDashboard') {
+      this.dashboardDataById = {
+        act: 'create',
+        title : 'Create Dashboard',
+        dashboardName: '',
+        dashboardHTML: ''
+      };
+    }
+    console.log('dashboardDataById---', this.dashboardDataById);
+    // Get the modal
+    let addDashboardmodal = document.getElementById('addDashboardModalWrapper');
+    addDashboardmodal.style.display = 'block';
+    this.addDashboardmodal = document.getElementById('addDashboardModalWrapper');
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName('close')[0];
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function (event) {
+      if (event.target === addDashboardmodal) {
+        addDashboardmodal.style.display = 'none';
+      }
+    };
+
+  }
+
+  onDashboardFormSubmit() {
+    console.log('onDashboardFormSubmit', this.dashboardDataById);
+    this.addDashboardArray = {
+      id: '4',
+      templateName: 'Standard Asset Dashboard',
+      dashboardName: this.dashboardDataById.dashboardName
+    };
+    this.dashboardData.push(this.addDashboardArray);
+    console.log('this.dashboardData---added', this.dashboardData);
+    this.closeAddDashboardModal(true);
+  }
+
+  closeAddDashboardModal(event: any) {
+    console.log('==', event);
+    this.addDashboardmodal.style.display = 'none';
+    // if (event === 'save') {
+    //
+    // } else if (event === 'create') {
+    //
+    // }
+  }
+
+  openDashboardConfirmDialog(delDashboardId, dashboardName) {
+    this.delDashboardId = delDashboardId;
+    this.message = `Do you want to delete the "${dashboardName}" Dashboard?`;
+    this.confirmBoxDash.open();
+  }
+
+  deleteOrganizationDashboardById(event) {
+    console.log('deleteOrganizationDashboardById===', event);
+    if (event) {
+      // delete dashboard service goes here
+    }
+  }
+
+  getDashboardById(dashboardId: any) {
+    this.dashboardData = this.getDashboards();
+    // return this.dashboardById = this.dashboardData.id;
   }
 }

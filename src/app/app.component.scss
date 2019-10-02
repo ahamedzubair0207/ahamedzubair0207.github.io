@@ -200,7 +200,7 @@ a.article:hover {
     min-height: 100vh;
     transition: all 0.3s;
 	padding-top: 60px;
-	margin-left: 180px;
+	margin-left: 200px;
 }
 #content.active{
 	margin-left: 50px;
@@ -292,7 +292,7 @@ a.article:hover {
 
 * {
     font-family: 'Roboto', sans-serif;
-    font-size: 14px;
+    font-size: 13px;
    }
 
 .sidebar-toggle {
@@ -465,4 +465,13 @@ a.article:hover {
 	border-radius: 4px;
 	-webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
 	background-color:rgba(0,0,0,0.20); 
+}
+
+// for login
+#login-page{
+	margin-left: 0;
+    padding-top: 0;
+}
+#login-page .card-body{
+	padding: 0rem !important;
 }

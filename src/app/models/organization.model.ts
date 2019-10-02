@@ -12,7 +12,11 @@ export class Organization {
   primaryDistributorEmailAddress: string;
   contractStartDate: string;
   contractEndDate: string;
-  svclevel: string;
+  svclevels: string;
+  contactPhone?: string;
+  shortName?: string;
+  cellularBlocks?: string;
+  sensorBlocks?: string;
   active: boolean;
   address: Array<Address>;
   description: string;
