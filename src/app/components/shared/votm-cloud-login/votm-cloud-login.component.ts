@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from "@angular/router";
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-votm-cloud-login',
@@ -16,7 +16,7 @@ export class VotmCloudLoginComponent implements OnInit {
 
   Login(){
     this.Token = window.location.href;
-    localStorage.setItem('token',this.Token);
+    localStorage.setItem('token', this.Token);
     this.router.navigateByUrl('/view/home');
   }
 

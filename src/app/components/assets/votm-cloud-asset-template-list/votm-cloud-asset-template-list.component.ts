@@ -33,7 +33,12 @@ export class VotmCloudAssetTemplateListComponent implements OnInit {
   supscriptions: any;
   subscriptions: Subscription[] = [];
 
-  constructor(private router: Router, private assetService: AssetsService, private route: ActivatedRoute, private toastr: ToastrService, private breadcrumbs: BreadcrumbsService) { }
+  constructor(
+    private router: Router,
+    private assetService: AssetsService,
+    private route: ActivatedRoute,
+    private toastr: ToastrService,
+    private breadcrumbs: BreadcrumbsService) { }
 
   ngOnInit() {
   }

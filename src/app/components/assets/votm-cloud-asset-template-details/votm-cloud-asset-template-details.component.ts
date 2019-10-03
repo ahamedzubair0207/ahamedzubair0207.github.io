@@ -34,8 +34,14 @@ export class VotmCloudAssetTemplateDetailsComponent implements OnInit {
   imagePath: any;
   docFile: Blob;
 
-  constructor(private routerLocation: RouterLocation, private router: Router, private assetService: AssetsService,
-    private route: ActivatedRoute, private domSanitizer: DomSanitizer, private orgService: OrganizationService, private toastr: ToastrService) { }
+  constructor(
+    private routerLocation: RouterLocation,
+    private router: Router,
+    private assetService: AssetsService,
+    private route: ActivatedRoute,
+    private domSanitizer: DomSanitizer,
+    private orgService: OrganizationService,
+    private toastr: ToastrService) { }
 
   ngOnInit() {
     this.route.params.subscribe(
@@ -109,7 +115,7 @@ export class VotmCloudAssetTemplateDetailsComponent implements OnInit {
         this.parentAssetListForDropDown.sort(SortArrays.compareValues('assetName'));
       }
     }
-    console.log('Filtered assets ', this.parentAssetListForDropDown)
+    console.log('Filtered assets ', this.parentAssetListForDropDown);
   }
 
   onTemplateSubmit() {
@@ -126,7 +132,7 @@ export class VotmCloudAssetTemplateDetailsComponent implements OnInit {
     }
     // this.template.assetName = null;
     if (this.template && this.template.invalid) {
-      this.toaster.onFailure('Please fill the form correctly.', 'Form is invalid!')
+      this.toaster.onFailure('Please fill the form correctly.', 'Form is invalid!');
       console.log('If block ');
       Object.keys(this.templateForm.form.controls).forEach(element => {
         this.templateForm.form.controls[element].markAsDirty();
@@ -144,7 +150,7 @@ export class VotmCloudAssetTemplateDetailsComponent implements OnInit {
           }, error => {
             let msg = 'Something went wrong. Please fill the form correctly';
             if (error && error.error && error.error.message) {
-              msg = error.error.message
+              msg = error.error.message;
             }
             this.toaster.onFailure(msg, 'Fail');
           });
@@ -156,7 +162,7 @@ export class VotmCloudAssetTemplateDetailsComponent implements OnInit {
           }, error => {
             let msg = 'Something went wrong. Please fill the form correctly';
             if (error && error.error && error.error.message) {
-              msg = error.error.message
+              msg = error.error.message;
             }
             this.toaster.onFailure(msg, 'Fail');
           });
@@ -171,14 +177,15 @@ export class VotmCloudAssetTemplateDetailsComponent implements OnInit {
   }
 
   preview(file) {
-    console.log('Loaded Preview')
-    this.message = "";
-    if (!file)
+    console.log('Loaded Preview');
+    this.message = '';
+    if (!file) {
       return;
+    }
 
     var mimeType = file.type;
     if (mimeType.match(/image\/*/) == null) {
-      this.message = "Only images are supported.";
+      this.message = 'Only images are supported.';
       return;
     }
     this.handleFileSelect(file);
@@ -187,7 +194,7 @@ export class VotmCloudAssetTemplateDetailsComponent implements OnInit {
     readerToPreview.readAsDataURL(file);
     readerToPreview.onload = (_event) => {
       this.imgURL = this.domSanitizer.bypassSecurityTrustUrl(readerToPreview.result.toString()); //readerToPreview.result;
-    }
+    };
   }
 
 
@@ -200,8 +207,7 @@ export class VotmCloudAssetTemplateDetailsComponent implements OnInit {
         let data;
         if (!e) {
           data = reader.content;
-        }
-        else {
+        } else {
           data = e.target.result;
         }
         let base64textString = btoa(data);
@@ -226,9 +232,9 @@ export class VotmCloudAssetTemplateDetailsComponent implements OnInit {
       var binaryData = [];
       binaryData.push(file);
 
-      this.docFile = new Blob(binaryData, { type: file.type })
+      this.docFile = new Blob(binaryData, { type: file.type });
 
-      console.log('type of file ', typeof (this.docFile))
+      console.log('type of file ', typeof (this.docFile));
       this.handleDocSelect(file);
       // let readerToPreview = new FileReader();
       // // this.imagePath = file;
@@ -258,8 +264,7 @@ export class VotmCloudAssetTemplateDetailsComponent implements OnInit {
         let data;
         if (!e) {
           data = reader.content;
-        }
-        else {
+        } else {
           data = e.target.result;
         }
         let base64textString = btoa(data);
@@ -281,7 +286,7 @@ export class VotmCloudAssetTemplateDetailsComponent implements OnInit {
   }
 
   openConfirmDialog() {
-    this.message = `Do you want to delete ${this.template.templateName}?`
+    this.message = `Do you want to delete ${this.template.templateName}?`;
     this.confirmBox.open();
 
   }

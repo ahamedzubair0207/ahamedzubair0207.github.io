@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { OrganizationService } from 'src/app/services/organizations/organization.service';
 import { Organization } from 'src/app/models/organization.model';
@@ -26,7 +26,7 @@ declare var jQuery: any;
   styleUrls: ['./votm-cloud-organizations-create.component.scss'],
   providers: [DatePipe]
 })
-export class VotmCloudOrganizationsCreateComponent implements OnInit {
+export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewInit {
   public imagePath;
   imgURL: any;
   public message: string;
@@ -85,6 +85,7 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
   userdashboardData: { id: string; templateName: string; dashboardName: string; dashboardHTML: any; }[];
   dashboardDataById: { act: string; title: string; dashboardName: string; dashboardHTML: any; };
   addDashboardArray: any;
+  isAddOrganizationAPILoading = false;
 
   constructor(
     private assetService: AssetsService,
@@ -99,8 +100,8 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
     private routerLocation: RouterLocation,
     private toastr: ToastrService,
     private sanitizer: DomSanitizer
-    ) {
-    this.UOM = "SI";
+  ) {
+    this.UOM = 'SI';
     this.subscription = route.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         if (this.previousUrl) {
@@ -113,18 +114,16 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
   }
 
   ngOnInit() {
-    
-    jQuery('.selectpicker').selectpicker();
-      this.organization.svclevels = null;
-      this.organization.localeId = null;
-      this.organization.timeZoneId = null;
-      this.organization.cellularBlocks = null;
-      this.organization.sensorBlocks = null;
-      // this.organization.timeZone = null;
-      // this.organization.locale = null;
-      this.activeroute.paramMap.subscribe(params => {
-      this.curOrgId = params.get("curOrgId");
-      this.curOrgName = params.get("curOrgName");
+    this.organization.svclevels = null;
+    this.organization.localeId = null;
+    this.organization.timeZoneId = null;
+    this.organization.cellularBlocks = null;
+    this.organization.sensorBlocks = null;
+    // this.organization.timeZone = null;
+    // this.organization.locale = null;
+    this.activeroute.paramMap.subscribe(params => {
+      this.curOrgId = params.get('curOrgId');
+      this.curOrgName = params.get('curOrgName');
       this.orgId = params.get('orgId');
 
       // this.organizationService.getCountries()
@@ -146,14 +145,13 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
 
       if (this.orgId) {
         this.getOrganizationInfo();
-      }
-      else {
+      } else {
         this.parentOrganizationInfo = {
           // parentOrganizationId: this.curOrgId, // '7A59BDD8-6E1D-48F9-A961-AA60B2918DDE',
           // parentOrganizationName: this.curOrgName // 'Parker1'
-          parentOrganizationId: this.activeroute.snapshot.paramMap.get("curOrgId"), // '7A59BDD8-6E1D-48F9-A961-AA60B2918DDE',
-          parentOrganizationName: this.activeroute.snapshot.paramMap.get("curOrgName") // 'Parker1'
-        }
+          parentOrganizationId: this.activeroute.snapshot.paramMap.get('curOrgId'), // '7A59BDD8-6E1D-48F9-A961-AA60B2918DDE',
+          parentOrganizationName: this.activeroute.snapshot.paramMap.get('curOrgName') // 'Parker1'
+        };
         this.organization.parentOrganizationId = this.parentOrganizationInfo.parentOrganizationId;
         this.organization.active = true;
 
@@ -174,7 +172,10 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
     this.getScreenLabels();
     this.getAllAppInfo();
 
-    this.organizationTypes = [{ value: 'organizationType1', text: 'organizationType1' }, { value: 'organizationType2', text: 'organizationType2' }]
+    this.organizationTypes = [
+      { value: 'organizationType1', text: 'organizationType1' },
+      { value: 'organizationType2', text: 'organizationType2' }
+    ];
 
     //   this.dashboardData = {
     //   act: 'add',
@@ -182,9 +183,9 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
     //   id: '1',
     //   templateName: 'Standard Organization Dashboard'
     // };
-      this.dashboardData = this.getDashboards();
-      this.getDashboardsTemplates();
-      this.dashboardTemplates = [
+    this.dashboardData = this.getDashboards();
+    this.getDashboardsTemplates();
+    this.dashboardTemplates = [
       {
         id: '1',
         templateName: 'Standard Organization Dashboard'
@@ -200,6 +201,13 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
     ];
       console.log(this.dashboardTemplates);
       console.log(this.dashboardData);
+
+      jQuery('.nav-item').tooltip();
+  }
+
+  ngAfterViewInit(): void {
+    jQuery('.selectpicker').selectpicker();
+    this.showImageLogo();
   }
 
   onCountryChange(event) {
@@ -231,9 +239,6 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
     }
   }
 
-  ngAfterViewInit() {
-    this.showImageLogo();
-  }
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
@@ -245,20 +250,20 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
     this.compareDate();
   }
 
-  checkForUOM(){
-    if(!this.organization.uoMId || this.organization.uoMId.length===0){
-      this.organizationForm.form.controls['startDate'].setErrors({ 'invalidDate': true })
+  checkForUOM() {
+    if (!this.organization.uoMId || this.organization.uoMId.length === 0) {
+      this.organizationForm.form.controls['startDate'].setErrors({ 'invalidDate': true });
     }
   }
 
   compareDate() {
-    console.log('ENTERED')
+    console.log('ENTERED');
     if (this.tempContractStartDate && this.tempContractEndDate) {
       let startDate = new Date(this.tempContractStartDate.year, this.tempContractStartDate.month, this.tempContractStartDate.day);
       let endDate = new Date(this.tempContractEndDate.year, this.tempContractEndDate.month, this.tempContractEndDate.day);
-      console.log('Start Date , End Date ', startDate, endDate)
+      console.log('Start Date , End Date ', startDate, endDate);
       if (startDate >= endDate) {
-        this.organizationForm.form.controls['startDate'].setErrors({ 'invalidDate': true })
+        this.organizationForm.form.controls['startDate'].setErrors({ 'invalidDate': true });
       } else {
         this.organizationForm.form.controls['startDate'].setErrors(null);
       }
@@ -266,14 +271,14 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
   }
 
   onEndDateChange() {
-    console.log('End Date ', this.tempContractEndDate)
+    console.log('End Date ', this.tempContractEndDate);
     this.organizationForm.form.controls['endDate'].markAsDirty();
     this.compareDate();
   }
 
   onDescriptionChange() {
     if (this.organization.description && this.organization.description.length > 4000) {
-      this.organizationForm.form.controls['orgDescription'].setErrors({ 'invalidDescription': true })
+      this.organizationForm.form.controls['orgDescription'].setErrors({ 'invalidDescription': true });
     }
   }
 
@@ -317,7 +322,7 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
     this.configSettingsService.getCreateOrgScreenLabels()
       .subscribe(response => {
         this.pageLabels = response;
-      })
+      });
   }
 
   getOptionsListData(listData: string) {
@@ -351,13 +356,13 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
   }
 
   createNestedOrganization(event) {
-    this.route.navigate([`org/create/${this.organization.organizationId}/${this.organization.name}`])
+    this.route.navigate([`org/create/${this.organization.organizationId}/${this.organization.name}`]);
   }
 
   createNestedLocation(event) {
     // let parentLocId = '19d7e5e5-fda7-4778-b943-62e36078087a';
     // let parentLocName = 'Mineapolis';
-    this.route.navigate([`loc/create/${this.organization.organizationId}/${this.organization.name}`])
+    this.route.navigate([`loc/create/${this.organization.organizationId}/${this.organization.name}`]);
   }
 
   openConfirmDialog() {
@@ -403,13 +408,14 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
   }
 
   preview(files) {
-    this.message = "";
-    if (files.length === 0)
+    this.message = '';
+    if (files.length === 0) {
       return;
+    }
 
     var mimeType = files[0].type;
     if (mimeType.match(/image\/*/) == null) {
-      this.message = "Only images are supported.";
+      this.message = 'Only images are supported.';
       return;
     }
     this.handleFileSelect(files);
@@ -418,7 +424,7 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
     readerToPreview.readAsDataURL(files[0]);
     readerToPreview.onload = (_event) => {
       this.imgURL = this.domSanitizer.bypassSecurityTrustUrl(readerToPreview.result.toString());; //readerToPreview.result;
-    }
+    };
     // readerToPreview.onloadend = (e) => {
     //   let base64Image = this.domSanitizer.bypassSecurityTrustUrl(readerToPreview.result.toString());
     // }
@@ -434,8 +440,7 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
         let data;
         if (!e) {
           data = reader.content;
-        }
-        else {
+        } else {
           data = e.target.result;
         }
         let base64textString = btoa(data);
@@ -518,24 +523,24 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
     if (!this.organization.uoMId) {
       this.organization.uoMId = [];
     }
-    this.previousUOM = JSON.parse(JSON.stringify(this.organization.uoMId))
+    this.previousUOM = JSON.parse(JSON.stringify(this.organization.uoMId));
     // Get the modal
-    var modal = document.getElementById("myModal");
-    modal.style.display = "block";
-    this.modal = document.getElementById("myModal");
+    var modal = document.getElementById('myModal');
+    modal.style.display = 'block';
+    this.modal = document.getElementById('myModal');
     // Get the <span> element that closes the modal
-    var span = document.getElementsByClassName("close")[0];
+    var span = document.getElementsByClassName('close')[0];
 
     // When the user clicks anywhere outside of the modal, close it
     window.onclick = function (event) {
       if (event.target == modal) {
-        modal.style.display = "none";
+        modal.style.display = 'none';
       }
-    }
+    };
 
   }
   closemodal(event: string) {
-    this.modal.style.display = "none";
+    this.modal.style.display = 'none';
     if (event === 'save') {
       this.UOM = this.tempMeasurement;
       this.organization.uoMId = [];
@@ -587,19 +592,20 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
   onOrganizationSubmit() {
     // let startDate: any = this.organization.contractStartDate;
     // let endDate: any = this.organization.contractEndDate;
+    this.isAddOrganizationAPILoading = true;
     if (this.tempContractStartDate) {
       this.organization.contractStartDate = new Date(this.tempContractStartDate.year, this.tempContractStartDate.month, this.tempContractStartDate.day).toDateString();
     }
     if (this.tempContractEndDate) {
       this.organization.contractEndDate = new Date(this.tempContractEndDate.year, this.tempContractEndDate.month, this.tempContractEndDate.day).toDateString();
     }
-    console.log('this.organization ', this.organization)
     if (this.organizationForm && this.organizationForm.invalid) {
       console.log('Invalid Form');
-      this.toaster.onFailure('Please fill the form correctly.', 'Form is invalid!')
+      this.toaster.onFailure('Please fill the form correctly.', 'Form is invalid!');
       Object.keys(this.organizationForm.form.controls).forEach(element => {
         this.organizationForm.form.controls[element].markAsDirty();
       });
+      this.isAddOrganizationAPILoading = false;
     } else {
       console.log('Valid Form');
       if (this.orgId) {
@@ -607,16 +613,20 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
           .subscribe(response => {
             this.toaster.onSuccess('Successfully saved', 'Saved');
             this.routerLocation.back();
+            this.isAddOrganizationAPILoading = false;
           }, error => {
             this.toaster.onFailure('Something went wrong. Please fill the form correctly', 'Fail');
+            this.isAddOrganizationAPILoading = false;
           });
       } else {
         this.organizationService.createOrganization(this.organization)
           .subscribe(response => {
             this.toaster.onSuccess('Successfully saved', 'Saved');
-            this.route.navigate([`org/home/${this.parentOrganizationInfo.parentOrganizationId}/${this.parentOrganizationInfo.parentOrganizationName}`])
+            this.route.navigate([`org/home/${this.parentOrganizationInfo.parentOrganizationId}/${this.parentOrganizationInfo.parentOrganizationName}`]);
+	    this.isAddOrganizationAPILoading = false;
           }, error => {
             this.toaster.onFailure('Something went wrong. Please fill the form correctly', 'Fail');
+            this.isAddOrganizationAPILoading = false;
           });
       }
     }
@@ -642,17 +652,17 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
         }
         this.organizationList.sort(SortArrays.compareValues('name'));
         // this.organization.parentOrganizationId = JSON.parse(JSON.stringify(this.organization.parentOrganizationId));
-      })
+      });
   }
 
 
 
   onAlertRuleTabClick() {
-    console.log('onAlertRuleTabClick')
+    console.log('onAlertRuleTabClick');
     if (!this.alertRuleList || this.alertRuleList.length === 0) {
       this.alertRuleservice.getAllAlertsByOrgId(this.curOrgId)
         .subscribe(response => {
-          console.log('response ', response)
+          console.log('response ', response);
           this.alertRuleList = response;
         });
     }
@@ -660,9 +670,9 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
 
   onLockClick() {
     if (this.pageType.toLowerCase() === 'view') {
-      this.route.navigate([`org/edit/${this.curOrgId}/${this.curOrgName}/${this.organization.organizationId}`])
+      this.route.navigate([`org/edit/${this.curOrgId}/${this.curOrgName}/${this.organization.organizationId}`]);
     } else {
-      this.route.navigate([`org/view/${this.curOrgId}/${this.curOrgName}/${this.organization.organizationId}`])
+      this.route.navigate([`org/view/${this.curOrgId}/${this.curOrgName}/${this.organization.organizationId}`]);
     }
   }
 
@@ -725,9 +735,9 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
       .subscribe(response => {
         console.log('return response---', response);
         this.userdashboardData[index].dashboardHTML = this.sanitizer.bypassSecurityTrustHtml(response);
-        setTimeout( () => {
-            // setData('Hello');
-          }, 300);
+        setTimeout(() => {
+          // setData('Hello');
+        }, 300);
       });
   }
 
@@ -737,14 +747,14 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
     if (dashboardAct === 'editDashboard') {
       this.dashboardDataById = {
         act: 'edit',
-        title : 'Edit Dashboard',
+        title: 'Edit Dashboard',
         dashboardName: dashboardNames,
         dashboardHTML: ''
       };
     } else if (dashboardAct === 'addDashboard') {
       this.dashboardDataById = {
         act: 'create',
-        title : 'Create Dashboard',
+        title: 'Create Dashboard',
         dashboardName: '',
         dashboardHTML: ''
       };
