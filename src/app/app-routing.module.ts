@@ -46,14 +46,12 @@ import { VotmCloudAdminPanelComponent } from './components/admin/votm-cloud-admi
 import { VotmCloudSuperAdminComponent } from './components/super/votm-cloud-super-admin/votm-cloud-super-admin.component';
 import { VotmCloudLoginComponent } from './components/shared/votm-cloud-login/votm-cloud-login.component';
 import { VotmCloudSensorsDetailsComponent } from './components/sensors/votm-cloud-sensors-details/votm-cloud-sensors-details.component';
-<<<<<<< HEAD
-import { VotmCloudOrganizationDashboardComponent } from './components/organizations/votm-cloud-organization-dashboard/votm-cloud-organization-dashboard.component';
-import { VotmCloudAdminUserManagementComponent } from './components/admin/votm-cloud-admin-user-management/votm-cloud-admin-user-management.component';
-=======
 import {
   VotmCloudOrganizationDashboardComponent
 } from './components/organizations/votm-cloud-organization-dashboard/votm-cloud-organization-dashboard.component';
->>>>>>> 8b19acc94727a503da0a9d68774f78feb4b5f65c
+import {
+  VotmCloudAdminUserManagementComponent
+} from './components/admin/votm-cloud-admin-user-management/votm-cloud-admin-user-management.component';
 
 const routes: Routes = [
   {
