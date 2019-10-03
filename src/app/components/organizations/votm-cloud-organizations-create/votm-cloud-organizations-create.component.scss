@@ -17,6 +17,17 @@ legend{
    
   }
 
+  .imag-size{
+    max-height: 4.75rem;
+    min-height: 4.75rem;
+    margin-top: 5px;
+    width: 100%;
+    min-width: 100%;
+    max-width: 100%;
+    object-fit: contain;
+    background-color: #F6F6F6
+  }
+
   .edit-view-lock{
     float: right; 
     font-size: 28px;
@@ -215,11 +226,6 @@ margin-bottom: .25rem;
   border-top-right-radius: 0 !important;
   margin-right: -1px;
 }
-
-.nav-tabs .nav-link.active {
-
-}
-
 .nav-tabs-left .nav-link.active,
 .nav-tabs .nav-link.active {
   border-color: #00A2AE !important;

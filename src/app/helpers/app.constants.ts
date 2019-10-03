@@ -16,6 +16,7 @@ export class AppConstants {
     public static GATEWAYS_LOC = 'Location/Gateways';
 
     public static GET_USER_GROUPS = '/UserManagement/UserGroups';
+    public static GET_ALERTRULE_USERGROUP_SUBSCRIBER = '/ALertRuleUserGroupSubscriber';
     public static GET_USER_ROLES = '/UserManagement/Roles';
     public static GET_ALL_USERS = '/UserManagement/Users';
 
@@ -44,7 +45,7 @@ export class AppConstants {
     public static GET_ALERT_BYALERTID = '/AlertRule';
     public static CREATE_ALERT = '/AlertRule';
     public static GET_ALERT_BYORGID = '/AlertRules';
-    public static GET_ALERT_RULESIGNALS_ASSOCIATION_ASSETS = '/AlertRuleSignalAssociatedwithAsset';
+    public static GET_ALERT_RULESIGNALS_ASSOCIATION_ASSETS = '/AlertRuleSignalAssociatedwithAsset'; // AlertRuleSignalAssociatedwithAsset/{organizationId}/{alertRuleId}
     public static GET_ALERT_METRICS = "/AlertRules/MetricType"
     public static GET_ALERT_USERGROUPROLE = "/AlertRules/UserGroupRoles";
     public static GET_ALERT_ACCESSSCOPE="/BreadcrumbNavigation/GetChildOrganization"

@@ -5,11 +5,11 @@
   <div id="{{router.url !== '/login' ? 'content' : 'login-page'}}" [ngClass]="{ 'active': menuOpen}">
       <app-votm-cloud-header *ngIf="router.url !== '/login'" ></app-votm-cloud-header>
       <div [ngClass]="{ 'menu-opened' : !menuOpen && router.url !== '/login', 'menu-closed' : menuOpen && router.url !== '/login', 'col-md-12' : router.url !== '/login'}">
-				<div class="card border-0 shadow">
-            <div class="card-body pt-3">
+				<!-- <div class="card border-0 shadow">
+            <div class="card-body pt-3"> -->
               <router-outlet ></router-outlet>
-            </div>
-        </div>
+            <!-- </div>
+        </div> -->
       </div>
   </div>
 </div> 
