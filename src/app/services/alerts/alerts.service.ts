@@ -56,8 +56,8 @@ export class AlertsService {
       );
   }
 
-  getAlertRuleSignalAssociatedAssetByOrgId(orgId: string): Observable<any> {
-    return this.http.get(`${AppConstants.GET_ALERT_RULESIGNALS_ASSOCIATION_ASSETS}/${orgId}`)
+  getAlertRuleSignalAssociatedAssetByOrgId(orgId: string, alertId: string): Observable<any> {
+    return this.http.get(`${AppConstants.GET_ALERT_RULESIGNALS_ASSOCIATION_ASSETS}/${orgId}/${alertId}`)
       .pipe(
         map(response => response)
       );
@@ -65,6 +65,15 @@ export class AlertsService {
 
   createAlertRule(alertRule: Alert) {
     return this.http.post(AppConstants.CREATE_ALERT, alertRule)
+      .pipe(
+        map(response => response)
+      );
+  }
+
+
+
+  ALertRuleUserGroupSubscriber(alertRuleId) {
+    return this.http.get(`${AppConstants.GET_ALERTRULE_USERGROUP_SUBSCRIBER}/${alertRuleId}`)
       .pipe(
         map(response => response)
       );

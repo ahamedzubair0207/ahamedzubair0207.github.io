@@ -94,7 +94,7 @@
       <div class="row org-create-font mar-top-30">
         <div class="col-md-4">
           <div class="enclosing-div">
-            <a (click)="onClickOfAddCalculatedSignal()" class="cursor-point">f(x) Add Calculated Signal</a>
+            <a (click)="onClickOfAddCalculatedSignal()" class="cursor-point"><i class="icon-sig-function"></i>&nbsp;Add Calculated Signal</a>
             <hr>
             <h5>Available Signals</h5>
             <hr />
@@ -110,6 +110,8 @@
                       height="23"
                     />
 
+                    <!-- <i class="icon-sig-pressure" style="cursor:pointer"></i> -->
+
                   &nbsp; {{ sensor.name }}
                 </div>
               <ng-container *ngFor="let signal of sensor.node; let signalIndex = index">
@@ -123,6 +125,9 @@
                       height="23"
                       id="signal_{{ sensorIndex }}_{{ signalIndex }}"
                     />
+
+                    <!-- <i class="icon-sig-temperature" style="cursor:pointer"></i> -->
+
 
                   &nbsp; {{ signal.name }}
                 </div>
@@ -173,7 +178,7 @@
         <div class="col-md-8" >
             <!-- *ngIf="assetImageURL" -->
           <div  class="enclosing-div" *ngIf="!isGetAssociatedSignalsAPILoading">
-            <img id="dropdiv" [src]="imgURL" *ngIf="imgURL" width="100%" />
+            <img id="dropdiv" [src]="imgURL" *ngIf="imgURL"class="imag-size"/>
           </div>
           <div class="enclosing-div center" *ngIf="isGetAssociatedSignalsAPILoading">
               <i class="fa fa-spinner fa-spin fa-2x fa-fw"></i>
