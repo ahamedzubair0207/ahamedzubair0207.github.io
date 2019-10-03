@@ -199,7 +199,7 @@
                 <div class="col-lg-4 col-xl-2">
                   <div class="form-group">
                     <label class="" id="icon" for="organizationType">Icon</label>
-                    <div class="bootstrap-select drop-down form-control">
+                    <div class="selectpicker drop-down form-control">
                       <select class="selectpicker form-control-sm form-control" data-style-base="form-control">
                         <option data-icon="icon-org-company"></option>
                         <option data-icon="icon-loc-office"></option>
@@ -527,7 +527,7 @@
                       <div class="form-group">
                         <label class="" votmrequired id="DefaultLangLbl">{{pageLabels.Language.labelName}}
                             :</label>
-                       
+
                         <select required #language="ngModel" id="DefaultLang" [disabled]="pageType==='View'"
                           [(ngModel)]="organization.locale" name="language"
                           class="drop-down form-control form-control-sm">
@@ -539,7 +539,7 @@
                         <div *ngIf="language.dirty && language.invalid">
                           <app-votm-cloud-validator message="Language is required"></app-votm-cloud-validator>
                         </div>
-                      
+
                       </div>
                     </div> -->
 
@@ -664,7 +664,8 @@
                     Delete</button>
                   <button id="org-save" type="submit" *ngIf="pageType !=='View'"
                     class="btn btn-sm btn-info button-mod"><i class="pr-2 fa fa-building"></i> Save
-                    Organization</button>
+                    Organization<i class="fa fa-spinner fa-spin fa-fw" *ngIf="isAddOrganizationAPILoading"></i>
+</button>
                 </div>
 
 

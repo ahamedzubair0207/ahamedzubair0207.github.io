@@ -109,9 +109,19 @@
               <th scope="col" class="align-center table-col-small">Actions</th>
             </tr>
           </thead>
-          <tbody>
-            <ng-container *ngTemplateOutlet="recursiveTableList; context:{ orgList: organizationsList, level: 0 }">
+          <tbody *ngIf="!isGetOrganizationsApiLoading">
+            <ng-container *ngIf="organizationsList.length > 0">
+            <ng-container
+              *ngTemplateOutlet="recursiveTableList; context:{ orgList: organizationsList, level: 0 }"
+              >
             </ng-container>
+            </ng-container>
+            <tr *ngIf="organizationsList.length === 0">
+              <td colspan="8"> No Organizations data found.</td>
+            </tr>
+          </tbody>
+          <tbody *ngIf="isGetOrganizationsApiLoading">
+              <i class="fa fa-spinner fa-spin fa-2x fa-fw"></i>
           </tbody>
         </table>
       </div>

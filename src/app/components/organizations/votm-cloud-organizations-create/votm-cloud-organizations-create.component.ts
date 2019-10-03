@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { OrganizationService } from 'src/app/services/organizations/organization.service';
 import { Organization } from 'src/app/models/organization.model';
@@ -26,7 +26,7 @@ declare var jQuery: any;
   styleUrls: ['./votm-cloud-organizations-create.component.scss'],
   providers: [DatePipe]
 })
-export class VotmCloudOrganizationsCreateComponent implements OnInit {
+export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewInit {
   public imagePath;
   imgURL: any;
   public message: string;
@@ -85,6 +85,7 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
   userdashboardData: { id: string; templateName: string; dashboardName: string; dashboardHTML: any; }[];
   dashboardDataById: { act: string; title: string; dashboardName: string; dashboardHTML: any; };
   addDashboardArray: any;
+  isAddOrganizationAPILoading = false;
 
   constructor(
     private assetService: AssetsService,
@@ -113,7 +114,6 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
   }
 
   ngOnInit() {
-    jQuery('.selectpicker').selectpicker();
     this.organization.svclevels = null;
     this.organization.localeId = null;
     this.organization.timeZoneId = null;
@@ -199,8 +199,13 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
         templateName: 'Standard Asset Dashboard'
       }
     ];
-    console.log(this.dashboardTemplates);
-    console.log(this.dashboardData);
+      console.log(this.dashboardTemplates);
+      console.log(this.dashboardData);
+  }
+
+  ngAfterViewInit(): void {
+    jQuery('.selectpicker').selectpicker();
+    this.showImageLogo();
   }
 
   onCountryChange(event) {
@@ -232,9 +237,6 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
     }
   }
 
-  ngAfterViewInit() {
-    this.showImageLogo();
-  }
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
@@ -588,19 +590,20 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
   onOrganizationSubmit() {
     // let startDate: any = this.organization.contractStartDate;
     // let endDate: any = this.organization.contractEndDate;
+    this.isAddOrganizationAPILoading = true;
     if (this.tempContractStartDate) {
       this.organization.contractStartDate = new Date(this.tempContractStartDate.year, this.tempContractStartDate.month, this.tempContractStartDate.day).toDateString();
     }
     if (this.tempContractEndDate) {
       this.organization.contractEndDate = new Date(this.tempContractEndDate.year, this.tempContractEndDate.month, this.tempContractEndDate.day).toDateString();
     }
-    console.log('this.organization ', this.organization);
     if (this.organizationForm && this.organizationForm.invalid) {
       console.log('Invalid Form');
       this.toaster.onFailure('Please fill the form correctly.', 'Form is invalid!');
       Object.keys(this.organizationForm.form.controls).forEach(element => {
         this.organizationForm.form.controls[element].markAsDirty();
       });
+      this.isAddOrganizationAPILoading = false;
     } else {
       console.log('Valid Form');
       if (this.orgId) {
@@ -608,16 +611,20 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit {
           .subscribe(response => {
             this.toaster.onSuccess('Successfully saved', 'Saved');
             this.routerLocation.back();
+            this.isAddOrganizationAPILoading = false;
           }, error => {
             this.toaster.onFailure('Something went wrong. Please fill the form correctly', 'Fail');
+            this.isAddOrganizationAPILoading = false;
           });
       } else {
         this.organizationService.createOrganization(this.organization)
           .subscribe(response => {
             this.toaster.onSuccess('Successfully saved', 'Saved');
             this.route.navigate([`org/home/${this.parentOrganizationInfo.parentOrganizationId}/${this.parentOrganizationInfo.parentOrganizationName}`]);
+	    this.isAddOrganizationAPILoading = false;
           }, error => {
             this.toaster.onFailure('Something went wrong. Please fill the form correctly', 'Fail');
+            this.isAddOrganizationAPILoading = false;
           });
       }
     }
