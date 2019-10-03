@@ -190,7 +190,7 @@
 
 
               <div class="row asset-create-font asset-margin">
-                <div class="col-md-6">
+                <div class="col-md-4">
                   <label for="assetImage" id="asset-image-lbl"><b>Asset Image : </b></label>
                   <span style="color:rgb(106,96,85);" *ngIf="message">{{message}}</span>
                   <input [disabled]="pageType==='View'" #file type="file" id="asset-image" accept='image/*'
@@ -199,7 +199,7 @@
                   <img [src]="imgURL" height="200" width="235" *ngIf="imgURL">
                 </div>
                 <!-- (change)="(!asset.templateId||(asset.templateId && isConfirmToChangeImage==='change'))?onFileChange($event):null" -->
-                <div class="col-md-6 form-group">
+                <div class="col-md-4 form-group">
 
                   <label for="exampleFormControlFile1"><b>Documentation:</b></label>
                   <input type="file" id="documentUpload" name="documentUpload" id="documentUpload"
@@ -208,6 +208,11 @@
                   <a *ngIf="asset.fileStore" style="color:blue;"
                     (click)="onFileOpen()"><u>{{asset.fileStore.fileName}}</u></a>
                 </div>
+
+                <div class="col-md-4">
+                    <label for="locationImage" id="asset-image-lbl"><b>Location Image : </b></label>
+                    <img [src]="imgURL" class="imag-size" *ngIf="imgURL">
+                  </div>
 
 
               </div>
@@ -316,11 +321,11 @@
         <div></div>
       </div>
       <div class="modal-footer">
-        <button id="asset-temp-cancle" type="button" class="btn button-mod btn-secondary"
+        <button id="asset-temp-modal-cancle" type="button" class="btn button-mod btn-secondary"
           (click)="closemodal('cancel')">
           Cancel
         </button>
-        <button id="asset-temp-save" type="button" class="btn button-mod btn-info" (click)="closemodal('save')">
+        <button id="asset-temp-modal-save" type="button" class="btn button-mod btn-info" (click)="closemodal('save')">
           Ok
         </button>
       </div>
@@ -376,10 +381,10 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button id="asset-temp-cancle" type="button" class="btn button-mod btn-secondary"
+        <button id="asset-temp-new-modal-cancle" type="button" class="btn button-mod btn-secondary"
           (click)="closemodal('cancel')">Cancel
         </button>
-        <button id="asset-temp-save" type="button" class="btn button-mod btn-info"
+        <button id="asset-temp-new-modal-save" type="button" class="btn button-mod btn-info"
           (click)="onSaveAsTemplateClick('save')">Save</button>
       </div>
 
