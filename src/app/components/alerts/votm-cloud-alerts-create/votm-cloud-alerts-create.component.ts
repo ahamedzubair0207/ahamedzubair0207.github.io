@@ -59,9 +59,12 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
             this.alert.alertRuleUserGroup[0].userId = 'ea8a69d9-50a1-4773-a7ef-324cd33b3296';
             this.userResponsibities = [];
             this.alert.alertRuleUserGroup.forEach(alertRuleUserGroup => {
-              this.userResponsibities[alertRuleUserGroup.alertUserGroupId] = alertRuleUserGroup.alertUserGroupRoleId;
+              if (alertRuleUserGroup.userId) {
+                this.userResponsibities[alertRuleUserGroup.userId] = alertRuleUserGroup.alertUserGroupRoleId;
+              } else {
+                this.userResponsibities[alertRuleUserGroup.userGroupId] = alertRuleUserGroup.alertUserGroupRoleId;
+              }
             });
-            // this.userResponsibities
           });
         this.ALertRuleUserGroupSubscriber();
       } else {
@@ -100,9 +103,45 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
       { text: 'Responsibilty3', value: 'Responsibilty3' }
     ];
 
-    this.alert.alertRuleUserGroup = [{ alertUserGroupId: "d042f524-d834-4a03-a21d-06bb3c743679", alertUserGroupRoleId: "1ed266f3-87f7-484a-b402-17a8b4a86836" }];
+    // this.alert.alertRuleUserGroup = [{ alertUserGroupId: "d042f524-d834-4a03-a21d-06bb3c743679", alertUserGroupRoleId: "1ed266f3-87f7-484a-b402-17a8b4a86836" }];
 
 
+  }
+
+  onUserSelection(user) {
+    console.log('Notified User ', user);
+    let found: boolean = false;
+    if (!this.alert.alertRuleUserGroup) {
+      this.alert.alertRuleUserGroup = [];
+    }
+    this.alert.alertRuleUserGroup.forEach(usergroup => {
+      if (usergroup.userId === user.userId) {
+        found = true;
+      }
+    });
+    if (!found) {
+      this.userResponsibities[user.userId] = '';
+      this.alert.alertRuleUserGroup.push({ alertUserGroupRoleId: '', name: user.firstName + ' ' + user.lastName, userId: user.userId });
+    }
+    console.log(' this.alert.alertRuleUserGroup ', this.alert.alertRuleUserGroup);
+  }
+
+  onUserGroupSelection(userGroup) {
+    console.log('Notified User ', userGroup);
+    let found: boolean = false;
+    if (!this.alert.alertRuleUserGroup) {
+      this.alert.alertRuleUserGroup = [];
+    }
+    this.alert.alertRuleUserGroup.forEach(tempUsergroup => {
+      if (tempUsergroup.userGroupId === userGroup.userGroupId) {
+        found = true;
+      }
+    });
+    if (!found) {
+      this.userResponsibities[userGroup.userGroupId] = '';
+      this.alert.alertRuleUserGroup.push({ alertUserGroupRoleId: '', name: userGroup.userGroupName, userGroupId: userGroup.userGroupId });
+    }
+    console.log(' this.alert.alertRuleUserGroup ', this.alert.alertRuleUserGroup);
   }
 
   getMeticTypes() {
@@ -327,17 +366,11 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
     this.alert.alertRuleUserGroup.forEach(alertRuleUserGroup => {
       if (alertRuleUserGroup.userGroupId === userGroup.userGroupId) {
         console.log(event.target.value);
+        alertRuleUserGroup.alertUserGroupRoleId = event.target.value;
       }
     });
-
-    // let allKeys = Object.keys(this.userResponsibities);
-
-    // this.alert.alertRuleUserGroup = [];
-    // allKeys.forEach(key => {
-    //   if (this.userResponsibities[key]) {
-    //     this.alert.alertRuleUserGroup.push({ alertUserGroupId: key, alertUserGroupRoleId: this.userResponsibities[key] });
-    //   }
-    // });
+    console.log(' this.alert.alertRuleUserGroup ', this.alert.alertRuleUserGroup);
+   
   }
 
   onResponsibityChangeForUserId(event, userGroup: AlertRuleUserGroup) {
@@ -345,8 +378,10 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
     this.alert.alertRuleUserGroup.forEach(alertRuleUserGroup => {
       if (alertRuleUserGroup.userId === userGroup.userId) {
         console.log(event.target.value);
+        alertRuleUserGroup.alertUserGroupRoleId = event.target.value;
       }
     });
+    console.log(' this.alert.alertRuleUserGroup ', this.alert.alertRuleUserGroup);
     // this.alert.alertRuleUserGroup.forEach(alertRuleUserGroup=>{
     //   if(alertRuleUserGroup.)
     // })

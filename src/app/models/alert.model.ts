@@ -30,6 +30,8 @@ export class AlertRuleUserGroup {
     createdOn?: string;
     modifiedBy?: string;
     modifiedOn?: string;
+
+    name?: string;
 }
 
 export class AlertRuleConfigurationMapping {

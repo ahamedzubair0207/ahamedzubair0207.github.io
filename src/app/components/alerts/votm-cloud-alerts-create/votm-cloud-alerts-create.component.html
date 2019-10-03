@@ -5,7 +5,8 @@
         </div>
         <i class="fa fa-lock edit-view-lock" id="view-lock" name="lockTogglebutton"
             *ngIf="pageType.toLowerCase() === 'view'" (click)="onLockClick()"></i>
-        <i *ngIf="pageType.toLowerCase() !== 'view'" class="fa fa-unlock edit-view-lock" id="edit-lock" name="unlockTogglebutton" (click)="onLockClick()"></i>
+        <i *ngIf="pageType.toLowerCase() !== 'view'" class="fa fa-unlock edit-view-lock" id="edit-lock"
+            name="unlockTogglebutton" (click)="onLockClick()"></i>
     </div>
     <div class="form-group row">
         <div class="col-md-4 row">
@@ -332,12 +333,11 @@
                             </thead>
                             <tbody>
                                 <tr *ngFor="let userGroupSubscriber of alert.alertRuleUserGroup">
-                                    <td><i
-                                            class="fa fa-user mr-2"></i>{{userGroupSubscriber.userGroupName? userGroupSubscriber.userGroupName: userGroupSubscriber.userName}}
+                                    <td><i class="fa fa-user mr-2"></i>{{userGroupSubscriber.name}}
                                     </td>
                                     <td>
                                         <div *ngIf="userGroupSubscriber.userGroupId">
-                                            <select [(ngModel)]="userResponsibities[userGroupSubscriber.alertUserGroupId]"
+                                            <select [(ngModel)]="userResponsibities[userGroupSubscriber.userGroupId]"
                                                 (change)="onResponsibityChangeForUserGroup($event, userGroupSubscriber)"
                                                 [name]="userGroupSubscriber.userGroupId">
                                                 <option *ngFor="let role of userRoles"
@@ -347,7 +347,7 @@
                                             </select>
                                         </div>
                                         <div *ngIf="userGroupSubscriber.userId">
-                                            <select [(ngModel)]="userResponsibities[userGroupSubscriber.alertUserGroupId]"
+                                            <select [(ngModel)]="userResponsibities[userGroupSubscriber.userId]"
                                                 (change)="onResponsibityChangeForUserId($event, userGroupSubscriber)"
                                                 [name]="userGroupSubscriber.userId">
                                                 <option *ngFor="let role of userRoles"
@@ -416,7 +416,8 @@
                             <th scope="row">{{i+1}}</th>
                             <td>{{notifyUser.firstName}}</td>
                             <td>{{notifyUser.lastName}}</td>
-                            <td><i class="fa fa-user-plus"></i></td>
+                            <td><a style="cursor: pointer;" (click)="onUserSelection(notifyUser)"><i
+                                        class="fa fa-user-plus"></i></a></td>
                         </tr>
                     </tbody>
                 </table>
@@ -461,7 +462,7 @@
                         <tr *ngFor="let userGroup of userGroups let i=index;">
                             <th scope="row">{{i+1}}</th>
                             <td>{{userGroup.userGroupName}}</td>
-                            <td><i class="fa fa-user-plus"></i></td>
+                            <td><a (click)="onUserGroupSelection(userGroup)"><i class="fa fa-user-plus"></i></a></td>
 
                         </tr>
                     </tbody>

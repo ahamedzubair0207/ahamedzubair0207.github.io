@@ -9,6 +9,17 @@
   overflow-y: auto;
 }
 
+.imag-size{
+  max-height: 470px;
+  min-height: 470px;
+  margin-top: 5px;
+  width: 100%;
+  min-width: 100%;
+  max-width: 100%;
+  object-fit: contain;
+  background-color: #F6F6F6
+}
+
 .mar-top-5{
   margin-top: 5px;
 }
