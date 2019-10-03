@@ -29,8 +29,15 @@ export class VotmCloudPreferencesComponent implements OnInit {
   userprofile: UserProfile = new UserProfile();
   toaster: Toaster = new Toaster(this.toastr);
 
-  constructor(private modalService: NgbModal, private configSettingsService: ConfigSettingsService,private activeroute: ActivatedRoute, private route: Router, private datePipe: DatePipe,
-    private routerLocation: RouterLocation, private toastr: ToastrService) { }
+  constructor(
+    private modalService: NgbModal,
+    private configSettingsService: ConfigSettingsService,
+    private activeroute: ActivatedRoute,
+    private route: Router,
+    private datePipe: DatePipe,
+    private routerLocation: RouterLocation,
+    private toastr: ToastrService
+    ) { }
 
   ngOnInit() {
     this.getAllAppInfo();
@@ -112,9 +119,9 @@ export class VotmCloudPreferencesComponent implements OnInit {
     // }
 
   }
-  
+
   closemodal(event: string) {
-     document.getElementById("uomModal").style.display = "none";
+    document.getElementById("uomModal").style.display = "none";
     // this.modal.style.display = "none";
     if (event === 'save') {
       this.UOM = this.tempMeasurement;

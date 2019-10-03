@@ -21,7 +21,7 @@ export class BreadcrumbsComponent {
   minimizedBreadcrumbs: any = {};
   locId: string;
   isDotLoaded: boolean = false;
-  assetId: string; //Asset Bread Crumbs
+  assetId: string; // Asset Bread Crumbs
   orgName: string;
   parentOrgId: string;
   mainOrganizationId: string;
@@ -48,7 +48,7 @@ export class BreadcrumbsComponent {
     //   this.breadcrumbs = [];
     //   this.breadcrumbs.push({ name: parts[4], nodes: [] });
     //   // this.loadOrganizations(this.orgId);
-    // } else 
+    // } else
     if (this.currentUrl.startsWith(`/org/edit`) || this.currentUrl.startsWith(`/org/view`)) {
       let parts = this.currentUrl.split('/');
       this.orgId = parts[5];
@@ -61,8 +61,7 @@ export class BreadcrumbsComponent {
       // } else {
       this.loadOrganizations(this.orgId);
       // }
-    }
-    else if (this.currentUrl.startsWith(`/loc/edit`) || this.currentUrl.startsWith(`/loc/view`)) {
+    } else if (this.currentUrl.startsWith(`/loc/edit`) || this.currentUrl.startsWith(`/loc/view`)) {
       let parts = this.currentUrl.split('/');
       if (parts.length >= 7) {
         this.orgId = parts[5];
@@ -74,8 +73,7 @@ export class BreadcrumbsComponent {
       this.pageType = 'Location';
       this.breadcrumbs = [];
       this.loadOrganizations(this.orgId);
-    }
-    else if (this.currentUrl.startsWith(`/asset/view`) || this.currentUrl.startsWith(`/asset/edit`)) {
+    } else if (this.currentUrl.startsWith(`/asset/view`) || this.currentUrl.startsWith(`/asset/edit`)) {
       let parts = this.currentUrl.split('/');
       if (parts.length >= 9) {
         this.orgId = parts[3];

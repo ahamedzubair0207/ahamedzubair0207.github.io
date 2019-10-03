@@ -15,13 +15,12 @@ export class VotmCloudHeaderComponent implements OnInit {
   constructor( private sharedService: SharedService, public router: Router) { 
     this.sharedService.getMenuOpen().subscribe(newVal => this.menuOpen = newVal);
    }
-    
+
   ngOnInit() {
     this.token = sessionStorage.getItem('token');
   }
 
-  toggleMenu(){
+  toggleMenu() {
     this.sharedService.setMenuOpen(!this.menuOpen);
   }
-  
 }

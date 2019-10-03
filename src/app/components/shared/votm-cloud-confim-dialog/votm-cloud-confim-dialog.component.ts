@@ -10,7 +10,7 @@ export class VotmCloudConfimDialogComponent implements OnInit {
 
   closeResult: string;
 
-  @Input() message: string
+  @Input() message: string;
   @Input() headerMessage: string;
   @Input() confirmName: string;
   @Input() cancelName: string;
@@ -22,16 +22,18 @@ export class VotmCloudConfimDialogComponent implements OnInit {
   constructor(private modalService: NgbModal) { }
 
   ngOnInit() {
-    if(!this.confirmName){
+    if (!this.confirmName){
       this.confirmName = 'Yes';
     }
-    if(!this.cancelName){
+    if (!this.cancelName){
       this.cancelName = 'No';
     }
   }
 
   open() {
-    this.modalService.open(this.content, { ariaLabelledBy: 'modal-basic-title',backdrop:'static', keyboard:false }).result.then((result) => {
+    this.modalService
+    .open(this.content, { ariaLabelledBy: 'modal-basic-title', backdrop: 'static', keyboard: false })
+    .result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
@@ -39,7 +41,7 @@ export class VotmCloudConfimDialogComponent implements OnInit {
   }
 
   private getDismissReason(reason: any): string {
-    console.log('AHAMED ', reason)
+    console.log('AHAMED ', reason);
     if (reason === ModalDismissReasons.ESC) {
       return 'by pressing ESC';
     } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {

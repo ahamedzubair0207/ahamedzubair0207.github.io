@@ -6,12 +6,12 @@ import { Directive, ElementRef } from '@angular/core';
 export class VotmCloudRequiredAttributeDirective {
 
   constructor(private el: ElementRef) { }
-  ngAfterViewInit(){
+  ngAfterViewInit() {
     let label = this.el.nativeElement.innerText;
     // if(label === 'Primary Contact:'){
     //   debugger;
     // }
-    this.el.nativeElement.innerHTML = `<b><span style="color:red;">*</span></b> ${label}`
+    this.el.nativeElement.innerHTML = `<b><span style="color:red;">*</span></b> ${label}`;
   }
 
 }

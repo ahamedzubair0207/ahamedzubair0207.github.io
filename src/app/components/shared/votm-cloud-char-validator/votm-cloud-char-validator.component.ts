@@ -16,9 +16,9 @@ export class VotmCloudCharValidatorComponent implements OnInit {
       this.style = {
         'color': 'red',
         'margin-top': '-15px'
-      }
+      };
     }
-    if(!this.message){
+    if (!this.message) {
       this.message = 'Max characters exceeded';
     }
   }
