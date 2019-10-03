@@ -38,17 +38,22 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
   notifyUsers: any[] = [];
   userGroupSubscribers: any[] = [];
 
-  constructor(private activeroute: ActivatedRoute, private modalService: NgbModal,
-    private routerLocation: RouterLocation, private toastr: ToastrService,
-    private route: Router, private alertsService: AlertsService, private userService: UserService) {
+  constructor(
+    private activeroute: ActivatedRoute,
+    private modalService: NgbModal,
+    private routerLocation: RouterLocation,
+    private toastr: ToastrService,
+    private route: Router,
+    private alertsService: AlertsService,
+    private userService: UserService) {
 
   }
 
   ngOnInit() {
     this.pageType = this.activeroute.snapshot.data['type'];
     this.activeroute.paramMap.subscribe(params => {
-      this.curOrgId = params.get("curOrgId");
-      this.curOrgName = params.get("curOrgName");
+      this.curOrgId = params.get('curOrgId');
+      this.curOrgName = params.get('curOrgName');
       this.orgId = params.get('orgId');
       this.alertId = params.get('alertId');
       if (this.alertId) {
@@ -88,7 +93,7 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
         id: 'B45A2094-C4D6-4D36-B26C-3A9F195C6D6F',
         name: 'Relative'
       }
-    ]
+    ];
     if (this.pageType.toUpperCase() === ' CREATE') {
       this.alert.alertRuleConfigurationMapping = [];
       // this.alert.alertRuleConfigurationMapping.push({})
@@ -156,7 +161,7 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
         }
       });
   }
-  /* 
+  /*
     // getUserGroupRoles() {
     //   this.alertsService.getUserGroupRoles()
     //     .subscribe(response => {
@@ -264,15 +269,17 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
   }
 
   createAssetCheckedProperties() {
-    if (this.alertRuleSignalAssociatedAsset && this.alertRuleSignalAssociatedAsset.locations && this.alertRuleSignalAssociatedAsset.locations.length > 0) {
+    if (this.alertRuleSignalAssociatedAsset &&
+      this.alertRuleSignalAssociatedAsset.locations &&
+      this.alertRuleSignalAssociatedAsset.locations.length > 0) {
       this.alertRuleSignalAssociatedAsset.locations.forEach(location => {
         this.assetsChecked[location.locationId] = false;
         if (location.assets && location.assets.length > 0) {
           location.assets.forEach(asset => {
             this.assetsChecked[asset.assetId] = false;
-          })
+          });
         }
-      })
+      });
     }
   }
 
@@ -315,8 +322,7 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
     if (event && event.target.checked) {
       this.alert.alertRuleSignalMapping.push({ signalId: signalId });
       this.selectedSignals.push(signalId);
-    }
-    else {
+    } else {
       let index = this.alert.alertRuleSignalMapping.findIndex(x => x.signalId === signalId);
       if (index >= 0) {
         this.alert.alertRuleSignalMapping.splice(index, 1);
@@ -370,11 +376,10 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
       }
     });
     console.log(' this.alert.alertRuleUserGroup ', this.alert.alertRuleUserGroup);
-   
   }
 
   onResponsibityChangeForUserId(event, userGroup: AlertRuleUserGroup) {
-    console.log('onResponsibityChangeForUserId ', event, userGroup)
+    console.log('onResponsibityChangeForUserId ', event, userGroup);
     this.alert.alertRuleUserGroup.forEach(alertRuleUserGroup => {
       if (alertRuleUserGroup.userId === userGroup.userId) {
         console.log(event.target.value);
@@ -410,23 +415,23 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
     this.alertsService.createAlertRule(this.alert)
       .subscribe(response => {
         console.log('response ', response);
-      })
+      });
 
     console.log('onResponsibityChange ', this.alert);
   }
 
   notifiedUserModal() {
     // Get the modal
-    var modal = document.getElementById("userModal");
-    modal.style.display = "block";
-    this.modal = document.getElementById("userModal");
+    var modal = document.getElementById('userModal');
+    modal.style.display = 'block';
+    this.modal = document.getElementById('userModal');
     // Get the <span> element that closes the modal
-    var span = document.getElementsByClassName("close")[0];
+    var span = document.getElementsByClassName('close')[0];
 
     // When the user clicks anywhere outside of the modal, close it
     window.onclick = function (event) {
       if (event.target == modal) {
-        modal.style.display = "none";
+        modal.style.display = 'none';
       }
     }
   }
@@ -448,9 +453,9 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
 
   onLockClick() {
     if (this.pageType.toLowerCase() === 'view') {
-      this.route.navigate([`preferences/edit`])
+      this.route.navigate([`preferences/edit`]);
     } else {
-      this.route.navigate([`preferences/view`])
+      this.route.navigate([`preferences/view`]);
     }
   }
 }

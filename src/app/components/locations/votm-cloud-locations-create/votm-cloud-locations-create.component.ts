@@ -65,7 +65,7 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
   rectangleUnit: any;
   rectangleValue2: any;
   dropdownSettings: {};
-  gatewayList: Array<Select2OptionData>; //{ item_id: string; item_text: string; }[];
+  gatewayList: Array<Select2OptionData>; // { item_id: string; item_text: string; }[];
   selectedItems: Array<Select2OptionData>; // { item_id: string; item_text: string; }[];
   previousURLToNavigate: string;
   previousUrl: any;
@@ -84,11 +84,18 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
   geoLocationErrorMessage: any;
 
   countryObject: any[] = [];
-  constructor(private modalService: NgbModal, private locationService: LocationService,
-    private configSettingsService: ConfigSettingsService, private domSanitizer: DomSanitizer,
-    private activatedRoute: ActivatedRoute, private route: Router, private datePipe: DatePipe,
-    private routerLocation: RouterLocation, private toastr: ToastrService) {
-    this.UOM = "SI";
+  constructor(
+    private modalService: NgbModal,
+    private locationService: LocationService,
+    private configSettingsService: ConfigSettingsService,
+    private domSanitizer: DomSanitizer,
+    private activatedRoute: ActivatedRoute,
+    private route: Router,
+    private datePipe: DatePipe,
+    private routerLocation: RouterLocation,
+    private toastr: ToastrService
+    ) {
+    this.UOM = 'SI';
     this.subscriptions = route.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         if (this.previousUrl) {
@@ -111,10 +118,10 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
     //     }
     //   });
     this.activatedRoute.paramMap.subscribe(params => {
-      this.curOrgId = params.get("curOrgId");
-      this.curOrgName = params.get("curOrgName");
-      this.parentLocId = params.get("parentLocId");
-      this.parentLocName = params.get("parentLocName");
+      this.curOrgId = params.get('curOrgId');
+      this.curOrgName = params.get('curOrgName');
+      this.parentLocId = params.get('parentLocId');
+      this.parentLocName = params.get('parentLocName');
       this.locId = params.get('locId');
       if (!this.locId) {
         this.locationObject();
@@ -143,7 +150,7 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
 
     this.options = {
       multiple: true
-    }
+    };
     // this.getGeoLocation('London').subscribe(response => {
     //   console.log('response ', response);
     // endpoint - Option List Data ----- Sensor Blocks ------ Cellular Blocks ------ Service Levels
@@ -156,7 +163,7 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
     this.parentOrganizationInfo = {
       parentOrganizationId: this.curOrgId,
       parentOrganizationName: this.curOrgName
-    }
+    };
     this.getScreenLabels();
     this.getAllAppInfo();
     this.location.organizationId = this.parentOrganizationInfo.parentOrganizationId;
@@ -164,7 +171,7 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
     this.tempMeasurement = 'SI';
     this.location.active = true;
     this.UOM = 'SI';
-    this.locationTypes = [{ value: 'locationType1', text: 'locationType1' }, { value: 'locationType2', text: 'locationType2' }]
+    this.locationTypes = [{ value: 'locationType1', text: 'locationType1' }, { value: 'locationType2', text: 'locationType2' }];
     // this.locationService.getLocationInfoFromAzureMap(null)
     //   .subscribe(response => {
     //     // console.log('AHAMED from azure map ', response);
@@ -192,7 +199,7 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
           this.selectedGateways = [...this.location.gateways];
         }
         if (this.location.logo && this.location.logo.imageName) {
-          this.fileExtension = this.location.logo.imageName.slice((Math.max(0, this.location.logo.imageName.lastIndexOf(".")) || Infinity) + 1);
+          this.fileExtension = this.location.logo.imageName.slice((Math.max(0, this.location.logo.imageName.lastIndexOf('.')) || Infinity) + 1);
           this.imgURL = this.domSanitizer.bypassSecurityTrustUrl(`data:image/${this.fileExtension};base64,${this.location.logo.image}`);
           this.location.logo.imageType = this.fileExtension;
         }
@@ -290,12 +297,12 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
                       if (tz.timeZoneName.toUpperCase() === tempTimezone.toUpperCase()) {
                         this.location.timeZoneId = tz.timeZoneId;
                       }
-                    })
+                    });
                   }
                   // let currentDate = new Date();
                   // let abc = moment.tz([currentDate.getFullYear(), currentDate.getMonth()], 'America/Chicago').format('zz');
                   // console.log('now ', abc)
-                })
+                });
             }
           });
       } else {
@@ -322,8 +329,8 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
   markGeoLocationInvalid() {
     this.locationForm.form.controls['geoLocationLong'].markAsDirty();
     this.locationForm.form.controls['geoLocationLat'].markAsDirty();
-    this.locationForm.form.controls['geoLocationLong'].setErrors({ 'invalidLonLat': true })
-    this.locationForm.form.controls['geoLocationLat'].setErrors({ 'invalidLonLat': true })
+    this.locationForm.form.controls['geoLocationLong'].setErrors({ 'invalidLonLat': true });
+    this.locationForm.form.controls['geoLocationLat'].setErrors({ 'invalidLonLat': true });
   }
 
   // getLocationInfo() {
@@ -345,11 +352,11 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
   onSelectAll(items: any) {
   }
   createNestedLocation(event) {
-    this.route.navigate([`loc/create/${this.location.locationId}/${this.location.locationName}/${this.location.organizationId}/${this.parentOrganizationInfo.parentOrganizationName}`])
+    this.route.navigate([`loc/create/${this.location.locationId}/${this.location.locationName}/${this.location.organizationId}/${this.parentOrganizationInfo.parentOrganizationName}`]);
   }
 
   creteAsset(event) {
-    this.route.navigate([`asset/create/${this.curOrgId}/${this.curOrgName}/${this.location.locationId}/${this.location.locationName}`])
+    this.route.navigate([`asset/create/${this.curOrgId}/${this.curOrgName}/${this.location.locationId}/${this.location.locationName}`]);
   }
   locationObject() {
   }
@@ -378,13 +385,14 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
 
 
   preview(files) {
-    this.message = "";
-    if (files.length === 0)
+    this.message = '';
+    if (files.length === 0) {
       return;
+    }
 
     var mimeType = files[0].type;
     if (mimeType.match(/image\/*/) == null) {
-      this.message = "Only images are supported.";
+      this.message = 'Only images are supported.';
       return;
     }
     this.handleFileSelect(files);
@@ -393,7 +401,7 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
     readerToPreview.readAsDataURL(files[0]);
     readerToPreview.onload = (_event) => {
       this.imgURL = this.domSanitizer.bypassSecurityTrustUrl(readerToPreview.result.toString());; //readerToPreview.result;
-    }
+    };
   }
 
   handleFileSelect(files) {
@@ -406,12 +414,11 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
         let data;
         if (!e) {
           data = reader.content;
-        }
-        else {
+        } else {
           data = e.target.result;
         }
         let base64textString = btoa(data);
-        console.log('this.organization ', this.location, data)
+        console.log('this.organization ', this.location, data);
         this.location.logo.image = base64textString;
       };
 
@@ -456,7 +463,7 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
   }
 
   private getDismissReason(reason: any): string {
-    debugger
+    debugger;
     if (reason === ModalDismissReasons.ESC) {
       return 'by pressing ESC';
     } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
@@ -468,23 +475,23 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
 
   openmodal() {
     // Get the modal
-    var modal = document.getElementById("myModal");
-    modal.style.display = "block";
-    this.modal = document.getElementById("myModal");
+    var modal = document.getElementById('myModal');
+    modal.style.display = 'block';
+    this.modal = document.getElementById('myModal');
     // Get the <span> element that closes the modal
-    var span = document.getElementsByClassName("close")[0];
+    var span = document.getElementsByClassName('close')[0];
 
     // When the user clicks anywhere outside of the modal, close it
     window.onclick = function (event) {
       if (event.target == modal) {
-        modal.style.display = "none";
+        modal.style.display = 'none';
 
       }
-    }
+    };
 
   }
   closemodal(event: string) {
-    this.modal.style.display = "none";
+    this.modal.style.display = 'none';
     if (event === 'save') {
       this.UOM = this.tempMeasurement;
       this.location.uoMId = [];
@@ -550,11 +557,11 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
     if (this.selectedItems && this.selectedItems.length > 0) {
       this.selectedItems.forEach((item) => {
         this.location.gateways.push(item.id);
-      })
+      });
     }
 
     if (this.locationForm && this.locationForm.invalid) {
-      this.toaster.onFailure('Please fill the form correctly.', 'Form is invalid!')
+      this.toaster.onFailure('Please fill the form correctly.', 'Form is invalid!');
       Object.keys(this.locationForm.form.controls).forEach(element => {
         this.locationForm.form.controls[element].markAsDirty();
       });
