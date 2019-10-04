@@ -27,6 +27,19 @@
     color:  #02b3bf;
     margin-left: auto;
   }
+
+  .lock-tab {
+    position: absolute;
+    right: 15px;
+    top: 11px;
+    background-color: #ffffff;
+    padding-top: 5px;
+    padding-right: 14px;
+    padding-left: 15px;
+    border-radius: 0.25rem 0.25rem 0 0;
+}
+
+
   .action-btn-asset{
     margin-right: 2px;
   }
