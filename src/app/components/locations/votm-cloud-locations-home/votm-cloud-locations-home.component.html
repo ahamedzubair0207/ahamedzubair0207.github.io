@@ -3,9 +3,9 @@
     <header>
       <div class="btn-group-right loc-table-fonts">
         <button (click)="onCreateNewLocation()" id="cre-loc" type="button" class="btn btn-sm btn-info loc-table-fonts ml-2"
-          style="float: right;"><i class="pr-2 fa fa-location-arrow"></i>Create Location</button>
+          style="float: right;"><i class="pr-2 icon-location-add"></i>Create Location</button>
         <button type="button" (click)="onCreateNewAsset()" id="cre-asset" class="btn btn-sm btn-info loc-table-fonts" style="float: right;"><i
-            class="pr-2 fa fa-industry"></i>Create Asset</button>
+            class="pr-2 icon-asset-add"></i>Create Asset</button>
       </div>
     
       <form class="form-inline">
@@ -22,16 +22,18 @@
       
           <tr>
             <th scope="row" (click)="item.opened = !item.opened" [ngStyle]="{'padding-left.px': 15*(lvl+1)}">
-              <i class="fa fa-location-arrow"></i>
+              <i class="icon-location"></i>
               <a style="color: #212529;" [routerLink]="['/loc/view',item.parentOrgId, item.parentOrgName, item.id]"> {{item.name}}</a>&nbsp; <i *ngIf="item.node.length > 0 "
                   [ngClass]="{'fa': true, 'fa-caret-right': !item.opened, 'fa-caret-down': item.opened}"></i>
              
             </th>
             <td class="align-left">{{item.type}}</td>
             <td class="align-left">{{item.parentOrgName}}</td>
+            <td class="align-left">{{item.distributor}}</td>
+            <td class="align-left">{{item.cityState}}</td>
             <td class="align-center">
               <a class="action-icon" title="List"   [routerLink]="['/asset/home',item.parentOrgId, item.parentOrgName, item.id]">
-                <i class="fa fa-industry"></i>
+                <i class="icon-asset-robot"></i>
               </a>
               <a class="action-icon" title="Edit"
                 [routerLink]="['/loc/edit', item.parentOrgId, item.parentOrgName, item.id]">
@@ -39,7 +41,7 @@
               </a>
               <a class="action-icon" (click)="openConfirmDialog(item.id, item.name)" title="Delete">
         
-                <i class="fa fa-trash"></i>
+                <i class="icon-trash"></i>
               </a>
             </td>
           </tr>
@@ -47,23 +49,25 @@
           <ng-container *ngFor="let subItem of item.node">
             <tr *ngIf="item.opened && subItem.entityType == 'Location'">
               <th scope="row" (click)="subItem.opened = !subItem.opened" [ngStyle]="{'padding-left.px': 15*(lvl+2)}">
-                <i class="fa fa-location-arrow"></i>
+                <i class="icon-location"></i>
                 <a style="color: #212529;" [routerLink]="['/loc/view',subItem.parentId, subItem.parentName, subItem.parentOrgId, subItem.parentOrgName,  subItem.id]">
                   {{subItem.name}}</a>&nbsp;<i *ngIf="subItem.node.length > 0 "
                   [ngClass]="{'fa': true, 'fa-caret-right': !subItem.opened, 'fa-caret-down': subItem.opened}"></i>
               </th>
               <td class="align-left">{{subItem.type}}</td>
               <td class="align-left">{{subItem.parentOrgName}}</td>
+              <td class="align-left">{{subItem.distributor}}</td>
+              <td class="align-left">{{subItem.cityState}}</td>
               <td class="align-center">
                 <a class="action-icon" title="Asset" [routerLink]="['/asset/home',subItem.parentOrgId, subItem.parentOrgName, subItem.id]">
-                  <i class="fa fa-industry"></i>
+                  <i class="icon-asset-robot"></i>
                 </a>
                 <a class="action-icon" title="Edit"
                   [routerLink]="['/loc/edit',subItem.parentId, subItem.parentName, subItem.parentOrgId, subItem.parentOrgName,  subItem.id]">
                   <i class="fa fa-edit"></i>
                 </a>
                 <a class="action-icon" (click)="openConfirmDialog(subItem.id, subItem.name)" title="Delete">
-                  <i class="fa fa-trash"></i>
+                  <i class="icon-trash"></i>
                 </a>
               </td>
             </tr>
@@ -84,6 +88,8 @@
             <th scope="col" class="align-left table-col-name">Name</th>
             <th scope="col" class="align-left">Type</th>
             <th scope="col" class="align-left">Organization</th>
+            <th scope="col" class="align-left">Primary Distributor</th>
+            <th scope="col" class="align-left">City & State</th>
             <th scope="col" class="align-center">Actions</th>
           </tr>
         </thead>

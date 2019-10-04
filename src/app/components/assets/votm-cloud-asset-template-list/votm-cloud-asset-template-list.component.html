@@ -24,7 +24,7 @@
     <tr *ngFor="let item of templateList">
       <th>
         <a style="color: #212529;" [routerLink]="['/template/view',item.templateId]">
-          <i class="fa fa-industry"></i>
+          <i class="icon-asset-robot"></i>
           {{item.templateName}}
         </a>
       </th>
@@ -44,7 +44,7 @@
           <i class="fa fa-edit"></i>
         </a>
         <a class="action-icon" (click)="openConfirmDialog(item)" title="Delete">
-          <i class="fa fa-trash"></i>
+          <i class="icon-trash"></i>
         </a>
       </td>
     </tr>

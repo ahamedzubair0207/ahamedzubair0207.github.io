@@ -24,7 +24,6 @@ export class AlertRuleUserGroup {
     alertRuleId?: string;
     userId?: string;
     userGroupId?: string;
-    userEmail?: string;
     alertUserGroupRoleId?: string; // GET: /v1/UserManagement/UserGroups 
     active?: boolean;
     createdBy?: string;
@@ -33,6 +32,7 @@ export class AlertRuleUserGroup {
     modifiedOn?: string;
 
     name?: string;
+    userEmail?: string;
 }
 
 export class AlertRuleConfigurationMapping {

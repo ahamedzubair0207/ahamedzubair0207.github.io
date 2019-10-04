@@ -119,6 +119,7 @@ export class BreadcrumbsComponent {
               } else {
                 // this.breadcrumbs.push({ name: this.orgName, nodes: response });
                 this.breadcrumbs.reverse();
+
                 // this.checkForVisibility();
                 if (this.pageType === 'Location' || this.pageType === 'Asset') {
                   this.locBreadcrumbs = [];
@@ -127,6 +128,10 @@ export class BreadcrumbsComponent {
                   }
                 } else {
                   this.checkForVisibility();
+                  if (this.finalBreadcrumbs && this.finalBreadcrumbs.length > 0) {
+                    // this.navigationService.lastOrganization = this.finalBreadcrumbs[this.finalBreadcrumbs.length - 1].name
+                    this.navigationService.lastOrganization.next(this.finalBreadcrumbs[this.finalBreadcrumbs.length - 1].name);
+                  }
                 }
               }
             }
@@ -190,11 +195,11 @@ export class BreadcrumbsComponent {
     this.isDotLoaded = false;
     this.minimizedBreadcrumbs = { name: '...', nodes: [] };
     let count = this.breadcrumbs.length;
-    if (count > 4) {
+    if (count > 3) {
       this.breadcrumbs.forEach((breadcrumb, index) => {
         if (index === 0) {
           breadcrumb.isVisible = true;
-        } else if (index >= count - 3) {
+        } else if (index >= count - 2) {
           breadcrumb.isVisible = true;
         } else {
           breadcrumb.isVisible = false;
@@ -208,6 +213,8 @@ export class BreadcrumbsComponent {
     }
     this.finalBreadcrumbs = [];
     this.finalBreadcrumbs = [...this.breadcrumbs];
+    console.log('BREADCRUMBS ', this.finalBreadcrumbs);
+   
   }
 
   checkDotLoaded() {

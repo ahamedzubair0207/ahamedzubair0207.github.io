@@ -1,15 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { DatePipe, Location as RouterLocation } from '@angular/common';
 import { Select2OptionData } from 'ng2-select2';
 import { Toaster } from '../../shared/votm-cloud-toaster/votm-cloud-toaster';
 import { ToastrService } from 'ngx-toastr';
 import { Alert, AlertRuleUserGroup } from 'src/app/models/alert.model';
+import { VotmCloudConfimDialogComponent } from '../../shared/votm-cloud-confim-dialog/votm-cloud-confim-dialog.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AlertsService } from 'src/app/services/alerts/alerts.service';
 import { UserService } from 'src/app/services/users/userService';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { UserGroup } from 'src/app/models/user-groups';
 import { UserRole } from 'src/app/models/user-role';
+import { config } from 'rxjs';
+import { NavigationService } from 'src/app/services/navigation/navigation.service';
 
 @Component({
   selector: 'app-votm-cloud-alerts-create',
@@ -38,6 +41,18 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
   notifyUsers: any[] = [];
   userGroupSubscribers: any[] = [];
 
+  //Ahamed Code
+  public message: string;
+  closeResult: string;
+  previousURLToNavigate: string;
+  previousUrl: any;
+  subscriptions: any;
+  toaster: Toaster = new Toaster(this.toastr);
+
+  @ViewChild('confirmBox', null) confirmBox: VotmCloudConfimDialogComponent;
+
+
+
   constructor(
     private activeroute: ActivatedRoute,
     private modalService: NgbModal,
@@ -45,7 +60,8 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
     private toastr: ToastrService,
     private route: Router,
     private alertsService: AlertsService,
-    private userService: UserService) {
+    private userService: UserService,
+    private navigationService: NavigationService) {
 
   }
 
@@ -56,6 +72,10 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
       this.curOrgName = params.get('curOrgName');
       this.orgId = params.get('orgId');
       this.alertId = params.get('alertId');
+      this.getAbsoluteThreshold();
+      this.navigationService.lastOrganization.subscribe(response => {
+        this.alert.organizationScopeId = response;
+      });
       if (this.alertId) {
         this.alertsService.getAlertByAlertId(this.alertId)
           .subscribe(response => {
@@ -63,20 +83,33 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
             this.alert = response;
             this.alert.alertRuleUserGroup[0].userId = 'ea8a69d9-50a1-4773-a7ef-324cd33b3296';
             this.userResponsibities = [];
-            this.alert.alertRuleUserGroup.forEach(alertRuleUserGroup => {
-              if (alertRuleUserGroup.userId) {
-                this.userResponsibities[alertRuleUserGroup.userId] = alertRuleUserGroup.alertUserGroupRoleId;
-              } else {
-                this.userResponsibities[alertRuleUserGroup.userGroupId] = alertRuleUserGroup.alertUserGroupRoleId;
-              }
-            });
+            this.alert.alertRuleTypeId = this.alert.alertRuleTypeId.toUpperCase();
+            if (this.alert.alertRuleUserGroup && this.alert.alertRuleUserGroup.length > 0) {
+              this.alert.alertRuleUserGroup.forEach(alertRuleUserGroup => {
+                if (alertRuleUserGroup.userId) {
+                  this.userResponsibities[alertRuleUserGroup.userId] = alertRuleUserGroup.alertUserGroupRoleId;
+                } else {
+                  this.userResponsibities[alertRuleUserGroup.userGroupId] = alertRuleUserGroup.alertUserGroupRoleId;
+                }
+              });
+            }
+
+            if (this.alert.alertRuleConfigurationMapping && this.alert.alertRuleConfigurationMapping.length) {
+              this.alert.alertRuleConfigurationMapping.forEach(configuration => {
+                this.absoluteThresholds.forEach(threshold => {
+                  if (threshold.alertConfigurationId.toLowerCase() === configuration.alertConfigurationId.toLowerCase()) {
+                    threshold.alertConfigurationValue = configuration.alertConfigurationValue;
+                    threshold.active = configuration.active;
+                  }
+                });
+              });
+            }
           });
         this.ALertRuleUserGroupSubscriber();
       } else {
         this.userGroupSubscribers = [];
       }
       // this.alertId ='';
-      this.getAbsoluteThreshold();
       this.getAlertRuleSignalAssociatedAssetByOrgId();
       this.getAccessScopeByOrgId();
     });
@@ -126,7 +159,7 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
     });
     if (!found) {
       this.userResponsibities[user.userId] = '';
-      this.alert.alertRuleUserGroup.push({ alertUserGroupRoleId: '', name: user.firstName + ' ' + user.lastName, userId: user.userId });
+      this.alert.alertRuleUserGroup.push({ alertUserGroupRoleId: '', name: user.firstName + ' ' + user.lastName, userId: user.userId, userEmail: user.emailId });
     }
     console.log(' this.alert.alertRuleUserGroup ', this.alert.alertRuleUserGroup);
   }
@@ -222,7 +255,6 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
   getAbsoluteThreshold() {
     this.absoluteThresholds = [
       {
-
         // For 3D97A28E-7D8E-4C7D-98CE-251909FED1A9    Absolute ---- Ahamed
         alertConfigurationId: '3A54142B-3453-4232-85C2-EEF4C62E4C77',
         alertConfigurationLabel: 'Low Critical',
@@ -260,35 +292,35 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
       },
       // For B45A2094-C4D6-4D36-B26C-3A9F195C6D6F    Relative --- Ahamed
       // {
-      //   alertConfigurationId: '3A54142B-3453-4232-85C2-EEF4C62E4C77',
+      //   alertConfigurationId: '364F5CB4-B725-4BD9-8DAA-B3B365123454',
       //   alertConfigurationLabel: 'Low Critical',
       //   alertConfigurationValue: '',
       //   class: 'alert-danger text-center',
       //   active: false
       // },
       // {
-      //   alertConfigurationId: 'C89DBBDF-E927-4044-9A76-F40EF1CE6611',
+      //   alertConfigurationId: 'A307C43E-6C4B-47B1-8427-E13788CF4257',
       //   alertConfigurationLabel: 'Low Warning',
       //   alertConfigurationValue: '',
       //   class: 'alert-warning text-center',
       //   active: false
       // },
       // {
-      //   alertConfigurationId: '277B236A-C642-461A-A615-175EA69F2FAD',
+      //   alertConfigurationId: 'F4410D8E-3BA9-40C1-9D23-9414BCA3DABD',
       //   alertConfigurationLabel: 'Baseline',
       //   alertConfigurationValue: '',
       //   class: 'alert-success text-center',
       //   active: false
       // },
       // {
-      //   alertConfigurationId: '4FA3DDCA-56FA-47FA-9251-5D1D7C04C322',
+      //   alertConfigurationId: '6531DB3F-39CC-4459-8680-AAB303A5B188',
       //   alertConfigurationLabel: 'High Warning',
       //   alertConfigurationValue: '',
       //   class: 'alert-warning text-center',
       //   active: false
       // },
       // {
-      //   alertConfigurationId: '4E045A60-4BEE-44B4-9AF9-151725534706',
+      //   alertConfigurationId: '8BC2D6B5-1747-4F6B-B957-ECFE151D7857',
       //   alertConfigurationLabel: 'High Critical',
       //   alertConfigurationValue: '',
       //   class: 'alert-danger text-center',
@@ -452,7 +484,11 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
     });
     this.alertsService.createAlertRule(this.alert)
       .subscribe(response => {
+        this.toaster.onSuccess('Successfully saved', 'Saved');
         console.log('response ', response);
+        this.routerLocation.back();
+      }, error => {
+        this.toaster.onFailure('Something went wrong. Please fill the form correctly', 'Fail');
       });
 
     console.log('onResponsibityChange ', this.alert);
@@ -496,4 +532,21 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
       this.route.navigate([`preferences/view`]);
     }
   }
+
+
+  // Ahamed Code
+  deleteAlertById(event) {
+    if (event) {
+      this.alertsService.deleteAlert(this.alert.alertRuleId)
+        .subscribe(response => {
+          this.toaster.onSuccess(`You have deleted ${this.alert.alertRuleName} successfully.`, 'Delete Success!');
+          // this.route.navigate([`loc/home/${this.parentLocId}/${this.parentLocName}`])
+          this.routerLocation.back();
+        }, error => {
+          this.toaster.onFailure('Something went wrong on server. Please try after sometiime.', 'Delete Fail!');
+        });
+    }
+  }
+
+
 }
