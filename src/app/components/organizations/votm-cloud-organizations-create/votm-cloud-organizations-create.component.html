@@ -32,8 +32,8 @@
 
     <li class="nav-item">
       <div class="add-dashboard-btn-wrapper">
-        <button class="btn btn-info btn-group-right create-event-btn" (click)="openAddDashboardModal('addDashboard')"
-          id="createDashboardButton" type="button"><i class="fa fa-plus" title="Add New Dashboard"></i></button>
+        <a class="nav-link tab-icon create-event-btn" (click)="openAddDashboardModal('addDashboard')"
+          id="createDashboardButton" ><i class="fa fa-plus" title="Add New Dashboard"></i></a>
       </div>
     </li>
   </ul>
@@ -645,8 +645,8 @@
               </div>
 
 
-              <div class="row mb-2 mt-2">
-                <div class="col">
+              <div class="mb-2 mt-2">
+                <div class="text-right">
                   <button id="loc-org-create" *ngIf="organization.organizationId" (click)="createNestedLocation($event)"
                     type="button" class="btn btn-sm btn-outline-info"><i class="icon-location"></i> Add
                     Location</button>
@@ -656,14 +656,14 @@
                     Suborganization</button>
 
                   <button id="org-cancel" type="button" (click)="onCancelClick($event)"
-                    class="btn btn-secondary btn-sm button-mod"><i class="pr-2 fa fa-window-close-o"></i>
+                    class="btn btn-secondary btn-sm mr-2"><i class="pr-2 fa fa-window-close-o"></i>
                     Cancel</button>
                   <button id="org-delete" *ngIf="organization.organizationId && pageType !=='View'" type="button"
-                    class="btn btn-secondary btn-sm button-mod" (click)="openConfirmDialog()"><i
+                    class="btn btn-secondary btn-sm mr-2" (click)="openConfirmDialog()"><i
                       class="pr-2 fa fa-trash"></i>
                     Delete</button>
                   <button id="org-save" type="submit" *ngIf="pageType !=='View'"
-                    class="btn btn-sm btn-info button-mod"><i class="pr-2 fa fa-building"></i> Save
+                    class="btn btn-sm btn-info"><i class="pr-2 fa fa-building"></i> Save
                     Organization<i class="fa fa-spinner fa-spin fa-fw" *ngIf="isAddOrganizationAPILoading"></i>
 </button>
                 </div>
@@ -918,10 +918,16 @@
           <div class="form-group row">
             <label for="" class="col-md-3 col-form-label">Template Name</label>
             <div class="col-sm-7">
-              <select class="form-control" id="dashboard-template-name" name="dashboardTemplate"
-                [(ngModel)]="dashboardDataById.dashboardTemplate">
+              <!-- <select class="form-control" id="dashboard-template-name" name="dashboardTemplate"
+                [(ngModel)]="dashboardDataById.dashboardTemplate" [disabled]="dashboardDataById.act==='edit'">
                 <option *ngFor="let dashboardTemplate of dashboardTemplates" [value]="dashboardTemplate.id">
                   {{dashboardTemplate.templateName}}</option>
+              </select> -->
+              <!-- Belwo select box is Only for demo -->
+              <select class="form-control" id="dashboard-template-name" name="dashboardTemplate" [disabled]="dashboardDataById.act==='edit'">
+                  <option> Standard Organization Dashboard</option>
+                  <option> Standard Location Dashboard</option>
+                  <option> Standard Asset Dashboard</option>
               </select>
             </div>
           </div>
