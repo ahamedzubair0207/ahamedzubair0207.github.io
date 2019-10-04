@@ -645,8 +645,8 @@
               </div>
 
 
-              <div class="row mb-2 mt-2">
-                <div class="col">
+              <div class="mb-2 mt-2">
+                <div class="text-right">
                   <button id="loc-org-create" *ngIf="organization.organizationId" (click)="createNestedLocation($event)"
                     type="button" class="btn btn-sm btn-outline-info"><i class="fa fa-location-arrow"></i> Add
                     Location</button>
@@ -656,14 +656,14 @@
                     Suborganization</button>
 
                   <button id="org-cancel" type="button" (click)="onCancelClick($event)"
-                    class="btn btn-secondary btn-sm button-mod"><i class="pr-2 fa fa-window-close-o"></i>
+                    class="btn btn-secondary btn-sm mr-2"><i class="pr-2 fa fa-window-close-o"></i>
                     Cancel</button>
                   <button id="org-delete" *ngIf="organization.organizationId && pageType !=='View'" type="button"
-                    class="btn btn-secondary btn-sm button-mod" (click)="openConfirmDialog()"><i
+                    class="btn btn-secondary btn-sm mr-2" (click)="openConfirmDialog()"><i
                       class="pr-2 fa fa-trash"></i>
                     Delete</button>
                   <button id="org-save" type="submit" *ngIf="pageType !=='View'"
-                    class="btn btn-sm btn-info button-mod"><i class="pr-2 fa fa-building"></i> Save
+                    class="btn btn-sm btn-info"><i class="pr-2 fa fa-building"></i> Save
                     Organization<i class="fa fa-spinner fa-spin fa-fw" *ngIf="isAddOrganizationAPILoading"></i>
 </button>
                 </div>
