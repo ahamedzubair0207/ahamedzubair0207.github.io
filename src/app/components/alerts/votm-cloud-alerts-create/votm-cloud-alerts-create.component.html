@@ -338,7 +338,7 @@
                                 <tr *ngFor="let userGroupSubscriber of alert.alertRuleUserGroup">
                                     <td><i class="fa fa-user mr-2"></i>{{userGroupSubscriber.name}}
                                     </td>
-                                    <td>{{userGroupSubscriber.userEmail? userGroupSubscriber.userEmail: '-'}}<i class="fa fa-info-circle ml-2"></i>
+                                    <td>{{userGroupSubscriber.userEmail? userGroupSubscriber.userEmail: '-'}}<i class="icon-info ml-2" ngbPopover="This is not used for Alert Subscription!" triggers="mouseenter:mouseleave" popoverTitle="Information Only!"></i>
                                     </td> 
                                     <!-- Ahamed Code -->
                                     <td>
@@ -371,7 +371,7 @@
                                             </option>
                                         </select>
                                     </td> -->
-                                    <td class="text-center"><a href=""><i class="fa fa-trash-o"></i></a></td>
+                                    <td class="text-center"><a href=""><i class="icon-trash"></i></a></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -431,7 +431,7 @@
                 </table>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-info" id="userModalSave">Save changes</button>
+                <!-- <button type="button" class="btn btn-info" id="userModalSave">Save changes</button> -->
                 <button type="button" class="btn btn-secondary" data-dismiss="modal" id="userModalClose">Close</button>
             </div>
         </div>
@@ -476,7 +476,7 @@
                 </table>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-info" id="userGroupModalSave">Save changes</button>
+                <!-- <button type="button" class="btn btn-info" id="userGroupModalSave">Save changes</button> -->
                 <button type="button" class="btn btn-secondary" data-dismiss="modal"
                     id="userGroupModalClose">Close</button>
             </div>

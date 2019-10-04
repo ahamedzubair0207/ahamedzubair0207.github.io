@@ -3,10 +3,10 @@
   <div class="btn-group-right org-home-font">
     <button id="org-create" [routerLink]="['/org/create', curOrgId, curOrgName]" type="button"
       class="btn btn-sm btn-info">
-      <i class="pr-2 fa fa-building"></i>Create Organization</button>
+      <i class="pr-2 icon-organization-add"></i>Create Organization</button>
     <button id="org-create-loc" [routerLink]="['/loc/create', curOrgId, curOrgName]" type="button"
       class="btn btn-sm btn-info loc-table-fonts ml-2">
-      <i class="pr-2 icon-location"></i>Create Location</button>
+      <i class="pr-2 icon-location-add"></i>Create Location</button>
   </div>
 
   <form class="form-inline">
@@ -50,7 +50,7 @@
                 <i class="fa fa-edit"></i>
               </a>
               <a class="action-icon" *ngIf="item.id.toUpperCase() !== curOrgId.toUpperCase()" (click)="openConfirmDialog(item.id, item.name)" title="Delete">
-                <i class="fa fa-trash"></i>
+                <i class="icon-trash"></i>
               </a>
             </td>
           </tr>
@@ -81,7 +81,7 @@
                   <i class="fa fa-edit"></i>
                 </a>
                 <a class="action-icon" (click)="openConfirmDialog(subItem.id, subItem.name)" title="Delete">
-                  <i class="fa fa-trash"></i>
+                  <i class="icon-trash"></i>
                 </a>
               </td>
             </tr>

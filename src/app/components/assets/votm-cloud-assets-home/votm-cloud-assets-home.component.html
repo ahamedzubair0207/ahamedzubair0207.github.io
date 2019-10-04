@@ -1,5 +1,5 @@
 <button class="btn btn-info btn-group-right btn-sm asset-table-header" (click)="onCreateAsset()" id="createAssetButton"
-  type="button"><i class="icon-asset-robot mr-2"></i>Create Asset</button>
+  type="button"><i class="icon-asset-add mr-2"></i>Create Asset</button>
 
 <form class="form-inline">
   <label for="typeahead-config">Type to filter events:</label>
@@ -31,7 +31,7 @@
           <i class="fa fa-edit"></i>
         </a>
         <a class="action-icon" (click)="openConfirmDialog(item.id, item.name)" title="Delete">
-          <i class="fa fa-trash"></i>
+          <i class="icon-trash"></i>
         </a>
       </td>
     </tr>
@@ -76,7 +76,7 @@
             <i class="fa fa-edit"></i>
           </a>
           <a class="action-icon" (click)="openConfirmDialog(subItem.id)" title="Delete">
-            <i class="fa fa-trash"></i>
+            <i class="icon-trash"></i>
           </a>
         </td>
       </tr>

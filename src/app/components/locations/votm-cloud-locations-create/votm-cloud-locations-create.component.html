@@ -2,7 +2,7 @@
 
 
 <div class="pt-2 pb-2 mb-3">
-  <ul class="nav nav-tabs pl-3" role="tablist">
+  <ul class="nav nav-tabs pl-3 pr-5" id="main-tabs" role="tablist">
     <li class="nav-item">
       <a class="nav-link active tab-icon" id="loc-tab" href="#loc-details-tab" data-toggle="tab" role="tab"
         aria-controls="loc-info" aria-selected="true"><i class="icon-loc-pin-map mr-1"></i>Location</a>
@@ -22,7 +22,7 @@
         <i class="fa fa-pencil ml-2"
           (click)="openAddDashboardModal('editDashboard', dashboardDataUser.id, dashboardDataUser.dashboardName); stopPropagation();"
           title="Configure Dashboard"></i>&nbsp;
-        <i class="fa fa-trash"
+        <i class="icon-trash"
           (click)="openDashboardConfirmDialog(dashboardDataUser.id, dashboardDataUser.dashboardName)"
           title="Delete Dashboard"></i>
       </a>
@@ -47,17 +47,17 @@
   <div class="tab-content w-100">
 
     <!-- Location Details Tab  -->
-    <div class="tab-pane fade show active border border-top-0 p-3 mb-3 flex-grow-1 shadow" id="loc-details-tab"
+    <div class="tab-pane fade border border-top-0 p-3 mb-3 shadow show active" id="loc-details-tab"
       *ngIf="(!locId && pageLabels) || (locId && pageLabels && location)" role="tabpanle"
       area-labelledby="loc-info-tab">
       <div class="d-flex flex-row">
         <ul class="nav nav-tabs nav-tabs-vertical nav-tabs-left pt-3" aria-orientation="vertical">
-          <li class="nav-item">
+          <li class="nav-item" placement="top" ngbTooltip="Deatils of Location">
             <a class="nav-link active tab-icon" id="loc-details-tab" (click)="onClickOfNavTab('location_details')"
               name="loc-view-edit" href="#loc-details" data-toggle="tab" role="tab" aria-controls="loc-details"
-              aria-selected="true"><i class="icon-location"></i></a>
+              aria-selected="true"><i class="icon-details"></i></a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item" placement="top" ngbTooltip="Associate Signals & Gateways">
             <a class="nav-link tab-icon" id="loc-signal-tab" (click)="onClickOfNavTab('signal_association')"
               name="signal-association-edit" href="#loc-signal" data-toggle="tab" role="tab" aria-controls="loc-signal"
               aria-selected="false"><i class="icon-cell-tower"></i></a>
@@ -133,8 +133,17 @@
                     <label class="" for="parentLoc">{{pageLabels.ParentLocation.labelName}}
                       :</label>
                     <div class="">
+                      
                       <input for="parentLocname" class="form-control form-control-sm" type="text"
                         placeholder="{{parentLocName}}" id="locDtlParentLoc" readonly disabled>
+
+                        <!-- <select [disabled]="pageType==='View'" [(ngModel)]="location.locationId" id="parentLocation"
+                      name="installedLocation" class=" col-sm-7 drop-down form-control form-control-sm"
+                      #parentLocation="ngModel" required>
+                      <option *ngFor="let loc of locationListForDropDown" [value]="loc.locationId">
+                        {{loc.locationName}}
+                      </option>
+                    </select> -->
                       <!-- <label for="parentLocname">{{parentLocName}}</label> -->
                     </div>
                   </div>
@@ -146,9 +155,10 @@
                       {{pageLabels.PrimaryContact.labelName}}
                       :</label>
                     <div class="">
+                      <!-- No Validation Needed  -->
                       <input type="email" [disabled]="pageType==='View'" [(ngModel)]="location.primaryContact"
                         class="form-control form-control-sm" #primaryContact="ngModel" maxlength="100"
-                        placeholder="Email Address" name="primaryContact" id="locDtlPrmyCotact" required>
+                        placeholder="Enter Primary Contact" name="primaryContact" id="locDtlPrmyCotact" required>
                       <div *ngIf="primaryContact.dirty && primaryContact.invalid">
                         <app-votm-cloud-validator *ngIf="primaryContact.errors && primaryContact.errors.required"
                           message="Primary Contact is required"></app-votm-cloud-validator>
@@ -167,6 +177,7 @@
                     <label class="" votmrequired for="primarydistribute">
                       Primary Distributor:</label>
                     <div class="">
+                      <!-- No Validation Needed  -->
                       <input type="text" [(ngModel)]="location.primaryDistributor" class="form-control form-control-sm"
                         placeholder="Enter Primary Distributor" [disabled]="pageType==='View'"
                         #primarydistribute="ngModel" name="primarydistribute" id="locDtlPrmyDistrbstrName" required>
@@ -436,18 +447,18 @@
                   <!-- Claimed Gateway -->
                   <div class="form-group">
                     <label class="" id="gateway">Claimed Gateway: </label>
-                    <div class="">
+                    <!-- <div class=""> -->
                       <!-- <ng-multiselect-dropdown [disabled]="pageType==='View'" class="gateway-dropdown" [placeholder]="'Gateway List'"
                                                                           [data]="gatewayList" name="claimedGateway" [(ngModel)]="selectedItems" [settings]="dropdownSettings"
                                                                           (onSelect)="onItemSelect($event)" (onSelectAll)="onSelectAll($event)">
                                                                         </ng-multiselect-dropdown> -->
                       <!-- <select2 [data]="gatewayList" width="260px" multiple="true"></select2> -->
-                      <select2 [disabled]="pageType === 'View'" [data]="gatewayList" [options]="options" [width]="100"
-                        class="form-control form-control-sm" [value]="selectedGateways" (valueChanged)="onItemSelect($event)"
+                      <select2 [disabled]="pageType === 'View'" [data]="gatewayList" [options]="options" width="100%"
+                        class="" [value]="selectedGateways" (valueChanged)="onItemSelect($event)"
                         id="locDtlGeoClaimedGateway">
                       </select2>
                       <!-- <button class="btn-save btn btn-primary btn-sm">Save</button> -->
-                    </div>
+                    <!-- </div> -->
                   </div>
                 </div>
               </div>
@@ -469,15 +480,15 @@
               <div class="row">
                 <button id="nest-asset-create" type="button" *ngIf="location.locationId"
                   class="btn btn-sm btn-outline-info mr-2 ml-2" (click)="creteAsset($event)"><i
-                    class="pr-2 icon-asset-robot"></i>Add Asset</button>
+                    class="pr-2 icon-asset-add"></i>Add Asset</button>
                 <button id="nest-loc-create" *ngIf="location.locationId" (click)="createNestedLocation($event)"
-                  type="button" class="btn btn-sm btn-outline-info"><i class="pr-2 icon-location"></i>Add
+                  type="button" class="btn btn-sm btn-outline-info"><i class="pr-2 icon-location-add"></i>Add
                   Sub-Location</button>
                 <button id="loc-cancel" for="form-cancel" type="button" (click)="onCancelClick($event)"
                   class="btn btn-secondary btn-sm button-mod"><i class="pr-2 fa fa-window-close-o"></i>Cancel</button>
                 <button id="loc-delete" type="button" *ngIf="location.locationId && pageType !=='View'"
                   (click)="openConfirmDialog()" class="btn btn-secondary btn-sm ml-2"><i
-                    class="pr-2 fa fa-trash"></i>Delete</button>
+                    class="pr-2 icon-trash"></i>Delete</button>
                 <button id="loc-save" type="submit" *ngIf="pageType !=='View'" class="btn btn-sm btn-info ml-2"><i
                     class="pr-2 icon-location"></i>Save
                   Location</button>

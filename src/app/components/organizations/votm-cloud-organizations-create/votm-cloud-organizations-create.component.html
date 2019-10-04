@@ -24,7 +24,7 @@
         <i class="fa fa-pencil ml-2"
           (click)="openAddDashboardModal('editDashboard', dashboardDataUser.id, dashboardDataUser.dashboardName); stopPropagation();"
           title="Configure Dashboard"></i>&nbsp;
-        <i class="fa fa-trash"
+        <i class="icon-trash"
           (click)="openDashboardConfirmDialog(dashboardDataUser.id, dashboardDataUser.dashboardName)"
           title="Delete Dashboard"></i>
       </a>
@@ -58,27 +58,27 @@
         <ul class="nav nav-tabs nav-tabs-vertical nav-tabs-left pt-3" aria-orientation="vertical">
 
           <!-- details view/edit  -->
-          <li class="nav-item" title="Organization Details" data-placement="top" data-toggle="tooltip">
+          <li class="nav-item" placement="top" ngbTooltip="Deatils of Organization">
             <a class="nav-link active tab-icon" id="org-details-tab" name="org-view-edit" href="#org-details"
               data-toggle="tab" role="tab" aria-controls="org-details" aria-selected="true"><i
                 class="icon-entity-list"></i></a>
           </li>
           <!-- Alerts Tab  -->
-          <li class="nav-item"  title="Alert Rule List" data-placement="top" data-toggle="tooltip">
+          <li class="nav-item"  placement="top" ngbTooltip="List of Subscribed Alerts">
             <a class="nav-link tab-icon" id="org-alert-tab" name="alert-view-edit" href="#org-alert"
               (click)="onAlertRuleTabClick()" data-toggle="tab" role="tab" aria-controls="org-alert"
               aria-selected="false"><i class="icon-warn"></i></a>
           </li>
 
           <!-- Asset Template Tab  -->
-          <li class="nav-item" title="Asset Template List" data-placement="top" data-toggle="tooltip">
+          <li class="nav-item" placement="top" ngbTooltip="List of Templates">
             <a class="nav-link tab-icon" id="asset-template-tab" name="asset-template-list" href="#asset-template"
               (click)="onTemplateTabClick()" data-toggle="tab" role="tab" aria-controls="asset-template"
-              aria-selected="false" ><i class="icon-asset-robot template"></i></a>
+              aria-selected="false" ><i class="icon-asset-robot-tmpl"></i></a>
           </li>
 
           <!-- Sensor Tab  -->
-          <li class="nav-item" title="Sensor List" data-placement="top" data-toggle="tooltip">
+          <li class="nav-item" placement="top" ngbTooltip="List of Sensors">
             <a class="nav-link tab-icon" id="org-sensor-tab" name="org-sensor-list" href="#org-sensor" data-toggle="tab"
               role="tab" aria-controls="org-sensor" aria-selected="false">
               <i class="icon-sensonode"></i></a>
@@ -86,7 +86,7 @@
 
           <!-- Gateways Tab  -->
 
-          <li class="nav-item" title="Gateway List" data-placement="top" data-toggle="tooltip">
+          <li class="nav-item" placement="top" ngbTooltip="List of Gateways">
             <a class="nav-link tab-icon" id="org-gateways-tab" name="org-gateways-list" href="#org-gateways"
               data-toggle="tab" role="tab" aria-controls="org-gateways" aria-selected="false"><i
                 class="icon-gateway"></i></a>
@@ -199,7 +199,7 @@
                 <div class="col-lg-4 col-xl-2">
                   <div class="form-group">
                     <label class="" id="icon" for="organizationType">Icon</label>
-                    <div class="selectpicker form-control-sm drop-down form-control">
+                    <div class="selectpicker drop-down">
                       <select class="selectpicker form-control-sm form-control" data-style-base="form-control">
                         <option data-icon="icon-org-company"></option>
                         <option data-icon="icon-loc-office"></option>
@@ -365,7 +365,7 @@
                     <select [disabled]="pageType==='View'" id="service" [(ngModel)]="organization.svclevels"
                       name="svcLevel" #svcLevel="ngModel" class="drop-down form-control form-control-sm" required>
                       <option value="null" disabled selected>Select Level</option>
-                      <option *ngFor="let svcLevel of svcLevels" [value]="svcLevel.optionId">
+                      <option *ngFor="let svcLevel of svcLevels" [value]="svcLevel.optionValue">
                         {{svcLevel.optionValue}}
                       </option>
                     </select>
@@ -646,29 +646,29 @@
 
 
               <div class="mb-2 mt-2">
-                <div class="text-right">
-                  <button id="loc-org-create" *ngIf="organization.organizationId" (click)="createNestedLocation($event)"
-                    type="button" class="btn btn-sm btn-outline-info"><i class="icon-location"></i> Add
+              
+              <!-- This button should be on left   -->
+                  <button id="loc-org-create" *ngIf="organization.organizationId" (click)="createNestedLocation($event)" type="button"
+                    class="btn btn-sm btn-outline-info add-loc-btn"><i class="icon-location-add"></i> Add
                     Location</button>
-                  <button id="suborg-create" *ngIf="organization.organizationId"
-                    (click)="createNestedOrganization($event)" type="button" class="btn btn-sm btn-outline-info ml-1"><i
-                      class="fa fa-building"></i> Add
+                  <button id="suborg-create" *ngIf="organization.organizationId" (click)="createNestedOrganization($event)"
+                    type="button" class="btn btn-sm btn-outline-info ml-1 add-sub-org-btn"><i class="icon-organization-add"></i> Add
                     Suborganization</button>
+             
 
-                  <button id="org-cancel" type="button" (click)="onCancelClick($event)"
-                    class="btn btn-secondary btn-sm mr-2"><i class="pr-2 fa fa-window-close-o"></i>
+                    <!-- This Button should be on Right  -->
+                <!-- <div class="text-right"> -->
+                  <button id="org-cancel" type="button" (click)="onCancelClick($event)" class="btn btn-secondary btn-sm button-right mr-2"><i
+                      class="pr-2 fa fa-window-close-o"></i>
                     Cancel</button>
                   <button id="org-delete" *ngIf="organization.organizationId && pageType !=='View'" type="button"
-                    class="btn btn-secondary btn-sm mr-2" (click)="openConfirmDialog()"><i
-                      class="pr-2 fa fa-trash"></i>
+                    class="btn btn-secondary btn-sm button-right mr-2" (click)="openConfirmDialog()"><i class="pr-2 icon-trash"></i>
                     Delete</button>
-                  <button id="org-save" type="submit" *ngIf="pageType !=='View'"
-                    class="btn btn-sm btn-info"><i class="pr-2 fa fa-building"></i> Save
+                  <button id="org-save" type="submit" *ngIf="pageType !=='View'" class="btn btn-sm button-right btn-info"><i
+                      class="pr-2 fa fa-building"></i> Save
                     Organization<i class="fa fa-spinner fa-spin fa-fw" *ngIf="isAddOrganizationAPILoading"></i>
-</button>
-                </div>
-
-
+                  </button>
+                <!-- </div> -->
               </div>
 
 
@@ -682,7 +682,7 @@
                     class="btn btn-secondary btn-sm button-mod"><i class="pr-2 fa fa-window-close-o"></i> Cancel</button>
                   <button id="org-delete" *ngIf="organization.organizationId && pageType !=='View'" type="button"
                     class="btn btn-secondary btn-sm button-mod" (click)="openConfirmDialog()"><i
-                      class="pr-2 fa fa-trash"></i>
+                      class="pr-2 icon-trash"></i>
                     Delete</button>
                   <button id="org-save" type="submit" *ngIf="pageType !=='View'" class="btn btn-sm btn-info button-mod"><i
                       class="pr-2 fa fa-building"></i> Save Organization</button>
