@@ -24,6 +24,7 @@ export class AlertRuleUserGroup {
     alertRuleId?: string;
     userId?: string;
     userGroupId?: string;
+    userEmail?: string;
     alertUserGroupRoleId?: string; // GET: /v1/UserManagement/UserGroups 
     active?: boolean;
     createdBy?: string;

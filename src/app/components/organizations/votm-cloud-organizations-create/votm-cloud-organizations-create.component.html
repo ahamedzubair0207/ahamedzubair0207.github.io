@@ -58,27 +58,27 @@
         <ul class="nav nav-tabs nav-tabs-vertical nav-tabs-left pt-3" aria-orientation="vertical">
 
           <!-- details view/edit  -->
-          <li class="nav-item">
+          <li class="nav-item" title="Organization Details" data-placement="top" data-toggle="tooltip">
             <a class="nav-link active tab-icon" id="org-details-tab" name="org-view-edit" href="#org-details"
               data-toggle="tab" role="tab" aria-controls="org-details" aria-selected="true"><i
                 class="icon-entity-list"></i></a>
           </li>
           <!-- Alerts Tab  -->
-          <li class="nav-item">
+          <li class="nav-item"  title="Alert Rule List" data-placement="top" data-toggle="tooltip">
             <a class="nav-link tab-icon" id="org-alert-tab" name="alert-view-edit" href="#org-alert"
               (click)="onAlertRuleTabClick()" data-toggle="tab" role="tab" aria-controls="org-alert"
               aria-selected="false"><i class="icon-warn"></i></a>
           </li>
 
           <!-- Asset Template Tab  -->
-          <li class="nav-item">
+          <li class="nav-item" title="Asset Template List" data-placement="top" data-toggle="tooltip">
             <a class="nav-link tab-icon" id="asset-template-tab" name="asset-template-list" href="#asset-template"
               (click)="onTemplateTabClick()" data-toggle="tab" role="tab" aria-controls="asset-template"
-              aria-selected="false"><i class="icon-asset-robot template"></i></a>
+              aria-selected="false" ><i class="icon-asset-robot template"></i></a>
           </li>
 
           <!-- Sensor Tab  -->
-          <li class="nav-item">
+          <li class="nav-item" title="Sensor List" data-placement="top" data-toggle="tooltip">
             <a class="nav-link tab-icon" id="org-sensor-tab" name="org-sensor-list" href="#org-sensor" data-toggle="tab"
               role="tab" aria-controls="org-sensor" aria-selected="false">
               <i class="icon-sensonode"></i></a>
@@ -86,7 +86,7 @@
 
           <!-- Gateways Tab  -->
 
-          <li class="nav-item">
+          <li class="nav-item" title="Gateway List" data-placement="top" data-toggle="tooltip">
             <a class="nav-link tab-icon" id="org-gateways-tab" name="org-gateways-list" href="#org-gateways"
               data-toggle="tab" role="tab" aria-controls="org-gateways" aria-selected="false"><i
                 class="icon-gateway"></i></a>
@@ -199,7 +199,7 @@
                 <div class="col-lg-4 col-xl-2">
                   <div class="form-group">
                     <label class="" id="icon" for="organizationType">Icon</label>
-                    <div class="selectpicker drop-down form-control">
+                    <div class="selectpicker form-control-sm drop-down form-control">
                       <select class="selectpicker form-control-sm form-control" data-style-base="form-control">
                         <option data-icon="icon-org-company"></option>
                         <option data-icon="icon-loc-office"></option>
@@ -401,7 +401,7 @@
               <div *ngIf="organization.address" class="row">
 
                 <div class="col-6">
-                  <fieldset class="mb-2">
+                  <fieldset class="mb-2" [disabled]="pageType==='View'">
                     <legend id="billingaddress" votmrequired>{{pageLabels.BillingAddress.labelName}} :</legend>
                     <div class="form-row">
 
@@ -409,7 +409,7 @@
                         <div class="form-group">
                           <!-- <label for="address2">* {{pageLabels.Address1.labelName}} :</label> -->
                           <div class="input-group">
-                            <input type="text" id="address1" [disabled]="pageType==='View'"
+                            <input type="text" id="address1"
                               [(ngModel)]="organization.address[0].address1" class="form-control form-control-sm"
                               #address1="ngModel" placeholder="Street Name" name="address1" required>
                             <div class="input-group-append">
@@ -426,7 +426,7 @@
                         <div class="form-group">
                           <!-- <label for="address1">* {{pageLabels.Address2.labelName}} :</label> -->
                           <div class="input-group">
-                            <input type="text" id="address2" [disabled]="pageType==='View'"
+                            <input type="text" id="address2"
                               [(ngModel)]="organization.address[0].address2" class="form-control form-control-sm"
                               placeholder="Apt/Suite Number" #address2="ngModel" name="address2">
                             <div class="input-group-append">
@@ -442,7 +442,7 @@
 
                       <div class="col-8 form-group">
                         <!-- <label for="city">* {{pageLabels.City.labelName}} :</label> -->
-                        <input type="text" id="city" [disabled]="pageType==='View'"
+                        <input type="text" id="city"
                           [(ngModel)]="organization.address[0].city" class="form-control form-control-sm"
                           #city="ngModel" placeholder="City" name="city" required>
                         <div *ngIf="city.dirty && city.invalid">
@@ -451,7 +451,7 @@
                       </div>
 
                       <div class="col-4">
-                        <select #state="ngModel" id="state" [disabled]="pageType==='View'"
+                        <select #state="ngModel" id="state"
                           [(ngModel)]="organization.address[0].state" name="state"
                           class="drop-down form-control form-control-sm" required>
                           <option value="null" disabled selected>State</option>

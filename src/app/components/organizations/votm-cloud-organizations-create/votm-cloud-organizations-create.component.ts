@@ -201,6 +201,8 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
     ];
       console.log(this.dashboardTemplates);
       console.log(this.dashboardData);
+
+      jQuery('.nav-item').tooltip();
   }
 
   ngAfterViewInit(): void {

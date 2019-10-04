@@ -190,11 +190,11 @@ export class BreadcrumbsComponent {
     this.isDotLoaded = false;
     this.minimizedBreadcrumbs = { name: '...', nodes: [] };
     let count = this.breadcrumbs.length;
-    if (count > 3) {
+    if (count > 4) {
       this.breadcrumbs.forEach((breadcrumb, index) => {
         if (index === 0) {
           breadcrumb.isVisible = true;
-        } else if (index >= count - 2) {
+        } else if (index >= count - 3) {
           breadcrumb.isVisible = true;
         } else {
           breadcrumb.isVisible = false;
