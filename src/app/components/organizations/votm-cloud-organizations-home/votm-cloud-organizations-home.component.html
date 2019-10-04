@@ -6,7 +6,7 @@
       <i class="pr-2 fa fa-building"></i>Create Organization</button>
     <button id="org-create-loc" [routerLink]="['/loc/create', curOrgId, curOrgName]" type="button"
       class="btn btn-sm btn-info loc-table-fonts ml-2">
-      <i class="pr-2 fa fa-location-arrow"></i>Create Location</button>
+      <i class="pr-2 icon-location"></i>Create Location</button>
   </div>
 
   <form class="form-inline">
@@ -44,7 +44,7 @@
             <td class="align-left">{{item.state}}</td>
             <td class="align-center">
               <a class="action-icon" title="List" [routerLink]="['/loc/home', item.id, item.name]">
-                <i class="fa fa-location-arrow"></i>
+                <i class="icon-location"></i>
               </a>
               <a class="action-icon" title="Edit" [routerLink]="['/org/edit',curOrgId, curOrgName, item.id]">
                 <i class="fa fa-edit"></i>
@@ -72,7 +72,7 @@
               <td class="align-left">{{item.state}}</td>
               <td class="align-center">
                 <a class="action-icon" title="Location"  [routerLink]="['/loc/home', subItem.id, subItem.name]">
-                  <i class="fa fa-location-arrow"></i>
+                  <i class="icon-location"></i>
                 </a>
                 <!-- <a class="action-icon" title="View" [routerLink]="['/org/view',curOrgId, curOrgName, subItem.id]">
                   <i class="fa fa-eye"></i>

@@ -39,12 +39,12 @@
           <li class="nav-item">
             <a class="nav-link active tab-icon" id="loc-details-tab" (click)="onClickOfNavTab('location_details')"
               name="loc-view-edit" href="#loc-details" data-toggle="tab" role="tab" aria-controls="loc-details"
-              aria-selected="true"><i class="fa fa-location-arrow"></i></a>
+              aria-selected="true"><i class="icon-location"></i></a>
           </li>
           <li class="nav-item">
             <a class="nav-link tab-icon" id="loc-signal-tab" (click)="onClickOfNavTab('signal_association')"
               name="signal-association-edit" href="#loc-signal" data-toggle="tab" role="tab" aria-controls="loc-signal"
-              aria-selected="false"><i class="fa fa-podcast"></i></a>
+              aria-selected="false"><i class="icon-cell-tower"></i></a>
           </li>
 
         </ul>
@@ -453,9 +453,9 @@
               <div class="row">
                 <button id="nest-asset-create" type="button" *ngIf="location.locationId"
                   class="btn btn-sm btn-outline-info mr-2 ml-2" (click)="creteAsset($event)"><i
-                    class="pr-2 fa fa-industry"></i>Add Asset</button>
+                    class="pr-2 icon-asset-robot"></i>Add Asset</button>
                 <button id="nest-loc-create" *ngIf="location.locationId" (click)="createNestedLocation($event)"
-                  type="button" class="btn btn-sm btn-outline-info"><i class="pr-2 fa fa-location-arrow"></i>Add
+                  type="button" class="btn btn-sm btn-outline-info"><i class="pr-2 icon-location"></i>Add
                   Sub-Location</button>
                 <button id="loc-cancel" for="form-cancel" type="button" (click)="onCancelClick($event)"
                   class="btn btn-secondary btn-sm button-mod"><i class="pr-2 fa fa-window-close-o"></i>Cancel</button>
@@ -463,7 +463,7 @@
                   (click)="openConfirmDialog()" class="btn btn-secondary btn-sm ml-2"><i
                     class="pr-2 fa fa-trash"></i>Delete</button>
                 <button id="loc-save" type="submit" *ngIf="pageType !=='View'" class="btn btn-sm btn-info ml-2"><i
-                    class="pr-2 fa fa-location-arrow"></i>Save
+                    class="pr-2 icon-location"></i>Save
                   Location</button>
               </div>
               <!-- <div class="row form-control-sm form-group mt-2">

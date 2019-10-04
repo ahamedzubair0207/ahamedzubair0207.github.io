@@ -27,14 +27,14 @@ export const MENU_ITEMS: Array<{ id: string, enabled: boolean, url: string, icon
     //     id: "locations",
     //     enabled: true,
     //     url: "loc/home/19d7e5e5-fda7-4778-b943-62e36078087a/Mineapolis",
-    //     icon: "menu-icon fa fa-location-arrow",
+    //     icon: "menu-icon icon-location",
     //     name: 'Locations'
     // },
     // {
     //     id: "locations",
     //     enabled: true,
     //     url: "loc/home/7a59bdd8-6e1d-48f9-a961-aa60b2918dde/VOTM",
-    //     icon: "menu-icon fa fa-location-arrow",
+    //     icon: "menu-icon icon-location",
     //     name: 'Locations'
     // },
     {

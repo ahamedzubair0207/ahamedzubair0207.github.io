@@ -1,5 +1,5 @@
 <button class="btn btn-info btn-group-right btn-sm asset-table-header" (click)="onCreateAsset()" id="createAssetButton"
-  type="button"><i class="fa fa-industry mr-2"></i>Create Asset</button>
+  type="button"><i class="icon-asset-robot mr-2"></i>Create Asset</button>
 
 <form class="form-inline">
   <label for="typeahead-config">Type to filter events:</label>
@@ -13,7 +13,7 @@
     <tr>
       <th class="underline-on-hover" scope="row" (click)="item.opened = !item.opened"
         [ngStyle]="{'padding-left.px': 15*(lvl+1)}">
-        <i class="fa fa-industry"></i>
+        <i class="icon-asset-robot"></i>
         <a (click)="onEditViewClick(item, 'view')"> {{item.name}}</a>&nbsp; <i *ngIf="item.node.length > 0 "
           [ngClass]="{'fa': true, 'fa-caret-right': !item.opened, 'fa-caret-down': item.opened}"></i>
 
@@ -38,7 +38,7 @@
 
     <ng-container *ngFor="let subItem of item.node">
       <!-- <tr *ngIf="item.opened && subItem.entityType == 'Asset'">
-                  <th scope="row" [ngStyle]="{'padding-left.px': 15*(lvl+2)}"> <i class="fa fa-industry"></i>
+                  <th scope="row" [ngStyle]="{'padding-left.px': 15*(lvl+2)}"> <i class="icon-asset-robot"></i>
                     {{subItem.name? subItem.name : 'Ahamed'}}</th>
                   <td></td>
                   <td></td>
@@ -57,7 +57,7 @@
 
       <tr *ngIf="item.opened && subItem.entityType == 'Asset'">
         <th scope="row" (click)="subItem.opened = !subItem.opened" [ngStyle]="{'padding-left.px': 15*(lvl+2)}">
-          <i class="fa fa-industry"></i>
+          <i class="icon-asset-robot"></i>
 
           <a style="color: #212529; text-decoration: underline; cursor: pointer;"
             (click)="onEditViewClick(subItem, 'view')">
