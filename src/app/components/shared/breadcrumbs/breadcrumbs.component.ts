@@ -162,7 +162,7 @@ export class BreadcrumbsComponent {
           let childFound: boolean = false;
           for (let i = 0; i < response.length; i++) {
             if (response[i].id.toLowerCase() === orgId.toLowerCase()) {
-              this.breadcrumbs.push({ name: this.getShortName(response[i].name), showDots: false, type: 'Organization', id: response[i].id, nodes: response, isVisible: true });
+              this.breadcrumbs.push({ name:response[i].name, shortName: this.getShortName(response[i].name), showDots: false, type: 'Organization', id: response[i].id, nodes: response, isVisible: true });
               if (response[i].parentId) {
                 this.loadOrganizations(response[i].parentId);
               } else {
@@ -197,7 +197,7 @@ export class BreadcrumbsComponent {
           response = this.getUniqueValues(response);
           for (let i = 0; i < response.length; i++) {
             if (response[i].id.toLowerCase() === locId.toLowerCase()) {
-              this.locBreadcrumbs.push({ name: this.getShortName(response[i].name), showDots: false, type: 'Location', id: response[i].id, nodes: response, isVisible: true });
+              this.locBreadcrumbs.push({ name:response[i].name, shortName: this.getShortName(response[i].name), showDots: false, type: 'Location', id: response[i].id, nodes: response, isVisible: true });
               if (response[i].parentId) {
                 this.loadLocations(response[i].parentId);
               } else {
@@ -227,7 +227,7 @@ export class BreadcrumbsComponent {
           response = this.getUniqueValues(response);
           for (let i = 0; i < response.length; i++) {
             if (response[i].id.toLowerCase() === assetId.toLowerCase()) {
-              this.assetBreadcrumbs.push({ name: this.getShortName(response[i].name), showDots: false, type: 'Asset', id: response[i].id, nodes: response, isVisible: true });
+              this.assetBreadcrumbs.push({name:response[i].name, shortName: this.getShortName(response[i].name), showDots: false, type: 'Asset', id: response[i].id, nodes: response, isVisible: true });
               if (response[i].parentId) {
                 this.loadAssets(response[i].parentId);
               } else {
@@ -358,7 +358,7 @@ export class BreadcrumbsComponent {
     // }
     this.finalBreadcrumbs = [];
     this.finalBreadcrumbs = [...this.breadcrumbs];
-    // console.log('BREADCRUMBS ', this.finalBreadcrumbs);
+    // le.log('BREADCRUMBS ', this.finalBreadcrumbs);
 
   }
 
@@ -439,7 +439,6 @@ export class BreadcrumbsComponent {
     if (splittedNames.length > 1) {
       name = splittedNames.map((splitedName) => splitedName[0]).join('')
     }
-    console.log(name);
     return name;
   }
 }
