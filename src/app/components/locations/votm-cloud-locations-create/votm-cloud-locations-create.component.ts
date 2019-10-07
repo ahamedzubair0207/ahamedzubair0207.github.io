@@ -22,6 +22,8 @@ import { Toaster } from '../../shared/votm-cloud-toaster/votm-cloud-toaster';
 // import { } from '@types/googlemaps';
 import * as moment from 'moment-timezone';
 import { countyList } from 'src/app/services/countryList/countryStateList';
+import { OrganizationService } from 'src/app/services/organizations/organization.service';
+import { SortArrays } from '../../shared/votm-sort';
 
 
 
@@ -95,6 +97,7 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
   dashboardDataById: { act: string; title: string; dashboardName: string; dashboardHTML: any; };
   addDashboardArray: any;
   isAddOrganizationAPILoading = false;
+  organizationList: any[] = [];
 
   constructor(
     private modalService: NgbModal,
@@ -105,8 +108,9 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
     private route: Router,
     private datePipe: DatePipe,
     private routerLocation: RouterLocation,
-    private toastr: ToastrService
-    ) {
+    private toastr: ToastrService,
+    private organizationService: OrganizationService
+  ) {
     this.UOM = 'SI';
     this.subscriptions = route.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
@@ -135,6 +139,9 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
       this.parentLocId = params.get('parentLocId');
       this.parentLocName = params.get('parentLocName');
       this.locId = params.get('locId');
+      if (!this.parentLocId && !this.locId) {
+        this.getAllOrganizations();
+      }
       if (!this.locId) {
         this.locationObject();
       } else {
@@ -197,6 +204,25 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
     // dashboard data
     this.dashboardData = this.getDashboards();
     this.getDashboardsTemplates();
+  }
+
+  getAllOrganizations() {
+    this.organizationService.getAllOrganizationsList()
+      .subscribe(response => {
+
+        this.organizationList = response;
+        let orgFound = false;
+        this.organizationList.forEach(org => {
+          if (org.id === this.curOrgId) {
+            orgFound = true;
+          }
+        });
+        if (!orgFound) {
+          this.organizationList.push({ id: this.curOrgId, name: this.curOrgName });
+        }
+        this.organizationList.sort(SortArrays.compareValues('name'));
+        // this.organization.parentOrganizationId = JSON.parse(JSON.stringify(this.organization.parentOrganizationId));
+      });
   }
 
   getLocationById() {
