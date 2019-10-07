@@ -84,10 +84,10 @@
               <div class="row">
                 <div class="col-md-4">
                   <div class="form-group">
-                    <label class="" id="name" votmrequired>{{pageLabels.Name.labelName}}</label>
+                    <label class="" id="LocLongName" votmrequired>Name:(Long)</label>
                     <div class="">
                       <input type="text" [(ngModel)]="location.locationName" class="form-control form-control-sm"
-                        [disabled]="pageType==='View'" #locName="ngModel" id="locDtlName" placeholder="Enter Name"
+                        [disabled]="pageType==='View'" #locName="ngModel" id="locDtlLongName" placeholder="Enter Name"
                         name="name" required maxlength="50">
                       <div *ngIf="locName.dirty && locName.invalid">
                         <app-votm-cloud-validator message="Name is required"></app-votm-cloud-validator>
@@ -95,6 +95,26 @@
                       <app-votm-cloud-char-validator
                         [condition]="location.locationName && location.locationName.length>=50">
                       </app-votm-cloud-char-validator>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-2">
+                  <div class="form-group">
+                    <label class="" id="assetShortName" votmrequired>Short Name:</label>
+                    <div class="">
+                      <!-- <input type="text" [(ngModel)]="location.locationName" class="form-control form-control-sm"
+                        [disabled]="pageType==='View'" #locName="ngModel" id="locDtlShortlName" placeholder="Short Name"
+                        name="name" required maxlength="10"> -->
+                        <input type="text" class="form-control form-control-sm"
+                        [disabled]="pageType==='View'"  id="locDtlShortlName" placeholder="Short Name"
+                        name="name" required maxlength="10">
+                      <!-- <div *ngIf="locName.dirty && locName.invalid">
+                        <app-votm-cloud-validator message="Name is required"></app-votm-cloud-validator>
+                      </div>
+                      <app-votm-cloud-char-validator
+                        [condition]="location.locationName && location.locationName.length>=10">
+                      </app-votm-cloud-char-validator> -->
                     </div>
                   </div>
                 </div>
@@ -109,10 +129,10 @@
                         placeholder="{{parentOrganizationInfo.parentOrganizationName}}" id="locDtlParentOrg" readonly
                         disabled>
                       <ng-template #elsePart>
-                        <select *ngIf="!parentLocId" [disabled]="pageType==='View'"
+                        <select *ngIf="!parentLocId" [disabled]="pageType==='View'" (change)="onParentOrgChange($event)"
                           [(ngModel)]="location.organizationId" id="organizationId" name="organizationId"
                           class=" col-sm-7 drop-down form-control form-control-sm" #organizationId="ngModel">
-                          <option *ngFor="let org of organizationList" class="dropdown-item" [value]="org.id">
+                          <option *ngFor="let org of organizationList" class="dropdown-item" [value]="org.organizationId">
                             {{org.name}}
                           </option>
                         </select>
@@ -143,16 +163,20 @@
                       :</label>
                     <div class="">
 
-                      <input for="parentLocname" class="form-control form-control-sm" type="text"
-                        placeholder="{{parentLocName}}" id="locDtlParentLoc" readonly disabled>
+                      <input *ngIf="(parentLocId || locId); else elseLocationPart" for="parentLocname"
+                        class="form-control form-control-sm" type="text" name="parentLocName" [(ngModel)]="parentLocName"
+                        id="locDtlParentLoc" readonly disabled>
 
-                      <!-- <select [disabled]="pageType==='View'" [(ngModel)]="location.locationId" id="parentLocation"
-                      name="installedLocation" class=" col-sm-7 drop-down form-control form-control-sm"
-                      #parentLocation="ngModel" required>
-                      <option *ngFor="let loc of locationListForDropDown" [value]="loc.locationId">
-                        {{loc.locationName}}
-                      </option>
-                    </select> -->
+                      <ng-template #elseLocationPart>
+                        <select [disabled]="pageType==='View'" [(ngModel)]="location.parentLocationId" id="parentLocation"
+                          name="installedLocation" class=" col-sm-7 drop-down form-control form-control-sm"
+                          #parentLocation="ngModel">
+                          <option value="null" selected>Select Location</option>
+                          <option *ngFor="let loc of locationListForDropDown" [value]="loc.id">
+                            {{loc.name}}
+                          </option>
+                        </select>
+                      </ng-template>
                       <!-- <label for="parentLocname">{{parentLocName}}</label> -->
                     </div>
                   </div>
@@ -239,7 +263,7 @@
                         <select [disabled]="pageType==='View'" [(ngModel)]="location.address[0].state" name="state"
                           class="drop-down form-control form-control-sm" #state="ngModel" required
                           aria-placeholder="State" id="locDtlStrtState">
-                          <option value="default" disabled selected>State</option>
+                          <option value="null" disabled selected>State</option>
                           <option *ngFor="let state of states" [value]="state.value">
                             {{state.text}}
                           </option>
@@ -252,9 +276,9 @@
                       <div class="col-6 form-group">
                         <!-- <label for="country">* {{pageLabels.Country.labelName}}:</label> -->
                         <select [disabled]="pageType==='View'" [(ngModel)]="location.address[0].country" name="country"
-                          class="drop-down form-control form-control-sm" (change)="onCountryChange($event)" required
+                          class="drop-down form-control form-control-sm" (change)="onCountryChange()" required
                           #country="ngModel" id="locDtlStrtCountry">
-                          <option value="countryselect" disabled selected>Country</option>
+                          <option value="null" disabled selected>Country</option>
                           <option *ngFor="let country of countries" [value]="country.countryName">
                             {{country.countryName}}
                           </option>
@@ -367,19 +391,20 @@
               <div class="row mt-3">
                 <div class="col-md-4" *ngIf="!locId && applicationConfiguration">
                   <div class="form-group">
-                    <label class="" id="timezone">* {{pageLabels.DefaultTimeZone.labelName}}
+                    <label class="" id="timezone" votmrequired>{{pageLabels.DefaultTimeZone.labelName}}
                       :</label>
                     <div class="d-flex align-items-center">
                       <select required #timezone="ngModel" [disabled]="true" [(ngModel)]="location.timeZoneId"
                         name="timezone" class="drop-down form-control form-control-sm" id="locDtlDfltTimezone1">
                         <!-- <option value="" data-default selected>Select Timezone</option> -->
+                        <option value="null" disabled selected>Click Lookup</option>
                         <option *ngFor="let timeZone of applicationConfiguration.timeZone"
                           [value]="timeZone.timeZoneId">
                           {{timeZone.timeZoneName}}
                         </option>
                       </select>
-                      <button id="geo-loc-btn" type="button" class="btn rounded-circle btn-sm p-0"
-                        (click)="onGeoLocationClick()"><i class="fa fa-bullseye"></i>Lookup</button>
+                      <button id="geo-loc-btn-lookup" type="button" class="btn rounded-circle btn-sm p-0"
+                        (click)="onLookupClick()"><i class="fa fa-bullseye"></i>Lookup</button>
                       <div *ngIf="timezone.dirty && timezone.invalid">
                         <app-votm-cloud-validator message="TimeZone is required"></app-votm-cloud-validator>
                       </div>
@@ -394,14 +419,14 @@
                     <div class="d-flex align-items-center">
                       <select required #timezone="ngModel" [disabled]="true" [(ngModel)]="location.timeZoneId"
                         name="timezone" class="drop-down form-control form-control-sm" id="locDtlDfltTimezone2">
-                        <!-- <option value="" data-default selected>Select Timezone</option> -->
+                        <option value="null" disabled selected>Click Lookup</option>
                         <option *ngFor="let timeZone of applicationConfiguration.timeZone"
                           [value]="timeZone.timeZoneId">
                           {{timeZone.timeZoneName}}
                         </option>
                       </select>
                       <button id="geo-loc-btn" type="button" class="btn rounded-circle btn-sm p-0"
-                        (click)="onGeoLocationClick()"><i class="fa fa-bullseye"></i>Lookup</button>
+                        (click)="onLookupClick()"><i class="fa fa-bullseye"></i>Lookup</button>
                       <div *ngIf="timezone.dirty && timezone.invalid">
                         <app-votm-cloud-validator message="TimeZone is required"></app-votm-cloud-validator>
                       </div>
@@ -416,6 +441,7 @@
                     <div class="">
                       <select required [(ngModel)]="location.localeId" name="language"
                         class="drop-down form-control form-control-sm" #defLanguage="ngModel" id="locDtlGeoLang1">
+                        <option value="null" disabled selected>Select Location</option>
                         <option *ngFor="let locale of applicationConfiguration.locale" [value]="locale.localeId">
                           {{locale.localeName}}
                         </option>
@@ -434,6 +460,7 @@
                       <select required #language="ngModel" [disabled]="pageType==='View'"
                         [(ngModel)]="location.localeId" name="language" class="drop-down form-control form-control-sm"
                         id="locDtlGeoLang1">
+                        <option value="null" disabled selected>Select Location</option>
                         <option *ngFor="let locale of applicationConfiguration.locale" [value]="locale.localeId">
                           {{locale.localeName}}
                         </option>
@@ -446,7 +473,7 @@
                 </div>
                 <!-- UOM  -->
                 <div class="col-md-2">
-                  <label class="" id="unitsOfMeasure">*
+                  <label class="" id="unitsOfMeasure" votmrequired>
                     Default UOM:</label>
                   <div class="">
                     <label id="unitsOfMeasureSelected">{{UOM}}</label>
