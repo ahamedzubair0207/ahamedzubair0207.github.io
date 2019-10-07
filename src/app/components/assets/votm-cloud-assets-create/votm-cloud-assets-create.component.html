@@ -28,12 +28,12 @@
       area-labelledby="asset-info-tab">
       <div class="d-flex flex-row">
         <ul class="nav nav-tabs nav-tabs-vertical nav-tabs-left pt-3" aria-orientation="vertical">
-          <li class="nav-item">
+          <li class="nav-item" placement="top" ngbTooltip="Asset Details">
             <a class="nav-link tab-icon active" (click)="onClickOfNavTab('asset_details')" id="asset-details-tab"
               name="asset-view-edit" href="#asset-details" data-toggle="tab" role="tab" aria-controls="asset-details"
               aria-selected="true"><i class="icon-details"></i></a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item" placement="top" ngbTooltip="Associate Signals">
             <a class="nav-link tab-icon" id="asset-signal-tab" (click)="onClickOfNavTab('signal_association')"
               name="signal-association-edit" href="#asset-signal" data-toggle="tab" role="tab"
               aria-controls="asset-signal" aria-selected="false"><i class="icon-cell-tower"></i></a>
@@ -57,7 +57,8 @@
 
               <div class="lock-tab border border-bottom-0">
 
-                <i class="fa fa-lock edit-view-lock" name="assetlockbutton" *ngIf="pageType.toLowerCase() === 'view'"
+                <i class="fa fa-lock edit-view-lock" name="assetlockbutton" 
+                *ngIf="pageType.toLowerCase() === 'view'"
                   (click)="onLockClick()"></i>
                 <i class="fa fa-unlock edit-view-lock" name="assetunlockbutton"
                   *ngIf="pageType.toLowerCase() === 'edit'" (click)="onLockClick()"></i>

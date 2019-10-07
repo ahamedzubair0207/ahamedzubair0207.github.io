@@ -22,15 +22,15 @@
       
           <tr>
             <th scope="row" (click)="item.opened = !item.opened" [ngStyle]="{'padding-left.px': 15*(lvl+1)}">
-              <i class="icon-location"></i>
+              <i class="icon-loc-pin-map"></i>
               <a style="color: #212529;" [routerLink]="['/loc/view',item.parentOrgId, item.parentOrgName, item.id]"> {{item.name}}</a>&nbsp; <i *ngIf="item.node.length > 0 "
                   [ngClass]="{'fa': true, 'fa-caret-right': !item.opened, 'fa-caret-down': item.opened}"></i>
              
             </th>
             <td class="align-left">{{item.type}}</td>
             <td class="align-left">{{item.parentOrgName}}</td>
-            <td class="align-left">{{item.distributor}}</td>
-            <td class="align-left">{{item.cityState}}</td>
+            <td class="align-left">{{item.primaryDistributor}}</td>
+            <td class="align-left">{{item.city}}, {{item.state}}</td>
             <td class="align-center">
               <a class="action-icon" title="List"   [routerLink]="['/asset/home',item.parentOrgId, item.parentOrgName, item.id]">
                 <i class="icon-asset-robot"></i>

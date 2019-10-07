@@ -48,7 +48,7 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
   previousUrl: any;
   subscriptions: any;
   toaster: Toaster = new Toaster(this.toastr);
-
+  accessScopeName: string;
   @ViewChild('confirmBox', null) confirmBox: VotmCloudConfimDialogComponent;
 
 
@@ -72,9 +72,10 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
       this.curOrgName = params.get('curOrgName');
       this.orgId = params.get('orgId');
       this.alertId = params.get('alertId');
+      this.alert.organizationScopeId = this.orgId;
       this.getAbsoluteThreshold();
       this.navigationService.lastOrganization.subscribe(response => {
-        this.alert.organizationScopeId = response;
+        this.accessScopeName = response;
       });
       if (this.alertId) {
         this.alertsService.getAlertByAlertId(this.alertId)
@@ -482,15 +483,25 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
         });
       }
     });
-    this.alertsService.createAlertRule(this.alert)
-      .subscribe(response => {
-        this.toaster.onSuccess('Successfully saved', 'Saved');
-        console.log('response ', response);
-        this.routerLocation.back();
-      }, error => {
-        this.toaster.onFailure('Something went wrong. Please fill the form correctly', 'Fail');
-      });
-
+    if (this.alertId) {
+      this.alertsService.updateAlertRule(this.alert)
+        .subscribe(response => {
+          this.toaster.onSuccess('Successfully Updated', 'Saved');
+          console.log('response ', response);
+          this.routerLocation.back();
+        }, error => {
+          this.toaster.onFailure('Something went wrong. Please fill the form correctly', 'Fail');
+        });
+    } else {
+      this.alertsService.createAlertRule(this.alert)
+        .subscribe(response => {
+          this.toaster.onSuccess('Successfully saved', 'Saved');
+          console.log('response ', response);
+          this.routerLocation.back();
+        }, error => {
+          this.toaster.onFailure('Something went wrong. Please fill the form correctly', 'Fail');
+        });
+    }
     console.log('onResponsibityChange ', this.alert);
   }
 
@@ -527,9 +538,9 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
 
   onLockClick() {
     if (this.pageType.toLowerCase() === 'view') {
-      this.route.navigate([`preferences/edit`]);
+      this.route.navigate([`alertRule/view/${this.alertId}`]);
     } else {
-      this.route.navigate([`preferences/view`]);
+      this.route.navigate([`alertRule/view/${this.alertId}`]);
     }
   }
 
@@ -548,5 +559,33 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
     }
   }
 
-
+  onUserGroupDelete(userGroupSubscriber) {
+    console.log(userGroupSubscriber, this.alert.alertRuleUserGroup);
+    let found: boolean;
+    let count: number;
+    let isUserId: boolean;
+    if (userGroupSubscriber) {
+      if (userGroupSubscriber.userId) {
+        isUserId = true;
+      }
+      this.alert.alertRuleUserGroup.forEach((userGroup, index) => {
+        if (isUserId) {
+          if (userGroup.userId === userGroupSubscriber.userId) {
+            found = true;
+            count = index;
+          }
+        } else {
+          if (userGroup.userGroupId === userGroupSubscriber.userGroupId) {
+            found = true;
+            count = index;
+          }
+        }
+      });
+      if (found) {
+        this.alert.alertRuleUserGroup.splice(count, 1);
+        // console.log(count);
+      }
+    }
+    console.log(userGroupSubscriber, this.alert.alertRuleUserGroup);
+  }
 }

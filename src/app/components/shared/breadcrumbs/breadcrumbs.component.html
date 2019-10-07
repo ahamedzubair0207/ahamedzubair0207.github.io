@@ -13,15 +13,38 @@
       </div>
     </div>
     <ng-template #elseTemplate>
-      <div *ngIf="i===1" class="nav-item dropdown underline-on-hover">
+      <!-- <span style="color: white;" *ngIf="breadcrumb.showDots">...</span> -->
+      <div *ngIf="breadcrumb.showDots && breadcrumb.type==='Organization'" class="nav-item dropdown underline-on-hover">
         <a href="#" style="color: white;" class="nav-item nav-link dropdown"
-          data-toggle="dropdown">{{minimizedBreadcrumbs.name}}<i style="color:grey;"
+          data-toggle="dropdown">{{orgMinimizedBreadcrumbs.name}}<i style="color:grey;"
             class="fa fa-chevron-right ml-2"></i></a>
         <div class="dropdown-menu scrollable-menu">
-          <a *ngFor="let item of minimizedBreadcrumbs.nodes" style="cursor: pointer" (click)="onItemSelection(item)"
+          <a *ngFor="let item of orgMinimizedBreadcrumbs.nodes" style="cursor: pointer" (click)="onItemSelection(item)"
             class="dropdown-item">{{item.name}}</a>
         </div>
       </div>
+
+
+      <div *ngIf="breadcrumb.showDots && breadcrumb.type==='Location'" class="nav-item dropdown underline-on-hover">
+          <a href="#" style="color: white;" class="nav-item nav-link dropdown"
+            data-toggle="dropdown">{{locMinimizedBreadcrumbs.name}}<i style="color:grey;"
+              class="fa fa-chevron-right ml-2"></i></a>
+          <div class="dropdown-menu scrollable-menu">
+            <a *ngFor="let item of locMinimizedBreadcrumbs.nodes" style="cursor: pointer" (click)="onItemSelection(item)"
+              class="dropdown-item">{{item.name}}</a>
+          </div>
+        </div>
+
+
+        <div *ngIf="breadcrumb.showDots && breadcrumb.type==='Asset'" class="nav-item dropdown underline-on-hover">
+            <a href="#" style="color: white;" class="nav-item nav-link dropdown"
+              data-toggle="dropdown">{{assetMinimizedBreadcrumbs.name}}<i style="color:grey;"
+                class="fa fa-chevron-right ml-2"></i></a>
+            <div class="dropdown-menu scrollable-menu">
+              <a *ngFor="let item of assetMinimizedBreadcrumbs.nodes" style="cursor: pointer" (click)="onItemSelection(item)"
+                class="dropdown-item">{{item.name}}</a>
+            </div>
+          </div>
       <!-- <span *ngIf="i===1" style="color: white; cursor: pointer;">...<i style="color: grey;"
           class="fa fa-chevron-right ml-2"></i></span> -->
     </ng-template>

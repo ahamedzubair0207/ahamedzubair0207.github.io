@@ -70,6 +70,12 @@ export class AlertsService {
       );
   }
 
+  updateAlertRule(alertRule: Alert) {
+    return this.http.patch(`${AppConstants.UPDATE_ALERT}/${alertRule.alertRuleId}`, alertRule)
+      .pipe(
+        map(response => response)
+      );
+  }
 
 
   ALertRuleUserGroupSubscriber(alertRuleId) {

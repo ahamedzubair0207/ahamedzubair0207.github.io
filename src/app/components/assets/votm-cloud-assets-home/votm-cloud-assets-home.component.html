@@ -16,8 +16,6 @@
         <i class="icon-asset-robot"></i>
         <a (click)="onEditViewClick(item, 'view')"> {{item.name}}</a>&nbsp; <i *ngIf="item.node.length > 0 "
           [ngClass]="{'fa': true, 'fa-caret-right': !item.opened, 'fa-caret-down': item.opened}"></i>
-
-
       </th>
       <td class="align-left">{{item.type}}</td>
       <td class="align-left">{{item.assetNumber}}</td>
@@ -92,7 +90,7 @@
 </ng-template>
 
 
-<table class="table table-sm table-bordered asset-table-fonts">
+<table class="table table-sm table-bordered asset-table-fonts table-responsive">
   <thead class="thead-dark">
     <tr>
       <th scope="col" class="align-left table-col-name">Name</th>
