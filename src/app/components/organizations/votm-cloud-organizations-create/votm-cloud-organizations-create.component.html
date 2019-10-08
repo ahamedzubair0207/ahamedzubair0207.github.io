@@ -169,7 +169,7 @@
                       <select [disabled]="pageType==='View'" id="parentOrgLblList"
                         [(ngModel)]="organization.parentOrganizationId" name="parentOrganizationName"
                         class="drop-down form-control form-control-sm" required>
-                        <option *ngFor="let org of organizationList" class="dropdown-item" [value]="org.id">
+                        <option *ngFor="let org of organizationList" class="dropdown-item" [value]="org.organizationId">
                           {{org.name}}
                         </option>
                       </select>

@@ -25,6 +25,7 @@ import { LocationService } from 'src/app/services/locations/location.service';
 export class VotmCloudAssetsCreateComponent implements OnInit {
   public imagePath;
   imgURL: any;
+  locationImageURL: any;
   public message: string;
   closeResult: string;
   modal: any;
@@ -99,7 +100,7 @@ export class VotmCloudAssetsCreateComponent implements OnInit {
     private changeDetectorRef: ChangeDetectorRef,
     private locService: LocationService,
     private orgService: OrganizationService
-    ) {
+  ) {
     this.subscriptions = route.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         if (this.previousUrl) {
@@ -509,6 +510,7 @@ export class VotmCloudAssetsCreateComponent implements OnInit {
     this.asset.locationName = null;
     this.asset.parentAssetId = null;
     this.asset.parentAssetName = null;
+    this.locationImage = null;
     this.filterLocations();
     this.filterAssets();
   }
@@ -519,11 +521,34 @@ export class VotmCloudAssetsCreateComponent implements OnInit {
       this.locationList.forEach(loc => {
         if (this.asset.organizationId === loc.organizationId) {
           this.locationListForDropDown.push(loc);
+          if (this.asset.locationId === loc.locationId) {
+            console.log('Loc ', loc);
+            this.getInstalledLocation(loc.logo);
+          }
         }
       });
       if (this.locationListForDropDown && this.locationListForDropDown.length > 0) {
         this.locationListForDropDown.sort(SortArrays.compareValues('locationName'));
       }
+    }
+  }
+
+  onLocationChange(event) {
+    this.locationList.forEach(loc => {
+      if (event.target.value === loc.locationId) {
+        console.log('Loc on change ', loc);
+        this.getInstalledLocation(loc.logo);
+      }
+    });
+  }
+
+  getInstalledLocation(logo: any) {
+    if (logo && logo.imageName) {
+      let tempFileExtension = logo.imageName.slice((Math.max(0, logo.imageName.lastIndexOf(".")) || Infinity) + 1);
+      this.locationImageURL = this.domSanitizer.bypassSecurityTrustUrl(`data:image/${tempFileExtension};base64,${logo.image}`);
+      // this.asset.logo.imageType = this.fileExtension;
+    } else {
+      this.locationImageURL = null;
     }
   }
 
