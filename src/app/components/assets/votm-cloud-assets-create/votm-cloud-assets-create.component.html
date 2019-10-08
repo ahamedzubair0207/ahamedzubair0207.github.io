@@ -45,15 +45,7 @@
             id="asset-details" role="tabpanle" area-labelledby="asset-details-tab">
             <form #assetForm="ngForm" class="asset-create-font create-asset-container needs-validation"
               (ngSubmit)="onAssetSubmit()" novalidate>
-              <!-- <div class="row">
-            <h4 class="col-md-6">{{pageTitle}}</h4>
-            <div class="col-md-12 mb-3">
-              <i [ngClass]="{'fas fa-lock-open': (pageType.toLowerCase() !== 'view')}" (click)="onLockClick()"></i>
-              For View/Edit page
-             
-
-            </div>
-          </div> -->
+           
 
               <div class="lock-tab border border-bottom-0">
 
@@ -129,8 +121,7 @@
                 <div class="col-12 col-md-6 col-lg-4 col-xl-3 form-group">
                   <!-- <div class="row form-group"> -->
                   <label class="" id="assetparentLoc" votmrequired>Installed Location:</label>
-                  <!-- <input for="parentLocname" class="col-sm-7 form-control asset-create-font" type="text"
-                  placeholder="{{parentLocName}}" [disabled]="pageType==='View'"> -->
+                 
                   <select [disabled]="pageType==='View'" [(ngModel)]="asset.locationId" id="installedLocation"
                     name="installedLocation" class="drop-down form-control form-control-sm" #installedLocation="ngModel"
                     required (change)="onLocationChange($event)">
@@ -170,8 +161,7 @@
                           (click)="onTemplateChangeAccept($event)" name="templateAccept">Check to Inherit Template
                         Changes</label>
                     </div>
-                    <!-- <input class="form-check-input templt-radio" type="radio"> -->
-                    <!-- <label for="temp-change" class="templt-label">Accept Template Changes</label> -->
+                   
                   </div>
                 </div>
 
@@ -201,15 +191,7 @@
                 </div>
 
               </div>
-              <!-- 
-        <div class="row asset-create-font asset-margin">
-          <div class="col-md-6">
-                <label for="assetId">Asset ID:</label>
-                <input type="text" [(ngModel)]="asset.assetNumber" class="form-control asset-create-font"
-                  [disabled]="pageType === 'View'" #assetId="ngModel" placeholder="Enter Asset ID" name="assetNumber"
-                  maxlength="50" />
-              </div>
-        </div> -->
+             
 
 
               <div class="row asset-create-font asset-margin">
@@ -233,7 +215,7 @@
                 </div>
 
                 <div class="col-md-4">
-                  <label for="locationImage" id="asset-image-lbl">Location Image : </label>
+                  <label for="locationImage" id="asset-loc--image-lbl">Location Image : </label>
                   <img [src]="locationImageURL" class="imag-size" *ngIf="locationImageURL; else noLocationTemplate">
                   <ng-template #noLocationTemplate><br />
                     <div *ngIf="asset.locationId; else noLocationSelectedTemplate">No Image in the selected Location

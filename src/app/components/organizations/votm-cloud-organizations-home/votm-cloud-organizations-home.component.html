@@ -41,13 +41,13 @@
             <td class="align-left">{{item.contractStart.split(" ")[0]}}</td>
             <td class="align-left">{{item.contractEnd.split(" ")[0]}}</td>
             <td class="align-left">{{item.serviceLevel}}</td>
-            <td class="align-left">{{item.state}}</td>
+            <td class="align-left"><i class="icon-good" style="color: #0ad80a;"></i></td>
             <td class="align-center">
               <a class="action-icon" title="List" [routerLink]="['/loc/home', item.id, item.name]">
                 <i class="icon-location"></i>
               </a>
               <a class="action-icon" title="Edit" [routerLink]="['/org/edit',curOrgId, curOrgName, item.id]">
-                <i class="fa fa-edit"></i>
+                <i class="icon-edit"></i>
               </a>
               <a class="action-icon" *ngIf="item.id.toUpperCase() !== curOrgId.toUpperCase()" (click)="openConfirmDialog(item.id, item.name)" title="Delete">
                 <i class="icon-trash"></i>
@@ -69,7 +69,7 @@
               <td class="align-left">{{subItem.contractStart.split(" ")[0]}}</td>
               <td class="align-left">{{subItem.contractEnd.split(" ")[0]}}</td>
               <td class="align-left">{{subItem.serviceLevel}}</td>
-              <td class="align-left">{{item.state}}</td>
+              <td class="align-left"><i class="icon-good" style="color: #0ad80a;"></i></td>
               <td class="align-center">
                 <a class="action-icon" title="Location"  [routerLink]="['/loc/home', subItem.id, subItem.name]">
                   <i class="icon-location"></i>
@@ -78,7 +78,7 @@
                   <i class="fa fa-eye"></i>
                 </a> -->
                 <a class="action-icon" title="Edit" [routerLink]="['/org/edit',curOrgId, curOrgName, subItem.id]">
-                  <i class="fa fa-edit"></i>
+                  <i class="icon-edit"></i>
                 </a>
                 <a class="action-icon" (click)="openConfirmDialog(subItem.id, subItem.name)" title="Delete">
                   <i class="icon-trash"></i>
@@ -105,7 +105,7 @@
               <th scope="col" class="align-left table-col-small">Contract Start</th>
               <th scope="col" class="align-left table-col-small">Contract End</th>
               <th scope="col" class="align-left table-col-small">Service Level</th>
-              <th scope="col" class="align-left table-col-small">State</th>
+              <th scope="col" class="align-left table-col-small">Status</th>
               <th scope="col" class="align-center table-col-small">Actions</th>
             </tr>
           </thead>

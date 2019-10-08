@@ -53,7 +53,7 @@ export class AlertRuleConfigurationMapping {
 
 export class AlertRuleSignalMapping {
     alertSignalMappingId?: string;
-    signalId: string;
+    signalId: string; // signalMappingId
     alertRuleId?: string;
     // locationId: string;
     // assetId: string;
