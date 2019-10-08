@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from "@angular/router";
+import { Router } from '@angular/router';
 
 import * as OktaSignIn from '@okta/okta-signin-widget';
 import sampleConfig from '../../../pcm.configuration';

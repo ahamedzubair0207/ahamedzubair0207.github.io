@@ -6,12 +6,15 @@
 @import "~bootstrap/dist/css/bootstrap.css";
 @import "~font-awesome/css/font-awesome.css";
 @import "assets/fontello/css/fontello.css";
+@import "~@ng-select/ng-select/themes/default.theme.css";
 // @import '~ngx-toastr/toastr';
 @import '~ngx-toastr/toastr-bs4-alert';
 @import '../node_modules/primeicons/primeicons.css';
 @import '../node_modules/primeng/resources/themes/nova-light/theme.css';
 @import '../node_modules/primeng/resources/primeng.min.css';
 @import 'assets/pcm-font/css/pcm.css';
+@import 'assets/pcm-font-4/css/pcm.css';
+@import 'assets/pcm-font-3/pcm-font/css/pcm.css';
 
 fieldset{
     padding:10px;
@@ -23,3 +26,6 @@ fieldset{
     padding: 0 5px;
     margin:0;
   }
+  .input-group-text{
+    padding: .365rem .75rem !important;
+}

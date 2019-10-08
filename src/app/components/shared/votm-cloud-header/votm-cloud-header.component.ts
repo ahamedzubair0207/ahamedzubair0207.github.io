@@ -40,8 +40,7 @@ export class VotmCloudHeaderComponent implements OnInit {
     }
   }
 
-  toggleMenu(){
+  toggleMenu() {
     this.sharedService.setMenuOpen(!this.menuOpen);
   }
-  
 }

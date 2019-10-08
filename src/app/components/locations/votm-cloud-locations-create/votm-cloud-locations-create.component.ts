@@ -22,6 +22,8 @@ import { Toaster } from '../../shared/votm-cloud-toaster/votm-cloud-toaster';
 // import { } from '@types/googlemaps';
 import * as moment from 'moment-timezone';
 import { countyList } from 'src/app/services/countryList/countryStateList';
+import { OrganizationService } from 'src/app/services/organizations/organization.service';
+import { SortArrays } from '../../shared/votm-sort';
 
 
 
@@ -65,7 +67,7 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
   rectangleUnit: any;
   rectangleValue2: any;
   dropdownSettings: {};
-  gatewayList: Array<Select2OptionData>; //{ item_id: string; item_text: string; }[];
+  gatewayList: Array<Select2OptionData>; // { item_id: string; item_text: string; }[];
   selectedItems: Array<Select2OptionData>; // { item_id: string; item_text: string; }[];
   previousURLToNavigate: string;
   previousUrl: any;
@@ -77,6 +79,7 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
   @ViewChild('confirmBox', null) confirmBox: VotmCloudConfimDialogComponent;
   @ViewChild('file', null) locationImage: any;
   @ViewChild('address1', null) address1: any;
+  @ViewChild('confirmBoxDash', null) confirmBoxDash: VotmCloudConfimDialogComponent;
   parentLocName: string;
   fileName: any;
   fileExtension: string;
@@ -84,11 +87,32 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
   geoLocationErrorMessage: any;
 
   countryObject: any[] = [];
-  constructor(private modalService: NgbModal, private locationService: LocationService,
-    private configSettingsService: ConfigSettingsService, private domSanitizer: DomSanitizer,
-    private activatedRoute: ActivatedRoute, private route: Router, private datePipe: DatePipe,
-    private routerLocation: RouterLocation, private toastr: ToastrService) {
-    this.UOM = "SI";
+  // Dashboard Item
+  addDashboardmodal: any;
+  dashboardData: any;
+  dashboardTemplates: {};
+  delDashboardId: any;
+  // @ViewChild('op', null) panel: OverlayPanel;
+  userdashboardData: { id: string; templateName: string; dashboardName: string; dashboardHTML: any; }[];
+  dashboardDataById: { act: string; title: string; dashboardName: string; dashboardHTML: any; };
+  addDashboardArray: any;
+  isAddOrganizationAPILoading = false;
+  organizationList: any[] = [];
+  locationListForDropDown: any[] = [];
+
+  constructor(
+    private modalService: NgbModal,
+    private locationService: LocationService,
+    private configSettingsService: ConfigSettingsService,
+    private domSanitizer: DomSanitizer,
+    private activatedRoute: ActivatedRoute,
+    private route: Router,
+    private datePipe: DatePipe,
+    private routerLocation: RouterLocation,
+    private toastr: ToastrService,
+    private organizationService: OrganizationService
+  ) {
+    this.UOM = 'SI';
     this.subscriptions = route.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         if (this.previousUrl) {
@@ -111,11 +135,15 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
     //     }
     //   });
     this.activatedRoute.paramMap.subscribe(params => {
-      this.curOrgId = params.get("curOrgId");
-      this.curOrgName = params.get("curOrgName");
-      this.parentLocId = params.get("parentLocId");
-      this.parentLocName = params.get("parentLocName");
+      this.curOrgId = params.get('curOrgId');
+      this.curOrgName = params.get('curOrgName');
+      this.parentLocId = params.get('parentLocId');
+      this.parentLocName = params.get('parentLocName');
       this.locId = params.get('locId');
+      if (!this.parentLocId && !this.locId) {
+        this.getAllOrganizations();
+        this.getAllLocationByOrganization(this.curOrgId);
+      }
       if (!this.locId) {
         this.locationObject();
       } else {
@@ -143,7 +171,7 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
 
     this.options = {
       multiple: true
-    }
+    };
     // this.getGeoLocation('London').subscribe(response => {
     //   console.log('response ', response);
     // endpoint - Option List Data ----- Sensor Blocks ------ Cellular Blocks ------ Service Levels
@@ -156,7 +184,7 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
     this.parentOrganizationInfo = {
       parentOrganizationId: this.curOrgId,
       parentOrganizationName: this.curOrgName
-    }
+    };
     this.getScreenLabels();
     this.getAllAppInfo();
     this.location.organizationId = this.parentOrganizationInfo.parentOrganizationId;
@@ -164,16 +192,50 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
     this.tempMeasurement = 'SI';
     this.location.active = true;
     this.UOM = 'SI';
-    this.locationTypes = [{ value: 'locationType1', text: 'locationType1' }, { value: 'locationType2', text: 'locationType2' }]
+    this.locationTypes = [{ value: 'locationType1', text: 'locationType1' }, { value: 'locationType2', text: 'locationType2' }];
     // this.locationService.getLocationInfoFromAzureMap(null)
     //   .subscribe(response => {
     //     // console.log('AHAMED from azure map ', response);
     //   })
 
     this.gateGateways();
-    this.location.address = [new Address()];
-    this.location.address[0].addressType = 'Billing';
+
     this.multiDropdownConfigSetting();
+
+    // dashboard data
+    this.dashboardData = this.getDashboards();
+    this.getDashboardsTemplates();
+  }
+
+  getAllLocationByOrganization(orgId: string) {
+    this.locationService.getAllLocationTree(orgId)
+      .subscribe(response => {
+        this.location.parentLocationId = null;
+        this.locationListForDropDown = response;
+        this.locationListForDropDown.sort(SortArrays.compareValues('name'));
+      })
+  }
+
+  onParentOrgChange(event) {
+    this.getAllLocationByOrganization(event.target.value);
+  }
+
+  getAllOrganizations() {
+    this.organizationService.getAllOrganizationsList()
+      .subscribe(response => {
+        this.organizationList = response;
+        let orgFound = false;
+        this.organizationList.forEach(org => {
+          if (org.id === this.curOrgId) {
+            orgFound = true;
+          }
+        });
+        if (!orgFound) {
+          this.organizationList.push({ id: this.curOrgId, name: this.curOrgName });
+        }
+        this.organizationList.sort(SortArrays.compareValues('name'));
+        // this.organization.parentOrganizationId = JSON.parse(JSON.stringify(this.organization.parentOrganizationId));
+      });
   }
 
   getLocationById() {
@@ -186,13 +248,13 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
           this.location.address = [new Address()];
           this.location.address[0].addressType = 'Billing';
         }
-
+        this.fetchStates();
         this.selectedGateways = [];
         if (this.location.gateways) {
           this.selectedGateways = [...this.location.gateways];
         }
         if (this.location.logo && this.location.logo.imageName) {
-          this.fileExtension = this.location.logo.imageName.slice((Math.max(0, this.location.logo.imageName.lastIndexOf(".")) || Infinity) + 1);
+          this.fileExtension = this.location.logo.imageName.slice((Math.max(0, this.location.logo.imageName.lastIndexOf('.')) || Infinity) + 1);
           this.imgURL = this.domSanitizer.bypassSecurityTrustUrl(`data:image/${this.fileExtension};base64,${this.location.logo.image}`);
           this.location.logo.imageType = this.fileExtension;
         }
@@ -213,13 +275,13 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
         //   this.rectangleValue2 = matches[0];
         //   this.rectangleUnit = matches2.join('');
         // }
-        this.location.localeId = this.location.locale;
-        this.location.timeZoneId = this.location.timeZone;
-        this.location.uoMId = this.location.uoM;
+        // this.location.localeId = this.location.locale;
+        // this.location.timeZoneId = this.location.timeZone;
+        // this.location.uoMId = this.location.uoM;
       });
   }
 
-  onCountryChange(event) {
+  onCountryChange() {
     console.log('Country change ', this.location.address[0].country);
     if (this.location.address && this.location.address.length > 0) {
       this.location.address[0].state = null;
@@ -227,6 +289,10 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
       this.location.address = [new Address()];
       this.location.address[0].state = null;
     }
+    this.fetchStates();
+  }
+
+  fetchStates() {
     this.countries.forEach(country => {
       if (country.countryName === this.location.address[0].country) {
         this.states = [];
@@ -264,7 +330,41 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
   }
 
   onGeoLocationClick() {
-    this.checkAddress();
+    if (this.checkAddress()) {
+      let address = `${this.location.address[0].address1} ${this.location.address[0].address2} ${this.location.address[0].city} ${this.location.address[0].postalCode} ${this.location.address[0].state} ${this.location.address[0].country}`;
+      this.locationService.getLocationInfoFromAzureMap(address)
+        .subscribe((response: any) => {
+          console.log('onGeoLocationClick ', response);
+          if (response && response.results && response.results.length > 0) {
+            this.location.latitude = response.results[0].position.lat;
+            this.location.longitude = response.results[0].position.lon;
+          }
+        });
+    }
+  }
+
+  onLookupClick() {
+    if (this.checkAddress()) {
+      if (this.location.latitude && this.location.longitude) {
+        this.locationService.getTimezoneByCordinates(`${this.location.latitude},${this.location.longitude}`)
+          .subscribe((response: any) => {
+            console.log('onLookupClick ', response);
+            if (response && response.TimeZones && response.TimeZones[0].Id) {
+              let currentDate = new Date();
+              let tempTimezone = moment.tz([currentDate.getFullYear(), currentDate.getMonth()], response.TimeZones[0].Id).format('zz');
+              tempTimezone = tempTimezone.toUpperCase();
+              tempTimezone = tempTimezone.replace('DAYLIGHT', 'STANDARD');
+              this.applicationConfiguration.timeZone.forEach(tz => {
+                if (tz.timeZoneName.toUpperCase() === tempTimezone.toUpperCase()) {
+                  this.location.timeZoneId = tz.timeZoneId;
+                }
+              });
+            }
+          });
+      } else {
+
+      }
+    }
   }
 
   checkAddress() {
@@ -273,33 +373,8 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
         && this.location.address[0].city
         && this.location.address[0].country && this.location.address[0].postalCode
         && this.location.address[0].state) {
-        let address = `${this.location.address[0].address1} ${this.location.address[0].address2} ${this.location.address[0].city} ${this.location.address[0].postalCode} ${this.location.address[0].state} ${this.location.address[0].country}`;
-        this.locationService.getLocationInfoFromAzureMap(address)
-          .subscribe((response: any) => {
-            if (response && response.results && response.results.length > 0) {
-              this.location.latitude = response.results[0].position.lat;
-              this.location.longitude = response.results[0].position.lon;
-              this.locationService.getTimezoneByCordinates(`${this.location.latitude},${this.location.longitude}`)
-                .subscribe((response: any) => {
-                  if (response && response.TimeZones && response.TimeZones[0].Id) {
-                    let currentDate = new Date();
-                    let tempTimezone = moment.tz([currentDate.getFullYear(), currentDate.getMonth()], response.TimeZones[0].Id).format('zz');
-                    tempTimezone = tempTimezone.toUpperCase();
-                    tempTimezone = tempTimezone.replace('DAYLIGHT', 'STANDARD');
-                    this.applicationConfiguration.timeZone.forEach(tz => {
-                      if (tz.timeZoneName.toUpperCase() === tempTimezone.toUpperCase()) {
-                        this.location.timeZoneId = tz.timeZoneId;
-                      }
-                    })
-                  }
-                  // let currentDate = new Date();
-                  // let abc = moment.tz([currentDate.getFullYear(), currentDate.getMonth()], 'America/Chicago').format('zz');
-                  // console.log('now ', abc)
-                })
-            }
-          });
+        return true;
       } else {
-
         this.geoLocationErrorMessage = 'Address is not correct. ';
         if (!this.location.address[0].address1) {
           this.geoLocationErrorMessage += 'Please fill street name.';
@@ -317,13 +392,14 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
     } else {
       this.markGeoLocationInvalid();
     }
+    return false;
   }
 
   markGeoLocationInvalid() {
     this.locationForm.form.controls['geoLocationLong'].markAsDirty();
     this.locationForm.form.controls['geoLocationLat'].markAsDirty();
-    this.locationForm.form.controls['geoLocationLong'].setErrors({ 'invalidLonLat': true })
-    this.locationForm.form.controls['geoLocationLat'].setErrors({ 'invalidLonLat': true })
+    this.locationForm.form.controls['geoLocationLong'].setErrors({ 'invalidLonLat': true });
+    this.locationForm.form.controls['geoLocationLat'].setErrors({ 'invalidLonLat': true });
   }
 
   // getLocationInfo() {
@@ -345,13 +421,19 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
   onSelectAll(items: any) {
   }
   createNestedLocation(event) {
-    this.route.navigate([`loc/create/${this.location.locationId}/${this.location.locationName}/${this.location.organizationId}/${this.parentOrganizationInfo.parentOrganizationName}`])
+    this.route.navigate([`loc/create/${this.location.locationId}/${this.location.locationName}/${this.location.organizationId}/${this.parentOrganizationInfo.parentOrganizationName}`]);
   }
 
   creteAsset(event) {
-    this.route.navigate([`asset/create/${this.curOrgId}/${this.curOrgName}/${this.location.locationId}/${this.location.locationName}`])
+    this.route.navigate([`asset/create/${this.curOrgId}/${this.curOrgName}/${this.location.locationId}/${this.location.locationName}`]);
   }
   locationObject() {
+    this.location.address = [new Address()];
+    this.location.address[0].addressType = 'Billing';
+    this.location.address[0].state = null;
+    this.location.address[0].country = null;
+    this.location.timeZoneId = null;
+    this.location.localeId = null;
   }
 
   getScreenLabels() {
@@ -378,13 +460,14 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
 
 
   preview(files) {
-    this.message = "";
-    if (files.length === 0)
+    this.message = '';
+    if (files.length === 0) {
       return;
+    }
 
     var mimeType = files[0].type;
     if (mimeType.match(/image\/*/) == null) {
-      this.message = "Only images are supported.";
+      this.message = 'Only images are supported.';
       return;
     }
     this.handleFileSelect(files);
@@ -393,7 +476,7 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
     readerToPreview.readAsDataURL(files[0]);
     readerToPreview.onload = (_event) => {
       this.imgURL = this.domSanitizer.bypassSecurityTrustUrl(readerToPreview.result.toString());; //readerToPreview.result;
-    }
+    };
   }
 
   handleFileSelect(files) {
@@ -406,12 +489,11 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
         let data;
         if (!e) {
           data = reader.content;
-        }
-        else {
+        } else {
           data = e.target.result;
         }
         let base64textString = btoa(data);
-        console.log('this.organization ', this.location, data)
+        console.log('this.organization ', this.location, data);
         this.location.logo.image = base64textString;
       };
 
@@ -456,7 +538,7 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
   }
 
   private getDismissReason(reason: any): string {
-    debugger
+    debugger;
     if (reason === ModalDismissReasons.ESC) {
       return 'by pressing ESC';
     } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
@@ -468,23 +550,23 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
 
   openmodal() {
     // Get the modal
-    var modal = document.getElementById("myModal");
-    modal.style.display = "block";
-    this.modal = document.getElementById("myModal");
+    var modal = document.getElementById('myModal');
+    modal.style.display = 'block';
+    this.modal = document.getElementById('myModal');
     // Get the <span> element that closes the modal
-    var span = document.getElementsByClassName("close")[0];
+    var span = document.getElementsByClassName('close')[0];
 
     // When the user clicks anywhere outside of the modal, close it
     window.onclick = function (event) {
       if (event.target == modal) {
-        modal.style.display = "none";
+        modal.style.display = 'none';
 
       }
-    }
+    };
 
   }
   closemodal(event: string) {
-    this.modal.style.display = "none";
+    this.modal.style.display = 'none';
     if (event === 'save') {
       this.UOM = this.tempMeasurement;
       this.location.uoMId = [];
@@ -550,11 +632,11 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
     if (this.selectedItems && this.selectedItems.length > 0) {
       this.selectedItems.forEach((item) => {
         this.location.gateways.push(item.id);
-      })
+      });
     }
 
     if (this.locationForm && this.locationForm.invalid) {
-      this.toaster.onFailure('Please fill the form correctly.', 'Form is invalid!')
+      this.toaster.onFailure('Please fill the form correctly.', 'Form is invalid!');
       Object.keys(this.locationForm.form.controls).forEach(element => {
         this.locationForm.form.controls[element].markAsDirty();
       });
@@ -632,11 +714,11 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
       this.uomModels[uom[i].uomTypeName] = '';
     }
 
-    if (uom && uom.length > 0 && this.location && this.location.uoM) {
+    if (uom && uom.length > 0 && this.location && this.location.uoMId) {
       for (let i = 0; i < uom.length; i++) {
-        for (let j = 0; j < this.location.uoM.length; j++) {
+        for (let j = 0; j < this.location.uoMId.length; j++) {
           for (let k = 0; k < uom[i].uoMView.length; k++) {
-            if (this.location.uoM[j] === uom[i].uoMView[k].uoMId) {
+            if (this.location.uoMId[j] === uom[i].uoMView[k].uoMId) {
               this.uomModels[uom[i].uomTypeName] = uom[i].uoMView[k].uoMId;
             }
           }
@@ -686,5 +768,132 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
     } else if (type === 'gateway_association') {
       this.isGatewayAssociationClicked = true;
     }
+  }
+  getDashboards() {
+    // service to get all dashboards by userid
+    this.userdashboardData = [
+      // {
+      //   id: '1',
+      //   templateName: 'Standard Organization Dashboard',
+      //   dashboardName: 'Organization Dashboard',
+      //   dashboardHTML: ''
+      // },
+      {
+        id: '2',
+        templateName: 'Standard Location Dashboard',
+        dashboardName: 'Location Dashboard',
+        dashboardHTML: ''
+      },
+      {
+        id: '3',
+        templateName: 'Standard Asset Dashboard',
+        dashboardName: 'Asset Dashboard',
+        dashboardHTML: ''
+      }
+    ];
+    return this.userdashboardData;
+  }
+  getDashboardsTemplates() {
+    this.dashboardTemplates = [
+      // {
+      //   id: '1',
+      //   templateName: 'Standard Organization Dashboard'
+      // },
+      {
+        id: '2',
+        templateName: 'Standard Location Dashboard'
+      },
+      {
+        id: '3',
+        templateName: 'Standard Asset Dashboard'
+      }
+    ];
+  }
+  async getDashboardHTML(formName: string, index) {
+    console.log(formName, '--getDashboardHTML functiona called');
+
+    // await this.organizationService.getDashboardHTML(formName)
+    //   .subscribe(response => {
+    //     console.log('return response---', response);
+    //     this.userdashboardData[index].dashboardHTML = this.sanitizer.bypassSecurityTrustHtml(response);
+    //     setTimeout(() => {
+    //       // setData('Hello');
+    //     }, 300);
+    //   });
+  }
+
+  openAddDashboardModal(dashboardAct: string, dashboardId: any, dashboardNames: string) {
+    // this.dashBoardDataByID = getDashboardById(dashboardId)
+    console.log(dashboardNames);
+    if (dashboardAct === 'editDashboard') {
+      this.dashboardDataById = {
+        act: 'edit',
+        title: 'Edit Dashboard',
+        dashboardName: dashboardNames,
+        dashboardHTML: ''
+      };
+    } else if (dashboardAct === 'addDashboard') {
+      this.dashboardDataById = {
+        act: 'create',
+        title: 'Create Dashboard',
+        dashboardName: '',
+        dashboardHTML: ''
+      };
+    }
+    console.log('dashboardDataById---', this.dashboardDataById);
+    // Get the modal
+    let addDashboardmodal = document.getElementById('addDashboardModalWrapper');
+    addDashboardmodal.style.display = 'block';
+    this.addDashboardmodal = document.getElementById('addDashboardModalWrapper');
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName('close')[0];
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function (event) {
+      if (event.target === addDashboardmodal) {
+        addDashboardmodal.style.display = 'none';
+      }
+    };
+
+  }
+
+  onDashboardFormSubmit() {
+    console.log('onDashboardFormSubmit', this.dashboardDataById);
+    this.addDashboardArray = {
+      id: '4',
+      templateName: 'Standard Asset Dashboard',
+      dashboardName: this.dashboardDataById.dashboardName
+    };
+    this.dashboardData.push(this.addDashboardArray);
+    console.log('this.dashboardData---added', this.dashboardData);
+    this.closeAddDashboardModal(true);
+  }
+
+  closeAddDashboardModal(event: any) {
+    console.log('==', event);
+    this.addDashboardmodal.style.display = 'none';
+    // if (event === 'save') {
+    //
+    // } else if (event === 'create') {
+    //
+    // }
+  }
+
+  openDashboardConfirmDialog(delDashboardId, dashboardName) {
+    this.delDashboardId = delDashboardId;
+    this.message = `Do you want to delete the "${dashboardName}" Dashboard?`;
+    this.confirmBoxDash.open();
+  }
+
+  deleteOrganizationDashboardById(event) {
+    console.log('deleteOrganizationDashboardById===', event);
+    if (event) {
+      // delete dashboard service goes here
+    }
+  }
+
+  getDashboardById(dashboardId: any) {
+    this.dashboardData = this.getDashboards();
+    // return this.dashboardById = this.dashboardData.id;
   }
 }

@@ -14,10 +14,7 @@
 .event-search-bar-wrapper{
     float: left;
 }
-.add-event-btn-wrapper{
-    float: right;
-    margin-top: 20px;
-}
+
 .align-center{
     text-align: center;
 }
@@ -49,4 +46,7 @@ legend{
 }
 #addEventModalWrapper .modal-footer{
     padding: 0.5rem 1rem
+}
+.btn-search{
+    padding: 0.15rem 0.5rem;
 }

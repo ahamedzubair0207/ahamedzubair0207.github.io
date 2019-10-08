@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute, ParamMap, Params } from "@angular/router";
+import { ActivatedRoute, ParamMap, Params } from '@angular/router';
 import { AssetsService } from '../../../services/assets/assets.service';
 import { BreadcrumbsService } from './../../../services/breadcrumbs/breadcrumbs.service';
 import { __core_private_testing_placeholder__ } from '@angular/core/testing';
@@ -36,14 +36,19 @@ export class VotmCloudAssetsHomeComponent implements OnInit {
   locationId: any;
 
 
-  constructor(private assetService: AssetsService, private route: ActivatedRoute, private toastr: ToastrService, private router: Router, private breadcrumbs: BreadcrumbsService) { }
+  constructor(
+    private assetService: AssetsService,
+    private route: ActivatedRoute,
+    private toastr: ToastrService,
+    private router: Router,
+    private breadcrumbs: BreadcrumbsService) { }
 
   ngOnInit() {
     this.subscriptions.push(this.route.params.subscribe(
       (params: Params) => {
         this.parentOrgId = params.orgId;
         this.parentOrgName = params.orgName;
-        this.locationId = params.locId
+        this.locationId = params.locId;
         if (!this.locationId) {
           this.fetchAllAssetsTree();
         } else {
@@ -54,7 +59,7 @@ export class VotmCloudAssetsHomeComponent implements OnInit {
 
   onCreateAsset() {
     console.log('AHAMED CLICKED ', this.parentOrgName, this.parentOrgId);
-    this.router.navigate([`asset/create/${this.parentOrgId}/${this.parentOrgName}`])
+    this.router.navigate([`asset/create/${this.parentOrgId}/${this.parentOrgName}`]);
   }
 
 
@@ -92,8 +97,8 @@ export class VotmCloudAssetsHomeComponent implements OnInit {
   fetchAssetsTreeById() {
     this.subscriptions.push(this.assetService.getAssetTreeByLocId(this.locationId)
       .subscribe(response => {
-        this.assetsList = response
-        console.log(' this.assetsList ', this.assetsList)
+        this.assetsList = response;
+        console.log(' this.assetsList ', this.assetsList);
         // .map(
         //   x => ({
         //     ...x,
@@ -108,9 +113,9 @@ export class VotmCloudAssetsHomeComponent implements OnInit {
   }
 
   fetchAllAssetsTree() {
-    this.subscriptions.push(this.assetService.getAssetTree()
+    this.subscriptions.push(this.assetService.getAssetTreeByOrgId(this.parentOrgId)
       .subscribe(response => {
-        this.assetsList = response
+        this.assetsList = response;
         // .map(
         //   x => ({
         //     ...x,

@@ -1,47 +1,54 @@
 <!-- <div class="tab-content votom-tab-border pr-1 pl-1" id="myTabContent">
   <div class="tab-pane fade show active" id="assets" role="tabpanel" aria-labelledby="assets-tab"> -->
-
-    <button class="btn btn-info mt-3 btn-sm" style="float: right;" id="alert-org-create" (click)="onCreateAlertClick()"><i
-        class="fa fa-warning mr-2"></i>Create Alert rules</button>
+<div class="row">
+  <div class="col">
+    <button class="btn btn-info mt-3 btn-sm" style="float: right;" id="alert-org-create"
+      (click)="onCreateAlertClick()"><i class="fa fa-warning mr-2"></i>Create Alert rules</button>
     <form class="form-inline">
       <label for="typeahead-config" id="alert-filter">Type to filter rules:</label>
-      <input class="form-control form-control-sm ml-2 mb-3 mt-3" id="alertSearchBox" type="search" placeholder="Search" aria-label="Search">
+      <input class="form-control form-control-sm ml-2 mb-3 mt-3" id="alertSearchBox" type="search" placeholder="Search"
+        aria-label="Search">
       <button class="btn btn-sm btn-outline-info mr-2 ml-2" id="alertSearchButton" type="submit">Search</button>
     </form>
-
-    <table class="table table-sm table-bordered asset-table-fonts">
-      <thead class="thead-dark">
-        <tr>
-          <th scope="col" class="align-left table-col-name">Rule Name</th>
-          <th scope="col" class="align-left">Metric Type</th>
-          <th scope="col" class="align-left">Rule Type</th>
-          <th scope="col" class="align-left table-col-small">Access Scope</th>
-          <th scope="col" class="align-left table-col-small">Associations</th>
-          <th scope="col" class="align-left table-col-small">Notifications</th>
-          <th scope="col" class="align-center">Actions</th>
+    <div class="table-responsive">
+      <table class="table table-sm table-bordered asset-table-fonts">
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col" class="align-left table-col-name">Rule Name</th>
+            <th scope="col" class="align-left">Metric Type</th>
+            <th scope="col" class="align-left">Rule Type</th>
+            <th scope="col" class="align-left table-col-small">Access Scope</th>
+            <th scope="col" class="align-left table-col-small">Associations</th>
+            <th scope="col" class="align-left table-col-small">Notifications</th>
+            <th scope="col" class="align-center">Actions</th>
+          </tr>
+        </thead>
+        <tr *ngFor="let item of alertList">
+          <th scope="row">
+            <a style="color: #212529;" [routerLink]="['alertRule/view', item.alertRuleId]"> {{item.alertRuleName}}</a>
+          </th>
+          <td class="align-left"><i class="fa fa-thermometer-half mr-1"></i>{{item.alertTypeName}}</td>
+          <td class="align-left">{{item.ruleType}}</td>
+          <td class="align-left">{{item.organizationScopeName}}</td>
+          <td class="align-left">{{item.numberofSignalAssociated}}</td>
+          <td class="align-left">{{item.numberofUserAssociated}}</td>
+          <td class="align-center">
+            <a style="color: #212529;" class="action-icon" title="Edit"
+              [routerLink]="['alertRule/edit', item.alertRuleId]">
+              <i class="fa fa-edit pr-1"></i>
+            </a>
+            <a class="action-icon" (click)="openConfirmDialog(item.id, item.name)" title="Delete">
+              <i class="icon-trash"></i>
+            </a>
+          </td>
         </tr>
-      </thead>
-      <tr *ngFor="let item of alertList">
-        <th scope="row">
-          <a style="color: #212529;" [routerLink]="['alertRule/view', item.alertRuleId]"> {{item.alertRuleName}}</a>
-        </th>
-        <td class="align-left"><i class="fa fa-thermometer-half mr-1"></i>{{item.alertTypeName}}</td>
-        <td class="align-left">{{item.ruleType}}</td>
-        <td class="align-left">{{item.organizationScopeName}}</td>
-        <td class="align-left">{{item.numberofSignalAssociated}}</td>
-        <td class="align-left">{{item.numberofUserAssociated}}</td>
-        <td class="align-center">
-          <a style="color: #212529;" class="action-icon" title="Edit" [routerLink]="['alertRule/edit', item.alertRuleId]" >
-            <i class="fa fa-edit pr-1"></i>
-          </a>
-          <a class="action-icon" (click)="openConfirmDialog(item.id, item.name)" title="Delete">
-            <i class="fa fa-trash"></i>
-          </a>
-        </td>
-      </tr>
-    </table>
+      </table>
+    </div>
+  </div>
+</div>
 
-  <!-- </div>
+
+<!-- </div>
 </div> -->
 
 

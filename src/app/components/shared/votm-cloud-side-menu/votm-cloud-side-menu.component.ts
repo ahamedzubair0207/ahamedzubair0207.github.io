@@ -13,13 +13,16 @@ export class VotmCloudSideMenuComponent implements OnInit {
   menuItems: Array<{ id: string, enabled: boolean, url: string, icon: string, name: string}>;
   activeItem: string;
 
-  constructor(private menuService: MenuService, private sharedService: SharedService, 
-    private elemRef: ElementRef) { 
-    this.sharedService.getMenuOpen().subscribe(newVal => this.menuOpen = newVal); 
+  constructor(
+    private menuService: MenuService,
+    private sharedService: SharedService,
+    private elemRef: ElementRef
+    ) {
+    this.sharedService.getMenuOpen().subscribe(newVal => this.menuOpen = newVal);
   }
 
   ngOnInit() {
-    this.getMenu();    
+    this.getMenu();
     this.activeItem = this.sharedService.getActiveMenu();
   }
 
@@ -27,11 +30,11 @@ export class VotmCloudSideMenuComponent implements OnInit {
     this.menuItems = this.menuService.getMenu();
   }
 
-  toggleMenu(){
+  toggleMenu() {
     this.sharedService.setMenuOpen(!this.menuOpen);
   }
 
-  setActiveItem(actItem: string){
+  setActiveItem(actItem: string) {
     const elem = this.elemRef.nativeElement.querySelectorAll('.dropdown-container')[0];
     console.log(elem);
     if (actItem !== 'admin') {
@@ -47,8 +50,6 @@ export class VotmCloudSideMenuComponent implements OnInit {
         elem.classList.remove('display-block');
         elem.classList.add('display-none');
       }
-      
     }
-    
   }
 }

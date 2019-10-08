@@ -25,6 +25,7 @@ export class AppConstants {
     public static GET_ASSET_TREE = '/AssetTree/type/asset';
     public static GET_ASSETTREE = '/AssetTree';
     public static GET_ASSETTREE_BYID = '/type/location';
+    public static GET_ASSETTREE_BYORGID = '/type/organization';
     public static GET_ALLASSETS = '/Asset';
     public static GET_TEMPLATES = '/Asset/Template';
     public static GET_TEMPLATESNAMELIST = '/Asset/TemplateNameList';
@@ -44,11 +45,14 @@ export class AppConstants {
     public static GET_ALERT = '/Alert';
     public static GET_ALERT_BYALERTID = '/AlertRule';
     public static CREATE_ALERT = '/AlertRule';
+    public static UPDATE_ALERT = '/AlertRule';
     public static GET_ALERT_BYORGID = '/AlertRules';
     public static GET_ALERT_RULESIGNALS_ASSOCIATION_ASSETS = '/AlertRuleSignalAssociatedwithAsset'; // AlertRuleSignalAssociatedwithAsset/{organizationId}/{alertRuleId}
-    public static GET_ALERT_METRICS = "/AlertRules/MetricType"
-    public static GET_ALERT_USERGROUPROLE = "/AlertRules/UserGroupRoles";
-    public static GET_ALERT_ACCESSSCOPE="/BreadcrumbNavigation/GetChildOrganization"
+    public static GET_ALERT_METRICS = '/AlertRules/MetricType';
+    public static GET_ALERT_USERGROUPROLE = '/AlertRules/UserGroupRoles';
+    public static EDIT_ALERT = '/AlertRule'; // Ahamed Code
+    public static DEL_ALERT = '/AlertRule'; // Ahamed Code
+    public static GET_ALERT_ACCESSSCOPE = '/BreadcrumbNavigation/GetChildOrganization';
 
     public static NAVIGATION_URL = '/BreadcrumbNavigation';
 

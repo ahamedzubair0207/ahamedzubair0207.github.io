@@ -22,6 +22,7 @@ export class VotmCloudOrganizationsHomeComponent implements OnInit {
   curOrgName: string;
   orgToDelete: string;
   toaster: Toaster = new Toaster(this.toastr);
+  isGetOrganizationsApiLoading = false;
 
   @ViewChild('confirmBox', null) confirmBox: VotmCloudConfimDialogComponent;
   orgNameToDelete: any;
@@ -31,8 +32,8 @@ export class VotmCloudOrganizationsHomeComponent implements OnInit {
 
   ngOnInit() {
     this.route.paramMap.subscribe((params: ParamMap) => {
-      this.curOrgId = params.get("orgId");
-      this.curOrgName = params.get("orgName");
+      this.curOrgId = params.get('orgId');
+      this.curOrgName = params.get('orgName');
       // console.log('ABCD ', params)
       this.fetchOrgList();
     });
@@ -72,6 +73,7 @@ export class VotmCloudOrganizationsHomeComponent implements OnInit {
   }
 
   fetchOrgList() {
+    this.isGetOrganizationsApiLoading = true;
     this.orgservice.getOrganizationTree(this.curOrgId).subscribe(
       response => {
         this.organizationsList = response.map(
@@ -80,6 +82,9 @@ export class VotmCloudOrganizationsHomeComponent implements OnInit {
             opened: true
           })
         );
+        this.isGetOrganizationsApiLoading = false;
+      }, error => {
+        this.isGetOrganizationsApiLoading = false;
       }
     );
   }

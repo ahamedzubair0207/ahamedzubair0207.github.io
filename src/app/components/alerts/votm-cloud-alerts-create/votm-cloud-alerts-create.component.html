@@ -1,231 +1,241 @@
-<form #alertRuleForm="ngForm" (ngSubmit)="onAlertRuleSubmit()" class="form needs-validation" novalidate>
-    <div class="row mt-3">
-        <div class="col-md-6">
-            <h5>Alert Rule Configuration</h5>
-        </div>
-        <i class="fa fa-lock edit-view-lock" id="view-lock" name="lockTogglebutton"
-            *ngIf="pageType.toLowerCase() === 'view'" (click)="onLockClick()"></i>
-        <i *ngIf="pageType.toLowerCase() !== 'view'" class="fa fa-unlock edit-view-lock" id="edit-lock" name="unlockTogglebutton" (click)="onLockClick()"></i>
-    </div>
-    <div class="form-group row">
-        <div class="col-md-4 row">
-            <label id="alertRuleNameLbl" class="col-md-6 col-form-label txt-r">Alert Rule Name</label>
+<div class="shadow p-3 mb-5 bg-white rounded">
+    <form #alertRuleForm="ngForm" (ngSubmit)="onAlertRuleSubmit()" class="form needs-validation" novalidate>
+        <div class="row mt-3">
             <div class="col-md-6">
-                <input type="text" name="alertRuleName" [(ngModel)]="alert.alertRuleName"
-                    class="form-control form-control-sm" id="alertRuleNameInput" placeholder="Alert Rule Name">
+                <h5>Alert Rule Configuration</h5>
             </div>
+            <i class="fa fa-lock edit-view-lock" id="view-lock" name="lockTogglebutton"
+                *ngIf="pageType.toLowerCase() === 'view'" (click)="onLockClick()"></i>
+            <i *ngIf="pageType.toLowerCase() === 'edit'" class="fa fa-unlock edit-view-lock" id="edit-lock"
+                name="unlockTogglebutton" (click)="onLockClick()"></i>
         </div>
-        <div class="col-md-4 row">
-            <label id="metricTypeLbl" class="col-md-6 col-form-label txt-r">Metric Type</label>
-            <div class="col-md-6">
-                <select name="metricType" id="metricTypeDropDown" [(ngModel)]="alert.alertTypeId"
-                    class="form-control form-control-sm">
-                    <option *ngFor="let metricType of metricTypes" [value]="metricType.id">{{metricType.name}}</option>
-                </select>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="row">
-                <label id="accessTypeLbl" class="col-md-6 col-form-label txt-r">Access Scope</label>
+        <div class="form-group row">
+            <div class="col-md-4 row">
+                <label id="alertRuleNameLbl" class="col-md-6 col-form-label txt-r">Alert Rule Name</label>
                 <div class="col-md-6">
-                    <select name="accessScope" id="accessTypeDropDown" [(ngModel)]="alert.organizationScopeId"
-                        class="form-control form-control-sm">
-                        <option *ngFor="let accessScope of accessScopes" [value]="accessScope.id">{{accessScope.name}}
+                    <input type="text" name="alertRuleName" [(ngModel)]="alert.alertRuleName"
+                        class="form-control form-control-sm" id="alertRuleNameInput" placeholder="Alert Rule Name"
+                        [disabled]="pageType === 'View'">
+                </div>
+            </div>
+            <div class="col-md-4 row">
+                <label id="metricTypeLbl" class="col-md-6 col-form-label txt-r">Metric Type</label>
+                <div class="col-md-6">
+                    <select name="metricType" id="metricTypeDropDown" [(ngModel)]="alert.alertTypeId"
+                        class="form-control form-control-sm" [disabled]="pageType === 'View'">
+                        <option *ngFor="let metricType of metricTypes" [value]="metricType.id">{{metricType.name}}
                         </option>
                     </select>
                 </div>
             </div>
+            <div class="col-md-4">
+                <div class="row">
+                    <label id="accessTypeLbl" class="col-md-6 col-form-label txt-r">Rule Owner</label>
+                    <div class="col-md-6">
+                        <input type="text" name="organizationScopeId" [(ngModel)]="accessScopeName"
+                            class="form-control form-control-sm" id="alertRuleNameInput" disabled>
+                        <!-- <select name="accessScope" id="accessTypeDropDown" [(ngModel)]="alert.organizationScopeId"
+                        class="form-control form-control-sm">
+                        <option *ngFor="let accessScope of accessScopes" [value]="accessScope.id">{{accessScope.name}}
+                        </option>
+                    </select> -->
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
-    <div class="form-group row">
-        <div class="col-md-3 row">
-            <label id="ruleTypeLbl" class="col-md-6 col-form-label txt-r">Rule Type</label>
+        <div class="form-group row">
+            <div class="col-md-3 row">
+                <label id="ruleTypeLbl" class="col-md-6 col-form-label txt-r">Rule Type</label>
+                <div class="col-md-6">
+                    <select name="ruleType" id="ruleTypeDropDown" [(ngModel)]="alert.alertRuleTypeId"
+                        class="form-control form-control-sm" [disabled]="pageType === 'View'">
+                        <option *ngFor="let ruleType of ruleTypes" [value]="ruleType.id">{{ruleType.name}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-4 row">
+                <label id="minimumSustainTimeLbl" class="col-md-7 col-form-label">Minimum Sustain Time</label>
+                <div class="col-md-5 pl-0">
+                    <div class="input-group">
+                        <input name="sustainTime" id="minimumSustainTimeInput" [(ngModel)]="alert.sustainTime"
+                            type="text" class="form-control form-control-sm" placeholder="0"
+                            [disabled]="pageType === 'View'">
+                        <div class="input-group-append">
+                            <span class="input-group-text form-control-sm" id="secondLblAlert">Second</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2 pl-0 pr-0 pt-2">
+                <div class="checkbox">
+                    <label><input type="checkbox" name="closureRequired" id="closureCheckBox"
+                            [(ngModel)]="alert.closureRequired" class="mr-2" [disabled]="pageType === 'View'">Closure
+                        Require</label>
+                </div>
+            </div>
+            <div class="col-md-3 row pl-0 pr-0">
+                <label id="excalateAfterLbl" class="col-md-5 col-form-label pl-0">Escalate After</label>
+                <div class="col-md-7 pr-0">
+                    <div class="input-group">
+                        <input type="text" id="excalateAfterInput" name="escalateTime" [(ngModel)]="alert.escalateTime"
+                            class="form-control form-control-sm" placeholder="0" [disabled]="pageType === 'View'">
+                        <div class="input-group-append">
+                            <span class="input-group-text form-control-sm" id="minutesLblAlert">Minutes</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group" *ngIf="absoluteThresholds">
+            <fieldset [disabled]="pageType === 'View'">
+                <legend id="thresholdsLbl">Thresholds</legend>
+                <table class="table table-borderless table-sm">
+                    <tbody>
+                        <tr>
+                            <td class="{{threshold.class}}" *ngFor="let threshold of absoluteThresholds"
+                                id="thresholdsAlertlbl">
+                                {{threshold.alertConfigurationLabel}}</td>
+                        </tr>
+                        <tr>
+                            <td *ngFor="let threshold of absoluteThresholds">
+                                <div class="custom-control custom-switch">
+                                    <input type="checkbox" id="thresholdsAlertbtn" [(ngModel)]="threshold.active"
+                                        name="{{'checkbox_'+threshold.alertConfigurationId}}"
+                                        class="custom-control-input" id="{{threshold.alertConfigurationId}}">
+                                    <label class="custom-control-label" for="{{threshold.alertConfigurationId}}">
+                                        <input [disabled]="!threshold.active" id="thresholdsAlertInput" type="text"
+                                            name="{{threshold.alertConfigurationId}}"
+                                            [(ngModel)]="threshold.alertConfigurationValue"
+                                            class="form-control-sm mr-1 w-25" />psi</label>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </fieldset>
+        </div>
+        <div class="row">
             <div class="col-md-6">
-                <select name="ruleType" id="ruleTypeDropDown" [(ngModel)]="alert.alertRuleTypeId"
-                    class="form-control form-control-sm">
-                    <option *ngFor="let ruleType of ruleTypes" [value]="ruleType.id">{{ruleType.name}}</option>
-                </select>
-            </div>
-        </div>
-        <div class="col-md-4 row">
-            <label id="minimumSustainTimeLbl" class="col-md-7 col-form-label">Minimum Sustain Time</label>
-            <div class="col-md-5 pl-0">
-                <div class="input-group">
-                    <input name="sustainTime" id="minimumSustainTimeInput" [(ngModel)]="alert.sustainTime" type="text"
-                        class="form-control form-control-sm" placeholder="60">
-                    <div class="input-group-append">
-                        <span class="input-group-text form-control-sm" id="secondLblAlert">Second</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-2 pl-0 pr-0 pt-2">
-            <div class="checkbox">
-                <label><input type="checkbox" name="closureRequired" id="closureCheckBox"
-                        [(ngModel)]="alert.closureRequired" class="mr-2">Closure Require</label>
-            </div>
-        </div>
-        <div class="col-md-3 row pl-0 pr-0">
-            <label id="excalateAfterLbl" class="col-md-5 col-form-label pl-0">Escalate After</label>
-            <div class="col-md-7 pr-0">
-                <div class="input-group">
-                    <input type="text" id="excalateAfterInput" name="escalateTime" [(ngModel)]="alert.escalateTime"
-                        class="form-control form-control-sm" placeholder="60">
-                    <div class="input-group-append">
-                        <span class="input-group-text form-control-sm" id="minutesLblAlert">Minutes</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="form-group" *ngIf="absoluteThresholds">
-        <fieldset>
-            <legend id="thresholdsLbl">Thresholds</legend>
-            <table class="table table-borderless table-sm">
-                <tbody>
-                    <tr>
-                        <td class="{{threshold.class}}" *ngFor="let threshold of absoluteThresholds"
-                            id="thresholdsAlertlbl">
-                            {{threshold.alertConfigurationLabel}}</td>
-                    </tr>
-                    <tr>
-                        <td *ngFor="let threshold of absoluteThresholds">
-                            <div class="custom-control custom-switch">
-                                <input type="checkbox" id="thresholdsAlertbtn" [(ngModel)]="threshold.active"
-                                    name="{{'checkbox_'+threshold.alertConfigurationId}}" class="custom-control-input"
-                                    id="{{threshold.alertConfigurationId}}">
-                                <label class="custom-control-label" for="{{threshold.alertConfigurationId}}">
-                                    <input [disabled]="!threshold.active" id="thresholdsAlertInput" type="text"
-                                        name="{{threshold.alertConfigurationId}}"
-                                        [(ngModel)]="threshold.alertConfigurationValue"
-                                        class="form-control-sm mr-1 w-25" />psi</label>
-                            </div>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </fieldset>
-    </div>
-    <div class="row">
-        <div class="col-md-6">
-            <fieldset>
-                <legend id="alertRuleSignallbl">Signal Associations</legend>
-                <ul class="nav nav-tabs">
-                    <li class="nav-item">
-                        <a href="#Assets" class="nav-link active" data-toggle="tab"
-                            id="alertRuleAssetSignallbl">Assets/Location Signals</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#Template" class="nav-link" data-toggle="tab" id="alertRuleTemplateSignallbl">Assets
-                            Template Signals</a>
-                    </li>
-                </ul>
-                <div class="tab-content">
-                    <div class="tab-pane fade show active" id="Assets">
-                        <div class="row mt-3 mb-3">
-                            <label id="alertRuleSignalFilterLbl" class="col-sm-6 col-form-label">Type to filter
-                                names</label>
-                            <div class="col-sm-6">
-                                <div class="input-group">
-                                    <input type="text" class="form-control" placeholder="enter"
-                                        id="alertRuleSignalFilterInput">
-                                    <div class="input-group-append">
-                                        <span class="input-group-text"><i class="fa fa-search"></i></span>
+                <fieldset [disabled]="pageType === 'View'">
+                    <legend id="alertRuleSignallbl">Signal Associations</legend>
+                    <ul class="nav nav-tabs">
+                        <li class="nav-item">
+                            <a href="#Assets" class="nav-link active" data-toggle="tab"
+                                id="alertRuleAssetSignallbl">Assets/Location Signals</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#Template" class="nav-link" data-toggle="tab"
+                                id="alertRuleTemplateSignallbl">Assets
+                                Template Signals</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="Assets">
+                            <div class="row mt-3 mb-3">
+                                <label id="alertRuleSignalFilterLbl" class="col-sm-6 col-form-label">Type to filter
+                                    names</label>
+                                <div class="col-sm-6">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" placeholder="enter"
+                                            id="alertRuleSignalFilterInput">
+                                        <div class="input-group-append">
+                                            <span class="input-group-text"><i class="fa fa-search"></i></span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="table-scroll scrollbar-primary">
-                            <table class="table table-bordered table-sm">
-                                <thead>
-                                    <tr>
-                                        <th>Name</th>
-                                        <th class="text-center">Associations</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <!-- <tr> <td>AHAMED</td><td>ZUBAIR</td></tr> -->
-                                    <div *ngFor="let location of alertRuleSignalAssociatedAsset.locations">
-                                        <div *ngIf="location.signalId">
-                                            <tr>
-                                                <td>
-                                                    {{'Organizaation > '+location.locationName}}
-                                                </td>
-                                                <td class="text-center">
-                                                    <div class="checkbox">
-                                                        <label><input type="checkbox"
-                                                                (change)="onSignalSelectionChange($event, location.signalId)"></label>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>&nbsp;&nbsp;&nbsp;&nbsp;{{location.signalName}}</td>
-                                                <td class="text-center">
-                                                    <div class="checkbox">
-                                                        <label><input type="checkbox"
-                                                                (change)="onSignalSelectionChange($event, location.signalId)"></label>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        </div>
-                                        <div *ngFor="let asset of location.assets">
-                                            <tr>
-                                                <td>{{'Organization > '+location.locationName +' > '+asset.assetName}}
-                                                </td>
-                                                <!-- <td>{{asset.assetName}}</td> -->
-                                                <td class="text-center">
-                                                    <div class="checkbox">
-                                                        <label><input type="checkbox"
-                                                                (change)="onAssetChecked($event, asset)"
-                                                                [(ngModel)]="assetsChecked[asset.assetId]"
-                                                                [name]="asset.assetId"></label>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <div *ngFor="let signal of asset.signals">
+                            <div class="table-scroll scrollbar-primary">
+                                <table class="table table-bordered table-sm">
+                                    <thead>
+                                        <tr>
+                                            <th>Name</th>
+                                            <th class="text-center">Associations</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!-- <tr> <td>AHAMED</td><td>ZUBAIR</td></tr> -->
+                                        <div *ngFor="let location of alertRuleSignalAssociatedAsset.locations">
+                                            <div *ngIf="location.signalId">
                                                 <tr>
-                                                    <td>&nbsp;&nbsp;&nbsp;&nbsp;{{signal.signalName}}</td>
+                                                    <td>
+                                                        {{'Organizaation > '+location.locationName}}
+                                                    </td>
                                                     <td class="text-center">
                                                         <div class="checkbox">
                                                             <label><input type="checkbox"
-                                                                    [checked]="selectedSignals.indexOf(signal.signalId)>=0"
-                                                                    (change)="onSignalSelectionChange($event, signal.signalId, asset)"></label>
+                                                                    (change)="onSignalSelectionChange($event, location.signalId)"></label>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>&nbsp;&nbsp;&nbsp;&nbsp;{{location.signalName}}</td>
+                                                    <td class="text-center">
+                                                        <div class="checkbox">
+                                                            <label><input type="checkbox"
+                                                                    (change)="onSignalSelectionChange($event, location.signalId)"></label>
                                                         </div>
                                                     </td>
                                                 </tr>
                                             </div>
+                                            <div *ngFor="let asset of location.assets">
+                                                <tr>
+                                                    <td>{{'Organization > '+location.locationName +' > '+asset.assetName}}
+                                                    </td>
+                                                    <!-- <td>{{asset.assetName}}</td> -->
+                                                    <td class="text-center">
+                                                        <div class="checkbox">
+                                                            <label><input type="checkbox"
+                                                                    (change)="onAssetChecked($event, asset)"
+                                                                    [(ngModel)]="assetsChecked[asset.assetId]"
+                                                                    [name]="asset.assetId"></label>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <div *ngFor="let signal of asset.signals">
+                                                    <tr>
+                                                        <td>&nbsp;&nbsp;&nbsp;&nbsp;{{signal.signalName}}</td>
+                                                        <td class="text-center">
+                                                            <div class="checkbox">
+                                                                <label><input type="checkbox"
+                                                                        [checked]="selectedSignals.indexOf(signal.signalId)>=0"
+                                                                        (change)="onSignalSelectionChange($event, signal.signalId, asset)"></label>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </div>
+                                            </div>
                                         </div>
-                                    </div>
-                                </tbody>
-                            </table>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
-                    </div>
-                    <div class="tab-pane fade" id="Template">
-                        <div class="row mt-3 mb-3">
-                            <label id="alertRuleSignalTemplateFilterLbl" class="col-sm-6 col-form-label">Type to filter
-                                names</label>
-                            <div class="col-sm-6">
-                                <div class="input-group">
-                                    <input type="text" class="form-control form-control-sm" placeholder="enter"
-                                        id="alertRuleSignalTemplateFilterInput">
-                                    <div class="input-group-append">
-                                        <span class="input-group-text"><i class="fa fa-search"></i></span>
+                        <div class="tab-pane fade" id="Template">
+                            <div class="row mt-3 mb-3">
+                                <label id="alertRuleSignalTemplateFilterLbl" class="col-sm-6 col-form-label">Type to
+                                    filter
+                                    names</label>
+                                <div class="col-sm-6">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control form-control-sm" placeholder="enter"
+                                            id="alertRuleSignalTemplateFilterInput">
+                                        <div class="input-group-append">
+                                            <span class="input-group-text"><i class="fa fa-search"></i></span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="table-scroll scrollbar-primary">
-                            <table class="table table-bordered table-sm">
-                                <thead>
-                                    <tr>
-                                        <th>Name</th>
-                                        <th class="text-center">Associations</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <div *ngFor="let location of alertRuleSignalAssociatedAsset.locations">
+                            <div class="table-scroll scrollbar-primary table-responsive">
+                                <table class="table table-bordered table-sm">
+                                    <thead>
+                                        <tr>
+                                            <th>Name</th>
+                                            <th class="text-center">Associations</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <div *ngFor="let location of alertRuleSignalAssociatedAsset.locations">
 
-                                        <!-- <div *ngIf="location.signalId">
+                                            <!-- <div *ngIf="location.signalId">
                                             <tr>
                                                 <td>
                                                     {{'Organizaation > '+location.locationName+' > '+location.signalName}}
@@ -238,31 +248,31 @@
                                                 </td>
                                             </tr>
                                         </div> -->
-                                        <div *ngFor="let asset of location.assets">
-                                            <tr>
-                                                <!-- <td>{{'Organization > '+location.locationName +' > '+asset.assetName}}</td> -->
-                                                <td>{{asset.assetName}}</td>
-                                                <td class="text-center">
-                                                    <div class="checkbox">
-                                                        <label><input type="checkbox"></label>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <div *ngFor="let signal of asset.signals">
+                                            <div *ngFor="let asset of location.assets">
                                                 <tr>
-                                                    <td>{{signal.signalName}}</td>
+                                                    <!-- <td>{{'Organization > '+location.locationName +' > '+asset.assetName}}</td> -->
+                                                    <td>{{asset.assetName}}</td>
                                                     <td class="text-center">
                                                         <div class="checkbox">
-                                                            <label><input type="checkbox"
-                                                                    [checked]="selectedSignals.indexOf(signal.signalId)>=0"
-                                                                    (change)="onSignalSelectionChange($event, signal.signalId)"></label>
+                                                            <label><input type="checkbox"></label>
                                                         </div>
                                                     </td>
                                                 </tr>
+                                                <div *ngFor="let signal of asset.signals">
+                                                    <tr>
+                                                        <td>{{signal.signalName}}</td>
+                                                        <td class="text-center">
+                                                            <div class="checkbox">
+                                                                <label><input type="checkbox"
+                                                                        [checked]="selectedSignals.indexOf(signal.signalId)>=0"
+                                                                        (change)="onSignalSelectionChange($event, signal.signalId)"></label>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <!-- <tr>
+                                        <!-- <tr>
                                         <td>Air Compressor 1</td>
                                         <td class="text-center">
                                             <div class="checkbox">
@@ -294,69 +304,77 @@
                                             </div>
                                         </td>
                                     </tr> -->
-                                </tbody>
-                            </table>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </fieldset>
-        </div>
-        <div class="col-md-6">
-            <fieldset>
-                <legend>Notified Parties</legend>
-                <div class="">
-                    <button class="btn btn-sm btn-secondary mr-2" id="notifyBtn"><i class="fa fa-star mr-2"></i>Notify
-                        Me</button>
-                    <button type="button" class="btn btn-sm btn-secondary mr-2" data-toggle="modal"
-                        (click)="onAddNotifiedUsersClick()" data-target="#notifiedUserModal" id="notifyUserBtn"><i
-                            class="fa fa-user mr-2"></i>Add Notified User</button>
-                    <button type="button" class="btn btn-sm btn-secondary" data-toggle="modal"
-                        data-target="#notifiedUserGroupModal" id="notifyUserBtn"><i class="fa fa-users mr-2"></i>Add
-                        Notified
-                        Group</button>
+                </fieldset>
+            </div>
+            <div class="col-md-6">
+                <fieldset [disabled]="pageType === 'View'">
+                    <legend>Notified Parties</legend>
+                    <div class="">
+                        <button class="btn btn-sm btn-secondary mr-2" id="notifyBtn"><i
+                                class="fa fa-star mr-2"></i>Notify
+                            Me</button>
+                        <button type="button" class="btn btn-sm btn-secondary mr-2" data-toggle="modal"
+                            (click)="onAddNotifiedUsersClick()" data-target="#notifiedUserModal" id="notifyUserBtn"><i
+                                class="fa fa-user mr-2"></i>Add Notified User</button>
+                        <button type="button" class="btn btn-sm btn-secondary" data-toggle="modal"
+                            data-target="#notifiedUserGroupModal" id="notifyUserBtn"><i class="fa fa-users mr-2"></i>Add
+                            Notified
+                            Group</button>
 
-                    <!-- Button trigger modal -->
-                    <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
+                        <!-- Button trigger modal -->
+                        <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
                             Launch demo modal
                         </button> -->
-                </div>
-                <div class="mt-3">
-                    <div class="table2-scroll scrollbar-primary">
-                        <table class="table table-bordered table-sm">
-                            <thead>
-                                <tr>
-                                    <th>User/Group Name</th>
-                                    <th>Responsibility</th>
-                                    <th class="text-center">Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr *ngFor="let userGroupSubscriber of alert.alertRuleUserGroup">
-                                    <td><i
-                                            class="fa fa-user mr-2"></i>{{userGroupSubscriber.userGroupName? userGroupSubscriber.userGroupName: userGroupSubscriber.userName}}
-                                    </td>
-                                    <td>
-                                        <div *ngIf="userGroupSubscriber.userGroupId">
-                                            <select [(ngModel)]="userResponsibities[userGroupSubscriber.alertUserGroupId]"
-                                                (change)="onResponsibityChangeForUserGroup($event, userGroupSubscriber)"
-                                                [name]="userGroupSubscriber.userGroupId">
-                                                <option *ngFor="let role of userRoles"
-                                                    [value]="role.alertUserGroupRoleId">
-                                                    {{role.roleName}}
-                                                </option>
-                                            </select>
-                                        </div>
-                                        <div *ngIf="userGroupSubscriber.userId">
-                                            <select [(ngModel)]="userResponsibities[userGroupSubscriber.alertUserGroupId]"
-                                                (change)="onResponsibityChangeForUserId($event, userGroupSubscriber)"
-                                                [name]="userGroupSubscriber.userId">
-                                                <option *ngFor="let role of userRoles"
-                                                    [value]="role.alertUserGroupRoleId">
-                                                    {{role.roleName}}
-                                                </option>
-                                            </select></div>
-                                    </td>
-                                    <!-- <td *ngIf="userGroup.userId">
+                    </div>
+                    <div class="mt-3">
+                        <div class="table2-scroll scrollbar-primary table-responsive">
+                            <table class="table table-bordered table-sm">
+                                <thead>
+                                    <tr>
+                                        <th>User/Group Name</th>
+                                        <th>User Email</th>
+                                        <th>Responsibility</th>
+                                        <th class="text-center">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let userGroupSubscriber of alert.alertRuleUserGroup">
+                                        <td><i class="fa fa-user mr-2"></i>{{userGroupSubscriber.name}}
+                                        </td>
+                                        <td>{{userGroupSubscriber.userEmail? userGroupSubscriber.userEmail: '-'}}<i
+                                                class="icon-info ml-2"
+                                                ngbPopover="This is not used for Alert Subscription!"
+                                                triggers="mouseenter:mouseleave" popoverTitle="Information Only!"></i>
+                                        </td>
+                                        <!-- Ahamed Code -->
+                                        <td>
+                                            <div *ngIf="userGroupSubscriber.userGroupId">
+                                                <select
+                                                    [(ngModel)]="userResponsibities[userGroupSubscriber.userGroupId]"
+                                                    (change)="onResponsibityChangeForUserGroup($event, userGroupSubscriber)"
+                                                    [name]="userGroupSubscriber.userGroupId">
+                                                    <option *ngFor="let role of userRoles"
+                                                        [value]="role.alertUserGroupRoleId">
+                                                        {{role.roleName}}
+                                                    </option>
+                                                </select>
+                                            </div>
+                                            <div *ngIf="userGroupSubscriber.userId">
+                                                <select [(ngModel)]="userResponsibities[userGroupSubscriber.userId]"
+                                                    (change)="onResponsibityChangeForUserId($event, userGroupSubscriber)"
+                                                    [name]="userGroupSubscriber.userId">
+                                                    <option *ngFor="let role of userRoles"
+                                                        [value]="role.alertUserGroupRoleId">
+                                                        {{role.roleName}}
+                                                    </option>
+                                                </select></div>
+                                        </td>
+                                        <!-- <td *ngIf="userGroup.userId">
                                         <select chan [(ngModel)]="userResponsibities[userGroupSubscriber.userId]"
                                             (change)="onResponsibityChange($event, userGroupSubscriber)"
                                             [name]="userGroupSubscriber.userId">
@@ -365,26 +383,26 @@
                                             </option>
                                         </select>
                                     </td> -->
-                                    <td class="text-center"><a href=""><i class="fa fa-trash-o"></i></a></td>
-                                </tr>
-                            </tbody>
-                        </table>
+                                        <td class="text-center"><a (click)="onUserGroupDelete(userGroupSubscriber)"><i
+                                                    class="icon-trash"></i></a></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
-                </div>
-            </fieldset>
+                </fieldset>
+            </div>
         </div>
-    </div>
-    <hr>
-    <div class="row">
-        <div class="col-md-12 text-right">
-            <button class="btn btn-secondary btn-sm mr-2" (click)="onCancelClick($event)"
-                id="alertRuleCancelBtn">Cancel</button>
-            <button type="submit" class="btn btn-info btn-sm mr-2" id="alertRuleSaveBtn">Save</button>
+        <hr>
+        <div class="row">
+            <div class="col-md-12 text-right">
+                <button class="btn btn-secondary btn-sm mr-2" (click)="onCancelClick($event)"
+                    id="alertRuleCancelBtn">Cancel</button>
+                <button type="submit" class="btn btn-info btn-sm mr-2" id="alertRuleSaveBtn">Save</button>
+            </div>
         </div>
-    </div>
-</form>
-
-
+    </form>
+</div>
 <!-- Add Notified User Modal -->
 <div id="notifiedUserModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="userModal"
     aria-hidden="true">
@@ -408,6 +426,7 @@
                             <th scope="col">#</th>
                             <th scope="col">First</th>
                             <th scope="col">Last</th>
+                            <th scope="col">Email</th> <!-- Ahamed Code -->
                             <th scope="col">Action</th>
                         </tr>
                     </thead>
@@ -416,13 +435,15 @@
                             <th scope="row">{{i+1}}</th>
                             <td>{{notifyUser.firstName}}</td>
                             <td>{{notifyUser.lastName}}</td>
-                            <td><i class="fa fa-user-plus"></i></td>
+                            <td>{{notifyUser.emailId}}</td> <!-- Ahamed Code -->
+                            <td><a style="cursor: pointer;" (click)="onUserSelection(notifyUser)"><i
+                                        class="fa fa-user-plus"></i></a></td>
                         </tr>
                     </tbody>
                 </table>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-info" id="userModalSave">Save changes</button>
+                <!-- <button type="button" class="btn btn-info" id="userModalSave">Save changes</button> -->
                 <button type="button" class="btn btn-secondary" data-dismiss="modal" id="userModalClose">Close</button>
             </div>
         </div>
@@ -461,17 +482,21 @@
                         <tr *ngFor="let userGroup of userGroups let i=index;">
                             <th scope="row">{{i+1}}</th>
                             <td>{{userGroup.userGroupName}}</td>
-                            <td><i class="fa fa-user-plus"></i></td>
-
+                            <td><a (click)="onUserGroupSelection(userGroup)"><i class="fa fa-user-plus"></i></a></td>
                         </tr>
                     </tbody>
                 </table>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-info" id="userGroupModalSave">Save changes</button>
+                <!-- <button type="button" class="btn btn-info" id="userGroupModalSave">Save changes</button> -->
                 <button type="button" class="btn btn-secondary" data-dismiss="modal"
                     id="userGroupModalClose">Close</button>
             </div>
         </div>
     </div>
 </div>
+
+
+<!-- Delete Confirmation -->
+<app-votm-cloud-confim-dialog (onClose)="deleteAlertById($event)" #confirmBox
+    message="Are you sure you want to delete the Alert Rule?" headerMessage="Warning"></app-votm-cloud-confim-dialog>

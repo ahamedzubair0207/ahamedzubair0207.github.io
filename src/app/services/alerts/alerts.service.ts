@@ -70,6 +70,12 @@ export class AlertsService {
       );
   }
 
+  updateAlertRule(alertRule: Alert) {
+    return this.http.patch(`${AppConstants.UPDATE_ALERT}/${alertRule.alertRuleId}`, alertRule)
+      .pipe(
+        map(response => response)
+      );
+  }
 
 
   ALertRuleUserGroupSubscriber(alertRuleId) {
@@ -78,4 +84,25 @@ export class AlertsService {
         map(response => response)
       );
   }
+
+
+  //Ahamed Code
+
+  updateAlert(body: Alert) {
+
+    return this.http.patch(AppConstants.EDIT_ALERT + '/' + body.alertRuleId, body)
+      .pipe(
+        map(response => response)
+      );
+  }
+
+  deleteAlert(alertId: string) {
+    return this.http.delete(AppConstants.DEL_ALERT + '/' + alertId, alertId)
+      .pipe(
+        map(response => response)
+      );
+  }
+
+
+
 }

@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute, ParamMap, Router } from "@angular/router";
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { LocationService } from '../../../services/locations/location.service';
 import { VotmCloudConfimDialogComponent } from '../../shared/votm-cloud-confim-dialog/votm-cloud-confim-dialog.component';
 import { ToastrService } from 'ngx-toastr';
@@ -30,10 +30,10 @@ export class VotmCloudLocationsHomeComponent implements OnInit {
 
   ngOnInit() {
     this.route.paramMap.subscribe((params: ParamMap) => {
-      this.curLocId = params.get("locId");
-      this.curLocName = params.get("locName");
-      this.parentOrgId = params.get("orgId");
-      this.parentOrgName = params.get("orgName");
+      this.curLocId = params.get('locId');
+      this.curLocName = params.get('locName');
+      this.parentOrgId = params.get('orgId');
+      this.parentOrgName = params.get('orgName');
       console.log(' this.curLocId ', this.parentOrgId, this.parentOrgName);
       if (!this.curLocId) {
         this.fetchlocationTree();
@@ -53,12 +53,12 @@ export class VotmCloudLocationsHomeComponent implements OnInit {
     });
   }
 
-  onCreateNewLocation(){
-    this.router.navigate([`loc/create/${this.parentOrgId}/${this.parentOrgName}`])
+  onCreateNewLocation() {
+    this.router.navigate([`loc/create/${this.parentOrgId}/${this.parentOrgName}`]);
   }
 
-  onCreateNewAsset(){
-    this.router.navigate([`asset/create/${this.parentOrgId}/${this.parentOrgName}`])
+  onCreateNewAsset() {
+    this.router.navigate([`asset/create/${this.parentOrgId}/${this.parentOrgName}`]);
   }
 
   private fetchlocationTree() {

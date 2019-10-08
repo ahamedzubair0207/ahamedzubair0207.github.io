@@ -25,6 +25,7 @@ import { LocationService } from 'src/app/services/locations/location.service';
 export class VotmCloudAssetsCreateComponent implements OnInit {
   public imagePath;
   imgURL: any;
+  locationImageURL: any;
   public message: string;
   closeResult: string;
   modal: any;
@@ -86,11 +87,20 @@ export class VotmCloudAssetsCreateComponent implements OnInit {
   locationList: any[] = [];
   locationListForDropDown: any[] = [];
   parentAssetListForDropDown: any[];
-  constructor(private modalService: NgbModal, private assetService: AssetsService,
-    private configSettingsService: ConfigSettingsService, private domSanitizer: DomSanitizer,
-    private activatedRoute: ActivatedRoute, private route: Router, private datePipe: DatePipe,
-    private routerLocation: RouterLocation, private toastr: ToastrService,
-    private changeDetectorRef: ChangeDetectorRef, private locService: LocationService, private orgService: OrganizationService) {
+  constructor(
+    private modalService: NgbModal,
+    private assetService: AssetsService,
+    private configSettingsService: ConfigSettingsService,
+    private domSanitizer: DomSanitizer,
+    private activatedRoute: ActivatedRoute,
+    private route: Router,
+    private datePipe: DatePipe,
+    private routerLocation: RouterLocation,
+    private toastr: ToastrService,
+    private changeDetectorRef: ChangeDetectorRef,
+    private locService: LocationService,
+    private orgService: OrganizationService
+  ) {
     this.subscriptions = route.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         if (this.previousUrl) {
@@ -263,14 +273,15 @@ export class VotmCloudAssetsCreateComponent implements OnInit {
   }
 
   preview(file) {
-    console.log('Loaded Preview')
-    this.message = "";
-    if (!file)
+    console.log('Loaded Preview');
+    this.message = '';
+    if (!file) {
       return;
+    }
 
     var mimeType = file.type;
     if (mimeType.match(/image\/*/) == null) {
-      this.message = "Only images are supported.";
+      this.message = 'Only images are supported.';
       return;
     }
     this.handleFileSelect(file);
@@ -279,7 +290,7 @@ export class VotmCloudAssetsCreateComponent implements OnInit {
     readerToPreview.readAsDataURL(file);
     readerToPreview.onload = (_event) => {
       this.imgURL = this.domSanitizer.bypassSecurityTrustUrl(readerToPreview.result.toString()); //readerToPreview.result;
-    }
+    };
   }
 
   handleFileSelect(file) {
@@ -291,8 +302,7 @@ export class VotmCloudAssetsCreateComponent implements OnInit {
         let data;
         if (!e) {
           data = reader.content;
-        }
-        else {
+        } else {
           data = e.target.result;
         }
         let base64textString = btoa(data);
@@ -368,7 +378,7 @@ export class VotmCloudAssetsCreateComponent implements OnInit {
   }
 
   private getDismissReason(reason: any): string {
-    debugger
+    debugger;
     if (reason === ModalDismissReasons.ESC) {
       return 'by pressing ESC';
     } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
@@ -380,16 +390,16 @@ export class VotmCloudAssetsCreateComponent implements OnInit {
   openmodal() {
     this.getAllTemplates();
     // Get the modal
-    var modal = document.getElementById("myModal");
-    modal.style.display = "block";
-    this.modal = document.getElementById("myModal");
+    var modal = document.getElementById('myModal');
+    modal.style.display = 'block';
+    this.modal = document.getElementById('myModal');
     // Get the <span> element that closes the modal
-    var span = document.getElementsByClassName("close")[0];
+    var span = document.getElementsByClassName('close')[0];
 
     // When the user clicks anywhere outside of the modal, close it
     window.onclick = function (event) {
       if (event.target == modal) {
-        modal.style.display = "none";
+        modal.style.display = 'none';
 
       }
     }
@@ -404,7 +414,7 @@ export class VotmCloudAssetsCreateComponent implements OnInit {
           this.allTemplates = response;
           if (response && response.length > 0) {
             response.forEach(template => {
-              this.templates.push({ text: template.templateName, value: template.templateId })
+              this.templates.push({ text: template.templateName, value: template.templateId });
             });
           }
         })
@@ -423,16 +433,16 @@ export class VotmCloudAssetsCreateComponent implements OnInit {
         });
     }
     // Get the modal
-    var modal = document.getElementById("templateSave");
-    modal.style.display = "block";
-    this.modal = document.getElementById("templateSave");
+    var modal = document.getElementById('templateSave');
+    modal.style.display = 'block';
+    this.modal = document.getElementById('templateSave');
     // Get the <span> element that closes the modal
-    var span = document.getElementsByClassName("close")[0];
+    var span = document.getElementsByClassName('close')[0];
 
     // When the user clicks anywhere outside of the modal, close it
     window.onclick = function (event) {
       if (event.target == modal) {
-        modal.style.display = "none";
+        modal.style.display = 'none';
 
       }
     }
@@ -440,7 +450,7 @@ export class VotmCloudAssetsCreateComponent implements OnInit {
   }
 
   closemodal(event: string) {
-    this.modal.style.display = "none";
+    this.modal.style.display = 'none';
     if (event === 'save') {
       this.fillDataFromTemplate(event);
     }
@@ -470,7 +480,7 @@ export class VotmCloudAssetsCreateComponent implements OnInit {
     //   }, 100);
     //   this.changeDetectorRef.detectChanges();
 
-    // }    
+    // }
   }
 
   getAllAssets() {
@@ -500,6 +510,7 @@ export class VotmCloudAssetsCreateComponent implements OnInit {
     this.asset.locationName = null;
     this.asset.parentAssetId = null;
     this.asset.parentAssetName = null;
+    this.locationImage = null;
     this.filterLocations();
     this.filterAssets();
   }
@@ -510,11 +521,34 @@ export class VotmCloudAssetsCreateComponent implements OnInit {
       this.locationList.forEach(loc => {
         if (this.asset.organizationId === loc.organizationId) {
           this.locationListForDropDown.push(loc);
+          if (this.asset.locationId === loc.locationId) {
+            console.log('Loc ', loc);
+            this.getInstalledLocation(loc.logo);
+          }
         }
       });
       if (this.locationListForDropDown && this.locationListForDropDown.length > 0) {
         this.locationListForDropDown.sort(SortArrays.compareValues('locationName'));
       }
+    }
+  }
+
+  onLocationChange(event) {
+    this.locationList.forEach(loc => {
+      if (event.target.value === loc.locationId) {
+        console.log('Loc on change ', loc);
+        this.getInstalledLocation(loc.logo);
+      }
+    });
+  }
+
+  getInstalledLocation(logo: any) {
+    if (logo && logo.imageName) {
+      let tempFileExtension = logo.imageName.slice((Math.max(0, logo.imageName.lastIndexOf(".")) || Infinity) + 1);
+      this.locationImageURL = this.domSanitizer.bypassSecurityTrustUrl(`data:image/${tempFileExtension};base64,${logo.image}`);
+      // this.asset.logo.imageType = this.fileExtension;
+    } else {
+      this.locationImageURL = null;
     }
   }
 
@@ -624,7 +658,7 @@ export class VotmCloudAssetsCreateComponent implements OnInit {
         this.previousAsset = JSON.parse(JSON.stringify(this.asset));
         this.acceptedTemplateChages = true;
 
-      })
+      });
 
 
     // this.allTemplates.forEach(template => {
@@ -638,7 +672,7 @@ export class VotmCloudAssetsCreateComponent implements OnInit {
 
   onDocSelcetion(event) {
     console.log('onDocSelcetion ', event, event.files[0])
-    this.asset.fileStore = { fileType: event.files[0].type, file: event.files[0], fileName: event.files[0].name }
+    this.asset.fileStore = { fileType: event.files[0].type, file: event.files[0], fileName: event.files[0].name };
   }
 
   onAssetSubmit() {
@@ -673,7 +707,7 @@ export class VotmCloudAssetsCreateComponent implements OnInit {
           }, error => {
             let msg = 'Something went wrong. Please fill the form correctly';
             if (error && error.error && error.error.message) {
-              msg = error.error.message
+              msg = error.error.message;
             }
             this.toaster.onFailure(msg, 'Fail');
           });
@@ -685,7 +719,7 @@ export class VotmCloudAssetsCreateComponent implements OnInit {
           }, error => {
             let msg = 'Something went wrong. Please fill the form correctly';
             if (error && error.error && error.error.message) {
-              msg = error.error.message
+              msg = error.error.message;
             }
             this.toaster.onFailure(msg, 'Fail');
           });
@@ -739,7 +773,7 @@ export class VotmCloudAssetsCreateComponent implements OnInit {
       this.assetService.deleteAsset(this.asset.assetId)
         .subscribe(response => {
           this.toaster.onSuccess(`You have deleted ${this.asset.assetName} successfully.`, 'Delete Success!');
-          this.route.navigate([`asset/home/${this.parentAssetId}/${this.parentAssetName}`])
+          this.route.navigate([`asset/home/${this.parentAssetId}/${this.parentAssetName}`]);
         }, error => {
           let msg = 'Something went wrong on server. Please try after sometiime.';
           if (error && error.error && error.error.message) {
@@ -766,7 +800,7 @@ export class VotmCloudAssetsCreateComponent implements OnInit {
       this.acceptedTemplateChages = true;
       this.imgURL = null;
       if (this.locationImage && this.locationImage.nativeElement) {
-        this.locationImage.nativeElement.value = ''
+        this.locationImage.nativeElement.value = '';
       }
       if (this.docFileInput && this.docFileInput.nativeElement) {
         this.docFileInput.nativeElement.value = '';
@@ -785,7 +819,7 @@ export class VotmCloudAssetsCreateComponent implements OnInit {
       this.assetService.createAssetTemplate(this.asset)
         .subscribe(response => {
           this.templates = [];
-          this.modal.style.display = "none";
+          this.modal.style.display = 'none';
         });
       // this.modal.style.display = "none";
     }

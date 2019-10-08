@@ -17,6 +17,7 @@ import UserAuthenticationConfig from './pcm.configuration';
 
 
 
+import { NgSelectModule } from '@ng-select/ng-select';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -195,6 +196,7 @@ const oktaConfig = Object.assign({
     NgbModule,
     HttpClientModule,
     FormsModule,
+    NgSelectModule,
     NgMultiSelectDropDownModule.forRoot(),
     Select2Module,
     ToastrModule.forRoot(),

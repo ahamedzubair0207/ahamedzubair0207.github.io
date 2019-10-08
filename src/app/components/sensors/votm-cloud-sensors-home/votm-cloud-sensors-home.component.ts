@@ -43,11 +43,9 @@ export class VotmCloudSensorsHomeComponent implements OnInit {
         modifiedBy: null,
         modifiedOn: null
       },
-
-
-    ]
+    ];
   }
 
-  deleteSensorById(event){}
+  deleteSensorById(event) {}
 
 }
