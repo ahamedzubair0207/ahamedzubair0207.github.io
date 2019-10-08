@@ -57,8 +57,7 @@
 
               <div class="lock-tab border border-bottom-0">
 
-                <i class="fa fa-lock edit-view-lock" name="assetlockbutton" 
-                *ngIf="pageType.toLowerCase() === 'view'"
+                <i class="fa fa-lock edit-view-lock" name="assetlockbutton" *ngIf="pageType.toLowerCase() === 'view'"
                   (click)="onLockClick()"></i>
                 <i class="fa fa-unlock edit-view-lock" name="assetunlockbutton"
                   *ngIf="pageType.toLowerCase() === 'edit'" (click)="onLockClick()"></i>
@@ -66,29 +65,28 @@
               </div>
               <div class="row">
 
-                  <div class="col-12 col-md-6 col-lg-4 col-xl-4">
+                <div class="col-12 col-md-6 col-lg-4 col-xl-4">
                   <!-- <div class="row form-group"> -->
-                      <div class="form-row">
-                          <div class="col-12 col-md-9 col-lg-9 form-group">
-                    <label class="" id="assetLongName" votmrequired>Name:(Long)</label>
-                    <input class="form-control form-control-sm" type="text" [(ngModel)]="asset.assetName"
-                      [disabled]="pageType === 'View'" #assetName="ngModel" placeholder="Enter Name" id="assetName1"
-                      name="assetName1" required maxlength="50" />
-                    <div *ngIf="assetName.dirty && assetName.invalid">
-                      <app-votm-cloud-validator message="Name is required"></app-votm-cloud-validator>
+                  <div class="form-row">
+                    <div class="col-12 col-md-9 col-lg-9 form-group">
+                      <label class="" id="assetLongName" votmrequired>Name:(Long)</label>
+                      <input class="form-control form-control-sm" type="text" [(ngModel)]="asset.assetName"
+                        [disabled]="pageType === 'View'" #assetName="ngModel" placeholder="Enter Name" id="assetName1"
+                        name="assetName1" required maxlength="50" />
+                      <div *ngIf="assetName.dirty && assetName.invalid">
+                        <app-votm-cloud-validator message="Name is required"></app-votm-cloud-validator>
+                      </div>
+                      <app-votm-cloud-char-validator [condition]="asset.assetName && asset.assetName.length >= 50">
+                      </app-votm-cloud-char-validator>
+                      <!-- </div> -->
                     </div>
-                    <app-votm-cloud-char-validator [condition]="asset.assetName && asset.assetName.length >= 50">
-                    </app-votm-cloud-char-validator>
-                  <!-- </div> -->
-                </div>
 
-                <div class="col-12 col-md-3 col-lg-3 form-group">
-                    <!-- <div class="row form-group"> -->
+                    <div class="col-12 col-md-3 col-lg-3 form-group">
+                      <!-- <div class="row form-group"> -->
                       <label class="" id="assetShortName">Short Name:</label>
-                      <input class="form-control form-control-sm" type="text"
-                        [disabled]="pageType === 'View'"  placeholder="Short Name" id="assetNameShort"
-                        name="assetName2" required maxlength="10" />
-                        <!-- <input class="form-control form-control-sm" type="text" [(ngModel)]="asset.assetName"
+                      <input class="form-control form-control-sm" type="text" [disabled]="pageType === 'View'"
+                        placeholder="Short Name" id="assetNameShort" name="assetName2" required maxlength="10" />
+                      <!-- <input class="form-control form-control-sm" type="text" [(ngModel)]="asset.assetName"
                         [disabled]="pageType === 'View'" #assetName="ngModel" placeholder="Enter Name" id="assetName1"
                         name="assetName1" required maxlength="50" /> -->
                       <!-- <div *ngIf="assetName.dirty && assetName.invalid">
@@ -96,62 +94,62 @@
                       </div>
                       <app-votm-cloud-char-validator [condition]="asset.assetName && asset.assetName.length >= 50">
                       </app-votm-cloud-char-validator> -->
-                    <!-- </div> -->
+                      <!-- </div> -->
+                    </div>
                   </div>
-                </div>
                 </div>
 
 
                 <div class="col-12 col-md-6 col-lg-4 col-xl-2 form-group">
                   <!-- <div class="row form-group"> -->
-                    <label class="" id="assetparentOrg" votmrequired>Owning Organization:</label>
-                    <select [(ngModel)]="asset.organizationId" id="organizationName" name="organizationName"
-                      [disabled]="pageType==='View'" class="drop-down form-control form-control-sm"
-                      (change)="onParentOrgChange($event)" #organizationName="ngModel">
-                      <option *ngFor="let org of organizationList" [value]="org.organizationId">
-                        {{org.name}}
-                      </option>
-                    </select>
-                    <div *ngIf="organizationName.dirty && organizationName.invalid">
-                      <app-votm-cloud-validator message="Organization is required"></app-votm-cloud-validator>
-                    </div>
+                  <label class="" id="assetparentOrg" votmrequired>Owning Organization:</label>
+                  <select [(ngModel)]="asset.organizationId" id="organizationName" name="organizationName"
+                    [disabled]="pageType==='View'" class="drop-down form-control form-control-sm"
+                    (change)="onParentOrgChange($event)" #organizationName="ngModel">
+                    <option *ngFor="let org of organizationList" [value]="org.organizationId">
+                      {{org.name}}
+                    </option>
+                  </select>
+                  <div *ngIf="organizationName.dirty && organizationName.invalid">
+                    <app-votm-cloud-validator message="Organization is required"></app-votm-cloud-validator>
+                  </div>
                   <!-- </div> -->
                 </div>
 
                 <div class="col-12 col-md-6 col-lg-4 col-xl-3 form-group">
                   <!-- <div class="row form-group"> -->
-                    <label class="" id="f-description">Description :</label>
-                    <input id="assetDescription" class="form-control form-control-sm" type="text"
-                      placeholder="Description" [disabled]="pageType==='View'">
-                    <!-- <textarea class="form-control asset-create-font" [disabled]="pageType === 'View'"
+                  <label class="" id="f-description">Description :</label>
+                  <input id="assetDescription" class="form-control form-control-sm" type="text"
+                    placeholder="Description" [disabled]="pageType==='View'">
+                  <!-- <textarea class="form-control asset-create-font" [disabled]="pageType === 'View'"
                           [(ngModel)]="asset.description" name="assetDescription" rows="5" id="f-description"></textarea> -->
                   <!-- </div> -->
                 </div>
 
                 <div class="col-12 col-md-6 col-lg-4 col-xl-3 form-group">
                   <!-- <div class="row form-group"> -->
-                    <label class="" id="assetparentLoc" votmrequired>Installed Location:</label>
-                    <!-- <input for="parentLocname" class="col-sm-7 form-control asset-create-font" type="text"
+                  <label class="" id="assetparentLoc" votmrequired>Installed Location:</label>
+                  <!-- <input for="parentLocname" class="col-sm-7 form-control asset-create-font" type="text"
                   placeholder="{{parentLocName}}" [disabled]="pageType==='View'"> -->
-                    <select [disabled]="pageType==='View'" [(ngModel)]="asset.locationId" id="installedLocation"
-                      name="installedLocation" class="drop-down form-control form-control-sm"
-                      #installedLocation="ngModel" required>
-                      <option *ngFor="let loc of locationListForDropDown" [value]="loc.locationId">
-                        {{loc.locationName}}
-                      </option>
-                    </select>
-                    <div *ngIf="installedLocation.dirty && installedLocation.invalid">
-                      <app-votm-cloud-validator message="Location is required"></app-votm-cloud-validator>
-                    </div>
+                  <select [disabled]="pageType==='View'" [(ngModel)]="asset.locationId" id="installedLocation"
+                    name="installedLocation" class="drop-down form-control form-control-sm" #installedLocation="ngModel"
+                    required (change)="onLocationChange($event)">
+                    <option *ngFor="let loc of locationListForDropDown" [value]="loc.locationId">
+                      {{loc.locationName}}
+                    </option>
+                  </select>
+                  <div *ngIf="installedLocation.dirty && installedLocation.invalid">
+                    <app-votm-cloud-validator message="Location is required"></app-votm-cloud-validator>
+                  </div>
                   <!-- </div> -->
                 </div>
 
                 <div class="col-12 col-md-6 col-lg-4 col-xl-3 form-group">
                   <!-- <div class="row form-group"> -->
-                    <label class="" id="asset-Type">Asset Type:</label>
-                    <input type="text" [(ngModel)]="asset.assetType" placeholder="Enter Asset Type"
-                      [disabled]="pageType === 'View'" #assetType="ngModel" name="assetType" id="assetType"
-                      (blur)="onAssetTypeChange()" maxlength="50" class="form-control form-control-sm" />
+                  <label class="" id="asset-Type">Asset Type:</label>
+                  <input type="text" [(ngModel)]="asset.assetType" placeholder="Enter Asset Type"
+                    [disabled]="pageType === 'View'" #assetType="ngModel" name="assetType" id="assetType"
+                    (blur)="onAssetTypeChange()" maxlength="50" class="form-control form-control-sm" />
                   <!-- </div> -->
                 </div>
 
@@ -180,25 +178,25 @@
 
                 <div class="col-12 col-md-6 col-lg-4 col-xl-3 form-group">
                   <!-- <div class="row form-group"> -->
-                    <label class="" id="parentAsset">Parent Asset:</label>
-                    <!-- <input type="text" [(ngModel)]="asset.parentAssetName" placeholder="{{asset.parentAssetName}}" [disabled]="pageType==='View'"
+                  <label class="" id="parentAsset">Parent Asset:</label>
+                  <!-- <input type="text" [(ngModel)]="asset.parentAssetName" placeholder="{{asset.parentAssetName}}" [disabled]="pageType==='View'"
                                   class="form-control asset-create-font" name="parentAsset"> -->
-                    <select [(ngModel)]="asset.parentAssetId" name="parentAsset" id="parentAsset"
-                      [disabled]="pageType==='View'" class="drop-down form-control form-control-sm"
-                      (change)="onParentAssetChange($event)" #parentAsset="ngModel">
-                      <option *ngFor="let asset of parentAssetListForDropDown" [value]="asset.assetId">
-                        {{asset.assetName}}
-                      </option>
-                    </select>
+                  <select [(ngModel)]="asset.parentAssetId" name="parentAsset" id="parentAsset"
+                    [disabled]="pageType==='View'" class="drop-down form-control form-control-sm"
+                    (change)="onParentAssetChange($event)" #parentAsset="ngModel">
+                    <option *ngFor="let asset of parentAssetListForDropDown" [value]="asset.assetId">
+                      {{asset.assetName}}
+                    </option>
+                  </select>
                   <!-- </div> -->
                 </div>
 
                 <div class="col-12 col-md-6 col-lg-4 col-xl-3 form-group">
                   <!-- <div class="row form-group"> -->
-                    <label class="" id="assetId">Asset ID:</label>
-                    <input type="text" id="assetNumber" [(ngModel)]="asset.assetNumber"
-                      class="form-control form-control-sm" [disabled]="pageType === 'View'" #assetId="ngModel"
-                      placeholder="Enter Asset ID" name="assetNumber" maxlength="50" />
+                  <label class="" id="assetId">Asset ID:</label>
+                  <input type="text" id="assetNumber" [(ngModel)]="asset.assetNumber"
+                    class="form-control form-control-sm" [disabled]="pageType === 'View'" #assetId="ngModel"
+                    placeholder="Enter Asset ID" name="assetNumber" maxlength="50" />
                   <!-- </div> -->
                 </div>
 
@@ -236,7 +234,14 @@
 
                 <div class="col-md-4">
                   <label for="locationImage" id="asset-image-lbl">Location Image : </label>
-                  <img [src]="imgURL" class="imag-size" *ngIf="imgURL">
+                  <img [src]="locationImageURL" class="imag-size" *ngIf="locationImageURL; else noLocationTemplate">
+                  <ng-template #noLocationTemplate><br />
+                    <div *ngIf="asset.locationId; else noLocationSelectedTemplate">No Image in the selected Location
+                    </div>
+                    <ng-template #noLocationSelectedTemplate>
+                      No location Selected
+                    </ng-template>
+                  </ng-template>
                 </div>
 
 

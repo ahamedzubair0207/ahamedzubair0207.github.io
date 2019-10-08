@@ -275,9 +275,9 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
         //   this.rectangleValue2 = matches[0];
         //   this.rectangleUnit = matches2.join('');
         // }
-        this.location.localeId = this.location.locale;
-        this.location.timeZoneId = this.location.timeZone;
-        this.location.uoMId = this.location.uoM;
+        // this.location.localeId = this.location.locale;
+        // this.location.timeZoneId = this.location.timeZone;
+        // this.location.uoMId = this.location.uoM;
       });
   }
 
@@ -714,11 +714,11 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
       this.uomModels[uom[i].uomTypeName] = '';
     }
 
-    if (uom && uom.length > 0 && this.location && this.location.uoM) {
+    if (uom && uom.length > 0 && this.location && this.location.uoMId) {
       for (let i = 0; i < uom.length; i++) {
-        for (let j = 0; j < this.location.uoM.length; j++) {
+        for (let j = 0; j < this.location.uoMId.length; j++) {
           for (let k = 0; k < uom[i].uoMView.length; k++) {
-            if (this.location.uoM[j] === uom[i].uoMView[k].uoMId) {
+            if (this.location.uoMId[j] === uom[i].uoMView[k].uoMId) {
               this.uomModels[uom[i].uomTypeName] = uom[i].uoMView[k].uoMId;
             }
           }

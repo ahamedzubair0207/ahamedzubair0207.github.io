@@ -1,7 +1,9 @@
 export class Alert {
     alertRuleId: string;
     alertRuleName: string; //Alert Rule Name
-    alertTypeId: string; // Drop Down for Metric Type
+    //Ahamed Code
+    UomTypeId: string;
+    // alertTypeId: string; // Drop Down for Metric Type
     alertRuleTypeId: string; // Rule Type
     organizationScopeId: string; // Access Scope 
     closureRequired: boolean;
@@ -53,6 +55,8 @@ export class AlertRuleSignalMapping {
     alertSignalMappingId?: string;
     signalId: string;
     alertRuleId?: string;
+    // locationId: string;
+    // assetId: string;
     active?: boolean;
     createdBy?: string;
     createdOn?: string;

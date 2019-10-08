@@ -257,76 +257,43 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
     this.absoluteThresholds = [
       {
         // For 3D97A28E-7D8E-4C7D-98CE-251909FED1A9    Absolute ---- Ahamed
-        alertConfigurationId: '3A54142B-3453-4232-85C2-EEF4C62E4C77',
-        alertConfigurationLabel: 'Low Critical',
+        // Common for Every Alert Type
+
+        alertConfigurationId: '364F5CB4-B725-4BD9-8DAA-B3B365123454',
+        alertConfigurationLabel: 'Low Critical',   // 364F5CB4-B725-4BD9-8DAA-B3B365123454    Low Critical
         alertConfigurationValue: '',
         class: 'alert-danger text-center',
         active: false
       },
       {
-        alertConfigurationId: 'C89DBBDF-E927-4044-9A76-F40EF1CE6611',
-        alertConfigurationLabel: 'Low Warning',
+        alertConfigurationId: 'A307C43E-6C4B-47B1-8427-E13788CF4257',
+        alertConfigurationLabel: 'Low Warning',  // A307C43E-6C4B-47B1-8427-E13788CF4257    Low Warning
         alertConfigurationValue: '',
         class: 'alert-warning text-center',
         active: false
       },
       {
-        alertConfigurationId: '277B236A-C642-461A-A615-175EA69F2FAD',
-        alertConfigurationLabel: 'Baseline',
+        alertConfigurationId: 'F4410D8E-3BA9-40C1-9D23-9414BCA3DABD',
+        alertConfigurationLabel: 'Baseline',  // F4410D8E-3BA9-40C1-9D23-9414BCA3DABD    Baseline
         alertConfigurationValue: '',
         class: 'alert-success text-center',
         active: false
       },
       {
-        alertConfigurationId: '4FA3DDCA-56FA-47FA-9251-5D1D7C04C322',
-        alertConfigurationLabel: 'High Warning',
+        alertConfigurationId: '6531DB3F-39CC-4459-8680-AAB303A5B188',
+        alertConfigurationLabel: 'High Warning',  // 6531DB3F-39CC-4459-8680-AAB303A5B188    High Warning
         alertConfigurationValue: '',
         class: 'alert-warning text-center',
         active: false
       },
       {
         alertConfigurationId: '4E045A60-4BEE-44B4-9AF9-151725534706',
-        alertConfigurationLabel: 'High Critical',
+        alertConfigurationLabel: 'High Critical',   // 4E045A60-4BEE-44B4-9AF9-151725534706    High Critical
         alertConfigurationValue: '',
         class: 'alert-danger text-center',
         active: false
       },
-      // For B45A2094-C4D6-4D36-B26C-3A9F195C6D6F    Relative --- Ahamed
-      // {
-      //   alertConfigurationId: '364F5CB4-B725-4BD9-8DAA-B3B365123454',
-      //   alertConfigurationLabel: 'Low Critical',
-      //   alertConfigurationValue: '',
-      //   class: 'alert-danger text-center',
-      //   active: false
-      // },
-      // {
-      //   alertConfigurationId: 'A307C43E-6C4B-47B1-8427-E13788CF4257',
-      //   alertConfigurationLabel: 'Low Warning',
-      //   alertConfigurationValue: '',
-      //   class: 'alert-warning text-center',
-      //   active: false
-      // },
-      // {
-      //   alertConfigurationId: 'F4410D8E-3BA9-40C1-9D23-9414BCA3DABD',
-      //   alertConfigurationLabel: 'Baseline',
-      //   alertConfigurationValue: '',
-      //   class: 'alert-success text-center',
-      //   active: false
-      // },
-      // {
-      //   alertConfigurationId: '6531DB3F-39CC-4459-8680-AAB303A5B188',
-      //   alertConfigurationLabel: 'High Warning',
-      //   alertConfigurationValue: '',
-      //   class: 'alert-warning text-center',
-      //   active: false
-      // },
-      // {
-      //   alertConfigurationId: '8BC2D6B5-1747-4F6B-B957-ECFE151D7857',
-      //   alertConfigurationLabel: 'High Critical',
-      //   alertConfigurationValue: '',
-      //   class: 'alert-danger text-center',
-      //   active: false
-      // },
+     
     ];
   }
 
