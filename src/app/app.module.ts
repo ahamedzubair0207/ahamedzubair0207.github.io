@@ -4,6 +4,19 @@ import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { DatePipe } from '@angular/common';
 
+
+import { Routes, RouterModule } from '@angular/router';
+import {
+  OKTA_CONFIG,
+  OktaAuthGuard,
+  OktaAuthModule,
+  OktaCallbackComponent,
+} from '@okta/okta-angular';
+
+import UserAuthenticationConfig from './pcm.configuration';
+
+
+
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -106,6 +119,14 @@ import { VotmCloudLocationEventComponent } from './components/locations/votm-clo
 import { VotmCloudAssetEventComponent } from './components/assets/votm-cloud-asset-event/votm-cloud-asset-event.component';
 
 
+const oktaConfig = Object.assign({
+  onAuthRequired: ({oktaAuth, router}) => {
+    // Redirect the user to your custom login page
+    router.navigate(['/login']);
+  }
+}, UserAuthenticationConfig.oidc);
+
+
 
 
 @NgModule({
@@ -180,13 +201,15 @@ import { VotmCloudAssetEventComponent } from './components/assets/votm-cloud-ass
     FileUploadModule,
     DragDropModule,
     TooltipModule,
-    OverlayPanelModule
+    OverlayPanelModule,
+    OktaAuthModule,
   ],
   providers: [
     DatePipe,
     MenuService,
     SharedService,
-    BreadcrumbsService
+    BreadcrumbsService,
+    { provide: OKTA_CONFIG, useValue: oktaConfig },
   ],
   bootstrap: [AppComponent]
 })
