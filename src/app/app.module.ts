@@ -3,6 +3,20 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { DatePipe } from '@angular/common';
+
+
+import { Routes, RouterModule } from '@angular/router';
+import {
+  OKTA_CONFIG,
+  OktaAuthGuard,
+  OktaAuthModule,
+  OktaCallbackComponent,
+} from '@okta/okta-angular';
+
+import UserAuthenticationConfig from './pcm.configuration';
+
+
+
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AppRoutingModule } from './app-routing.module';
@@ -104,6 +118,14 @@ import { OnlyNumber } from './components/shared/votm-cloud-only-numbers/only-num
 import { VotmCloudAdminUserManagementComponent } from './components/admin/votm-cloud-admin-user-management/votm-cloud-admin-user-management.component';
 
 
+const oktaConfig = Object.assign({
+  onAuthRequired: ({oktaAuth, router}) => {
+    // Redirect the user to your custom login page
+    router.navigate(['/login']);
+  }
+}, UserAuthenticationConfig.oidc);
+
+
 
 
 @NgModule({
@@ -177,13 +199,15 @@ import { VotmCloudAdminUserManagementComponent } from './components/admin/votm-c
     FileUploadModule,
     DragDropModule,
     TooltipModule,
-    OverlayPanelModule
+    OverlayPanelModule,
+    OktaAuthModule,
   ],
   providers: [
     DatePipe,
     MenuService,
     SharedService,
-    BreadcrumbsService
+    BreadcrumbsService,
+    { provide: OKTA_CONFIG, useValue: oktaConfig },
   ],
   bootstrap: [AppComponent]
 })
