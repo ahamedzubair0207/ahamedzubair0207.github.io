@@ -29,9 +29,22 @@ export class VotmCloudLoginComponent implements OnInit {
       logo: '', // /assets/VOTM_login_logo.png
       i18n: {
         en: {
-       
+          'primaryauth.submit': 'Log In',
+          'primaryauth.username.placeholder': 'User Email Address', 
+          'primaryauth.password.placeholder': 'Password',
+          'error.username.required': 'Please enter an Email Address'
         },
       },
+      // Changes to widget functionality
+        features: {
+          registration: true,                 // Enable self-service registration flow
+          rememberMe: true,                   // Setting to false will remove the checkbox to save username
+          //multiOptionalFactorEnroll: true,  // Allow users to enroll in multiple optional factors before finishing the authentication flow.
+          //selfServiceUnlock: true,          // Will enable unlock in addition to forgotten password
+          //smsRecovery: true,                // Enable SMS-based account recovery
+          //callRecovery: true,               // Enable voice call-based account recovery
+          router: true,                       // Leave this set to true for the API demo
+            },
       authParams: {
         responseType: ['id_token', 'token'],
         issuer: sampleConfig.oidc.issuer,

@@ -101,12 +101,12 @@
 
                 <div class="col-md-2">
                   <div class="form-group">
-                    <label class="" id="assetShortName" votmrequired>Short Name:</label>
+                    <label class="" id="LocShortNameLbl" votmrequired>Short Name:</label>
                     <div class="">
                       <!-- <input type="text" [(ngModel)]="location.locationName" class="form-control form-control-sm"
                         [disabled]="pageType==='View'" #locName="ngModel" id="locDtlShortlName" placeholder="Short Name"
                         name="name" required maxlength="10"> -->
-                      <input type="text" class="form-control form-control-sm" [disabled]="pageType==='View'"
+                      <input type="text" id="LocShortName" class="form-control form-control-sm" [disabled]="pageType==='View'"
                         id="locDtlShortlName" placeholder="Short Name" name="name" required maxlength="10">
                       <!-- <div *ngIf="locName.dirty && locName.invalid">
                         <app-votm-cloud-validator message="Name is required"></app-votm-cloud-validator>
@@ -154,6 +154,37 @@
                         <app-votm-cloud-validator message="Location type is required"></app-votm-cloud-validator>
                       </div>
                     </div>
+                  </div>
+                </div>
+
+                <div class="col-lg-4 col-xl-2">
+                  <div class="form-group">
+                    <label class="" id="locationTypeIcon">Icon</label>
+                    <!-- <div class="selectpicker drop-down"> -->
+
+                      <ng-select 
+                      id="iconDropDown"
+                      class="custom"
+                      [searchable]="false"
+                      [clearable]="false"
+                      >
+                        <ng-option value="company"><i class="icon-location"></i></ng-option>
+                        <ng-option value="company"><i class="icon-loc-pin-map"></i></ng-option>
+                        <ng-option value="company"><i class="icon-loc-pin-factory"></i></ng-option> 
+                        <ng-option value="company"><i class="icon-loc-floor-plan"></i></ng-option>
+                        <ng-option value="company"><i class="icon-loc-pin-floor-plan"></i></ng-option>
+                      </ng-select>
+                      <!-- <select class="selectpicker form-control-sm form-control" data-style-base="form-control">
+                        <option data-icon="icon-org-company"></option>
+                        <option data-icon="icon-loc-office"></option>
+                        <option data-icon="icon-org-struct"></option>
+                      </select> -->
+                      <!-- <input type="text" id="icon" class="form-control form-control-sm" placeholder="icon" name="icon">
+                      <app-votm-cloud-char-validator> </app-votm-cloud-char-validator>
+                      <div class="input-group-append">
+                        <span class="input-group-text"><i class="fa fa-image"></i></span>
+                      </div> -->
+                    <!-- </div> -->
                   </div>
                 </div>
 
