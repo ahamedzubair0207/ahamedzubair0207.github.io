@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { SharedService } from './services/shared.service';
+import { OktaAuthService } from '@okta/okta-angular';
+
 
 @Component({
   selector: 'app-root',
@@ -11,7 +13,11 @@ export class AppComponent {
   title = 'votm-cloud';
   menuOpen: boolean;
   router: Router;
-  constructor(router: Router, private sharedService: SharedService) {
+  isAuthenticated: boolean;
+
+  constructor(public oktaAuth: OktaAuthService,router: Router, private sharedService: SharedService)
+   {
+    this.oktaAuth.$authenticationState.subscribe(isAuthenticated => this.isAuthenticated = isAuthenticated)
     this.router = router;
     this.sharedService.getMenuOpen().subscribe(newVal => this.menuOpen = newVal);
     if (FileReader.prototype.readAsBinaryString === undefined) {
@@ -33,4 +39,12 @@ export class AppComponent {
       };
     }
    }
+
+   async ngOnInit() {
+    this.isAuthenticated = await this.oktaAuth.isAuthenticated();
+  }
+  logout() 
+  {
+    this.oktaAuth.logout('/');
+  }
 }

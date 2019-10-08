@@ -621,12 +621,12 @@
                     <div class="col-lg-6">
                       <div class="form-group org-create-font">
                         <div class="custom-file">
-                          <!-- <label id="logoLbl">{{pageLabels.LogoFile.labelName}} :</label> -->
-                          <!-- <span style="color:rgb(106,96,85);" *ngIf="message">{{message}}</span> -->
+                          <label id="logoLbl">{{pageLabels.LogoFile.labelName}} :</label>
+                          <span style="color:rgb(106,96,85);" *ngIf="message">{{message}}</span>
                           <input #file id="imageUploadButton" type="file" accept='image/*'
                             [disabled]="pageType==='View'" (change)="preview(file.files)"
-                            class="form-control form-control-sm custom-file-input" />
-                            <label class="custom-file-label" for="customFile">{{message}}</label>
+                            class="form-control form-control-sm" />
+                            <!-- <label class="custom-file-label" for="customFile">{{message}}</label> -->
                           <!-- <label id="imageLbl" style="font-weight: bold"
                                                                         *ngIf="organization && organization.logo">{{organization.logo.imageName}}</label> -->
 

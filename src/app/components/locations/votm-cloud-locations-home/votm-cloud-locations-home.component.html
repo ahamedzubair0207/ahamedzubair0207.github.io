@@ -31,13 +31,14 @@
             <td class="align-left">{{item.parentOrgName}}</td>
             <td class="align-left">{{item.primaryDistributor}}</td>
             <td class="align-left">{{item.city}}, {{item.state}}</td>
+            <td class="align-left"><i class="icon-good" style="color: #0ad80a;"></i></td>
             <td class="align-center">
               <a class="action-icon" title="List"   [routerLink]="['/asset/home',item.parentOrgId, item.parentOrgName, item.id]">
                 <i class="icon-asset-robot"></i>
               </a>
               <a class="action-icon" title="Edit"
                 [routerLink]="['/loc/edit', item.parentOrgId, item.parentOrgName, item.id]">
-                <i class="fa fa-edit"></i>
+                <i class="icon-edit"></i>
               </a>
               <a class="action-icon" (click)="openConfirmDialog(item.id, item.name)" title="Delete">
         
@@ -57,14 +58,15 @@
               <td class="align-left">{{subItem.type}}</td>
               <td class="align-left">{{subItem.parentOrgName}}</td>
               <td class="align-left">{{subItem.distributor}}</td>
-              <td class="align-left">{{subItem.cityState}}</td>
+              <td class="align-left">{{subItem.city}}, {{subItem.state}}</td>
+              <td class="align-left"><i class="icon-good" style="color: #0ad80a;"></i></td>
               <td class="align-center">
                 <a class="action-icon" title="Asset" [routerLink]="['/asset/home',subItem.parentOrgId, subItem.parentOrgName, subItem.id]">
                   <i class="icon-asset-robot"></i>
                 </a>
                 <a class="action-icon" title="Edit"
                   [routerLink]="['/loc/edit',subItem.parentId, subItem.parentName, subItem.parentOrgId, subItem.parentOrgName,  subItem.id]">
-                  <i class="fa fa-edit"></i>
+                  <i class="icon-edit"></i>
                 </a>
                 <a class="action-icon" (click)="openConfirmDialog(subItem.id, subItem.name)" title="Delete">
                   <i class="icon-trash"></i>
@@ -90,6 +92,7 @@
             <th scope="col" class="align-left">Organization</th>
             <th scope="col" class="align-left">Primary Distributor</th>
             <th scope="col" class="align-left">City & State</th>
+            <th scope="col" class="align-left">Status</th>
             <th scope="col" class="align-center">Actions</th>
           </tr>
         </thead>

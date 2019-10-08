@@ -21,12 +21,12 @@
       <td class="align-left">{{item.assetNumber}}</td>
       <td class="align-left">{{item.parentLocationName}}</td>
       <td class="align-left">{{item.parentOrganizationName}}</td>
-      <td class="align-left"></td>
+      <td class="align-left"><i class="icon-good" style="color: #0ad80a;"></i></td>
       <td class="align-left"></td>
       <td class="align-left"></td>
       <td class="align-center">
         <a class="action-icon" title="Edit" (click)="onEditViewClick(item, 'edit')">
-          <i class="fa fa-edit"></i>
+          <i class="icon-edit"></i>
         </a>
         <a class="action-icon" (click)="openConfirmDialog(item.id, item.name)" title="Delete">
           <i class="icon-trash"></i>
@@ -66,12 +66,12 @@
         <td class="align-left">{{subItem.assetNumber}}</td>
         <td class="align-left">{{subItem.parentLocationName}}</td>
         <td class="align-left">{{subItem.parentOrganizationName}}</td>
-        <td class="align-left"></td>
+        <td class="align-left"><i class="icon-good" style="color: #0ad80a;"></i></td>
         <td class="align-left"></td>
         <td class="align-left"></td>
         <td class="align-center">
           <a class="action-icon" title="Edit" (click)="onEditViewClick(subItem, 'edit')">
-            <i class="fa fa-edit"></i>
+            <i class="icon-edit"></i>
           </a>
           <a class="action-icon" (click)="openConfirmDialog(subItem.id)" title="Delete">
             <i class="icon-trash"></i>
@@ -88,27 +88,26 @@
 
   </ng-container>
 </ng-template>
-
-
-<table class="table table-sm table-bordered asset-table-fonts table-responsive">
-  <thead class="thead-dark">
-    <tr>
-      <th scope="col" class="align-left table-col-name">Name</th>
-      <th scope="col" class="align-left">Type</th>
-      <th scope="col" class="align-left">Asset ID</th>
-      <th scope="col" class="align-left table-col-small">Location</th>
-      <th scope="col" class="align-left table-col-small">Organization</th>
-      <th scope="col" class="align-left table-col-small">Alarm State</th>
-      <th scope="col" class="align-left table-col-small">Last Value</th>
-      <th scope="col" class="align-left table-col-small">Last Reported Time</th>
-      <th scope="col" class="align-center">Actions</th>
-    </tr>
-  </thead>
-  <tbody>
-    <ng-container *ngTemplateOutlet="recursiveTableList; context:{ assetList: assetsList, level: 0 }">
-    </ng-container>
-  </tbody>
-</table>
-
+<div class="table-responsive">
+  <table class="table table-sm table-bordered asset-table-fonts">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col" class="align-left table-col-name">Name</th>
+        <th scope="col" class="align-left">Type</th>
+        <th scope="col" class="align-left">Asset ID</th>
+        <th scope="col" class="align-left table-col-small">Location</th>
+        <th scope="col" class="align-left table-col-small">Organization</th>
+        <th scope="col" class="align-left table-col-small">Alarm Status</th>
+        <th scope="col" class="align-left table-col-small">Last Value</th>
+        <th scope="col" class="align-left table-col-small">Last Reported Time</th>
+        <th scope="col" class="align-center">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <ng-container *ngTemplateOutlet="recursiveTableList; context:{ assetList: assetsList, level: 0 }">
+      </ng-container>
+    </tbody>
+  </table>
+</div>
 <app-votm-cloud-confim-dialog (onClose)="deleteAssetById($event)" #confirmBox message="{{message}}"
   headerMessage="Warning"></app-votm-cloud-confim-dialog>

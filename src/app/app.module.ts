@@ -3,6 +3,20 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { DatePipe } from '@angular/common';
+
+
+import { Routes, RouterModule } from '@angular/router';
+import {
+  OKTA_CONFIG,
+  OktaAuthGuard,
+  OktaAuthModule,
+  OktaCallbackComponent,
+} from '@okta/okta-angular';
+
+import UserAuthenticationConfig from './pcm.configuration';
+
+
+
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AppRoutingModule } from './app-routing.module';
@@ -102,8 +116,14 @@ import {
 } from './components/admin/votm-cloud-admin-network-management/votm-cloud-admin-network-management.component';
 import { OnlyNumber } from './components/shared/votm-cloud-only-numbers/only-numbers.directive';
 import { VotmCloudAdminUserManagementComponent } from './components/admin/votm-cloud-admin-user-management/votm-cloud-admin-user-management.component';
-import { VotmCloudLocationEventComponent } from './components/locations/votm-cloud-location-event/votm-cloud-location-event.component';
-import { VotmCloudAssetEventComponent } from './components/assets/votm-cloud-asset-event/votm-cloud-asset-event.component';
+
+
+const oktaConfig = Object.assign({
+  onAuthRequired: ({oktaAuth, router}) => {
+    // Redirect the user to your custom login page
+    router.navigate(['/login']);
+  }
+}, UserAuthenticationConfig.oidc);
 
 
 
@@ -160,9 +180,7 @@ import { VotmCloudAssetEventComponent } from './components/assets/votm-cloud-ass
     VotmCloudEventsAssetComponent,
     VotmCloudAdminNetworkManagementComponent,
     OnlyNumber,
-    VotmCloudAdminUserManagementComponent,
-    VotmCloudLocationEventComponent,
-    VotmCloudAssetEventComponent
+    VotmCloudAdminUserManagementComponent
   ],
 
 
@@ -181,13 +199,15 @@ import { VotmCloudAssetEventComponent } from './components/assets/votm-cloud-ass
     FileUploadModule,
     DragDropModule,
     TooltipModule,
-    OverlayPanelModule
+    OverlayPanelModule,
+    OktaAuthModule,
   ],
   providers: [
     DatePipe,
     MenuService,
     SharedService,
-    BreadcrumbsService
+    BreadcrumbsService,
+    { provide: OKTA_CONFIG, useValue: oktaConfig },
   ],
   bootstrap: [AppComponent]
 })
