@@ -36,6 +36,7 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
   assetsChecked = {};
   ruleTypes: any[] = [];
   metricTypes: any[] = [];
+  
   accessScopes: any[] = [];
   alertId: string;
   notifyUsers: any[] = [];
@@ -49,6 +50,7 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
   subscriptions: any;
   toaster: Toaster = new Toaster(this.toastr);
   accessScopeName: string;
+  uomTypes: any[] = []; 
   @ViewChild('confirmBox', null) confirmBox: VotmCloudConfimDialogComponent;
 
 
