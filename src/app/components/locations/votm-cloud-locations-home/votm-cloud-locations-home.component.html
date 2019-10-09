@@ -1,18 +1,29 @@
-
-    <!-- <h3 class="flt-left mt-3 mb-3 ml-2 loc-header-fonts"> Locations</h3> -->
     <header>
+        <h5 class=""> Locations</h5>
       <div class="btn-group-right loc-table-fonts">
         <button (click)="onCreateNewLocation()" id="cre-loc" type="button" class="btn btn-sm btn-info loc-table-fonts ml-2"
           style="float: right;"><i class="pr-2 icon-location-add"></i>Create Location</button>
         <button type="button" (click)="onCreateNewAsset()" id="cre-asset" class="btn btn-sm btn-info loc-table-fonts" style="float: right;"><i
             class="pr-2 icon-asset-add"></i>Create Asset</button>
-      </div>
-    
+      </div>      
       <form class="form-inline">
+        <div class="form-group">
+            <label for="typeahead-config" id="loc-filter-eve" class="mr-2">Type to filter events:</label>   
+            <div class="input-group input-group-sm">
+              <input class="form-control" id="searchBox" type="search" placeholder="Search" aria-label="Search">
+              <div class="input-group-append">
+                <span class="input-group-text p-0">
+                  <button class="btn btn-sm btn-search" id="searchButton" type="submit"><i class="fa fa-search"></i></button>
+                </span>
+              </div>
+            </div>
+        </div>
+      </form>
+      <!-- <form class="form-inline">
         <label for="typeahead-config" id="loc-filter-eve">Type to filter events:</label>
         <input class="form-control ml-2" id="searchBox" type="search" placeholder="Search" aria-label="Search">
         <button class="btn btn-outline-info mr-2 ml-2" id="searchButton" type="submit">Search</button>
-      </form>
+      </form> -->
     </header>
    
     
