@@ -103,14 +103,15 @@
                 <div
                   class="sensor-circle list-bkg docked">
 
-                    <img
+                    <!-- <img
                       [src]="sensor.image"
                       style="cursor:pointer"
                       width="23"
                       height="23"
-                    />
+                    /> -->
+                    
 
-                    <!-- <i class="icon-sig-pressure" style="cursor:pointer"></i> -->
+                    <i class="icon-cell-tower" style="cursor:pointer"></i>
 
                   &nbsp; {{ sensor.name }}
                 </div>
@@ -118,15 +119,15 @@
                 <div
                   class="sensor-circle secondary-ds docked list-bkg" id="signalDiv_{{sensorIndex}}_{{signalIndex}}">
 
-                    <img
+                    <!-- <img
                       [src]="signal.image"
                       style="cursor:pointer"
                       width="23"
                       height="23"
                       id="signal_{{ sensorIndex }}_{{ signalIndex }}"
-                    />
+                    /> -->
 
-                    <!-- <i class="icon-sig-temperature" style="cursor:pointer"></i> -->
+                    <i class="icon-signal" style="cursor:pointer"  id="signal_{{ sensorIndex }}_{{ signalIndex }}"></i>
 
 
                   &nbsp; {{ signal.name }}
