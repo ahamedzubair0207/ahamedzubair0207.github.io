@@ -167,7 +167,7 @@
       </tr>
       <tr class="event-stop">
         <td colspan="7" class="text-right">
-          <button class="btn btn-secondary mr-3 btn-sm" id="evntLogCancel" disabled>Cancel</button>
+          <button class="btn btn-outline-secondary mr-3 btn-sm" id="evntLogCancel" disabled>Cancel</button>
           <button class="btn btn-info btn-sm" id="evntLogSave">Save</button>
         </td>
       </tr>
@@ -192,7 +192,7 @@
           <div class="form-group row">
             <label for="createEvent" class="col-md-2 col-form-label">Event Name</label>
             <div class="col-sm-4">
-              <select class="form-control" id="evntName">
+              <select class="form-control form-control-sm" id="evntName">
                 <option>Select</option>
                 <option>Plant Shut Down</option>
                 <option>Pump Motor Temprature</option>
@@ -203,12 +203,12 @@
           <div class="form-group row">
             <label for="" class="col-md-2 col-form-label">Created By</label>
             <div class="col-md-4">
-              <input type="text" class="form-control" id="evntcretBy" placeholder="" value="Sean Healy">
+              <input type="text" class="form-control form-control-sm" id="evntcretBy" placeholder="" value="Sean Healy">
             </div>
             <label for="" class="col-sm-1 col-form-label">On</label>
             <div class="col-md-4">
-              <div class="input-group">
-                <input type="text" class="form-control" id="evntcretOn" placeholder="dd/mm/yyy mm:hh">
+              <div class="input-group input-group-sm">
+                <input type="text" class="form-control form-control" id="evntcretOn" placeholder="dd/mm/yyy mm:hh">
                 <div class="input-group-append">
                   <span class="input-group-text"><i class="fa fa-calendar"></i></span>
                 </div>
@@ -218,7 +218,7 @@
           <div class="form-group row">
             <label for="" class="col-md-2 col-form-label">Applies To</label>
             <div class="col-md-4">
-              <select class="form-control" id="evntAppliesTo">
+              <select class="form-control form-control-sm" id="evntAppliesTo">
                 <option>Select</option>
                 <option>Compressor Room</option>
                 <option>Pump Room</option>
@@ -228,7 +228,7 @@
           <div class="form-group row">
             <label for="" class="col-md-2 col-form-label">Notes</label>
             <div class="col-md-6">
-              <textarea class="form-control" rows="3" id="evntNotes"></textarea>
+              <textarea class="form-control form-control" rows="3" id="evntNotes"></textarea>
             </div>
           </div>
           <fieldset class="form-group">
@@ -237,7 +237,7 @@
             <div class="row">
               <div class="col-sm-4">
                 <label for="startDate">Start Date</label>
-                <div class="input-group">
+                <div class="input-group input-group-sm">
                     <input type="text" class="form-control" id="evntAlarmStartDate" placeholder="dd/mm/yyy mm:hh">
                     <div class="input-group-append">
                       <span class="input-group-text"><i class="fa fa-calendar"></i></span>
@@ -256,7 +256,7 @@
 
               <div class="col-sm-4">
                 <label for="endDate">End Date</label>
-                <div class="input-group">
+                <div class="input-group input-group-sm">
                     <input type="text" class="form-control" id="evntAlarmEndDate" placeholder="dd/mm/yyy mm:hh">
                     <div class="input-group-append">
                       <span class="input-group-text"><i class="fa fa-calendar"></i></span>
@@ -272,8 +272,8 @@
               <div class="col-sm-4">
                 <label for="">&nbsp;</label>
                 <div class="input-group">
-                  <button class="btn btn-secondary mr-3" id="alarmBlackoutClear">Clear</button>
-                  <button class="btn btn-primary" id="alarmBlackoutset">Set</button>
+                  <button class="btn btn-sm btn-outline-secondary mr-3" id="alarmBlackoutClear">Clear</button>
+                  <button class="btn btn-sm btn-info" id="alarmBlackoutset">Set</button>
                 </div>
               </div>
             </div>
@@ -281,11 +281,9 @@
         </form>
       </div>
       <div class="modal-footer">
-        <button id="add-event-cancle" type="button" class="btn button-mod btn-secondary btn-sm"
-          (click)="closeAddEventModal('cancel')" id="addEvntCancle">Cancel
+        <button id="add-event-cancle" type="button" class="btn btn-outline-secondary btn-sm" (click)="closeAddEventModal('cancel')" id="addEvntCancle">Cancel
         </button>
-        <button id="add-event-save" type="button" class="btn btn-info btn-color btn-sm"
-          (click)="closeAddEventModal('save')" id="addEvntAdd">Add</button>
+        <button id="add-event-save" type="button" class="btn btn-info btn-sm" (click)="closeAddEventModal('save')" id="addEvntAdd">Add</button>
       </div>
 
     </div>

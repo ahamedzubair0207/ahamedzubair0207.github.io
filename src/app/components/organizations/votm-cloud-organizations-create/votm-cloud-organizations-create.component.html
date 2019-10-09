@@ -695,17 +695,17 @@
 
                 <!-- This Button should be on Right  -->
                 <!-- <div class="text-right"> -->
-                <button id="org-cancel" type="button" (click)="onCancelClick($event)"
-                  class="btn btn-secondary btn-sm button-right mr-2"><i class="pr-2 fa fa-window-close-o"></i>
-                  Cancel</button>
-                <button id="org-delete" *ngIf="organization.organizationId && pageType !=='View'" type="button"
-                  class="btn btn-secondary btn-sm button-right mr-2" (click)="openConfirmDialog()"><i
-                    class="pr-2 icon-trash"></i>
-                  Delete</button>
-                <button id="org-save" type="submit" *ngIf="pageType !=='View'"
-                  class="btn btn-sm button-right btn-info"><i class="pr-2 fa fa-building"></i> Save
+                  <button id="org-save" type="submit" *ngIf="pageType !=='View'"
+                  class="btn btn-sm button-right btn-info"> Save
                   Organization<i class="fa fa-spinner fa-spin fa-fw" *ngIf="isAddOrganizationAPILoading"></i>
                 </button>
+                  <button id="org-cancel" type="button" (click)="onCancelClick($event)"
+                  class="btn btn-outline-secondary btn-sm button-right mr-2">
+                  Cancel</button>
+                <button id="org-delete" *ngIf="organization.organizationId && pageType !=='View'" type="button"
+                  class="btn btn-secondary btn-sm button-right mr-2" (click)="openConfirmDialog()">
+                  Delete</button>
+                
                 <!-- </div> -->
               </div>
 
