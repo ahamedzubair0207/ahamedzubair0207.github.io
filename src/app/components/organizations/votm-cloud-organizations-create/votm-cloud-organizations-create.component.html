@@ -774,7 +774,7 @@
     <div class="tab-pane fade border border-top-0 p-3 mb-3 flex-grow-1"
       *ngFor="let dashboardDataUser of dashboardData; let ij = index" id="Dashboard_{{ij}}" role="tabpanel">
       <div class="row" *ngIf="dashboardDataUser.dashboardHTML" [innerHTML]="dashboardDataUser.dashboardHTML"></div>
-      <div class="row" *ngIf="ij==0 || ij==3 || ij==6">
+      <div class="row" *ngIf="ij==3 || ij==6">
         <div class="col-6 dashboard-gear-icon-wrapper">
           <div class="dashboard-gear-icon"><i class="fa fa-gear" (click)="op3.toggle($event)"></i></div>
           <app-votm-animated-gauge></app-votm-animated-gauge>
@@ -785,7 +785,7 @@
         </div>
       </div>
 
-      <div class="row" *ngIf="ij==0 || ij==3 || ij==6">
+      <div class="row" *ngIf="ij==3 || ij==6">
         <div class="col-12 dashboard-gear-icon-wrapper">
           <div class="dashboard-gear-icon"><i class="fa fa-gear" (click)="op3.toggle($event)"></i></div>
           <app-votm-live-order-book-depth-chart></app-votm-live-order-book-depth-chart>

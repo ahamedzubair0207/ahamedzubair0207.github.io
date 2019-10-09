@@ -18,6 +18,7 @@ import { AlertsService } from '../../../services/alerts/alerts.service';
 import { countyList } from 'src/app/services/countryList/countryStateList';
 import { AssetsService } from '../../../services/assets/assets.service';
 import { SortArrays } from '../../shared/votm-sort';
+import { setDashboardConfiguration } from 'src/assets/js/data';
 declare var jQuery: any;
 
 @Component({
@@ -737,8 +738,27 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
         this.userdashboardData[index].dashboardHTML = this.sanitizer.bypassSecurityTrustHtml(response);
         setTimeout(() => {
           // setData('Hello');
+          let configData = $("#dashboard_config_btncreate").click(setDashboardConfiguration);
+          this.afterLoaded();
         }, 300);
       });
+  }
+
+  setExternalScript(src) {
+    return new Promise((resolve, reject) => {
+         const scriptTag = document.createElement('script');
+         scriptTag.type = 'text/javascript';
+         scriptTag.src = src;
+         scriptTag.onload = () => resolve();
+         document.getElementById('config_dashboard').appendChild(scriptTag); // document.body
+    });
+  }
+
+  async afterLoaded() {
+      const scripts = ['assets/dashboards/lineChartLive.js'];
+      for(let i=0; i< scripts.length; i++) {
+         await this.setExternalScript(scripts[i]);
+      }
   }
 
   openAddDashboardModal(dashboardAct: string, dashboardId: any, dashboardNames: string) {
