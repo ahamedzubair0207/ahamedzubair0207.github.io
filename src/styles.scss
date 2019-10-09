@@ -1,6 +1,11 @@
 /* You can add global styles to this file, and also import other style files */
 @import "styles-variables";
 
+@import "styles/bootstrap.min.css", "styles/pcm.css";
+@import "styles/_functions.scss", "styles/_variables.scss";
+@import "styles/select.scss";
+// @import "styles/side.css";
+
 @import '~bootstrap/scss/bootstrap-reboot';
 @import '~bootstrap/scss/bootstrap-grid';
 @import "~bootstrap/dist/css/bootstrap.css";
