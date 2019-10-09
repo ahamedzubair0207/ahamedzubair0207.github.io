@@ -32,6 +32,8 @@ export class VotmCloudLocationsSignalComponent implements OnInit, OnDestroy {
   isGetAssociatedSignalsAPILoading = false; // flag for loader for get associated signals api
   isCreateSignalAssociationAPILoading = false; // flag for loader for create signals association api
   imgURL: any; // to store the base64 of location image.
+  curOrganizationId: string;
+  curOrganizationName: string;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -44,10 +46,15 @@ export class VotmCloudLocationsSignalComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.organizationId = this.activatedRoute.snapshot.paramMap.get('curOrgId');
+    // this.organizationId = this.activatedRoute.snapshot.paramMap.get('curOrgId');
     this.locationId = this.activatedRoute.snapshot.paramMap.get('locId');
     this.getLocationById();
     this.getLocationSignalAssociation();
+    this.activatedRoute.paramMap.subscribe(params => {
+      this.curOrganizationId = params.get('curOrgId');
+      this.curOrganizationName = params.get('curOrgName');
+      this.organizationId = params.get('orgId');
+    });
   }
 
   /**
@@ -364,7 +371,8 @@ export class VotmCloudLocationsSignalComponent implements OnInit, OnDestroy {
   }
 
   onClickOfCreateAssociateRule() {
-    this.route.navigate(['alerts', 'home']);
+    this.route.navigate(['org', 'view', this.curOrganizationId, this.curOrganizationName,
+    this.organizationId ? this.organizationId : this.curOrganizationId, 'alertRule', 'create']);
   }
 
   onClickOfAddCalculatedSignal() {
