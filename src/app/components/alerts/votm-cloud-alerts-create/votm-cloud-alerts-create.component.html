@@ -21,7 +21,7 @@
             <div class="col-md-4 row">
                 <label id="metricTypeLbl" class="col-md-6 col-form-label txt-r">Metric Type</label>
                 <div class="col-md-6">
-                    <select name="metricType" id="metricTypeDropDown" [(ngModel)]="alert.alertTypeId"
+                    <select name="metricType" id="metricTypeDropDown" [(ngModel)]="alert.UomTypeId"
                         class="form-control form-control-sm" [disabled]="pageType === 'View'">
                         <option *ngFor="let metricType of metricTypes" [value]="metricType.id">{{metricType.name}}
                         </option>
@@ -155,7 +155,7 @@
                                     <tbody>
                                         <!-- <tr> <td>AHAMED</td><td>ZUBAIR</td></tr> -->
                                         <div *ngFor="let location of alertRuleSignalAssociatedAsset.locations">
-                                            <div *ngIf="location.signalId">
+                                            <div *ngIf="location.signalMappingId">
                                                 <tr>
                                                     <td>
                                                         {{'Organizaation > '+location.locationName}}
@@ -163,7 +163,7 @@
                                                     <td class="text-center">
                                                         <div class="checkbox">
                                                             <label><input type="checkbox"
-                                                                    (change)="onSignalSelectionChange($event, location.signalId)"></label>
+                                                                    (change)="onSignalSelectionChange($event, location.signalMappingId)"></label>
                                                         </div>
                                                     </td>
                                                 </tr>
@@ -172,7 +172,8 @@
                                                     <td class="text-center">
                                                         <div class="checkbox">
                                                             <label><input type="checkbox"
-                                                                    (change)="onSignalSelectionChange($event, location.signalId)"></label>
+                                                                [checked]="selectedSignals.indexOf(location.signalMappingId)>=0"
+                                                                    (change)="onSignalSelectionChange($event, location.signalMappingId)"></label>
                                                         </div>
                                                     </td>
                                                 </tr>
@@ -197,8 +198,8 @@
                                                         <td class="text-center">
                                                             <div class="checkbox">
                                                                 <label><input type="checkbox"
-                                                                        [checked]="selectedSignals.indexOf(signal.signalId)>=0"
-                                                                        (change)="onSignalSelectionChange($event, signal.signalId, asset)"></label>
+                                                                        [checked]="selectedSignals.indexOf(signal.signalMappingId)>=0"
+                                                                        (change)="onSignalSelectionChange($event, signal.signalMappingId, asset)"></label>
                                                             </div>
                                                         </td>
                                                     </tr>
@@ -337,7 +338,10 @@
                                 <thead>
                                     <tr>
                                         <th>User/Group Name</th>
-                                        <th>User Email</th>
+                                        <th>User Email<i
+                                            class="icon-info ml-2"
+                                            ngbPopover="Only for Identification"
+                                            triggers="mouseenter:mouseleave" popoverTitle="Information"></i></th>
                                         <th>Responsibility</th>
                                         <th class="text-center">Action</th>
                                     </tr>
@@ -346,14 +350,11 @@
                                     <tr *ngFor="let userGroupSubscriber of alert.alertRuleUserGroup">
                                         <td><i class="fa fa-user mr-2"></i>{{userGroupSubscriber.name}}
                                         </td>
-                                        <td>{{userGroupSubscriber.userEmail? userGroupSubscriber.userEmail: '-'}}<i
-                                                class="icon-info ml-2"
-                                                ngbPopover="This is not used for Alert Subscription!"
-                                                triggers="mouseenter:mouseleave" popoverTitle="Information Only!"></i>
+                                        <td>{{userGroupSubscriber.userEmail? userGroupSubscriber.userEmail: '-'}}
                                         </td>
                                         <!-- Ahamed Code -->
                                         <td>
-                                            <div *ngIf="userGroupSubscriber.userGroupId">
+                                            <div *ngIf="userGroupSubscriber.userGroupId; else userTemplate">
                                                 <select
                                                     [(ngModel)]="userResponsibities[userGroupSubscriber.userGroupId]"
                                                     (change)="onResponsibityChangeForUserGroup($event, userGroupSubscriber)"
@@ -364,7 +365,7 @@
                                                     </option>
                                                 </select>
                                             </div>
-                                            <div *ngIf="userGroupSubscriber.userId">
+                                            <ng-template #userTemplate>
                                                 <select [(ngModel)]="userResponsibities[userGroupSubscriber.userId]"
                                                     (change)="onResponsibityChangeForUserId($event, userGroupSubscriber)"
                                                     [name]="userGroupSubscriber.userId">
@@ -372,7 +373,8 @@
                                                         [value]="role.alertUserGroupRoleId">
                                                         {{role.roleName}}
                                                     </option>
-                                                </select></div>
+                                                </select>
+                                            </ng-template>
                                         </td>
                                         <!-- <td *ngIf="userGroup.userId">
                                         <select chan [(ngModel)]="userResponsibities[userGroupSubscriber.userId]"
@@ -383,7 +385,7 @@
                                             </option>
                                         </select>
                                     </td> -->
-                                        <td class="text-center"><a (click)="onUserGroupDelete(userGroupSubscriber)"><i
+                                        <td class="text-center"><a style="cursor: pointer;" (click)="onUserGroupDelete(userGroupSubscriber)"><i
                                                     class="icon-trash"></i></a></td>
                                     </tr>
                                 </tbody>
@@ -426,7 +428,7 @@
                             <th scope="col">#</th>
                             <th scope="col">First</th>
                             <th scope="col">Last</th>
-                            <th scope="col">Email</th> <!-- Ahamed Code -->
+                            <th scope="col">Email</th> 
                             <th scope="col">Action</th>
                         </tr>
                     </thead>
@@ -435,7 +437,7 @@
                             <th scope="row">{{i+1}}</th>
                             <td>{{notifyUser.firstName}}</td>
                             <td>{{notifyUser.lastName}}</td>
-                            <td>{{notifyUser.emailId}}</td> <!-- Ahamed Code -->
+                            <td>{{notifyUser.emailId}}</td> 
                             <td><a style="cursor: pointer;" (click)="onUserSelection(notifyUser)"><i
                                         class="fa fa-user-plus"></i></a></td>
                         </tr>
@@ -482,7 +484,7 @@
                         <tr *ngFor="let userGroup of userGroups let i=index;">
                             <th scope="row">{{i+1}}</th>
                             <td>{{userGroup.userGroupName}}</td>
-                            <td><a (click)="onUserGroupSelection(userGroup)"><i class="fa fa-user-plus"></i></a></td>
+                            <td><a style="cursor: pointer;" (click)="onUserGroupSelection(userGroup)"><i class="fa fa-user-plus"></i></a></td>
                         </tr>
                     </tbody>
                 </table>

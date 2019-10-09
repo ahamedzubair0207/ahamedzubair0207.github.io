@@ -36,7 +36,7 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
   assetsChecked = {};
   ruleTypes: any[] = [];
   metricTypes: any[] = [];
-  
+
   accessScopes: any[] = [];
   alertId: string;
   notifyUsers: any[] = [];
@@ -50,7 +50,7 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
   subscriptions: any;
   toaster: Toaster = new Toaster(this.toastr);
   accessScopeName: string;
-  uomTypes: any[] = []; 
+  uomTypes: any[] = [];
   @ViewChild('confirmBox', null) confirmBox: VotmCloudConfimDialogComponent;
 
 
@@ -84,9 +84,10 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
           .subscribe(response => {
             console.log('Alert Record', response);
             this.alert = response;
-            this.alert.alertRuleUserGroup[0].userId = 'ea8a69d9-50a1-4773-a7ef-324cd33b3296';
+            // this.alert.alertRuleUserGroup[0].userId = 'ea8a69d9-50a1-4773-a7ef-324cd33b3296';
             this.userResponsibities = [];
-            this.alert.alertRuleTypeId = this.alert.alertRuleTypeId.toUpperCase();
+            this.alert.UomTypeId = response.uomTypeId;
+            this.alert.alertRuleTypeId = response.alertRuleTypeId ? response.alertRuleTypeId.toUpperCase() : null;
             if (this.alert.alertRuleUserGroup && this.alert.alertRuleUserGroup.length > 0) {
               this.alert.alertRuleUserGroup.forEach(alertRuleUserGroup => {
                 if (alertRuleUserGroup.userId) {
@@ -107,8 +108,13 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
                 });
               });
             }
+
+            this.selectedSignals= [];
+            this.alert.alertRuleSignalMapping.forEach(signalMapping=>{
+              this.selectedSignals.push(signalMapping.signalMappingId);
+            })
           });
-        this.ALertRuleUserGroupSubscriber();
+        this.ALertRuleUserGroupSubscriber();       
       } else {
         this.userGroupSubscribers = [];
       }
@@ -192,7 +198,7 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
         this.metricTypes = [];
         if (response && response.length > 0) {
           response.forEach(item => {
-            this.metricTypes.push({ id: item.alertTypeId, name: item.alertTypeName });
+            this.metricTypes.push({ id: item.uomtypeId, name: item.uomtypeName });
           });
         }
       });
@@ -295,7 +301,7 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
         class: 'alert-danger text-center',
         active: false
       },
-     
+
     ];
   }
 
@@ -327,16 +333,16 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
     if (asset && asset.signals && asset.signals.length > 0) {
       if (event.target.checked) {
         asset.signals.forEach(signal => {
-          this.alert.alertRuleSignalMapping.push({ signalId: signal.signalId });
-          this.selectedSignals.push(signal.signalId);
+          this.alert.alertRuleSignalMapping.push({ signalMappingId: signal.signalMappingId });
+          this.selectedSignals.push(signal.signalMappingId);
         });
       } else {
         asset.signals.forEach(signal => {
-          let index = this.alert.alertRuleSignalMapping.findIndex(x => x.signalId === signal.signalId);
+          let index = this.alert.alertRuleSignalMapping.findIndex(x => x.signalMappingId === signal.signalMappingId);
           if (index >= 0) {
             this.alert.alertRuleSignalMapping.splice(index, 1);
           }
-          let ind = this.selectedSignals.indexOf(signal.signalId);
+          let ind = this.selectedSignals.indexOf(signal.signalMappingId);
           if (ind >= 0) {
             this.selectedSignals.splice(ind, 1);
           }
@@ -354,20 +360,20 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
     });
   }
 
-  onSignalSelectionChange(event, signalId: string, asset) {
-    console.log('onSignalSelectionChange ', event, signalId);
+  onSignalSelectionChange(event, signalMappingId: string, asset) {
+    console.log('onSignalSelectionChange ', event, signalMappingId);
     if (!this.alert.alertRuleSignalMapping || this.alert.alertRuleSignalMapping.length === 0) {
       this.alert.alertRuleSignalMapping = [];
     }
     if (event && event.target.checked) {
-      this.alert.alertRuleSignalMapping.push({ signalId: signalId });
-      this.selectedSignals.push(signalId);
+      this.alert.alertRuleSignalMapping.push({ signalMappingId: signalMappingId });
+      this.selectedSignals.push(signalMappingId);
     } else {
-      let index = this.alert.alertRuleSignalMapping.findIndex(x => x.signalId === signalId);
+      let index = this.alert.alertRuleSignalMapping.findIndex(x => x.signalMappingId === signalMappingId);
       if (index >= 0) {
         this.alert.alertRuleSignalMapping.splice(index, 1);
       }
-      index = this.selectedSignals.indexOf(signalId);
+      index = this.selectedSignals.indexOf(signalMappingId);
       this.selectedSignals.splice(index, 1);
     }
 
@@ -381,7 +387,7 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
       let tempSignalArray = [];
 
       asset.signals.forEach(signal => {
-        tempSignalArray.push(signal.signalId);
+        tempSignalArray.push(signal.signalMappingId);
       });
       let checker = (arr, target) => target.every(v => arr.includes(v));
 
@@ -392,8 +398,8 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
       } else {
         let isSignalFound: boolean = false;
         asset.signals.forEach(signal => {
-          this.selectedSignals.forEach(signalId => {
-            if (signal.signalId === signalId) {
+          this.selectedSignals.forEach(signalMappingId => {
+            if (signal.signalMappingId === signalMappingId) {
               isSignalFound = true;
             }
           });
@@ -444,11 +450,12 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
   onAlertRuleSubmit() {
     this.alert.alertRuleConfigurationMapping = [];
     this.absoluteThresholds.forEach(threshold => {
-      if (threshold.alertConfigurationValue) {
+      if (threshold.alertConfigurationValue && threshold.active) {
         this.alert.alertRuleConfigurationMapping.push({
           active: threshold.active,
           alertConfigurationId: threshold.alertConfigurationId,
-          alertConfigurationValue: threshold.alertConfigurationValue
+          alertConfigurationValue: threshold.alertConfigurationValue,
+          alertRuleTypeId: this.alert.alertRuleTypeId
         });
       }
     });

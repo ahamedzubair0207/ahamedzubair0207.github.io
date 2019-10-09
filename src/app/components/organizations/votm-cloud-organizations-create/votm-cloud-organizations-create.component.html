@@ -173,6 +173,19 @@
                           {{org.name}}
                         </option>
                       </select>
+                      <!-- <ng-select
+                      id="parentOrgLblList"
+                      class="custom"
+                      [multiple]="false"
+                      [(ngModel)]="organization.parentOrganizationId"
+                    >
+                      <ng-option
+                      *ngFor="let org of organizationList"
+                      [value]="org.organizationId"
+                        >{{org.name}}</ng-option
+                      >
+                    </ng-select> -->
+
                       <!-- <input for="parentOrgName" class="form-control org-create-font" type="text"
                                   placeholder="{{parentOrganizationInfo? parentOrganizationInfo.parentOrganizationName: organization.parentOrganizationName}}"
                                   readonly disabled> -->
@@ -527,6 +540,18 @@
                             {{locale.localeName}}
                           </option>
                         </select>
+<!-- 
+                        <ng-select id="DefaultLang" class="custom" [multiple]="false" [(ngModel)]="organization.localeId"
+                      #defLanguage="ngModel"
+                    >
+                    <ng-option value="null" disabled selected>Select Language</ng-option>
+                      <ng-option
+                      *ngFor="let locale of applicationConfiguration.locale" [value]="locale.localeId"
+                        >{{locale.localeName}}</ng-option
+                      >
+                    </ng-select> -->
+
+
                         <div *ngIf="defLanguage.dirty && defLanguage.invalid">
                           <app-votm-cloud-validator message="Language is required"></app-votm-cloud-validator>
                         </div>
