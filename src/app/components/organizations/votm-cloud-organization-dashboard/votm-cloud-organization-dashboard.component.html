@@ -5,7 +5,7 @@
       Organization Dashboard      
       <i class="fa fa-pencil ml-2" (click)="openAddDashboardModal('editDashboard')"
         title="Configure Dashboard"></i>&nbsp;
-      <i class="fa fa-trash" (click)="openConfirmDialog(dashboardData.id, dashboardData.name)"
+      <i class="icon-trash" (click)="openConfirmDialog(dashboardData.id, dashboardData.name)"
         title="Delete Dashboard"></i>
     </a>
   </li>
@@ -15,7 +15,7 @@
       Asset Dashboard
       <i class="fa fa-pencil ml-2" (click)="openAddDashboardModal('editDashboard')"
         title="Configure Dashboard"></i>&nbsp;
-      <i class="fa fa-trash" (click)="openConfirmDialog(dashboardData.id, dashboardData.name)"
+      <i class="icon-trash" (click)="openConfirmDialog(dashboardData.id, dashboardData.name)"
         title="Delete Dashboard"></i>
     </a>
   </li>
@@ -24,7 +24,7 @@
       aria-selected="false">Location Dashboard
       <i class="fa fa-pencil ml-2" (click)="openAddDashboardModal('editDashboard')"
         title="Configure Dashboard"></i>&nbsp;
-      <i class="fa fa-trash" (click)="openConfirmDialog(dashboardData.id, dashboardData.name)"
+      <i class="icon-trash" (click)="openConfirmDialog(dashboardData.id, dashboardData.name)"
         title="Delete Dashboard"></i>
     </a>
   </li> -->
@@ -34,7 +34,7 @@
       aria-selected="false">{{dashboardDataUser.dashboardName}}
       <i class="fa fa-pencil ml-2" (click)="openAddDashboardModal('editDashboard', dashboardDataUser.id, dashboardDataUser.dashboardName); stopPropagation();"
         title="Configure Dashboard"></i>&nbsp;
-      <i class="fa fa-trash" (click)="openConfirmDialog(dashboardDataUser.id, dashboardDataUser.dashboardName)"
+      <i class="icon-trash" (click)="openConfirmDialog(dashboardDataUser.id, dashboardDataUser.dashboardName)"
         title="Delete Dashboard"></i>
     </a>
   </li>

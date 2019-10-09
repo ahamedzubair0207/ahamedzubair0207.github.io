@@ -64,12 +64,13 @@
                     </div>
                   </li>
                   <li class="nav-item user-divider"> 
-                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user mr-2 user-icon"></i>Sean Haley</a>
+                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user mr-2 user-icon"></i>Sean Haley </a>
                     <div class="dropdown-menu dropdown-menu-right">
                       <a [routerLink]="['/preferences']" class="dropdown-item"><i class="fa fa-user mr-2 dropdown-icon-size"></i>User Preferences</a>
                       <a href="#" class="dropdown-item"><i class="fa fa-key mr-2 dropdown-icon-size"></i>Change Password</a>
                       <a href="#" class="dropdown-item"><i class="fa fa-info mr-2 dropdown-icon-size"></i>Help</a>
-                      <a href="#"class="dropdown-item"><i class="fa fa-power-off mr-2 dropdown-icon-size"></i>Logout</a>
+                      <!-- <a id="logout-button" class="dropdown-item" *ngIf="isAuthenticated" (click)="logout()"><i class="fa fa-power-off mr-2 dropdown-icon-size"></i>Logout</a> -->
+                     <a href="#"class="dropdown-item"><i class="fa fa-power-off mr-2 dropdown-icon-size"></i>Logout</a>
                     </div>
                   </li>
                 </ul>

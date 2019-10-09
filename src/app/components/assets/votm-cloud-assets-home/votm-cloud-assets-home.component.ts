@@ -113,7 +113,7 @@ export class VotmCloudAssetsHomeComponent implements OnInit {
   }
 
   fetchAllAssetsTree() {
-    this.subscriptions.push(this.assetService.getAssetTree()
+    this.subscriptions.push(this.assetService.getAssetTreeByOrgId(this.parentOrgId)
       .subscribe(response => {
         this.assetsList = response;
         // .map(

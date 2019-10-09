@@ -27,6 +27,19 @@
     color:  #02b3bf;
     margin-left: auto;
   }
+
+  .lock-tab {
+    position: absolute;
+    right: 15px;
+    top: 11px;
+    background-color: #ffffff;
+    padding-top: 5px;
+    padding-right: 14px;
+    padding-left: 15px;
+    border-radius: 0.25rem 0.25rem 0 0;
+}
+
+
   .action-btn-asset{
     margin-right: 2px;
   }
@@ -44,9 +57,9 @@
 
   .create-asset-container {
     padding: 15px;
-    border-left: 1px solid rgba(0,0,0,.125);
-    border-right: 1px solid rgba(0,0,0,.125);
-    border-bottom: 1px solid rgba(0,0,0,.125);
+    // border-left: 1px solid rgba(0,0,0,.125);
+    // border-right: 1px solid rgba(0,0,0,.125);
+    // border-bottom: 1px solid rgba(0,0,0,.125);
   }
  
   input[type=text], input[type=password],input[type=email],input[type=file],input[type=number] {
@@ -89,3 +102,96 @@
 a:hover {
   cursor:pointer;
  }
+
+ /// Side Nav CSS by David
+
+ .nav-tabs-vertical {
+  border-bottom: none;
+  border-right: 1px solid #dee2e6;
+  display: flex;
+  flex-flow: column nowrap;
+}
+
+.nav-tabs-left {
+  margin: 0 15px 0 0 ;
+}
+
+.nav-tabs-left .nav-item+.nav-item {
+  margin-top: 1px;
+}
+
+.nav-tabs-left .nav-link {
+  padding-left: .5rem;
+  padding-right: .5rem;
+  border-bottom-left-radius: 0.25rem !important;
+  border-top-right-radius: 0 !important;
+  border-color: #dee2e6 #f3f4f6 #dee2e6 #dee2e6 !important;
+}
+
+.nav-tabs .nav-link {
+  border-top-left-radius: 0.25rem;
+  border-top-right-radius: 0.25rem;
+  border-color: #dee2e6 #dee2e6 #dee2e6 #dee2e6;
+}
+
+.nav-tabs-left .nav-link:hover,
+.nav-tabs .nav-link:hover {
+  color: #000000;
+  background-color: #dee2e6 !important;
+}
+
+.nav-tabs-left .nav-link:hover {
+  border-right-color: #dee2e6 !important;
+}
+
+.nav-tabs .nav-link:hover {
+  border-bottom-color: #dee2e6 !important;
+}
+
+.nav-tabs-left .nav-link.active {
+  border-bottom-left-radius: 0.25rem !important;
+  border-top-right-radius: 0 !important;
+  margin-right: -1px;
+}
+
+.nav-tabs .nav-link.active {
+
+}
+
+.nav-tabs-left .nav-link.active,
+.nav-tabs .nav-link.active {
+  border-color: #00A2AE !important;
+  background-color: #00A2AE !important;
+  color:white;
+}
+
+.nav-tabs-left .nav-link.active:hover, 
+.nav-tabs .nav-link.active:hover {
+  background-color: #008f9a !important;
+  border-color: #008f9a !important;
+}
+
+.nav-tabs-left .nav-link,
+.nav-tabs .nav-link {
+  transition: border-color .125s ease-in;
+  white-space: nowrap;
+  color: #495057;
+  background-color: #f3f4f6;
+}
+
+/* --------------- */
+
+.sidebar-sticky {
+  background-color: #78C8D2;
+}
+
+.sidebar .nav-link {
+  /*font-size: larger;*/
+}
+
+.sidebar .nav-link.active {
+  background-color: #00A2AE;
+  color: #ffffff;
+  font-weight: bold;
+}
+

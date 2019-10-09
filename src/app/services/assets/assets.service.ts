@@ -19,8 +19,8 @@ export class AssetsService {
 
   getAssetTreeByLocId(locId: string): Observable<any> {
 
-    // let params = new HttpParams().set("assetId", assetId);
-    return this.http.get(AppConstants.GET_ASSETTREE + '/' + locId + AppConstants.GET_ASSETTREE_BYID)
+    let params = new HttpParams().set("Id", locId).set('type', 'location');
+    return this.http.get(AppConstants.GET_ASSETTREE, params)
       .pipe(
         map(response => response)
       );
@@ -28,6 +28,14 @@ export class AssetsService {
 
   getAssetTree(): Observable<any> {
     return this.http.get(AppConstants.GET_ASSET_TREE)
+      .pipe(
+        map(response => response)
+      );
+  }
+
+  getAssetTreeByOrgId(orgId: string): Observable<any> {
+    // let params = new HttpParams().set("assetId", assetId);
+    return this.http.get(AppConstants.GET_ASSETTREE + '/' + orgId + AppConstants.GET_ASSETTREE_BYORGID)
       .pipe(
         map(response => response)
       );

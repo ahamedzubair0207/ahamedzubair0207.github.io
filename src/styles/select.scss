@@ -1,0 +1,46 @@
+@import "~@ng-select/ng-select/themes/default.theme.css";
+
+// .ng-select.custom {
+// }
+
+.ng-select.custom .ng-select-container {
+  min-height: 0;
+  width: 100%;
+  height: calc(1.5em + 0.5rem + 2px);
+  padding: 0.25rem 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #495057 !important;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.ng-select.custom.ng-select-focused:not(.ng-select-opened)
+  > .ng-select-container {
+  color: #495057;
+  background-color: #fff;
+  border-color: #43f1fd;
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem rgba(2, 179, 191, 0.25);
+}
+
+.ng-select.custom .ng-select-container .ng-value-container {
+  padding-left: initial;
+}
+
+.ng-select.custom .ng-arrow-wrapper {
+  width: initial;
+  padding-right: initial;
+}
+
+.ng-select.custom .ng-select-container .ng-input > input {
+  color: inherit;
+}
+
+.ng-select.custom .ng-dropdown-panel .ng-dropdown-panel-items .ng-option {
+  padding: 0.25rem 0.5rem;
+}

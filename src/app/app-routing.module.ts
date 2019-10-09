@@ -53,49 +53,89 @@ import {
   VotmCloudAdminUserManagementComponent
 } from './components/admin/votm-cloud-admin-user-management/votm-cloud-admin-user-management.component';
 
+import {
+  OKTA_CONFIG,
+  OktaAuthGuard,
+  OktaAuthModule,
+  OktaCallbackComponent,
+} from '@okta/okta-angular';
+
+
 const routes: Routes = [
+  // {
+  //   path: '',
+  //   component: VotmCloudViewsHomeComponent,
+  // },
+ // {
+   // path: '',
+   // component: VotmCloudOrganizationsHomeComponent,
+  //  canActivate: [ OktaAuthGuard ],
+   // data: { type: 'Organization' }
+ // },
+  
+  {
+    path: '',
+    component: VotmCloudViewsHomeComponent,
+    // canActivate: [ OktaAuthGuard ],
+  
+  },
+
   {
     path: 'fav',
-    component: VotmCloudViewsHomeComponent
+    component: VotmCloudViewsHomeComponent,
+    // canActivate: [ OktaAuthGuard ],
   },
+
+  // {
+  //   // path: 'implicit/callback',
+  //   // component: OktaCallbackComponent,
+  // },
   {
     path: 'view/home',
-    component: VotmCloudViewsHomeComponent
+    component: VotmCloudViewsHomeComponent,
+    // canActivate: [ OktaAuthGuard ],
   },
   {
     path: 'org/dashboard',
-    component: VotmCloudOrganizationDashboardComponent
+    component: VotmCloudOrganizationDashboardComponent,
+    // canActivate: [ OktaAuthGuard ],
   },
   // { path: 'alerts/home', component: VotmCloudAlertsHomeComponent },
   // { path: 'alerts/create', component: VotmCloudAlertsCreateComponent },
   // { path: 'alerts/create', component: VotmCloudAlertsCreateComponent },
   {
     path: 'preferences',
-    component: VotmCloudPreferencesComponent
+    component: VotmCloudPreferencesComponent,
+    // canActivate: [ OktaAuthGuard ],
   },
   {
     path: 'org/home/:orgId/:orgName',
     component: VotmCloudOrganizationsHomeComponent,
+    // canActivate: [ OktaAuthGuard ],
     data: { type: 'Organization' }
   },
   {
     path: 'org/create/:curOrgId/:curOrgName',
     component: VotmCloudOrganizationsCreateComponent,
+    // canActivate: [ OktaAuthGuard ],
     data: { type: 'Create' }
   },
   {
     path: 'org/view/:curOrgId/:curOrgName/:orgId',
     component: VotmCloudOrganizationsCreateComponent,
+    // canActivate: [ OktaAuthGuard ],
     data: { type: 'View' }
   },
   {
     path: 'org/edit/:curOrgId/:curOrgName/:orgId',
     component: VotmCloudOrganizationsCreateComponent,
+    // canActivate: [ OktaAuthGuard ],
     data: { type: 'Edit' }
   },
   {
     path: 'org/view/:curOrgId/:curOrgName/:orgId/alertRule/create',
     component: VotmCloudAlertsCreateComponent,
+    // canActivate: [ OktaAuthGuard ],
     data: { type: 'Create' }
   },
   {

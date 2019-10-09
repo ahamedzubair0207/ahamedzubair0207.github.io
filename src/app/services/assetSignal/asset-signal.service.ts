@@ -17,14 +17,16 @@ export class AssetSignalService {
     private http: CustomHttp
   ) { }
 
-  getAvailableSignals(): Observable<any> {
+  getAvailableSignals(): Observable<any> 
+  {
     return this.http.get(AppConstants.GET_AVAILABLE_SIGNALS)
       .pipe(
         map(response => response)
       );
   }
 
-  getAssetSignalAssociation(assetId: string) {
+  getAssetSignalAssociation(assetId: string) 
+  {
 
   }
 }

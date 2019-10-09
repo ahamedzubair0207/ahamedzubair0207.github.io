@@ -22,6 +22,8 @@ import { Toaster } from '../../shared/votm-cloud-toaster/votm-cloud-toaster';
 // import { } from '@types/googlemaps';
 import * as moment from 'moment-timezone';
 import { countyList } from 'src/app/services/countryList/countryStateList';
+import { OrganizationService } from 'src/app/services/organizations/organization.service';
+import { SortArrays } from '../../shared/votm-sort';
 
 
 
@@ -95,6 +97,8 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
   dashboardDataById: { act: string; title: string; dashboardName: string; dashboardHTML: any; };
   addDashboardArray: any;
   isAddOrganizationAPILoading = false;
+  organizationList: any[] = [];
+  locationListForDropDown: any[] = [];
 
   constructor(
     private modalService: NgbModal,
@@ -105,8 +109,9 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
     private route: Router,
     private datePipe: DatePipe,
     private routerLocation: RouterLocation,
-    private toastr: ToastrService
-    ) {
+    private toastr: ToastrService,
+    private organizationService: OrganizationService
+  ) {
     this.UOM = 'SI';
     this.subscriptions = route.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
@@ -135,6 +140,10 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
       this.parentLocId = params.get('parentLocId');
       this.parentLocName = params.get('parentLocName');
       this.locId = params.get('locId');
+      if (!this.parentLocId && !this.locId) {
+        this.getAllOrganizations();
+        this.getAllLocationByOrganization(this.curOrgId);
+      }
       if (!this.locId) {
         this.locationObject();
       } else {
@@ -190,13 +199,43 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
     //   })
 
     this.gateGateways();
-    this.location.address = [new Address()];
-    this.location.address[0].addressType = 'Billing';
+
     this.multiDropdownConfigSetting();
 
     // dashboard data
     this.dashboardData = this.getDashboards();
     this.getDashboardsTemplates();
+  }
+
+  getAllLocationByOrganization(orgId: string) {
+    this.locationService.getAllLocationTree(orgId)
+      .subscribe(response => {
+        this.location.parentLocationId = null;
+        this.locationListForDropDown = response;
+        this.locationListForDropDown.sort(SortArrays.compareValues('name'));
+      })
+  }
+
+  onParentOrgChange(event) {
+    this.getAllLocationByOrganization(event.target.value);
+  }
+
+  getAllOrganizations() {
+    this.organizationService.getAllOrganizationsList()
+      .subscribe(response => {
+        this.organizationList = response;
+        let orgFound = false;
+        this.organizationList.forEach(org => {
+          if (org.id === this.curOrgId) {
+            orgFound = true;
+          }
+        });
+        if (!orgFound) {
+          this.organizationList.push({ id: this.curOrgId, name: this.curOrgName });
+        }
+        this.organizationList.sort(SortArrays.compareValues('name'));
+        // this.organization.parentOrganizationId = JSON.parse(JSON.stringify(this.organization.parentOrganizationId));
+      });
   }
 
   getLocationById() {
@@ -209,7 +248,7 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
           this.location.address = [new Address()];
           this.location.address[0].addressType = 'Billing';
         }
-
+        this.fetchStates();
         this.selectedGateways = [];
         if (this.location.gateways) {
           this.selectedGateways = [...this.location.gateways];
@@ -236,13 +275,13 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
         //   this.rectangleValue2 = matches[0];
         //   this.rectangleUnit = matches2.join('');
         // }
-        this.location.localeId = this.location.locale;
-        this.location.timeZoneId = this.location.timeZone;
-        this.location.uoMId = this.location.uoM;
+        // this.location.localeId = this.location.locale;
+        // this.location.timeZoneId = this.location.timeZone;
+        // this.location.uoMId = this.location.uoM;
       });
   }
 
-  onCountryChange(event) {
+  onCountryChange() {
     console.log('Country change ', this.location.address[0].country);
     if (this.location.address && this.location.address.length > 0) {
       this.location.address[0].state = null;
@@ -250,6 +289,10 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
       this.location.address = [new Address()];
       this.location.address[0].state = null;
     }
+    this.fetchStates();
+  }
+
+  fetchStates() {
     this.countries.forEach(country => {
       if (country.countryName === this.location.address[0].country) {
         this.states = [];
@@ -287,7 +330,41 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
   }
 
   onGeoLocationClick() {
-    this.checkAddress();
+    if (this.checkAddress()) {
+      let address = `${this.location.address[0].address1} ${this.location.address[0].address2} ${this.location.address[0].city} ${this.location.address[0].postalCode} ${this.location.address[0].state} ${this.location.address[0].country}`;
+      this.locationService.getLocationInfoFromAzureMap(address)
+        .subscribe((response: any) => {
+          console.log('onGeoLocationClick ', response);
+          if (response && response.results && response.results.length > 0) {
+            this.location.latitude = response.results[0].position.lat;
+            this.location.longitude = response.results[0].position.lon;
+          }
+        });
+    }
+  }
+
+  onLookupClick() {
+    if (this.checkAddress()) {
+      if (this.location.latitude && this.location.longitude) {
+        this.locationService.getTimezoneByCordinates(`${this.location.latitude},${this.location.longitude}`)
+          .subscribe((response: any) => {
+            console.log('onLookupClick ', response);
+            if (response && response.TimeZones && response.TimeZones[0].Id) {
+              let currentDate = new Date();
+              let tempTimezone = moment.tz([currentDate.getFullYear(), currentDate.getMonth()], response.TimeZones[0].Id).format('zz');
+              tempTimezone = tempTimezone.toUpperCase();
+              tempTimezone = tempTimezone.replace('DAYLIGHT', 'STANDARD');
+              this.applicationConfiguration.timeZone.forEach(tz => {
+                if (tz.timeZoneName.toUpperCase() === tempTimezone.toUpperCase()) {
+                  this.location.timeZoneId = tz.timeZoneId;
+                }
+              });
+            }
+          });
+      } else {
+
+      }
+    }
   }
 
   checkAddress() {
@@ -296,33 +373,8 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
         && this.location.address[0].city
         && this.location.address[0].country && this.location.address[0].postalCode
         && this.location.address[0].state) {
-        let address = `${this.location.address[0].address1} ${this.location.address[0].address2} ${this.location.address[0].city} ${this.location.address[0].postalCode} ${this.location.address[0].state} ${this.location.address[0].country}`;
-        this.locationService.getLocationInfoFromAzureMap(address)
-          .subscribe((response: any) => {
-            if (response && response.results && response.results.length > 0) {
-              this.location.latitude = response.results[0].position.lat;
-              this.location.longitude = response.results[0].position.lon;
-              this.locationService.getTimezoneByCordinates(`${this.location.latitude},${this.location.longitude}`)
-                .subscribe((response: any) => {
-                  if (response && response.TimeZones && response.TimeZones[0].Id) {
-                    let currentDate = new Date();
-                    let tempTimezone = moment.tz([currentDate.getFullYear(), currentDate.getMonth()], response.TimeZones[0].Id).format('zz');
-                    tempTimezone = tempTimezone.toUpperCase();
-                    tempTimezone = tempTimezone.replace('DAYLIGHT', 'STANDARD');
-                    this.applicationConfiguration.timeZone.forEach(tz => {
-                      if (tz.timeZoneName.toUpperCase() === tempTimezone.toUpperCase()) {
-                        this.location.timeZoneId = tz.timeZoneId;
-                      }
-                    });
-                  }
-                  // let currentDate = new Date();
-                  // let abc = moment.tz([currentDate.getFullYear(), currentDate.getMonth()], 'America/Chicago').format('zz');
-                  // console.log('now ', abc)
-                });
-            }
-          });
+        return true;
       } else {
-
         this.geoLocationErrorMessage = 'Address is not correct. ';
         if (!this.location.address[0].address1) {
           this.geoLocationErrorMessage += 'Please fill street name.';
@@ -340,6 +392,7 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
     } else {
       this.markGeoLocationInvalid();
     }
+    return false;
   }
 
   markGeoLocationInvalid() {
@@ -375,6 +428,12 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
     this.route.navigate([`asset/create/${this.curOrgId}/${this.curOrgName}/${this.location.locationId}/${this.location.locationName}`]);
   }
   locationObject() {
+    this.location.address = [new Address()];
+    this.location.address[0].addressType = 'Billing';
+    this.location.address[0].state = null;
+    this.location.address[0].country = null;
+    this.location.timeZoneId = null;
+    this.location.localeId = null;
   }
 
   getScreenLabels() {
@@ -655,11 +714,11 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
       this.uomModels[uom[i].uomTypeName] = '';
     }
 
-    if (uom && uom.length > 0 && this.location && this.location.uoM) {
+    if (uom && uom.length > 0 && this.location && this.location.uoMId) {
       for (let i = 0; i < uom.length; i++) {
-        for (let j = 0; j < this.location.uoM.length; j++) {
+        for (let j = 0; j < this.location.uoMId.length; j++) {
           for (let k = 0; k < uom[i].uoMView.length; k++) {
-            if (this.location.uoM[j] === uom[i].uoMView[k].uoMId) {
+            if (this.location.uoMId[j] === uom[i].uoMView[k].uoMId) {
               this.uomModels[uom[i].uomTypeName] = uom[i].uoMView[k].uoMId;
             }
           }

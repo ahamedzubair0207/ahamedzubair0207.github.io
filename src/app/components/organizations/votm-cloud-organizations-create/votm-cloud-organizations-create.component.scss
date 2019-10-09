@@ -37,15 +37,27 @@ legend{
   
   }
 
+  /* -- lock tab -- */
+.lock-tab {
+    position: absolute;
+    right: 15px;
+    top: 6px;
+    background-color: #ffffff;
+    padding: 2px;
+    padding-top: 5px;
+    padding-right: 14px;
+    border-radius: 0.25rem 0.25rem 0 0;
+}
+
   .add-loc-btn{
     margin-bottom: 10px;
-    margin-left:auto;
-    float: right;
+    // margin-left:auto;
+    // float: right;
   }
 
   .add-sub-org-btn{
     margin-bottom: 10px;
-    float: right;
+    // float: right;
     // margin-left:auto;
   }
  
@@ -53,17 +65,6 @@ legend{
   font-weight: inherit !important;
 }
 
-.add-loc-btn{
-  margin-bottom: 10px;
-  margin-left:auto;
-  float: right;
-}
-
-.add-sub-org-btn{
-  margin-bottom: 10px;
-  float: right;
-  // margin-left:auto;
-}
 
   .side-tab-border{
     border: solid 1px #00b9c3;
@@ -122,7 +123,7 @@ color: #00b9c3;
 .modal-uom-label{
   margin-left: 15px;
 }
-.button-mod {
+.button-right {
   margin: 4px 2px;
   cursor: pointer;
   float: right;

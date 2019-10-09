@@ -394,11 +394,11 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
       }
     }
 
-    if (uom && uom.length > 0 && this.organization && this.organization.uoM) {
+    if (uom && uom.length > 0 && this.organization && this.organization.uoMId) {
       for (let i = 0; i < uom.length; i++) {
-        for (let j = 0; j < this.organization.uoM.length; j++) {
+        for (let j = 0; j < this.organization.uoMId.length; j++) {
           for (let k = 0; k < uom[i].uoMView.length; k++) {
-            if (this.organization.uoM[j] === uom[i].uoMView[k].uoMId) {
+            if (this.organization.uoMId[j] === uom[i].uoMView[k].uoMId) {
               this.uomModels[uom[i].uomTypeName] = uom[i].uoMView[k].uoMId;
             }
           }
@@ -544,12 +544,12 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
     if (event === 'save') {
       this.UOM = this.tempMeasurement;
       this.organization.uoMId = [];
-      this.organization.uoM = [];
+      // this.organization.uoM = [];
       let uom = this.applicationConfiguration.unitOfMeassurement;
       if (uom && uom.length > 0) {
         for (let i = 0; i < uom.length; i++) {
           if (this.uomModels[uom[i].uomTypeName]) {
-            this.organization.uoM.push(this.uomModels[uom[i].uomTypeName]);
+            // this.organization.uoM.push(this.uomModels[uom[i].uomTypeName]);
             this.organization.uoMId.push(this.uomModels[uom[i].uomTypeName]);
           }
         }
