@@ -34,7 +34,7 @@
             <th scope="row" (click)="item.opened = !item.opened" [ngStyle]="{'padding-left.px': 15*(lvl+1)}">
               <i class="icon-org-company"></i>
               <a style="color: #212529;" [routerLink]="['/org/view', curOrgId, curOrgName, item.id]"> {{item.name}}</a>&nbsp; <i *ngIf="item.node.length > 0 "
-                [ngClass]="{'fa': true, 'fa-caret-right': !item.opened, 'fa-caret-down': item.opened}"></i>
+                [ngClass]="{'fa': true, 'fa-caret-right': !item.opened, 'fa-caret-down': item.opened}" id="dropdownParentItem"></i>
             </th>
             <td class="align-left">{{item.type}}</td>
             <td class="align-left">{{item.customerNo}}</td>
@@ -62,7 +62,7 @@
                 <i class="fa fa-building"></i>
                 <a style="color: #212529;" [routerLink]="['/org/view', curOrgId, curOrgName, subItem.id]">
                   {{subItem.name}}</a>&nbsp;<i *ngIf="subItem.node.length > 0 "
-                  [ngClass]="{'fa': true, 'fa-caret-right': !subItem.opened, 'fa-caret-down': subItem.opened}"></i>
+                  [ngClass]="{'fa': true, 'fa-caret-right': !subItem.opened, 'fa-caret-down': subItem.opened}" id="dropdownSubItem"></i>
               </th>
               <td class="align-left">{{subItem.type}}</td>
               <td class="align-left">{{subItem.customerNo}}</td>
