@@ -73,12 +73,12 @@ const routes: Routes = [
    // data: { type: 'Organization' }
  // },
   
-  {
-    path: '',
-    component: VotmCloudViewsHomeComponent,
-    // canActivate: [ OktaAuthGuard ],
+  // {
+  //   path: '',
+  //   component: VotmCloudViewsHomeComponent,
+  //   // canActivate: [ OktaAuthGuard ],
   
-  },
+  // },
 
   {
     path: 'fav',
