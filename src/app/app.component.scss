@@ -199,8 +199,8 @@ a.article:hover {
     padding:0px;
     min-height: 100vh;
     transition: all 0.3s;
-	padding-top: 60px;
-	margin-left: 200px;
+	padding-top: 50px;
+	margin-left: 205px;
 }
 #content.active{
 	margin-left: 50px;
@@ -476,7 +476,16 @@ a.article:hover {
 	padding: 0rem !important;
 }
 
-
+.btn-info{
+    color: #fff;
+    background-color: #02b3bf;
+    border-color: #02b3bf;
+}
+.btn-info:hover {
+    color: #fff;
+    background-color: #029099;
+    border-color: #01848d;
+}
 
 
 

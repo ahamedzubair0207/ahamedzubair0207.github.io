@@ -1,9 +1,10 @@
 a,
 a:hover,
 a:focus {
-    color: inherit;
+    color: #333;
     text-decoration: none;
     transition: all 0.3s;
+    font-weight: 500;
 }
 
 .navbar {
@@ -179,6 +180,7 @@ span {
     padding: 10px;
     font-size: 1.1em;
     display: block;
+    color:#333;
 }
 
 #sidebar ul li a:hover {
@@ -193,9 +195,9 @@ span {
 #sidebar ul li.active>a,
 a[aria-expanded="true"] {
     color: #fff;
-    background:#00aaac;
-    border-right: solid 8px #0d6960;
-    border-radius: 4px;
+    background:#00a2ae;
+    border-right: 5px solid #333;;
+    border-radius: 0px;
     // background: #00a2ae;
 
 }
