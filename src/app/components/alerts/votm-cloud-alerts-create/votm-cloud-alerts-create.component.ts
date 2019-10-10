@@ -109,12 +109,12 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
               });
             }
 
-            this.selectedSignals= [];
-            this.alert.alertRuleSignalMapping.forEach(signalMapping=>{
+            this.selectedSignals = [];
+            this.alert.alertRuleSignalMapping.forEach(signalMapping => {
               this.selectedSignals.push(signalMapping.signalMappingId);
-            })
+            });
           });
-        this.ALertRuleUserGroupSubscriber();       
+        this.ALertRuleUserGroupSubscriber();
       } else {
         this.userGroupSubscribers = [];
       }
@@ -320,9 +320,11 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
       this.alertRuleSignalAssociatedAsset.locations.length > 0) {
       this.alertRuleSignalAssociatedAsset.locations.forEach(location => {
         this.assetsChecked[location.locationId] = false;
+        this.selectUnselectAssetCheckbox(location);
         if (location.assets && location.assets.length > 0) {
           location.assets.forEach(asset => {
             this.assetsChecked[asset.assetId] = false;
+            this.selectUnselectAssetCheckbox(asset);
           });
         }
       });
@@ -333,8 +335,10 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
     if (asset && asset.signals && asset.signals.length > 0) {
       if (event.target.checked) {
         asset.signals.forEach(signal => {
-          this.alert.alertRuleSignalMapping.push({ signalMappingId: signal.signalMappingId });
-          this.selectedSignals.push(signal.signalMappingId);
+          if (this.selectedSignals.indexOf(signal.signalMappingId) < 0) {
+            this.alert.alertRuleSignalMapping.push({ signalMappingId: signal.signalMappingId });
+            this.selectedSignals.push(signal.signalMappingId);
+          }
         });
       } else {
         asset.signals.forEach(signal => {
@@ -352,6 +356,7 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
     console.log(this.selectedSignals);
   }
 
+
   getUniqueValues(values: any[]) {
     return values.filter((value, index) => {
       return index === values.findIndex(obj => {
@@ -361,7 +366,8 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
   }
 
   onSignalSelectionChange(event, signalMappingId: string, asset) {
-    console.log('onSignalSelectionChange ', event, signalMappingId);
+    // console.log('ASSET ', asset);
+    // console.log('onSignalSelectionChange ', event, signalMappingId);
     if (!this.alert.alertRuleSignalMapping || this.alert.alertRuleSignalMapping.length === 0) {
       this.alert.alertRuleSignalMapping = [];
     }
@@ -378,8 +384,9 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
     }
 
     this.selectUnselectAssetCheckbox(asset);
+    console.log(this.selectedSignals);
     // this.alert.alertRuleSignalMapping = this.getUniqueValues(this.alert.alertRuleSignalMapping);
-    console.log('this.alert.alertRuleSignalMapping ', this.alert.alertRuleSignalMapping);
+    // console.log('this.alert.alertRuleSignalMapping ', this.alert.alertRuleSignalMapping);
   }
 
   selectUnselectAssetCheckbox(asset) {
@@ -392,9 +399,15 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
       let checker = (arr, target) => target.every(v => arr.includes(v));
 
       let isAssetSelected = checker(this.selectedSignals, tempSignalArray);
-      console.log(isAssetSelected, this.selectedSignals, tempSignalArray);
+      // console.log(isAssetSelected, this.selectedSignals, tempSignalArray);
       if (isAssetSelected) {
-        this.assetsChecked[asset.assetId] = true;
+        let checkBoxId = asset.assetId ? asset.assetId : asset.locationId;
+        var checkbox: any = document.getElementById(checkBoxId);
+        console.log(checkbox);
+        if (checkbox) {
+          checkbox.checked = true;
+        }
+        asset.assetId ? this.assetsChecked[asset.assetId] = true : this.assetsChecked[asset.locationId] = true;
       } else {
         let isSignalFound: boolean = false;
         asset.signals.forEach(signal => {
@@ -406,8 +419,14 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
         });
         if (isSignalFound) {
           // intermediate
+          asset.assetId ? this.assetsChecked[asset.assetId] = false : this.assetsChecked[asset.locationId] = false;
+          let checkBoxId = asset.assetId ? asset.assetId : asset.locationId;
+          var checkbox: any = document.getElementById(checkBoxId);
+          if (checkbox) {
+            checkbox.indeterminate = true;
+          }
         } else {
-          this.assetsChecked[asset.assetId] = false;
+          asset.assetId ? this.assetsChecked[asset.assetId] = false : this.assetsChecked[asset.locationId] = false;
         }
       }
     }
