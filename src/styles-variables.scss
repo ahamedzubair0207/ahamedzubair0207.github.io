@@ -3,20 +3,19 @@
 $top-nav-height : 64px;
 $side-menu-expanded: 160px;
 $side-nav-colapsed: 44px;
-
-// new breakpoints for grids
-// Override default BT variables:
 $grid-breakpoints: (
-        xs: 0,
-        sm: 576px,
-        md: 768px,
-        lg: 992px,
-        xl: 1400px
+  xs: 0,
+  sm: 576px,
+  md: 768px,
+  lg: 992px,
+  xl: 1900px,
+  xxl: 2200px
 );
 
 $container-max-widths: (
-        sm: 540px,
-        md: 720px,
-        lg: 960px,
-        xl: 1440px
+  sm: 540px,
+  md: 720px,
+  lg: 960px,
+  xl: 1840px,
+  xxl: 2040px
 );

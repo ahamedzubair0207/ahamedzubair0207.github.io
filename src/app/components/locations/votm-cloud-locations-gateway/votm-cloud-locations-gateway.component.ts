@@ -6,333 +6,499 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AssetSignalService } from 'src/app/services/assetSignal/asset-signal.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { LocationSignalService } from '../../../services/locationSignal/location-signal.service';
-
+declare var $: any;
 @Component({
   selector: 'app-votm-cloud-locations-gateway',
   templateUrl: './votm-cloud-locations-gateway.component.html',
   styleUrls: ['./votm-cloud-locations-gateway.component.scss']
 })
-export class VotmCloudLocationsGatewayComponent implements OnInit, OnDestroy {
+export class VotmCloudLocationsGatewayComponent implements OnInit {
 
-  @ViewChild('op', null) panel: OverlayPanel;
-  locationId: string; // to store selected asset's id.
-  availableSignals: any[] = []; // to store list of available signals based on sensors.
-  copyAvailableSignals: any[] = []; // to store list of available signals based on sensors.
-  associatedSignals: any[] = [];
-  draggedSignal: any; // to store dragged signal
-  selectedSignal: any; // selected signal to display overlay panel.
-  asset: Asset = new Asset(); // to store selected asset's data
-  assetImageURL: any;
-  constructor(
-    private activatedRoute: ActivatedRoute,
-    private route: Router,
-    private routerLocation: RouterLocation,
-    private locationSignalService: LocationSignalService,
-    private domSanitizer: DomSanitizer,
-  ) {}
+  sensors = [
+    {
+      sensorId: 'Base Cooling Humidity',
+      status: 'online',
+      type: 'Humidity',
+      lastReading: [1437943527, 49.8, '%'],
+      battery: 2.99,
+      signal: 19.0,
+      alertLevel: 'ok',
+      alertMsg: null,
+      secondaryDS: [
+        {
+          type: 'Dew Point',
+          lastReading: [1437943527, 53.03, '°F'],
+          alertLevel: 'ok',
+          alertMsg: null
+        },
+        {
+          type: 'Temperature',
+          lastReading: [1437943527, 72.86, '°F'],
+          alertLevel: 'ok',
+          alertMsg: null
+        } /*,
+        {"type": "Battery", "lastReading": [1437943527, 2.990, "V"],
+          "alertLevel": "info", "alertMsg": "<b>Informational Alert: {{alert name}}</b><br><i>Battery voltage below 3V</i>"},
+        {"type": "Signal Strength", "lastReading": [1437943527, 19.000, ""], "alertLevel": null, "alertMsg": null}*/
+      ]
+    },
+    {
+      sensorId: 'Control Center Temperature',
+      status: 'online',
+      type: 'Temperature',
+      lastReading: [1437944351, 70.34, '°F'],
+      battery: 3.01,
+      signal: 13.0,
+      alertLevel: 'warning',
+      alertMsg:
+        '<b>Warning Alert: {{alert name}} triggered</b><br>Upper threshold of 65.0°F exceeded.' /*,
+      "secondaryDS": [
+        {"type": "Battery", "lastReading": [1437944351, 3.010, "V"], "alertLevel": "ok", "alertMsg": null},
+        {"type": "Signal Strength", "lastReading": [1437944351, 13.000, ""], "alertLevel": null, "alertMsg": null}
+      ]*/
+    },
+    {
+      sensorId: 'Office Temperature',
+      status: 'online',
+      type: 'Temperature',
+      lastReading: [1437944789, 76.1, '°F'],
+      battery: 3.01,
+      signal: 33.0,
+      alertLevel: 'alarm',
+      alertMsg:
+        '<b>Critical Alert: {{alert name}} triggered</b><br>Upper threshold of 75.0°F exceeded.' /*,
+      "secondaryDS": [
+        {"type": "Battery", "lastReading": [1437944789, 3.010, "V"], "alertLevel": "ok", "alertMsg": null},
+        {"type": "Signal Strength", "lastReading": [1437944789, 33.000, ""], "alertLevel": null, "alertMsg": null}
+      ]*/
+    },
+    {
+      sensorId: '25mm Flow Sensor',
+      status: 'online',
+      type: 'Flow',
+      lastReading: [1437658605, '—', ' SCFM'],
+      battery: 2.57,
+      signal: 21.0,
+      alertLevel: 'info',
+      alertMsg:
+        '<b>Informational Alert: Low Flow</b><br><i>Flow rate is below acurate measurement limit.</i>',
+      secondaryDS: [
+        {
+          type: 'Temperature',
+          lastReading: [1437658605, 97.294, '°F'],
+          alertLevel: 'ok',
+          alertMsg: null
+        },
+        {
+          type: 'Absolute Pressure',
+          lastReading: [1437658605, 158.337, 'psi'],
+          alertLevel: 'ok',
+          alertMsg: null
+        },
+        {
+          type: 'Differential Pressure',
+          lastReading: [1437658605, 0.003, 'psi'],
+          alertLevel: 'ok',
+          alertMsg: null
+        } /*,
+        {"type": "Battery", "lastReading": [1437658605, 2.570, "V"], "alertLevel": "ok", "alertMsg": null},
+        {"type": "Signal Strength", "lastReading": [1437658605, 21.000, ""], "alertLevel": null, "alertMsg": null}*/
+      ]
+    },
+    {
+      sensorId: 'Plant Temperature',
+      status: 'offline',
+      type: 'Temperature',
+      lastReading: [1434356256, 76.1, '°F'],
+      battery: 3.01,
+      signal: 33.0,
+      alertLevel: 'ok',
+      alertMsg: null /*,
+      "secondaryDS": [
+        {"type": "Battery", "lastReading": [1434356256, 3.010, "V"], "alertLevel": "ok", "alertMsg": null},
+        {"type": "Signal Strength", "lastReading": [1434356256, 33.000, ""], "alertLevel": null, "alertMsg": null}
+      ]*/
+    }
+  ];
+  sensorsCreated = null;
+
+  sensorCharCode = {
+    Temperature: 'E802',
+    Humidity: 'E801',
+    'Dew Point': 'E807',
+    Battery: 'E803',
+    'Signal Strength': 'E804'
+  };
+
+  constructor() { }
 
   ngOnInit() {
-    this.locationId = this.activatedRoute.snapshot.params.locId;
-    // this.getAllAvailableSignals();
-    // this.getAssetSignalAssociation();
+
 
   }
 
-  getAllAvailableSignals() {
-    this.availableSignals = [
+  ngAfterViewInit() {
+    
+    $.fn.drags = function(opt) {
 
-      {
-        id: '3fa85f64-5717-4562-b3fc-q2wergf',
-        name: 'AA-BB-CC-DD',
-        entityType: 'Sensor',
+      opt = $.extend({
+          handle: '',
+          cursor: 'move',
+          draggableClass: 'draggable',
+          activeHandleClass: 'active-handle'
+      }, opt);
 
-        image:
-          '../assets/images/gateway.svg',
-      }
-    ];
-    this.copyAvailableSignals = [
-      {
-        id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-        name: 'ZZ-XX-FF-DD',
-        entityType: 'Sensor',
-        image:
-          '../assets/images/gateway.svg',
+      let $selected = null;
+      const $elements = (opt.handle === '') ? this : this.find(opt.handle);
 
-      },
-      {
-        id: '3fa85f64-5717-4562-b3fc-q2wergf',
-        name: 'AA-BB-CC-DD',
-        entityType: 'Sensor',
-
-        image:
-          '../assets/images/gateway.svg',
-
-      }
-    ];
-    setTimeout(() => {
-      for (let i = 0; i < this.availableSignals.length; i++) {
-          this.onClickOfAvailableSignals(i);
-      }
-    }, 200);
-  }
-
-  onClickOfAvailableSignals(index1) {
-    const li1 = document.getElementById('signal_' + index1);
-    console.log(li1);
-    li1.onmousedown = event => {
-      this.panel.hide();
-      console.log('on mouse down');
-      const shiftX = event.clientX - li1.getBoundingClientRect().left;
-      const shiftY = event.clientY - li1.getBoundingClientRect().top;
-
-      li1.style.position = 'absolute';
-      li1.style.zIndex = '1000';
-      li1.classList.add('icon-class');
-      document.body.append(li1);
-
-      moveAt(event.pageX, event.pageY);
-
-      function moveAt(pageX, pageY) {
-        li1.style.left = pageX - shiftX + 'px';
-        li1.style.top = pageY - shiftY + 'px';
-      }
-
-      function onMouseMove(e) {
-        console.log('on mouse move');
-        moveAt(e.pageX, e.pageY);
-      }
-
-      document.addEventListener('mousemove', onMouseMove);
-
-      li1.onmouseup = (ev) => {
-        console.log('on mouse up');
-        document.removeEventListener('mousemove', onMouseMove);
-        console.log(
-          li1.getBoundingClientRect().left,
-          li1.getBoundingClientRect().top
-        );
-        li1.onmouseup = null;
-        this.onSelectSignal(
-          ev,
-          this.availableSignals[index1]
-        );
-        console.log(li1.style.left, li1.style.top);
-        console.log(li1.offsetLeft, li1.offsetTop);
-
-        li1.addEventListener('mouseover', e => {
-          console.log(index1);
-          console.log(this.copyAvailableSignals);
-          this.onSelectSignal(
-            e,
-            this.availableSignals[index1]
-          );
-        });
-
-        const obj = { ...this.copyAvailableSignals[index1] };
-        console.log(li1.parentElement.offsetWidth, '=========', li1.parentElement.offsetHeight);
-        console.log(parseInt(li1.style.left, 10), '-=----', parseInt(li1.style.top, 10));
-        obj.imageCoordinates = {
-          x: (parseInt(li1.style.left, 10) / li1.parentElement.offsetWidth) * 100,
-          y: (parseInt(li1.style.top, 10) / li1.parentElement.offsetHeight) * 100
-        };
-        this.associatedSignals.push(obj);
-        console.log(JSON.stringify(this.associatedSignals));
-        const index = this.availableSignals[index1].findIndex(
-          signal =>
-            signal.id === this.copyAvailableSignals[index1].id
-        );
-        this.availableSignals[index1].splice(index, 1);
-        li1.removeAttribute('id');
-      };
-    };
-
-    li1.ondragstart = () => {
-      console.log('on drag start');
-      return false;
-    };
-  }
-
-  isSignalDisabled(signal) {
-    const index = this.associatedSignals.findIndex(
-      signalObj => signalObj.id === signal.id
-    );
-    return index !== -1 ? true : false;
-  }
-
-  getAssetSignalAssociation() {
-    this.associatedSignals = [
-      {
-        id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-          name: 'ZZ-XX-FF-DD',
-          entityType: 'Sensor',
-          image:
-            '../assets/images/gateway.svg',
-
-        imageCoordinates: {
-          x: 65.88,
-          y: 44.87
-        }
-      }
-    ];
-
-    setTimeout(() => {
-      for (let i = 0; i < this.associatedSignals.length; i++) {
-        console.log('here');
-        const img = document.createElement('img');
-        img.src = this.associatedSignals[i].image;
-        img.id = 'icon_' + i;
-        img.classList.add('icon-class');
-
-
-        img.style.position = 'absolute';
-        img.style.width = '40px';
-        img.style.cursor = 'pointer';
-        img.addEventListener('mouseover', event => {
-          this.onSelectSignal(event, this.associatedSignals[i]);
-        });
-        img.style.top = ((this.associatedSignals[i].imageCoordinates.y * document.body.offsetHeight) / 100) + 'px';
-        img.style.left = ((this.associatedSignals[i].imageCoordinates.x  * document.body.offsetWidth) / 100) + 'px';
-
-        img.onmousedown = event => {
-
-          console.log('on mouse down');
-          const shiftX = event.clientX - img.getBoundingClientRect().left;
-          const shiftY = event.clientY - img.getBoundingClientRect().top;
-
-          img.style.position = 'absolute';
-          img.style.zIndex = '1000';
-          img.classList.add('icon-class');
-          document.body.append(img);
-
-          moveAt(event.pageX, event.pageY);
-
-          function moveAt(pageX, pageY) {
-            img.style.left = pageX - shiftX + 'px';
-            img.style.top = pageY - shiftY + 'px';
+      $elements.css('cursor', opt.cursor).on('mousedown', function(e) {
+          if (opt.handle === '') {
+              $selected = $(this);
+              $selected.addClass(opt.draggableClass);
+          } else {
+              $selected = $(this).parent();
+              $selected.addClass(opt.draggableClass).find(opt.handle).addClass(opt.activeHandleClass);
           }
-
-          function onMouseMove(e) {
-            console.log('on mouse move');
-            moveAt(e.pageX, e.pageY);
+          const drg_h = $selected.outerHeight();
+          const drg_w = $selected.outerWidth();
+          const pos_y = $selected.offset().top + drg_h - e.pageY;
+          const pos_x = $selected.offset().left + drg_w - e.pageX;
+          $(document).on('mousemove', (e) => {
+              $selected.offset({
+                  top: e.pageY + pos_y - drg_h,
+                  left: e.pageX + pos_x - drg_w
+              });
+          }).on('mouseup', function() {
+              $(this).off('mousemove'); // Unbind events from document
+              if ($selected !== null) {
+                  $selected.removeClass(opt.draggableClass);
+                  $selected.css('left', parseInt($selected.css('left'), 10) / ($selected.parent().width() / 100) + '%');
+                  $selected.css('top', parseInt($selected.css('top'), 10) / ($selected.parent().height() / 100) + '%');
+                  if (this.dropSensor) {
+                    this.dropSensor($selected);
+                  }
+                  $selected = null;
+              }
+          });
+          e.preventDefault(); // disable selection
+      }).on('mouseup', () => {
+          if (opt.handle === '') {
+              $selected.removeClass(opt.draggableClass);
+          } else {
+              $selected.removeClass(opt.draggableClass)
+                  .find(opt.handle).removeClass(opt.activeHandleClass);
           }
+          $selected.css('left', parseInt($selected.css('left'), 10) / ($selected.parent().width() / 100) + '%');
+          $selected.css('top', parseInt($selected.css('top'), 10) / ($selected.parent().height() / 100) + '%');
+          if (this.dropSensor) {
+            this.dropSensor($selected);
+          }
+          $selected = null;
+      });
 
-          document.addEventListener('mousemove', onMouseMove);
+      return this;
 
-          img.onmouseup = (ev) => {
-            console.log('on mouse up');
-            document.removeEventListener('mousemove', onMouseMove);
-            console.log(
-              img.getBoundingClientRect().left,
-              img.getBoundingClientRect().top
+  };
+    $.fn.sensorPopover = function(options) {
+      return this.each(function() {
+        $(this).on('mouseenter', function() {
+          if (!$(this).hasClass('popover-showing')) {
+            const classes = $(this)
+              .attr('class')
+              .match(/[\w-]*(alert-|signalicon-|-offline)[\w-]*\b/g);
+            const $sensor = $(this);
+            const $popover = $('<div class=\'sensor-popover\'></div>')
+              .html($sensor.attr('data-content'))
+              .css({ left: 0, top: 0, visibility: 'hidden' })
+              .addClass(classes ? classes.join(' ') : '')
+              .on('mouseleave', function() {
+                $(this).remove();
+                $sensor.show().removeClass('popover-showing');
+              })
+              .appendTo($('body'));
+            if (
+              $sensor.offset().top + $popover.outerHeight() >
+              $popover.parent().offset().top + $popover.parent().outerHeight()
+            ) {
+              $popover.css({
+                top:
+                  $sensor.offset().top +
+                  $sensor.outerHeight() -
+                  $popover.outerHeight()
+              });
+            } else {
+              $popover.css({ top: $sensor.offset().top });
+            }
+            if (
+              $sensor.offset().left + $popover.outerWidth() >
+              $popover.parent().offset().left + $popover.parent().outerWidth()
+            ) {
+              $popover.css({
+                left:
+                  $sensor.offset().left +
+                  parseFloat(
+                    window.getComputedStyle($sensor[0], ':after').width
+                  ) -
+                  $popover.outerWidth()
+              });
+            } else {
+              $popover.css({ left: $sensor.offset().left });
+            }
+            $popover.css({ visibility: 'visible' });
+            $sensor.hide();
+          }
+        });
+      });
+    };
+    this.configSensors('#sensor-cont-2', '#map-cont-2');
+  }
+
+
+  configSensors(dockCntrSel, mapCntrSel) {
+    if (!this.sensorsCreated) {
+      let $sensor;
+      $.each(this.sensors, (sIx, sensorItem) => {
+        $sensor = $(
+          '<div class=\'sensor-circle docked signalicon-' +
+            sensorItem.type.replace(' ', '-').toLowerCase() +
+            '\'>'
+        )
+          .html(sensorItem.sensorId)
+          .data('sIx', sIx)
+          .data('dsIx', null)
+          .appendTo(mapCntrSel);
+        $sensor.data(
+          'dockEl',
+          $sensor
+            .clone()
+            .addClass('list-bkg')
+            .appendTo(dockCntrSel)
+            .data('dragEl', $sensor)
+            .on('mousedown', function(e) {
+              $(this)
+                .removeClass('docked')
+                .data('dragEl')
+                .removeClass('docked')
+                .offset({
+                  left: $(this).offset().left,
+                  top: $(this).offset().top
+                })
+                .trigger(
+                  $.Event('mousedown', { pageX: e.pageX, pageY: e.pageY })
+                );
+              return false;
+            })
+        );
+        this.sensors[sIx]['sensorEl'] = $sensor;
+        if (sensorItem.secondaryDS) {
+          $.each(sensorItem.secondaryDS, (dsIx, dsItem) => {
+            $sensor = $(
+              '<div class=\'sensor-circle secondary-ds docked signalicon-' +
+                dsItem.type.replace(' ', '-').toLowerCase() +
+                '\'>'
+            )
+              .html(dsItem.type)
+              .data('sIx', sIx)
+              .data('dsIx', dsIx)
+              .appendTo(mapCntrSel);
+            $sensor.data(
+              'dockEl',
+              $sensor
+                .clone()
+                .addClass('list-bkg')
+                .appendTo(dockCntrSel)
+                .data('dragEl', $sensor)
+                .on('mousedown', function(e) {
+                  $(this)
+                    .removeClass('docked')
+                    .data('dragEl')
+                    .removeClass('docked')
+                    .offset({
+                      left: $(this).offset().left,
+                      top: $(this).offset().top
+                    })
+                    .trigger(
+                      $.Event('mousedown', { pageX: e.pageX, pageY: e.pageY })
+                    );
+                  return false;
+                })
             );
-            img.onmouseup = null;
-            this.onSelectSignal(event, this.associatedSignals[i]);
-            console.log(img.style.left, img.style.top);
-            console.log(img.offsetLeft, img.offsetTop);
-
-            img.addEventListener('mouseover', e => {
-              this.panel.hide();
-              this.onSelectSignal(e, this.associatedSignals[i]);
-            });
-
-
-            const iconIdList = (ev.target['id']).split('_');
-            this.associatedSignals[iconIdList[1]].imageCoordinates = {
-              x: (parseInt(img.style.left, 10) / img.parentElement.offsetWidth) * 100,
-              y: (parseInt(img.style.top, 10) / img.parentElement.offsetHeight) * 100
-            };
-            // console.log(img.parentElement.offsetWidth, '=========', img.parentElement.offsetHeight);
-            // console.log(parseInt(img.style.left, 10), '-=----', parseInt(img.style.top, 10));
-            // obj.imageCoordinates = {
-            //   x: (parseInt(img.style.left, 10) / img.parentElement.offsetWidth) * 100,
-            //   y: (parseInt(img.style.top, 10) / img.parentElement.offsetHeight) * 100
-            // };
-            // this.associatedSignals.push(obj);
-            // console.log(JSON.stringify(this.associatedSignals));
-            // const index = this.availableSignals[index1].node.findIndex(
-            //   signal =>
-            //     signal.id === this.copyAvailableSignals[index1].node[index2].id
-            // );
-            // this.availableSignals[index1].node.splice(index, 1);
-            // img.removeAttribute('id');
-          };
-        };
-
-        img.ondragstart = () => {
-          console.log('on drag start');
-          return false;
-        };
-        // img.style.top = this.associatedSignals[i].imageCoordinates.y + '%';
-        // img.style.left = this.associatedSignals[i].imageCoordinates.x + '%';
-        console.log(img.style.top, '=====', img.style.left);
-        document.body.appendChild(img);
-        console.log(document.body.offsetWidth, '=========', document.body.offsetHeight);
-
-
-        // img.parent().css({position: 'relative'});
-      }
-    }, 200);
-  }
-
-  onCancelClick(event) {
-    this.removeImgsFromDOM();
-    this.routerLocation.back();
-  }
-
-  removeImgsFromDOM() {
-    const elemlist = document.querySelectorAll('.icon-class');
-    elemlist.forEach(elem => {
-      console.log('elem');
-      document.body.removeChild(elem);
-    });
-  }
-
-  onSelectSignal(event, signal) {
-    console.log('here', signal);
-    this.selectedSignal = signal;
-    console.log(this.selectedSignal);
-    this.panel.show(event);
-  }
-
-  onDetachSignalFromAsset() {
-    console.log('here');
-    const index = this.associatedSignals.findIndex(
-      signal => signal.id === this.selectedSignal.id
-    );
-    document.body.removeChild(document.getElementById('icon_' + index));
-    this.associatedSignals.splice(index, 1);
-    let index1;
-    for (let i = 0; i < this.copyAvailableSignals.length; i++) {
-      for (let j = 0; j < this.copyAvailableSignals[i].node.length; j++) {
-        if (
-          this.copyAvailableSignals[i].node[j].id === this.selectedSignal.id
-        ) {
-          index1 = i;
-          const obj = { ...this.copyAvailableSignals[i].node[j] };
-          delete obj.imageCoordinates;
-          console.log('heere');
-          this.availableSignals[i].node.push(obj);
+            this.sensors[sIx].secondaryDS[dsIx]['sensorEl'] = $sensor;
+          });
         }
+      });
+      $(mapCntrSel + ' .sensor-circle').drags();
+      this.sensorsCreated = true;
+    }
+
+  }
+
+  dropSensor($sensor) {
+    const sIx = $sensor.data('sIx');
+    const dsIx = $sensor.data('dsIx');
+
+    if (dsIx == null) {
+      if ($sensor.position().left < 0) {
+        $sensor
+          .addClass('docked')
+          .data('dockEl')
+          .addClass('docked');
+        this.sensors[sIx]['mapX'] = this.sensors[sIx]['mapY'] = null;
+      } else {
+        this.sensors[sIx]['mapX'] =
+          parseInt($sensor.css('left'), 10) / ($sensor.parent().width() / 100) + '%';
+        this.sensors[sIx]['mapY'] =
+          parseInt($sensor.css('top'), 10) / ($sensor.parent().height() / 100) + '%';
+      }
+    } else {
+      if ($sensor.position().left < 0) {
+        $sensor
+          .addClass('docked')
+          .data('dockEl')
+          .addClass('docked');
+        this.sensors[sIx].secondaryDS[dsIx]['mapX'] = this.sensors[sIx].secondaryDS[
+          dsIx
+        ]['mapY'] = null;
+      } else {
+        this.sensors[sIx].secondaryDS[dsIx]['mapX'] =
+          parseInt($sensor.css('left'), 10) / ($sensor.parent().width() / 100) + '%';
+        this.sensors[sIx].secondaryDS[dsIx]['mapY'] =
+          parseInt($sensor.css('top'), 10) / ($sensor.parent().height() / 100) + '%';
       }
     }
-    setTimeout(() => {
-      const index2 = this.availableSignals.findIndex(sensor =>
-        sensor.node.findIndex(signal => signal.id === this.selectedSignal.id)
-      );
-      console.log(this.availableSignals);
-      console.log(index1, index2);
-      this.onClickOfAvailableSignals(index1);
-      this.panel.hide();
-      this.selectedSignal = undefined;
-    }, 200);
+    $('#map-cont-2 .sensor-circle').sensorPopover();
   }
 
-  onClickOfCreateAssociateRule() {
-    this.route.navigate(['alerts', 'home']);
+  batteryPct(voltage) {
+    if (voltage > 3.0) {
+      return '100';
+    } else if (voltage > 2.9) {
+      return '75';
+    } else if (voltage > 2.7) {
+      return '50';
+    } else if (voltage > 2.5) {
+      return '25';
+    } else {
+      return '0';
+    }
   }
 
-  ngOnDestroy() {
-    this.removeImgsFromDOM();
+  signalPct(signal) {
+    if (signal > 31.0) {
+      return '100';
+    } else if (signal > 24.0) {
+      return '75';
+    } else if (signal > 17.0) {
+      return '50';
+    } else if (signal > 10.0) {
+      return '25';
+    } else {
+      return '0';
+    }
   }
+
+  updateSensors(sel) {
+    let reading = '';
+    let sensorStatusTemplate = '';
+    $(sel + ' .sensor-circle').remove();
+
+    $.each(this.sensors, (sIx, sensorItem) => {
+      sensorStatusTemplate =
+        '<div class=\'sensor-status\'>' +
+        (sensorItem.battery
+          ? '<i class=\'signalicon-battery-' +
+          this.batteryPct(sensorItem.battery) +
+            '\' title=\'' +
+            sensorItem.battery +
+            'V\'>&nbsp;</i>'
+          : '') +
+        (sensorItem.signal
+          ? '<i class=\'signalicon-signal-' +
+          this.signalPct(sensorItem.signal) +
+            '\' title=\'' +
+            sensorItem.signal +
+            '\'>&nbsp;</i>'
+          : '') +
+        '</div>';
+      if (sensorItem.mapX) {
+        reading =
+          (isNaN(sensorItem.lastReading[1])
+            ? sensorItem.lastReading[1]
+            : sensorItem.lastReading[1].toFixed(2)) + sensorItem.lastReading[2];
+        $(
+          '<div class=\'sensor-circle signalicon-' +
+            sensorItem.type.replace(' ', '-').toLowerCase() +
+            '\'>'
+        )
+          .html(reading)
+          .attr(
+            'data-content',
+            '<b><a href=\'#\'>' +
+              sensorItem.sensorId +
+              '</a></b><br>' +
+              (sensorItem.status === 'offline'
+                ? '<b><i>Sensor appears to be offline.</i></b><br>Last reading: '
+                : '') +
+              'sadfgh' +
+              '<br>' +
+              sensorItem.type +
+              ': ' +
+              reading +
+              (sensorItem.alertMsg ? '<br>' + sensorItem.alertMsg : '') +
+              sensorStatusTemplate
+          )
+          .css({ left: sensorItem.mapX, top: sensorItem.mapY })
+          .addClass(sensorItem.alertLevel ? 'alert-' + sensorItem.alertLevel : '')
+          .addClass(
+            sensorItem.status === 'offline' ? 'sensor-' + sensorItem.status : ''
+          )
+          .appendTo(sel);
+      }
+      if (sensorItem.secondaryDS) {
+        $.each(sensorItem.secondaryDS, (dsIx, dsItem) => {
+          if (dsItem.mapX) {
+            reading =
+              (isNaN(dsItem.lastReading[1])
+                ? dsItem.lastReading[1]
+                : dsItem.lastReading[1].toFixed(2)) + dsItem.lastReading[2];
+            $(
+              '<div class=\'sensor-circle signalicon-' +
+                dsItem.type.replace(' ', '-').toLowerCase() +
+                '\'>'
+            )
+              .html(reading)
+              .attr(
+                'data-content',
+                '<b><a href=\'#\'>' +
+                  sensorItem.sensorId +
+                  '</a></b><br>' +
+                  (sensorItem.status === 'offline'
+                    ? '<b><i>Sensor appears to be offline.</i></b><br>Last reading: '
+                    : '') +
+                  'asdfghjk,' +
+                  '<br>' +
+                  dsItem.type +
+                  ': ' +
+                  reading +
+                  (dsItem.alertMsg ? '<br>' + dsItem.alertMsg : '') +
+                  sensorStatusTemplate
+              )
+              .css({ left: dsItem.mapX, top: dsItem.mapY })
+              .addClass(dsItem.alertLevel ? 'alert-' + dsItem.alertLevel : '')
+              .addClass(
+                sensorItem.status === 'offline'
+                  ? 'sensor-' + sensorItem.status
+                  : ''
+              )
+              .appendTo(sel);
+          }
+        });
+      }
+    });
+    $(sel + ' .sensor-circle').sensorPopover();
+  }
+
+
+
 
 }
