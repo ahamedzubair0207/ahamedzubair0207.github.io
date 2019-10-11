@@ -21,11 +21,20 @@
             <div class="col-md-4 row">
                 <label id="metricTypeLbl" class="col-md-6 col-form-label txt-r">Metric Type</label>
                 <div class="col-md-6">
-                    <select name="metricType" id="metricTypeDropDown" [(ngModel)]="alert.UomTypeId"
+                    <!-- <select name="metricType" id="metricTypeDropDown" [(ngModel)]="alert.UomTypeId"
                         class="form-control form-control-sm" [disabled]="pageType === 'View'">
                         <option *ngFor="let metricType of metricTypes" [value]="metricType.id">{{metricType.name}}
                         </option>
-                    </select>
+                    </select> -->
+
+                    <div class="">
+                        <ng-select id="metricTypeDropDown" class="custom" [disabled]="pageType==='View'"
+                          [ngStyle]="{'background-color':pageType==='View'?'#e9ecef':'#fff'}" [multiple]="false"
+                          name="metricType" [(ngModel)]="alert.UomTypeId" placeholder="Choose Type">
+                          <ng-option *ngFor="let metricType of metricTypes" [value]="metricType.id">{{metricType.name}}
+                          </ng-option>
+                        </ng-select>
+                      </div>
                 </div>
             </div>
             <div class="col-md-4">
@@ -47,10 +56,19 @@
             <div class="col-md-3 row">
                 <label id="ruleTypeLbl" class="col-md-6 col-form-label txt-r">Rule Type</label>
                 <div class="col-md-6">
-                    <select name="ruleType" id="ruleTypeDropDown" [(ngModel)]="alert.alertRuleTypeId"
+                    <!-- <select name="ruleType" id="ruleTypeDropDown" [(ngModel)]="alert.alertRuleTypeId"
                         class="form-control form-control-sm" [disabled]="pageType === 'View'">
                         <option *ngFor="let ruleType of ruleTypes" [value]="ruleType.id">{{ruleType.name}}</option>
-                    </select>
+                    </select> -->
+
+                    <div class="">
+                        <ng-select id="ruleTypeDropDown" class="custom" [disabled]="pageType==='View'"
+                          [ngStyle]="{'background-color':pageType==='View'?'#e9ecef':'#fff'}" [multiple]="false"
+                          name="ruleType" [(ngModel)]="alert.alertRuleTypeId" placeholder="Choose Type">
+                          <ng-option *ngFor="let ruleType of ruleTypes" [value]="ruleType.id">{{ruleType.name}}
+                          </ng-option>
+                        </ng-select>
+                      </div>
                 </div>
             </div>
             <div class="col-md-4 row">
@@ -322,13 +340,13 @@
                     <legend>Notified Parties</legend>
                     <div class="">
                         <button class="btn btn-sm btn-secondary mr-2" id="notifyBtn"><i
-                                class="fa fa-star mr-2"></i>Notify
+                                class="icon-star mr-2"></i>Notify
                             Me</button>
                         <button type="button" class="btn btn-sm btn-secondary mr-2" data-toggle="modal"
                             (click)="onAddNotifiedUsersClick()" data-target="#notifiedUserModal" id="notifyUserBtn"><i
-                                class="fa fa-user mr-2"></i>Add Notified User</button>
+                                class="icon-user-o mr-2"></i>Add Notified User</button>
                         <button type="button" class="btn btn-sm btn-secondary" data-toggle="modal"
-                            data-target="#notifiedUserGroupModal" id="notifyUserBtn"><i class="fa fa-users mr-2"></i>Add
+                            data-target="#notifiedUserGroupModal" id="notifyUserBtn"><i class="icon-users mr-2"></i>Add
                             Notified
                             Group</button>
 
@@ -351,11 +369,11 @@
                                 </thead>
                                 <tbody>
                                     <tr *ngFor="let userGroupSubscriber of alert.alertRuleUserGroup">
-                                        <td><i class="fa fa-user mr-2"></i>{{userGroupSubscriber.name}}
+                                        <td><i class="icon-user-circle-o mr-2"></i>{{userGroupSubscriber.name}}
                                         </td>
                                         <td>{{userGroupSubscriber.userEmail? userGroupSubscriber.userEmail: '-'}}
                                         </td>
-                                        <!-- Ahamed Code -->
+                                  
                                         <td>
                                             <div *ngIf="userGroupSubscriber.userGroupId; else userTemplate">
                                                 <select
@@ -443,7 +461,7 @@
                             <td>{{notifyUser.lastName}}</td>
                             <td>{{notifyUser.emailId}}</td>
                             <td><a style="cursor: pointer;" (click)="onUserSelection(notifyUser)"><i
-                                        class="fa fa-user-plus"></i></a></td>
+                                        class="icon-user-add"></i></a></td>
                         </tr>
                     </tbody>
                 </table>
@@ -489,7 +507,7 @@
                             <th scope="row">{{i+1}}</th>
                             <td>{{userGroup.userGroupName}}</td>
                             <td><a style="cursor: pointer;" (click)="onUserGroupSelection(userGroup)"><i
-                                        class="fa fa-user-plus"></i></a></td>
+                                        class="icon-user-add"></i></a></td>
                         </tr>
                     </tbody>
                 </table>

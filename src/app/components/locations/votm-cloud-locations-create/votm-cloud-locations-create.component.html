@@ -496,7 +496,7 @@
                     <ng-select [disabled]="pageType === 'View'"
                     class="custom" name="GatewayList"
                     (valueChanged)="onItemSelect($event)" id="locDtlGeoClaimedGateway"
-                    [items]="gatewayList | async" [multiple]="true" 
+                    [items]="gatewayList" [multiple]="true" 
                     (onSelect)="onItemSelect($event)" (onSelectAll)="onSelectAll($event)"
                     [closeOnSelect]="false" 
                     [searchable]="false" bindLabel="gateways"
