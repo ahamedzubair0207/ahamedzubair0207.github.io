@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, AfterViewInit, ViewEncapsulation } from '@angular/core';
 import { Location as RouterLocation } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { OverlayPanel } from 'primeng/overlaypanel';
@@ -8,16 +8,15 @@ import { LocationSignalService } from '../../../services/locationSignal/location
 import { ToastrService } from 'ngx-toastr';
 import { Toaster } from '../../shared/votm-cloud-toaster/votm-cloud-toaster';
 import { Location } from 'src/app/models/location.model';
-
+declare var $: any;
 @Component({
   selector: 'app-votm-cloud-locations-signal',
   templateUrl: './votm-cloud-locations-signal.component.html',
-  styleUrls: ['./votm-cloud-locations-signal.component.scss']
+  styleUrls: ['./votm-cloud-locations-signal.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
-export class VotmCloudLocationsSignalComponent implements OnInit, OnDestroy {
+export class VotmCloudLocationsSignalComponent implements OnInit, AfterViewInit {
 
-  @ViewChild('op', null) panel: OverlayPanel; // main overlay panel of sensor name refference
-  @ViewChild('op2', null) panel2: OverlayPanel; // signal association modal refference
   locationId: string; // to store selected location's id.
   organizationId: string; // to store selected organization's id
   availableSignals: any[] = []; // to store list of available signals based on sensors.
@@ -34,6 +33,17 @@ export class VotmCloudLocationsSignalComponent implements OnInit, OnDestroy {
   imgURL: any; // to store the base64 of location image.
   curOrganizationId: string;
   curOrganizationName: string;
+  sensors = [
+  ];
+  sensorsCreated = null;
+
+  sensorCharCode = {
+    Temperature: 'E802',
+    Humidity: 'E801',
+    'Dew Point': 'E807',
+    Battery: 'E803',
+    'Signal Strength': 'E804'
+  };
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -43,10 +53,9 @@ export class VotmCloudLocationsSignalComponent implements OnInit, OnDestroy {
     private locationService: LocationService,
     private domSanitizer: DomSanitizer,
     private toastr: ToastrService
-  ) {}
+  ) { }
 
   ngOnInit() {
-    // this.organizationId = this.activatedRoute.snapshot.paramMap.get('curOrgId');
     this.locationId = this.activatedRoute.snapshot.paramMap.get('locId');
     this.getLocationById();
     this.getLocationSignalAssociation();
@@ -55,6 +64,132 @@ export class VotmCloudLocationsSignalComponent implements OnInit, OnDestroy {
       this.curOrganizationName = params.get('curOrgName');
       this.organizationId = params.get('orgId');
     });
+  }
+
+  ngAfterViewInit() {
+    const self = this;
+    $.fn.drags = function(opt) {
+
+      opt = $.extend({
+          handle: '',
+          cursor: 'move',
+          draggableClass: 'draggable',
+          activeHandleClass: 'active-handle'
+      }, opt);
+
+      let $selected = null;
+      const $elements = (opt.handle === '') ? this : this.find(opt.handle);
+      console.log($elements);
+      $elements.css('cursor', opt.cursor).on('mousedown', function(e) {
+          if (opt.handle === '') {
+              $selected = $(this);
+              $selected.addClass(opt.draggableClass);
+          } else {
+              $selected = $(this).parent();
+              $selected.addClass(opt.draggableClass).find(opt.handle).addClass(opt.activeHandleClass);
+          }
+          const drg_h = $selected.outerHeight();
+          const drg_w = $selected.outerWidth();
+          const pos_y = $selected.offset().top + drg_h - e.pageY;
+          const pos_x = $selected.offset().left + drg_w - e.pageX;
+          $(document).on('mousemove', (e) => {
+              $selected.offset({
+                  top: e.pageY + pos_y - drg_h,
+                  left: e.pageX + pos_x - drg_w
+              });
+          }).on('mouseup', function() {
+              $(this).off('mousemove'); // Unbind events from document
+              if ($selected !== null) {
+                  $selected.removeClass(opt.draggableClass);
+                  $selected.css('left', parseInt($selected.css('left'), 10) / ($selected.parent().width() / 100) + '%');
+                  $selected.css('top', parseInt($selected.css('top'), 10) / ($selected.parent().height() / 100) + '%');
+                  console.log('doucment mouse up');
+                  if (self.dropSensor) {
+                    console.log($selected);
+                    console.log($selected.data('sIx'));
+                    console.log($selected.data('dsIx'));
+                    self.dropSensor($selected);
+                  }
+                  $selected = null;
+              }
+          });
+          e.preventDefault(); // disable selection
+      }).on('mouseup', () => {
+          if (opt.handle === '') {
+              $selected.removeClass(opt.draggableClass);
+          } else {
+              $selected.removeClass(opt.draggableClass)
+                  .find(opt.handle).removeClass(opt.activeHandleClass);
+          }
+          console.log('element mouse up');
+          console.log($selected);
+          console.log($selected.data('sIx'));
+          console.log($selected.data('dsIx'));
+          $selected.css('left', parseInt($selected.css('left'), 10) / ($selected.parent().width() / 100) + '%');
+          $selected.css('top', parseInt($selected.css('top'), 10) / ($selected.parent().height() / 100) + '%');
+          console.log(self.dropSensor);
+          if (self.dropSensor) {
+            console.log('in drop sensor if');
+            self.dropSensor($selected);
+          }
+          $selected = null;
+      });
+
+      return this;
+
+  };
+    $.fn.sensorPopover = function(options) {
+      return this.each(function() {
+        $(this).on('mouseenter', function() {
+          if (!$(this).hasClass('popover-showing')) {
+            const classes = $(this)
+              .attr('class')
+              .match(/[\w-]*(alert-|signalicon-|-offline)[\w-]*\b/g);
+            const $sensor = $(this);
+            const $popover = $('<div class=\'sensor-popover\'></div>')
+              .html($sensor.attr('data-content'))
+              .css({ left: 0, top: 0, visibility: 'hidden' })
+              .addClass(classes ? classes.join(' ') : '')
+              .on('mouseleave', function() {
+                $(this).remove();
+                $sensor.show().removeClass('popover-showing');
+              })
+              .appendTo($('body'));
+            if (
+              $sensor.offset().top + $popover.outerHeight() >
+              $popover.parent().offset().top + $popover.parent().outerHeight()
+            ) {
+              $popover.css({
+                top:
+                  $sensor.offset().top +
+                  $sensor.outerHeight() -
+                  $popover.outerHeight()
+              });
+            } else {
+              $popover.css({ top: $sensor.offset().top });
+            }
+            if (
+              $sensor.offset().left + $popover.outerWidth() >
+              $popover.parent().offset().left + $popover.parent().outerWidth()
+            ) {
+              $popover.css({
+                left:
+                  $sensor.offset().left +
+                  parseFloat(
+                    window.getComputedStyle($sensor[0], ':after').width
+                  ) -
+                  $popover.outerWidth()
+              });
+            } else {
+              $popover.css({ left: $sensor.offset().left });
+            }
+            $popover.css({ visibility: 'visible' });
+            $sensor.hide();
+          }
+        });
+      });
+    };
+    // this.configSensors('#sensor-cont', '#map-cont-1');
   }
 
   /**
@@ -82,34 +217,32 @@ export class VotmCloudLocationsSignalComponent implements OnInit, OnDestroy {
     this.locationSignalService.getSignalsByLocation(this.locationId, this.organizationId)
     .subscribe(response => {
       console.log(response);
-      this.availableSignals = response;
-
-      setTimeout(() => {
-        for (let i = 0; i < this.availableSignals.length; i++) {
-          for (let j = 0; j < this.availableSignals[i].node.length; j++) {
-            const index = this.associatedSignals.findIndex(
-              signal => signal.signalId === this.availableSignals[i].node[j].id
-            );
-            this.availableSignals[i].node[j].sensorId = this.availableSignals[i].id;
-            this.availableSignals[i].node[j].sensorName = this.availableSignals[i].name;
-            this.availableSignals[i].node[j].associationName = this.availableSignals[i].node[j].name;
-            this.availableSignals[i].node[j].imageCoordinates = {
-              x: 0,
-              y: 0
-            };
-            if (index !== -1) {
-              const sensorDivElem =  document.getElementById('signalDiv_' + i + '_' + j);
-              if (sensorDivElem) {
-                sensorDivElem.classList.remove('docked');
-              }
-            } else {
-              this.onClickOfAvailableSignals(i, j);
+      this.sensors = response;
+      for (let i = 0; i < this.sensors.length; i++) {
+        for (let j = 0; j < this.sensors[i].node.length; j++) {
+          const index = this.associatedSignals.findIndex(
+            signal => signal.signalId === this.sensors[i].node[j].id
+          );
+          this.sensors[i].node[j].sensorId = this.sensors[i].id;
+          this.sensors[i].node[j].sensorName = this.sensors[i].name;
+          this.sensors[i].node[j].associationName = this.sensors[i].node[j].name;
+          this.sensors[i].node[j].imageCoordinates = {
+            x: 0,
+            y: 0
+          };
+          if (index !== -1) {
+            const sensorDivElem =  document.getElementById('signalDiv_' + i + '_' + j);
+            if (sensorDivElem) {
+              sensorDivElem.classList.remove('docked');
             }
+          } else {
+            // this.onClickOfAvailableSignals(i, j);
           }
         }
-        this.copyAvailableSignals = JSON.parse(JSON.stringify(this.availableSignals));
-        console.log(this.copyAvailableSignals);
-      }, 500);
+      }
+      this.copyAvailableSignals = JSON.parse(JSON.stringify(this.sensors));
+      console.log(this.copyAvailableSignals);
+      this.configSensors('#sensor-cont', '#map-cont-1');
       this.isGetAvailableSignalsAPILoading = false;
     },
     error => {
@@ -117,91 +250,6 @@ export class VotmCloudLocationsSignalComponent implements OnInit, OnDestroy {
     });
   }
 
-  /**
-   * To set different events for tha
-   */
-  onClickOfAvailableSignals(index1, index2) {
-    console.log(this.panel);
-    const sensorDivElem =  document.getElementById('signalDiv_' + index1 + '_' + index2);
-    const elem = document.getElementById('signal_' + index1 + '_' + index2);
-    console.log(elem);
-    elem.onmousedown = event => {
-      const obj = this.availableSignals[index1].node[index2];
-      console.log('on mouse down');
-      const shiftX = event.clientX - elem.getBoundingClientRect().left;
-      const shiftY = event.clientY - elem.getBoundingClientRect().top;
-
-      elem.style.position = 'absolute';
-      elem.style.zIndex = '1000';
-      elem.classList.add('icon-class');
-      document.body.append(elem);
-
-      moveAt(event.pageX, event.pageY);
-
-      function moveAt(pageX, pageY) {
-        elem.style.left = pageX - shiftX + 'px';
-        elem.style.top = pageY - shiftY + 'px';
-      }
-
-      function onMouseMove(e) {
-        console.log('on mouse move');
-        moveAt(e.pageX, e.pageY);
-      }
-
-      document.addEventListener('mousemove', onMouseMove);
-
-      elem.onmouseup = (ev) => {
-        console.log('on mouse up');
-        document.removeEventListener('mousemove', onMouseMove);
-        console.log(
-          elem.getBoundingClientRect().left,
-          elem.getBoundingClientRect().top
-        );
-        elem.onmouseup = null;
-        console.log(index1, index2);
-        this.onSelectSignal(
-          ev,
-          obj
-        );
-
-        console.log(elem.style.left, elem.style.top);
-        console.log(elem.offsetLeft, elem.offsetTop);
-
-        elem.addEventListener('mouseover', this.mouseoverEvent);
-        const signalIndex = this.associatedSignals.findIndex(
-          signal =>
-              signal.id === this.copyAvailableSignals[index1].node[index2].id
-        );
-        if (signalIndex === -1) {
-          console.log(elem.parentElement.offsetWidth, '=========', elem.parentElement.offsetHeight);
-          console.log(parseInt(elem.style.left, 10), '-=----', parseInt(elem.style.top, 10));
-          obj.imageCoordinates = {
-            x: (parseInt(elem.style.left, 10) / elem.parentElement.offsetWidth) * 100,
-            y: (parseInt(elem.style.top, 10) / elem.parentElement.offsetHeight) * 100
-          };
-          this.associatedSignals.push(obj);
-          console.log(index1, '======', index2);
-          console.log(JSON.stringify(this.associatedSignals));
-          const index = this.availableSignals[index1].node.findIndex(
-            signal =>
-              signal.id === this.copyAvailableSignals[index1].node[index2].id
-          );
-          sensorDivElem.classList.remove('docked');
-
-        } else {
-          obj.imageCoordinates = {
-            x: (parseInt(elem.style.left, 10) / elem.parentElement.offsetWidth) * 100,
-            y: (parseInt(elem.style.top, 10) / elem.parentElement.offsetHeight) * 100
-          };
-        }
-      };
-    };
-
-    elem.ondragstart = () => {
-      console.log('on drag start');
-      return false;
-    };
-  }
 
   getLocationSignalAssociation() {
     this.isGetAssociatedSignalsAPILoading = true;
@@ -212,85 +260,7 @@ export class VotmCloudLocationsSignalComponent implements OnInit, OnDestroy {
         this.getAllAvailableSignals();
         this.isGetAssociatedSignalsAPILoading = false;
         setTimeout(() => {
-          for (let i = 0; i < this.associatedSignals.length; i++) {
-            this.associatedSignals[i].id = this.associatedSignals[i].signalId;
-            this.associatedSignals[i].name = this.associatedSignals[i].signalName;
-            this.associatedSignals[i].image = this.associatedSignals[i].signalImage;
-            this.associatedSignals[i].imageCoordinates = this.associatedSignals[i].
-              imageCordinates[this.associatedSignals[i].associationName];
-            console.log('here');
-            const img = document.createElement('img');
-            img.src = this.associatedSignals[i].image;
-            img.id = 'icon_' + i;
-            img.classList.add('icon-class');
-            img.style.position = 'absolute';
-            img.style.width = '40px';
-            img.style.cursor = 'pointer';
-            img.addEventListener('mouseover', event => {
-              console.log(this.panel);
-              this.onSelectSignal(event, this.associatedSignals[i]);
-            });
-            img.style.top = ((this.associatedSignals[i].imageCoordinates.y * document.body.offsetHeight) / 100) + 'px';
-            img.style.left = ((this.associatedSignals[i].imageCoordinates.x  * document.body.offsetWidth) / 100) + 'px';
 
-            img.onmousedown = event => {
-
-              console.log('on mouse down');
-              const shiftX = event.clientX - img.getBoundingClientRect().left;
-              const shiftY = event.clientY - img.getBoundingClientRect().top;
-
-              img.style.position = 'absolute';
-              img.style.zIndex = '1000';
-              img.classList.add('icon-class');
-              document.body.append(img);
-
-              moveAt(event.pageX, event.pageY);
-
-              function moveAt(pageX, pageY) {
-                img.style.left = pageX - shiftX + 'px';
-                img.style.top = pageY - shiftY + 'px';
-              }
-
-              function onMouseMove(e) {
-                console.log('on mouse move');
-                moveAt(e.pageX, e.pageY);
-              }
-
-              document.addEventListener('mousemove', onMouseMove);
-
-              img.onmouseup = (ev) => {
-                console.log('on mouse up');
-                document.removeEventListener('mousemove', onMouseMove);
-                console.log(
-                  img.getBoundingClientRect().left,
-                  img.getBoundingClientRect().top
-                );
-                img.onmouseup = null;
-                this.onSelectSignal(event, this.associatedSignals[i]);
-                console.log(img.style.left, img.style.top);
-                console.log(img.offsetLeft, img.offsetTop);
-
-                img.addEventListener('mouseover', e => {
-
-                  this.panel.hide();
-                  this.onSelectSignal(e, this.associatedSignals[i]);
-                });
-                const iconIdList = (((ev.target)as any).id).split('_');
-                this.associatedSignals[iconIdList[1]].imageCoordinates = {
-                  x: (parseInt(img.style.left, 10) / img.parentElement.offsetWidth) * 100,
-                  y: (parseInt(img.style.top, 10) / img.parentElement.offsetHeight) * 100
-                };
-              };
-            };
-
-            img.ondragstart = () => {
-              console.log('on drag start');
-              return false;
-            };
-            console.log(img.style.top, '=====', img.style.left);
-            document.body.appendChild(img);
-            console.log(document.body.offsetWidth, '=========', document.body.offsetHeight);
-          }
         }, 200);
       },
       error => {
@@ -299,107 +269,141 @@ export class VotmCloudLocationsSignalComponent implements OnInit, OnDestroy {
     );
   }
 
-  onCancelClick(event) {
-    this.removeImgsFromDOM();
-    this.routerLocation.back();
-  }
 
-  removeImgsFromDOM() {
-    const elemlist = document.querySelectorAll('.icon-class');
-    elemlist.forEach(elem => {
-      console.log('elem');
-      document.body.removeChild(elem);
-    });
-  }
 
-  onSelectSignal(event, signal) {
-    console.log('here', signal);
-    this.selectedSignal = signal;
-    console.log(this.selectedSignal);
-    this.selectedSignal.imageCoordinates.x = parseFloat(this.selectedSignal.imageCoordinates.x).toFixed(2);
-    this.selectedSignal.imageCoordinates.y = parseFloat(this.selectedSignal.imageCoordinates.y).toFixed(2);
-    this.panel.show(event);
-  }
-
-  onDetachSignalFromAsset() {
-    console.log('here');
-    if (this.selectedSignal.signalMappingId) {
-      this.locationSignalService.detachSignalAssociation(this.selectedSignal.signalMappingId).subscribe(
-        response => {
-          this.toaster.onSuccess('Signal associated successfully', 'Saved');
-          this.panel.hide();
-          this.panel2.hide();
-          this.getAllAvailableSignals();
-          this.getLocationSignalAssociation();
+  configSensors(dockCntrSel, mapCntrSel) {
+    console.log(this.sensors);
+    if (!this.sensorsCreated) {
+      let $sensor;
+      $.each(this.sensors, (sIx, sensorItem) => {
+        $sensor = $(
+          '<div class=\'sensor-circle docked signalicon-temperature\'>'
+        )
+          .html(sensorItem.name)
+          .data('sIx', sIx)
+          .data('dsIx', null)
+          .appendTo(mapCntrSel);
+        $sensor.data(
+          'dockEl',
+          $sensor
+            .clone()
+            .addClass('list-bkg')
+            .appendTo(dockCntrSel)
+            .data('dragEl', $sensor)
+            .on('mousedown', function(e) {
+              $(this)
+                .removeClass('docked')
+                .data('dragEl')
+                .removeClass('docked')
+                .offset({
+                  left: $(this).offset().left,
+                  top: $(this).offset().top
+                })
+                .trigger(
+                  $.Event('mousedown', { pageX: e.pageX, pageY: e.pageY })
+                );
+              return false;
+            })
+        );
+        this.sensors[sIx]['sensorEl'] = $sensor;
+        if (sensorItem.node.length > 0) {
+          $.each(sensorItem.node, (dsIx, dsItem) => {
+            const index = this.associatedSignals.findIndex(
+              signal => signal.signalId === this.sensors[sIx].node[dsIx].id
+            );
+            
+            $sensor = $(
+              '<div class=\'sensor-circle secondary-ds signalicon-humidity\'>'
+            ).html(dsItem.name)
+              .data('sIx', sIx)
+              .data('dsIx', dsIx)
+              .appendTo(mapCntrSel);
+            $sensor.data(
+              'dockEl',
+              $sensor
+                .clone()
+                .addClass('list-bkg docked')
+                .appendTo(dockCntrSel)
+                .data('dragEl', $sensor)
+                .on('mousedown', function(e) {
+                  $(this)
+                    .removeClass('docked')
+                    .data('dragEl')
+                    .removeClass('docked')
+                    .offset({
+                      left: $(this).offset().left,
+                      top: $(this).offset().top
+                    })
+                    .trigger(
+                      $.Event('mousedown', { pageX: e.pageX, pageY: e.pageY })
+                    );
+                  return false;
+                })
+            );
+            if (index !== -1) {
+              $sensor.clone()
+              .css({
+                left: this.associatedSignals[index].imageCoordinates.x,
+                top: this.associatedSignals[index].imageCoordinates.y
+              })
+              .data('sIx', sIx)
+              .data('dsIx', dsIx)
+              .appendTo(mapCntrSel);
+             // $sensor.removeClass('docked');
+              console.log($sensor.data('sIx'));
+              console.log($sensor.data('dsIx'));
+            }
+            this.sensors[sIx].node[dsIx]['sensorEl'] = $sensor;
+          });
         }
-      );
-    } else {
-      const sensorIndex = this.availableSignals.findIndex(
-        signal => signal.id === this.selectedSignal.sensorId
-      );
-      const signalIndex = this.availableSignals[sensorIndex].node.findIndex(
-        signal => signal.id === this.selectedSignal.id
-      );
-      const index = this.associatedSignals.findIndex(
-        signal => signal.id === this.selectedSignal.id
-      );
-      const elem = document.getElementById('signal_' + sensorIndex + '_' + signalIndex);
-      this.panel.hide();
-      this.panel2.hide();
-      document.body.removeChild(elem);
-      this.associatedSignals.splice(index, 1);
-      const sensorDivElem =  document.getElementById('signalDiv_' + sensorIndex + '_' + signalIndex);
-      elem.classList.remove('icon-class');
-      elem.style.left = null;
-      elem.style.top = null;
-      elem.style.cursor = null;
-      elem.style.zIndex = null;
-      elem.style.position = null;
-      elem.removeEventListener('mouseover', this.mouseoverEvent);
-      sensorDivElem.classList.add('docked');
-      sensorDivElem.insertBefore(elem, sensorDivElem.firstChild);
+      });
+      $(mapCntrSel + ' .sensor-circle').drags();
+      this.sensorsCreated = true;
     }
+
   }
 
-  mouseoverEvent = (event) => {
-    console.log('sdfcgvh');
-    const id = event.target.id.split('_');
-    this.onSelectSignal(
-      event,
-      this.availableSignals[id[1]].node[id[2]]
-    );
-  }
-
-  onClickOfCreateAssociateRule() {
-    this.route.navigate(['org', 'view', this.curOrganizationId, this.curOrganizationName,
-    this.organizationId ? this.organizationId : this.curOrganizationId, 'alertRule', 'create']);
-  }
-
-  onClickOfAddCalculatedSignal() {
-    this.display = 'block';
-  }
-
-  closeCaluculatedSignalModal() {
-    this.display = 'none';
-  }
-
-  onClickOfSaveSignalAssociationPanel() {
-    console.log(this.selectedSignal);
-    const index = this.associatedSignals.findIndex(
-      signal => signal.id === this.selectedSignal.id
-    );
-    this.associatedSignals[index] = { ...this.selectedSignal };
-    const sensorIndex = this.availableSignals.findIndex(
-      signal => signal.id === this.selectedSignal.sensorId
-    );
-    const signalIndex = this.availableSignals[sensorIndex].node.findIndex(
-      signal => signal.id === this.selectedSignal.id
-    );
-    const elem = document.getElementById('signal_' + sensorIndex + '_' + signalIndex);
-    elem.style.top = ((this.selectedSignal.imageCoordinates.y * document.body.offsetHeight) / 100) + 'px';
-    elem.style.left = ((this.selectedSignal.imageCoordinates.x  * document.body.offsetWidth) / 100) + 'px';
-    this.panel2.hide();
-    this.panel.hide();
+  dropSensor($sensor) {
+    const sIx = $sensor.data('sIx');
+    const dsIx = $sensor.data('dsIx');
+    console.log(sIx, '========', dsIx);
+    console.log('sixxxx     ', this.sensors[sIx]);
+    const index = this.associatedSignals.findIndex(signal =>
+      signal.signalId === this.sensors[sIx].node[dsIx].id);
+    if (index === -1) {
+      if ($sensor.position().left < 0) {
+        $sensor
+          .addClass('docked')
+          .data('dockEl')
+          .addClass('docked');
+        this.sensors[sIx].node[dsIx].imageCoordinates.x = this.sensors[sIx].node[
+          dsIx
+        ].imageCoordinates.y = null;
+      } else {
+        this.sensors[sIx].node[dsIx].imageCoordinates.x =
+          parseInt($sensor.css('left'), 10) / ($sensor.parent().width() / 100) + '%';
+        this.sensors[sIx].node[dsIx].imageCoordinates.y =
+          parseInt($sensor.css('top'), 10) / ($sensor.parent().height() / 100) + '%';
+      }
+      const sensorObj = { ...this.sensors[sIx].node[dsIx]};
+      this.associatedSignals.push(sensorObj);
+      // $('#map-cont-1 .sensor-circle').sensorPopover();
+      console.log(this.sensors);
+    } else {
+      if ($sensor.position().left < 0) {
+        $sensor
+          .addClass('docked')
+          .data('dockEl')
+          .addClass('docked');
+        this.associatedSignals[index].imageCoordinates.x = this.associatedSignals[index].imageCoordinates.y = null;
+      } else {
+        this.associatedSignals[index].imageCoordinates.x =
+          parseInt($sensor.css('left'), 10) / ($sensor.parent().width() / 100) + '%';
+        this.associatedSignals[index].imageCoordinates.y =
+          parseInt($sensor.css('top'), 10) / ($sensor.parent().height() / 100) + '%';
+      }
+    }
+    // this.updateSensors('#map-cont-1');
   }
 
   onSaveSignalAssociation() {
@@ -417,22 +421,18 @@ export class VotmCloudLocationsSignalComponent implements OnInit, OnDestroy {
       obj.imageCordinates[signal.associationName] = signal.imageCoordinates;
       return obj;
     });
-    this.removeImgsFromDOM();
     this.locationSignalService.createSignalAssociation(data)
     .subscribe(
       response => {
         console.log(response);
         this.toaster.onSuccess('Signal associated successfully', 'Saved');
-        this.panel.hide();
-        this.panel2.hide();
         this.getAllAvailableSignals();
         this.getLocationSignalAssociation();
+      }, error => {
+        this.toaster.onFailure('Error while saving signal assocition', 'Error');
       }
     );
   }
 
-  ngOnDestroy() {
-    this.removeImgsFromDOM();
-  }
 
 }

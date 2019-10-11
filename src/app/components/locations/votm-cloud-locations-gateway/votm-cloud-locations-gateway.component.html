@@ -1,117 +1,14 @@
-<div>
-    <p-overlayPanel
-      #op
-      id="op"
-      [appendTo]="'body'"
-      [dismissable]="false"
-      [showCloseIcon]="true"
-    >
-      <h6 *ngIf="selectedSignal">
-        {{ selectedSignal.name }}&nbsp;
-        <a (click)="op2.toggle($event)"><i class="fa fa-pencil-square-o"></i></a
-        >&nbsp;
-        <a ><i class="icon-trash"></i></a>
-      </h6>
-    </p-overlayPanel>
+<hr>
 
-    <p-overlayPanel #op2 [appendTo]="'body'" [dismissable]="false"
-    [showCloseIcon]="true">
-      <div class="row">
-        <div class="col-md-12">
-            <div class="card">
-                <div class="card-header">Gateway Association</div>
-                <div class="card-body">
-                  <div class="row">
-
-                    <div class="col-sm-3"><label>Name: &nbsp;</label></div>
-
-                    <div class="col-sm-9">
-                      <input type="text" id="signal_name" class="form-control" placeholder="Enter Signal Name">
-                    </div>
-                  </div>
-                  <div class="row mar-top-5">
-                    <div class="col-sm-3"><label>Position: &nbsp; X: &nbsp;</label></div>
-
-                    <div class="col-sm-4">
-                      <input type="text" id="position_x" class="form-control" placeholder="Enter Postion X">
-                    </div>
-
-                      <div class="col-sm-1">Y:  &nbsp;</div>
-                      <div class="col-sm-4">
-                        <input type="text" id="position_y" class="form-control" placeholder="Enter Position Y">
-                      </div>
-
-
-                  </div>
-                  <div class="row mar-top-5">
-                    <div class="col-sm-12">
-                    <label> Gateway Type: </label> SensoNode Gateway
-                    </div>
-                  </div>
-                  <div class="row mar-top-5">
-                      <div class="col-sm-12">
-                      <label> Gateway ID: </label> 11-22-33-AA-BB
-                      </div>
-                    </div>
-
-                </div>
-                <div class="card-footer text-muted">
-
-                    <button class="btn btn-primary mt-3 pull-right" >Save</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    </p-overlayPanel>
-
-
-    <form class="form">
-      <h4 class="col">Associate Gateways</h4>
-
-      <div class="row org-create-font mar-top-30">
-        <div class="col-md-4">
-          <div class="enclosing-div">
-            <h5>Available Gateways</h5>
-            <hr />
-            <ul>
-              <ng-container
-                *ngFor="let sensor of availableSignals; let sensorIndex = index"
-              >
-                <li>
-                    <a [class.disabled]="isSignalDisabled(sensor)">
-                        <img
-                          [src]="sensor.image"
-                          style="cursor:pointer"
-                          width="40"
-                          height="40"
-                          id="signal_{{ sensorIndex }}"
-                        />
-                        </a> &nbsp;{{ sensor.name }}
-
-                </li>
-              </ng-container>
-            </ul>
+<div class="row" style="padding: 30px;">
+  <div id="sensor-cont-2" class="col-md-2"></div>
+  <div class="col-md-10">
+      <div class="chart-cont embed-responsive embed-responsive-16by9" style="background-color: #efefef;">
+          <div class="embed-responsive-item" id="map-cont-2">
+              <img id="map-image" class="img-fluid" src="../../assets/images/floorplan.svg" />
           </div>
-        </div>
-
-        <div class="col-md-8" >
-            <!-- *ngIf="assetImageURL" -->
-          <div  class="enclosing-div" >
-            <img id="dropdiv" src="../../../../assets/images/Parker.jpg" class="imag-size" />
-          </div>
-        </div>
       </div>
       <br />
-      <div class="col">
-        <button
-          id="asset-cancel"
-          for="form-cancel"
-          type="button"
-          (click)="onCancelClick($event)"
-          class="btn btn-secondary"
-        >
-          Cancel
-        </button>
-      </div>
-    </form>
+      
   </div>
+</div>
