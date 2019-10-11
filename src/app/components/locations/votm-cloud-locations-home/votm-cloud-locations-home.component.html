@@ -42,7 +42,7 @@
             <td class="align-left">{{item.parentOrgName}}</td>
             <td class="align-left">{{item.primaryDistributor}}</td>
             <td class="align-left">{{item.city}}, {{item.state}}</td>
-            <td class="align-left"><i class="icon-warn" style="color: #f5e258;"></i></td>
+            <td class="align-center"><i class="icon-warn" style="color: #f5e258;"></i></td>
             <td class="align-center">
               <a class="action-icon" title="List"   [routerLink]="['/asset/home',item.parentOrgId, item.parentOrgName, item.id]">
                 <i class="icon-asset-robot"></i>
@@ -70,7 +70,7 @@
               <td class="align-left">{{subItem.parentOrgName}}</td>
               <td class="align-left">{{subItem.distributor}}</td>
               <td class="align-left">{{subItem.city}}, {{subItem.state}}</td>
-              <td class="align-left"><i class="icon-warn" style="color: #f5e258;"></i></td>
+              <td class="align-center"><i class="icon-warn" style="color: #f5e258;"></i></td>
               <td class="align-center">
                 <a class="action-icon" title="Asset" [routerLink]="['/asset/home',subItem.parentOrgId, subItem.parentOrgName, subItem.id]">
                   <i class="icon-asset-robot"></i>
@@ -103,7 +103,7 @@
             <th scope="col" class="align-left">Organization</th>
             <th scope="col" class="align-left">Primary Distributor</th>
             <th scope="col" class="align-left">City & State</th>
-            <th scope="col" class="align-left">Status</th>
+            <th scope="col" class="align-center">Status</th>
             <th scope="col" class="align-center">Actions</th>
           </tr>
         </thead>

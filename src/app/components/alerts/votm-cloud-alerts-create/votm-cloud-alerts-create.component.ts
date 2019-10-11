@@ -82,7 +82,7 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
       if (this.alertId) {
         this.alertsService.getAlertByAlertId(this.alertId)
           .subscribe(response => {
-            console.log('Alert Record', response);
+            // console.log('Alert Record', response);
             this.alert = response;
             // this.alert.alertRuleUserGroup[0].userId = 'ea8a69d9-50a1-4773-a7ef-324cd33b3296';
             this.userResponsibities = [];
@@ -156,7 +156,7 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
   }
 
   onUserSelection(user) {
-    console.log('Notified User ', user);
+    // console.log('Notified User ', user);
     let found: boolean = false;
     if (!this.alert.alertRuleUserGroup) {
       this.alert.alertRuleUserGroup = [];
@@ -170,11 +170,11 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
       this.userResponsibities[user.userId] = '';
       this.alert.alertRuleUserGroup.push({ alertUserGroupRoleId: '', name: user.firstName + ' ' + user.lastName, userId: user.userId, userEmail: user.emailId });
     }
-    console.log(' this.alert.alertRuleUserGroup ', this.alert.alertRuleUserGroup);
+    // console.log(' this.alert.alertRuleUserGroup ', this.alert.alertRuleUserGroup);
   }
 
   onUserGroupSelection(userGroup) {
-    console.log('Notified User ', userGroup);
+    // console.log('Notified User ', userGroup);
     let found: boolean = false;
     if (!this.alert.alertRuleUserGroup) {
       this.alert.alertRuleUserGroup = [];
@@ -188,13 +188,13 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
       this.userResponsibities[userGroup.userGroupId] = '';
       this.alert.alertRuleUserGroup.push({ alertUserGroupRoleId: '', name: userGroup.userGroupName, userGroupId: userGroup.userGroupId });
     }
-    console.log(' this.alert.alertRuleUserGroup ', this.alert.alertRuleUserGroup);
+    // console.log(' this.alert.alertRuleUserGroup ', this.alert.alertRuleUserGroup);
   }
 
   getMeticTypes() {
     this.alertsService.getAllMetricTypes()
       .subscribe(response => {
-        console.log('getMeticTypes ', response);
+        // console.log('getMeticTypes ', response);
         this.metricTypes = [];
         if (response && response.length > 0) {
           response.forEach(item => {
@@ -214,7 +214,7 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
   getAccessScopeByOrgId() {
     this.alertsService.getAccessScopeByOrgId(this.orgId)
       .subscribe(response => {
-        console.log('getAccessScopeByOrgId ', response);
+        // console.log('getAccessScopeByOrgId ', response);
         // accessScopes
         this.accessScopes = [];
         if (response && response.length > 0) {
@@ -228,7 +228,7 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
   getUserGroupRoles() {
     this.alertsService.getUserGroupRoles()
       .subscribe(response => {
-        console.log('user Roles ', response);
+        // console.log('user Roles ', response);
         this.userRoles = response;
         // this.userRoles.forEach(tempRole => {
         //   this.userResponsibities[tempRole.roleId] = '';
@@ -257,7 +257,7 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
             this.userGroupSubscribers.push(tempUserGroupSubscribers[i]);
           }
         }
-        console.log('userGroupSubscribers ', this.userGroupSubscribers);
+        // console.log('userGroupSubscribers ', this.userGroupSubscribers);
       });
   }
 
@@ -308,7 +308,7 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
   getAlertRuleSignalAssociatedAssetByOrgId() {
     this.alertsService.getAlertRuleSignalAssociatedAssetByOrgId(this.orgId, this.alertId)
       .subscribe(response => {
-        console.log('response ', response);
+        // console.log('response ', response);
         this.alertRuleSignalAssociatedAsset = response;
         this.createAssetCheckedProperties();
       });
@@ -353,7 +353,7 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
         });
       }
     }
-    console.log(this.selectedSignals);
+    // console.log(this.selectedSignals);
   }
 
 
@@ -384,7 +384,7 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
     }
 
     this.selectUnselectAssetCheckbox(asset);
-    console.log(this.selectedSignals);
+    // console.log(this.selectedSignals);
     // this.alert.alertRuleSignalMapping = this.getUniqueValues(this.alert.alertRuleSignalMapping);
     // console.log('this.alert.alertRuleSignalMapping ', this.alert.alertRuleSignalMapping);
   }
