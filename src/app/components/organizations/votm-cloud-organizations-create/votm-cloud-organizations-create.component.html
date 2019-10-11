@@ -67,7 +67,7 @@
           <li class="nav-item" placement="top" ngbTooltip="List of Subscribed Alerts">
             <a class="nav-link tab-icon" id="org-alert-tab" name="alert-view-edit" href="#org-alert"
               (click)="onAlertRuleTabClick()" data-toggle="tab" role="tab" aria-controls="org-alert"
-              aria-selected="false"><i class="icon-warn"></i></a>
+              aria-selected="false"><i class="icon-threshold"></i></a>
           </li>
 
           <!-- Asset Template Tab  -->
@@ -166,31 +166,12 @@
                   <div class="form-group">
                     <label class="" id="parentOrgLbl">{{pageLabels.ParentOrganization.labelName}}:</label>
                     <div class="">
-                      <select [disabled]="pageType==='View'" id="parentOrgLblList"
-                        [(ngModel)]="organization.parentOrganizationId" name="parentOrganizationName"
-                        class="drop-down form-control form-control-sm" required>
-                        <option *ngFor="let org of organizationList" class="dropdown-item" [value]="org.organizationId">
-                          {{org.name}}
-                        </option>
-                      </select>
-                      <!-- <ng-select
-                      id="parentOrgLblList"
-                      class="custom"
-                      [multiple]="false"
-                      [(ngModel)]="organization.parentOrganizationId"
-                    >
-                      <ng-option
-                      *ngFor="let org of organizationList"
-                      [value]="org.organizationId"
-                        >{{org.name}}</ng-option
-                      >
-                    </ng-select> -->
-
-                      <!-- <input for="parentOrgName" class="form-control org-create-font" type="text"
-                                  placeholder="{{parentOrganizationInfo? parentOrganizationInfo.parentOrganizationName: organization.parentOrganizationName}}"
-                                  readonly disabled> -->
-                      <!-- <label
-                                          for="parentOrgName">{{parentOrganizationInfo? parentOrganizationInfo.parentOrganizationName: organization.parentOrganizationName}}</label> -->
+                      <ng-select id="parentOrgLblList" class="custom" [disabled]="pageType==='View'"
+                        [ngStyle]="{'background-color':pageType==='View'?'#e9ecef':'#fff'}" [multiple]="false"
+                        name="parentOrgLblList" [(ngModel)]="organization.parentOrganizationId">
+                        <ng-option *ngFor="let org of organizationList" [value]="org.organizationId">{{org.name}}
+                        </ng-option>
+                      </ng-select>
                     </div>
                   </div>
                 </div>
@@ -207,34 +188,24 @@
                     </div>
                   </div>
                 </div>
+               
                 <div class="col-lg-4 col-xl-2">
                   <div class="form-group">
                     <label class="" id="icon" for="organizationType">Icon</label>
-                    <!-- <div class="selectpicker drop-down"> -->
+                    <div class="">
 
-                      <ng-select 
-                      id="iconDropDown"
-                      class="custom"
-                      [searchable]="false"
-                      [clearable]="false"
-                      >
-                        <ng-option value="company"><i class="icon-org-company"></i></ng-option>
-                        <ng-option value="company"><i class="icon-loc-office"></i></ng-option>
-                        <ng-option value="company"><i class="icon-org-struct"></i></ng-option>
-                      </ng-select>
-                      <!-- <select class="selectpicker form-control-sm form-control" data-style-base="form-control">
-                        <option data-icon="icon-org-company"></option>
-                        <option data-icon="icon-loc-office"></option>
-                        <option data-icon="icon-org-struct"></option>
-                      </select> -->
-                      <!-- <input type="text" id="icon" class="form-control form-control-sm" placeholder="icon" name="icon">
-                      <app-votm-cloud-char-validator> </app-votm-cloud-char-validator>
-                      <div class="input-group-append">
-                        <span class="input-group-text"><i class="fa fa-image"></i></span>
-                      </div> -->
-                    <!-- </div> -->
+                    <ng-select id="iconDropDown" name= "orgLogo"
+                    labelForId="orgIcon" class="custom" [searchable]="false" 
+                    [clearable]="false">
+                      <ng-option value="company"><i class="icon-org-company"></i></ng-option>
+                      <ng-option value="office"><i class="icon-loc-office"></i></ng-option>
+                      <ng-option value="struct"><i class="icon-org-struct"></i></ng-option>
+                    </ng-select>
+                   
+                    </div>
                   </div>
                 </div>
+
                 <div class="col-lg-4 col-xl-3">
                   <div class="form-group">
                     <label class="input-group temp" votmrequired id="primarycontactLbl">
@@ -475,20 +446,30 @@
                       </div>
 
                       <div class="col-4">
-                        <select #state="ngModel" id="state" [(ngModel)]="organization.address[0].state" name="state"
+                        <!-- <select #state="ngModel" id="state" [(ngModel)]="organization.address[0].state" name="state"
                           class="drop-down form-control form-control-sm" required>
                           <option value="null" disabled selected>State</option>
                           <option *ngFor="let state of states" [value]="state.value">
                             {{state.text}}
                           </option>
-                        </select>
+                        </select> -->
+
+                        <div class="">
+                          <ng-select id="state" class="custom" #state="ngModel" [disabled]="pageType==='View'"
+                            [ngStyle]="{'background-color':pageType==='View'?'#e9ecef':'#fff'}" [multiple]="false"
+                            name="state" [(ngModel)]="organization.address[0].state" required>
+                            <ng-option value="null" disabled selected>State</ng-option>
+                            <ng-option *ngFor="let state of states" [value]="state.value">{{state.text}}</ng-option>
+                          </ng-select>
+                        </div>
+
                         <div *ngIf="state.dirty && state.invalid">
                           <app-votm-cloud-validator message="State is required"></app-votm-cloud-validator>
                         </div>
                       </div>
 
                       <div class="col-8">
-                        <select [disabled]="pageType==='View'" id="country"
+                        <!-- <select [disabled]="pageType==='View'" id="country"
                           [(ngModel)]="organization.address[0].country" name="country"
                           class="drop-down form-control form-control-sm loc-create-font"
                           (change)="onCountryChange($event)" required #country="ngModel">
@@ -496,15 +477,19 @@
                           <option *ngFor="let country of countries" [value]="country.countryName">
                             {{country.countryName}}
                           </option>
-                        </select>
+                        </select> -->
+
+                        <div class="">
+                          <ng-select id="country" class="custom" #country="ngModel" [disabled]="pageType==='View'"
+                            [ngStyle]="{'background-color':pageType==='View'?'#e9ecef':'#fff'}" 
+                            [multiple]="false" placeholder="Country"
+                            name="country" [(ngModel)]="organization.address[0].country" (change)="onCountryChange($event)" required>
+                            <ng-option value="null" disabled selected>Country</ng-option>
+                            <ng-option *ngFor="let country of countries" [value]="country.countryName">{{country.countryName}}</ng-option>
+                          </ng-select>
+                        </div>
 
 
-                        <!-- <select required [disabled]="pageType==='View'" [(ngModel)]="organization.address[0].country"
-                    name="country" class="drop-down form-control form-control-sm" #country="ngModel">
-                    <option *ngFor="let country of countries" [value]="country.value">
-                      {{country.text}}
-                    </option>
-                  </select> -->
                         <div *ngIf="country.dirty && country.invalid">
                           <app-votm-cloud-validator message="Country is required"></app-votm-cloud-validator>
                         </div>
@@ -540,7 +525,7 @@
                             {{locale.localeName}}
                           </option>
                         </select>
-<!-- 
+                        <!-- 
                         <ng-select id="DefaultLang" class="custom" [multiple]="false" [(ngModel)]="organization.localeId"
                       #defLanguage="ngModel"
                     >
@@ -651,7 +636,7 @@
                           <input #file id="imageUploadButton" type="file" accept='image/*'
                             [disabled]="pageType==='View'" (change)="preview(file.files)"
                             class="form-control form-control-sm" />
-                            <!-- <label class="custom-file-label" for="customFile">{{message}}</label> -->
+                          <!-- <label class="custom-file-label" for="customFile">{{message}}</label> -->
                           <!-- <label id="imageLbl" style="font-weight: bold"
                                                                         *ngIf="organization && organization.logo">{{organization.logo.imageName}}</label> -->
 
@@ -695,17 +680,17 @@
 
                 <!-- This Button should be on Right  -->
                 <!-- <div class="text-right"> -->
-                  <button id="org-save" type="submit" *ngIf="pageType !=='View'"
-                  class="btn btn-sm button-right btn-info"> Save
+                <button id="org-save" type="submit" *ngIf="pageType !=='View'" class="btn btn-sm button-right btn-info">
+                  Save
                   Organization<i class="fa fa-spinner fa-spin fa-fw" *ngIf="isAddOrganizationAPILoading"></i>
                 </button>
-                  <button id="org-cancel" type="button" (click)="onCancelClick($event)"
+                <button id="org-cancel" type="button" (click)="onCancelClick($event)"
                   class="btn btn-outline-secondary btn-sm button-right mr-2">
                   Cancel</button>
                 <button id="org-delete" *ngIf="organization.organizationId && pageType !=='View'" type="button"
                   class="btn btn-secondary btn-sm button-right mr-2" (click)="openConfirmDialog()">
                   Delete</button>
-                
+
                 <!-- </div> -->
               </div>
 

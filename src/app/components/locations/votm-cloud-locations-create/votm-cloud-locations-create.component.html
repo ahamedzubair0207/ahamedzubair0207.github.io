@@ -63,8 +63,15 @@
               aria-selected="false"><i class="icon-cell-tower"></i></a>
           </li>
 
+          <li class="nav-item" placement="top" ngbTooltip="Assets Located in Location">
+            <a class="nav-link tab-icon" id="loc-asset-tab" (click)="onClickOfNavTab('asset_association')"
+              name="asset-association-edit" href="#loc-asset" data-toggle="tab" role="tab" aria-controls="loc-asset"
+              aria-selected="false"><i class="icon-cell-tower"></i></a>
+          </li>
+
         </ul>
 
+        <!-- Location Details  -->
         <div class="tab-content w-100">
           <div class="tab-pane fade show active" *ngIf="(!locId && pageLabels) || (locId && pageLabels && location)"
             id="loc-details" role="tabpanle" area-labelledby="loc-details-tab">
@@ -478,14 +485,23 @@
                     <label class="" id="gateway">Claimed Gateway: </label>
                     <!-- <div class=""> -->
                     <!-- <ng-multiselect-dropdown [disabled]="pageType==='View'" class="gateway-dropdown" [placeholder]="'Gateway List'"
-                                                                          [data]="gatewayList" name="claimedGateway" [(ngModel)]="selectedItems" [settings]="dropdownSettings"
-                                                                          (onSelect)="onItemSelect($event)" (onSelectAll)="onSelectAll($event)">
-                                                                        </ng-multiselect-dropdown> -->
+                                                                                            [data]="gatewayList" name="claimedGateway" [(ngModel)]="selectedItems" [settings]="dropdownSettings"
+                                                                                            (onSelect)="onItemSelect($event)" (onSelectAll)="onSelectAll($event)">
+                                                                                          </ng-multiselect-dropdown> -->
                     <!-- <select2 [data]="gatewayList" width="260px" multiple="true"></select2> -->
-                    <select2 [disabled]="pageType === 'View'" [data]="gatewayList" [options]="options" width="100%"
-                      class="" [value]="selectedGateways" (valueChanged)="onItemSelect($event)"
-                      id="locDtlGeoClaimedGateway">
-                    </select2>
+                    <!-- <select2 [disabled]="pageType === 'View'" [data]="gatewayList" [options]="options" width="100%" class=""
+                      [value]="selectedGateways" (valueChanged)="onItemSelect($event)" id="locDtlGeoClaimedGateway">
+                    </select2> -->
+                  
+                    <ng-select [disabled]="pageType === 'View'"
+                     class="custom" name="GatewayList"
+                     (valueChanged)="onItemSelect($event)" id="locDtlGeoClaimedGateway"
+                    [items]="gatewayList" [multiple]="true" 
+                    (onSelect)="onItemSelect($event)" (onSelectAll)="onSelectAll($event)"
+                    [closeOnSelect]="false" 
+                    [searchable]="false" bindLabel="gateways"
+                      placeholder="Select Gateways" [(ngModel)]="selectedItems">
+                    </ng-select>
                     <!-- <button class="btn-save btn btn-primary btn-sm">Save</button> -->
                     <!-- </div> -->
                   </div>
@@ -535,6 +551,7 @@
             </form>
           </div>
 
+          <!-- Location Signal & Gateways  -->
           <div class="tab-pane fade" id="loc-signal" role="tabpanle" area-labelledby="loc-signal-tab">
             <div class="nav nav-tabs" role="tablist">
               <ul class="nav nav-tabs">
@@ -563,13 +580,21 @@
             </div>
           </div>
 
+
+          <!-- Associated Asset with the Location  -->
+          <div class="tab-pane fade" id="loc-asset" role="tabpanle" area-labelledby="loc-asset-tab">
+
+
+          </div>
+
+
         </div>
       </div>
 
 
     </div>
 
-
+<!-- Location Events Log  -->
     <div class="tab-pane fade border border-top-0 p-3 mb-3 flex-grow-1" id="event-details-tab" role="tabpanle"
       area-labelledby="event-details-tab">
       <app-votm-cloud-events-home></app-votm-cloud-events-home>
