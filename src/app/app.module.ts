@@ -116,7 +116,16 @@ import {
 } from './components/admin/votm-cloud-admin-network-management/votm-cloud-admin-network-management.component';
 import { OnlyNumber } from './components/shared/votm-cloud-only-numbers/only-numbers.directive';
 import { VotmCloudAdminUserManagementComponent } from './components/admin/votm-cloud-admin-user-management/votm-cloud-admin-user-management.component';
-
+import { VotmCloudLocationsAssetComponent } from './components/locations/votm-cloud-locations-asset/votm-cloud-locations-asset.component';
+import { VotmCloudGatewaysDetailsComponent } from './components/gateways/votm-cloud-gateways-details/votm-cloud-gateways-details.component';
+import { VotmCloudReceiverDetailsComponent } from './components/gateways/votm-cloud-receiver-details/votm-cloud-receiver-details.component';
+import {TreeTableModule} from 'primeng/treetable';
+import { VotmCloudAdminNetworkMapComponent } from './components/admin/votm-cloud-admin-network-map/votm-cloud-admin-network-map.component';
+import { VotmCloudAdminSensorHomeComponent } from './components/admin/admin-sensors/votm-cloud-admin-sensor-home/votm-cloud-admin-sensor-home.component';
+import { VotmCloudAdminSensorDetailsComponent } from './components/admin/admin-sensors/votm-cloud-admin-sensor-details/votm-cloud-admin-sensor-details.component';
+import { VotmCloudAdminGatewaysHomeComponent } from './components/admin/admin-gateways/votm-cloud-admin-gateways-home/votm-cloud-admin-gateways-home.component';
+import { VotmCloudAdminGatewaysDetailsComponent } from './components/admin/admin-gateways/votm-cloud-admin-gateways-details/votm-cloud-admin-gateways-details.component';
+import { VotmCloudAdminReceiverDetailsComponent } from './components/admin/admin-gateways/votm-cloud-admin-receiver-details/votm-cloud-admin-receiver-details.component';
 
 const oktaConfig = Object.assign({
   onAuthRequired: ({oktaAuth, router}) => {
@@ -180,7 +189,16 @@ const oktaConfig = Object.assign({
     VotmCloudEventsAssetComponent,
     VotmCloudAdminNetworkManagementComponent,
     OnlyNumber,
-    VotmCloudAdminUserManagementComponent
+    VotmCloudAdminUserManagementComponent,
+    VotmCloudLocationsAssetComponent,
+    VotmCloudGatewaysDetailsComponent,
+    VotmCloudReceiverDetailsComponent,
+    VotmCloudAdminNetworkMapComponent,
+    VotmCloudAdminSensorHomeComponent,
+    VotmCloudAdminSensorDetailsComponent,
+    VotmCloudAdminGatewaysHomeComponent,
+    VotmCloudAdminGatewaysDetailsComponent,
+    VotmCloudAdminReceiverDetailsComponent
   ],
 
 
@@ -201,6 +219,7 @@ const oktaConfig = Object.assign({
     TooltipModule,
     OverlayPanelModule,
     OktaAuthModule,
+    TreeTableModule
   ],
   providers: [
     DatePipe,

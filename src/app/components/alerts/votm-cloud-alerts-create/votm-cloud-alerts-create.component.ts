@@ -13,6 +13,7 @@ import { UserGroup } from 'src/app/models/user-groups';
 import { UserRole } from 'src/app/models/user-role';
 import { config } from 'rxjs';
 import { NavigationService } from 'src/app/services/navigation/navigation.service';
+import { TreeNode } from 'primeng/api';
 
 @Component({
   selector: 'app-votm-cloud-alerts-create',
@@ -27,6 +28,7 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
   orgId: string;
   modal: any;
   alertRuleSignalAssociatedAsset: any = {};
+  treeSignalAssociationList: TreeNode[] = [];
   absoluteThresholds: any[] = [];
   selectedSignals: string[] = [];
   userGroups: UserGroup[] = [];
@@ -52,6 +54,7 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
   accessScopeName: string;
   uomTypes: any[] = [];
   @ViewChild('confirmBox', null) confirmBox: VotmCloudConfimDialogComponent;
+  searchSignalText: any;
 
 
 
@@ -113,6 +116,13 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
             this.alert.alertRuleSignalMapping.forEach(signalMapping => {
               this.selectedSignals.push(signalMapping.signalMappingId);
             });
+            this.selectedSignals = this.getUniqueValues(this.selectedSignals);
+            this.createAssetCheckedProperties();
+            setTimeout(() => {
+              this.checkIfParentsArechecked();
+            });
+            // this.selectSignals();
+            console.log('NG ONINIT')
           });
         this.ALertRuleUserGroupSubscriber();
       } else {
@@ -153,6 +163,10 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
     // this.alert.alertRuleUserGroup = [{ alertUserGroupId: "d042f524-d834-4a03-a21d-06bb3c743679", alertUserGroupRoleId: "1ed266f3-87f7-484a-b402-17a8b4a86836" }];
 
 
+  }
+
+  ngAfterViewInit() {
+    // this.createAssetCheckedProperties();
   }
 
   onUserSelection(user) {
@@ -311,33 +325,132 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
         // console.log('response ', response);
         this.alertRuleSignalAssociatedAsset = response;
         this.createAssetCheckedProperties();
+        setTimeout(() => {
+          this.checkIfParentsArechecked();
+        });
+
       });
   }
 
   createAssetCheckedProperties() {
-    if (this.alertRuleSignalAssociatedAsset &&
-      this.alertRuleSignalAssociatedAsset.locations &&
-      this.alertRuleSignalAssociatedAsset.locations.length > 0) {
-      this.alertRuleSignalAssociatedAsset.locations.forEach(location => {
-        this.assetsChecked[location.locationId] = false;
-        this.selectUnselectAssetCheckbox(location);
-        if (location.assets && location.assets.length > 0) {
-          location.assets.forEach(asset => {
-            this.assetsChecked[asset.assetId] = false;
-            this.selectUnselectAssetCheckbox(asset);
+    console.log('this.alertRuleSignalAssociatedAsset ', this.alertRuleSignalAssociatedAsset);
+
+    if (!this.selectedSignals) {
+      this.selectedSignals = [];
+    }
+    if (this.alertRuleSignalAssociatedAsset) {
+      this.treeSignalAssociationList = [];
+      if (this.alertRuleSignalAssociatedAsset &&
+        this.alertRuleSignalAssociatedAsset.locations &&
+        this.alertRuleSignalAssociatedAsset.locations.length > 0) {
+
+
+        this.alertRuleSignalAssociatedAsset.locations.forEach(location => {
+          this.assetsChecked[location.locationId] = false;
+          let treeNode: TreeNode = {};
+          treeNode.data = { id: location.locationId, label: `Organization > ${location.locationName}`, value: location, parent: null };
+          treeNode.children = [];
+          treeNode.expanded = true;
+          location.signals.forEach(signal => {
+            treeNode.children.push({ expanded: true, data: { id: signal.signalMappingId, label: signal.signalName, value: signal, parent: location } });
           });
-        }
-      });
+          this.treeSignalAssociationList.push(treeNode);
+
+          // this.selectUnselectAssetCheckbox(location);
+
+          if (location.assets && location.assets.length > 0) {
+            let tempTreeNode: TreeNode = {};
+            location.assets.forEach(asset => {
+              this.assetsChecked[asset.assetId] = false;
+              tempTreeNode.data = { id: asset.assetId, label: `${treeNode.label} > ${asset.assetName}`, value: asset, parent: location };
+              tempTreeNode.children = [];
+              tempTreeNode.expanded = true;
+              asset.signals.forEach(signal => {
+                tempTreeNode.children.push({ expanded: true,data: { id: signal.signalMappingId, label: signal.signalName, value: signal, parent: asset } });
+              });
+              this.treeSignalAssociationList.push(tempTreeNode);
+              // this.selectUnselectAssetCheckbox(asset);
+            });
+          }
+        });
+      }
+    }
+
+    this.selectSignals();
+    console.log(' this.treeSignalAssociationList ', this.treeSignalAssociationList);
+  }
+
+  onAssetCollapse(event) {
+    console.log('onAssetCollapse', event);
+    let asset = event.node.data.value;
+    this.selectUnselectAssetCheckbox(asset);
+  }
+
+  onAssetExpand(event) {
+    console.log('onAssetExpand', event);
+    let asset = event.node.data.value;
+    this.selectUnselectAssetCheckbox(asset);
+  }
+
+  onSignalFilter(){
+    console.log(this.searchSignalText)
+    // this.treeSignalAssociationList.forEach
+  }
+
+  checkIfParentsArechecked() {
+    if (this.alertRuleSignalAssociatedAsset) {
+      if (this.alertRuleSignalAssociatedAsset &&
+        this.alertRuleSignalAssociatedAsset.locations &&
+        this.alertRuleSignalAssociatedAsset.locations.length > 0) {
+        this.alertRuleSignalAssociatedAsset.locations.forEach(location => {
+          this.selectUnselectAssetCheckbox(location);
+          if (location.assets && location.assets.length > 0) {
+            location.assets.forEach(asset => {
+              this.selectUnselectAssetCheckbox(asset);
+            });
+          }
+        });
+      }
     }
   }
 
-  onAssetChecked(event, asset) {
+  selectSignals() {
+    if (this.selectedSignals && this.selectedSignals.length > 0) {
+      this.selectedSignals.forEach(signalId => {
+        this.assetsChecked[signalId] = true;
+      })
+    }
+  }
+
+  onAssetChecked(event, value, parent) {
+    // console.log('value ', value)
+    let asset;
+    if (value) {
+      if (value.hasOwnProperty('signalId')) {
+        // Signal
+        this.onSignalSelectionChange(event, value.signalMappingId, parent);
+      } else {
+        if (value.hasOwnProperty('assets') && value.hasOwnProperty('signals')) {
+          // Location
+          asset = value
+        } else {
+          //ASset
+          asset = value
+        }
+      }
+    }
+    if (!this.alert.alertRuleSignalMapping || this.alert.alertRuleSignalMapping.length === 0) {
+      this.alert.alertRuleSignalMapping = [];
+    }
+
+
     if (asset && asset.signals && asset.signals.length > 0) {
       if (event.target.checked) {
         asset.signals.forEach(signal => {
           if (this.selectedSignals.indexOf(signal.signalMappingId) < 0) {
             this.alert.alertRuleSignalMapping.push({ signalMappingId: signal.signalMappingId });
             this.selectedSignals.push(signal.signalMappingId);
+            this.assetsChecked[signal.signalMappingId] = true;
           }
         });
       } else {
@@ -345,6 +458,7 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
           let index = this.alert.alertRuleSignalMapping.findIndex(x => x.signalMappingId === signal.signalMappingId);
           if (index >= 0) {
             this.alert.alertRuleSignalMapping.splice(index, 1);
+            this.assetsChecked[signal.signalMappingId] = false;
           }
           let ind = this.selectedSignals.indexOf(signal.signalMappingId);
           if (ind >= 0) {
@@ -353,7 +467,7 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
         });
       }
     }
-    // console.log(this.selectedSignals);
+    console.log(this.selectedSignals);
   }
 
 
@@ -399,12 +513,15 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
       let checker = (arr, target) => target.every(v => arr.includes(v));
 
       let isAssetSelected = checker(this.selectedSignals, tempSignalArray);
-      // console.log(isAssetSelected, this.selectedSignals, tempSignalArray);
+
+
+
+      let checkBoxId = asset.assetId ? asset.assetId : asset.locationId;
+      let checkbox: any = document.getElementById(checkBoxId);
       if (isAssetSelected) {
-        let checkBoxId = asset.assetId ? asset.assetId : asset.locationId;
-        var checkbox: any = document.getElementById(checkBoxId);
-        console.log(checkbox);
+        console.log('Interminate', checkbox);
         if (checkbox) {
+          checkbox.indeterminate = false;
           checkbox.checked = true;
         }
         asset.assetId ? this.assetsChecked[asset.assetId] = true : this.assetsChecked[asset.locationId] = true;
@@ -418,14 +535,20 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
           });
         });
         if (isSignalFound) {
-          // intermediate
+          // interminate
+          // console.log('Interminate', checkbox);
           asset.assetId ? this.assetsChecked[asset.assetId] = false : this.assetsChecked[asset.locationId] = false;
-          let checkBoxId = asset.assetId ? asset.assetId : asset.locationId;
-          var checkbox: any = document.getElementById(checkBoxId);
           if (checkbox) {
             checkbox.indeterminate = true;
+            // console.log('selected signals ', asset.locationId, this.selectedSignals, tempSignalArray, isAssetSelected, 'interminate');
           }
         } else {
+          asset.assetId ? this.assetsChecked[asset.assetId] = false : this.assetsChecked[asset.locationId] = false;
+          if (checkbox) {
+            checkbox.indeterminate = false;
+            // console.log('checkbox ', checkbox.checked)
+          }
+
           asset.assetId ? this.assetsChecked[asset.assetId] = false : this.assetsChecked[asset.locationId] = false;
         }
       }

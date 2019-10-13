@@ -30,6 +30,13 @@ legend{
   overflow-y: scroll;
   display: block; 
 }
+
+.table2-scroll{
+  // max-height: 180px;
+  overflow: hidden;
+  overflow-y: scroll;
+  display: block; 
+}
 .table-scroll::-webkit-scrollbar {
   width: 8px;
   background-color: #F5F5F5;

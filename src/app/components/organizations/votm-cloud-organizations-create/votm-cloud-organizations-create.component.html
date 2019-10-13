@@ -523,7 +523,7 @@
                         <label class="" votmrequired id="DefaultLangLbl">{{pageLabels.Language.labelName}}:</label>
                         <div class="">
                         <ng-select id="DefaultLang" class="custom" required
-                        [multiple]="false" [(ngModel)]="organization.localeId"
+                        [multiple]="false" [(ngModel)]="organization.localeId" name="organization.localeId"
                         #defLanguage="ngModel" placeholder="Select Language" [disabled]="pageType==='View'">
                     <ng-option value="null" disabled selected>Language</ng-option>
                       <ng-option
