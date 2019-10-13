@@ -29,12 +29,13 @@
 
                     <div class="">
                         <ng-select id="metricTypeDropDown" class="custom" [disabled]="pageType==='View'"
-                          [ngStyle]="{'background-color':pageType==='View'?'#e9ecef':'#fff'}" [multiple]="false"
-                          name="metricType" [(ngModel)]="alert.UomTypeId" placeholder="Choose Type">
-                          <ng-option *ngFor="let metricType of metricTypes" [value]="metricType.id">{{metricType.name}}
-                          </ng-option>
+                            [ngStyle]="{'background-color':pageType==='View'?'#e9ecef':'#fff'}" [multiple]="false"
+                            name="metricType" [(ngModel)]="alert.UomTypeId" placeholder="Choose Type">
+                            <ng-option *ngFor="let metricType of metricTypes" [value]="metricType.id">
+                                {{metricType.name}}
+                            </ng-option>
                         </ng-select>
-                      </div>
+                    </div>
                 </div>
             </div>
             <div class="col-md-4">
@@ -63,12 +64,12 @@
 
                     <div class="">
                         <ng-select id="ruleTypeDropDown" class="custom" [disabled]="pageType==='View'"
-                          [ngStyle]="{'background-color':pageType==='View'?'#e9ecef':'#fff'}" [multiple]="false"
-                          name="ruleType" [(ngModel)]="alert.alertRuleTypeId" placeholder="Choose Type">
-                          <ng-option *ngFor="let ruleType of ruleTypes" [value]="ruleType.id">{{ruleType.name}}
-                          </ng-option>
+                            [ngStyle]="{'background-color':pageType==='View'?'#e9ecef':'#fff'}" [multiple]="false"
+                            name="ruleType" [(ngModel)]="alert.alertRuleTypeId" placeholder="Choose Type">
+                            <ng-option *ngFor="let ruleType of ruleTypes" [value]="ruleType.id">{{ruleType.name}}
+                            </ng-option>
                         </ng-select>
-                      </div>
+                    </div>
                 </div>
             </div>
             <div class="col-md-4 row">
@@ -134,7 +135,7 @@
         </div>
         <div class="row">
             <div class="col-md-6">
-                <fieldset [disabled]="pageType === 'View'">
+                <fieldset  style="height:380px;" [disabled]="pageType === 'View'">
                     <legend id="alertRuleSignallbl">Signal Associations</legend>
                     <ul class="nav nav-tabs">
                         <li class="nav-item">
@@ -149,21 +150,78 @@
                     </ul>
                     <div class="tab-content">
                         <div class="tab-pane fade show active" id="Assets">
-                            <div class="row mt-3 mb-3">
-                                <label id="alertRuleSignalFilterLbl" class="col-sm-6 col-form-label">Type to filter
-                                    names</label>
-                                <div class="col-sm-6">
-                                    <div class="input-group">
-                                        <input type="text" class="form-control" placeholder="enter"
-                                            id="alertRuleSignalFilterInput">
-                                        <div class="input-group-append">
-                                            <span class="input-group-text"><i class="fa fa-search"></i></span>
+
+                            <div>
+                                <!-- <div style="text-align:left">
+                                    <span>
+                                        <div class="row mt-3 mb-3">
+                                            <label id="alertRuleSignalFilterLbl" class="col-sm-6 col-form-label">Type to
+                                                filter
+                                                names</label>
+                                            <div class="col-sm-6">
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control" placeholder="enter"
+                                                        id="alertRuleSignalFilterInput">
+                                                    <div class="input-group-append">
+                                                        <span class="input-group-text"><i
+                                                                class="fa fa-search"></i></span>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="table-scroll scrollbar-primary">
-                                <table class="table table-bordered table-sm">
+                                    </span>
+                                </div> -->
+                                <p-treeTable [scrollable]="true" #tt scrollHeight="200px" [globalFilterFields]="['label']" [resizableColumns]="true"
+                                    [value]="treeSignalAssociationList">
+                                    <ng-template pTemplate="caption">
+                                            <div style="text-align: right">        
+                                                <i class="pi pi-search" style="margin:4px 4px 0 0"></i>
+                                                <input type="text" pInputText size="20" placeholder="Type to filter" (input)="tt.filterGlobal($event.target.value, 'contains')" style="width:auto">
+                                            </div>
+                                        </ng-template>
+                                    <ng-template pTemplate="colgroup">
+                                        <colgroup>
+                                            <col>
+                                            <col [style.width.px]="108">
+                                        </colgroup>
+                                    </ng-template>
+                                    <ng-template pTemplate="header">
+                                        <tr>
+                                            <th ttResizableColumn>Name</th>
+                                            <th class="text-center" ttResizableColumn>Associations</th>
+                                        </tr>
+                                    </ng-template>
+                                    <ng-template pTemplate="body" let-rowNode let-rowData="rowData">
+                                        <tr [ttRow]="rowNode">
+                                            <td>
+                                                <!-- <p-treeTableToggler [rowNode]="rowNode"></p-treeTableToggler> -->
+                                                <div *ngIf="rowData.parent">
+                                                    &nbsp;&nbsp;&nbsp;{{rowData.label}}
+                                                </div>
+                                                <div *ngIf="!rowData.parent" style="font-weight: bold;">
+                                                    {{rowData.label}}
+                                                </div>
+                                            </td>
+                                            <td class="text-center">
+                                                <div class="checkbox">
+                                                    <label><input type="checkbox"
+                                                            [(ngModel)]="assetsChecked[rowData.id]" [name]="rowData.id"
+                                                            [id]="rowData.id"
+                                                            (change)="onAssetChecked($event, rowData.value, rowData.parent)"></label>
+                                                    <!-- (change)="onAssetChecked($event, location)" -->
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </ng-template>
+                                    <ng-template pTemplate="emptymessage">
+                                            <tr>        
+                                                <td [attr.colspan]="2">No data found.</td>
+                                            </tr>
+                                        </ng-template>
+                                </p-treeTable>
+
+
+                                <!-- <table class="table table-bordered table-sm">
                                     <thead>
                                         <tr>
                                             <th>Name</th>
@@ -171,7 +229,6 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <!-- <tr> <td>AHAMED</td><td>ZUBAIR</td></tr> -->
                                         <div *ngFor="let location of alertRuleSignalAssociatedAsset.locations">
                                             <div *ngIf="location.signals && location.signals.length > 0">
                                                 <tr>
@@ -205,7 +262,6 @@
                                                 <tr>
                                                     <td>{{'Organization > '+location.locationName +' > '+asset.assetName}}
                                                     </td>
-                                                    <!-- <td>{{asset.assetName}}</td> -->
                                                     <td class="text-center">
                                                         <div class="checkbox">
                                                             <label><input type="checkbox"
@@ -230,7 +286,7 @@
                                             </div>
                                         </div>
                                     </tbody>
-                                </table>
+                                </table> -->
                             </div>
                         </div>
                         <div class="tab-pane fade" id="Template">
@@ -336,7 +392,7 @@
                 </fieldset>
             </div>
             <div class="col-md-6">
-                <fieldset [disabled]="pageType === 'View'">
+                <fieldset style="height:380px;" [disabled]="pageType === 'View'">
                     <legend>Notified Parties</legend>
                     <div class="">
                         <button class="btn btn-sm btn-secondary mr-2" id="notifyBtn"><i
@@ -355,8 +411,8 @@
                             Launch demo modal
                         </button> -->
                     </div>
-                    <div class="mt-3">
-                        <div class="table2-scroll scrollbar-primary table-responsive">
+                    <div class="mt-3" style="height:80%">
+                        <div class="table2-scroll scrollbar-primary table-responsive" style="height:100%">
                             <table class="table table-bordered table-sm">
                                 <thead>
                                     <tr>
@@ -373,7 +429,7 @@
                                         </td>
                                         <td>{{userGroupSubscriber.userEmail? userGroupSubscriber.userEmail: '-'}}
                                         </td>
-                                  
+
                                         <td>
                                             <div *ngIf="userGroupSubscriber.userGroupId; else userTemplate">
                                                 <select
