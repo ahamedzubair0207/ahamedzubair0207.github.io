@@ -193,15 +193,13 @@
                   <div class="form-group">
                     <label class="" id="icon" for="organizationType">Icon</label>
                     <div class="">
-
                     <ng-select id="iconDropDown" name= "orgLogo"
                     labelForId="orgIcon" class="custom" [searchable]="false" 
-                    [clearable]="false">
+                    [clearable]="false" placeholder="Choose Logo">
                       <ng-option value="company"><i class="icon-org-company"></i></ng-option>
                       <ng-option value="office"><i class="icon-loc-office"></i></ng-option>
                       <ng-option value="struct"><i class="icon-org-struct"></i></ng-option>
                     </ng-select>
-                   
                     </div>
                   </div>
                 </div>
@@ -216,7 +214,7 @@
                         #primaryContactEmailAddress="ngModel" maxlength="100" placeholder="Email Address" name="contact"
                         required>
                       <div class="input-group-append">
-                        <span class="input-group-text"><i class="fa fa-at"></i></span>
+                        <span class="input-group-text"><i class="fa fa-envelope"></i></span>
                       </div>
                     </div>
                     <div *ngIf="primaryContactEmailAddress.dirty && primaryContactEmailAddress.invalid">
@@ -285,7 +283,7 @@
                         #primaryDistributorEmail="ngModel" class="form-control form-control-sm" email
                         placeholder="Primary Distributor Email" maxlength="100" required>
                       <div class="input-group-append">
-                        <span class="input-group-text"><i class="fa fa-at"></i></span>
+                        <span class="input-group-text"><i class="fa fa-envelope"></i></span>
                       </div>
                       <div *ngIf="primaryDistributorEmail.dirty && primaryDistributorEmail.invalid">
                         <app-votm-cloud-validator
@@ -358,13 +356,20 @@
 
                   <div class="col-sm-2">
                     <label id="serviceLbl">{{pageLabels.SVCLevel.labelName}}: </label>
-                    <select [disabled]="pageType==='View'" id="service" [(ngModel)]="organization.svclevels"
+                    <!-- <select [disabled]="pageType==='View'" id="service" [(ngModel)]="organization.svclevels"
                       name="svcLevel" #svcLevel="ngModel" class="drop-down form-control form-control-sm" required>
                       <option value="null" disabled selected>Select Level</option>
                       <option *ngFor="let svcLevel of svcLevels" [value]="svcLevel.optionValue">
                         {{svcLevel.optionValue}}
                       </option>
-                    </select>
+                    </select> -->
+                    <div class="">
+                      <ng-select id="service" class="custom" #svcLevel="ngModel" [disabled]="pageType==='View'"
+                        [ngStyle]="{'background-color':pageType==='View'?'#e9ecef':'#fff'}" [multiple]="false"
+                        name="svcLevel" [(ngModel)]="organization.svclevels" required placeholder="SVC Level">
+                        <ng-option *ngFor="let svcLevel of svcLevels" [value]="svcLevel.optionValue">{{svcLevel.optionValue}}</ng-option>
+                      </ng-select>
+                    </div>
                     <div *ngIf="svcLevel.dirty && svcLevel.invalid">
                       <app-votm-cloud-validator message="SVC Level is required"></app-votm-cloud-validator>
                     </div>
@@ -457,7 +462,7 @@
                         <div class="">
                           <ng-select id="state" class="custom" #state="ngModel" [disabled]="pageType==='View'"
                             [ngStyle]="{'background-color':pageType==='View'?'#e9ecef':'#fff'}" [multiple]="false"
-                            name="state" [(ngModel)]="organization.address[0].state" required>
+                            name="state" [(ngModel)]="organization.address[0].state" required placeholder="State">
                             <ng-option value="null" disabled selected>State</ng-option>
                             <ng-option *ngFor="let state of states" [value]="state.value">{{state.text}}</ng-option>
                           </ng-select>
@@ -516,31 +521,18 @@
                         *ngIf="orgId && applicationConfiguration || !orgId && applicationConfiguration ">
                         <!-- <div class="form-group" *ngIf="!orgId && applicationConfiguration"> -->
                         <label class="" votmrequired id="DefaultLangLbl">{{pageLabels.Language.labelName}}:</label>
-                        <!-- <div class=""> -->
-                        <select required [(ngModel)]="organization.localeId" id="DefaultLang" name="language"
-                          class="drop-down form-control form-control-sm" #defLanguage="ngModel"
-                          [disabled]="pageType==='View'">
-                          <option value="null" disabled selected>Select Language</option>
-                          <option *ngFor="let locale of applicationConfiguration.locale" [value]="locale.localeId">
-                            {{locale.localeName}}
-                          </option>
-                        </select>
-                        <!-- 
-                        <ng-select id="DefaultLang" class="custom" [multiple]="false" [(ngModel)]="organization.localeId"
-                      #defLanguage="ngModel"
-                    >
-                    <ng-option value="null" disabled selected>Select Language</ng-option>
+                        <div class="">
+                        <ng-select id="DefaultLang" class="custom" required
+                        [multiple]="false" [(ngModel)]="organization.localeId" name="organization.localeId"
+                        #defLanguage="ngModel" placeholder="Select Language" [disabled]="pageType==='View'">
+                    <ng-option value="null" disabled selected>Language</ng-option>
                       <ng-option
-                      *ngFor="let locale of applicationConfiguration.locale" [value]="locale.localeId"
-                        >{{locale.localeName}}</ng-option
-                      >
-                    </ng-select> -->
-
-
+                      *ngFor="let locale of applicationConfiguration.locale" [value]="locale.localeId">{{locale.localeName}}</ng-option>
+                    </ng-select>
                         <div *ngIf="defLanguage.dirty && defLanguage.invalid">
                           <app-votm-cloud-validator message="Language is required"></app-votm-cloud-validator>
                         </div>
-                        <!-- </div> -->
+                        </div>
                       </div>
                     </div>
                     <!-- <div class="col-lg-6" *ngIf="orgId && applicationConfiguration">
@@ -569,8 +561,8 @@
                         <!-- <label for="DefatimezoneultLang">* {{pageLabels.TimeZone.labelName}} :</label> -->
                         <label class="" votmrequired id="timezoneLbl">{{pageLabels.DefaultTimeZone.labelName}}
                           :</label>
-                        <!-- <div class=""> -->
-                        <select required #timezone="ngModel" id="timezone" [disabled]="pageType==='View'"
+                        <div class="">
+                        <!-- <select required #timezone="ngModel" id="timezone" [disabled]="pageType==='View'"
                           [(ngModel)]="organization.timeZoneId" name="timezone"
                           class="drop-down form-control form-control-sm">
                           <option value="null" disabled selected>Select Timezone</option>
@@ -578,11 +570,20 @@
                             [value]="timeZone.timeZoneId">
                             {{timeZone.timeZoneName}}
                           </option>
-                        </select>
+                        </select> -->
+
+                        <ng-select id="timezone" required class="custom" name="timezone"
+                        [multiple]="false" [(ngModel)]="organization.timeZoneId"
+                        #timezone="ngModel" placeholder="Select Time Zone" [disabled]="pageType==='View'">
+                    <ng-option value="null" disabled selected>Language</ng-option>
+                      <ng-option
+                      *ngFor="let timeZone of applicationConfiguration.timeZone"
+                            [value]="timeZone.timeZoneId">{{timeZone.timeZoneName}}</ng-option>
+                    </ng-select>
                         <div *ngIf="timezone.dirty && timezone.invalid">
                           <app-votm-cloud-validator message="Timezone is required"></app-votm-cloud-validator>
                         </div>
-                        <!-- </div> -->
+                        </div>
                       </div>
                     </div>
 

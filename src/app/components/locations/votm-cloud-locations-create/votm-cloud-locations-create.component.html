@@ -66,7 +66,7 @@
           <li class="nav-item" placement="top" ngbTooltip="Assets Located in Location">
             <a class="nav-link tab-icon" id="loc-asset-tab" (click)="onClickOfNavTab('asset_association')"
               name="asset-association-edit" href="#loc-asset" data-toggle="tab" role="tab" aria-controls="loc-asset"
-              aria-selected="false"><i class="icon-cell-tower"></i></a>
+              aria-selected="false"><i class="icon-asset-robot"></i></a>
           </li>
 
         </ul>
@@ -135,14 +135,23 @@
                         placeholder="{{parentOrganizationInfo.parentOrganizationName}}" id="locDtlParentOrg" readonly
                         disabled>
                       <ng-template #elsePart>
-                        <select *ngIf="!parentLocId" [disabled]="pageType==='View'" (change)="onParentOrgChange($event)"
+                        <!-- <select *ngIf="!parentLocId" [disabled]="pageType==='View'" (change)="onParentOrgChange($event)"
                           [(ngModel)]="location.organizationId" id="organizationId" name="organizationId"
                           class=" col-sm-7 drop-down form-control form-control-sm" #organizationId="ngModel">
                           <option *ngFor="let org of organizationList" class="dropdown-item"
                             [value]="org.organizationId">
                             {{org.name}}
                           </option>
-                        </select>
+                        </select> -->
+                        <div class="">
+                          <ng-select *ngIf="!parentLocId" [disabled]="pageType==='View'" (change)="onParentOrgChange($event)" 
+                            class="custom" #organizationId="ngModel"
+                            [ngStyle]="{'background-color':pageType==='View'?'#e9ecef':'#fff'}" [multiple]="false"
+                            [(ngModel)]="location.organizationId" id="organizationId" name="organizationId">
+                            <ng-option *ngFor="let org of organizationList" [value]="org.organizationId">{{org.name}}
+                            </ng-option>
+                          </ng-select>
+                        </div>
                       </ng-template>
                       <!-- <label for="parentorganizationname"></label> -->
                     </div>
@@ -494,13 +503,13 @@
                     </select2> -->
                   
                     <ng-select [disabled]="pageType === 'View'"
-                     class="custom" name="GatewayList"
-                     (valueChanged)="onItemSelect($event)" id="locDtlGeoClaimedGateway"
+                    class="custom" name="GatewayList"
+                    (valueChanged)="onItemSelect($event)" id="locDtlGeoClaimedGateway"
                     [items]="gatewayList" [multiple]="true" 
                     (onSelect)="onItemSelect($event)" (onSelectAll)="onSelectAll($event)"
                     [closeOnSelect]="false" 
                     [searchable]="false" bindLabel="gateways"
-                      placeholder="Select Gateways" [(ngModel)]="selectedItems">
+                    placeholder="Select Gateways" [(ngModel)]="selectedItems">
                     </ng-select>
                     <!-- <button class="btn-save btn btn-primary btn-sm">Save</button> -->
                     <!-- </div> -->
@@ -583,8 +592,7 @@
 
           <!-- Associated Asset with the Location  -->
           <div class="tab-pane fade" id="loc-asset" role="tabpanle" area-labelledby="loc-asset-tab">
-
-
+            <app-votm-cloud-locations-asset></app-votm-cloud-locations-asset>
           </div>
 
 
