@@ -1,3 +1,110 @@
-<p>
-  votm-cloud-admin-sensor-details works!
-</p>
+<div class="row">
+  <h5 class="col-12">Sensor Detail</h5>
+</div>
+<div class="row">
+  <div class="col-md-6 col-lg-6 col-xl-6">
+    <div class="row">
+      <div class="col-12 col-md-6 col-lg-4 col-xl-3">
+        <div class="form-group">
+          <label for="s_name">Sensor Name</label>
+          <input class="form-control form-control-sm" placeholder="Pressure - E3000012" type="text" id="s_name" />
+        </div>
+      </div>
+      <div class="col-12 col-md-6 col-lg-4 col-xl-3">
+        <div class="form-group">
+          <label for="s_no">Serial Number</label>
+          <input class="form-control form-control-sm" placeholder="E3000012" type="text" id="s_no" />
+        </div>
+      </div>
+      <div class="col-12 col-md-6 col-lg-4 col-xl-3">
+        <div class="form-group">
+          <label for="s_des">Description</label>
+          <input class="form-control form-control-sm" placeholder="Description" type="text" id="s_des" />
+        </div>
+      </div>
+      <div class="col-12 col-md-6 col-lg-4 col-xl-3">
+        <div class="form-group">
+          <label for="s_type">Sensor Type</label>
+          <input class="form-control form-control-sm" placeholder="sensor type" type="text" id="s_type" />
+        </div>
+      </div>
+      <div class="col-12 col-md-6 col-lg-4 col-xl-3">
+        <div class="form-group">
+          <label for="s_mo_nu">Model Number</label>
+          <input class="form-control form-control-sm" placeholder="sensor type" type="text" id="s_mo_nu" />
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6 col-lg-6 col-xl-6">
+    <div class="row">
+      <div class="col-12 col-md-6 col-lg-4 col-xl-3">
+        <div class="form-group">
+          <label for="s_ow_organization">Owning Organization</label>
+          <input class="form-control form-control-sm" placeholder="Pressure - E3000012" type="text"
+            id="s_ow_organization" />
+        </div>
+      </div>
+      <div class="col-12 col-md-6 col-lg-4 col-xl-3">
+        <div class="form-group">
+          <label for="s_ins_loc">Installed Location</label>
+          <select class="form-control form-control-sm" id="s_ins_loc">
+            <option>Golden Vally</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <fieldset>
+      <legend>Reporting Via Gateway</legend>
+      <div class="row">
+        <div class="col-12 col-md-6 col-lg-4 col-xl-3">
+          <div class="form-group">
+            <label for="s_gw_sn">GW Serial Number</label>
+            <input class="form-control form-control-sm" placeholder="Pressure - E3000012" type="text" id="s_gw_sn" />
+          </div>
+        </div>
+        <div class="col-12 col-md-6 col-lg-4 col-xl-3">
+          <div class="form-group">
+            <label for="s_gw_lo">GW Location</label>
+            <input class="form-control form-control-sm" placeholder="Pressure - E3000012" type="text" id="s_gw_lo" />
+          </div>
+        </div>
+      </div>
+    </fieldset>
+  </div>
+</div>
+<hr>
+<div class="row">
+  <div class="col-6 col-md-3 col-lg-2 col-xl-1">
+    <div class="form-group">
+      <label for="s_se_st">Sensor State</label>
+      <input class="form-control form-control-sm" placeholder="OK" type="text" id="s_se_st" />
+    </div>
+  </div>
+  <div class="col-6 col-md-3 col-lg-2 col-xl-1">
+    <div class="form-group">
+      <label for="s_bt_le">Battery Level</label>
+      <div class="input-group input-group-sm">
+        <div class="input-group-prepend">
+          <span class="input-group-text">
+            <span class="demo-icon icon-battery-75"></span>
+          </span>
+        </div>
+        <input class="form-control form-control-sm" placeholder="2.9 VDC" type="text" id="s_bt_le" />
+      </div>
+    </div>
+  </div>
+  <div class="col-6 col-md-3 col-lg-2 col-xl-1">
+    <div class="form-group">
+      <label for="s_bt_le">Signal Stregth</label>
+      <div class="input-group input-group-sm">
+        <div class="input-group-prepend">
+          <span class="input-group-text">
+            <span class="demo-icon icon-signal-75"></span>
+          </span>
+        </div>
+        <input class="form-control form-control-sm" placeholder="2.9 VDC" type="text" id="s_bt_le" />
+      </div>
+    </div>
+  </div>
+</div>
