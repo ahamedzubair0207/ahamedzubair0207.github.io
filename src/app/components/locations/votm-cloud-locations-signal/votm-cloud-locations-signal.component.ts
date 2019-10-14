@@ -189,6 +189,15 @@ export class VotmCloudLocationsSignalComponent implements OnInit, AfterViewInit 
         });
       });
     };
+
+    $(document).on('mousedown', '#signal-edit-btn', (e) => {
+      console.log('hello world');
+      e.stopPropagation();
+    });
+    $(document).on('mouseup', '#signal-edit-btn', (e) => {
+      console.log('hello world mouse up');
+      e.stopPropagation();
+    });
     // this.configSensors('#sensor-cont', '#map-cont-1');
   }
 
@@ -290,38 +299,55 @@ export class VotmCloudLocationsSignalComponent implements OnInit, AfterViewInit 
             .addClass('list-bkg')
             .appendTo(dockCntrSel)
             .data('dragEl', $sensor)
-            .on('mousedown', function(e) {
-              $(this)
-                .removeClass('docked')
-                .data('dragEl')
-                .removeClass('docked')
-                .offset({
-                  left: $(this).offset().left,
-                  top: $(this).offset().top
-                })
-                .trigger(
-                  $.Event('mousedown', { pageX: e.pageX, pageY: e.pageY })
-                );
-              return false;
-            })
+            // .on('mousedown', function(e) {
+            //   $(this)
+            //     .removeClass('docked')
+            //     .data('dragEl')
+            //     .removeClass('docked')
+            //     .offset({
+            //       left: $(this).offset().left,
+            //       top: $(this).offset().top
+            //     })
+            //     .trigger(
+            //       $.Event('mousedown', { pageX: e.pageX, pageY: e.pageY })
+            //     );
+            //   return false;
+            // })
         );
-        this.sensors[sIx]['sensorEl'] = $sensor;
+        this.sensors[sIx].sensorEl = $sensor;
         if (sensorItem.node.length > 0) {
           $.each(sensorItem.node, (dsIx, dsItem) => {
             const index = this.associatedSignals.findIndex(
               signal => signal.signalId === this.sensors[sIx].node[dsIx].id
             );
-            
+            console.log(index);
             $sensor = $(
               '<div class=\'sensor-circle secondary-ds signalicon-humidity\'>'
-            ).html(dsItem.name)
+            )
               .data('sIx', sIx)
               .data('dsIx', dsIx)
-              .appendTo(mapCntrSel);
+              .appendTo(mapCntrSel)
+              .on('mouseover', function(ev) {
+                $('#signal-name').show();
+                $('#signal-edit-btn').show();
+                $('#signal-alert-btn').show();
+                $('#signal-detach-btn').show();
+                $(this).removeClass('pad-18');
+                ev.stopPropagation();
+              }).on('mouseleave', function(ev) {
+                $('#signal-name').hide();
+                $('#signal-edit-btn').hide();
+                $('#signal-alert-btn').hide();
+                $('#signal-detach-btn').hide();
+                $(this).addClass('pad-18');
+                ev.stopPropagation();
+              });
+            
             $sensor.data(
               'dockEl',
               $sensor
                 .clone()
+                .html(dsItem.name)
                 .addClass('list-bkg docked')
                 .appendTo(dockCntrSel)
                 .data('dragEl', $sensor)
@@ -340,6 +366,16 @@ export class VotmCloudLocationsSignalComponent implements OnInit, AfterViewInit 
                   return false;
                 })
             );
+            $sensor.append('<span id="signal-name">' + dsItem.name + '</span>' 
+            + '<a id="signal-edit-btn" style="width: 30px; height:30px;" class="icon-edit"></a>'
+            + '<a id="signal-alert-btn" style="width: 30px; height:30px;" class="icon-warn"></a>'
+            + '<a id="signal-detach-btn" style="width: 30px; height:30px;" class="icon-unlink"></a>')
+            .append();
+            $('#signal-name').hide();
+            $('#signal-edit-btn').hide();
+            $('#signal-alert-btn').hide();
+            $('#signal-detach-btn').hide();
+            $sensor.addClass('pad-18');
             if (index !== -1) {
               $sensor.clone()
               .css({
@@ -353,7 +389,7 @@ export class VotmCloudLocationsSignalComponent implements OnInit, AfterViewInit 
               console.log($sensor.data('sIx'));
               console.log($sensor.data('dsIx'));
             }
-            this.sensors[sIx].node[dsIx]['sensorEl'] = $sensor;
+            this.sensors[sIx].node[dsIx].sensorEl = $sensor;
           });
         }
       });
