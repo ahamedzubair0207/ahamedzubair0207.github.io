@@ -58,7 +58,247 @@
 
     <div class="tab-pane fade show active border border-top-0 p-3 mb-3 flex-grow-1 shadow" 
       id="detailed-gateways-tab" role="tabpanle" area-labelledby="details-gateways-tab">
-      Gateways Details Design Goes here 
+      <h5>Gateways Details</h5>
+      <div class="row">
+        <div class="col-md-6 col-lg-6 col-xl-6">
+          <div class="row">
+            <div class="col-12 col-md-6 col-lg-4 col-xl-3">
+              <div class="form-group">
+                <label for="g_name">Gateway Name</label>
+                <input class="form-control form-control-sm" placeholder="QCD Lab" type="text" id="g_name" />
+              </div>
+            </div>
+            <div class="col-12 col-md-6 col-lg-4 col-xl-3">
+              <div class="form-group">
+                <label for="g_type">Gateway Type</label>
+                <input class="form-control form-control-sm" placeholder="QCD Vantron" type="text" id="g_type" />
+              </div>
+            </div>
+            <div class="col-12 col-md-6 col-lg-4 col-xl-3">
+              <div class="form-group">
+                <label for="g_mac">Eth0 MAC</label>
+                <input class="form-control form-control-sm" placeholder="18:9b:a5:10:21:34" type="text" id="g_mac" />
+              </div>
+            </div>
+            <div class="col-12 col-md-6 col-lg-4 col-xl-3">
+              <div class="form-group">
+                <label for="g_hd_ver">Hardware Version</label>
+                <input class="form-control form-control-sm" placeholder="VoM 2.0" type="text" id="g_hd_ver" />
+              </div>
+            </div>
+            <div class="col-12 col-md-6 col-lg-4 col-xl-3">
+              <div class="form-group">
+                <label for="g_eth1_mac">Eth1 MAC</label>
+                <input class="form-control form-control-sm" placeholder="18:9b:a5:10:21:34" type="text" id="g_eth1_mac" />
+              </div>
+            </div>
+            <div class="col-12 col-md-6 col-lg-4 col-xl-3">
+              <div class="form-group">
+                <label for="g_sw_ver">Software Version</label>
+                <input class="form-control form-control-sm" placeholder="VoM Edge 2.0" type="text" id="g_sw_ver" />
+              </div>
+            </div>
+          </div>
+          <fieldset class="mb-3">
+              <legend>Network Details</legend>
+              <div class="row">
+                <div class="col-12 col-md-6 col-lg-4 col-xl-3">
+                  <div class="form-group">
+                    <label for="g_eth0_ipv4">Eth0 IPv4</label>
+                    <div class="input-group input-group-sm">
+                        <div class="input-group-prepend">
+                            <button type="button" class="btn btn-outline-secondary dropdown-toggle" data-toggle="dropdown">DHCP</button>
+                            <div class="dropdown-menu">
+                                <a href="#" class="dropdown-item">DHCP</a>
+                                <a href="#" class="dropdown-item">Static</a>
+                            </div>
+                        </div>
+                        <input type="text" class="form-control form-control-sm" placeholder="192.168.10.5/24" type="text" id="g_eth0_ipv4">
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12 col-md-6 col-lg-4 col-xl-3">
+                  <div class="form-group">
+                    <label for="g_dns">DNS</label>
+                    <input class="form-control form-control-sm" placeholder="10.91GiB" type="text" id="g_dns" />
+                  </div>
+                </div>
+                <div class="col-12 col-md-6 col-lg-4 col-xl-3">
+                  <div class="form-group">
+                    <label for="g_eth1_ipv4">Eth1 IPv4</label>
+                    <div class="input-group input-group-sm">
+                      <div class="input-group-prepend">
+                        <button type="button" class="btn btn-outline-secondary dropdown-toggle" data-toggle="dropdown">DHCP</button>
+                        <div class="dropdown-menu">
+                          <a href="#" class="dropdown-item">DHCP</a>
+                          <a href="#" class="dropdown-item">Static</a>
+                        </div>
+                      </div>
+                      <input type="text" class="form-control form-control-sm" placeholder="192.168.10.5/24" type="text"
+                        id="g_eth1_ipv4">
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12 col-md-6 col-lg-4 col-xl-3">
+                  <div class="form-group">
+                    <label for="g_dns1">DNS</label>
+                    <input class="form-control form-control-sm" placeholder="10.91GiB" type="text" id="g_dns1" />
+                  </div>
+                </div>
+                <div class="col-12 col-md-6 col-lg-4 col-xl-3">
+                  <div class="form-group">
+                    <label for="g_eth0_ipv4">WiFi IPv4</label>
+                    <div class="input-group input-group-sm">
+                      <div class="input-group-prepend">
+                        <button type="button" class="btn btn-outline-secondary dropdown-toggle" data-toggle="dropdown">DHCP</button>
+                        <div class="dropdown-menu">
+                          <a href="#" class="dropdown-item">DHCP</a>
+                          <a href="#" class="dropdown-item">Static</a>
+                        </div>
+                      </div>
+                      <input type="text" class="form-control form-control-sm" placeholder="192.168.10.5/24" type="text"
+                        id="g_eth0_ipv4">
+                    </div>
+                  </div>
+                </div>
+                <div class="col-8 col-md-6 col-lg-2 col-xl-2">
+                  <div class="form-group">
+                    <label for="g_ssid">SSID</label>
+                    <input class="form-control form-control-sm" placeholder="10.91GiB" type="text" id="g_ssid" />
+                  </div>
+                </div>
+                <div class="col-4 col-md-6 col-lg-2 col-xl-2">
+                  <div class="form-group">
+                    <label for="g_signal">Signal</label>
+                    <span class="form-control form-control-sm border-0"><i class="demo-icon icon-signal"></i></span>
+                  </div>
+                </div>
+              </div>
+            </fieldset>
+        </div>
+        <div class="col-md-6 col-lg-6 col-xl-6">
+          <fieldset class="mb-3">
+            <legend>Cellular</legend>
+            <div class="row">
+              <div class="col-12 col-md-6 col-lg-4 col-xl-3">
+                <div class="form-group">
+                  <label for="g_provide">Provide</label>
+                  <input class="form-control form-control-sm" placeholder="AT & T" type="text" id="g_provide" />
+                </div>
+              </div>
+              <div class="col-12 col-md-6 col-lg-3 col-xl-3">
+                <div class="form-group">
+                  <label for="g_sim">SIM</label>
+                  <input class="form-control form-control-sm" placeholder="1234567890123456" type="text" id="g_sim" />
+                </div>
+              </div>
+              <div class="col-12 col-md-6 col-lg-1 col-xl-1">
+                <div class="form-group">
+                  <label for="g_signal">Signal</label>
+                  <span class="form-control form-control-sm border-0"><i class="demo-icon icon-signal"></i></span>
+                </div>
+              </div>
+              <div class="col-12 col-md-6 col-lg-4 col-xl-3">
+                <div class="form-group">
+                  <label for="g_ime">IME</label>
+                  <input class="form-control form-control-sm" placeholder="1234567890123456" type="text" id="g_ime" />
+                </div>
+              </div>
+            </div>
+          </fieldset>
+          <fieldset class="mb-3">
+              <legend>Gateway Usage</legend>
+              <div class="row">
+                <div class="col-12 col-md-6 col-lg-4 col-xl-3">
+                  <div class="form-group">
+                    <label for="g_storage">Storage</label>
+                    <input class="form-control form-control-sm" placeholder="11.85GiB" type="text" id="g_storage" />
+                  </div>
+                </div>
+                <div class="col-12 col-md-6 col-lg-4 col-xl-3">
+                  <div class="form-group">
+                    <label for="g_used">Used</label>
+                    <input class="form-control form-control-sm" placeholder="10.91GiB" type="text" id="g_used" />
+                  </div>
+                </div>
+                <div class="col-12 col-md-6 col-lg-4 col-xl-3">
+                  <div class="form-group">
+                    <label for="g_available1">Available</label>
+                    <input class="form-control form-control-sm" placeholder="1905.66MiB" type="text" id="g_available1" />
+                  </div>
+                </div>
+                <div class="col-12 col-md-6 col-lg-4 col-xl-3">
+                  <div class="form-group">
+                    <label for="g_memory">Memory</label>
+                    <input class="form-control form-control-sm" placeholder="1905.66MiB" type="text" id="g_memory" />
+                  </div>
+                </div>
+                <div class="col-12 col-md-6 col-lg-4 col-xl-3">
+                  <div class="form-group">
+                    <label for="g_used">Used</label>
+                    <input class="form-control form-control-sm" placeholder="10.66MiB" type="text" id="g_used" />
+                  </div>
+                </div>
+                <div class="col-12 col-md-6 col-lg-4 col-xl-3">
+                  <div class="form-group">
+                    <label for="g_available">Available</label>
+                    <input class="form-control form-control-sm" placeholder="195.66GiB" type="text" id="g_available" />
+                  </div>
+                </div>
+              </div>
+            </fieldset>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <fieldset class="mb-3">
+            <legend>Gateway Log</legend>
+            <div class="row">
+              <div class="col-12 col-md-4 col-lg-3 col-xl-2">
+                <div class="form-group">
+                  <label for="g_log_status">Status</label>
+                  <input class="form-control form-control-sm" placeholder="Offline" type="text" id="g_log_status" />
+                </div>
+              </div>
+              <div class="col-12 col-md-4 col-lg-3 col-xl-2">
+                <div class="form-group">
+                  <label for="g_log_last">Last Online</label>
+                  <input class="form-control form-control-sm" placeholder="9/23/2019 @ 7:00pm" type="text" id="g_log_last" />
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12 col-md-4 col-lg-3 col-xl-2">
+                <div class="alert alert-warning">
+                  <strong>Low</strong> Cellular Signal - <b>09/23/2019</b><i> @ 07:00pm</i>
+                </div>
+              </div>
+              <div class="col-12 col-md-4 col-lg-3 col-xl-2">
+                <div class="alert alert-success">
+                  <strong>WiFi</strong> Offline - <b>09/23/2019</b><i> @ 01:00pm</i>
+                </div>
+              </div>
+              <div class="col-12 col-md-4 col-lg-3 col-xl-2">
+                <div class="alert alert-info">
+                  <strong>Reboot</strong> complete - <b>09/23/2019</b><i> @ 12:00pm</i>
+                </div>
+              </div>
+              <div class="col-12 col-md-4 col-lg-3 col-xl-2">
+                <div class="alert alert-danger ">
+                  <strong>Reboot</strong> complete - <b>09/23/2019</b><i> @ 12:00pm</i>
+                </div>
+              </div>
+            </div>
+            <div class="ml-auto text-right">
+              <button class="btn btn-info btn-sm">Reboot Gateway</button>
+            </div>
+          </fieldset>
+        </div>
+        <div class="ml-auto mr-3">
+          <button class="btn btn-outline-secondary btn-sm mr-2">Cancel</button>
+          <button class="btn btn-info btn-sm">Save</button>
+        </div>
+      </div>
     </div>
 
     <!-- Receiver details Tab  -->

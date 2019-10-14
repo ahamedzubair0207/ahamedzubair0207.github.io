@@ -60,6 +60,7 @@ import {
   OktaAuthModule,
   OktaCallbackComponent,
 } from '@okta/okta-angular';
+import { VotmCloudAdminSensorDetailsComponent } from './components/admin/admin-sensors/votm-cloud-admin-sensor-details/votm-cloud-admin-sensor-details.component';
 
 
 const routes: Routes = [
@@ -298,8 +299,12 @@ const routes: Routes = [
     component: VotmCloudAdminPanelComponent
   },
   {
-    path: 'admin/networkmanagement/GatewayDetails',
+    path: 'admin/networkmanagement/GatewayDetails/:gatewayId',
     component: VotmCloudAdminGatewaysDetailsComponent
+  },
+  {
+    path: 'admin/networkmanagement/sensorDetails/:sensorId',
+    component: VotmCloudAdminSensorDetailsComponent
   },
   {
     path: 'super',

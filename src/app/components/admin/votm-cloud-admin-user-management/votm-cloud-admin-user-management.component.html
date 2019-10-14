@@ -276,6 +276,23 @@
                     </select>
                   </div>
                 </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="guest_access">Role</label>
+                    <ng-select id="addUserRole" class="custom"
+                        [ngStyle]="{'background-color':pageType==='View'?'#e9ecef':'#fff'}" [multiple]="false"
+                        name="addRole">
+                        <ng-option value="Read Only">Read Only
+                        </ng-option>
+                        <ng-option value="Normal/Intermediate">Normal/Intermediate
+                        </ng-option>
+                        <ng-option value="Administrator">Administrator
+                        </ng-option>
+                        <ng-option value="Creator">Creator
+                        </ng-option>
+                      </ng-select>
+                  </div>
+                </div>
               </div>
             </div>
             <div class="col-md-6">

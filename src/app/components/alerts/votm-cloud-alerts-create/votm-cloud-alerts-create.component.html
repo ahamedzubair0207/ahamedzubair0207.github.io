@@ -516,7 +516,8 @@
                             <td>{{notifyUser.firstName}}</td>
                             <td>{{notifyUser.lastName}}</td>
                             <td>{{notifyUser.emailId}}</td>
-                            <td><a style="cursor: pointer;" (click)="onUserSelection(notifyUser)"><i
+                            <td><a [ngStyle]="{'cursor':(checkForUserGroupSelected(notifyUser.userId, 'User')?'auto':'pointer')}" (click)="onUserSelection(notifyUser)">
+                                <i  [ngStyle]="{'color':(checkForUserGroupSelected(notifyUser.userId, 'User')?'#29a7a1':'black')}"
                                         class="icon-user-add"></i></a></td>
                         </tr>
                     </tbody>
@@ -562,8 +563,8 @@
                         <tr *ngFor="let userGroup of userGroups let i=index;">
                             <th scope="row">{{i+1}}</th>
                             <td>{{userGroup.userGroupName}}</td>
-                            <td><a style="cursor: pointer;" (click)="onUserGroupSelection(userGroup)"><i
-                                        class="icon-user-add"></i></a></td>
+                            <td><a [ngStyle]="{'cursor':(checkForUserGroupSelected(userGroup.userGroupId, 'UserGroup')?'auto':'pointer')}" (click)="onUserGroupSelection(userGroup)"><i
+                                        class="icon-user-add"  [ngStyle]="{'color':(checkForUserGroupSelected(userGroup.userGroupId, 'UserGroup')?'#29a7a1':'black')}"></i></a></td>
                         </tr>
                     </tbody>
                 </table>
