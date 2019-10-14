@@ -169,7 +169,7 @@
                       <ng-select id="parentOrgLblList" class="custom" [disabled]="pageType==='View'"
                         [ngStyle]="{'background-color':pageType==='View'?'#e9ecef':'#fff'}" [multiple]="false"
                         name="parentOrgLblList" [(ngModel)]="organization.parentOrganizationId">
-                        <ng-option *ngFor="let org of organizationList" [value]="org.organizationId">{{org.name}}
+                        <ng-option *ngFor="let org of organizationList" [value]="org.organizationId" id="parentOrgLblList">{{org.name}}
                         </ng-option>
                       </ng-select>
                     </div>

@@ -187,6 +187,18 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
     // console.log(' this.alert.alertRuleUserGroup ', this.alert.alertRuleUserGroup);
   }
 
+  checkForUserGroupSelected(tempUserGroupId, type) {
+    let checkRoleExistence = false;
+    if (this.alert && this.alert.alertRuleUserGroup) {
+      if (type === 'User') {
+        checkRoleExistence = this.alert.alertRuleUserGroup.some(({ userId }) => userId === tempUserGroupId)
+      } else {
+        checkRoleExistence = this.alert.alertRuleUserGroup.some(({ userGroupId }) => userGroupId === tempUserGroupId)
+      }
+    }
+    return checkRoleExistence;
+  }
+
   onUserGroupSelection(userGroup) {
     // console.log('Notified User ', userGroup);
     let found: boolean = false;
@@ -366,7 +378,7 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
               tempTreeNode.children = [];
               tempTreeNode.expanded = true;
               asset.signals.forEach(signal => {
-                tempTreeNode.children.push({ expanded: true,data: { id: signal.signalMappingId, label: signal.signalName, value: signal, parent: asset } });
+                tempTreeNode.children.push({ expanded: true, data: { id: signal.signalMappingId, label: signal.signalName, value: signal, parent: asset } });
               });
               this.treeSignalAssociationList.push(tempTreeNode);
               // this.selectUnselectAssetCheckbox(asset);
@@ -392,7 +404,7 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
     this.selectUnselectAssetCheckbox(asset);
   }
 
-  onSignalFilter(){
+  onSignalFilter() {
     console.log(this.searchSignalText)
     // this.treeSignalAssociationList.forEach
   }
@@ -604,16 +616,16 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
     if (this.alertId) {
       this.alertsService.updateAlertRule(this.alert)
         .subscribe(response => {
-          this.toaster.onSuccess('Successfully Updated', 'Saved');
+          this.toaster.onSuccess(`${this.alert.alertRuleName} updated successfully`, 'Updated');
           console.log('response ', response);
           this.routerLocation.back();
         }, error => {
-          this.toaster.onFailure('Something went wrong. Please fill the form correctly', 'Fail');
+          this.toaster.onFailure('Something went wrong. Please fill the form correctly', 'Failed');
         });
     } else {
       this.alertsService.createAlertRule(this.alert)
         .subscribe(response => {
-          this.toaster.onSuccess('Successfully saved', 'Saved');
+          this.toaster.onSuccess(`${this.alert.alertRuleName} created successfully`, 'Created');
           console.log('response ', response);
           this.routerLocation.back();
         }, error => {
@@ -643,7 +655,7 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
     if (!this.notifyUsers || this.notifyUsers.length === 0) {
       this.userService.getAllUsers()
         .subscribe(response => {
-          console.log('response ', response);
+          console.log('response Notify Users ', response);
           this.notifyUsers = [];
           this.notifyUsers = response;
         });
@@ -656,9 +668,9 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
 
   onLockClick() {
     if (this.pageType.toLowerCase() === 'view') {
-      this.route.navigate([`alertRule/view/${this.alertId}`]);
+      this.route.navigate([`../../edit/${this.alertId}`], { relativeTo: this.activeroute });
     } else {
-      this.route.navigate([`alertRule/view/${this.alertId}`]);
+      this.route.navigate([`../../view/${this.alertId}`], { relativeTo: this.activeroute });
     }
   }
 
