@@ -182,25 +182,13 @@
                       id="iconDropDown"
                       class="custom"
                       [searchable]="false"
-                      [clearable]="false"
-                      >
+                      [clearable]="false">
                         <ng-option value="company"><i class="icon-location"></i></ng-option>
                         <ng-option value="company"><i class="icon-loc-pin-map"></i></ng-option>
                         <ng-option value="company"><i class="icon-loc-pin-factory"></i></ng-option> 
                         <ng-option value="company"><i class="icon-loc-floor-plan"></i></ng-option>
                         <ng-option value="company"><i class="icon-loc-pin-floor-plan"></i></ng-option>
                       </ng-select>
-                      <!-- <select class="selectpicker form-control-sm form-control" data-style-base="form-control">
-                        <option data-icon="icon-org-company"></option>
-                        <option data-icon="icon-loc-office"></option>
-                        <option data-icon="icon-org-struct"></option>
-                      </select> -->
-                      <!-- <input type="text" id="icon" class="form-control form-control-sm" placeholder="icon" name="icon">
-                      <app-votm-cloud-char-validator> </app-votm-cloud-char-validator>
-                      <div class="input-group-append">
-                        <span class="input-group-text"><i class="fa fa-image"></i></span>
-                      </div> -->
-                    <!-- </div> -->
                   </div>
                 </div>
 
@@ -215,14 +203,13 @@
                         [(ngModel)]="parentLocName" id="locDtlParentLoc" readonly disabled>
 
                       <ng-template #elseLocationPart>
-                        <select [disabled]="pageType==='View'" [(ngModel)]="location.parentLocationId"
-                          id="parentLocation" name="installedLocation"
-                          class=" col-sm-7 drop-down form-control form-control-sm" #parentLocation="ngModel">
-                          <option value="null" selected>Select Location</option>
-                          <option *ngFor="let loc of locationListForDropDown" [value]="loc.id">
-                            {{loc.name}}
-                          </option>
-                        </select>
+                        <ng-select [disabled]="pageType==='View'" 
+                            class="custom"  #parentLocation="ngModel"
+                            [ngStyle]="{'background-color':pageType==='View'?'#e9ecef':'#fff'}" [multiple]="false"
+                            [(ngModel)]="location.parentLocationId" id="parentLocation" name="installedLocation" placeholder="Choose Parent Location">
+                            <ng-option *ngFor="let loc of locationListForDropDown" [value]="loc.id">{{loc.name}}
+                            </ng-option>
+                          </ng-select>
                       </ng-template>
                       <!-- <label for="parentLocname">{{parentLocName}}</label> -->
                     </div>
@@ -307,14 +294,23 @@
                       <div class="col-6 form-group">
 
                         <!-- <select [disabled]="pageType==='View' || !location.address[0].country" -->
-                        <select [disabled]="pageType==='View'" [(ngModel)]="location.address[0].state" name="state"
+                        <!-- <select [disabled]="pageType==='View'" [(ngModel)]="location.address[0].state" name="state"
                           class="drop-down form-control form-control-sm" #state="ngModel" required
                           aria-placeholder="State" id="locDtlStrtState">
                           <option value="null" disabled selected>State</option>
                           <option *ngFor="let state of states" [value]="state.value">
                             {{state.text}}
                           </option>
-                        </select>
+                        </select> -->
+
+                        <ng-select [disabled]="pageType==='View'" 
+                            class="custom"  #state="ngModel" required
+                            [ngStyle]="{'background-color':pageType==='View'?'#e9ecef':'#fff'}" [multiple]="false"
+                            [(ngModel)]="location.address[0].state" placeholder="State" id="locDtlStrtState" name="state">
+                            <ng-option *ngFor="let state of states" [value]="state.value">{{state.text}}
+                            </ng-option>
+                          </ng-select>
+
                         <div *ngIf="state.dirty && state.invalid">
                           <app-votm-cloud-validator message="State is required"></app-votm-cloud-validator>
                         </div>
@@ -322,14 +318,22 @@
 
                       <div class="col-6 form-group">
                         <!-- <label for="country">* {{pageLabels.Country.labelName}}:</label> -->
-                        <select [disabled]="pageType==='View'" [(ngModel)]="location.address[0].country" name="country"
+                        <!-- <select [disabled]="pageType==='View'" [(ngModel)]="location.address[0].country" name="country"
                           class="drop-down form-control form-control-sm" (change)="onCountryChange()" required
                           #country="ngModel" id="locDtlStrtCountry">
                           <option value="null" disabled selected>Country</option>
                           <option *ngFor="let country of countries" [value]="country.countryName">
                             {{country.countryName}}
                           </option>
-                        </select>
+                        </select> -->
+
+                        <ng-select [disabled]="pageType==='View'"  #country="ngModel"
+                            class="custom"  (change)="onCountryChange()" required
+                            [ngStyle]="{'background-color':pageType==='View'?'#e9ecef':'#fff'}" [multiple]="false"
+                            [(ngModel)]="location.address[0].country" placeholder="Country" id="locDtlStrtCountry" name="country">
+                            <ng-option *ngFor="let country of countries" [value]="country.countryName">{{country.countryName}}
+                            </ng-option>
+                          </ng-select>
                         <div *ngIf="country.dirty && country.invalid">
                           <app-votm-cloud-validator message="Country is required"></app-votm-cloud-validator>
                         </div>
@@ -371,8 +375,8 @@
                       <input type="text" [disabled]="pageType==='View'" [(ngModel)]="location.longitude"
                         class="geo-loc-lat form-control form-control-sm" placeholder="Latitude" name="geoLocationLat"
                         #geoLocationLat="ngModel" maxlength="50" id="locDtlGeoLatitude">
-                      <button id="geo-loc-btn" type="button" class="btn rounded-circle btn-sm"
-                        (click)="onGeoLocationClick()"><i class="icon-loc-pin-map"></i>Geocode</button>
+                      <button id="geo-loc-btn" type="button" class="btn btn-outline-secondary btn-sm"
+                        (click)="onGeoLocationClick()"><i class="icon-bullseye"></i>Geocode</button>
                       <div
                         *ngIf="(geoLocationLong.dirty && geoLocationLong.invalid) || (geoLocationLat.dirty && geoLocationLat.invalid) ">
                         <app-votm-cloud-validator [message]="geoLocationErrorMessage"></app-votm-cloud-validator>
@@ -450,8 +454,8 @@
                           {{timeZone.timeZoneName}}
                         </option>
                       </select>
-                      <button id="geo-loc-btn-lookup" type="button" class="btn rounded-circle btn-sm p-0"
-                        (click)="onLookupClick()"><i class="fa fa-bullseye"></i>Lookup</button>
+                      <button id="geo-loc-btn-lookup" type="button" class="btn btn-outline-secondary btn-sm p-0"
+                        (click)="onLookupClick()"><i class="icon-bullseye"></i>Lookup</button>
                       <div *ngIf="timezone.dirty && timezone.invalid">
                         <app-votm-cloud-validator message="TimeZone is required"></app-votm-cloud-validator>
                       </div>
@@ -464,13 +468,22 @@
                     <label class="" id="DefaultLang" votmrequired>{{pageLabels.Language.labelName}}
                       :</label>
                     <div class="">
-                      <select [disabled]="pageType==='View'" required [(ngModel)]="location.localeId" name="language"
+                      <!-- <select [disabled]="pageType==='View'" required [(ngModel)]="location.localeId" name="language"
                         class="drop-down form-control form-control-sm" #defLanguage="ngModel" id="locDtlGeoLang1">
                         <option value="null" disabled selected>Select Language</option>
                         <option *ngFor="let locale of applicationConfiguration.locale" [value]="locale.localeId">
                           {{locale.localeName}}
                         </option>
-                      </select>
+                      </select> -->
+
+                      <ng-select [disabled]="pageType==='View'"  #defLanguage="ngModel"
+                      class="custom" required
+                      [ngStyle]="{'background-color':pageType==='View'?'#e9ecef':'#fff'}" [multiple]="false"
+                      [(ngModel)]="location.localeId" placeholder="Select Language" id="locDtlGeoLang1" name="language">
+                      <ng-option *ngFor="let locale of applicationConfiguration.locale" [value]="locale.localeId">{{locale.localeName}}
+                      </ng-option>
+                    </ng-select>
+
                       <div *ngIf="defLanguage.dirty && defLanguage.invalid">
                         <app-votm-cloud-validator message="Language is required"></app-votm-cloud-validator>
                       </div>
@@ -605,7 +618,7 @@
 <!-- Location Events Log  -->
     <div class="tab-pane fade border border-top-0 p-3 mb-3 flex-grow-1" id="event-details-tab" role="tabpanle"
       area-labelledby="event-details-tab">
-      <app-votm-cloud-events-home></app-votm-cloud-events-home>
+      <app-votm-cloud-events-loc></app-votm-cloud-events-loc>
     </div>
 
     <!-- <div class="tab-pane fade border border-top-0 p-3 mb-3 flex-grow-1" id="dashboard1-details-tab" role="tabpanle"
@@ -671,11 +684,11 @@
     <div class="modal-content">
       <div class="modal-header">
         <label for="UOM" class="pr-2">Units of Measure :</label>
-        <div class="form-check form-check-inline">
+        <!-- <div class="form-check form-check-inline">
           <input [disabled]="pageType==='View'" class="form-check-input form-control-sm" type="radio" value="SI"
             name="UOM" (change)="onUnitChange($event)" checked id="f-si">
           <label class="form-check-label" for="f-si">SI</label>
-        </div>
+        </div> -->
         <div class="form-check form-check-inline">
           <input [disabled]="pageType==='View'" class="form-check-input" type="radio" value="Imperial" name="UOM"
             (change)="onUnitChange($event)" id="f-imperial">
@@ -714,7 +727,7 @@
               </div>
             </div>
 
-            <div class="col-4">
+            <!-- <div class="col-4">
               <div class="row form-group">
                 <label class="col-sm-4 col-form-label" for="uom.uomTypeName">{{uom.uomTypeName}}:</label>
                 <div class="col-sm-8">
@@ -728,7 +741,7 @@
                   </select>
                 </div>
               </div>
-            </div>
+            </div> -->
 
             <div class="col-4" *ngIf="applicationConfiguration.unitOfMeassurement[i+1]">
               <div class="row form-group">
@@ -753,10 +766,10 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button id="loc-uom-cancle" type="button" class="btn button-mod btn-secondary"
+        <button id="loc-uom-cancle" type="button" class="btn btn-sm btn-secondary"
           (click)="closemodal('cancel')">Cancel
         </button>
-        <button id="loc-uom-save" type="button" class="btn button-mod btn-color"
+        <button id="loc-uom-save" type="button" class="btn btn-info btn-sm"
           (click)="closemodal('save')">Save</button>
       </div>
 

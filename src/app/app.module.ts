@@ -18,7 +18,7 @@ import UserAuthenticationConfig from './pcm.configuration';
 
 
 import { NgSelectModule } from '@ng-select/ng-select';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModule, NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { VotmCloudViewsHomeComponent } from './components/views/votm-cloud-views-home/votm-cloud-views-home.component';
@@ -126,6 +126,8 @@ import { VotmCloudAdminSensorDetailsComponent } from './components/admin/admin-s
 import { VotmCloudAdminGatewaysHomeComponent } from './components/admin/admin-gateways/votm-cloud-admin-gateways-home/votm-cloud-admin-gateways-home.component';
 import { VotmCloudAdminGatewaysDetailsComponent } from './components/admin/admin-gateways/votm-cloud-admin-gateways-details/votm-cloud-admin-gateways-details.component';
 import { VotmCloudAdminReceiverDetailsComponent } from './components/admin/admin-gateways/votm-cloud-admin-receiver-details/votm-cloud-admin-receiver-details.component';
+import { VotmCloudAssetChildComponent } from './components/assets/votm-cloud-asset-child/votm-cloud-asset-child.component';
+import { NgbDateMomentParserFormatter } from './components/shared/votm-ngbdatepickerformatter/votm-ngbdatepickerformatter';
 
 const oktaConfig = Object.assign({
   onAuthRequired: ({oktaAuth, router}) => {
@@ -198,7 +200,8 @@ const oktaConfig = Object.assign({
     VotmCloudAdminSensorDetailsComponent,
     VotmCloudAdminGatewaysHomeComponent,
     VotmCloudAdminGatewaysDetailsComponent,
-    VotmCloudAdminReceiverDetailsComponent
+    VotmCloudAdminReceiverDetailsComponent,
+    VotmCloudAssetChildComponent
   ],
 
 
@@ -227,6 +230,10 @@ const oktaConfig = Object.assign({
     SharedService,
     BreadcrumbsService,
     { provide: OKTA_CONFIG, useValue: oktaConfig },
+    { 
+      provide: NgbDateParserFormatter, 
+      useFactory: () => { return new NgbDateMomentParserFormatter() } 
+    }
   ],
   bootstrap: [AppComponent]
 })

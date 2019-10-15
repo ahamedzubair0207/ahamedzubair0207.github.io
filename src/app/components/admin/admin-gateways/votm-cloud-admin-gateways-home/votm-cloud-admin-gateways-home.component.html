@@ -8,7 +8,7 @@
           <div class="input-group-append">
             <!-- <span class="input-group-text"><i class="fa fa-search"></i></span> -->
             <span class="input-group-text p-0"><button class="btn btn-sm btn-search" id="searchButton" type="submit">
-              <i class="fa fa-search"></i></button></span>
+                <i class="fa fa-search"></i></button></span>
           </div>
         </div>
       </div>
@@ -16,7 +16,7 @@
   </div>
 
   <div class="row">
-    <div class="col-9">
+    <div class="col-12 col-md-6 col-lg-8 col-xl-9">
       <div class="table-responsive">
         <table class="table table-bordered table-sm table-stripped table-hover" id="gateway_table">
           <thead class="thead-dark">
@@ -25,21 +25,23 @@
               <th class="">Eth0 MAC</th>
               <th class="">Loc</th>
               <th class="">Org</th>
-              <th class="">Signal</th>
+              <th class="text-center">Signal</th>
               <th class="">Last Report Time</th>
-              <th class="">State</th>
+              <th class="text-center">State</th>
             </tr>
           </thead>
           <tbody>
             <tr *ngFor="let allgetways of allGetways">
               <td class="">
-                <a [routerLink]="['/admin/networkmanagement/GatewayDetails', 1]"><i class="icon-gateway"></i> {{ allgetways.gatewayname }}</a>
+                <a [routerLink]="['/admin/networkmanagement/GatewayDetails', 1]"><i class="icon-gateway mr-1"></i>
+                  {{ allgetways.gatewayname }}</a>
               </td>
               <td>{{ allgetways.eath0mac }}</td>
               <td>{{ allgetways.location }}</td>
               <td>{{ allgetways.organization }}</td>
-              <td><i class="icon-signal-100"></i></td>
-              <td>{{ allgetways.lastreporttime * 1000| date: 'MM-dd-yy'}} @ {{ allgetways.lastreporttime * 1000| date: 'hh:mm a'}}</td>
+              <td class="text-center"><i class="icon-signal-100"></i></td>
+              <td>{{ allgetways.lastreporttime * 1000| date: 'MM-dd-yy'}} @
+                {{ allgetways.lastreporttime * 1000| date: 'hh:mm a'}}</td>
               <!-- <td>{{ allgetways.lastreporttime * 1000| date: 'MM-dd-yy'}} @ {{ allgetways.lastreporttime * 1000| date: 'HH:mm'}}</td> -->
               <td class="text-center"><i class="fa fa-warning"></i></td>
             </tr>
@@ -47,23 +49,29 @@
         </table>
       </div>
     </div>
-    <div class="col-3">
+    <div class="col-12 col-md-6 col-lg-4 col-xl-3">
       <!--gatewaystatus start-->
       <fieldset>
         <legend>Gateway Status</legend>
         <div class="row gateway-status">
           <div class="col-4">
-            <div class="total-status-container">
-              <label for="" class="status-label">Total</label>
-              <label for="" class="status-label-value">4</label>
+            <div class="form-group row">
+              <label class="col-6 col-form-label" for="total">Total</label>
+              <div class="col-6 p-0">
+                <span class="form-control form-control-sm text-center">4</span>
+              </div>
             </div>
-            <div class="online-status-container">
-              <label for="" class="status-label">Online</label>
-              <label for="" class="status-label-value">3</label>
+            <div class="form-group row">
+              <label class="col-6 col-form-label" for="total">Online</label>
+              <div class="col-6 p-0">
+                <span class="form-control form-control-sm text-center">3</span>
+              </div>
             </div>
-            <div class="offline-status-container">
-              <label for="" class="status-label">Offline</label>
-              <label for="" class="status-label-value">1</label>
+            <div class="form-group row">
+              <label class="col-6 col-form-label" for="total">Offline</label>
+              <div class="col-6 p-0">
+                <span class="form-control form-control-sm text-center">1</span>
+              </div>
             </div>
           </div>
           <div class="col-8">
@@ -74,32 +82,45 @@
       <!--gatewaystatus end-->
 
       <!--newtwork usage start-->
-      <fieldset>
+      <fieldset class="mt-3">
         <legend>Network Usage</legend>
-        <div class="row network-usage">
+        <div class="chart-area">
           <div class="network-usage-chart"></div>
         </div>
-        <div class="text-center">
-          <label for="" class="network-usage-label mr-2">Current</label>
-          <label for="" class="network-usage-label-value">1.2 MB</label>
+        <div class="col-8 offset-2">
+          <div class="row">
+            <label class="col-6 col-form-label" for="total">Current</label>
+            <div class="col-6 p-0">
+              <span class="form-control form-control-sm text-center">1.2 MB</span>
+            </div>
+          </div>
         </div>
       </fieldset>
       <!--newtwork usage end-->
 
       <!--cellular data start-->
-      <fieldset>
+      <fieldset class="mt-3">
         <legend>Cellular Data</legend>
         <div class="row cellular-data">
           <div class="cellular-data-chart"></div>
         </div>
         <div class="text-center">
-          <div>
-            <label for="" class="cellular-data-label mr-2">Daily</label>
-            <label for="" class="cellular-data-label-value">350.71 MB</label>
+          <div class="chart-area">
+            <div class="network-usage-chart"></div>
           </div>
-          <div>
-            <label for="" class="cellular-data-label mr-2">Monthly</label>
-            <label for="" class="cellular-data-label-value">360.85 MB</label>
+          <div class="col-8 offset-2">
+            <div class="row">
+              <label class="col-6 col-form-label" for="total">Daily</label>
+              <div class="col-6 p-0">
+                <span class="form-control form-control-sm text-center">35.40 MB</span>
+              </div>
+            </div>
+            <div class="row mt-3">
+              <label class="col-6 col-form-label" for="total">Monthly</label>
+              <div class="col-6 p-0">
+                <span class="form-control form-control-sm text-center">350 MB</span>
+              </div>
+            </div>
           </div>
         </div>
       </fieldset>
@@ -107,7 +128,7 @@
     </div>
   </div>
 </form>
-
+<!-- 
 <button id="configure-gateways" routerLink="GatewayDetails" type="button"
   class="btn btn-sm btn-info loc-table-fonts ml-2">
-  <i class="pr-2 icon-gateway"></i>Configure Gateways</button>
+  <i class="pr-2 icon-gateway"></i>Configure Gateways</button> -->

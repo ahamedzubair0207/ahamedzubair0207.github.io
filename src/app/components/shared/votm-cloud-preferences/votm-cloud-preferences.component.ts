@@ -41,7 +41,7 @@ export class VotmCloudPreferencesComponent implements OnInit {
 
   ngOnInit() {
     this.getAllAppInfo();
-    this.tempMeasurement = 'SI';
+    this.tempMeasurement = 'Imperial';
   }
 
   getAllAppInfo() {

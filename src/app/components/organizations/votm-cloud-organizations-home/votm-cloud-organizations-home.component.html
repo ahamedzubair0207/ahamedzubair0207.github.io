@@ -59,7 +59,7 @@
            
             <tr *ngIf="item.opened && subItem.entityType == 'Organization'">
               <th scope="row" (click)="subItem.opened = !subItem.opened" [ngStyle]="{'padding-left.px': 15*(lvl+2)}">
-                <i class="fa fa-building"></i>
+                <i class="icon-org-company"></i>
                 <a style="color: #212529;" [routerLink]="['/org/view', curOrgId, curOrgName, subItem.id]">
                   {{subItem.name}}</a>&nbsp;<i *ngIf="subItem.node.length > 0 "
                   [ngClass]="{'fa': true, 'fa-caret-right': !subItem.opened, 'fa-caret-down': subItem.opened}" id="dropdownSubItem"></i>
@@ -96,7 +96,7 @@
       </ng-template>
       
       <div class="table-responsive">
-        <table class="table table-sm table-bordered table-hover org-table-fonts">
+        <table class="table table-sm table-bordered table-hover org-table-fonts" id="orgTbl">
           <thead class="thead-dark">
             <tr>
               <th scope="col" class="align-left table-col-name">Name</th>

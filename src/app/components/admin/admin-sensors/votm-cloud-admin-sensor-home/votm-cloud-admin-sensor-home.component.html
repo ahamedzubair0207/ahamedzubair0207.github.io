@@ -16,18 +16,18 @@
   </div>
 
   <div class="row">
-    <div class="col-9">
+    <div class="col-12 col-md-6 col-lg-8 col-xl-9">
       <div class="table-responsive">
-        <table class="table table-bordered table-sm table-stripped table-hover" id="gateway_table">
+        <table class="table table-bordered table-sm table-stripped table-hover" id="sensor_table">
           <thead class="thead-dark">
             <tr>
               <th class="">Sensor Name</th>
               <th class="">Serial Number</th>
               <th class="">Type</th>
               <th class="">GW</th>
-              <th class="">Battery</th>
-              <th class="">Signal</th>
-              <th class="">Status</th>
+              <th class="text-center">Battery</th>
+              <th class="text-center">Signal</th>
+              <th class="text-center">Status</th>
             </tr>
           </thead>
           <tbody>
@@ -38,31 +38,38 @@
               <td>{{ allsensors.serialnumber }}</td>
               <td>{{ allsensors.type }}</td>
               <td>{{ allsensors.gw }}</td>
-              <td><i class="icon-battery-50"></i> {{ allsensors.battery }}</td>
-              <td><i class="icon-signal-100"></i> {{ allsensors.signal }}</td>
-              <td class="text-center"><i class="fa fa-warning"></i></td>
+              <td class="text-center"><i class="icon-battery-50 mr-2"></i> {{ allsensors.battery }}</td>
+              <td class="text-center"><i class="icon-signal-100 mr-2"></i> {{ allsensors.signal }}</td>
+              <td class="text-center"><i class="text-warning fa fa-warning mr-2"></i></td>
+              <!-- class="text-warning/text-success/text-info/text-danger" need to add classes as per status-->
             </tr>
           </tbody>
         </table>
       </div>
     </div>
-    <div class="col-3">
+    <div class="col-12 col-md-6 col-lg-4 col-xl-3">
       <!--Sensors status start-->
-      <fieldset>
+      <fieldset class="mb-3">
         <legend>Sensors Status</legend>
         <div class="row sensors-status">
           <div class="col-4">
-            <div class="total-status-container">
-              <label for="" class="status-label">Total</label>
-              <label for="" class="status-label-value">4</label>
+            <div class="form-group row">
+              <label class="col-6 col-form-label" for="total">Total</label>
+              <div class="col-6 p-0">
+                <span class="form-control form-control-sm text-center">4</span>
+              </div>
             </div>
-            <div class="online-status-container">
-              <label for="" class="status-label">Online</label>
-              <label for="" class="status-label-value">3</label>
+            <div class="form-group row">
+              <label class="col-6 col-form-label" for="total">Online</label>
+              <div class="col-6 p-0">
+                <span class="form-control form-control-sm text-center">3</span>
+              </div>
             </div>
-            <div class="offline-status-container">
-              <label for="" class="status-label">Offline</label>
-              <label for="" class="status-label-value">1</label>
+            <div class="form-group row">
+              <label class="col-6 col-form-label" for="total">Offline</label>
+              <div class="col-6 p-0">
+                <span class="form-control form-control-sm text-center">1</span>
+              </div>
             </div>
           </div>
           <div class="col-8">
@@ -70,34 +77,48 @@
           </div>
         </div>
         <div class="row">
-          <div class="col-4">
-            <label for="" class="status-label">Warning</label>
-            <label for="" class="status-label-value">4</label>
+          <div class="col-6">
+            <div class="form-group row">
+              <label class="col-6 col-form-label" for="total">Warning</label>
+              <div class="col-6">
+                <span class="form-control form-control-sm text-center">4</span>
+              </div>
+            </div>
           </div>
           <div class="col-6">
-              <label for="" class="status-label">Critical</label>
-              <label for="" class="status-label-value">4</label>
+            <div class="form-group row">
+              <label class="col-6 col-form-label" for="total">Critical</label>
+              <div class="col-6">
+                <span class="form-control form-control-sm text-center">5</span>
+              </div>
+            </div>
           </div>
         </div>
       </fieldset>
       <!--Sensors status end-->
 
       <!-- Bettery Levels start-->
-      <fieldset>
+      <fieldset class="mb-3">
         <legend>Bettery Levels</legend>
         <div class="row bettery-levels">
           <div class="col-4">
-            <div class="total-status-container">
-              <label for="" class="status-label">Good</label>
-              <label for="" class="status-label-value">4</label>
+            <div class="form-group row">
+              <label class="col-6 col-form-label" for="total">Good</label>
+              <div class="col-6 p-0">
+                <span class="form-control form-control-sm text-center">5</span>
+              </div>
             </div>
-            <div class="online-status-container">
-              <label for="" class="status-label">Low</label>
-              <label for="" class="status-label-value">3</label>
+            <div class="form-group row">
+              <label class="col-6 col-form-label" for="total">Low</label>
+              <div class="col-6 p-0">
+                <span class="form-control form-control-sm text-center">2</span>
+              </div>
             </div>
-            <div class="offline-status-container">
-              <label for="" class="status-label">Replace</label>
-              <label for="" class="status-label-value">1</label>
+            <div class="form-group row">
+              <label class="col-6 col-form-label" for="total">Replace</label>
+              <div class="col-6 p-0">
+                <span class="form-control form-control-sm text-center">2</span>
+              </div>
             </div>
           </div>
           <div class="col-8">
@@ -112,17 +133,23 @@
         <legend>Signal Levels</legend>
         <div class="row signal-levels">
           <div class="col-4">
-            <div class="total-status-container">
-              <label for="" class="status-label">Great</label>
-              <label for="" class="status-label-value">4</label>
+            <div class="form-group row">
+              <label class="col-6 col-form-label" for="total">Good</label>
+              <div class="col-6 p-0">
+                <span class="form-control form-control-sm text-center">5</span>
+              </div>
             </div>
-            <div class="online-status-container">
-              <label for="" class="status-label">Good</label>
-              <label for="" class="status-label-value">3</label>
+            <div class="form-group row">
+              <label class="col-6 col-form-label" for="total">Low</label>
+              <div class="col-6 p-0">
+                <span class="form-control form-control-sm text-center">2</span>
+              </div>
             </div>
-            <div class="offline-status-container">
-              <label for="" class="status-label">Low</label>
-              <label for="" class="status-label-value">1</label>
+            <div class="form-group row">
+              <label class="col-6 col-form-label" for="total">Replace</label>
+              <div class="col-6 p-0">
+                <span class="form-control form-control-sm text-center">2</span>
+              </div>
             </div>
           </div>
           <div class="col-8">
