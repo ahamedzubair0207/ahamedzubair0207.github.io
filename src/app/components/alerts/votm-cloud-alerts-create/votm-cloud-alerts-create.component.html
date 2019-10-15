@@ -140,7 +140,7 @@
                     <ul class="nav nav-tabs">
                         <li class="nav-item">
                             <a href="#Assets" class="nav-link active" data-toggle="tab"
-                                id="alertRuleAssetSignallbl">Assets/Location Signals</a>
+                                id="assetsLocationSignallbl">Assets/Location Signals</a>
                         </li>
                         <li class="nav-item">
                             <a href="#Template" class="nav-link" data-toggle="tab"
@@ -176,7 +176,7 @@
                                     <ng-template pTemplate="caption">
                                             <div style="text-align: right">        
                                                 <i class="pi pi-search" style="margin:4px 4px 0 0"></i>
-                                                <input type="text" pInputText size="20" placeholder="Type to filter" (input)="tt.filterGlobal($event.target.value, 'contains')" style="width:auto">
+                                                <input type="text" pInputText size="20" placeholder="Type to filter" (input)="tt.filterGlobal($event.target.value, 'contains')" style="width:auto" id="signalAssoFilter">
                                             </div>
                                         </ng-template>
                                     <ng-template pTemplate="colgroup">
@@ -395,14 +395,14 @@
                 <fieldset style="height:380px;" [disabled]="pageType === 'View'">
                     <legend>Notified Parties</legend>
                     <div class="">
-                        <button class="btn btn-sm btn-secondary mr-2" id="notifyBtn"><i
+                        <button class="btn btn-sm btn-secondary mr-2" id="notifyMeBtn"><i
                                 class="icon-star mr-2"></i>Notify
                             Me</button>
                         <button type="button" class="btn btn-sm btn-secondary mr-2" data-toggle="modal"
                             (click)="onAddNotifiedUsersClick()" data-target="#notifiedUserModal" id="notifyUserBtn"><i
                                 class="icon-user-o mr-2"></i>Add Notified User</button>
                         <button type="button" class="btn btn-sm btn-secondary" data-toggle="modal"
-                            data-target="#notifiedUserGroupModal" id="notifyUserBtn"><i class="icon-users mr-2"></i>Add
+                            data-target="#notifiedUserGroupModal" id="notifyUserGroupBtn"><i class="icon-users mr-2"></i>Add
                             Notified
                             Group</button>
 
@@ -435,7 +435,7 @@
                                                 <select
                                                     [(ngModel)]="userResponsibities[userGroupSubscriber.userGroupId]"
                                                     (change)="onResponsibityChangeForUserGroup($event, userGroupSubscriber)"
-                                                    [name]="userGroupSubscriber.userGroupId">
+                                                    [name]="userGroupSubscriber.userGroupId" id="userResDropDown">
                                                     <option *ngFor="let role of userRoles"
                                                         [value]="role.alertUserGroupRoleId">
                                                         {{role.roleName}}
@@ -445,7 +445,7 @@
                                             <ng-template #userTemplate>
                                                 <select [(ngModel)]="userResponsibities[userGroupSubscriber.userId]"
                                                     (change)="onResponsibityChangeForUserId($event, userGroupSubscriber)"
-                                                    [name]="userGroupSubscriber.userId">
+                                                    [name]="userGroupSubscriber.userId" id="userResDropDown">
                                                     <option *ngFor="let role of userRoles"
                                                         [value]="role.alertUserGroupRoleId">
                                                         {{role.roleName}}
@@ -463,7 +463,7 @@
                                         </select>
                                     </td> -->
                                         <td class="text-center"><a style="cursor: pointer;"
-                                                (click)="onUserGroupDelete(userGroupSubscriber)"><i
+                                                (click)="onUserGroupDelete(userGroupSubscriber)" id="removeUsers"><i
                                                     class="icon-trash"></i></a></td>
                                     </tr>
                                 </tbody>
@@ -497,10 +497,10 @@
             <div class="modal-body table-responsive">
                 <form class="form-inline">
                     <label for="typeahead-config" id="user-filter">Type to filter:</label>
-                    <input class="form-control mr-sm-2 ml-2" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-info btn-sm my-2 my-sm-0" type="submit">Search</button>
+                    <input class="form-control mr-sm-2 ml-2" type="search" placeholder="Search" aria-label="Search" id="avaUsersFilter">
+                    <button class="btn btn-outline-info btn-sm my-2 my-sm-0" type="submit" id="avaUsersFilterbtn">Search</button>
                 </form>
-                <table class="table table-sm table-bordered mt-2">
+                <table class="table table-sm table-bordered mt-2" id="avaUsersTb">
                     <thead>
                         <tr>
                             <th scope="col">#</th>
@@ -547,10 +547,10 @@
             <div class="modal-body table-responsive">
                 <form class="form-inline">
                     <label for="typeahead-config" id="group-filter">Type to filter:</label>
-                    <input class="form-control mr-sm-2 ml-2" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-info btn-sm my-2 my-sm-0" type="submit">Search</button>
+                    <input class="form-control mr-sm-2 ml-2" type="search" placeholder="Search" aria-label="Search" id="avaGroupsFilter">
+                    <button class="btn btn-outline-info btn-sm my-2 my-sm-0" type="submit" id="avaGroupsFilterBtn">Search</button>
                 </form>
-                <table class="table table-sm table-bordered mt-2">
+                <table class="table table-sm table-bordered mt-2" id="avaGroupsTb">
                     <thead>
                         <tr>
                             <th scope="col">#</th>
