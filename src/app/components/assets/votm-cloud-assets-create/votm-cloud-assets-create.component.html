@@ -39,6 +39,12 @@
               aria-controls="asset-signal" aria-selected="false"><i class="icon-cell-tower"></i></a>
           </li>
 
+          <li class="nav-item" placement="top" ngbTooltip="Child Assets">
+            <a class="nav-link tab-icon" id="asset-child-tab"
+              name="asset-child-edit" href="#asset-child" data-toggle="tab" role="tab"
+              aria-controls="asset-child-nav" aria-selected="false"><i class="icon-asset-robot"></i></a>
+          </li>
+
         </ul>
         <div class="tab-content w-100">
           <div class="tab-pane fade show active" *ngIf="(!assetId && pageLabels) || (assetId && pageLabels && asset)"
@@ -95,13 +101,22 @@
                 <div class="col-12 col-md-6 col-lg-4 col-xl-2 form-group">
                   <!-- <div class="row form-group"> -->
                   <label class="" id="assetparentOrg" votmrequired>Owning Organization:</label>
-                  <select [(ngModel)]="asset.organizationId" id="organizationName" name="organizationName"
+
+                  <!-- <select [(ngModel)]="asset.organizationId" id="organizationName" name="organizationName"
                     [disabled]="pageType==='View'" class="drop-down form-control form-control-sm"
                     (change)="onParentOrgChange($event)" #organizationName="ngModel">
                     <option *ngFor="let org of organizationList" [value]="org.organizationId">
                       {{org.name}}
                     </option>
-                  </select>
+                  </select> -->
+
+                  <ng-select [disabled]="pageType==='View'" class="custom" #organizationName="ngModel"
+                    [ngStyle]="{'background-color':pageType==='View'?'#e9ecef':'#fff'}" [multiple]="false"
+                    [(ngModel)]="asset.organizationId" id="organizationName" name="organizationName"
+                    placeholder="Choose Owning Organization" (change)="onParentOrgChange($event)" required>
+                    <ng-option *ngFor="let org of organizationList" [value]="org.organizationId">{{org.name}}
+                    </ng-option>
+                  </ng-select>
                   <div *ngIf="organizationName.dirty && organizationName.invalid">
                     <app-votm-cloud-validator message="Organization is required"></app-votm-cloud-validator>
                   </div>
@@ -118,6 +133,7 @@
                       class="custom"
                       [searchable]="false"
                       [clearable]="false"
+                      placeholder="Choose Icon"
                       >
                         <ng-option value="company"><i class="icon-asset-motor-tmpl"></i></ng-option>
                         <ng-option value="company"><i class="icon-asset-motor"></i></ng-option>
@@ -151,13 +167,23 @@
                   <!-- <div class="row form-group"> -->
                   <label class="" id="assetparentLoc" votmrequired>Installed Location:</label>
                  
-                  <select [disabled]="pageType==='View'" [(ngModel)]="asset.locationId" id="installedLocation"
+                  <!-- <select [disabled]="pageType==='View'" [(ngModel)]="asset.locationId" id="installedLocation"
                     name="installedLocation" class="drop-down form-control form-control-sm" #installedLocation="ngModel"
                     required (change)="onLocationChange($event)">
                     <option *ngFor="let loc of locationListForDropDown" [value]="loc.locationId">
                       {{loc.locationName}}
                     </option>
-                  </select>
+                  </select> -->
+
+                  <!-- Location Image  -->
+
+                  <ng-select [disabled]="pageType==='View'" class="custom" #installedLocation="ngModel"
+                    [ngStyle]="{'background-color':pageType==='View'?'#e9ecef':'#fff'}" [multiple]="false"
+                    [(ngModel)]="asset.locationId" id="installedLocation" name="installedLocation"
+                    placeholder="Choose Installed Location" (change)="onLocationChange($event)" required>
+                    <ng-option *ngFor="let loc of locationListForDropDown" [value]="loc.locationId">{{loc.locationName}}
+                    </ng-option>
+                  </ng-select>
                   <div *ngIf="installedLocation.dirty && installedLocation.invalid">
                     <app-votm-cloud-validator message="Location is required"></app-votm-cloud-validator>
                   </div>
@@ -200,13 +226,21 @@
                   <label class="" id="parentAsset">Parent Asset:</label>
                   <!-- <input type="text" [(ngModel)]="asset.parentAssetName" placeholder="{{asset.parentAssetName}}" [disabled]="pageType==='View'"
                                   class="form-control asset-create-font" name="parentAsset"> -->
-                  <select [(ngModel)]="asset.parentAssetId" name="parentAsset" id="parentAsset"
+                  <!-- <select [(ngModel)]="asset.parentAssetId" name="parentAsset" id="parentAsset"
                     [disabled]="pageType==='View'" class="drop-down form-control form-control-sm"
                     (change)="onParentAssetChange($event)" #parentAsset="ngModel">
                     <option *ngFor="let asset of parentAssetListForDropDown" [value]="asset.assetId">
                       {{asset.assetName}}
                     </option>
-                  </select>
+                  </select> -->
+
+                  <ng-select [disabled]="pageType==='View'" class="custom"  #parentAsset="ngModel"
+                    [ngStyle]="{'background-color':pageType==='View'?'#e9ecef':'#fff'}" [multiple]="false"
+                    [(ngModel)]="asset.parentAssetId" name="parentAsset" id="parentAsset"
+                    placeholder="Choose Parent Asset" (change)="onParentAssetChange($event)">
+                    <ng-option *ngFor="let asset of parentAssetListForDropDown" [value]="asset.assetId">{{asset.assetName}} 
+                    </ng-option>
+                  </ng-select>
                   <!-- </div> -->
                 </div>
 
@@ -298,6 +332,11 @@
             area-labelledby="asset-signal-tab">
             <app-votom-cloud-assets-signal></app-votom-cloud-assets-signal>
           </div>
+
+          <div class="tab-pane fade" id="asset-child" role="tabpanle"
+            area-labelledby="asset-child-tab">
+            <app-votm-cloud-asset-child></app-votm-cloud-asset-child>
+          </div>
         </div>
       </div>
     </div>
@@ -348,15 +387,13 @@
               {{ template.text }}
             </option>
           </select>
-          <!-- <select class="custom-select" size="10">
 
-            <option value="1">Template 1</option>
-            <option value="1">Template 2</option>
-            <option value="1">Template 3</option>
-            <option value="1">Template 4</option>
-            <option value="1">Template 5</option>
-            <option value="1">Template 6</option>
-          </select> -->
+          <!-- <ng-select [disabled]="pageType==='View'" class="custom custom-select" size="6"
+            [ngStyle]="{'background-color':pageType==='View'?'#e9ecef':'#fff'}" [multiple]="false"
+            [(ngModel)]="templateId" id="templateId" name="templateId" placeholder="Choose Template">
+            <ng-option *ngFor="let template of templates" [value]="template.value">{{template.text}}
+            </ng-option>
+          </ng-select> -->
         </div>
         <div></div>
       </div>
@@ -389,12 +426,19 @@
               <div class="col-6">
                 <div class="row form-group">
                   <label class="col-sm-5 col-form-label">Choose your Organization: </label>
-                  <select id="parentorg" required [(ngModel)]="asset.organizationId" name="parentorg"
+                  <!-- <select id="parentorg" required [(ngModel)]="asset.organizationId" name="parentorg"
                     class="col-sm-7 drop-down form-control asset-create-font" #parentorgModel="ngModel">
                     <option *ngFor="let organization of organizationList" [value]="organization.organizationId">
                       {{organization.name}}
                     </option>
-                  </select>
+                  </select> -->
+
+                  <ng-select class="custom" 
+                    [ngStyle]="{'background-color':pageType==='View'?'#e9ecef':'#fff'}" [multiple]="false" [(ngModel)]="templateId"
+                    id="parentorg" required [(ngModel)]="asset.organizationId" name="parentorg" #parentorgModel="ngModel" placeholder="Choose Organization">
+                    <ng-option *ngFor="let organization of organizationList" [value]="organization.organizationId">{{organization.name}}
+                    </ng-option>
+                  </ng-select>
                 </div>
               </div>
               <div class="col-6">

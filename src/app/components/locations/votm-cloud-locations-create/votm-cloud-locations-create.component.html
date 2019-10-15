@@ -182,25 +182,13 @@
                       id="iconDropDown"
                       class="custom"
                       [searchable]="false"
-                      [clearable]="false"
-                      >
+                      [clearable]="false" >
                         <ng-option value="company"><i class="icon-location"></i></ng-option>
                         <ng-option value="company"><i class="icon-loc-pin-map"></i></ng-option>
                         <ng-option value="company"><i class="icon-loc-pin-factory"></i></ng-option> 
                         <ng-option value="company"><i class="icon-loc-floor-plan"></i></ng-option>
                         <ng-option value="company"><i class="icon-loc-pin-floor-plan"></i></ng-option>
                       </ng-select>
-                      <!-- <select class="selectpicker form-control-sm form-control" data-style-base="form-control">
-                        <option data-icon="icon-org-company"></option>
-                        <option data-icon="icon-loc-office"></option>
-                        <option data-icon="icon-org-struct"></option>
-                      </select> -->
-                      <!-- <input type="text" id="icon" class="form-control form-control-sm" placeholder="icon" name="icon">
-                      <app-votm-cloud-char-validator> </app-votm-cloud-char-validator>
-                      <div class="input-group-append">
-                        <span class="input-group-text"><i class="fa fa-image"></i></span>
-                      </div> -->
-                    <!-- </div> -->
                   </div>
                 </div>
 
@@ -215,14 +203,13 @@
                         [(ngModel)]="parentLocName" id="locDtlParentLoc" readonly disabled>
 
                       <ng-template #elseLocationPart>
-                        <select [disabled]="pageType==='View'" [(ngModel)]="location.parentLocationId"
-                          id="parentLocation" name="installedLocation"
-                          class=" col-sm-7 drop-down form-control form-control-sm" #parentLocation="ngModel">
-                          <option value="null" selected>Select Location</option>
-                          <option *ngFor="let loc of locationListForDropDown" [value]="loc.id">
-                            {{loc.name}}
-                          </option>
-                        </select>
+                        <ng-select [disabled]="pageType==='View'" 
+                            class="custom"  #parentLocation="ngModel"
+                            [ngStyle]="{'background-color':pageType==='View'?'#e9ecef':'#fff'}" [multiple]="false"
+                            [(ngModel)]="location.parentLocationId" id="parentLocation" name="installedLocation" placeholder="Choose Parent Location">
+                            <ng-option *ngFor="let loc of locationListForDropDown" [value]="loc.id">{{loc.name}}
+                            </ng-option>
+                          </ng-select>
                       </ng-template>
                       <!-- <label for="parentLocname">{{parentLocName}}</label> -->
                     </div>
@@ -307,14 +294,23 @@
                       <div class="col-6 form-group">
 
                         <!-- <select [disabled]="pageType==='View' || !location.address[0].country" -->
-                        <select [disabled]="pageType==='View'" [(ngModel)]="location.address[0].state" name="state"
+                        <!-- <select [disabled]="pageType==='View'" [(ngModel)]="location.address[0].state" name="state"
                           class="drop-down form-control form-control-sm" #state="ngModel" required
                           aria-placeholder="State" id="locDtlStrtState">
                           <option value="null" disabled selected>State</option>
                           <option *ngFor="let state of states" [value]="state.value">
                             {{state.text}}
                           </option>
-                        </select>
+                        </select> -->
+
+                        <ng-select [disabled]="pageType==='View'" 
+                            class="custom"  #state="ngModel" required
+                            [ngStyle]="{'background-color':pageType==='View'?'#e9ecef':'#fff'}" [multiple]="false"
+                            [(ngModel)]="location.address[0].state" placeholder="State" id="locDtlStrtState" name="state">
+                            <ng-option *ngFor="let state of states" [value]="state.value">{{state.text}}
+                            </ng-option>
+                          </ng-select>
+
                         <div *ngIf="state.dirty && state.invalid">
                           <app-votm-cloud-validator message="State is required"></app-votm-cloud-validator>
                         </div>
@@ -322,14 +318,22 @@
 
                       <div class="col-6 form-group">
                         <!-- <label for="country">* {{pageLabels.Country.labelName}}:</label> -->
-                        <select [disabled]="pageType==='View'" [(ngModel)]="location.address[0].country" name="country"
+                        <!-- <select [disabled]="pageType==='View'" [(ngModel)]="location.address[0].country" name="country"
                           class="drop-down form-control form-control-sm" (change)="onCountryChange()" required
                           #country="ngModel" id="locDtlStrtCountry">
                           <option value="null" disabled selected>Country</option>
                           <option *ngFor="let country of countries" [value]="country.countryName">
                             {{country.countryName}}
                           </option>
-                        </select>
+                        </select> -->
+
+                        <ng-select [disabled]="pageType==='View'"  #country="ngModel"
+                            class="custom"  (change)="onCountryChange()" required
+                            [ngStyle]="{'background-color':pageType==='View'?'#e9ecef':'#fff'}" [multiple]="false"
+                            [(ngModel)]="location.address[0].country" placeholder="Country" id="locDtlStrtCountry" name="country">
+                            <ng-option *ngFor="let country of countries" [value]="country.countryName">{{country.countryName}}
+                            </ng-option>
+                          </ng-select>
                         <div *ngIf="country.dirty && country.invalid">
                           <app-votm-cloud-validator message="Country is required"></app-votm-cloud-validator>
                         </div>
@@ -464,13 +468,22 @@
                     <label class="" id="DefaultLang" votmrequired>{{pageLabels.Language.labelName}}
                       :</label>
                     <div class="">
-                      <select [disabled]="pageType==='View'" required [(ngModel)]="location.localeId" name="language"
+                      <!-- <select [disabled]="pageType==='View'" required [(ngModel)]="location.localeId" name="language"
                         class="drop-down form-control form-control-sm" #defLanguage="ngModel" id="locDtlGeoLang1">
                         <option value="null" disabled selected>Select Language</option>
                         <option *ngFor="let locale of applicationConfiguration.locale" [value]="locale.localeId">
                           {{locale.localeName}}
                         </option>
-                      </select>
+                      </select> -->
+
+                      <ng-select [disabled]="pageType==='View'"  #defLanguage="ngModel"
+                      class="custom" required
+                      [ngStyle]="{'background-color':pageType==='View'?'#e9ecef':'#fff'}" [multiple]="false"
+                      [(ngModel)]="location.localeId" placeholder="Select Language" id="locDtlGeoLang1" name="language">
+                      <ng-option *ngFor="let locale of applicationConfiguration.locale" [value]="locale.localeId">{{locale.localeName}}
+                      </ng-option>
+                    </ng-select>
+
                       <div *ngIf="defLanguage.dirty && defLanguage.invalid">
                         <app-votm-cloud-validator message="Language is required"></app-votm-cloud-validator>
                       </div>
