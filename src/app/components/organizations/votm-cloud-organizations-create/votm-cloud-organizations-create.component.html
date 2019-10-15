@@ -117,7 +117,7 @@
 
               </div>
               <div class="row">
-                <div class="col-lg-4 col-xl-4">
+                <div class="col-12 col-md-6 col-lg-3 col-xl-2">
                   <div class="form-group">
                     <label class="temp" votmrequired id="org-name">Name: Long</label>
                     <input type="text" maxlength="100" [(ngModel)]="organization.name"
@@ -130,7 +130,7 @@
                     </app-votm-cloud-char-validator>
                   </div>
                 </div>
-                <div class="col-lg-4 col-xl-1 pl-0">
+                <div class="col-12 col-md-6 col-lg-1 col-xl-1">
                   <div class="form-group">
                     <label class="temp" votmrequired id="nameShortLbl">Short</label>
                     <div class="">
@@ -143,7 +143,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="col-lg-4 col-xl-2">
+                <div class="col-12 col-md-6 col-lg-3 col-xl-2">
                   <div class="form-group">
                     <label class="temp" votmrequired id="customerNumLbl">Customer #:</label>
                     <div class="input-group">
@@ -162,7 +162,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="col-lg-4 col-xl-3">
+                <div class="col-12 col-md-6 col-lg-3 col-xl-2">
                   <div class="form-group">
                     <label class="" id="parentOrgLbl">{{pageLabels.ParentOrganization.labelName}}:</label>
                     <div class="">
@@ -175,7 +175,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="col-lg-4 col-xl-2">
+                <div class="col-12 col-md-6 col-lg-3 col-xl-2">
                   <div class="form-group">
                     <label class="" id="orgTypeLbl" for="organizationType">Type:</label>
                     <div class="">
@@ -189,7 +189,7 @@
                   </div>
                 </div>
                
-                <div class="col-lg-4 col-xl-2">
+                <div class="col-12 col-md-6 col-lg-3 col-xl-1">
                   <div class="form-group">
                     <label class="" id="icon" for="organizationType">Icon</label>
                     <div class="">
@@ -204,7 +204,7 @@
                   </div>
                 </div>
 
-                <div class="col-lg-4 col-xl-3">
+                <div class="col-12 col-md-6 col-lg-3 col-xl-2">
                   <div class="form-group">
                     <label class="input-group temp" votmrequired id="primarycontactLbl">
                       &nbsp;{{pageLabels.PrimaryContact.labelName}}:</label>
@@ -230,7 +230,7 @@
                     </app-votm-cloud-char-validator>
                   </div>
                 </div>
-                <div class="col-lg-4 col-xl-2">
+                <div class="col-12 col-md-6 col-lg-3 col-xl-2">
                   <div class="form-group">
                     <label class="temp" votmrequired id="primarycontactnumberlbl"> Contact
                       Phone:</label>
@@ -254,7 +254,7 @@
                     </app-votm-cloud-char-validator>
                   </div>
                 </div>
-                <div class="col-lg-4 col-xl-2">
+                <div class="col-12 col-md-6 col-lg-3 col-xl-2">
                   <div class="form-group">
                     <label class="temp" votmrequired id="primaryDistributorNamelbl">Distributor:
                     </label>
@@ -272,7 +272,7 @@
                     [condition]="organization.primaryDistributorName && organization.primaryDistributorName.length>=50">
                   </app-votm-cloud-char-validator>
                 </div>
-                <div class="col-lg-4 col-xl-3">
+                <div class="col-12 col-md-6 col-lg-3 col-xl-2">
                   <div class="form-group">
                     <label class="temp" votmrequired id="primaryDistributorEmailLbl">Distributor
                       Contact:
@@ -304,7 +304,7 @@
               <fieldset class="form-group">
                 <legend id="contractHeadingLbl" votmrequired> {{pageLabels.Contract.labelName}}</legend>
                 <div class="row org-create-font">
-                  <div class="col-sm-3">
+                  <div class="col-12 col-md-6 col-lg-3 col-xl-2">
                     <!-- <label id="startDatelbl">{{pageLabels.StartDate.labelName}}:</label> -->
                     <!-- <div class="input-group-append"> -->
                     <label id="startDatelbl">Term:</label>
@@ -333,7 +333,7 @@
                     </div>
                   </div>
 
-                  <div class="col-sm-3">
+                  <div class="col-12 col-md-6 col-lg-3 col-xl-2">
                     <label id="endDateLbl">{{pageLabels.EndDate.labelName}}:</label>
                     <div class="input-group">
                       <input class="form-control form-control-sm" (click)="contractEndDate.toggle(); onEndDateChange();"
@@ -354,7 +354,7 @@
                     </div>
                   </div>
 
-                  <div class="col-sm-2">
+                  <div class="col-12 col-md-6 col-lg-3 col-xl-2">
                     <label id="serviceLbl">{{pageLabels.SVCLevel.labelName}}: </label>
                     <!-- <select [disabled]="pageType==='View'" id="service" [(ngModel)]="organization.svclevels"
                       name="svcLevel" #svcLevel="ngModel" class="drop-down form-control form-control-sm" required>
@@ -375,7 +375,7 @@
                     </div>
                   </div>
 
-                  <div class="col-sm-2">
+                  <div class="col-12 col-md-6 col-lg-3 col-xl-2">
                     <label id="sensorBlockLbl">Sensor Blocks: </label>
                     <input type="text" maxlength="5" class="form-control org-create-font form-control-sm"
                       [disabled]="pageType==='View'" placeholder="Sensor Block" [(ngModel)]="organization.sensorBlocks"
@@ -385,7 +385,7 @@
                     </div>
                   </div>
 
-                  <div class="col-sm-2">
+                  <div class="col-12 col-md-6 col-lg-3 col-xl-2">
                     <label id="cellularBlockLbl">Cellular Blocks: </label>
                     <input type="text" maxlength="5" [(ngModel)]="organization.cellularBlocks"
                       [disabled]="pageType==='View'" class="form-control org-create-font form-control-sm"
@@ -404,9 +404,9 @@
                 <div class="col-6">
                   <fieldset class="mb-2" [disabled]="pageType==='View'">
                     <legend id="billingaddress" votmrequired>{{pageLabels.BillingAddress.labelName}} :</legend>
-                    <div class="form-row">
+                    <div class="row">
 
-                      <div class="col-lg-6">
+                      <div class="col-12 col-md-6 col-lg-4 col-xl-4">
                         <div class="form-group">
                           <!-- <label for="address2">* {{pageLabels.Address1.labelName}} :</label> -->
                           <div class="input-group">
@@ -423,7 +423,7 @@
                         </div>
                       </div>
 
-                      <div class="col-lg-6">
+                      <div class="col-12 col-md-6 col-lg-4 col-xl-4">
                         <div class="form-group">
                           <!-- <label for="address1">* {{pageLabels.Address2.labelName}} :</label> -->
                           <div class="input-group">
@@ -441,7 +441,7 @@
                         </div>
                       </div>
 
-                      <div class="col-8 form-group">
+                      <div class="col-12 col-md-6 col-lg-4 col-xl-3 form-group">
                         <!-- <label for="city">* {{pageLabels.City.labelName}} :</label> -->
                         <input type="text" id="city" [(ngModel)]="organization.address[0].city"
                           class="form-control form-control-sm" #city="ngModel" placeholder="City" name="city" required>
@@ -450,7 +450,7 @@
                         </div>
                       </div>
 
-                      <div class="col-4">
+                      <div class="col-12 col-md-6 col-lg-4 col-xl-3">
                         <!-- <select #state="ngModel" id="state" [(ngModel)]="organization.address[0].state" name="state"
                           class="drop-down form-control form-control-sm" required>
                           <option value="null" disabled selected>State</option>
@@ -473,7 +473,7 @@
                         </div>
                       </div>
 
-                      <div class="col-8">
+                      <div class="col-12 col-md-6 col-lg-4 col-xl-3">
                         <!-- <select [disabled]="pageType==='View'" id="country"
                           [(ngModel)]="organization.address[0].country" name="country"
                           class="drop-down form-control form-control-sm loc-create-font"
@@ -500,7 +500,7 @@
                         </div>
                       </div>
 
-                      <div class="col-4">
+                      <div class="col-12 col-md-6 col-lg-4 col-xl-3">
                         <!-- <label for="zipcode">* {{pageLabels.Zipcode.labelName}} :</label> -->
                         <input type="text" id="zipCode" [disabled]="pageType==='View'"
                           [(ngModel)]="organization.address[0].postalCode" class="form-control form-control-sm"
@@ -516,7 +516,7 @@
 
                 <div class="col-6">
                   <div class="row">
-                    <div class="col-lg-6">
+                    <div class="col-12 col-md-6 col-lg-6 col-xl-6">
                       <div class="form-group"
                         *ngIf="orgId && applicationConfiguration || !orgId && applicationConfiguration ">
                         <!-- <div class="form-group" *ngIf="!orgId && applicationConfiguration"> -->
@@ -555,7 +555,7 @@
                       </div>
                     </div> -->
 
-                    <div class="col-lg-6">
+                    <div class="col-12 col-md-6 col-lg-6 col-xl-6">
                       <div class="form-group">
                         <!-- <div class="form-group" *ngIf="!orgId && applicationConfiguration"> -->
                         <!-- <label for="DefatimezoneultLang">* {{pageLabels.TimeZone.labelName}} :</label> -->
@@ -609,7 +609,7 @@
                       </div>
                     </div> -->
 
-                    <div class="col-lg-6">
+                    <div class="col-12 col-md-6 col-lg-6 col-xl-6">
                       <div class="form-group">
                         <label class="" name="uom-change-lbl" votmrequired id="unitsOfMeasureLbl">Default
                           UOM</label>
@@ -629,7 +629,7 @@
                         </div>
                       </div>
                     </div>
-                    <div class="col-lg-6">
+                    <div class="col-12 col-md-6 col-lg-6 col-xl-6">
                       <div class="form-group org-create-font">
                         <div class="custom-file">
                           <label id="logoLbl">{{pageLabels.LogoFile.labelName}} :</label>
@@ -642,7 +642,7 @@
                                                                         *ngIf="organization && organization.logo">{{organization.logo.imageName}}</label> -->
 
                         </div>
-                        <div class="col-12 col-md-6 order-md-7 form-group">
+                        <div class="col-12 col-md-6 col-lg-4 col-xl-3 order-md-7 form-group">
                           <img [src]="imgURL" class="imag-size border rounded-sm img-fluid" *ngIf="imgURL">
                         </div>
                       </div>
@@ -653,7 +653,7 @@
 
 
               <div class="row org-create-font">
-                <div class="col-lg-12">
+                <div class="col-12">
                   <label id="orgDescriptionLbl" class="">{{pageLabels.DescriptionofOrganization.labelName}}
                     :</label>
                   <textarea class="form-control form-control-sm" id="orgDesText" #description="ngModel"
