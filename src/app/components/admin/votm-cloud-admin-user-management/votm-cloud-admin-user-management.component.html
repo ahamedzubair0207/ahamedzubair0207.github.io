@@ -15,11 +15,11 @@
       </div>
       <div class="col-md-9 col-xl-8 text-right pr-2">
         <div class="form-group">
-          <button class="btn btn-info btn-sm mr-2" data-toggle="modal" type="button" data-target="#cus_data_per">Customize
+          <button class="btn btn-info btn-sm mr-2" data-toggle="modal" type="button" data-target="#cus_data_per" id="customDataPerm">Customize
             Date Permissions</button>
           <button class="btn btn-info btn-sm mr-2" data-toggle="modal" type="button"
-            data-target="#grant_guest_access">Grant Guest Access</button>
-          <button class="btn btn-info btn-sm mr-2" data-toggle="modal" type="button" data-target="#cus_add_user">Add
+            data-target="#grant_guest_access" id="grantGuest">Grant Guest Access</button>
+          <button class="btn btn-info btn-sm mr-2" data-toggle="modal" type="button" data-target="#cus_add_user" id="addUserGroup">Add
             User</button>
         </div>
       </div>
@@ -282,14 +282,10 @@
                     <ng-select id="addUserRole" class="custom"
                         [ngStyle]="{'background-color':pageType==='View'?'#e9ecef':'#fff'}" [multiple]="false"
                         name="addRole">
-                        <ng-option value="Read Only">Read Only
-                        </ng-option>
-                        <ng-option value="Normal/Intermediate">Normal/Intermediate
-                        </ng-option>
-                        <ng-option value="Administrator">Administrator
-                        </ng-option>
-                        <ng-option value="Creator">Creator
-                        </ng-option>
+                        <ng-option value="Read Only">Read Only</ng-option>
+                        <ng-option value="Normal/Intermediate">Normal/Intermediate</ng-option>
+                        <ng-option value="Administrator">Administrator</ng-option>
+                        <ng-option value="Creator">Creator</ng-option>
                       </ng-select>
                   </div>
                 </div>

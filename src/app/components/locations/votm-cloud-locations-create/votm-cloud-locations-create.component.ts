@@ -190,9 +190,9 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
     this.getAllAppInfo();
     this.location.organizationId = this.parentOrganizationInfo.parentOrganizationId;
     this.location.parentLocationId = this.parentLocId;
-    this.tempMeasurement = 'SI';
+    this.tempMeasurement = 'Imperial';
     this.location.active = true;
-    this.UOM = 'SI';
+    this.UOM = 'Imperial';
     this.locationTypes = [{ value: 'locationType1', text: 'locationType1' }, { value: 'locationType2', text: 'locationType2' }];
     // this.locationService.getLocationInfoFromAzureMap(null)
     //   .subscribe(response => {
@@ -283,7 +283,7 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
   }
 
   onCountryChange() {
-    console.log('Country change ', this.location.address[0].country);
+    // console.log('Country change', this.location.address[0].country);
     if (this.location.address && this.location.address.length > 0) {
       this.location.address[0].state = null;
     } else {
