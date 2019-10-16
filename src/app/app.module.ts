@@ -128,6 +128,7 @@ import { VotmCloudAdminGatewaysDetailsComponent } from './components/admin/admin
 import { VotmCloudAdminReceiverDetailsComponent } from './components/admin/admin-gateways/votm-cloud-admin-receiver-details/votm-cloud-admin-receiver-details.component';
 import { VotmCloudAssetChildComponent } from './components/assets/votm-cloud-asset-child/votm-cloud-asset-child.component';
 import { NgbDateMomentParserFormatter } from './components/shared/votm-ngbdatepickerformatter/votm-ngbdatepickerformatter';
+import { BasicDashboardComponent } from './components/dashboards/basic-dashboard/basic-dashboard.component';
 
 const oktaConfig = Object.assign({
   onAuthRequired: ({oktaAuth, router}) => {
@@ -201,7 +202,8 @@ const oktaConfig = Object.assign({
     VotmCloudAdminGatewaysHomeComponent,
     VotmCloudAdminGatewaysDetailsComponent,
     VotmCloudAdminReceiverDetailsComponent,
-    VotmCloudAssetChildComponent
+    VotmCloudAssetChildComponent,
+    BasicDashboardComponent
   ],
 
 
