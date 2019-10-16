@@ -23,6 +23,11 @@ import { BehaviorSubject } from 'rxjs';
 import * as moment from 'moment';
 import { VotmCommon } from '../../shared/votm-common';
 import { NgbDateMomentParserFormatter } from '../../shared/votm-ngbdatepickerformatter/votm-ngbdatepickerformatter';
+// Dashboard-david start
+import { DashboardService } from '../../../services/dasboards/dashboard.service';
+import { DbTplItem } from 'src/app/models/db-tpl-item';
+import { DbItem } from 'src/app/models/db-item';
+// Dashboard-david end
 declare var jQuery: any;
 
 @Component({
@@ -99,6 +104,16 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
   addDashboardArray: any;
   isAddOrganizationAPILoading = false;
 
+  // Dashboard-david start
+  dbTemplates: DbTplItem[];
+  dbItems: DbItem[] = [];
+  selTemplate: string;
+  dbLongName: string = '';
+  dbShortName: string = '';
+  dbLastIdNum: number = 0;
+  newTabId: string = '';
+  // Dashboard-david end
+
   constructor(
     private assetService: AssetsService,
     private modalService: NgbModal,
@@ -111,7 +126,8 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
     private datePipe: DatePipe,
     private routerLocation: RouterLocation,
     private toastr: ToastrService,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    private dbService: DashboardService, // Dashboard-david
   ) {
     this.UOM = 'SI';
     this.subscription = route.events.subscribe(event => {
@@ -123,6 +139,26 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
       }
     });
     // this.route.routeReuseStrategy.shouldReuseRoute = () => false;
+
+    // Dashboard-david start
+    // this.dbService.hello();
+    this.dbTemplates = this.dbService.getDashboardTemplates();
+    this.selTemplate = this.dbTemplates[0].name;
+
+    // this.newTab.subscribe(() => {
+    //   this.dbLastIdNum++;
+    //   this.newTabId = "dbtab-" + this.dbLastIdNum;
+    //   this.dbItems.push(new DbItem(this.newTabId, this.dbLongName, this.dbShortName, this.selTemplate,
+    //     this.dbTemplates.find(({ name }) => name === this.selTemplate).component, ''));
+    //   this.dbLongName = '';
+    //   this.dbShortName = '';
+    //   this.selTemplate = this.dbTemplates[0].name;
+    //   setTimeout(() => {
+    //     // this.tabSet.select(this.newTabId);
+    //   }, 1);
+    // });
+    // Dashboard-david end
+
   }
 
   ngOnInit() {
@@ -220,6 +256,21 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
   ngAfterViewInit(): void {
     jQuery('.selectpicker').selectpicker();
     this.showImageLogo();
+  }
+
+  getDBDashboards() {
+    // service to get all dashboards by userid
+    return [
+      {
+        id: '1',
+        lName: '',
+        sName: '',
+        tplName: '',
+        component: '',
+        widgetConf: ''
+      }
+    ];
+
   }
 
   onCountryChange(event) {
