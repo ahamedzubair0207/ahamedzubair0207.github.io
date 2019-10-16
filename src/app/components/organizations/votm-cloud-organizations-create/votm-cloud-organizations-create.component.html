@@ -299,6 +299,20 @@
                     [condition]="organization.primaryDistributorEmail && organization.primaryDistributorEmail.length>=100">
                   </app-votm-cloud-char-validator>
                 </div>
+                                <!-- Time Fromat for Moment.js  -->
+                <div class="col-12 col-md-6 col-lg-3 col-xl-2">
+                  <div class="form-group">
+                    <label class="temp">Time Format:</label>
+                    <div class="input-group">
+                      <input type="text" [disabled]="pageType==='View'"
+                        name="momentTime" class="form-control form-control-sm" >
+                    </div>
+                  </div>
+                  <app-votm-cloud-char-validator
+                    [condition]="organization.primaryDistributorEmail && organization.primaryDistributorEmail.length>=100">
+                  </app-votm-cloud-char-validator>
+                </div>
+
               </div>
 
               <fieldset class="form-group">
@@ -524,7 +538,7 @@
                         <div class="">
                         <ng-select id="DefaultLang" class="custom" required
                         [multiple]="false" [(ngModel)]="organization.localeId" name="organization.localeId"
-                        #defLanguage="ngModel" placeholder="Select Language" [disabled]="pageType==='View'">
+                        #defLanguage="ngModel" (change)="onLocaleChange()" placeholder="Select Language" [disabled]="pageType==='View'">
                     <ng-option value="null" disabled selected>Language</ng-option>
                       <ng-option
                       *ngFor="let locale of applicationConfiguration.locale" [value]="locale.localeId">{{locale.localeName}}</ng-option>
@@ -831,11 +845,11 @@
     <div class="modal-content">
       <div class="modal-header">
         <label for="UOM" class="pr-2">Units of Measure :</label>
-        <div class="form-check form-check-inline">
+        <!-- <div class="form-check form-check-inline">
           <input [disabled]="pageType==='View'" class="form-check-input org-create-font" type="radio" value="SI"
             name="UOM" (change)="onUnitChange($event)" checked id="f-si">
           <label class="form-check-label" for="f-si">SI</label>
-        </div>
+        </div> -->
         <div class="form-check form-check-inline">
           <input [disabled]="pageType==='View'" class="form-check-input" type="radio" value="Imperial" name="UOM"
             (change)="onUnitChange($event)" id="f-imperial">
@@ -874,7 +888,7 @@
               </div>
             </div>
 
-            <div class="col-4">
+            <!-- <div class="col-4">
               <div class="row form-group">
                 <label class="col-sm-4 col-form-label" for="uom.uomTypeName">{{uom.uomTypeName}}:</label>
                 <div class="col-sm-8 org-create-font">
@@ -888,7 +902,7 @@
                   </select>
                 </div>
               </div>
-            </div>
+            </div> -->
 
             <div class="col-4" *ngIf="applicationConfiguration.unitOfMeassurement[i+1]">
               <div class="row form-group">
@@ -913,10 +927,10 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button id="org-uom-cancle" type="button" class="btn button-mod btn-secondary"
+        <button id="org-uom-cancle" type="button" class="btn btn-sm btn-secondary"
           (click)="closemodal('cancel')">Cancel
         </button>
-        <button id="org-uom-save" type="button" class="btn button-mod btn-color"
+        <button id="org-uom-save" type="button" class="btn btn-info btn-sm"
           (click)="closemodal('save')">Save</button>
       </div>
 

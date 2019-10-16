@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
-import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, ModalDismissReasons, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { OrganizationService } from 'src/app/services/organizations/organization.service';
 import { Organization } from 'src/app/models/organization.model';
 import { ConfigSettingsService } from 'src/app/services/configSettings/configSettings.service';
@@ -19,6 +19,10 @@ import { countyList } from 'src/app/services/countryList/countryStateList';
 import { AssetsService } from '../../../services/assets/assets.service';
 import { SortArrays } from '../../shared/votm-sort';
 import { setDashboardConfiguration } from 'src/assets/js/data';
+import { BehaviorSubject } from 'rxjs';
+import * as moment from 'moment';
+import { VotmCommon } from '../../shared/votm-common';
+import { NgbDateMomentParserFormatter } from '../../shared/votm-ngbdatepickerformatter/votm-ngbdatepickerformatter';
 declare var jQuery: any;
 
 @Component({
@@ -29,10 +33,10 @@ declare var jQuery: any;
 })
 export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewInit {
 
-///
+  ///
 
 
-///
+  ///
 
 
   public imagePath;
@@ -66,7 +70,7 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
   curOrgId: any;
   curOrgName: any;
   previousUrl: any;
-  tempContractStartDate: { year?: number, month?: number, day?: number };
+  tempContractStartDate: NgbDateStruct;
   tempContractEndDate: { year?: number, month?: number, day?: number };
 
   @ViewChild('startDate', null) startDate: NgForm;
@@ -207,10 +211,10 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
         templateName: 'Standard Asset Dashboard'
       }
     ];
-      console.log(this.dashboardTemplates);
-      console.log(this.dashboardData);
+    console.log(this.dashboardTemplates);
+    console.log(this.dashboardData);
 
-      jQuery('.nav-item').tooltip();
+    jQuery('.nav-item').tooltip();
   }
 
   ngAfterViewInit(): void {
@@ -631,7 +635,7 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
           .subscribe(response => {
             this.toaster.onSuccess('Successfully saved', 'Saved');
             this.route.navigate([`org/home/${this.parentOrganizationInfo.parentOrganizationId}/${this.parentOrganizationInfo.parentOrganizationName}`]);
-	    this.isAddOrganizationAPILoading = false;
+            this.isAddOrganizationAPILoading = false;
           }, error => {
             this.toaster.onFailure('Something went wrong. Please fill the form correctly', 'Fail');
             this.isAddOrganizationAPILoading = false;
@@ -753,19 +757,19 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
 
   setExternalScript(src) {
     return new Promise((resolve, reject) => {
-         const scriptTag = document.createElement('script');
-         scriptTag.type = 'text/javascript';
-         scriptTag.src = src;
-         scriptTag.onload = () => resolve();
-         document.getElementById('config_dashboard').appendChild(scriptTag); // document.body
+      const scriptTag = document.createElement('script');
+      scriptTag.type = 'text/javascript';
+      scriptTag.src = src;
+      scriptTag.onload = () => resolve();
+      document.getElementById('config_dashboard').appendChild(scriptTag); // document.body
     });
   }
 
   async afterLoaded() {
-      const scripts = ['assets/dashboards/lineChartLive.js'];
-      for(let i=0; i< scripts.length; i++) {
-         await this.setExternalScript(scripts[i]);
-      }
+    const scripts = ['assets/dashboards/lineChartLive.js'];
+    for (let i = 0; i < scripts.length; i++) {
+      await this.setExternalScript(scripts[i]);
+    }
   }
 
   openAddDashboardModal(dashboardAct: string, dashboardId: any, dashboardNames: string) {
@@ -841,5 +845,23 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
   getDashboardById(dashboardId: any) {
     this.dashboardData = this.getDashboards();
     // return this.dashboardById = this.dashboardData.id;
+  }
+
+  onLocaleChange() {
+    let localeName;
+    this.applicationConfiguration.locale.forEach(locale => {
+      if (locale.localeId === this.organization.localeId) {
+        localeName = locale.localeName;
+      }
+    });
+    if (localeName) {
+      VotmCommon.dateFormat = moment.localeData(localeName).longDateFormat('L');
+      console.log('this.organization.contractStartDate ', this.tempContractStartDate);
+      let obj1: NgbDateMomentParserFormatter = new NgbDateMomentParserFormatter();
+      console.log('value ', obj1.format(this.tempContractStartDate));
+
+      //#contractStartDate Create viewchild => work on this
+    }
+    console.log(' VotmCommon.dateFormat ', VotmCommon.dateFormat)
   }
 }
