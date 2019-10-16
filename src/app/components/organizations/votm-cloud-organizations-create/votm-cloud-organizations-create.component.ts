@@ -134,7 +134,7 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
     private sanitizer: DomSanitizer,
     private dbService: DashboardService, // Dashboard-david
   ) {
-    this.UOM = 'SI';
+    this.UOM = 'Imperial';
     this.subscription = route.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         if (this.previousUrl) {

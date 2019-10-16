@@ -149,8 +149,7 @@
                             [ngStyle]="{'background-color':pageType==='View'?'#e9ecef':'#fff'}" [multiple]="false"
                             [(ngModel)]="location.organizationId" id="organizationId" name="organizationId">
                             <ng-option value="null" disabled selected>Parent Organization</ng-option>
-                            <ng-option *ngFor="let org of organizationList" [value]="org.organizationId">{{org.name}}
-                            </ng-option>
+                            <ng-option *ngFor="let org of organizationList" [value]="org.organizationId">{{org.name}}</ng-option>
                           </ng-select>
                         </div>
                       </ng-template>
@@ -209,8 +208,7 @@
                             [ngStyle]="{'background-color':pageType==='View'?'#e9ecef':'#fff'}" [multiple]="false"
                             [(ngModel)]="location.parentLocationId" id="parentLocation" name="installedLocation" placeholder="Choose Parent Location">
                             <ng-option value="null" disabled selected>Parent Location</ng-option>
-                            <ng-option *ngFor="let loc of locationListForDropDown" [value]="loc.id">{{loc.name}}
-                            </ng-option>
+                            <ng-option *ngFor="let loc of locationListForDropDown" [value]="loc.id">{{loc.name}}</ng-option>
                           </ng-select>
                       </ng-template>
                       <!-- <label for="parentLocname">{{parentLocName}}</label> -->
@@ -310,8 +308,7 @@
                             [ngStyle]="{'background-color':pageType==='View'?'#e9ecef':'#fff'}" [multiple]="false"
                             [(ngModel)]="location.address[0].state" placeholder="State" id="locDtlStrtState" name="state">
                             <ng-option value="null" disabled selected>State</ng-option>
-                            <ng-option *ngFor="let state of states" [value]="state.value">{{state.text}}
-                            </ng-option>
+                            <ng-option *ngFor="let state of states" [value]="state.value">{{state.text}}</ng-option>
                           </ng-select>
                         </div>
                         <div *ngIf="state.dirty && state.invalid">
@@ -335,8 +332,7 @@
                             [ngStyle]="{'background-color':pageType==='View'?'#e9ecef':'#fff'}" [multiple]="false"
                             [(ngModel)]="location.address[0].country" placeholder="Country" id="locDtlStrtCountry" name="country">
                             <ng-option value="null" disabled selected>Country</ng-option>
-                            <ng-option *ngFor="let country of countries" [value]="country.countryName">{{country.countryName}}
-                            </ng-option>
+                            <ng-option *ngFor="let country of countries" [value]="country.countryName">{{country.countryName}}</ng-option>
                           </ng-select>
                         </div>
                         <div *ngIf="country.dirty && country.invalid">
@@ -485,8 +481,7 @@
                       class="custom" required
                       [ngStyle]="{'background-color':pageType==='View'?'#e9ecef':'#fff'}" [multiple]="false"
                       [(ngModel)]="location.localeId" placeholder="Select Language" id="locDtlGeoLang1" name="language">
-                      <ng-option *ngFor="let locale of applicationConfiguration.locale" [value]="locale.localeId">{{locale.localeName}}
-                      </ng-option>
+                      <ng-option *ngFor="let locale of applicationConfiguration.locale" [value]="locale.localeId">{{locale.localeName}}</ng-option>
                     </ng-select>
                   </div>
                       <div *ngIf="defLanguage.dirty && defLanguage.invalid">
