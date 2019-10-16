@@ -109,14 +109,16 @@
                       {{org.name}}
                     </option>
                   </select> -->
-
+                  <div class=""> 
                   <ng-select [disabled]="pageType==='View'" class="custom" #organizationName="ngModel"
                     [ngStyle]="{'background-color':pageType==='View'?'#e9ecef':'#fff'}" [multiple]="false"
                     [(ngModel)]="asset.organizationId" id="organizationName" name="organizationName"
                     placeholder="Choose Owning Organization" (change)="onParentOrgChange($event)" required>
+                    <ng-option value="null" disabled selected>Organization</ng-option>
                     <ng-option *ngFor="let org of organizationList" [value]="org.organizationId">{{org.name}}
                     </ng-option>
                   </ng-select>
+                </div>
                   <div *ngIf="organizationName.dirty && organizationName.invalid">
                     <app-votm-cloud-validator message="Organization is required"></app-votm-cloud-validator>
                   </div>
@@ -176,14 +178,16 @@
                   </select> -->
 
                   <!-- Location Image  -->
-
+                  <div class="">
                   <ng-select [disabled]="pageType==='View'" class="custom" #installedLocation="ngModel"
                     [ngStyle]="{'background-color':pageType==='View'?'#e9ecef':'#fff'}" [multiple]="false"
                     [(ngModel)]="asset.locationId" id="installedLocation" name="installedLocation"
                     placeholder="Choose Installed Location" (change)="onLocationChange($event)" required>
+                    <ng-option value="null" disabled selected>Location</ng-option>
                     <ng-option *ngFor="let loc of locationListForDropDown" [value]="loc.locationId">{{loc.locationName}}
                     </ng-option>
                   </ng-select>
+                </div>
                   <div *ngIf="installedLocation.dirty && installedLocation.invalid">
                     <app-votm-cloud-validator message="Location is required"></app-votm-cloud-validator>
                   </div>
@@ -233,15 +237,16 @@
                       {{asset.assetName}}
                     </option>
                   </select> -->
-
+                  <div class="">
                   <ng-select [disabled]="pageType==='View'" class="custom"  #parentAsset="ngModel"
                     [ngStyle]="{'background-color':pageType==='View'?'#e9ecef':'#fff'}" [multiple]="false"
                     [(ngModel)]="asset.parentAssetId" name="parentAsset" id="parentAsset"
                     placeholder="Choose Parent Asset" (change)="onParentAssetChange($event)">
+                    <ng-option value="null" disabled selected>Asset</ng-option>
                     <ng-option *ngFor="let asset of parentAssetListForDropDown" [value]="asset.assetId">{{asset.assetName}} 
                     </ng-option>
                   </ng-select>
-                  <!-- </div> -->
+                  </div>
                 </div>
 
                 <div class="col-12 col-md-6 col-lg-4 col-xl-3 form-group">

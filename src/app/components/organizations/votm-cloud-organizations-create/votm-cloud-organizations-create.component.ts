@@ -53,6 +53,10 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
   tempMeasurement: string;
   parentOrganizationInfo: any;
   templateList: any[] = [];
+  placeholder: string;
+
+  //Time Concise
+  timeFormat: any;
 
   pageTitle: string;
   pageType: string;
@@ -71,7 +75,7 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
   curOrgName: any;
   previousUrl: any;
   tempContractStartDate: NgbDateStruct;
-  tempContractEndDate: { year?: number, month?: number, day?: number };
+  tempContractEndDate: NgbDateStruct;
 
   @ViewChild('startDate', null) startDate: NgForm;
   @ViewChild('organizationForm', null) organizationForm: NgForm;
@@ -98,6 +102,7 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
   dashboardDataById: { act: string; title: string; dashboardName: string; dashboardHTML: any; };
   addDashboardArray: any;
   isAddOrganizationAPILoading = false;
+  modifiedDate: string;
 
   constructor(
     private assetService: AssetsService,
@@ -132,6 +137,7 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
     this.organization.cellularBlocks = null;
     this.organization.sensorBlocks = null;
     // this.organization.timeZone = null;
+    this.organization.modifiedOn = null; //TimeConcise
     // this.organization.locale = null;
     this.activeroute.paramMap.subscribe(params => {
       this.curOrgId = params.get('curOrgId');
@@ -158,6 +164,7 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
       if (this.orgId) {
         this.getOrganizationInfo();
       } else {
+        this.placeholder = VotmCommon.dateFormat;
         this.parentOrganizationInfo = {
           // parentOrganizationId: this.curOrgId, // '7A59BDD8-6E1D-48F9-A961-AA60B2918DDE',
           // parentOrganizationName: this.curOrgName // 'Parker1'
@@ -172,6 +179,9 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
         this.organization.address[0].addressType = 'Billing';
         this.organization.address[0].country = null;
         this.organization.address[0].state = null;
+
+
+        this.organization.modifiedOn = null; //TimeConcise
 
       }
     });
@@ -299,6 +309,12 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
     this.organizationService.getOrganizationById(this.orgId)
       .subscribe(response => {
         this.organization = response;
+
+        if (this.organization.modifiedOn) {
+          this.modifiedDate = moment(this.organization.modifiedOn).format(VotmCommon.dateFormat) + ' ' + moment(this.organization.modifiedOn).format(VotmCommon.timeFormat);
+          console.log('temp date ', moment(this.organization.modifiedOn));
+        }
+
         this.fillUoM();
         // this.organization.timeZoneId = this.organization.timeZone;
         // this.organization.localeId = this.organization.locale;
@@ -311,7 +327,7 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
           let endDate = new Date(this.organization.contractEndDate);
           this.tempContractEndDate = { year: endDate.getFullYear(), month: endDate.getMonth(), day: endDate.getDate() };
         }
-
+        this.onLocaleChange();
         if (this.organization.logo && this.organization.logo.imageName) {
           this.fileExtension = this.organization.logo.imageName.slice((Math.max(0, this.organization.logo.imageName.lastIndexOf(".")) || Infinity) + 1);
           this.imgURL = this.domSanitizer.bypassSecurityTrustUrl(`data:image/${this.fileExtension};base64,${this.organization.logo.image}`);
@@ -393,6 +409,7 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
           this.uomModels[uom[i].uomTypeName] = '';
         }
         this.fillUoM();
+        this.onLocaleChange();
         // this.uomArray = new Array[this.applicationConfiguration.unitOfMeassurement.length];
       });
   }
@@ -849,19 +866,29 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
 
   onLocaleChange() {
     let localeName;
-    this.applicationConfiguration.locale.forEach(locale => {
-      if (locale.localeId === this.organization.localeId) {
-        localeName = locale.localeName;
-      }
-    });
-    if (localeName) {
-      VotmCommon.dateFormat = moment.localeData(localeName).longDateFormat('L');
-      console.log('this.organization.contractStartDate ', this.tempContractStartDate);
-      let obj1: NgbDateMomentParserFormatter = new NgbDateMomentParserFormatter();
-      console.log('value ', obj1.format(this.tempContractStartDate));
+    if (this.applicationConfiguration && this.applicationConfiguration.locale && this.applicationConfiguration.locale.length > 0) {
+      this.applicationConfiguration.locale.forEach(locale => {
+        if (locale.localeId === this.organization.localeId) {
+          localeName = locale.localeName;
+        }
+      });
+      if (localeName) {
+        this.placeholder = VotmCommon.dateFormat = moment.localeData(localeName).longDateFormat('L');
+        VotmCommon.timeFormat = moment.localeData(localeName).longDateFormat('LTS');
+        console.log('VotmCommon.timeFormat ', VotmCommon.timeFormat);
 
-      //#contractStartDate Create viewchild => work on this
+        let obj1: NgbDateMomentParserFormatter = new NgbDateMomentParserFormatter();
+        let updatedStartDate = obj1.format(this.tempContractStartDate);
+        let updatedEndDate = obj1.format(this.tempContractEndDate);
+        this.tempContractStartDate = null;
+        this.tempContractEndDate = null;
+        this.tempContractStartDate = obj1.parse(updatedStartDate);
+        this.tempContractEndDate = obj1.parse(updatedEndDate);
+        if (this.organization.modifiedOn) {
+          this.modifiedDate = moment(this.organization.modifiedOn).format(VotmCommon.dateFormat) + ' ' + moment(this.organization.modifiedOn).format(VotmCommon.timeFormat);
+          console.log('temp time ', moment(this.organization.modifiedOn).format(VotmCommon.timeFormat));
+        }
+      }
     }
-    console.log(' VotmCommon.dateFormat ', VotmCommon.dateFormat)
   }
 }
