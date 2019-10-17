@@ -54,7 +54,8 @@
   padding-left: 0;
   padding-right: 0;
   /*height: 625px;*/
-  overflow: scroll;
+  overflow: auto;
+  height: calc(100vh - 10rem);
 }
 .chart-cont {
   border: 1px solid #333;
