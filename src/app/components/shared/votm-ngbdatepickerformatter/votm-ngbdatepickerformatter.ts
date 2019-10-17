@@ -8,7 +8,7 @@ export class NgbDateMomentParserFormatter extends NgbDateParserFormatter {
         super();
     };
     format(date: NgbDateStruct): string {
-        if (date === null) {
+        if (!date) {
             return '';
         }
         let d = moment({
@@ -16,7 +16,6 @@ export class NgbDateMomentParserFormatter extends NgbDateParserFormatter {
             month: date.month - 1,
             date: date.day
         });
-        console.log('this.momentFormat ', this.momentFormat)
         return d.isValid() ? d.format(VotmCommon.dateFormat) : '';
     }
 

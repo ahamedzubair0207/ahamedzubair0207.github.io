@@ -148,8 +148,8 @@
                             class="custom" #organizationId="ngModel"
                             [ngStyle]="{'background-color':pageType==='View'?'#e9ecef':'#fff'}" [multiple]="false"
                             [(ngModel)]="location.organizationId" id="organizationId" name="organizationId">
-                            <ng-option *ngFor="let org of organizationList" [value]="org.organizationId">{{org.name}}
-                            </ng-option>
+                            <ng-option value="null" disabled selected>Parent Organization</ng-option>
+                            <ng-option *ngFor="let org of organizationList" [value]="org.organizationId">{{org.name}}</ng-option>
                           </ng-select>
                         </div>
                       </ng-template>
@@ -207,8 +207,8 @@
                             class="custom"  #parentLocation="ngModel"
                             [ngStyle]="{'background-color':pageType==='View'?'#e9ecef':'#fff'}" [multiple]="false"
                             [(ngModel)]="location.parentLocationId" id="parentLocation" name="installedLocation" placeholder="Choose Parent Location">
-                            <ng-option *ngFor="let loc of locationListForDropDown" [value]="loc.id">{{loc.name}}
-                            </ng-option>
+                            <ng-option value="null" disabled selected>Parent Location</ng-option>
+                            <ng-option *ngFor="let loc of locationListForDropDown" [value]="loc.id">{{loc.name}}</ng-option>
                           </ng-select>
                       </ng-template>
                       <!-- <label for="parentLocname">{{parentLocName}}</label> -->
@@ -302,15 +302,15 @@
                             {{state.text}}
                           </option>
                         </select> -->
-
+                        <div class="">
                         <ng-select [disabled]="pageType==='View'" 
                             class="custom"  #state="ngModel" required
                             [ngStyle]="{'background-color':pageType==='View'?'#e9ecef':'#fff'}" [multiple]="false"
                             [(ngModel)]="location.address[0].state" placeholder="State" id="locDtlStrtState" name="state">
-                            <ng-option *ngFor="let state of states" [value]="state.value">{{state.text}}
-                            </ng-option>
+                            <ng-option value="null" disabled selected>State</ng-option>
+                            <ng-option *ngFor="let state of states" [value]="state.value">{{state.text}}</ng-option>
                           </ng-select>
-
+                        </div>
                         <div *ngIf="state.dirty && state.invalid">
                           <app-votm-cloud-validator message="State is required"></app-votm-cloud-validator>
                         </div>
@@ -326,14 +326,15 @@
                             {{country.countryName}}
                           </option>
                         </select> -->
-
+                        <div class=""> 
                         <ng-select [disabled]="pageType==='View'"  #country="ngModel"
                             class="custom"  (change)="onCountryChange()" required
                             [ngStyle]="{'background-color':pageType==='View'?'#e9ecef':'#fff'}" [multiple]="false"
                             [(ngModel)]="location.address[0].country" placeholder="Country" id="locDtlStrtCountry" name="country">
-                            <ng-option *ngFor="let country of countries" [value]="country.countryName">{{country.countryName}}
-                            </ng-option>
+                            <ng-option value="null" disabled selected>Country</ng-option>
+                            <ng-option *ngFor="let country of countries" [value]="country.countryName">{{country.countryName}}</ng-option>
                           </ng-select>
+                        </div>
                         <div *ngIf="country.dirty && country.invalid">
                           <app-votm-cloud-validator message="Country is required"></app-votm-cloud-validator>
                         </div>
@@ -480,14 +481,13 @@
                       class="custom" required
                       [ngStyle]="{'background-color':pageType==='View'?'#e9ecef':'#fff'}" [multiple]="false"
                       [(ngModel)]="location.localeId" placeholder="Select Language" id="locDtlGeoLang1" name="language">
-                      <ng-option *ngFor="let locale of applicationConfiguration.locale" [value]="locale.localeId">{{locale.localeName}}
-                      </ng-option>
+                      <ng-option *ngFor="let locale of applicationConfiguration.locale" [value]="locale.localeId">{{locale.localeName}}</ng-option>
                     </ng-select>
-
+                  </div>
                       <div *ngIf="defLanguage.dirty && defLanguage.invalid">
                         <app-votm-cloud-validator message="Language is required"></app-votm-cloud-validator>
                       </div>
-                    </div>
+                    
                   </div>
                 </div>
                 <!-- UOM  -->

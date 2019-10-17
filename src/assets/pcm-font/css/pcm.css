@@ -175,3 +175,26 @@
 .icon-user-circle-o:before { content: '\f2be'; } /* '' */
 .icon-user-o:before { content: '\f2c0'; } /* '' */
 .icon-user-profile:before { content: '\f2c3'; } /* '' */
+.icon-warn-yellow {
+  position: relative;
+  margin-right: 0.41875rem !important;
+  font-size: 120%;
+  line-height: 80%;
+  padding-left: 1.4rem;
+ }
+ .icon-warn-yellow:before {
+  content: '\e849';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  color: #000000;
+  margin: 0;
+ }
+ .icon-warn-yellow:after {
+  content: '\e857';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  color: yellow;
+  margin: 0;
+ }

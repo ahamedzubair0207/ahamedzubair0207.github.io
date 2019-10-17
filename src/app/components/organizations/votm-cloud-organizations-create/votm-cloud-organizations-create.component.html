@@ -323,10 +323,10 @@
                                 <!-- Time Fromat for Moment.js  -->
                 <div class="col-12 col-md-6 col-lg-3 col-xl-2">
                   <div class="form-group">
-                    <label class="temp">Time Format:</label>
+                    <label class="temp">Modified On:</label>
                     <div class="input-group">
-                      <input type="text" [disabled]="pageType==='View'"
-                        name="momentTime" class="form-control form-control-sm" >
+                      <input type="text" disabled
+                        name="momentTime" class="form-control form-control-sm" [(ngModel)]="modifiedDate" #modifiedOn="ngModel">
                     </div>
                   </div>
                   <app-votm-cloud-char-validator
@@ -348,7 +348,7 @@
                     <!-- </div> -->
                     <div class="input-group">
                       <input class="form-control form-control-sm"
-                        (click)="contractStartDate.toggle(); onStartDateChange();" placeholder="yyyy-mm-dd"
+                        (click)="contractStartDate.toggle(); onStartDateChange();" placeholder="{{placeholder}}"
                         [disabled]="pageType==='View'" [(ngModel)]="tempContractStartDate" name="startDate"
                         ngbDatepicker #contractStartDate="ngbDatepicker" (change)="onStartDateChange()"
                         (keyup)="onStartDateChange()" #startDate="ngModel" required (ngModelChange)="compareDate()">
@@ -372,7 +372,7 @@
                     <label id="endDateLbl">{{pageLabels.EndDate.labelName}}:</label>
                     <div class="input-group">
                       <input class="form-control form-control-sm" (click)="contractEndDate.toggle(); onEndDateChange();"
-                        placeholder="yyyy-mm-dd" [disabled]="pageType==='View'" [(ngModel)]="tempContractEndDate"
+                        placeholder="{{placeholder}}" [disabled]="pageType==='View'" [(ngModel)]="tempContractEndDate"
                         name="endDate" ngbDatepicker #contractEndDate="ngbDatepicker" (change)="onEndDateChange()"
                         (keyup)="onEndDateChange()" #endDate="ngModel" required (ngModelChange)="compareDate()">
                       <div class="input-group-append"><span class="input-group-text"><i
