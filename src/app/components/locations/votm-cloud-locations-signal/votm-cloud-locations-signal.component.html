@@ -5,7 +5,7 @@
   <div class="col-md-10">
       <div class="chart-cont embed-responsive embed-responsive-16by9" style="background-color: #efefef;">
           <div class="embed-responsive-item" id="map-cont-1">
-              <img id="map-image" class="img-fluid" src="../../assets/images/floorplan.svg" />
+              <img *ngIf="imgURL"  id="map-image" class="img-fluid" [src]="imgURL" />
           </div>
       </div>
       <br />
@@ -26,7 +26,7 @@
   </div>
 </div>
 
-<p-overlayPanel #editOP [appendTo]="'body'" [dismissable]="false"
+<p-overlayPanel #editOP [appendTo]="'body'" [style]="{ 'width' : '400px'}" [dismissable]="false"
 [showCloseIcon]="true">
   <div class="row"  *ngIf="selectedSignal">
     <div class="col-md-12">
@@ -34,42 +34,83 @@
             <div class="card-header">Signal Association</div>
             <div class="card-body">
               <div class="row">
-
-                <div class="col-sm-3"><label>Name: &nbsp;</label></div>
-
-                <div class="col-sm-9">
-                  <input type="text" id="signal_name" class="form-control" [(ngModel)]="selectedSignal.associationName" placeholder="Enter Signal Name">
-                </div>
-              </div>
-              <div class="row mar-top-5">
-                <div class="col-sm-3"><label>Position: &nbsp; X: &nbsp;</label></div>
-
-                <div class="col-sm-4">
-                  <input type="text" id="position_x" class="form-control" [(ngModel)]="selectedSignal.imageCoordinates.x" placeholder="Enter Postion X">
-                </div>
-
-                  <div class="col-sm-1">Y:  &nbsp;</div>
-                  <div class="col-sm-4">
-                    <input type="text" id="position_y" class="form-control" [(ngModel)]="selectedSignal.imageCoordinates.y" placeholder="Enter Position Y">
-                  </div>
-
-
-              </div>
-              <div class="row mar-top-5">
-                <div class="col-sm-12">
-                <label> Source Signal Type: </label> {{selectedSignal.name}}
-                </div>
-              </div>
-              <div class="row mar-top-5">
-                  <div class="col-sm-12">
-                  <label> Source Sensor: </label> {{selectedSignal.sensorName}}
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label class="temp" id="edit-panel-name-label">Name: </label>
+                    <div class="">
+                      <input type="text" class="form-control form-control-sm" id="edit-panel-name" placeholder="Enter Signal Name"
+                      [(ngModel)]="selectedSignal.associationName">
+                    </div>
                   </div>
                 </div>
-
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label class="temp" id="edit-panel-x-label">Position: &nbsp; X</label>
+                    <div class="">
+                      <input type="text" id="edit-panel-position-x" class="form-control form-control-sm" [(ngModel)]="selectedSignal.imageCoordinates.x" placeholder="Enter Postion X">
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label class="temp" id="edit-panel-y-label">Position: &nbsp; Y</label>
+                    <div class="">
+                      <input type="text" id="edit-panel-position-y" class="form-control form-control-sm" [(ngModel)]="selectedSignal.imageCoordinates.y" placeholder="Enter Position Y">
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label class="temp" id="edit-panel-x-label">Source Signal Type: </label>
+                    <div class="">
+                      {{selectedSignal.name}}
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label class="temp" id="edit-panel-x-label">Source Sensor: </label>
+                    <div class="">
+                      {{selectedSignal.sensorName}}
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
             <div class="card-footer text-muted">
-                <button class="btn btn-info pull-right" (click)="onClickOfSaveSignalAssociationPanel()">Save</button>
-                <button class="btn btn-secondary pull-right mr-1" (click)="editOPanel.hide()">Close</button>
+                <button class="btn btn-sm btn-info pull-right" (click)="onClickOfSaveSignalAssociationPanel()">Save</button>
+                <button class="btn btn-sm btn-outline-secondary pull-right mr-1" (click)="closeEditOpanel()">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+</p-overlayPanel>
+
+<p-overlayPanel #alertOP [appendTo]="'body'" [style]="{ 'width' : '400px'}" [dismissable]="false"
+[showCloseIcon]="true">
+  <div class="row"  *ngIf="selectedSignal">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">Alarm Rule Association</div>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label class="temp" id="edit-panel-name-label">Add Rule: </label>
+                    <div class="">
+                      <select  class="form-control form-control-sm" id="alert-panel-rule-name" >
+                        <option>Rule 1</option>
+                        <option>Rule 2</option>
+                        <option>Rule 3</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="card-footer text-muted">
+                <button class="btn btn-sm btn-info pull-right" >Save</button>
+                <button class="btn btn-sm btn-outline-secondary pull-right mr-1" (click)="onClickOfCreateAssociateRule()">Create & Associate Rule</button>
             </div>
         </div>
     </div>

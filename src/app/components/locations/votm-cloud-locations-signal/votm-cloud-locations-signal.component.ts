@@ -33,7 +33,8 @@ export class VotmCloudLocationsSignalComponent implements OnInit, AfterViewInit 
   imgURL: any; // to store the base64 of location image.
   curOrganizationId: string;
   curOrganizationName: string;
-  @ViewChild('editOP', null) editOPanel: OverlayPanel; // signal association modal refference
+  @ViewChild('editOP', null) editOPanel: OverlayPanel; // signal association edit modal refference
+  @ViewChild('alertOP', null) alertOPanel: OverlayPanel; // signal association alert modal refference
   sensors = [
   ];
   sensorsCreated = null;
@@ -189,7 +190,7 @@ export class VotmCloudLocationsSignalComponent implements OnInit, AfterViewInit 
       this.copyAvailableSignals = JSON.parse(JSON.stringify(this.sensors));
       console.log(this.copyAvailableSignals);
       this.configSensors('#sensor-cont', '#map-cont-1');
-      this.setAssociatedSensors('map-cont-1');
+     // this.setAssociatedSensors('map-cont-1');
       this.isGetAvailableSignalsAPILoading = false;
     },
     error => {
@@ -220,24 +221,25 @@ export class VotmCloudLocationsSignalComponent implements OnInit, AfterViewInit 
       }
     );
   }
-  setAssociatedSensors(mapCntrSel) {
-    for (const signal of this.associatedSignals) {
-      let dsIx;
-      const sIx = this.sensors.findIndex(sensor => {
-        dsIx = sensor.node.findIndex(signalObj => signalObj.id === signal.signalId);
-        return signal.sensorId === sensor.id;
-      });
-      const $sensor = $(
-        '<div class="sensor-circle secondary-ds docked signalicon-temperature" >'
-      )
-      .data('sIx', sIx)
-      .data('dsIx', dsIx)
-      .appendTo(mapCntrSel);
-    }
+  // setAssociatedSensors(mapCntrSel) {
+  //   for (const signal of this.associatedSignals) {
+  //     let dsIx;
+  //     const sIx = this.sensors.findIndex(sensor => {
+  //       dsIx = sensor.node.findIndex(signalObj => signalObj.id === signal.signalId);
+  //       return signal.sensorId === sensor.id;
+  //     });
+  //     const $sensor = $(
+  //       '<div class="sensor-circle secondary-ds docked signalicon-temperature" >'
+  //     )
+  //     .data('sIx', sIx)
+  //     .data('dsIx', dsIx)
+  //     .appendTo(mapCntrSel);
+  //   }
 
-  }
+  // }
 
   configSensors(dockCntrSel, mapCntrSel) {
+    const self = this;
     if (!this.sensorsCreated) {
       let $sensor;
       $.each(this.sensors, (sIx, sensorItem) => {
@@ -265,24 +267,26 @@ export class VotmCloudLocationsSignalComponent implements OnInit, AfterViewInit 
             });
             console.log(index);
             if (index === -1) {
-              const self = this;
               $sensor = $(
                 '<div class=\'sensor-circle secondary-ds docked signalicon-temperature\' id="' + dsItem.id + '">'
               )
                 .data('sIx', sIx)
                 .data('dsIx', dsIx)
                 .appendTo(mapCntrSel)
-                .on('click', function(ev) {
+                .on('mouseenter', function(ev) {
                   console.log('fghhjkhkl');
                   $(this).removeClass('pad-18');
                   $(this).children().show();
                   ev.stopPropagation();
+                })
+                .on('mouseleave', function(ev) {
+                  console.log(self.editOPanel);
+                  if (!self.editOPanel.visible && !self.alertOPanel.visible) {
+                    $(this).children().hide();
+                    $(this).addClass('pad-18');
+                  }
+                  ev.stopPropagation();
                 });
-                // .on('mouseleave', function(ev) {
-                //   $(this).children().hide();
-                //   $(this).addClass('pad-18');
-                //   ev.stopPropagation();
-                // });
               $sensor.data(
                 'dockEl',
                 $sensor
@@ -315,6 +319,8 @@ export class VotmCloudLocationsSignalComponent implements OnInit, AfterViewInit 
                 'class="icon-unlink"></a>');
               $(document).on('mousedown', '#signal-edit-btn-' + sIx + '-' + dsIx, (evt) => {
                 console.log('button clicked');
+                $(this).removeClass('pad-18');
+                $(this).children().show();
                 const idsSplitList = evt.target.id.split('-');
                 this.selectedSignal = this.sensors[idsSplitList[idsSplitList.length - 2]].node[idsSplitList[idsSplitList.length - 1]];
                 console.log(this.selectedSignal.imageCoordinates.x);
@@ -323,7 +329,25 @@ export class VotmCloudLocationsSignalComponent implements OnInit, AfterViewInit 
                 $sensor.children().show();
                 this.editOPanel.toggle(evt);
                 evt.preventDefault();
-
+              });
+              $(document).on('mousedown', '#signal-alert-btn-' + sIx + '-' + dsIx, (evt) => {
+                console.log('button clicked');
+                $(this).removeClass('pad-18');
+                $(this).children().show();
+                const idsSplitList = evt.target.id.split('-');
+                this.selectedSignal = this.sensors[idsSplitList[idsSplitList.length - 2]].node[idsSplitList[idsSplitList.length - 1]];
+                console.log(this.selectedSignal.imageCoordinates.x);
+                console.log(this.selectedSignal.imageCoordinates.y);
+                $sensor.removeClass('pad-18');
+                $sensor.children().show();
+                this.alertOPanel.toggle(evt);
+                evt.preventDefault();
+              });
+              $(document).on('mousedown', '#signal-detach-btn-' + sIx + '-' + dsIx , (evt) => {
+                const idsSplitList = evt.target.id.split('-');
+                this.selectedSignal = this.sensors[idsSplitList[idsSplitList.length - 2]].node[idsSplitList[idsSplitList.length - 1]];
+                this.onDetachSignalFromAsset();
+                evt.preventDefault();
               });
               $sensor.removeClass('pad-18');
               $sensor.children().hide();
@@ -335,17 +359,20 @@ export class VotmCloudLocationsSignalComponent implements OnInit, AfterViewInit 
                 .data('sIx', sIx)
                 .data('dsIx', dsIx)
                 .appendTo(mapCntrSel)
-                .on('click', function(ev) {
+                .on('mouseenter', function(ev) {
                   console.log('fghhjkhkl');
                   $(this).removeClass('pad-18');
                   $(this).children().show();
                   ev.stopPropagation();
+                })
+                .on('mouseleave', function(ev) {
+                  console.log(self.editOPanel);
+                  if (!self.editOPanel.visible && !self.alertOPanel.visible) {
+                    $(this).children().hide();
+                    $(this).addClass('pad-18');
+                    ev.stopPropagation();
+                  }
                 });
-                // .on('mouseleave', function(ev) {
-                //   $(this).children().hide();
-                //   $(this).addClass('pad-18');
-                //   ev.stopPropagation();
-                // });
               $sensor.data(
                 'dockEl',
                 $sensor
@@ -379,24 +406,39 @@ export class VotmCloudLocationsSignalComponent implements OnInit, AfterViewInit 
                 'class="icon-edit"></a>')
                 .append('<a id="signal-alert-btn-' + sIx + '-' + dsIx + '-' + index + '" style="width: 30px; height:30px;cursor:ponter;"' +
                 'class="icon-warn"></a>')
-                .append('<a id="signal-detach-btn-' + sIx + '-' + dsIx + '-' + index + '" style="width: 30px; height:30px;cursor:ponter;" ' +
-                'class="icon-unlink"></a>');
-              $  (document).on('mousedown', '#signal-edit-btn-' + sIx + '-' + dsIx + '-' + index , (evt) => {
+                .append('<a id="signal-detach-btn-' + sIx + '-' + dsIx + '-' + index + '" ' +
+                ' style="width: 30px; height:30px;cursor:ponter;" class="icon-unlink"></a>');
+              $(document).on('mousedown', '#signal-edit-btn-' + sIx + '-' + dsIx + '-' + index , (evt) => {
                 console.log('button clicked', evt.target.id);
                 const idsSplitList = evt.target.id.split('-');
                 this.selectedSignal = this.associatedSignals[idsSplitList[idsSplitList.length - 1]];
                 console.log(this.selectedSignal.imageCoordinates.x);
                 console.log(this.selectedSignal.imageCoordinates.y);
                 evt.preventDefault();
-                this.editOPanel.toggle(evt);
-					      evt.stopPropagation();
+                this.editOPanel.show(evt);
                 evt.cancelBubble = true;
-
+              });
+              $(document).on('mousedown', '#signal-alert-btn-' + sIx + '-' + dsIx + '-' + index , (evt) => {
+                console.log('button clicked', evt.target.id);
+                const idsSplitList = evt.target.id.split('-');
+                this.selectedSignal = this.associatedSignals[idsSplitList[idsSplitList.length - 1]];
+                console.log(this.selectedSignal.imageCoordinates.x);
+                console.log(this.selectedSignal.imageCoordinates.y);
+                evt.preventDefault();
+                this.alertOPanel.show(evt);
+                evt.cancelBubble = true;
+              });
+              $(document).on('mousedown', '#signal-detach-btn-' + sIx + '-' + dsIx + '-' + index , (evt) => {
+                const idsSplitList = evt.target.id.split('-');
+                this.selectedSignal = this.associatedSignals[idsSplitList[idsSplitList.length - 1]];
+                this.onDetachSignalFromAsset();
               });
             //  $sensor.removeClass('pad-18');
               $sensor.children().hide();
+              this.associatedSignals[index]['sensorEl'] = $sensor;
             }
             this.sensors[sIx].node[dsIx]['sensorEl'] = $sensor;
+
           });
         }
       });
@@ -409,7 +451,6 @@ export class VotmCloudLocationsSignalComponent implements OnInit, AfterViewInit 
     const sIx = $sensor.data('sIx');
     const dsIx = $sensor.data('dsIx');
     console.log(sIx, '========', dsIx);
-    let signalMappingIdFlag = false;
     const index = this.associatedSignals.findIndex(signal => {
       console.log('sixxxx     ', this.sensors[sIx].node[dsIx].id);
       console.log('sixxxx     ',  signal.signalId);
@@ -430,9 +471,10 @@ export class VotmCloudLocationsSignalComponent implements OnInit, AfterViewInit 
           (parseInt($sensor.css('left'), 10) / ($sensor.parent().width() / 100)).toFixed(2) + '%';
         this.sensors[sIx].node[dsIx].imageCoordinates.y =
           (parseInt($sensor.css('top'), 10) / ($sensor.parent().height() / 100)).toFixed(2) + '%';
+        const sensorObj = { ...this.sensors[sIx].node[dsIx]};
+        this.associatedSignals.push(sensorObj);
       }
-      const sensorObj = { ...this.sensors[sIx].node[dsIx]};
-      this.associatedSignals.push(sensorObj);
+
       // $('#map-cont-1 .sensor-circle').sensorPopover();
       console.log(this.sensors);
     } else {
@@ -441,7 +483,6 @@ export class VotmCloudLocationsSignalComponent implements OnInit, AfterViewInit 
           .addClass('docked')
           .data('dockEl')
           .addClass('docked');
-        this.associatedSignals[index].imageCoordinates.x = this.associatedSignals[index].imageCoordinates.y = null;
         delete this.associatedSignals[index];
       } else {
         this.associatedSignals[index].imageCoordinates.x =
@@ -450,16 +491,8 @@ export class VotmCloudLocationsSignalComponent implements OnInit, AfterViewInit 
           (parseInt($sensor.css('top'), 10) / ($sensor.parent().height() / 100)).toFixed(2) + '%';
       }
     }
+    console.log( this.associatedSignals);
     // this.updateSensors('#map-cont-1');
-  }
-
-  batteryPct(voltage) {
-    // tslint:disable-next-line: max-line-length
-    if (voltage > 3.0) { return '100'; } else if (voltage > 2.9) { return '75'; } else if (voltage > 2.7) { return '50'; } else if (voltage > 2.5) { return '25'; } else { return '0'; }
-  }
-  signalPct(signal) {
-    // tslint:disable-next-line: max-line-length
-    if (signal > 31.0) { return '100'; } else if (signal > 24.0) { return '75'; } else if (signal > 17.0) { return '50'; } else if (signal > 10.0) { return '25'; } else { return '0'; }
   }
 
   onSaveSignalAssociation() {
@@ -482,9 +515,13 @@ export class VotmCloudLocationsSignalComponent implements OnInit, AfterViewInit 
     .subscribe(
       response => {
         console.log(response);
+        $('#map-cont-1').children().not('img').remove();
+        $('#sensor-cont').empty();
+        this.sensors = [];
+        this.sensorsCreated = null;
         this.toaster.onSuccess('Signal associated successfully', 'Saved');
-        this.getAllAvailableSignals();
         this.getLocationSignalAssociation();
+
       }, error => {
         this.toaster.onFailure('Error while saving signal assocition', 'Error');
       }
@@ -496,18 +533,63 @@ export class VotmCloudLocationsSignalComponent implements OnInit, AfterViewInit 
     const index = this.associatedSignals.findIndex(
       signal => signal.id === this.selectedSignal.id
     );
-    console.log(JSON.stringify(this.associatedSignals));
-    if (index !== -1) {
-      delete this.associatedSignals[index];
-    }
-    this.associatedSignals.push(this.selectedSignal);
-    console.log(JSON.stringify(this.associatedSignals));
-    const elem = $('#' + this.selectedSignal.id);
-    elem.css({
+    // if (index !== -1) {
+    //   delete this.associatedSignals[index];
+    // }
+    // this.associatedSignals.push(this.selectedSignal);
+    this.associatedSignals.splice(index, 1, this.selectedSignal);
+    this.selectedSignal.sensorEl.css({
       left: this.selectedSignal.imageCoordinates.x,
       top: this.selectedSignal.imageCoordinates.y
     });
+    this.selectedSignal.sensorEl.children('span').each((i, item) => {
+      console.log(this.selectedSignal.sensorEl.children('span')[i].id);
+      $('#' + this.selectedSignal.sensorEl.children('span')[i].id).html(this.selectedSignal.associationName);
+  });
     this.editOPanel.hide();
+  }
+
+  closeEditOpanel() {
+    this.editOPanel.hide();
+    this.selectedSignal.sensorEl.children().hide();
+    this.selectedSignal.sensorEl.addClass('pad-18');
+  }
+
+  onDetachSignalFromAsset() {
+    if (this.selectedSignal.signalMappingId) {
+      this.locationSignalService.detachSignalAssociation(this.selectedSignal.signalMappingId).subscribe(
+        response => {
+          $('#map-cont-1').children().not('img').remove();
+          $('#sensor-cont').empty();
+          this.sensors = [];
+          this.sensorsCreated = null;
+          this.toaster.onSuccess('Signal detached successfully', 'Detached');
+          this.getLocationSignalAssociation();
+        }
+      );
+    } else {
+      this.selectedSignal.sensorEl
+          .addClass('docked')
+          .data('dockEl')
+          .addClass('docked');
+      let dsIx;
+      const sIx = this.sensors.findIndex(sensor => {
+        dsIx = sensor.node.findIndex(signal => signal.id === this.selectedSignal.id);
+        return this.selectedSignal.sensorId === sensor.id;
+      });
+      this.sensors[sIx].node[dsIx].imageCoordinates.x = this.sensors[sIx].node[
+        dsIx
+      ].imageCoordinates.y = null;
+      const index = this.associatedSignals.findIndex(signal => this.selectedSignal.id === signal.id);
+      console.log(this.associatedSignals);
+      this.associatedSignals.splice(index, 1);
+      console.log(this.associatedSignals);
+    }
+  }
+
+  onClickOfCreateAssociateRule() {
+    this.route.navigate(['org', 'view', this.curOrganizationId, this.curOrganizationName,
+    this.organizationId ? this.organizationId : this.curOrganizationId, 'alertRule', 'create']);
   }
 
 

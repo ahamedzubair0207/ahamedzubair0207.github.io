@@ -850,6 +850,9 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
         dashboardName: dashboardNames,
         dashboardHTML: ''
       };
+      this.dbLongName = '';
+      this.dbShortName = '';
+      this.selTemplate = this.dbTemplates[0].name;
     } else if (dashboardAct === 'addDashboard') {
       this.dashboardDataById = {
         act: 'create',
@@ -859,6 +862,8 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
       };
     }
     console.log('dashboardDataById---', this.dashboardDataById);
+    this.dbLongName = '';
+    this.dbShortName = '';
     // Get the modal
     let addDashboardmodal = document.getElementById('addDashboardModalWrapper');
     addDashboardmodal.style.display = 'block';
@@ -877,13 +882,17 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
 
   onDashboardFormSubmit() {
     console.log('onDashboardFormSubmit', this.dashboardDataById);
-    this.addDashboardArray = {
-      id: '4',
-      templateName: 'Standard Asset Dashboard',
-      dashboardName: this.dashboardDataById.dashboardName
-    };
-    this.dashboardData.push(this.addDashboardArray);
-    console.log('this.dashboardData---added', this.dashboardData);
+    // this.addDashboardArray = {
+    //   id: '4',
+    //   templateName: 'Standard Asset Dashboard',
+    //   dashboardName: this.dashboardDataById.dashboardName
+    // };
+    // this.dashboardData.push(this.addDashboardArray);
+    this.dbLastIdNum++;
+    this.newTabId = "dbtab-" + this.dbLastIdNum;
+    this.dbItems.push(new DbItem(this.newTabId, this.dbLongName, this.dbShortName, this.selTemplate,
+      this.dbTemplates.find(({ name }) => name === this.selTemplate).component, ''));
+    console.log('this.dbItems---added', this.dbItems);
     this.closeAddDashboardModal(true);
   }
 

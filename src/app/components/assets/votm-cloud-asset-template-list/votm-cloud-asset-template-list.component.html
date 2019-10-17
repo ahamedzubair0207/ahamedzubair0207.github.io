@@ -1,9 +1,19 @@
 <!-- <h3 class="flt-left mt-3 mb-3 ml-2 asset-table-header" id="templateList">List</h3> -->
-<form class="form-inline">
-  <label for="typeahead-config" id="template-search-lbl">Type to filter events:</label>
-  <input class="form-control form-control-sm ml-2 mb-3 mt-3" id="templateSearchBox" type="search" placeholder="Search"
-    aria-label="Search">
-  <button class="btn btn-sm btn-outline-info mr-2 ml-2" id="templateSearchButton" type="submit">Search</button>
+<form class="form-inline mb-3">
+  <div class="form-group">
+    <label for="typeahead-config" id="template-search-lbl">Type to filter events:</label>
+    <div class="input-group input-group-sm">
+      <input class="form-control form-control-sm ml-2" id="templateSearchBox" type="search" placeholder="Search"
+        aria-label="Search">
+      <div class="input-group-append">
+        <span class="input-group-text p-0">
+          <button class="btn btn-sm btn-search" id="templateSearchButton" type="submit"><i
+              class="fa fa-search"></i></button>
+        </span>
+      </div>
+      <!-- <button class="btn btn-sm btn-outline-info mr-2 ml-2" id="templateSearchButton" type="submit">Search</button> -->
+    </div>
+  </div>
   <div class="btn-group-right">
     <button [routerLink]="['/template/create']" id="templateCreate" type="button" class="btn btn-info btn-sm">Create Template</button>
   </div>
@@ -11,12 +21,12 @@
 <table class="table table-sm table-bordered" id="assetTemplateTb">
   <thead class="thead-dark">
     <tr>
-      <th scope="col" class="align-center table-col-name">Template Name</th>
-      <th scope="col" class="align-center">Asset Type</th>
-      <th scope="col" class="align-center">Ver.</th>
-      <th scope="col" class="align-center table-col-small">Last Updated</th>
-      <th scope="col" class="align-center table-col-small">Updated by</th>
-      <th scope="col" class="align-center table-col-small">Linked Assets</th>
+      <th scope="col" class="">Template Name</th>
+      <th scope="col" class="">Asset Type</th>
+      <th scope="col" class="">Ver.</th>
+      <th scope="col" class="">Last Updated</th>
+      <th scope="col" class="">Updated by</th>
+      <th scope="col" class="">Linked Assets</th>
       <th scope="col" class="align-center">Actions</th>
     </tr>
   </thead>
@@ -28,11 +38,11 @@
           {{item.templateName}}
         </a>
       </th>
-      <td class="align-center">{{item.assetType}}</td>
-      <td class="align-center">{{item.templateId}}</td>
-      <td class="align-center">{{item.organizationName}}</td>
-      <td class="align-center">{{item.organizationName}}</td>
-      <td class="align-center">{{item.organizationName}}</td>
+      <td class="">{{item.assetType}}</td>
+      <td class="">{{item.templateId}}</td>
+      <td class="">{{item.organizationName}}</td>
+      <td class="">{{item.organizationName}}</td>
+      <td class="">{{item.organizationName}}</td>
       <td class="align-center">
 
         <!-- <a class="action-icon" title="View">
