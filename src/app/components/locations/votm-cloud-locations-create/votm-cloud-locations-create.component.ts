@@ -67,8 +67,8 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
   rectangleUnit: any;
   rectangleValue2: any;
   dropdownSettings: {};
-  gatewayList: Array<Select2OptionData>; // { item_id: string; item_text: string; }[];
-  // gatewayList: Array<any>;
+  // gatewayList: Array<Select2OptionData>; // { item_id: string; item_text: string; }[];
+  gatewayList: Array<any>;
   selectedItems: Array<Select2OptionData>; // { item_id: string; item_text: string; }[];
   previousURLToNavigate: string;
   previousUrl: any;

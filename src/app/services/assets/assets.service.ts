@@ -34,8 +34,8 @@ export class AssetsService {
   }
 
   getAssetTreeByOrgId(orgId: string): Observable<any> {
-    // let params = new HttpParams().set("assetId", assetId);
-    return this.http.get(AppConstants.GET_ASSETTREE + '/' + orgId + AppConstants.GET_ASSETTREE_BYORGID)
+    let params = new HttpParams().set('type', 'organization').set('Id', orgId);
+    return this.http.get(AppConstants.GET_ASSETTREE, params)
       .pipe(
         map(response => response)
       );
