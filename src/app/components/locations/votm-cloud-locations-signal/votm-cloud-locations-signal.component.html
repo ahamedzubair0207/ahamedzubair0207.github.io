@@ -99,9 +99,8 @@
                     <label class="temp" id="edit-panel-name-label">Add Rule: </label>
                     <div class="">
                       <select  class="form-control form-control-sm" id="alert-panel-rule-name" >
-                        <option>Rule 1</option>
-                        <option>Rule 2</option>
-                        <option>Rule 3</option>
+                        <option>Select Any</option>
+                        <option *ngFor="let rule of alertRules" >{{rule.alertRuleName}}</option>
                       </select>
                     </div>
                   </div>
