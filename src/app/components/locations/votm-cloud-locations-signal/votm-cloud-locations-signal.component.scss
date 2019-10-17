@@ -10,7 +10,9 @@
   font-weight: normal;
   font-style: normal;
 }
-
+.temp{
+  font-weight: inherit !important;
+}
 .max-btn,
 .restore-btn {
   border-color: transparent;
