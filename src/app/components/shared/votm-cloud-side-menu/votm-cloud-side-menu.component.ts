@@ -40,8 +40,10 @@ export class VotmCloudSideMenuComponent implements OnInit {
     if (actItem !== 'admin') {
     this.sharedService.setActiveMenu(actItem);
     this.activeItem = this.sharedService.getActiveMenu();
-    elem.classList.remove('display-block');
-    elem.classList.add('display-none');
+    if (this.activeItem !== 'network' && this.activeItem !== 'user') {
+      elem.classList.remove('display-block');
+      elem.classList.add('display-none');
+    }
     } else {
       if (!elem.classList.contains('display-block')) {
         elem.classList.add('display-block');

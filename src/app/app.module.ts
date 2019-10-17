@@ -1,5 +1,5 @@
 
-import { NgModule } from '@angular/core';
+import { NgModule, Directive } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { DatePipe } from '@angular/common';
@@ -129,6 +129,9 @@ import { VotmCloudAdminReceiverDetailsComponent } from './components/admin/admin
 import { VotmCloudAssetChildComponent } from './components/assets/votm-cloud-asset-child/votm-cloud-asset-child.component';
 import { NgbDateMomentParserFormatter } from './components/shared/votm-ngbdatepickerformatter/votm-ngbdatepickerformatter';
 import { BasicDashboardComponent } from './components/dashboards/basic-dashboard/basic-dashboard.component';
+import { DashboardhostComponent } from './components/dashboardhost/dashboardhost.component';
+import { DashboardDirective } from './dashboard.directive';
+import { ScoutStyleDashboardComponent } from './components/dashboards/scout-style-dashboard/scout-style-dashboard.component';
 
 const oktaConfig = Object.assign({
   onAuthRequired: ({oktaAuth, router}) => {
@@ -203,7 +206,10 @@ const oktaConfig = Object.assign({
     VotmCloudAdminGatewaysDetailsComponent,
     VotmCloudAdminReceiverDetailsComponent,
     VotmCloudAssetChildComponent,
-    BasicDashboardComponent
+    BasicDashboardComponent,
+    DashboardhostComponent,
+    DashboardDirective,
+    ScoutStyleDashboardComponent
   ],
 
 
@@ -232,11 +238,12 @@ const oktaConfig = Object.assign({
     SharedService,
     BreadcrumbsService,
     { provide: OKTA_CONFIG, useValue: oktaConfig },
-    { 
-      provide: NgbDateParserFormatter, 
-      useFactory: () => { return new NgbDateMomentParserFormatter() } 
+    {
+      provide: NgbDateParserFormatter,
+      useFactory: () => { return new NgbDateMomentParserFormatter(); }
     }
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [BasicDashboardComponent, ScoutStyleDashboardComponent]
 })
 export class AppModule { }

@@ -1,10 +1,11 @@
 import { DomSanitizer } from '@angular/platform-browser';
 import { OverlayPanel } from 'primeng/overlaypanel';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { VotmCloudConfimDialogComponent } from '../../shared/votm-cloud-confim-dialog/votm-cloud-confim-dialog.component';
 import { OrganizationService } from 'src/app/services/organizations/organization.service';
 import { setData } from 'src/assets/js/data';
+import { DbItem } from 'src/app/models/db-item';
 
 @Component({
   selector: 'app-votm-cloud-organization-dashboard',
@@ -26,6 +27,8 @@ export class VotmCloudOrganizationDashboardComponent implements OnInit {
   addDashboardArray: any;
   http: any;
 
+  @Input() dbItem: DbItem;
+
   constructor(
     private modalService: NgbModal,
     private sanitizer: DomSanitizer,
@@ -33,7 +36,7 @@ export class VotmCloudOrganizationDashboardComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.dashboardData = {
+    /*this.dashboardData = {
       act: 'add',
       title : 'Dashboard',
       id: '1',
@@ -57,10 +60,10 @@ export class VotmCloudOrganizationDashboardComponent implements OnInit {
     ];
     console.log(this.dashboardTemplates);
     console.log(this.dashboardData);
-    this.getDashboardHTML('parkerdashboard', 0);
+    this.getDashboardHTML('parkerdashboard', 0);*/
   }
 
-  getDashboards() {
+  /*getDashboards() {
     // service to get all dashboards by userid
 
     this.userdashboardData = [
@@ -176,7 +179,7 @@ export class VotmCloudOrganizationDashboardComponent implements OnInit {
 
   getDashboardById(dashboardId: any) {
     this.dashboardData = this.getDashboards();
-    //return this.dashboardById = this.dashboardData.id;
-  }
+    // return this.dashboardById = this.dashboardData.id;
+  }*/
 
 }
