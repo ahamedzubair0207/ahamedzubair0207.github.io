@@ -11,22 +11,23 @@
       <br />
 
   </div>
-  <div class="col">
-    <button id="loc-signal-association-save" type="button" class="btn mr-1 btn-secondary button-right-mod btn-info btn-sm button-margin-asset"
-    (click)="onSaveSignalAssociation()" [disabled]="associatedSignals.length === 0">Save</button>
-    <button
-    id="asset-cancel"
-    for="form-cancel"
-    type="button"
-    (click)="onCancelClick($event)"
-    class="btn btn-secondary button-right-mod btn-sm button-margin-asset "
-  >
-    Cancel
-  </button>
-  </div>
+  <div class="col mt-3">
+      <button id="loc-signal-association-save" type="button" class="btn mr-1 mt btn-secondary button-right-mod btn-info btn-sm button-margin-asset"
+      (click)="onSaveSignalAssociation()" [disabled]="associatedSignals.length === 0">Save</button>
+      <button
+      id="asset-cancel"
+      for="form-cancel"
+      type="button"
+      (click)="onCancelClick($event)"
+      class="btn btn-secondary button-right-mod btn-sm button-margin-asset "
+    >
+      Cancel
+    </button>
+    </div>
+
 </div>
 
-<p-overlayPanel #editOP [appendTo]="'body'" [style]="{ 'width' : '400px'}" [dismissable]="false"
+<p-overlayPanel #editOP [appendTo]="'body'" [style]="{ 'width' : '300px'}" [dismissable]="false"
 [showCloseIcon]="true">
   <div class="row"  *ngIf="selectedSignal">
     <div class="col-md-12">
@@ -59,7 +60,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="col-md-6">
+                <!-- <div class="col-md-12">
                   <div class="form-group">
                     <label class="temp" id="edit-panel-x-label">Source Signal Type: </label>
                     <div class="">
@@ -67,14 +68,25 @@
                     </div>
                   </div>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-12">
                   <div class="form-group">
                     <label class="temp" id="edit-panel-x-label">Source Sensor: </label>
                     <div class="">
                       {{selectedSignal.sensorName}}
                     </div>
                   </div>
+                </div> -->
+                <div class="row mar-top-5">
+                  <div class="col-sm-12">
+                  <label> Source Signal Type: </label> {{selectedSignal.name}}
+                  </div>
                 </div>
+                <div class="row mar-top-5">
+                  <div class="col-sm-12">
+                  <label> Source Sensor: </label> {{selectedSignal.sensorName}}
+                  </div>
+                </div>
+
               </div>
             </div>
             <div class="card-footer text-muted">
@@ -86,7 +98,7 @@
 </div>
 </p-overlayPanel>
 
-<p-overlayPanel #alertOP [appendTo]="'body'" [style]="{ 'width' : '400px'}" [dismissable]="false"
+<p-overlayPanel #alertOP [appendTo]="'body'" [style]="{ 'width' : '300px'}" [dismissable]="false"
 [showCloseIcon]="true">
   <div class="row"  *ngIf="selectedSignal">
     <div class="col-md-12">

@@ -25,7 +25,11 @@ import { countyList } from 'src/app/services/countryList/countryStateList';
 import { OrganizationService } from 'src/app/services/organizations/organization.service';
 import { SortArrays } from '../../shared/votm-sort';
 
-
+// Dashboard-david start
+import { DashboardService } from '../../../services/dasboards/dashboard.service';
+import { DbTplItem } from 'src/app/models/db-tpl-item';
+import { DbItem } from 'src/app/models/db-item';
+// Dashboard-david end
 
 @Component({
   selector: 'app-votm-cloud-locations-create',
@@ -101,6 +105,16 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
   organizationList: any[] = [];
   locationListForDropDown: any[] = [];
 
+  // Dashboard-david start
+  dbTemplates: DbTplItem[];
+  dbItems: DbItem[] = [];
+  selTemplate: string;
+  dbLongName: string = '';
+  dbShortName: string = '';
+  dbLastIdNum: number = 0;
+  newTabId: string = '';
+  // Dashboard-david end
+
   constructor(
     private modalService: NgbModal,
     private locationService: LocationService,
@@ -111,7 +125,8 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
     private datePipe: DatePipe,
     private routerLocation: RouterLocation,
     private toastr: ToastrService,
-    private organizationService: OrganizationService
+    private organizationService: OrganizationService,
+    private dbService: DashboardService, // Dashboard-david
   ) {
     this.UOM = 'SI';
     this.subscriptions = route.events.subscribe(event => {
@@ -122,6 +137,11 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
         this.previousUrl = event.url;
       }
     });
+    // Dashboard-david start
+    // this.dbService.hello();
+    this.dbTemplates = this.dbService.getDashboardTemplates();
+    this.selTemplate = this.dbTemplates[0].name;
+    // Dashboard-david end
   }
 
   ngOnInit() {
@@ -645,7 +665,7 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
       if (this.locId) {
         this.locationService.updateLocation(this.location)
           .subscribe(response => {
-            this.toaster.onSuccess('Successfully saved', 'Saved');
+            this.toaster.onSuccess('Successfully updated', 'Updated');
             // this.onSuccess('Successfully saved', 'Saved');
             this.routerLocation.back();
           }, error => {
@@ -655,7 +675,7 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
         this.locationService.createLocation(this.location)
           .subscribe(response => {
             // console.log('response ', response);
-            this.toaster.onSuccess('Successfully saved', 'Saved');
+            this.toaster.onSuccess('Successfully created', 'Created');
             // if (this.parentLocId && this.parentLocName) {
             //   this.route.navigate([`loc/home/${this.parentLocId}/${this.parentLocName}`]);
             // } else {
@@ -823,16 +843,19 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
     //   });
   }
 
-  openAddDashboardModal(dashboardAct: string, dashboardId: any, dashboardNames: string) {
+  openAddDashboardModal(dashboardAct: string, dashboardId: any, dashboardLongName: string, dashboardSortName: string) {
     // this.dashBoardDataByID = getDashboardById(dashboardId)
-    console.log(dashboardNames);
+    console.log(dashboardLongName);
     if (dashboardAct === 'editDashboard') {
       this.dashboardDataById = {
         act: 'edit',
         title: 'Edit Dashboard',
-        dashboardName: dashboardNames,
+        dashboardName: '',
         dashboardHTML: ''
       };
+      this.dbLongName = dashboardLongName;
+      this.dbShortName = dashboardSortName;
+      this.selTemplate = this.dbTemplates[0].name;
     } else if (dashboardAct === 'addDashboard') {
       this.dashboardDataById = {
         act: 'create',
@@ -840,6 +863,8 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
         dashboardName: '',
         dashboardHTML: ''
       };
+      this.dbLongName = '';
+      this.dbShortName = '';
     }
     console.log('dashboardDataById---', this.dashboardDataById);
     // Get the modal
@@ -860,13 +885,17 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
 
   onDashboardFormSubmit() {
     console.log('onDashboardFormSubmit', this.dashboardDataById);
-    this.addDashboardArray = {
-      id: '4',
-      templateName: 'Standard Asset Dashboard',
-      dashboardName: this.dashboardDataById.dashboardName
-    };
-    this.dashboardData.push(this.addDashboardArray);
-    console.log('this.dashboardData---added', this.dashboardData);
+    // this.addDashboardArray = {
+    //   id: '4',
+    //   templateName: 'Standard Asset Dashboard',
+    //   dashboardName: this.dashboardDataById.dashboardName
+    // };
+    // this.dashboardData.push(this.addDashboardArray);
+    this.dbLastIdNum++;
+    this.newTabId = "dbtab-" + this.dbLastIdNum;
+    this.dbItems.push(new DbItem(this.newTabId, this.dbLongName, this.dbShortName, this.selTemplate,
+      this.dbTemplates.find(({ name }) => name === this.selTemplate).component, ''));
+    console.log('this.dbItems---added', this.dbItems);
     this.closeAddDashboardModal(true);
   }
 

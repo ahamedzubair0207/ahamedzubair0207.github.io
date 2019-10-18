@@ -55,7 +55,7 @@ import { VotmCloudHeaderComponent } from './components/shared/votm-cloud-header/
 
 import { CustomHttp } from './services/custom_http/custom_http.service';
 import { OrganizationService } from './services/organizations/organization.service';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { VotmCloudValidatorComponent } from './components/shared/votm-cloud-validator/votm-cloud-validator.component';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { VotmCloudConfimDialogComponent } from './components/shared/votm-cloud-confim-dialog/votm-cloud-confim-dialog.component';
@@ -221,6 +221,7 @@ const oktaConfig = Object.assign({
     NgbModule,
     HttpClientModule,
     FormsModule,
+    ReactiveFormsModule,
     NgSelectModule,
     NgMultiSelectDropDownModule.forRoot(),
     Select2Module,

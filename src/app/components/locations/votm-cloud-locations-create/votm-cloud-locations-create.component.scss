@@ -210,4 +210,13 @@ background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
   font-weight: bold;
 }
 
-
+.logo-preview{
+  background-color: #f1f1f1;
+  min-height:417px;
+  display: flex;
+  margin:0 auto;
+  justify-content: center;
+}
+.btn-geo{
+  display: inline-flex;
+}

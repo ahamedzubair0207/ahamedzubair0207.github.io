@@ -13,8 +13,8 @@
           class="icon-warn mr-1"></i>Event Logs</a>
     </li>
 
-    <!-- dynamic dashboard  can go here-->
-    <li *ngFor="let dashboardDataUser of dashboardData; let i = index">
+    <!-- chirag dynamic dashboard  can go here-->
+    <!-- <li *ngFor="let dashboardDataUser of dashboardData; let i = index">
       <a class="nav-link tab-icon" (click)="getDashboardHTML('parkerdashboard', i)"
         id="dashboard{{dashboardDataUser.id}}-tab" data-toggle="tab" href="#Dashboard_{{i}}" role="tab"
         aria-controls="loc" aria-selected="false"><i
@@ -32,11 +32,29 @@
         <a class="nav-link tab-icon create-event-btn" (click)="openAddDashboardModal('addDashboard')"
           id="createDashboardButton"><i class="fa fa-plus" title="Add New Dashboard"></i></a>
       </div>
+    </li> -->
+    <!-- chirag dynamic dashboard  can go here-->
+    <!-- Dashboard-david -->
+    <li *ngFor="let dbItem of dbItems">
+      <a class="nav-link tab-icon"
+        id="dashboard{{dbItem.id}}-tab" data-toggle="tab" href="#DashboardID_{{dbItem.id}}" role="tab"
+        aria-controls="loc" aria-selected="false" title="{{ dbItem.lName}}"><i
+          class="mr-2  icon-dashboard"></i>{{ dbItem.sName }}
+        <i class="fa fa-pencil ml-2"
+          (click)="openAddDashboardModal('editDashboard', dbItem.id,  dbItem.lName, dbItem.sName);"
+          title="Configure Dashboard"></i>&nbsp;
+        <i class="icon-trash"
+          (click)="openDashboardConfirmDialog(dbItem.id, dbItem.sName)"
+          title="Delete Dashboard"></i>
+      </a>
     </li>
-
-
-    <!-- dynamic dashboard  can go here-->
-
+    <li class="nav-item">
+      <div class="add-dashboard-btn-wrapper">
+        <a class="nav-link tab-icon create-event-btn" (click)="openAddDashboardModal('addDashboard')"
+          id="createDashboardButton" title="Add New Dashboard"><i class="fa fa-plus"></i></a>
+      </div>
+    </li>
+    <!-- Dashboard-david -->
 
 
   </ul>
@@ -89,7 +107,7 @@
               </div>
 
               <div class="row">
-                <div class="col-md-4">
+                <div class="col-12 col-md-6 col-lg-3 col-xl-3">
                   <div class="form-group">
                     <label class="" id="LocLongName" votmrequired>Name:(Long)</label>
                     <div class="">
@@ -106,7 +124,7 @@
                   </div>
                 </div>
 
-                <div class="col-md-2">
+                <div class="col-12 col-md-6 col-lg-2 col-xl-1">
                   <div class="form-group">
                     <label class="" id="LocShortNameLbl" votmrequired>Short Name:</label>
                     <div class="">
@@ -125,7 +143,7 @@
                   </div>
                 </div>
 
-                <div class="col-md-4">
+                <div class="col-12 col-md-6 col-lg-3 col-xl-3">
                   <div class="form-group">
                     <label class="" for="parentorganization">{{pageLabels.ParentOrganization.labelName}}
                       :</label>
@@ -158,7 +176,7 @@
                   </div>
                 </div>
 
-                <div class="col-md-4">
+                <div class="col-12 col-md-6 col-lg-4 col-xl-3">
                   <div class="form-group">
                     <label class="" for="locationType">{{pageLabels.LocationType.labelName}}:
                     </label>
@@ -173,7 +191,7 @@
                   </div>
                 </div>
 
-                <div class="col-lg-4 col-xl-2">
+                <div class="col-12 col-md-6 col-lg-2 col-xl-2">
                   <div class="form-group">
                     <label class="" id="locationTypeIcon">Icon</label>
                     <!-- <div class="selectpicker drop-down"> -->
@@ -192,7 +210,7 @@
                   </div>
                 </div>
 
-                <div class="col-md-4">
+                <div class="col-12 col-md-6 col-lg-3 col-xl-3">
                   <div class="form-group">
                     <label class="" for="parentLoc">{{pageLabels.ParentLocation.labelName}}
                       :</label>
@@ -216,7 +234,7 @@
                   </div>
                 </div>
 
-                <div class="col-md-4">
+                <div class="col-12 col-md-6 col-lg-3 col-xl-3">
                   <div class="form-group">
                     <label class="" id="primaryContact" votmrequired>
                       {{pageLabels.PrimaryContact.labelName}}
@@ -239,7 +257,7 @@
                   </div>
                 </div>
 
-                <div class="col-md-4 col-xl-4">
+                <div class="col-12 col-md-6 col-lg-4 col-xl-3">
                   <div class="form-group">
                     <label class="" votmrequired for="primarydistribute">
                       Primary Distributor:</label>
@@ -260,7 +278,7 @@
               <div class="row" *ngIf="location && location.address && location.address.length>0">
                 <div class="col-md-6">
                   <!-- Street Address  -->
-                  <fieldset>
+                  <fieldset class="mb-3">
                     <legend id="loc-street-add" votmrequired>{{pageLabels.BillingAddress.labelName}} </legend>
 
                     <div class="row">
@@ -352,39 +370,24 @@
 
                     </div>
                   </fieldset>
-                </div>
-                <div class="col-md-6">
-                  <!-- Logo -->
                   <div class="form-group">
-                    <label class="" for="locImage">{{pageLabels.LogoFile.labelName}} :
-                    </label>
-                    <div class="">
-                      <span style="color:rgb(106,96,85);" *ngIf="message">{{message}}</span>
-                      <input *ngIf="pageType!=='View'" #file type="file" accept='image/*' (change)="preview(file.files)"
-                        class="form-control form-control-sm" id="locDtlLocImg" />
-                      <label style="font-weight: bold"
-                        *ngIf="location && location.logo">{{location.logo.imageName}}</label>
-                      <img [src]="imgURL" *ngIf="imgURL" style="max-width:511px; max-height:479px;">
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label for="geoLocation" class="">{{pageLabels.GeoLocation.labelName}}:</label>
-                    <div class="d-flex align-items-center">
-                      <input type="text" [disabled]="pageType==='View'" [(ngModel)]="location.latitude"
-                        class="geo-loc-long form-control form-control-sm" placeholder="Longitude" name="geoLocationLong"
-                        #geoLocationLong="ngModel" maxlength="50" id="locDtlGeoLong">&nbsp;/&nbsp;
-                      <input type="text" [disabled]="pageType==='View'" [(ngModel)]="location.longitude"
-                        class="geo-loc-lat form-control form-control-sm" placeholder="Latitude" name="geoLocationLat"
-                        #geoLocationLat="ngModel" maxlength="50" id="locDtlGeoLatitude">
-                      <button id="geo-loc-btn" type="button" class="btn btn-outline-secondary btn-sm"
-                        (click)="onGeoLocationClick()"><i class="icon-bullseye"></i>Geocode</button>
-                      <div
-                        *ngIf="(geoLocationLong.dirty && geoLocationLong.invalid) || (geoLocationLat.dirty && geoLocationLat.invalid) ">
-                        <app-votm-cloud-validator [message]="geoLocationErrorMessage"></app-votm-cloud-validator>
+                      <label for="geoLocation" class="">{{pageLabels.GeoLocation.labelName}}:</label>
+                      <div class="d-flex align-items-center">
+                        <input type="text" [disabled]="pageType==='View'" [(ngModel)]="location.latitude"
+                          class="geo-loc-long form-control form-control-sm" placeholder="Longitude" name="geoLocationLong"
+                          #geoLocationLong="ngModel" maxlength="50" id="locDtlGeoLong">&nbsp;/&nbsp;
+                        <input type="text" [disabled]="pageType==='View'" [(ngModel)]="location.longitude"
+                          class="geo-loc-lat form-control form-control-sm" placeholder="Latitude" name="geoLocationLat"
+                          #geoLocationLat="ngModel" maxlength="50" id="locDtlGeoLatitude">
+                        <button id="geo-loc-btn" type="button" class="btn btn-outline-secondary btn-sm"
+                          (click)="onGeoLocationClick()"><i class="icon-bullseye"></i>Geocode</button>
+                        <div
+                          *ngIf="(geoLocationLong.dirty && geoLocationLong.invalid) || (geoLocationLat.dirty && geoLocationLat.invalid) ">
+                          <app-votm-cloud-validator [message]="geoLocationErrorMessage"></app-votm-cloud-validator>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                  <!-- Geo fence  -->
+                    <!-- Geo fence  -->
                   <div class="form-group">
                     <label for="geofence" class="">{{pageLabels.GeoFence.labelName}}:</label>
                     <div class="">
@@ -432,6 +435,144 @@
                       </div>
                     </div>
                   </div>
+                  <!-- Time Zone  -->
+                  <div class="row">
+                    <div class="col-12 col-md-6 col-lg-6 col-xl-6" *ngIf="applicationConfiguration">
+                      <div class="form-group">
+                        <label class="" id="timezone" votmrequired>{{pageLabels.DefaultTimeZone.labelName}}
+                          :</label>
+                        <div class="d-flex align-items-center">
+                          <select required #timezone="ngModel" [disabled]="true" [(ngModel)]="location.timeZoneId" name="timezone"
+                            class="drop-down form-control form-control-sm" id="locDtlDfltTimezone1">
+                            <!-- <option value="" data-default selected>Select Timezone</option> -->
+                            <option value="null" disabled selected>Click Lookup</option>
+                            <option *ngFor="let timeZone of applicationConfiguration.timeZone" [value]="timeZone.timeZoneId">
+                              {{timeZone.timeZoneName}}</option>
+                          </select>
+                          <button id="geo-loc-btn-lookup" type="button" class="btn btn-outline-secondary btn-sm btn-geo"
+                            (click)="onLookupClick()"><i class="icon-bullseye"></i>Lookup</button>
+                          <div *ngIf="timezone.dirty && timezone.invalid">
+                            <app-votm-cloud-validator message="TimeZone is required"></app-votm-cloud-validator>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- Language -->
+                    <div class="col-12 col-md-6 col-lg-6 col-xl-6" *ngIf="applicationConfiguration">
+                      <div class="form-group">
+                        <label class="" id="DefaultLang" votmrequired>{{pageLabels.Language.labelName}}
+                          :</label>
+                        <div class="">
+                          <!-- <select [disabled]="pageType==='View'" required [(ngModel)]="location.localeId" name="language"
+                                              class="drop-down form-control form-control-sm" #defLanguage="ngModel" id="locDtlGeoLang1">
+                                              <option value="null" disabled selected>Select Language</option>
+                                              <option *ngFor="let locale of applicationConfiguration.locale" [value]="locale.localeId">
+                                                {{locale.localeName}}
+                                              </option>
+                                            </select> -->
+                  
+                          <ng-select [disabled]="pageType==='View'" #defLanguage="ngModel" class="custom" required
+                            [ngStyle]="{'background-color':pageType==='View'?'#e9ecef':'#fff'}" [multiple]="false"
+                            [(ngModel)]="location.localeId" placeholder="Select Language" id="locDtlGeoLang1" name="language">
+                            <ng-option value="null" disabled selected>Language</ng-option>
+                            <ng-option *ngFor="let locale of applicationConfiguration.locale" [value]="locale.localeId">
+                              {{locale.localeName}}</ng-option>
+                          </ng-select>
+                        </div>
+                        <div *ngIf="defLanguage.dirty && defLanguage.invalid">
+                          <app-votm-cloud-validator message="Language is required"></app-votm-cloud-validator>
+                        </div>
+                  
+                      </div>
+                    </div>
+                    <!-- UOM  -->
+                    <div class="col-12 col-md-6 col-lg-6 col-xl-6">
+                      <label class="" id="unitsOfMeasure" votmrequired>
+                        Default UOM:</label>
+                      <div class="">
+                        <label id="unitsOfMeasureSelected">{{UOM}}</label>
+                        <button id="loc-uom-change" class="btn btn-sm btn-secondary ml-3" type="button" *ngIf="pageType !=='View'"
+                          (click)="openmodal()">Change</button>
+                      </div>
+                    </div>
+                    <div class="col-12 col-md-6 col-lg-6 col-xl-6">
+                      <!-- Claimed Gateway -->
+                      <div class="form-group">
+                        <label class="" id="gateway">Claimed Gateway: </label>
+                        <!-- <div class=""> -->
+                        <!-- <ng-multiselect-dropdown [disabled]="pageType==='View'"
+                                            class="gateway-dropdown" [placeholder]="'Gateway List'"
+                                            [data]="gatewayList" name="claimedGateway" [(ngModel)]="selectedItems" [settings]="dropdownSettings"
+                                                                                                                  (onSelect)="onItemSelect($event)" (onSelectAll)="onSelectAll($event)">
+                                                                                                                </ng-multiselect-dropdown> -->
+                        <!-- <select2 [data]="gatewayList" width="260px" multiple="true"></select2> -->
+                        <!-- <select2 [disabled]="pageType === 'View'" [data]="gatewayList" [options]="options" width="100%" class=""
+                                            [value]="selectedGateways" (valueChanged)="onItemSelect($event)" id="locDtlGeoClaimedGateway">
+                                          </select2> -->
+                  
+                        <!-- <ng-select [disabled]="pageType === 'View'"
+                                          class="custom" name="GatewayList"
+                                          (valueChanged)="onItemSelect($event)" id="locDtlGeoClaimedGateway"
+                                          [items]="gatewayList" [multiple]="true" 
+                                          (onSelect)="onItemSelect($event)" (onSelectAll)="onSelectAll($event)"
+                                          [closeOnSelect]="false" 
+                                          [searchable]="false" bindLabel="gateways"
+                                          placeholder="Select Gateways" [(ngModel)]="selectedItems">
+                                          <ng-option value="null" disabled selected>Gateway</ng-option>
+                                          </ng-select> -->
+                        <!-- <ng-option value="null" disabled selected>Country</ng-option> -->
+                        <!-- <button class="btn-save btn btn-primary btn-sm">Save</button> -->
+                        <!-- </div> -->
+                  
+                  
+                  
+                        <ng-select [items]="gatewayList" [multiple]="true" [closeOnSelect]="false" [hideSelected]="true" bindLabel="text"
+                          placeholder="Select gateways" name="gatewayslist" [(ngModel)]="selectedItems">
+                          <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+                            <div class="ng-value" *ngFor="let item of items | slice:0:2">
+                              <span class="ng-value-label">{{item.text}}</span>
+                              <span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true">×</span>
+                            </div>
+                            <div class="ng-value" *ngIf="items.length > 2">
+                              <span class="ng-value-label">{{items.length - 2}} more...</span>
+                            </div>
+                          </ng-template>
+                        </ng-select>
+                  
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <!-- Logo -->
+                  <div class="form-group">
+                    <label class="" for="locImage">{{pageLabels.LogoFile.labelName}} :
+                    </label>
+                    <div class="custom-file">
+                      <span style="color:rgb(106,96,85);" *ngIf="message">{{message}}</span>
+                      <input class="custom-file-input ng-pristine ng-invalid" id="locDtlLocImg" type="file" *ngIf="pageType!=='View'" #file type="file" accept='image/*' (change)="preview(file.files)">
+                      <label class="custom-file-label" for="">Choose file</label>
+                      <span style="font-weight: bold" class="custom-file-label"
+                        *ngIf="location && location.logo">{{location.logo.imageName}}</span>
+                      
+                    </div>
+                    <!-- <div class="custom-file">
+                      <span style="color:rgb(106,96,85);" *ngIf="message">{{message}}</span>
+                      <input *ngIf="pageType!=='View'" #file type="file" accept='image/*' (change)="preview(file.files)"
+                        class="form-control form-control-sm custom-file-input" id="locDtlLocImg" />
+                      <label style="font-weight: bold" class="custom-file-label"
+                        *ngIf="location && location.logo">{{location.logo.imageName}}</label>
+                      <img [src]="imgURL" *ngIf="imgURL" style="max-width:511px; max-height:479px;">
+                    </div> -->
+                  </div>
+                  <!-- logo preview -->
+                      <div class="form-group">
+                          <label for="logopreview">Image Preview</label>
+                          <span class="form-control logo-preview" >
+                              <img [src]="imgURL" class="img-fluid" *ngIf="imgURL">
+                          </span>
+                      </div>
+                  
 
                 </div>
 
@@ -439,121 +580,7 @@
 
               <div class="row mt-2"> -->
               </div>
-              <!-- Time Zone  -->
-              <div class="row mt-3">
-                <div class="col-md-4" *ngIf="applicationConfiguration">
-                  <div class="form-group">
-                    <label class="" id="timezone" votmrequired>{{pageLabels.DefaultTimeZone.labelName}}
-                      :</label>
-                    <div class="d-flex align-items-center">
-                      <select required #timezone="ngModel" [disabled]="true" [(ngModel)]="location.timeZoneId"
-                        name="timezone" class="drop-down form-control form-control-sm" id="locDtlDfltTimezone1">
-                        <!-- <option value="" data-default selected>Select Timezone</option> -->
-                        <option value="null" disabled selected>Click Lookup</option>
-                        <option *ngFor="let timeZone of applicationConfiguration.timeZone"
-                          [value]="timeZone.timeZoneId">{{timeZone.timeZoneName}}</option>
-                      </select>
-                      <button id="geo-loc-btn-lookup" type="button" class="btn btn-outline-secondary btn-sm p-0"
-                        (click)="onLookupClick()"><i class="icon-bullseye"></i>Lookup</button>
-                      <div *ngIf="timezone.dirty && timezone.invalid">
-                        <app-votm-cloud-validator message="TimeZone is required"></app-votm-cloud-validator>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <!-- Language -->
-                <div class="col-md-3" *ngIf="applicationConfiguration">
-                  <div class="form-group">
-                    <label class="" id="DefaultLang" votmrequired>{{pageLabels.Language.labelName}}
-                      :</label>
-                    <div class="">
-                      <!-- <select [disabled]="pageType==='View'" required [(ngModel)]="location.localeId" name="language"
-                        class="drop-down form-control form-control-sm" #defLanguage="ngModel" id="locDtlGeoLang1">
-                        <option value="null" disabled selected>Select Language</option>
-                        <option *ngFor="let locale of applicationConfiguration.locale" [value]="locale.localeId">
-                          {{locale.localeName}}
-                        </option>
-                      </select> -->
-
-                      <ng-select [disabled]="pageType==='View'"  #defLanguage="ngModel"
-                      class="custom" required
-                      [ngStyle]="{'background-color':pageType==='View'?'#e9ecef':'#fff'}" [multiple]="false"
-                      [(ngModel)]="location.localeId" placeholder="Select Language" id="locDtlGeoLang1" name="language">
-                      <ng-option value="null" disabled selected>Language</ng-option>
-                      <ng-option *ngFor="let locale of applicationConfiguration.locale" [value]="locale.localeId">{{locale.localeName}}</ng-option>
-                    </ng-select>
-                  </div>
-                      <div *ngIf="defLanguage.dirty && defLanguage.invalid">
-                        <app-votm-cloud-validator message="Language is required"></app-votm-cloud-validator>
-                      </div>
-                    
-                  </div>
-                </div>
-                <!-- UOM  -->
-                <div class="col-md-2">
-                  <label class="" id="unitsOfMeasure" votmrequired>
-                    Default UOM:</label>
-                  <div class="">
-                    <label id="unitsOfMeasureSelected">{{UOM}}</label>
-                    <button id="loc-uom-change" class="btn btn-sm btn-secondary ml-3" type="button"
-                      *ngIf="pageType !=='View'" (click)="openmodal()">Change</button>
-                  </div>
-                </div>
-
-                <div class="col-md-3">
-                  <!-- Claimed Gateway -->
-                  <div class="form-group">
-                    <label class="" id="gateway">Claimed Gateway: </label>
-                    <!-- <div class=""> -->
-                    <!-- <ng-multiselect-dropdown [disabled]="pageType==='View'"
-                       class="gateway-dropdown" [placeholder]="'Gateway List'"
-                       [data]="gatewayList" name="claimedGateway" [(ngModel)]="selectedItems" [settings]="dropdownSettings"
-                                                                                            (onSelect)="onItemSelect($event)" (onSelectAll)="onSelectAll($event)">
-                                                                                          </ng-multiselect-dropdown> -->
-                    <!-- <select2 [data]="gatewayList" width="260px" multiple="true"></select2> -->
-                    <!-- <select2 [disabled]="pageType === 'View'" [data]="gatewayList" [options]="options" width="100%" class=""
-                      [value]="selectedGateways" (valueChanged)="onItemSelect($event)" id="locDtlGeoClaimedGateway">
-                    </select2> -->
-                  
-                    <!-- <ng-select [disabled]="pageType === 'View'"
-                    class="custom" name="GatewayList"
-                    (valueChanged)="onItemSelect($event)" id="locDtlGeoClaimedGateway"
-                    [items]="gatewayList" [multiple]="true" 
-                    (onSelect)="onItemSelect($event)" (onSelectAll)="onSelectAll($event)"
-                    [closeOnSelect]="false" 
-                    [searchable]="false" bindLabel="gateways"
-                    placeholder="Select Gateways" [(ngModel)]="selectedItems">
-                    <ng-option value="null" disabled selected>Gateway</ng-option>
-                    </ng-select> -->
-                    <!-- <ng-option value="null" disabled selected>Country</ng-option> -->
-                    <!-- <button class="btn-save btn btn-primary btn-sm">Save</button> -->
-                    <!-- </div> -->
-
-
-
-                    <ng-select
-                    [items]="gatewayList"
-                    [multiple]="true"
-                    [closeOnSelect]="false"
-                    [hideSelected]="true"
-                    bindLabel="text"
-                    placeholder="Select gateways"
-                    name="gatewayslist"
-                    [(ngModel)]="selectedItems">
-                    <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
-                      <div class="ng-value" *ngFor="let item of items | slice:0:2">
-                          <span class="ng-value-label">{{item.text}}</span>
-                          <span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true">×</span>
-                      </div>
-                      <div class="ng-value" *ngIf="items.length > 2">
-                          <span class="ng-value-label">{{items.length - 2}} more...</span>
-                      </div>
-                  </ng-template>
-                </ng-select>
-                    
-                  </div>
-                </div>
-              </div>
+              
               <div class="row mt-2">
 
                 <div class="col">
@@ -577,7 +604,7 @@
                   type="button" class="btn btn-sm btn-outline-info"><i class="pr-2 icon-location-add"></i>Add
                   Sub-Location</button>
                 <button id="loc-cancel" for="form-cancel" type="button" (click)="onCancelClick($event)"
-                  class="btn btn-secondary btn-sm button-mod"><i class="pr-2 fa fa-window-close-o"></i>Cancel</button>
+                  class="btn btn-outline-secondary btn-sm button-mod"><i class="pr-2 fa fa-remove"></i>Cancel</button>
                 <button id="loc-delete" type="button" *ngIf="location.locationId && pageType !=='View'"
                   (click)="openConfirmDialog()" class="btn btn-secondary btn-sm ml-2"><i
                     class="pr-2 icon-trash"></i>Delete</button>
@@ -802,3 +829,93 @@
 
   </div>
 </div>
+
+<!-- Add/Edit Dashboard Model Start-->
+<div id="addDashboardModalWrapper" class="modal">
+  <div class="modal-dialog modal-md modal-dialog-scrollable dashboard-create-font" *ngIf="dashboardDataById">
+    <!-- Modal content -->
+    <form name="addDashboard" #dashBoardForm="ngForm" (ngSubmit)="onDashboardFormSubmit()" class="form needs-validation" novalidate>
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">{{dashboardDataById.title}}</h5>
+          <button type="button" class="close" aria-label="Close" (click)="closeAddDashboardModal()">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body event-create-font">
+          <div class="form-group form-row">
+            <label for="dbLongName" class="col-3 col-form-label">Dashboard Name</label>
+            <div class="col-6">
+              <input ngbAutoFocus type="text" class="form-control" id="dbLongName" name="dbLongName" [(ngModel)]="dbLongName" />
+            </div>
+          </div>
+          <div class="form-group form-row">
+            <label for="dbShortName" class="col-3 col-form-label">Short Name</label>
+            <div class="col-3">
+              <input ngbAutoFocus type="text" class="form-control" id="dbShortName" name="dbShortName" maxlength="8" [(ngModel)]="dbShortName" />
+            </div>
+          </div>
+          <div class="form-group form-row">
+            <label for="tplSelect" class="col-3 col-form-label">Template Name</label>
+            <div class="col-6">
+              <ng-select #tplSelect labelForId="tplSelect" class="custom" [(ngModel)]="selTemplate" name="dbTemplateName" [disabled]="dashboardDataById.act==='edit'">
+                <ng-option *ngFor="let dbTemplate of dbTemplates" [value]="dbTemplate.name"> {{ dbTemplate.name }}</ng-option>
+              </ng-select>
+            </div>
+          </div>
+          <div class="form-group form-row">
+            <label for="" class="col-3 col-form-label">Configured By</label>
+            <div class="col-3">
+              <input type="text" class="form-control" id="dashboard-config-by" readonly value="Sean Healy" />
+            </div>
+            <label for="" class="col-form-label">On</label>
+            <div class="col-3">
+              <div class="input-group">
+                <input type="text" class="form-control" id="dashboard-created-On" readonly placeholder="25/09/2019 03:19" />
+              </div>
+            </div>
+          </div>
+          <!-- <div class="form-group row">
+            <label for="" class="col-md-3 col-form-label">Template Name</label>
+            <div class="col-sm-7">
+              <ng-select name="dashboardTemplate" #tplSelect labelForId="tplSelect" class="custom" [(ngModel)]="selTemplate">
+                <ng-option *ngFor="let dbTemplate of dbTemplates" [value]="dbTemplate.name"> {{ dbTemplate.name }}</ng-option>
+              </ng-select>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="" class="col-md-3 col-form-label">Dashboard Name</label>
+            <div class="col-md-7">
+              <input type="text" class="form-control" id="dashboard-name" placeholder="" name="dashboardName"
+                [(ngModel)]="dashboardDataById.dashboardName">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="" class="col-md-3 col-form-label">Configured By</label>
+            <div class="col-md-3">
+              <input type="text" class="form-control" id="dashboard-config-by" readonly value="Sean Healy">
+            </div>
+            <label for="" class="col-sm-1 col-form-label">On</label>
+            <div class="col-md-3">
+              <div class="input-group">
+                <input type="text" class="form-control" id="dashboard-created-On" readonly
+                  placeholder="25/09/2019 03:19">
+              </div>
+            </div>
+          </div> -->
+
+        </div>
+        <div class="modal-footer">
+          <button id="add-dashboard-cancle" type="button" class="btn button-mod btn-secondary btn-sm"
+            (click)="closeAddDashboardModal('cancel')" id="addDashboardCancle">Cancel
+          </button>
+          <button id="add-dashboard-save" type="submit" class="btn btn-info btn-color btn-sm"
+            id="addDashboardAdd">Save</button>
+          <!-- <button id="add-dashboard-save" type="submit" class="btn btn-info btn-color btn-sm"
+          (click)="closeAddDashboardModal(dashboardDataById.act)" id="addDashboardAdd">Save</button> -->
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<!-- Add/Edit Dashboard Model End-->

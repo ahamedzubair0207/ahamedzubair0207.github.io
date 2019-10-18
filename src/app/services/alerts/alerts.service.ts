@@ -85,9 +85,6 @@ export class AlertsService {
       );
   }
 
-
-  //Ahamed Code
-
   updateAlert(body: Alert) {
 
     return this.http.patch(AppConstants.EDIT_ALERT + '/' + body.alertRuleId, body)
@@ -96,8 +93,8 @@ export class AlertsService {
       );
   }
 
-  deleteAlert(alertId: string) {
-    return this.http.delete(AppConstants.DEL_ALERT + '/' + alertId, alertId)
+  deleteAlert(alertRuleId: string) {
+    return this.http.delete(AppConstants.DEL_ALERT + '/' + alertRuleId, alertRuleId)
       .pipe(
         map(response => response)
       );

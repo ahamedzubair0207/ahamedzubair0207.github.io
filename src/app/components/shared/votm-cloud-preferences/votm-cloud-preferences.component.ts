@@ -8,6 +8,7 @@ import { Toaster } from '../../shared/votm-cloud-toaster/votm-cloud-toaster';
 import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DatePipe, Location as RouterLocation } from '@angular/common';
+import { UserService } from 'src/app/services/users/userService';
 
 @Component({
   selector: 'app-votm-cloud-preferences',
@@ -26,8 +27,10 @@ export class VotmCloudPreferencesComponent implements OnInit {
   pageType: string;
   closeResult: string;
   applicationConfiguration: ApplicationConfiguration = new ApplicationConfiguration();
-  userprofile: UserProfile = new UserProfile();
+  userprofile: UserProfile;
   toaster: Toaster = new Toaster(this.toastr);
+  userId: string;
+  userDetails: any;
 
   constructor(
     private modalService: NgbModal,
@@ -36,12 +39,26 @@ export class VotmCloudPreferencesComponent implements OnInit {
     private route: Router,
     private datePipe: DatePipe,
     private routerLocation: RouterLocation,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private userService: UserService
     ) { }
 
   ngOnInit() {
     this.getAllAppInfo();
     this.tempMeasurement = 'Imperial';
+
+    // get loggedIn User Detail
+    this.userId = '03c7fb47-58ee-4c41-a9d6-2ad0bd43392a';
+    this.getUserDetailInfo();
+  }
+
+  getUserDetailInfo() {
+    this.userService.getUserDetail(this.userId)
+      .subscribe(response => {
+        this.userprofile = response;
+        console.log('getUserDetailInfo user details---' + this.userId + JSON.stringify(this.userprofile));
+      });
+
   }
 
   getAllAppInfo() {
@@ -151,9 +168,9 @@ export class VotmCloudPreferencesComponent implements OnInit {
 
   onLockClick() {
     if (this.pageType.toLowerCase() === 'view') {
-      this.route.navigate([`preferences/edit`])
+      this.route.navigate([`preferences/edit`]);
     } else {
-      this.route.navigate([`preferences/view`])
+      this.route.navigate([`preferences/view`]);
     }
   }
 

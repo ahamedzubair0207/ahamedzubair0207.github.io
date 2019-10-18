@@ -26,6 +26,7 @@ export class VotmCloudAssetsCreateComponent implements OnInit {
   public imagePath;
   imgURL: any;
   locationImageURL: any;
+  parentAssetImageURL: any;
   public message: string;
   closeResult: string;
   modal: any;
@@ -523,7 +524,7 @@ export class VotmCloudAssetsCreateComponent implements OnInit {
           this.locationListForDropDown.push(loc);
           if (this.asset.locationId === loc.locationId) {
             console.log('Loc ', loc);
-            this.getInstalledLocation(loc.logo);
+            this.getParntImage(loc.logo, 'location')
           }
         }
       });
@@ -533,31 +534,53 @@ export class VotmCloudAssetsCreateComponent implements OnInit {
     }
   }
 
-  onLocationChange(event) {
-    this.locationList.forEach(loc => {
-      if (event.target.value === loc.locationId) {
-        console.log('Loc on change ', loc);
-        this.getInstalledLocation(loc.logo);
+  onParentAssetChange(parentassetId) {
+    this.parentAssetListForDropDown.forEach(asset => {
+      if (parentassetId === asset.assetId) {
+        console.log('asset on change ', asset);
+        this.getParntImage(asset.logo, 'asset')
+
       }
     });
   }
 
-  getInstalledLocation(logo: any) {
+  onLocationChange(locationId: string) {
+    this.locationList.forEach(loc => {
+      if (locationId === loc.locationId) {
+        console.log('Loc on change ', loc);
+        this.getParntImage(loc.logo, 'location')
+      }
+    });
+  }
+
+  getExactImage() {
+    if (!this.parentAssetImageURL) {
+      this.parentAssetImageURL = this.locationImageURL;
+    }
+    console.log(this.parentAssetImageURL, this.locationImageURL);
+  }
+
+  getParntImage(logo: any, type) {
     if (logo && logo.imageName) {
       let tempFileExtension = logo.imageName.slice((Math.max(0, logo.imageName.lastIndexOf(".")) || Infinity) + 1);
-      this.locationImageURL = this.domSanitizer.bypassSecurityTrustUrl(`data:image/${tempFileExtension};base64,${logo.image}`);
+      type === 'location' ? this.locationImageURL = this.domSanitizer.bypassSecurityTrustUrl(`data:image/${tempFileExtension};base64,${logo.image}`)
+        : this.parentAssetImageURL = this.domSanitizer.bypassSecurityTrustUrl(`data:image/${tempFileExtension};base64,${logo.image}`);
       // this.asset.logo.imageType = this.fileExtension;
     } else {
-      this.locationImageURL = null;
+      type === 'location' ? this.locationImageURL = null : this.parentAssetImageURL = null;
     }
+    this.getExactImage();
   }
 
   filterAssets() {
     if (this.parentAssetsList && this.parentAssetsList.length > 0) {
       this.parentAssetListForDropDown = [];
       this.parentAssetsList.forEach(asset => {
-        if (this.asset.organizationId === asset.organizationId) {
+        if (this.asset.locationId === asset.locationId && this.asset.assetId !== asset.assetId) {
           this.parentAssetListForDropDown.push(asset);
+          if (this.asset.parentAssetId === asset.assetId) {
+            this.getParntImage(asset.logo, 'asset');
+          }
         }
       });
       if (this.parentAssetListForDropDown && this.parentAssetListForDropDown.length > 0) {
@@ -576,9 +599,9 @@ export class VotmCloudAssetsCreateComponent implements OnInit {
       });
   }
 
-  onParentAssetChange(event) {
+  // onParentAssetChange(event) {
 
-  }
+  // }
 
   fillDataFromTemplate(name: string) {
     this.isTemplateSelected = true;
@@ -714,7 +737,7 @@ export class VotmCloudAssetsCreateComponent implements OnInit {
       } else {
         this.assetService.createAsset(this.asset)
           .subscribe(response => {
-            this.toaster.onSuccess('Successfully saved', 'Saved');
+            this.toaster.onSuccess('Successfully Created', 'Created');
             this.routerLocation.back();
           }, error => {
             let msg = 'Something went wrong. Please fill the form correctly';

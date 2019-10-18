@@ -691,7 +691,7 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
       if (this.orgId) {
         this.organizationService.updateOrganization(this.organization)
           .subscribe(response => {
-            this.toaster.onSuccess('Successfully saved', 'Saved');
+            this.toaster.onSuccess('Successfully updated', 'Updated');
             this.routerLocation.back();
             this.isAddOrganizationAPILoading = false;
           }, error => {
@@ -701,7 +701,7 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
       } else {
         this.organizationService.createOrganization(this.organization)
           .subscribe(response => {
-            this.toaster.onSuccess('Successfully saved', 'Saved');
+            this.toaster.onSuccess('Successfully created', 'Created');
             this.route.navigate([`org/home/${this.parentOrganizationInfo.parentOrganizationId}/${this.parentOrganizationInfo.parentOrganizationName}`]);
             this.isAddOrganizationAPILoading = false;
           }, error => {
@@ -840,18 +840,18 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
     }
   }
 
-  openAddDashboardModal(dashboardAct: string, dashboardId: any, dashboardNames: string) {
+  openAddDashboardModal(dashboardAct: string, dashboardId: any, dashboardLongName: string, dashboardSortName: string) {
     // this.dashBoardDataByID = getDashboardById(dashboardId)
-    console.log(dashboardNames);
+    console.log(dashboardLongName);
     if (dashboardAct === 'editDashboard') {
       this.dashboardDataById = {
         act: 'edit',
         title: 'Edit Dashboard',
-        dashboardName: dashboardNames,
+        dashboardName: '',
         dashboardHTML: ''
       };
-      this.dbLongName = '';
-      this.dbShortName = '';
+      this.dbLongName = dashboardLongName;
+      this.dbShortName = dashboardSortName;
       this.selTemplate = this.dbTemplates[0].name;
     } else if (dashboardAct === 'addDashboard') {
       this.dashboardDataById = {
@@ -860,10 +860,11 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
         dashboardName: '',
         dashboardHTML: ''
       };
+      this.dbLongName = '';
+      this.dbShortName = '';
     }
     console.log('dashboardDataById---', this.dashboardDataById);
-    this.dbLongName = '';
-    this.dbShortName = '';
+
     // Get the modal
     let addDashboardmodal = document.getElementById('addDashboardModalWrapper');
     addDashboardmodal.style.display = 'block';
