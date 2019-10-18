@@ -283,7 +283,7 @@
                   <fieldset>
                     <legend id="asset-loc--image-lbl">Asset Position</legend>
                     <!-- <label for="locationImage" id="asset-loc--image-lbl">Asset Position: </label> -->
-                    <img [src]="locationImageURL" class="imag-size" *ngIf="locationImageURL; else noLocationTemplate">
+                    <img [src]="parentAssetImageURL" class="imag-size" *ngIf="parentAssetImageURL; else noLocationTemplate">
                     <ng-template #noLocationTemplate><br />
                       <div *ngIf="asset.locationId; else noLocationSelectedTemplate">No Image in the selected Location
                       </div>

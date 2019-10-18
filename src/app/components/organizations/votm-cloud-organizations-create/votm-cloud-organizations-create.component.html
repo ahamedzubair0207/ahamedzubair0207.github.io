@@ -402,6 +402,7 @@
                       <ng-select id="service" class="custom" #svcLevel="ngModel" [disabled]="pageType==='View'"
                         [ngStyle]="{'background-color':pageType==='View'?'#e9ecef':'#fff'}" [multiple]="false"
                         name="svcLevel" [(ngModel)]="organization.svclevels" required placeholder="SVC Level">
+                        <ng-option value="null" disabled selected>SVC</ng-option>
                         <ng-option *ngFor="let svcLevel of svcLevels" [value]="svcLevel.optionValue">{{svcLevel.optionValue}}</ng-option>
                       </ng-select>
                     </div>

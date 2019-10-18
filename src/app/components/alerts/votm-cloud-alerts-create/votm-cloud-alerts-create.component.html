@@ -10,17 +10,17 @@
                 name="unlockTogglebutton" (click)="onLockClick()"></i>
         </div>
         <div class="form-group row">
-            <div class="col-md-4 row">
-                <label id="alertRuleNameLbl" class="col-md-6 col-form-label txt-r">Alert Rule Name</label>
-                <div class="col-md-6">
+            <div class="col-12 col-md-3 col-xl-2">
+                <label id="alertRuleNameLbl" class="">Alert Rule Name</label>
+                <div class="">
                     <input type="text" name="alertRuleName" [(ngModel)]="alert.alertRuleName"
                         class="form-control form-control-sm" id="alertRuleNameInput" placeholder="Alert Rule Name"
                         [disabled]="pageType === 'View'">
                 </div>
             </div>
-            <div class="col-md-4 row">
-                <label id="metricTypeLbl" class="col-md-6 col-form-label txt-r">Metric Type</label>
-                <div class="col-md-6">
+            <div class="col-12 col-md-3 col-xl-2">
+                <label id="metricTypeLbl" class="">Metric Type</label>
+                <div class="">
                     <!-- <select name="metricType" id="metricTypeDropDown" [(ngModel)]="alert.UomTypeId"
                         class="form-control form-control-sm" [disabled]="pageType === 'View'">
                         <option *ngFor="let metricType of metricTypes" [value]="metricType.id">{{metricType.name}}
@@ -37,25 +37,10 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="row">
-                    <label id="accessTypeLbl" class="col-md-6 col-form-label txt-r">Rule Owner</label>
-                    <div class="col-md-6">
-                        <input type="text" name="organizationScopeId" [(ngModel)]="accessScopeName"
-                            class="form-control form-control-sm" id="alertRuleNameInput" disabled>
-                        <!-- <select name="accessScope" id="accessTypeDropDown" [(ngModel)]="alert.organizationScopeId"
-                        class="form-control form-control-sm">
-                        <option *ngFor="let accessScope of accessScopes" [value]="accessScope.id">{{accessScope.name}}
-                        </option>
-                    </select> -->
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="form-group row">
-            <div class="col-md-3 row">
-                <label id="ruleTypeLbl" class="col-md-6 col-form-label txt-r">Rule Type</label>
-                <div class="col-md-6">
+            
+            <div class="col-12 col-md-3 col-xl-1">
+                <label id="ruleTypeLbl" class="">Rule Type</label>
+                <div class="">
                     <!-- <select name="ruleType" id="ruleTypeDropDown" [(ngModel)]="alert.alertRuleTypeId"
                         class="form-control form-control-sm" [disabled]="pageType === 'View'">
                         <option *ngFor="let ruleType of ruleTypes" [value]="ruleType.id">{{ruleType.name}}</option>
@@ -71,9 +56,9 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-4 row">
-                <label id="minimumSustainTimeLbl" class="col-md-7 col-form-label">Minimum Sustain Time</label>
-                <div class="col-md-5 pl-0">
+            <div class="col-12 col-md-2 col-xl-2">
+                <label id="minimumSustainTimeLbl" class="">Minimum Sustain Time</label>
+                <div class="">
                     <div class="input-group">
                         <input name="sustainTime" id="minimumSustainTimeInput" [(ngModel)]="alert.sustainTime"
                             type="text" class="form-control form-control-sm" placeholder="0"
@@ -84,16 +69,9 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-2 pl-0 pr-0 pt-2">
-                <div class="checkbox">
-                    <label><input type="checkbox" name="closureRequired" id="closureCheckBox"
-                            [(ngModel)]="alert.closureRequired" class="mr-2" [disabled]="pageType === 'View'">Closure
-                        Require</label>
-                </div>
-            </div>
-            <div class="col-md-3 row pl-0 pr-0">
-                <label id="excalateAfterLbl" class="col-md-5 col-form-label pl-0">Escalate After</label>
-                <div class="col-md-7 pr-0">
+            <div class="col-12 col-md-2 col-xl-2">
+                <label id="excalateAfterLbl" class="">Escalate After Time</label>
+                <div class="">
                     <div class="input-group">
                         <input type="text" id="excalateAfterInput" name="escalateTime" [(ngModel)]="alert.escalateTime"
                             class="form-control form-control-sm" placeholder="0" [disabled]="pageType === 'View'">
@@ -103,7 +81,32 @@
                     </div>
                 </div>
             </div>
+            <div class="col-12 col-md-2 pl-4 pt-2 col-xl-1">
+                <div class="checkbox">
+                    <input type="checkbox" name="closureRequired" id="closureCheckBox"
+                            [(ngModel)]="alert.closureRequired" class="mr-2" [disabled]="pageType === 'View'">
+                    <label class="mt-2">Closure Required</label>
+                </div>
+            </div>
+            <div class="col-12 col-md-3 col-xl-2">
+                <div class="">
+                    <label id="accessTypeLbl" class="">Rule Owner</label>
+                    <div class="">
+                        <input type="text" name="organizationScopeId" [(ngModel)]="accessScopeName"
+                            class="form-control form-control-sm" id="alertRuleNameInput" disabled>
+                        <!-- <select name="accessScope" id="accessTypeDropDown" [(ngModel)]="alert.organizationScopeId"
+                        class="form-control form-control-sm">
+                        <option *ngFor="let accessScope of accessScopes" [value]="accessScope.id">{{accessScope.name}}
+                        </option>
+                    </select> -->
+                    </div>
+                </div>
+            </div>
         </div>
+        <!-- <div class="form-group row">
+           
+        
+        </div> -->
         <div class="form-group" *ngIf="absoluteThresholds">
             <fieldset [disabled]="pageType === 'View'">
                 <legend id="thresholdsLbl">Thresholds</legend>
@@ -117,7 +120,7 @@
                         <tr>
                             <td *ngFor="let threshold of absoluteThresholds">
                                 <div class="custom-control custom-switch">
-                                    <input type="checkbox" id="thresholdsAlertbtn" [(ngModel)]="threshold.active"
+                                    <input type="checkbox" [(ngModel)]="threshold.active"
                                         name="{{'checkbox_'+threshold.alertConfigurationId}}"
                                         class="custom-control-input" id="{{threshold.alertConfigurationId}}">
                                     <label class="custom-control-label" for="{{threshold.alertConfigurationId}}">

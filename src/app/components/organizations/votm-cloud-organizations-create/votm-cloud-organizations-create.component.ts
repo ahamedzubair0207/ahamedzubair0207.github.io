@@ -691,7 +691,7 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
       if (this.orgId) {
         this.organizationService.updateOrganization(this.organization)
           .subscribe(response => {
-            this.toaster.onSuccess('Successfully saved', 'Saved');
+            this.toaster.onSuccess('Successfully updated', 'Updated');
             this.routerLocation.back();
             this.isAddOrganizationAPILoading = false;
           }, error => {
@@ -701,7 +701,7 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
       } else {
         this.organizationService.createOrganization(this.organization)
           .subscribe(response => {
-            this.toaster.onSuccess('Successfully saved', 'Saved');
+            this.toaster.onSuccess('Successfully created', 'Created');
             this.route.navigate([`org/home/${this.parentOrganizationInfo.parentOrganizationId}/${this.parentOrganizationInfo.parentOrganizationName}`]);
             this.isAddOrganizationAPILoading = false;
           }, error => {
