@@ -826,11 +826,24 @@ export class VotmCloudAssetsCreateComponent implements OnInit {
   }
 
 
-  onLockClick() {
+  onLockClick1() {
     if (this.pageType.toLowerCase() === 'view') {
       this.route.navigate([`asset/edit/${this.parentLocId}/${this.parentLocName}/${this.parentAssetId}/${this.parentAssetName}/${this.asset.assetId}`])
     } else {
       this.route.navigate([`asset/view/${this.parentLocId}/${this.parentLocName}/${this.parentAssetId}/${this.parentAssetName}/${this.asset.assetId}`])
+    }
+  }
+
+  onLockClick() {
+    let event = 'view';
+    if (this.pageType.toLowerCase() === 'view') {
+      event = 'edit';
+    }
+
+    if (this.asset.parentAssetId) {
+      this.route.navigate([`asset/${event}/${this.curOrgId}/${this.curOrgName}/${this.parentLocId}/${this.parentLocName}/${this.parentAssetId}/${this.parentAssetName}/${this.asset.assetId}`])
+    } else {
+      this.route.navigate([`asset/${event}/${this.curOrgId}/${this.curOrgName}/${this.parentLocId}/${this.parentLocName}/${this.parentAssetId}/${this.parentAssetName}/${this.asset.assetId}`])
     }
   }
 

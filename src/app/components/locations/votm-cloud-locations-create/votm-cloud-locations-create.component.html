@@ -451,9 +451,7 @@
                         <!-- <option value="" data-default selected>Select Timezone</option> -->
                         <option value="null" disabled selected>Click Lookup</option>
                         <option *ngFor="let timeZone of applicationConfiguration.timeZone"
-                          [value]="timeZone.timeZoneId">
-                          {{timeZone.timeZoneName}}
-                        </option>
+                          [value]="timeZone.timeZoneId">{{timeZone.timeZoneName}}</option>
                       </select>
                       <button id="geo-loc-btn-lookup" type="button" class="btn btn-outline-secondary btn-sm p-0"
                         (click)="onLookupClick()"><i class="icon-bullseye"></i>Lookup</button>
@@ -481,6 +479,7 @@
                       class="custom" required
                       [ngStyle]="{'background-color':pageType==='View'?'#e9ecef':'#fff'}" [multiple]="false"
                       [(ngModel)]="location.localeId" placeholder="Select Language" id="locDtlGeoLang1" name="language">
+                      <ng-option value="null" disabled selected>Language</ng-option>
                       <ng-option *ngFor="let locale of applicationConfiguration.locale" [value]="locale.localeId">{{locale.localeName}}</ng-option>
                     </ng-select>
                   </div>
@@ -506,8 +505,9 @@
                   <div class="form-group">
                     <label class="" id="gateway">Claimed Gateway: </label>
                     <!-- <div class=""> -->
-                    <!-- <ng-multiselect-dropdown [disabled]="pageType==='View'" class="gateway-dropdown" [placeholder]="'Gateway List'"
-                                                                                            [data]="gatewayList" name="claimedGateway" [(ngModel)]="selectedItems" [settings]="dropdownSettings"
+                    <!-- <ng-multiselect-dropdown [disabled]="pageType==='View'"
+                       class="gateway-dropdown" [placeholder]="'Gateway List'"
+                       [data]="gatewayList" name="claimedGateway" [(ngModel)]="selectedItems" [settings]="dropdownSettings"
                                                                                             (onSelect)="onItemSelect($event)" (onSelectAll)="onSelectAll($event)">
                                                                                           </ng-multiselect-dropdown> -->
                     <!-- <select2 [data]="gatewayList" width="260px" multiple="true"></select2> -->
@@ -515,7 +515,7 @@
                       [value]="selectedGateways" (valueChanged)="onItemSelect($event)" id="locDtlGeoClaimedGateway">
                     </select2> -->
                   
-                    <ng-select [disabled]="pageType === 'View'"
+                    <!-- <ng-select [disabled]="pageType === 'View'"
                     class="custom" name="GatewayList"
                     (valueChanged)="onItemSelect($event)" id="locDtlGeoClaimedGateway"
                     [items]="gatewayList" [multiple]="true" 
@@ -523,9 +523,34 @@
                     [closeOnSelect]="false" 
                     [searchable]="false" bindLabel="gateways"
                     placeholder="Select Gateways" [(ngModel)]="selectedItems">
-                    </ng-select>
+                    <ng-option value="null" disabled selected>Gateway</ng-option>
+                    </ng-select> -->
+                    <!-- <ng-option value="null" disabled selected>Country</ng-option> -->
                     <!-- <button class="btn-save btn btn-primary btn-sm">Save</button> -->
                     <!-- </div> -->
+
+
+
+                    <ng-select
+                    [items]="gatewayList"
+                    [multiple]="true"
+                    [closeOnSelect]="false"
+                    [hideSelected]="true"
+                    bindLabel="text"
+                    placeholder="Select gateways"
+                    name="gatewayslist"
+                    [(ngModel)]="selectedItems">
+                    <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+                      <div class="ng-value" *ngFor="let item of items | slice:0:2">
+                          <span class="ng-value-label">{{item.text}}</span>
+                          <span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true">×</span>
+                      </div>
+                      <div class="ng-value" *ngIf="items.length > 2">
+                          <span class="ng-value-label">{{items.length - 2}} more...</span>
+                      </div>
+                  </ng-template>
+                </ng-select>
+                    
                   </div>
                 </div>
               </div>
