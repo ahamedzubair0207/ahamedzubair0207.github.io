@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { DbItem } from 'src/app/models/db-item';
 
 @Component({
   selector: 'app-votm-cloud-locations-dashboard',
@@ -6,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./votm-cloud-locations-dashboard.component.scss']
 })
 export class VotmCloudLocationsDashboardComponent implements OnInit {
+
+  @Input() dbItem: DbItem;
 
   constructor() { }
 
