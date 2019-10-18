@@ -34,4 +34,11 @@ export class UserService {
                 map(response => response)
             );
     }
+
+    getUserDetail(userId: string) {
+        return this.http.get(AppConstants.GET_USER_DETAIL + '/' + userId)
+            .pipe(
+                map(response => response)
+            );
+    }
 }

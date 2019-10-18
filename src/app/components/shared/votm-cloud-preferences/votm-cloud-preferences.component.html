@@ -14,17 +14,17 @@
     </ul>
     <div class="tab-content border-left border-bottom border-right bg-white mb-3 p-3">
       <div class="tab-pane fade show active" id="information">
-        <div class="row">
+        <div class="row" *ngIf="userprofile">
           <div class="col-md-6">
             <div class="row-flex">
               <div class="form-group">
                 <label for="noti_fn" class="">Display Name</label>
                 <div class="row">
                   <div class="col-md-6">
-                    <input type="text" class="form-control form-control-sm" id="noti_fn" placeholder="First name">
+                    <input type="text" class="form-control form-control-sm" id="noti_fn" placeholder="First name" name="firstName" [(ngModel)]="userprofile.firstName">
                   </div>
                   <div class="col-md-6">
-                    <input type="text" class="form-control form-control-sm" id="noti_ln" placeholder="Last name">
+                    <input type="text" class="form-control form-control-sm" id="noti_ln" placeholder="Last name" name="lastName" [(ngModel)]="userprofile.lastName">
                   </div>
                 </div>
               </div>
@@ -33,7 +33,7 @@
                   <div class="form-group">
                     <label for="noti_email" class="">Email</label>
                     <div class="">
-                      <input type="email" class="form-control form-control-sm" id="noti_email" placeholder="email">
+                      <input type="email" class="form-control form-control-sm" id="noti_email" placeholder="email" name="emailId" [(ngModel)]="userprofile.emailId">
                     </div>
                   </div>
                 </div>
@@ -41,7 +41,7 @@
                   <div class="form-group">
                     <label for="noti_ph" class="">Phone Number</label>
                     <div class="">
-                      <input type="text" class="form-control form-control-sm" id="noti_ph" placeholder="+1 (763) 123-456">
+                      <input type="text" class="form-control form-control-sm" id="noti_ph" placeholder="+1 (763) 123-456" name="phoneNumber" [(ngModel)]="userprofile.phoneNumber">
                     </div>
                   </div>
                 </div>
@@ -72,7 +72,7 @@
                     <div class="form-group">
                       <label for="noti_pre_lan" class="">Language</label>
                       <div class="">
-                        <select required #language="ngModel" id="DefaultLang" [(ngModel)]="userprofile.locale" name="language"
+                        <select required #language="ngModel" id="DefaultLang" [(ngModel)]="userprofile.userConfigSettings[0].localeId" name="language"
                           class="drop-down form-control form-control-sm">
                           <!-- <option value="" data-default selected>Select Language</option> -->
                           <option *ngFor="let locale of applicationConfiguration.locale" [value]="locale.localeId">
@@ -86,7 +86,7 @@
                     <div class="form-group">
                       <label for="noti_pre_timezone" class="">Timezone</label>
                       <div class="">
-                        <select required #timezone="ngModel" id="timezone" [(ngModel)]="userprofile.timeZone" name="timezone"
+                        <select required #timezone="ngModel" id="timezone" [(ngModel)]="userprofile.userConfigSettings[0].timeZoneId" name="timezone"
                           class="drop-down form-control form-control-sm">
                           <!-- <option value="" data-default selected>Select Timezone</option> -->
                           <option *ngFor="let timeZone of applicationConfiguration.timeZone" [value]="timeZone.timeZoneId">

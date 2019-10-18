@@ -20,6 +20,8 @@ export class AppConstants {
     public static GET_USER_ROLES = '/UserManagement/Roles';
     public static GET_ALL_USERS = '/UserManagement/Users';
 
+    public static GET_USER_DETAIL = '/UserManagement/UserDetail';
+
     public static GET_OPTIONSLISTDATA = '/Location/optionsListData';
 
     public static GET_ASSET_TREE = '/AssetTree/type/asset';

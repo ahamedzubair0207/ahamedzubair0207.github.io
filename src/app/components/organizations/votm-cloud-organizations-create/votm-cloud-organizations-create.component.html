@@ -40,10 +40,10 @@
     <li *ngFor="let dbItem of dbItems">
       <a class="nav-link tab-icon"
         id="dashboard{{dbItem.id}}-tab" data-toggle="tab" href="#DashboardID_{{dbItem.id}}" role="tab"
-        aria-controls="loc" aria-selected="false"><i
+        aria-controls="loc" aria-selected="false" title="{{ dbItem.lName}}"><i
           class="mr-2  icon-dashboard"></i>{{ dbItem.sName }}
         <i class="fa fa-pencil ml-2"
-          (click)="openAddDashboardModal('editDashboard', dbItem.id, dbItem.sName);"
+          (click)="openAddDashboardModal('editDashboard', dbItem.id,  dbItem.lName, dbItem.sName);"
           title="Configure Dashboard"></i>&nbsp;
         <i class="icon-trash"
           (click)="openDashboardConfirmDialog(dbItem.id, dbItem.sName)"
@@ -53,7 +53,7 @@
     <li class="nav-item">
       <div class="add-dashboard-btn-wrapper">
         <a class="nav-link tab-icon create-event-btn" (click)="openAddDashboardModal('addDashboard')"
-          id="createDashboardButton"><i class="fa fa-plus" title="Add New Dashboard"></i></a>
+          id="createDashboardButton" title="Add New Dashboard"><i class="fa fa-plus"></i></a>
       </div>
     </li>
     <!-- Dashboard-david -->
@@ -137,8 +137,8 @@
                   *ngIf="pageType.toLowerCase() === 'edit'" (click)="onLockClick()"></i>
 
               </div>
-              <div class="row">
-                <div class="col-12 col-md-6 col-lg-3 col-xl-2">
+              <div class="row padding-l-4 padding-r-4">
+                <div class="col-12 col-md-6 col-lg-3 col-xl-3">
                   <div class="form-group">
                     <label class="temp" votmrequired id="org-name">Name: Long</label>
                     <input type="text" maxlength="100" [(ngModel)]="organization.name"
@@ -164,7 +164,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="col-12 col-md-6 col-lg-3 col-xl-2">
+                <div class="col-12 col-md-6 col-lg-2 col-xl-2 ipad-l-25">
                   <div class="form-group">
                     <label class="temp" votmrequired id="customerNumLbl">Customer #:</label>
                     <div class="input-group">
@@ -183,7 +183,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="col-12 col-md-6 col-lg-3 col-xl-2">
+                <div class="col-12 col-md-6 col-lg-2 col-xl-3 ipad-l-25">
                   <div class="form-group">
                     <label class="" id="parentOrgLbl">{{pageLabels.ParentOrganization.labelName}}:</label>
                     <div class="">
@@ -196,7 +196,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="col-12 col-md-6 col-lg-3 col-xl-2">
+                <div class="col-12 col-md-6 col-lg-2 col-xl-2">
                   <div class="form-group">
                     <label class="" id="orgTypeLbl" for="organizationType">Type:</label>
                     <div class="">
@@ -210,7 +210,7 @@
                   </div>
                 </div>
                
-                <div class="col-12 col-md-6 col-lg-3 col-xl-1">
+                <div class="col-12 col-md-6 col-lg-2 col-xl-1 ipad-l-25">
                   <div class="form-group">
                     <label class="" id="icon" for="organizationType">Icon</label>
                     <div class="">
@@ -251,7 +251,7 @@
                     </app-votm-cloud-char-validator>
                   </div>
                 </div>
-                <div class="col-12 col-md-6 col-lg-3 col-xl-2">
+                <div class="col-12 col-md-6 col-lg-3 col-xl-3">
                   <div class="form-group">
                     <label class="temp" votmrequired id="primarycontactnumberlbl"> Contact
                       Phone:</label>
@@ -275,7 +275,7 @@
                     </app-votm-cloud-char-validator>
                   </div>
                 </div>
-                <div class="col-12 col-md-6 col-lg-3 col-xl-2">
+                <div class="col-12 col-md-6 col-lg-2 col-xl-2 ipad-l-25">
                   <div class="form-group">
                     <label class="temp" votmrequired id="primaryDistributorNamelbl">Distributor:
                     </label>
@@ -293,7 +293,7 @@
                     [condition]="organization.primaryDistributorName && organization.primaryDistributorName.length>=50">
                   </app-votm-cloud-char-validator>
                 </div>
-                <div class="col-12 col-md-6 col-lg-3 col-xl-2">
+                <div class="col-12 col-md-6 col-lg-2 col-xl-2 ipad-l-25">
                   <div class="form-group">
                     <label class="temp" votmrequired id="primaryDistributorEmailLbl">Distributor
                       Contact:
@@ -321,7 +321,7 @@
                   </app-votm-cloud-char-validator>
                 </div>
                                 <!-- Time Fromat for Moment.js  -->
-                <div class="col-12 col-md-6 col-lg-3 col-xl-2">
+                <div class="col-12 col-md-6 col-lg-2 col-xl-3 ipad-l-25">
                   <div class="form-group">
                     <label class="temp">Modified On:</label>
                     <div class="input-group">
@@ -336,10 +336,10 @@
 
               </div>
 
-              <fieldset class="form-group">
+              <fieldset class="form-group billing-padding-4">
                 <legend id="contractHeadingLbl" votmrequired> {{pageLabels.Contract.labelName}}</legend>
                 <div class="row org-create-font">
-                  <div class="col-12 col-md-6 col-lg-3 col-xl-2">
+                  <div class="col-12 col-md-6 col-lg-3 col-xl-2 form-group">
                     <!-- <label id="startDatelbl">{{pageLabels.StartDate.labelName}}:</label> -->
                     <!-- <div class="input-group-append"> -->
                     <label id="startDatelbl">Term:</label>
@@ -368,7 +368,7 @@
                     </div>
                   </div>
 
-                  <div class="col-12 col-md-6 col-lg-3 col-xl-2">
+                  <div class="col-12 col-md-6 col-lg-3 col-xl-2 form-group">
                     <label id="endDateLbl">{{pageLabels.EndDate.labelName}}:</label>
                     <div class="input-group">
                       <input class="form-control form-control-sm" (click)="contractEndDate.toggle(); onEndDateChange();"
@@ -389,7 +389,7 @@
                     </div>
                   </div>
 
-                  <div class="col-12 col-md-6 col-lg-3 col-xl-2">
+                  <div class="col-12 col-md-12 col-lg-2 col-xl-3 form-group">
                     <label id="serviceLbl">{{pageLabels.SVCLevel.labelName}}: </label>
                     <!-- <select [disabled]="pageType==='View'" id="service" [(ngModel)]="organization.svclevels"
                       name="svcLevel" #svcLevel="ngModel" class="drop-down form-control form-control-sm" required>
@@ -410,7 +410,7 @@
                     </div>
                   </div>
 
-                  <div class="col-12 col-md-6 col-lg-3 col-xl-2">
+                  <div class="col-12 col-md-6 col-lg-2 col-xl-3 form-group">
                     <label id="sensorBlockLbl">Sensor Blocks: </label>
                     <input type="text" maxlength="5" class="form-control org-create-font form-control-sm"
                       [disabled]="pageType==='View'" placeholder="Sensor Block" [(ngModel)]="organization.sensorBlocks"
@@ -420,7 +420,7 @@
                     </div>
                   </div>
 
-                  <div class="col-12 col-md-6 col-lg-3 col-xl-2">
+                  <div class="col-12 col-md-6 col-lg-2 col-xl-2 form-group">
                     <label id="cellularBlockLbl">Cellular Blocks: </label>
                     <input type="text" maxlength="5" [(ngModel)]="organization.cellularBlocks"
                       [disabled]="pageType==='View'" class="form-control org-create-font form-control-sm"
@@ -437,11 +437,11 @@
               <div *ngIf="organization.address" class="row">
 
                 <div class="col-6">
-                  <fieldset class="mb-2" [disabled]="pageType==='View'">
+                  <fieldset class="mb-2 billing-padding-4" [disabled]="pageType==='View'">
                     <legend id="billingaddress" votmrequired>{{pageLabels.BillingAddress.labelName}} :</legend>
                     <div class="row">
 
-                      <div class="col-12 col-md-6 col-lg-4 col-xl-4">
+                      <div class="col-12 col-md-12 col-lg-12 col-xl-12">
                         <div class="form-group">
                           <!-- <label for="address2">* {{pageLabels.Address1.labelName}} :</label> -->
                           <div class="input-group">
@@ -458,7 +458,7 @@
                         </div>
                       </div>
 
-                      <div class="col-12 col-md-6 col-lg-4 col-xl-4">
+                      <div class="col-12 col-md-12 col-lg-12 col-xl-12">
                         <div class="form-group">
                           <!-- <label for="address1">* {{pageLabels.Address2.labelName}} :</label> -->
                           <div class="input-group">
@@ -476,7 +476,7 @@
                         </div>
                       </div>
 
-                      <div class="col-12 col-md-6 col-lg-4 col-xl-3 form-group">
+                      <div class="col-12 col-md-6 col-lg-7 col-xl-7 form-group">
                         <!-- <label for="city">* {{pageLabels.City.labelName}} :</label> -->
                         <input type="text" id="city" [(ngModel)]="organization.address[0].city"
                           class="form-control form-control-sm" #city="ngModel" placeholder="City" name="city" required>
@@ -485,7 +485,7 @@
                         </div>
                       </div>
 
-                      <div class="col-12 col-md-6 col-lg-4 col-xl-3">
+                      <div class="col-12 col-md-6 col-lg-5 col-xl-5">
                         <!-- <select #state="ngModel" id="state" [(ngModel)]="organization.address[0].state" name="state"
                           class="drop-down form-control form-control-sm" required>
                           <option value="null" disabled selected>State</option>
@@ -508,7 +508,7 @@
                         </div>
                       </div>
 
-                      <div class="col-12 col-md-6 col-lg-4 col-xl-3">
+                      <div class="col-12 col-md-6 col-lg-7 col-xl-7">
                         <!-- <select [disabled]="pageType==='View'" id="country"
                           [(ngModel)]="organization.address[0].country" name="country"
                           class="drop-down form-control form-control-sm loc-create-font"
@@ -535,7 +535,7 @@
                         </div>
                       </div>
 
-                      <div class="col-12 col-md-6 col-lg-4 col-xl-3">
+                      <div class="col-12 col-md-6 col-lg-5 col-xl-5">
                         <!-- <label for="zipcode">* {{pageLabels.Zipcode.labelName}} :</label> -->
                         <input type="text" id="zipCode" [disabled]="pageType==='View'"
                           [(ngModel)]="organization.address[0].postalCode" class="form-control form-control-sm"
@@ -986,7 +986,7 @@
 
 <!-- Add/Edit Dashboard Model Start-->
 <div id="addDashboardModalWrapper" class="modal">
-  <div class="modal-dialog modal-lg modal-dialog-scrollable dashboard-create-font" *ngIf="dashboardDataById">
+  <div class="modal-dialog modal-md modal-dialog-scrollable dashboard-create-font" *ngIf="dashboardDataById">
     <!-- Modal content -->
     <form name="addDashboard" #dashBoardForm="ngForm" (ngSubmit)="onDashboardFormSubmit()" class="form needs-validation" novalidate>
       <div class="modal-content">
@@ -998,32 +998,32 @@
         </div>
         <div class="modal-body event-create-font">
           <div class="form-group form-row">
-            <label for="dbLongName" class="col-4 col-form-label">Dashboard Name</label>
-            <div class="col-8">
+            <label for="dbLongName" class="col-3 col-form-label">Dashboard Name</label>
+            <div class="col-6">
               <input ngbAutoFocus type="text" class="form-control" id="dbLongName" name="dbLongName" [(ngModel)]="dbLongName" />
             </div>
           </div>
           <div class="form-group form-row">
-            <label for="dbShortName" class="col-4 col-form-label">Short Name</label>
+            <label for="dbShortName" class="col-3 col-form-label">Short Name</label>
             <div class="col-3">
               <input ngbAutoFocus type="text" class="form-control" id="dbShortName" name="dbShortName" maxlength="8" [(ngModel)]="dbShortName" />
             </div>
           </div>
           <div class="form-group form-row">
-            <label for="tplSelect" class="col-4 col-form-label">Template Name</label>
-            <div class="col-8">
-              <ng-select #tplSelect labelForId="tplSelect" class="custom" [(ngModel)]="selTemplate" name="dbTemplateName" >
+            <label for="tplSelect" class="col-3 col-form-label">Template Name</label>
+            <div class="col-6">
+              <ng-select #tplSelect labelForId="tplSelect" class="custom" [(ngModel)]="selTemplate" name="dbTemplateName" [disabled]="dashboardDataById.act==='edit'">
                 <ng-option *ngFor="let dbTemplate of dbTemplates" [value]="dbTemplate.name"> {{ dbTemplate.name }}</ng-option>
               </ng-select>
             </div>
           </div>
           <div class="form-group form-row">
-            <label for="" class="col-4 col-form-label">Configured By</label>
-            <div class="col">
+            <label for="" class="col-3 col-form-label">Configured By</label>
+            <div class="col-3">
               <input type="text" class="form-control" id="dashboard-config-by" readonly value="Sean Healy" />
             </div>
             <label for="" class="col-form-label">On</label>
-            <div class="col">
+            <div class="col-3">
               <div class="input-group">
                 <input type="text" class="form-control" id="dashboard-created-On" readonly placeholder="25/09/2019 03:19" />
               </div>
