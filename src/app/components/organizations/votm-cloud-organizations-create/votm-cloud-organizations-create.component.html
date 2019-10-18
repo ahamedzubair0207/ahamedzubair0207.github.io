@@ -151,7 +151,7 @@
                     </app-votm-cloud-char-validator>
                   </div>
                 </div>
-                <div class="col-12 col-md-6 col-lg-1 col-xl-1">
+                <div class="col-12 col-md-6 col-lg-1 col-xl-1 ipad-pro-lg-2">
                   <div class="form-group">
                     <label class="temp" votmrequired id="nameShortLbl">Short</label>
                     <div class="">
@@ -183,7 +183,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="col-12 col-md-6 col-lg-2 col-xl-3 ipad-l-25">
+                <div class="col-12 col-md-6 col-lg-2 col-xl-3 ipad-pro-lg-3 ipad-l-25">
                   <div class="form-group">
                     <label class="" id="parentOrgLbl">{{pageLabels.ParentOrganization.labelName}}:</label>
                     <div class="">
@@ -210,7 +210,7 @@
                   </div>
                 </div>
                
-                <div class="col-12 col-md-6 col-lg-2 col-xl-1 ipad-l-25">
+                <div class="col-12 col-md-6 col-lg-2 col-xl-1 ipad-l-25 ipad-pro-lg-3">
                   <div class="form-group">
                     <label class="" id="icon" for="organizationType">Icon</label>
                     <div class="">
@@ -275,7 +275,7 @@
                     </app-votm-cloud-char-validator>
                   </div>
                 </div>
-                <div class="col-12 col-md-6 col-lg-2 col-xl-2 ipad-l-25">
+                <div class="col-12 col-md-6 col-lg-2 col-xl-2 ipad-l-25 ipad-pro-lg-3">
                   <div class="form-group">
                     <label class="temp" votmrequired id="primaryDistributorNamelbl">Distributor:
                     </label>
@@ -293,7 +293,7 @@
                     [condition]="organization.primaryDistributorName && organization.primaryDistributorName.length>=50">
                   </app-votm-cloud-char-validator>
                 </div>
-                <div class="col-12 col-md-6 col-lg-2 col-xl-2 ipad-l-25">
+                <div class="col-12 col-md-6 col-lg-2 col-xl-2 ipad-l-25 ipad-pro-lg-3">
                   <div class="form-group">
                     <label class="temp" votmrequired id="primaryDistributorEmailLbl">Distributor
                       Contact:
@@ -321,7 +321,7 @@
                   </app-votm-cloud-char-validator>
                 </div>
                                 <!-- Time Fromat for Moment.js  -->
-                <div class="col-12 col-md-6 col-lg-2 col-xl-3 ipad-l-25">
+                <div class="col-12 col-md-6 col-lg-2 col-xl-3 ipad-l-25 ipad-pro-lg-3">
                   <div class="form-group">
                     <label class="temp">Modified On:</label>
                     <div class="input-group">
@@ -339,7 +339,7 @@
               <fieldset class="form-group billing-padding-4">
                 <legend id="contractHeadingLbl" votmrequired> {{pageLabels.Contract.labelName}}</legend>
                 <div class="row org-create-font">
-                  <div class="col-12 col-md-6 col-lg-3 col-xl-2 form-group">
+                  <div class="col-12 col-md-6 col-lg-3 col-xl-2 form-group ipad-pro-lg-4">
                     <!-- <label id="startDatelbl">{{pageLabels.StartDate.labelName}}:</label> -->
                     <!-- <div class="input-group-append"> -->
                     <label id="startDatelbl">Term:</label>
@@ -368,7 +368,7 @@
                     </div>
                   </div>
 
-                  <div class="col-12 col-md-6 col-lg-3 col-xl-2 form-group">
+                  <div class="col-12 col-md-6 col-lg-3 col-xl-2 form-group ipad-pro-lg-4">
                     <label id="endDateLbl">{{pageLabels.EndDate.labelName}}:</label>
                     <div class="input-group">
                       <input class="form-control form-control-sm" (click)="contractEndDate.toggle(); onEndDateChange();"
@@ -389,7 +389,7 @@
                     </div>
                   </div>
 
-                  <div class="col-12 col-md-12 col-lg-2 col-xl-3 form-group">
+                  <div class="col-12 col-md-12 col-lg-2 col-xl-3 form-group ipad-pro-lg-4">
                     <label id="serviceLbl">{{pageLabels.SVCLevel.labelName}}: </label>
                     <!-- <select [disabled]="pageType==='View'" id="service" [(ngModel)]="organization.svclevels"
                       name="svcLevel" #svcLevel="ngModel" class="drop-down form-control form-control-sm" required>
@@ -410,7 +410,7 @@
                     </div>
                   </div>
 
-                  <div class="col-12 col-md-6 col-lg-2 col-xl-3 form-group">
+                  <div class="col-12 col-md-6 col-lg-2 col-xl-3 form-group ipad-pro-lg-4">
                     <label id="sensorBlockLbl">Sensor Blocks: </label>
                     <input type="text" maxlength="5" class="form-control org-create-font form-control-sm"
                       [disabled]="pageType==='View'" placeholder="Sensor Block" [(ngModel)]="organization.sensorBlocks"
@@ -420,7 +420,7 @@
                     </div>
                   </div>
 
-                  <div class="col-12 col-md-6 col-lg-2 col-xl-2 form-group">
+                  <div class="col-12 col-md-6 col-lg-2 col-xl-2 form-group ipad-pro-lg-4">
                     <label id="cellularBlockLbl">Cellular Blocks: </label>
                     <input type="text" maxlength="5" [(ngModel)]="organization.cellularBlocks"
                       [disabled]="pageType==='View'" class="form-control org-create-font form-control-sm"
