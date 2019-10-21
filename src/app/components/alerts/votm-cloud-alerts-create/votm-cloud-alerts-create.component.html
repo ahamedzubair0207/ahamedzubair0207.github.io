@@ -126,7 +126,7 @@
                                         name="{{'checkbox_'+threshold.alertConfigurationId}}"
                                         class="custom-control-input" id="{{threshold.alertConfigurationId}}">
                                     <label class="custom-control-label" for="{{threshold.alertConfigurationId}}">
-                                        <input [disabled]="!threshold.active" id="thresholdsAlertInput" type="text"
+                                        <input [disabled]="!threshold.active" id="thresholdLowCra" type="text"
                                             name="{{threshold.alertConfigurationId}}"
                                             [(ngModel)]="threshold.alertConfigurationValue"
                                             class="form-control-sm mr-1 w-25" />{{alert.uomName? alert.uomName:'psi1'}}</label>

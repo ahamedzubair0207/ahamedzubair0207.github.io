@@ -21,6 +21,11 @@ export class AppConstants {
     public static GET_ALERTRULE_USERGROUP_SUBSCRIBER = '/ALertRuleUserGroupSubscriber';
     public static GET_USER_ROLES = '/UserManagement/Roles';
     public static GET_ALL_USERS = '/UserManagement/Users';
+    public static CREATE_USER = '/UserManagement/User';
+    public static DELETE_USER = '/UserManagement/User';
+    public static EDIT_USER = '/UserManagement/User';
+
+    public static ADD_USER_GUEST_ORG = '/UserManagement/UserGuestOrganization';
 
     public static GET_USER_DETAIL = '/UserManagement/UserDetail';
 

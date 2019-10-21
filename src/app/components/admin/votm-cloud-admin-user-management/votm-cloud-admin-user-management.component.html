@@ -19,7 +19,7 @@
             Date Permissions</button>
           <button class="btn btn-info btn-sm mr-2" data-toggle="modal" type="button"
             data-target="#grant_guest_access" id="grantGuest">Grant Guest Access</button>
-          <button class="btn btn-info btn-sm mr-2" data-toggle="modal" type="button" data-target="#cus_add_user" id="addUserGroup" (click)="onClickOfAddUser()">Add
+          <button class="btn btn-info btn-sm mr-2" data-toggle="modal" type="button" data-target="#cus_add_user" data-backdrop="static" data-keyboard="false" id="addUserGroup" (click)="onClickOfAddUser()">Add
             User</button>
         </div>
       </div>
@@ -30,7 +30,13 @@
         <table class="table table-bordered table-sm table-stripped table-hover" id="user_table">
           <thead class="thead-dark">
             <tr>
-              <th>Select</th>
+              <th  class="text-center">
+                <div class="custom-control custom-checkbox">
+                  <input type="checkbox" class="custom-control-input" name="select_all_cb" id="select_all_cb"
+                    (change)="onClickOfSelectAllCheckBox()" [checked]="users.length !== 0 && selectedUsers.length === users.length">
+                  <label class="custom-control-label" for="select_all_cb"></label>
+                </div>
+              </th>
               <th class="">User Name</th>
               <th class="">Home Org</th>
               <th class="">Role</th>
@@ -42,52 +48,46 @@
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td class="text-center">
-                <div class="custom-control custom-checkbox">
-                  <input type="checkbox" class="custom-control-input" name="customCheck" id="customCheck1" checked>
-                  <label class="custom-control-label" for="customCheck1"></label>
-                </div>
-              </td>
-              <td>Sean Haley</td>
-              <td>Parker</td>
-              <td>Creator</td>
-              <td>sean_haly@parker.com</td>
-              <td>612-888-8989</td>
-              <td>Home</td>
-              <td>Role</td>
-              <td class="text-center">
-                <a href="" id="user_check_1" class="mr-2"><i class="fa fa-check"></i></a>
-                <a href="" id="user_edit_1" class="mr-2"><i class="icon-edit"></i></a>
-                <a href="" id="user_delete_1" class="mr-2"><i class="icon-trash"></i></a>
-              </td>
-            </tr>
-            <tr>
-              <td class="text-center">
-                <div class="custom-control custom-checkbox">
-                  <input type="checkbox" class="custom-control-input" name="customCheck" id="customCheck2" checked>
-                  <label class="custom-control-label" for="customCheck2"></label>
-                </div>
-              </td>
-              <td>Sean Haley</td>
-              <td>Parker</td>
-              <td>Creator</td>
-              <td>sean_haly@parker.com</td>
-              <td>612-888-8989</td>
-              <td>Home</td>
-              <td>Role</td>
-              <td class="text-center">
-                <a href="" id="user_check_2" class="mr-2"><i class="fa fa-check"></i></a>
-                <a href="" id="user_edit_2" class="mr-2"><i class="icon-edit"></i></a>
-                <a href="" id="user_delete_2" class="mr-2"><i class="icon-trash"></i></a>
-              </td>
+              <tr  class="text-center" *ngIf="isGetUsersAPILoading" >
+                  <i class="fa fa-spinner fa-spin fa-2x fa-fw"></i>
+              </tr>
+            <ng-container  *ngIf="!isGetUsersAPILoading && users.length > 0" >
+              <tr *ngFor="let user of users; let userIndex = index;" >
+
+                <td class="text-center">
+                  <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" name="user_cb" id="user_cb_{{userIndex}}"
+                     (change)="onClickOfUserCheckBox(user)" [checked]="selectedUsers.indexOf(user) !== -1">
+                    <label class="custom-control-label" for="user_cb_{{userIndex}}"></label>
+                  </div>
+                </td>
+                <td>{{user.firstName}}&nbsp;{{user.lastName}}</td>
+                <td>{{user.organizationName}}</td>
+                <td>{{user.roleName}}</td>
+                <td>{{user.emailId}}</td>
+                <td>{{user.phoneNumber}}</td>
+                <td>Home</td>
+                <td>Role</td>
+                <td class="text-center">
+                  <a id="user_check_{{userIndex}}" class="mr-2" [title]="user.active ? 'Active' : 'Deactive'" data-toggle="tooltip">
+                    <i [ngClass]="user.active ? 'fa fa-check-circle' : 'fa fa-ban'" ></i>
+                  </a>
+                  <a id="user_edit_{{userIndex}}" class="mr-2" data-toggle="modal" data-target="#cus_add_user"
+                    data-backdrop="static" data-keyboard="false" (click)="onClickOfEditUser(user)">
+                    <i class="icon-edit"></i>
+                  </a>
+                  <a id="user_delete_{{userIndex}}" (click)="onClickOfDeleteUser(user)" class="mr-2" >
+                    <i class="icon-trash"></i>
+                  </a>
+                </td>
+
+              </tr>
+            </ng-container>
+            <tr *ngIf="!isGetUsersAPILoading && users.length === 0" >
+              <td  class="text-center" colspan="9">No data found.</td>
             </tr>
           </tbody>
         </table>
-        <div class="text-right">
-          <button class="btn btn-sm btn-secondary mr-3" id="um_cancel">Cancel</button>
-          <button class="btn btn-sm btn-info" id="um_save">Save</button>
-        </div>
       </div>
     </div>
   </form>
@@ -155,28 +155,28 @@
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title">Grant Guest Access</h5>
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <button type="button" class="close" (click)="onClickOfGrantAccessModalClose()">&times;</button>
         </div>
         <div class="modal-body">
           <div class="row">
             <div class="col-md-12">
               <div class="form-group">
-                <label for="gga_search">Search</label>
-                <div class="input-group input-group-sm">
-                  <input type="text" class="form-control" id="gga_search" placeholder="Search">
-                  <div class="input-group-append">
-                    <span class="input-group-text"><i class="fa fa-search"></i></span>
-                  </div>
-                </div>
+                <label for="guest_access_search">Search</label>
+                <ng-select id="addUserRole" class="custom"
+                  [multiple]="false" [(ngModel)]="selectedUserForGuestAccess"
+                  name="addRole" (change)="onChangeOfGuestUser()">
+                <ng-option *ngFor="let user of users"  [value]="user.userId">{{user.firstName}}&nbsp;{{user.lastName}}</ng-option>
+                </ng-select>
               </div>
             </div>
           </div>
+
           <div class="row">
             <div class="col-md-6">
               <div class="form-group">
                 <label for="gga_f_name">First Name</label>
                 <div class="input-group input-group-sm">
-                  <input type="text" id="gga_f_name" class="form-control" placeholder="First Name">
+                  <input type="text" id="gga_f_name" disabled class="form-control" placeholder="First Name" [value]="selectedUserForEdit ? selectedUserForEdit.firstName : ''">
                   <div class="input-group-append">
                     <span class="input-group-text"><i class="fa fa-user"></i></span>
                   </div>
@@ -187,7 +187,7 @@
               <div class="form-group">
                 <label for="gga_l_name">Last Name</label>
                 <div class="input-group input-group-sm">
-                  <input type="text" id="gga_l_name" class="form-control" placeholder="Last Name">
+                  <input type="text" id="gga_l_name" disabled class="form-control" placeholder="Last Name" [value]="selectedUserForEdit ? selectedUserForEdit.lastName : ''">
                   <div class="input-group-append">
                     <span class="input-group-text"><i class="fa fa-user"></i></span>
                   </div>
@@ -198,75 +198,99 @@
               <div class="form-group">
                 <label for="gga_e_name">Email</label>
                 <div class="input-group input-group-sm">
-                  <input type="email" id="gga_e_name" class="form-control" placeholder="email">
+                  <input type="email" id="gga_e_name" disabled class="form-control" placeholder="email" [value]="selectedUserForEdit ? selectedUserForEdit.emailId : ''">
                   <div class="input-group-append">
-                    <span class="input-group-text"><i class="fa fa-at"></i></span>
+                    <span class="input-group-text"><i class="fa fa-envelope"></i></span>
                   </div>
                 </div>
               </div>
             </div>
             <div class="col-md-6">
               <div class="form-group">
-                <label for="guest_access">Guest Access</label>
-                <select id="guest_access" class="form-control form-control-sm">
-                  <option>Quik Coupling Division</option>
-                </select>
+                <label for="guest_access" votmrequired>Guest Access</label>
+                <ng-select id="addUserRole" class="custom" [(ngModel)]="selectedOrgForGuestAccess"
+                  name="addRole">
+                  <ng-option *ngFor="let organization of organizations"  [value]="organization">{{organization.name}}</ng-option>
+                </ng-select>
               </div>
             </div>
           </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary btn-sm" id="grant_user_btncancel"
-            data-dismiss="modal">Cancel</button>
-          <button type="button" class="btn btn-info btn-sm" id="grant_user_btncreate">Grant</button>
+            (click)="onClickOfGrantAccessModalClose()">Cancel</button>
+          <button type="button" class="btn btn-info btn-sm" id="grant_user_btncreate"
+            [disabled]="!selectedOrgForGuestAccess" (click)="onClickOfGrantGuestAccess()">
+            Grant
+          </button>
         </div>
       </div>
     </div>
   </div>
   <!-- Modal Add User -->
   <div id="cus_add_user" class="modal fade">
-    <div class="modal-dialog modal-xl modal-dialog-scrollable modal-dialog-centered">
-      <div class="modal-content">
+    <div class="modal-dialog modal-xl modal-dialog-scrollable modal-dialog-centered" *ngIf="userForm" >
+      <div class="modal-content" >
         <div class="modal-header">
-          <h5 class="modal-title">Add User</h5>
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h5 class="modal-title">{{pageType === 'add' ? 'Add' : (pageType === 'edit' ? 'Edit' : '')}}  &nbsp;User</h5>
+          <button type="button" class="close" (click)="onClickOfCloseAddUserModal()">&times;</button>
         </div>
         <div class="modal-body">
-          <form [formGroup]="userForm" *ngIf="userForm" >
+          <form [formGroup]="userForm" >
             <div class="row">
               <div class="col-md-6">
                 <div class="row">
                   <div class="col-md-6">
                     <div class="form-group">
-                      <label for="user_f_name">First Name</label>
+                      <label for="user_f_name" votmrequired>First Name</label>
                       <div class="input-group input-group-sm">
                         <input type="text" id="user_f_name" class="form-control form-control-sm" placeholder="First Name" formControlName="firstName">
                         <div class="input-group-append">
                           <span class="input-group-text"><i class="fa fa-user"></i></span>
                         </div>
+
                       </div>
+
+                      <div *ngIf="userForm.get('firstName').touched && userForm.get('firstName').value === null" >
+                        <app-votm-cloud-validator message="First name is required."></app-votm-cloud-validator>
+                      </div>
+
                     </div>
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
-                      <label for="user_l_name">Last Name</label>
+                      <label for="user_l_name" votmrequired>Last Name</label>
                       <div class="input-group input-group-sm">
                         <input type="text" id="user_l_name" class="form-control form-control-sm" placeholder="Last Name" formControlName="lastName">
                         <div class="input-group-append">
                           <span class="input-group-text"><i class="fa fa-user"></i></span>
                         </div>
                       </div>
+
+                      <div *ngIf="userForm.get('lastName').touched && userForm.get('lastName').value === null" >
+                        <app-votm-cloud-validator message="Last name is required."></app-votm-cloud-validator>
+                      </div>
+
                     </div>
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
-                      <label for="user_e_name">Email</label>
+                      <label for="user_e_name" votmrequired>Email</label>
                       <div class="input-group input-group-sm">
-                        <input type="email" id="user_e_name" class="form-control form-control-sm" placeholder="Email" formControlName="emailId">
+                        <input type="text" id="user_e_name" pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" class="form-control form-control-sm" placeholder="Email" formControlName="emailId">
                         <div class="input-group-append">
                           <span class="input-group-text"><i class="fa fa-envelope"></i></span>
                         </div>
+
                       </div>
+
+                      <div *ngIf="userForm.get('emailId').touched && userForm.get('emailId').value === null" >
+                        <app-votm-cloud-validator message="Email is required."></app-votm-cloud-validator>
+                      </div>
+                      <div *ngIf="!userForm.get('emailId').valid && userForm.get('emailId').touched && userForm.get('emailId').value !== null">
+                        <app-votm-cloud-validator message="Enter valid email address."></app-votm-cloud-validator>
+                      </div>
+
                     </div>
                   </div>
                   <!-- <div class="col-md-6">
@@ -281,7 +305,7 @@
                     <div class="form-group">
                       <label for="guest_access_user">Phone Number</label>
                       <div class="input-group input-group-sm">
-                        <input type="number" id="user_phone_number" class="form-control form-control-sm" placeholder="Phone number" formControlName="phoneNumber">
+                        <input type="text" id="user_phone_number" class="form-control form-control-sm" placeholder="Phone number" formControlName="phoneNumber">
                         <div class="input-group-append">
                             <span class="input-group-text"><i class="fa fa-phone"></i></span>
                         </div>
@@ -290,15 +314,14 @@
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
-                      <label for="guest_access">Role</label>
+                      <label for="guest_access" votmrequired>Role</label>
                       <ng-select id="addUserRole" class="custom" formControlName="roleId"
-                          [ngStyle]="{'background-color':pageType==='View'?'#e9ecef':'#fff'}" [multiple]="false"
                           name="addRole">
                           <ng-option *ngFor="let role of roles"  [value]="role.roleId">{{role.roleName}}</ng-option>
-                          <!-- <ng-option value="Normal/Intermediate">Normal/Intermediate</ng-option>
-                          <ng-option value="Administrator">Administrator</ng-option>
-                          <ng-option value="Creator">Creator</ng-option> -->
                         </ng-select>
+                        <div *ngIf="userForm.get('roleId').touched && userForm.get('roleId').value === null" >
+                          <app-votm-cloud-validator message="Role is required."></app-votm-cloud-validator>
+                        </div>
                     </div>
                   </div>
                 </div>
@@ -307,27 +330,40 @@
                 <fieldset>
                   <legend>Organizaion Access</legend>
                   <div class="form-group">
-                    <label for="guest_access">Home Access</label>
-                    <select id="guest_access" class="form-control form-control-sm">
-                      <option>Parker Hannifin Corporation</option>
-                    </select>
+                    <label for="guest_access" votmrequired>Home Access</label>
+                    <ng-select id="addUserRole" class="custom" formControlName="organizationId"
+                      name="addRole">
+                      <ng-option *ngFor="let organization of organizations"  [value]="organization.organizationId">{{organization.name}}</ng-option>
+                    </ng-select>
+                    <div *ngIf="userForm.get('organizationId').touched && userForm.get('organizationId').value === null" >
+                      <app-votm-cloud-validator message="Home Access is required."></app-votm-cloud-validator>
+                    </div>
                   </div>
                   <div class="form-group">
                     <label for="guest_access">Guest Access</label>
                     <table class="table table-bordered table-stripped table-hover table-sm" id="addUserTb">
                       <thead class="thead-dark">
-                        <tr>
+                        <tr >
                           <th>Organization Name</th>
                           <th>Role</th>
                           <th class="text-center">Delete</th>
                         </tr>
                       </thead>
                       <tbody>
-                        <tr>
-                          <td>Ford</td>
-                          <td>View</td>
-                          <td class="text-center"><a href=""><i class="icon-trash"></i></a></td>
+                        <tr  class="text-center" *ngIf="pageType === 'add'" >
+                          <td colspan="3">No data found.</td>
                         </tr>
+                        <tr  class="text-center" *ngIf="pageType === 'edit' && selectedUserForEdit.userGuestOrganization.length === 0">
+                            <td colspan="3">No data found.</td>
+                        </tr>
+                        <ng-container  *ngIf="pageType === 'edit' && selectedUserForEdit.userGuestOrganization.length > 0">
+                        <tr *ngFor="let guestOrg of selectedUserForEdit.userGuestOrganization; let guestIndex = index;" >
+                          <td> {{guestOrg.organizationName}} </td>
+                          <td> Role </td>
+                          <td  > <a *ngIf="isGetUsersAPILoading" id="user_guest_delete_{{guestIndex}}" class="mr-2" (click)="onClickOfRemoveGuestAccess(guestIndex)"><i class="icon-trash"></i></a> </td>
+                        </tr>
+                        </ng-container>
+
                       </tbody>
                     </table>
                   </div>
@@ -337,8 +373,11 @@
           </form>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary btn-sm" id="add_user_btncancel" data-dismiss="modal">Cancel</button>
-          <button type="button" class="btn btn-info btn-sm" id="add_user_btncreate" (click)="onClickOfSubmitUser()">Create</button>
+          <button type="button" class="btn btn-secondary btn-sm" id="add_user_btncancel" (click)="onClickOfCloseAddUserModal()">Cancel</button>
+          <button type="button" class="btn btn-info btn-sm" id="add_user_btncreate"
+          (click)="onClickOfSubmitUser()"
+          [disabled]="(!userForm.valid && (userForm.touched || !userForm.touched)) || isCreateUserAPILoading"
+          >{{pageType === 'add' ? 'Create' : 'Update'}} <i *ngIf="isCreateUserAPILoading" class="fa fa-spinner fa-spin fa-fw"></i></button>
         </div>
       </div>
     </div>
