@@ -32,12 +32,13 @@
                             [ngStyle]="{'background-color':pageType==='View'?'#e9ecef':'#fff'}" [multiple]="false"
                             name="metricType" [(ngModel)]="alert.UomTypeId" placeholder="Choose Type">
                             <ng-option value="null" disabled selected>Metric Type</ng-option>
-                            <ng-option *ngFor="let metricType of metricTypes" [value]="metricType.id">{{metricType.name}}</ng-option>
+                            <ng-option *ngFor="let metricType of metricTypes" [value]="metricType.id">
+                                {{metricType.name}}</ng-option>
                         </ng-select>
                     </div>
                 </div>
             </div>
-            
+
             <div class="col-12 col-md-3 col-xl-1">
                 <label id="ruleTypeLbl" class="">Rule Type</label>
                 <div class="">
@@ -51,7 +52,8 @@
                             [ngStyle]="{'background-color':pageType==='View'?'#e9ecef':'#fff'}" [multiple]="false"
                             name="ruleType" [(ngModel)]="alert.alertRuleTypeId" placeholder="Choose Type">
                             <ng-option value="null" disabled selected>Rule Type</ng-option>
-                            <ng-option *ngFor="let ruleType of ruleTypes" [value]="ruleType.id">{{ruleType.name}}</ng-option>
+                            <ng-option *ngFor="let ruleType of ruleTypes" [value]="ruleType.id">{{ruleType.name}}
+                            </ng-option>
                         </ng-select>
                     </div>
                 </div>
@@ -84,7 +86,7 @@
             <div class="col-12 col-md-2 pl-4 pt-2 col-xl-1">
                 <div class="checkbox">
                     <input type="checkbox" name="closureRequired" id="closureCheckBox"
-                            [(ngModel)]="alert.closureRequired" class="mr-2" [disabled]="pageType === 'View'">
+                        [(ngModel)]="alert.closureRequired" class="mr-2" [disabled]="pageType === 'View'">
                     <label class="mt-2">Closure Required</label>
                 </div>
             </div>
@@ -127,7 +129,7 @@
                                         <input [disabled]="!threshold.active" id="thresholdsAlertInput" type="text"
                                             name="{{threshold.alertConfigurationId}}"
                                             [(ngModel)]="threshold.alertConfigurationValue"
-                                            class="form-control-sm mr-1 w-25" />psi</label>
+                                            class="form-control-sm mr-1 w-25" />{{alert.uomName? alert.uomName:'psi1'}}</label>
                                 </div>
                             </td>
                         </tr>
@@ -137,7 +139,7 @@
         </div>
         <div class="row">
             <div class="col-md-6">
-                <fieldset  style="height:380px;" [disabled]="pageType === 'View'">
+                <fieldset style="height:380px;" [disabled]="pageType === 'View'">
                     <legend id="alertRuleSignallbl">Signal Associations</legend>
                     <ul class="nav nav-tabs">
                         <li class="nav-item">
@@ -173,14 +175,17 @@
                                         </div>
                                     </span>
                                 </div> -->
-                                <p-treeTable [scrollable]="true" #tt scrollHeight="200px" [globalFilterFields]="['label']" [resizableColumns]="true"
+                                <p-treeTable [scrollable]="true" #tt scrollHeight="200px"
+                                    [globalFilterFields]="['label']" [resizableColumns]="true"
                                     [value]="treeSignalAssociationList">
                                     <ng-template pTemplate="caption">
-                                            <div style="text-align: right">        
-                                                <i class="pi pi-search" style="margin:4px 4px 0 0"></i>
-                                                <input type="text" pInputText size="20" placeholder="Type to filter" (input)="tt.filterGlobal($event.target.value, 'contains')" style="width:auto" id="signalAssoFilter">
-                                            </div>
-                                        </ng-template>
+                                        <div style="text-align: right">
+                                            <i class="pi pi-search" style="margin:4px 4px 0 0"></i>
+                                            <input type="text" pInputText size="20" placeholder="Type to filter"
+                                                (input)="tt.filterGlobal($event.target.value, 'contains')"
+                                                style="width:auto" id="signalAssoFilter">
+                                        </div>
+                                    </ng-template>
                                     <ng-template pTemplate="colgroup">
                                         <colgroup>
                                             <col>
@@ -216,10 +221,10 @@
                                         </tr>
                                     </ng-template>
                                     <ng-template pTemplate="emptymessage">
-                                            <tr>        
-                                                <td [attr.colspan]="2">No data found.</td>
-                                            </tr>
-                                        </ng-template>
+                                        <tr>
+                                            <td [attr.colspan]="2">No data found.</td>
+                                        </tr>
+                                    </ng-template>
                                 </p-treeTable>
 
 
@@ -404,7 +409,8 @@
                             (click)="onAddNotifiedUsersClick()" data-target="#notifiedUserModal" id="notifyUserBtn"><i
                                 class="icon-user-o mr-2"></i>Add Notified User</button>
                         <button type="button" class="btn btn-sm btn-secondary" data-toggle="modal"
-                            data-target="#notifiedUserGroupModal" id="notifyUserGroupBtn"><i class="icon-users mr-2"></i>Add
+                            data-target="#notifiedUserGroupModal" id="notifyUserGroupBtn"><i
+                                class="icon-users mr-2"></i>Add
                             Notified
                             Group</button>
 
@@ -499,8 +505,10 @@
             <div class="modal-body table-responsive">
                 <form class="form-inline">
                     <label for="typeahead-config" id="user-filter">Type to filter:</label>
-                    <input class="form-control mr-sm-2 ml-2" type="search" placeholder="Search" aria-label="Search" id="avaUsersFilter">
-                    <button class="btn btn-outline-info btn-sm my-2 my-sm-0" type="submit" id="avaUsersFilterbtn">Search</button>
+                    <input class="form-control mr-sm-2 ml-2" type="search" placeholder="Search" aria-label="Search"
+                        id="avaUsersFilter">
+                    <button class="btn btn-outline-info btn-sm my-2 my-sm-0" type="submit"
+                        id="avaUsersFilterbtn">Search</button>
                 </form>
                 <table class="table table-sm table-bordered mt-2" id="avaUsersTb">
                     <thead>
@@ -518,8 +526,9 @@
                             <td>{{notifyUser.firstName}}</td>
                             <td>{{notifyUser.lastName}}</td>
                             <td>{{notifyUser.emailId}}</td>
-                            <td><a [ngStyle]="{'cursor':(checkForUserGroupSelected(notifyUser.userId, 'User')?'auto':'pointer')}" (click)="onUserSelection(notifyUser)">
-                                <i  [ngStyle]="{'color':(checkForUserGroupSelected(notifyUser.userId, 'User')?'#29a7a1':'black')}"
+                            <td><a [ngStyle]="{'cursor':(checkForUserGroupSelected(notifyUser.userId, 'User')?'auto':'pointer')}"
+                                    (click)="onUserSelection(notifyUser)">
+                                    <i [ngStyle]="{'color':(checkForUserGroupSelected(notifyUser.userId, 'User')?'#29a7a1':'black')}"
                                         class="icon-user-add"></i></a></td>
                         </tr>
                     </tbody>
@@ -549,8 +558,10 @@
             <div class="modal-body table-responsive">
                 <form class="form-inline">
                     <label for="typeahead-config" id="group-filter">Type to filter:</label>
-                    <input class="form-control mr-sm-2 ml-2" type="search" placeholder="Search" aria-label="Search" id="avaGroupsFilter">
-                    <button class="btn btn-outline-info btn-sm my-2 my-sm-0" type="submit" id="avaGroupsFilterBtn">Search</button>
+                    <input class="form-control mr-sm-2 ml-2" type="search" placeholder="Search" aria-label="Search"
+                        id="avaGroupsFilter">
+                    <button class="btn btn-outline-info btn-sm my-2 my-sm-0" type="submit"
+                        id="avaGroupsFilterBtn">Search</button>
                 </form>
                 <table class="table table-sm table-bordered mt-2" id="avaGroupsTb">
                     <thead>
@@ -565,8 +576,10 @@
                         <tr *ngFor="let userGroup of userGroups let i=index;">
                             <th scope="row">{{i+1}}</th>
                             <td>{{userGroup.userGroupName}}</td>
-                            <td><a [ngStyle]="{'cursor':(checkForUserGroupSelected(userGroup.userGroupId, 'UserGroup')?'auto':'pointer')}" (click)="onUserGroupSelection(userGroup)"><i
-                                        class="icon-user-add"  [ngStyle]="{'color':(checkForUserGroupSelected(userGroup.userGroupId, 'UserGroup')?'#29a7a1':'black')}"></i></a></td>
+                            <td><a [ngStyle]="{'cursor':(checkForUserGroupSelected(userGroup.userGroupId, 'UserGroup')?'auto':'pointer')}"
+                                    (click)="onUserGroupSelection(userGroup)"><i class="icon-user-add"
+                                        [ngStyle]="{'color':(checkForUserGroupSelected(userGroup.userGroupId, 'UserGroup')?'#29a7a1':'black')}"></i></a>
+                            </td>
                         </tr>
                     </tbody>
                 </table>

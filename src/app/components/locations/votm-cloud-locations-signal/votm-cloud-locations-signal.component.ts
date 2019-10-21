@@ -75,74 +75,74 @@ export class VotmCloudLocationsSignalComponent implements OnInit, AfterViewInit 
   ngAfterViewInit() {
     console.log(this.editOPanel);
     const self = this;
-    $.fn.drags = function(opt) {
+    $.fn.drags = function (opt) {
 
       opt = $.extend({
-          handle: '',
-          cursor: 'move',
-          draggableClass: 'draggable',
-          activeHandleClass: 'active-handle'
+        handle: '',
+        cursor: 'move',
+        draggableClass: 'draggable',
+        activeHandleClass: 'active-handle'
       }, opt);
 
       let $selected = null;
       const $elements = (opt.handle === '') ? this : this.find(opt.handle);
 
-      $elements.css(  'cursor', opt.cursor).on('mousedown', function(e) {
-          if ( e.target !== this) {
-            return;
-          }
-          if (opt.handle === '') {
-              $selected = $(this);
-              $selected.addClass(opt.draggableClass);
-          } else {
-              $selected = $(this).parent();
-              $selected.addClass(opt.draggableClass).find(opt.handle).addClass(opt.activeHandleClass);
-          }
-          const drg_h = $selected.outerHeight();
-          const drg_w = $selected.outerWidth();
-          const pos_y = $selected.offset().top + drg_h - e.pageY;
-          const pos_x = $selected.offset().left + drg_w - e.pageX;
-          $(document).on('mousemove', (e) => {
-              $selected.offset({
-                  top: e.pageY + pos_y - drg_h,
-                  left: e.pageX + pos_x - drg_w
-              });
-          }).on('mouseup', function(e) {
-              console.log($(this));
-              $(this).off('mousemove'); // Unbind events from document
-              if ($selected !== null) {
-                  $selected.removeClass(opt.draggableClass);
-                  $selected.css('left', parseInt($selected.css('left'), 10) / ($selected.parent().width() / 100) + '%');
-                  $selected.css('top', parseInt($selected.css('top'), 10) / ($selected.parent().height() / 100) + '%');
-                  console.log('herer' , self.dropSensor);
-                  if (self.dropSensor) { self.dropSensor($selected); }
-                  $selected = null;
-                 // $selected.addClass('pad-18');
-              }
+      $elements.css('cursor', opt.cursor).on('mousedown', function (e) {
+        if (e.target !== this) {
+          return;
+        }
+        if (opt.handle === '') {
+          $selected = $(this);
+          $selected.addClass(opt.draggableClass);
+        } else {
+          $selected = $(this).parent();
+          $selected.addClass(opt.draggableClass).find(opt.handle).addClass(opt.activeHandleClass);
+        }
+        const drg_h = $selected.outerHeight();
+        const drg_w = $selected.outerWidth();
+        const pos_y = $selected.offset().top + drg_h - e.pageY;
+        const pos_x = $selected.offset().left + drg_w - e.pageX;
+        $(document).on('mousemove', (e) => {
+          $selected.offset({
+            top: e.pageY + pos_y - drg_h,
+            left: e.pageX + pos_x - drg_w
           });
-          e.preventDefault();
-          e.stopPropagation();
-          e.cancelBubble = true;
-          return false;
-      }).on('mouseup', function(e) {
-          if ( e.target !== this) {
-            return;
+        }).on('mouseup', function (e) {
+          console.log($(this));
+          $(this).off('mousemove'); // Unbind events from document
+          if ($selected !== null) {
+            $selected.removeClass(opt.draggableClass);
+            $selected.css('left', parseInt($selected.css('left'), 10) / ($selected.parent().width() / 100) + '%');
+            $selected.css('top', parseInt($selected.css('top'), 10) / ($selected.parent().height() / 100) + '%');
+            console.log('herer', self.dropSensor);
+            if (self.dropSensor) { self.dropSensor($selected); }
+            $selected = null;
+            // $selected.addClass('pad-18');
           }
-          if (opt.handle === '') {
-              $selected.removeClass(opt.draggableClass);
-          } else {
-              $selected.removeClass(opt.draggableClass)
-                  .find(opt.handle).removeClass(opt.activeHandleClass);
-          }
-          $selected.css('left', parseInt($selected.css('left'), 10) / ($selected.parent().width() / 100) + '%');
-          $selected.css('top', parseInt($selected.css('top'), 10) / ($selected.parent().height() / 100) + '%');
-          console.log(self.dropSensor);
-          if (self.dropSensor)  {
-            self.dropSensor($selected);
-          }
-         // $selected.addClass('pad-18');
+        });
+        e.preventDefault();
+        e.stopPropagation();
+        e.cancelBubble = true;
+        return false;
+      }).on('mouseup', function (e) {
+        if (e.target !== this) {
+          return;
+        }
+        if (opt.handle === '') {
+          $selected.removeClass(opt.draggableClass);
+        } else {
+          $selected.removeClass(opt.draggableClass)
+            .find(opt.handle).removeClass(opt.activeHandleClass);
+        }
+        $selected.css('left', parseInt($selected.css('left'), 10) / ($selected.parent().width() / 100) + '%');
+        $selected.css('top', parseInt($selected.css('top'), 10) / ($selected.parent().height() / 100) + '%');
+        console.log(self.dropSensor);
+        if (self.dropSensor) {
+          self.dropSensor($selected);
+        }
+        // $selected.addClass('pad-18');
 
-          $selected = null;
+        $selected = null;
       });
 
       return this;
@@ -152,10 +152,10 @@ export class VotmCloudLocationsSignalComponent implements OnInit, AfterViewInit 
 
   getAlertRulesList() {
     this.alertsService.getAllAlertsByOrgId(this.curOrganizationId)
-    .subscribe(response => {
-      this.alertRules = response;
+      .subscribe(response => {
+        this.alertRules = response;
 
-    });
+      });
   }
 
   /**
@@ -164,14 +164,14 @@ export class VotmCloudLocationsSignalComponent implements OnInit, AfterViewInit 
    */
   getLocationById() {
     this.locationService.getLocationById(this.locationId)
-    .subscribe(response => {
-      this.location = response;
-      if (this.location.logo && this.location.logo.imageName) {
-        const fileExtension = this.location.logo.imageName.slice(
-          (Math.max(0, this.location.logo.imageName.lastIndexOf('.')) || Infinity) + 1);
-        this.imgURL = this.domSanitizer.bypassSecurityTrustUrl(`data:image/${fileExtension};base64,${this.location.logo.image}`);
-      }
-    });
+      .subscribe(response => {
+        this.location = response;
+        if (this.location.logo && this.location.logo.imageName) {
+          const fileExtension = this.location.logo.imageName.slice(
+            (Math.max(0, this.location.logo.imageName.lastIndexOf('.')) || Infinity) + 1);
+          this.imgURL = this.domSanitizer.bypassSecurityTrustUrl(`data:image/${fileExtension};base64,${this.location.logo.image}`);
+        }
+      });
   }
   /**
    * To get all available signals for that location and organization.
@@ -181,56 +181,56 @@ export class VotmCloudLocationsSignalComponent implements OnInit, AfterViewInit 
   getAllAvailableSignals() {
     this.isGetAvailableSignalsAPILoading = true;
     this.locationSignalService.getSignalsByLocation(this.locationId, this.curOrganizationId)
-    .subscribe(response => {
-      console.log(response);
-      this.sensors = response;
-      for (let i = 0; i < this.sensors.length; i++) {
-        for (let j = 0; j < this.sensors[i].node.length; j++) {
-          const index = this.associatedSignals.findIndex(
-            signal => signal.signalId === this.sensors[i].node[j].id
-          );
-          this.sensors[i].node[j].sensorId = this.sensors[i].id;
-          this.sensors[i].node[j].sensorName = this.sensors[i].name;
-          this.sensors[i].node[j].associationName = this.sensors[i].node[j].name;
-          this.sensors[i].node[j].imageCoordinates = {
-            x: 0,
-            y: 0
-          };
+      .subscribe(response => {
+        console.log(response);
+        this.sensors = response;
+        for (let i = 0; i < this.sensors.length; i++) {
+          for (let j = 0; j < this.sensors[i].node.length; j++) {
+            const index = this.associatedSignals.findIndex(
+              signal => signal.signalId === this.sensors[i].node[j].id
+            );
+            this.sensors[i].node[j].sensorId = this.sensors[i].id;
+            this.sensors[i].node[j].sensorName = this.sensors[i].name;
+            this.sensors[i].node[j].associationName = this.sensors[i].node[j].name;
+            this.sensors[i].node[j].imageCoordinates = {
+              x: 0,
+              y: 0
+            };
+          }
         }
-      }
-      this.copyAvailableSignals = JSON.parse(JSON.stringify(this.sensors));
-      console.log(this.copyAvailableSignals);
-      this.configSensors('#sensor-cont', '#map-cont-1');
-     // this.setAssociatedSensors('map-cont-1');
-      this.isGetAvailableSignalsAPILoading = false;
-    },
-    error => {
-      this.isGetAvailableSignalsAPILoading = false;
-    });
+        this.copyAvailableSignals = JSON.parse(JSON.stringify(this.sensors));
+        console.log(this.copyAvailableSignals);
+        this.configSensors('#sensor-cont', '#map-cont-1');
+        // this.setAssociatedSensors('map-cont-1');
+        this.isGetAvailableSignalsAPILoading = false;
+      },
+        error => {
+          this.isGetAvailableSignalsAPILoading = false;
+        });
   }
 
 
   getLocationSignalAssociation() {
     this.isGetAssociatedSignalsAPILoading = true;
     this.locationSignalService.getSignalAssociation(this.locationId)
-    .subscribe(
-      response => {
+      .subscribe(
+        response => {
 
-        this.getAllAvailableSignals();
-        this.isGetAssociatedSignalsAPILoading = false;
-        for (const signal of response) {
-          signal.imageCoordinates = signal.imageCordinates[signal.associationName];
-          signal.imageCoordinates.x =  (parseFloat(signal.imageCoordinates.x.replace('%', ''))).toFixed(2) + '%';
-          signal.imageCoordinates.y =  (parseFloat(signal.imageCoordinates.y.replace('%', ''))).toFixed(2) + '%';
-          signal.name = signal.signalName;
-          signal.id = signal.signalId;
+          this.getAllAvailableSignals();
+          this.isGetAssociatedSignalsAPILoading = false;
+          for (const signal of response) {
+            signal.imageCoordinates = signal.imageCordinates[signal.associationName];
+            signal.imageCoordinates.x = (parseFloat(signal.imageCoordinates.x.replace('%', ''))).toFixed(2) + '%';
+            signal.imageCoordinates.y = (parseFloat(signal.imageCoordinates.y.replace('%', ''))).toFixed(2) + '%';
+            signal.name = signal.signalName;
+            signal.id = signal.signalId;
+          }
+          this.associatedSignals = [...response];
+        },
+        error => {
+          this.isGetAssociatedSignalsAPILoading = false;
         }
-        this.associatedSignals = [...response];
-      },
-      error => {
-        this.isGetAssociatedSignalsAPILoading = false;
-      }
-    );
+      );
   }
 
   configSensors(dockCntrSel, mapCntrSel) {
@@ -268,13 +268,13 @@ export class VotmCloudLocationsSignalComponent implements OnInit, AfterViewInit 
                 .data('sIx', sIx)
                 .data('dsIx', dsIx)
                 .appendTo(mapCntrSel)
-                .on('mouseenter', function(ev) {
+                .on('mouseenter', function (ev) {
                   console.log('fghhjkhkl');
                   $(this).children().show();
                   $(this).removeClass('pad-18');
                   ev.stopPropagation();
                 })
-                .on('mouseleave', function(ev) {
+                .on('mouseleave', function (ev) {
                   console.log(self.editOPanel);
                   if (!self.editOPanel.visible && !self.alertOPanel.visible) {
                     $(this).children().hide();
@@ -290,7 +290,7 @@ export class VotmCloudLocationsSignalComponent implements OnInit, AfterViewInit 
                   .addClass('list-bkg')
                   .appendTo(dockCntrSel)
                   .data('dragEl', $sensor)
-                  .on('mousedown', function(e) {
+                  .on('mousedown', function (e) {
                     $(this)
                       .removeClass('docked')
                       .data('dragEl')
@@ -305,13 +305,13 @@ export class VotmCloudLocationsSignalComponent implements OnInit, AfterViewInit 
                     return false;
                   })
               );
-              $sensor.append('<span id="signal-name-' + sIx + '-' + dsIx + '">' + dsItem.name + '</span>' )
+              $sensor.append('<span id="signal-name-' + sIx + '-' + dsIx + '">' + dsItem.name + '</span>')
                 .append('<a id="signal-edit-btn-' + sIx + '-' + dsIx + '" style="width: 30px; height:30px;cursor:pointer;" ' +
-                'class="icon-edit"></a>')
+                  'class="icon-edit"></a>')
                 .append('<a id="signal-alert-btn-' + sIx + '-' + dsIx + '" style="width: 30px; height:30px;cursor:pointer;"' +
-                'class="icon-warn"></a>')
+                  'class="icon-warn"></a>')
                 .append('<a id="signal-detach-btn-' + sIx + '-' + dsIx + '" style="width: 30px; height:30px;cursor:pointer;" ' +
-                'class="icon-unlink"></a>');
+                  'class="icon-unlink"></a>');
               $(document).on('mousedown', '#signal-edit-btn-' + sIx + '-' + dsIx, (evt) => {
                 console.log('button clicked');
                 const idsSplitList = evt.target.id.split('-');
@@ -342,7 +342,7 @@ export class VotmCloudLocationsSignalComponent implements OnInit, AfterViewInit 
                 this.editOPanel.hide();
                 evt.preventDefault();
               });
-              $(document).on('mousedown', '#signal-detach-btn-' + sIx + '-' + dsIx , (evt) => {
+              $(document).on('mousedown', '#signal-detach-btn-' + sIx + '-' + dsIx, (evt) => {
                 const idsSplitList = evt.target.id.split('-');
                 this.selectedSignal = this.sensors[idsSplitList[idsSplitList.length - 2]].node[idsSplitList[idsSplitList.length - 1]];
                 this.editOPanel.hide();
@@ -360,13 +360,13 @@ export class VotmCloudLocationsSignalComponent implements OnInit, AfterViewInit 
                 .data('sIx', sIx)
                 .data('dsIx', dsIx)
                 .appendTo(mapCntrSel)
-                .on('mouseenter', function(ev) {
+                .on('mouseenter', function (ev) {
                   console.log('fghhjkhkl');
                   $(this).children().show();
                   $(this).removeClass('pad-18');
                   ev.stopPropagation();
                 })
-                .on('mouseleave', function(ev) {
+                .on('mouseleave', function (ev) {
                   console.log(self.editOPanel);
                   if (!self.editOPanel.visible && !self.alertOPanel.visible) {
                     $(this).children().hide();
@@ -383,7 +383,7 @@ export class VotmCloudLocationsSignalComponent implements OnInit, AfterViewInit 
                   .addClass('list-bkg')
                   .appendTo(dockCntrSel)
                   .data('dragEl', $sensor)
-                  .on('mousedown', function(e) {
+                  .on('mousedown', function (e) {
                     $(this)
                       .removeClass('docked')
                       .data('dragEl')
@@ -402,14 +402,14 @@ export class VotmCloudLocationsSignalComponent implements OnInit, AfterViewInit 
                 left: this.associatedSignals[index].imageCoordinates.x,
                 top: this.associatedSignals[index].imageCoordinates.y
               });
-              $sensor.append('<span id="signal-name-' + sIx + '-' + dsIx + '-' + index + '">' + dsItem.name + '</span>' )
-              .append('<a id="signal-edit-btn-' + sIx + '-' + dsIx + '-' + index + '" style="width: 30px; height:30px;cursor:pointer;" ' +
-                'class="icon-edit"></a>')
+              $sensor.append('<span id="signal-name-' + sIx + '-' + dsIx + '-' + index + '">' + dsItem.name + '</span>')
+                .append('<a id="signal-edit-btn-' + sIx + '-' + dsIx + '-' + index + '" style="width: 30px; height:30px;cursor:pointer;" ' +
+                  'class="icon-edit"></a>')
                 .append('<a id="signal-alert-btn-' + sIx + '-' + dsIx + '-' + index + '" style="width: 30px; height:30px;cursor:pointer;"' +
-                'class="icon-warn"></a>')
+                  'class="icon-warn"></a>')
                 .append('<a id="signal-detach-btn-' + sIx + '-' + dsIx + '-' + index + '" ' +
-                ' style="width: 30px; height:30px;cursor:pointer;" class="icon-unlink"></a>');
-              $(document).on('mousedown', '#signal-edit-btn-' + sIx + '-' + dsIx + '-' + index , (evt) => {
+                  ' style="width: 30px; height:30px;cursor:pointer;" class="icon-unlink"></a>');
+              $(document).on('mousedown', '#signal-edit-btn-' + sIx + '-' + dsIx + '-' + index, (evt) => {
                 console.log('button clicked', evt.target.id);
                 $sensor.children().show();
                 $sensor.removeClass('pad-18');
@@ -422,7 +422,7 @@ export class VotmCloudLocationsSignalComponent implements OnInit, AfterViewInit 
                 this.selectedSignal.imageCoordinates.x = parseFloat(this.selectedSignal.imageCoordinates.x.replace('%', ''));
                 this.selectedSignal.imageCoordinates.y = parseFloat(this.selectedSignal.imageCoordinates.y.replace('%', ''));
                 this.selectedSignal.imageCoordinates.x = (this.selectedSignal.imageCoordinates.x *
-                    ($sensor.parent().width() / 100)).toFixed(2);
+                  ($sensor.parent().width() / 100)).toFixed(2);
                 this.selectedSignal.imageCoordinates.y = (this.selectedSignal.imageCoordinates.y *
                   ($sensor.parent().height() / 100)).toFixed(2);
                 evt.preventDefault();
@@ -430,7 +430,7 @@ export class VotmCloudLocationsSignalComponent implements OnInit, AfterViewInit 
                 this.alertOPanel.hide();
                 evt.cancelBubble = true;
               });
-              $(document).on('mousedown', '#signal-alert-btn-' + sIx + '-' + dsIx + '-' + index , (evt) => {
+              $(document).on('mousedown', '#signal-alert-btn-' + sIx + '-' + dsIx + '-' + index, (evt) => {
                 console.log('button clicked', evt.target.id);
                 $sensor.children().show();
                 $sensor.removeClass('pad-18');
@@ -443,14 +443,14 @@ export class VotmCloudLocationsSignalComponent implements OnInit, AfterViewInit 
                 this.editOPanel.hide();
                 evt.cancelBubble = true;
               });
-              $(document).on('mousedown', '#signal-detach-btn-' + sIx + '-' + dsIx + '-' + index , (evt) => {
+              $(document).on('mousedown', '#signal-detach-btn-' + sIx + '-' + dsIx + '-' + index, (evt) => {
                 const idsSplitList = evt.target.id.split('-');
                 this.selectedSignal = this.associatedSignals[idsSplitList[idsSplitList.length - 1]];
                 this.editOPanel.hide();
                 this.alertOPanel.hide();
                 this.onDetachSignalFromAsset();
               });
-            //  $sensor.removeClass('pad-18');
+              //  $sensor.removeClass('pad-18');
               $sensor.children().hide();
               this.associatedSignals[index]['sensorEl'] = $sensor;
             }
@@ -471,7 +471,7 @@ export class VotmCloudLocationsSignalComponent implements OnInit, AfterViewInit 
     console.log(this.associatedSignals);
     const index = this.associatedSignals.findIndex(signal => {
       console.log('sixxxx     ', this.sensors[sIx].node[dsIx].id);
-      console.log('sixxxx     ',  signal);
+      console.log('sixxxx     ', signal);
       return signal.id === this.sensors[sIx].node[dsIx].id;
     });
     console.log(index);
@@ -494,10 +494,10 @@ export class VotmCloudLocationsSignalComponent implements OnInit, AfterViewInit 
           (parseInt($sensor.css('left'), 10) / ($sensor.parent().width() / 100)).toFixed(2) + '%';
         this.sensors[sIx].node[dsIx].imageCoordinates.y =
           (parseInt($sensor.css('top'), 10) / ($sensor.parent().height() / 100)).toFixed(2) + '%';
-        const sensorObj = { ...this.sensors[sIx].node[dsIx]};
+        const sensorObj = { ...this.sensors[sIx].node[dsIx] };
         this.associatedSignals.push(sensorObj);
         $sensor.mouseenter();
-        $('#signal-edit-btn-' + sIx + '-' + dsIx ).mousedown();
+        $('#signal-edit-btn-' + sIx + '-' + dsIx).mousedown();
       }
 
       // $('#map-cont-1 .sensor-circle').sensorPopover();
@@ -520,7 +520,7 @@ export class VotmCloudLocationsSignalComponent implements OnInit, AfterViewInit 
       }
     }
 
-    console.log( this.associatedSignals);
+    console.log(this.associatedSignals);
     // this.updateSensors('#map-cont-1');
   }
 
@@ -541,20 +541,20 @@ export class VotmCloudLocationsSignalComponent implements OnInit, AfterViewInit 
       return obj;
     });
     this.locationSignalService.createSignalAssociation(data)
-    .subscribe(
-      response => {
-        console.log(response);
-        $('#map-cont-1').children().not('img').remove();
-        $('#sensor-cont').empty();
-        this.sensors = [];
-        this.sensorsCreated = null;
-        this.toaster.onSuccess('Signal associated successfully', 'Saved');
-        this.getLocationSignalAssociation();
+      .subscribe(
+        response => {
+          console.log(response);
+          $('#map-cont-1').children().not('img').remove();
+          $('#sensor-cont').empty();
+          this.sensors = [];
+          this.sensorsCreated = null;
+          this.toaster.onSuccess('Signal associated successfully', 'Saved');
+          this.getLocationSignalAssociation();
 
-      }, error => {
-        this.toaster.onFailure('Error while saving signal assocition', 'Error');
-      }
-    );
+        }, error => {
+          this.toaster.onFailure('Error while saving signal assocition', 'Error');
+        }
+      );
   }
 
   onClickOfSaveSignalAssociationPanel() {
@@ -567,7 +567,7 @@ export class VotmCloudLocationsSignalComponent implements OnInit, AfterViewInit 
     // }
     // this.associatedSignals.push(this.selectedSignal);
     this.selectedSignal.imageCoordinates.x = (this.selectedSignal.imageCoordinates.x /
-        (this.selectedSignal.sensorEl.parent().width() / 100)).toFixed(2) + '%';
+      (this.selectedSignal.sensorEl.parent().width() / 100)).toFixed(2) + '%';
     this.selectedSignal.imageCoordinates.y = (this.selectedSignal.imageCoordinates.y /
       (this.selectedSignal.sensorEl.parent().height() / 100)).toFixed(2) + '%';
     this.associatedSignals.splice(index, 1, this.selectedSignal);
@@ -578,7 +578,7 @@ export class VotmCloudLocationsSignalComponent implements OnInit, AfterViewInit 
     this.selectedSignal.sensorEl.children('span').each((i, item) => {
       console.log(this.selectedSignal.sensorEl.children('span')[i].id);
       $('#' + this.selectedSignal.sensorEl.children('span')[i].id).html(this.selectedSignal.associationName);
-  });
+    });
     this.editOPanel.hide();
     this.selectedSignal.sensorEl.mouseleave();
   }
@@ -608,9 +608,9 @@ export class VotmCloudLocationsSignalComponent implements OnInit, AfterViewInit 
       );
     } else {
       this.selectedSignal.sensorEl
-          .addClass('docked')
-          .data('dockEl')
-          .addClass('docked');
+        .addClass('docked')
+        .data('dockEl')
+        .addClass('docked');
       let dsIx;
       const sIx = this.sensors.findIndex(sensor => {
         dsIx = sensor.node.findIndex(signal => signal.id === this.selectedSignal.id);
@@ -628,7 +628,7 @@ export class VotmCloudLocationsSignalComponent implements OnInit, AfterViewInit 
 
   onClickOfCreateAssociateRule() {
     this.route.navigate(['org', 'view', this.curOrganizationId, this.curOrganizationName,
-    this.organizationId ? this.organizationId : this.curOrganizationId, 'alertRule', 'create']);
+      this.organizationId ? this.organizationId : this.curOrganizationId, 'alertRule', 'create']);
   }
 
 

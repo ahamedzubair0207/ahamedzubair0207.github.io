@@ -158,6 +158,37 @@ export class VotmCloudAssetsCreateComponent implements OnInit {
             this.imgURL = this.domSanitizer.bypassSecurityTrustUrl(`data:image/${this.fileExtension};base64,${this.asset.logo.image}`);
             this.asset.logo.imageType = this.fileExtension;
           }
+
+
+
+          // if (this.asset.fileStore && this.asset.fileStore.fileName) {
+          //   let docExtension = this.asset.fileStore.fileName.slice((Math.max(0, this.asset.fileStore.fileName.lastIndexOf(".")) || Infinity) + 1);
+          //   console.log('docExtension ', docExtension);
+          //   this.asset.fileStore.fileName = this.asset.fileStore.fileName + '.xlsx';
+          //   this.fileExtensionDoc = this.asset.fileStore.fileName.slice((Math.max(0, this.asset.fileStore.fileName.lastIndexOf(".")) || Infinity) + 1);
+          //   // let abcd = this.domSanitizer.bypassSecurityTrustUrl(`data:image/xlsx;base64,${selectedTemplate.fileStore.file}`);
+
+
+          //   // Temp
+          //   const url = `data:image/xlsx;base64,${this.asset.fileStore.file}`;
+          //   fetch(url)
+          //     .then(res => res.blob())
+          //     .then(blob => {
+          //       let abcd = new File([blob], "File name");
+          //       var binaryData = [];
+          //       binaryData.push(abcd);
+          //       this.docFile = new Blob(binaryData, { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' })
+          //       this.asset.fileStore.fileType = this.fileExtensionDoc;
+          //     });
+
+
+          //   // this.docFileInput.nativeElement = abcd;
+          // }
+          // // this.previousAsset = JSON.parse(JSON.stringify(this.asset));
+          // // this.acceptedTemplateChages = true;
+
+
+
         }
       });
   }
@@ -192,7 +223,6 @@ export class VotmCloudAssetsCreateComponent implements OnInit {
 
       this.docFile = new Blob(binaryData, { type: file.type })
 
-      console.log('type of file ', typeof (this.docFile))
       this.handleDocSelect(file);
       // let readerToPreview = new FileReader();
       // // this.imagePath = file;
@@ -200,7 +230,6 @@ export class VotmCloudAssetsCreateComponent implements OnInit {
       // // readerToPreview.onload = (_event) => {
       // //   this.imgURL = this.domSanitizer.bypassSecurityTrustUrl(readerToPreview.result.toString()); //readerToPreview.result;
       // // }
-      // // console.log('AHAMED', this.resultABCD)
     }
   }
 
@@ -274,7 +303,6 @@ export class VotmCloudAssetsCreateComponent implements OnInit {
   }
 
   preview(file) {
-    console.log('Loaded Preview');
     this.message = '';
     if (!file) {
       return;
@@ -523,8 +551,7 @@ export class VotmCloudAssetsCreateComponent implements OnInit {
         if (this.asset.organizationId === loc.organizationId) {
           this.locationListForDropDown.push(loc);
           if (this.asset.locationId === loc.locationId) {
-            console.log('Loc ', loc);
-            this.getParntImage(loc.logo, 'location')
+            this.getParentImage(loc.logo, 'location')
           }
         }
       });
@@ -537,8 +564,7 @@ export class VotmCloudAssetsCreateComponent implements OnInit {
   onParentAssetChange(parentassetId) {
     this.parentAssetListForDropDown.forEach(asset => {
       if (parentassetId === asset.assetId) {
-        console.log('asset on change ', asset);
-        this.getParntImage(asset.logo, 'asset')
+        this.getParentImage(asset.logo, 'asset')
 
       }
     });
@@ -547,8 +573,7 @@ export class VotmCloudAssetsCreateComponent implements OnInit {
   onLocationChange(locationId: string) {
     this.locationList.forEach(loc => {
       if (locationId === loc.locationId) {
-        console.log('Loc on change ', loc);
-        this.getParntImage(loc.logo, 'location')
+        this.getParentImage(loc.logo, 'location')
       }
     });
   }
@@ -557,10 +582,9 @@ export class VotmCloudAssetsCreateComponent implements OnInit {
     if (!this.parentAssetImageURL) {
       this.parentAssetImageURL = this.locationImageURL;
     }
-    console.log(this.parentAssetImageURL, this.locationImageURL);
   }
 
-  getParntImage(logo: any, type) {
+  getParentImage(logo: any, type) {
     if (logo && logo.imageName) {
       let tempFileExtension = logo.imageName.slice((Math.max(0, logo.imageName.lastIndexOf(".")) || Infinity) + 1);
       type === 'location' ? this.locationImageURL = this.domSanitizer.bypassSecurityTrustUrl(`data:image/${tempFileExtension};base64,${logo.image}`)
@@ -576,10 +600,12 @@ export class VotmCloudAssetsCreateComponent implements OnInit {
     if (this.parentAssetsList && this.parentAssetsList.length > 0) {
       this.parentAssetListForDropDown = [];
       this.parentAssetsList.forEach(asset => {
-        if (this.asset.locationId === asset.locationId && this.asset.assetId !== asset.assetId) {
+        if (this.asset.locationId === asset.locationId && this.asset.assetId !== asset.assetId
+          && this.asset.assetId !== asset.parentAssetId
+          && !this.isChildNode(this.asset, asset)) {
           this.parentAssetListForDropDown.push(asset);
           if (this.asset.parentAssetId === asset.assetId) {
-            this.getParntImage(asset.logo, 'asset');
+            this.getParentImage(asset.logo, 'asset');
           }
         }
       });
@@ -587,6 +613,36 @@ export class VotmCloudAssetsCreateComponent implements OnInit {
         this.parentAssetListForDropDown.sort(SortArrays.compareValues('assetName'));
       }
     }
+  }
+
+  isChildNode(tobeCheckedAsset, tempAsset): boolean {
+    // console.log('isChildNode ', tobeCheckedAsset, tempAsset);
+    let found: boolean = false;
+    let isChild: boolean = false;
+    this.parentAssetsList.forEach(asset => {
+      if (!found) {
+        if (tempAsset.parentAssetId) {
+          if (tempAsset.parentAssetId === asset.assetId) {
+            if (asset.parentAssetId) {
+              if (tobeCheckedAsset.assetId === asset.parentAssetId) {
+                isChild = true;
+                found = true;
+              } else {
+                isChild = this.isChildNode(tobeCheckedAsset, asset);
+                found = true;
+              }
+            } else {
+              isChild = false;
+              found = true;
+            }
+          }
+        } else {
+          isChild = false;
+          found = true;
+        }
+      }
+    });
+    return isChild;
   }
 
   getAllLocations() {
@@ -618,7 +674,6 @@ export class VotmCloudAssetsCreateComponent implements OnInit {
       this.getAssetFromTemplate();
     });
 
-    console.log('this.assetForm ', this.assetForm);
   }
 
   getAssetFromTemplate() {
@@ -627,7 +682,6 @@ export class VotmCloudAssetsCreateComponent implements OnInit {
 
     this.assetService.getTemplateById(this.templateId)
       .subscribe(response => {
-        console.log(response);
         selectedTemplate = response[0];
         this.asset = {
           assetId: null,
@@ -658,6 +712,8 @@ export class VotmCloudAssetsCreateComponent implements OnInit {
         // Please Don't Touch the below code
 
         // if (selectedTemplate.fileStore && selectedTemplate.fileStore.fileName) {
+        //   let docExtension = selectedTemplate.fileStore.fileName.slice((Math.max(0, selectedTemplate.fileStore.fileName.lastIndexOf(".")) || Infinity) + 1);
+        //   console.log('docExtension ', docExtension);
         //   selectedTemplate.fileStore.fileName = selectedTemplate.fileStore.fileName + '.xlsx';
         //   this.fileExtensionDoc = selectedTemplate.fileStore.fileName.slice((Math.max(0, selectedTemplate.fileStore.fileName.lastIndexOf(".")) || Infinity) + 1);
         //   // let abcd = this.domSanitizer.bypassSecurityTrustUrl(`data:image/xlsx;base64,${selectedTemplate.fileStore.file}`);
@@ -678,15 +734,14 @@ export class VotmCloudAssetsCreateComponent implements OnInit {
 
         //   // this.docFileInput.nativeElement = abcd;
         // }
-        this.previousAsset = JSON.parse(JSON.stringify(this.asset));
-        this.acceptedTemplateChages = true;
+        // this.previousAsset = JSON.parse(JSON.stringify(this.asset));
+        // this.acceptedTemplateChages = true;
 
       });
 
 
     // this.allTemplates.forEach(template => {
     //   if (template.templateId === this.templateId) {
-    //     console.log('template ', template);
     //     selectedTemplate = template;
     //   }
     // })
@@ -694,13 +749,11 @@ export class VotmCloudAssetsCreateComponent implements OnInit {
   }
 
   onDocSelcetion(event) {
-    console.log('onDocSelcetion ', event, event.files[0])
     this.asset.fileStore = { fileType: event.files[0].type, file: event.files[0], fileName: event.files[0].name };
   }
 
   onAssetSubmit() {
     // this.asset.documentationUrl = 'ABDFE';
-    console.log('ASSET INFO ', this.assetForm);
 
     if (this.asset) {
       if (!this.asset.logo) {
@@ -713,7 +766,6 @@ export class VotmCloudAssetsCreateComponent implements OnInit {
 
     if (this.assetForm && this.assetForm.invalid) {
       this.toaster.onFailure('Please fill the form correctly.', 'Form is invalid!')
-      console.log('If block ');
       Object.keys(this.assetForm.form.controls).forEach(element => {
         this.assetForm.form.controls[element].markAsDirty();
       });
@@ -753,7 +805,6 @@ export class VotmCloudAssetsCreateComponent implements OnInit {
 
     // if (this.assetForm && this.assetForm.invalid) {
     //   this.toaster.onFailure('Please fill the form correctly.', 'Form is invalid!')
-    //   console.log('If block ');
     //   Object.keys(this.assetForm.form.controls).forEach(element => {
     //     this.assetForm.form.controls[element].markAsDirty();
     //   });
@@ -765,17 +816,14 @@ export class VotmCloudAssetsCreateComponent implements OnInit {
     //         // this.onSuccess('Successfully saved', 'Saved');
     //         this.routerLocation.back();
     //       }, error => {
-    //         console.log('AHAMED ERROR ', error)
     //         this.toaster.onFailure('Something went wrong. Please fill the form correctly', 'Fail');
     //       });
     //   } else {
     //     this.assetService.createAsset(this.asset)
     //       .subscribe(response => {
-    //         // console.log('response ', response);
     //         this.toaster.onSuccess('Successfully saved', 'Saved');
     //         this.route.navigate([`asset/home/${this.parentAssetId}/${this.parentAssetName}`])
     //       }, error => {
-    //         console.log('AHAMED ERROR ', error)
     //         this.toaster.onFailure('Something went wrong. Please fill the form correctly', 'Fail');
     //       });
     //   }

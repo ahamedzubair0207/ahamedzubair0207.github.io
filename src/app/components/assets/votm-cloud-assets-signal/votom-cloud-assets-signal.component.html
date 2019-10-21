@@ -129,7 +129,7 @@
       <div class="col-md-8" >
           <!-- *ngIf="assetImageURL" -->
         <div  class="enclosing-div" >
-          <img id="dropdiv" src="../../../../assets/images/Parker.jpg" class="imag-size" />
+          <img id="dropdiv" [src]="image" class="imag-size" *ngIf="image"/>
         </div>
       </div>
     </div>

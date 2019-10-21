@@ -91,17 +91,25 @@ export class OrganizationService {
 
   getCountries() {
     return this.httpClient.get('../../../assets/countryList/countryWithStates.json').pipe(
-                    map((res: any) => res));
+      map((res: any) => res));
   }
 
   getDashboardHTML(formName) {
-    return this.httpClient.get(`../../../assets/dashboards/${formName}.html`, {responseType: 'text'})
-    .pipe(
-      map(
-        (res: any) => res
+    return this.httpClient.get(`../../../assets/dashboards/${formName}.html`, { responseType: 'text' })
+      .pipe(
+        map(
+          (res: any) => res
         )
-    );
+      );
 
+  }
+
+  searchOrganizations(searchText: string): Observable<any> {
+    const params = new HttpParams().set('organizationName', searchText);
+    return this.http.get(AppConstants.GET_ORG_SEARCH, params)
+      .pipe(
+      map(response => response)
+    );
   }
 
 }

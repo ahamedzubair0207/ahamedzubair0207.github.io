@@ -104,4 +104,12 @@ export class LocationService {
     return this.httpClient.get('../../../assets/countryList/countryWithStates.json').pipe(
       map((res: any) => res));
   }
+
+  searchLocations(searchText: string): Observable<any> {
+    const params = new HttpParams().set('locationName', searchText);
+    return this.http.get(AppConstants.GET_LOC_SEARCH, params)
+      .pipe(
+      map(response => response)
+    );
+  }
 }
