@@ -665,7 +665,7 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
       if (this.locId) {
         this.locationService.updateLocation(this.location)
           .subscribe(response => {
-            this.toaster.onSuccess('Successfully saved', 'Saved');
+            this.toaster.onSuccess('Successfully updated', 'Updated');
             // this.onSuccess('Successfully saved', 'Saved');
             this.routerLocation.back();
           }, error => {
@@ -675,7 +675,7 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
         this.locationService.createLocation(this.location)
           .subscribe(response => {
             // console.log('response ', response);
-            this.toaster.onSuccess('Successfully saved', 'Saved');
+            this.toaster.onSuccess('Successfully created', 'Created');
             // if (this.parentLocId && this.parentLocName) {
             //   this.route.navigate([`loc/home/${this.parentLocId}/${this.parentLocName}`]);
             // } else {

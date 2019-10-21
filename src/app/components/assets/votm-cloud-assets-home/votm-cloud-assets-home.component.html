@@ -10,7 +10,7 @@
 
 <ng-template #recursiveTableList let-list="assetList" let-lvl="level">
   <ng-container *ngFor="let item of list">
-    <tr>
+    <tr class="" >
       <th class="underline-on-hover" scope="row" (click)="item.opened = !item.opened"
         [ngStyle]="{'padding-left.px': 15*(lvl+1)}">
         <i class="icon-asset-robot"></i>
@@ -53,7 +53,7 @@
                 </tr> -->
 
 
-      <tr *ngIf="item.opened && subItem.entityType == 'Asset'">
+      <tr *ngIf="item.opened && subItem.entityType == 'Asset'" class="">
         <th scope="row" (click)="subItem.opened = !subItem.opened" [ngStyle]="{'padding-left.px': 15*(lvl+2)}">
           <i class="icon-asset-robot"></i>
 
@@ -89,7 +89,7 @@
   </ng-container>
 </ng-template>
 <div class="table-responsive">
-  <table class="table table-sm table-bordered asset-table-fonts" id="assetTbl">
+  <table class="table table-sm table-bordered" id="assetTbl">
     <thead class="thead-dark">
       <tr>
         <th scope="col" class="align-left table-col-name">Name</th>

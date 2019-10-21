@@ -297,35 +297,35 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
         alertConfigurationLabel: 'Low Critical',   // 364F5CB4-B725-4BD9-8DAA-B3B365123454    Low Critical
         alertConfigurationValue: '',
         class: 'alert-danger text-center',
-        active: false
+        active: true
       },
       {
         alertConfigurationId: 'A307C43E-6C4B-47B1-8427-E13788CF4257',
         alertConfigurationLabel: 'Low Warning',  // A307C43E-6C4B-47B1-8427-E13788CF4257    Low Warning
         alertConfigurationValue: '',
         class: 'alert-warning text-center',
-        active: false
+        active: true
       },
       {
         alertConfigurationId: 'F4410D8E-3BA9-40C1-9D23-9414BCA3DABD',
         alertConfigurationLabel: 'Baseline',  // F4410D8E-3BA9-40C1-9D23-9414BCA3DABD    Baseline
         alertConfigurationValue: '',
         class: 'alert-success text-center',
-        active: false
+        active: true
       },
       {
         alertConfigurationId: '6531DB3F-39CC-4459-8680-AAB303A5B188',
         alertConfigurationLabel: 'High Warning',  // 6531DB3F-39CC-4459-8680-AAB303A5B188    High Warning
         alertConfigurationValue: '',
         class: 'alert-warning text-center',
-        active: false
+        active: true
       },
       {
         alertConfigurationId: '4E045A60-4BEE-44B4-9AF9-151725534706',
         alertConfigurationLabel: 'High Critical',   // 4E045A60-4BEE-44B4-9AF9-151725534706    High Critical
         alertConfigurationValue: '',
         class: 'alert-danger text-center',
-        active: false
+        active: true
       },
 
     ];
