@@ -43,6 +43,13 @@ export class UserService {
             );
     }
 
+getUserAllRoles() {
+        return this.http.get(AppConstants.GET_USER_ROLES)
+            .pipe(
+                map(response => response)
+            );
+    }
+
     createUser(userObj: UserProfile) {
       return this.http.post(AppConstants.CREATE_USER, userObj);
     }

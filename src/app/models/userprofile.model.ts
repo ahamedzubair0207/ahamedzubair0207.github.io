@@ -1,5 +1,5 @@
 import { ApplicationConfiguration } from './applicationconfig.model';
-
+import { Logo } from './logo.model';
 export class UserProfile {
     timeZone?: string;
     locale?: string;
@@ -18,6 +18,7 @@ export class UserProfile {
     emailId: string;
     phoneNumber: string;
     active: boolean;
+    logo: Logo;
     description: string;
     createdBy: string;
     createdOn: string;
@@ -28,18 +29,34 @@ export class UserProfile {
 }
 
 class UserConfigSettings {
+    userConfigId: string;
+    organizationId: string;
+    organizationName: string;
+    locationId: string;
+    userId: string;
+    languageId: string;
     localeId: string;
     timeZoneId: string;
+    active: boolean;
+    description: string;
+    createdBy: string;
+    createdOn: string;
+    modifiedBy: string;
+    modifiedOn: string;
 }
 
 export class UserGuestOrganization {
-  userGuestId: string;
-  userId: string;
-  roleId: string;
-  roleName: string;
-  organizationId: string;
-  organizationName: string;
-  locationId: string;
-  active: boolean;
-  description: string;
+    userGuestId: string;
+    userId: string;
+    roleId: string;
+    roleName: string;
+    organizationId: string;
+    organizationName: string;
+    locationId: string;
+    active: boolean;
+    description: string;
+    createdBy: string;
+    createdOn: string;
+    modifiedBy: string;
+    modifiedOn: string;
 }
