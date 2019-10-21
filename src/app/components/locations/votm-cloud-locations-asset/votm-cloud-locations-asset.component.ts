@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-votm-cloud-locations-asset',
@@ -7,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class VotmCloudLocationsAssetComponent implements OnInit {
 
+  @Input('image') image: any;
   constructor() { }
 
   ngOnInit() {

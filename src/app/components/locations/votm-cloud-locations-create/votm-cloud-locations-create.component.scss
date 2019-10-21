@@ -212,11 +212,19 @@ background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
 
 .logo-preview{
   background-color: #f1f1f1;
-  min-height:417px;
-  display: flex;
-  margin:0 auto;
-  justify-content: center;
+    min-height: 417px;
+    /* margin: 0 auto; */
+    justify-content: center;
+    text-align: center;
+    display: flex;
+    /* flex: 1 1 100%; */
+    align-items: center
 }
 .btn-geo{
   display: inline-flex;
+}
+
+.img-fluid-custom {
+  /* width: 100%; */
+  max-height: 100%;
 }

@@ -549,9 +549,9 @@
                   </fieldset>
                 </div>
 
-                <div class="col-6">
+                <div class="col-3">
                   <div class="row">
-                    <div class="col-12 col-md-6 col-lg-6 col-xl-6">
+                    <div class="col-12">
                       <div class="form-group"
                         *ngIf="orgId && applicationConfiguration || !orgId && applicationConfiguration ">
                         <!-- <div class="form-group" *ngIf="!orgId && applicationConfiguration"> -->
@@ -590,7 +590,7 @@
                       </div>
                     </div> -->
 
-                    <div class="col-12 col-md-6 col-lg-6 col-xl-6">
+                    <div class="col-12">
                       <div class="form-group">
                         <!-- <div class="form-group" *ngIf="!orgId && applicationConfiguration"> -->
                         <!-- <label for="DefatimezoneultLang">* {{pageLabels.TimeZone.labelName}} :</label> -->
@@ -644,7 +644,7 @@
                       </div>
                     </div> -->
 
-                    <div class="col-12 col-md-6 col-lg-6 col-xl-6">
+                    <div class="col-12">
                       <div class="form-group">
                         <label class="" name="uom-change-lbl" votmrequired id="unitsOfMeasureLbl">Default
                           UOM</label>
@@ -664,26 +664,29 @@
                         </div>
                       </div>
                     </div>
-                    <div class="col-12 col-md-6 col-lg-6 col-xl-6">
+                  </div>
+                </div>
+                <div class="col-3">
+                    <div class="">
                       <div class="form-group org-create-font">
-                        
-                          <label id="logoLbl">{{pageLabels.LogoFile.labelName}} :</label>
-                          <div class="custom-file">
+                        <label id="logoLbl">{{pageLabels.LogoFile.labelName}} :</label>
+                        <div class="custom-file">
                           <span style="color:rgb(106,96,85);" *ngIf="message">{{message}}</span>
-                          <input #file id="imageUploadButton" type="file" accept='image/*'
-                            [disabled]="pageType==='View'" (change)="preview(file.files)"
-                            class="form-control form-control-sm custom-file-input" />
-                            <label class="custom-file-label" for="customFile">Choose file</label>
+                          <input #file id="imageUploadButton" type="file" accept='image/*' [disabled]="pageType==='View'"
+                            (change)="preview(file.files)" class="form-control form-control-sm custom-file-input" />
+                          <label class="custom-file-label" for="customFile">Choose file</label>
                           <!-- <label class="custom-file-label" for="customFile">{{message}}</label> -->
                           <!-- <label id="imageLbl" style="font-weight: bold"
-                                                                        *ngIf="organization && organization.logo">{{organization.logo.imageName}}</label> -->
-
-                        </div>
-                        <div class="col-12 col-md-6 col-lg-4 col-xl-3 order-md-7 form-group">
-                          <img [src]="imgURL" class="imag-size border rounded-sm img-fluid" *ngIf="imgURL">
+                                                                                              *ngIf="organization && organization.logo">{{organization.logo.imageName}}</label> -->
                         </div>
                       </div>
                     </div>
+                   <!-- logo preview -->
+                  <div class="form-group">
+                    <label for="logopreview">Image Preview</label>
+                    <span class="form-control logo-preview">
+                      <img [src]="imgURL" class="img-fluid img-fluid-custom" *ngIf="imgURL">
+                    </span>
                   </div>
                 </div>
               </div>
@@ -986,7 +989,7 @@
 
 <!-- Add/Edit Dashboard Model Start-->
 <div id="addDashboardModalWrapper" class="modal">
-  <div class="modal-dialog modal-md modal-dialog-scrollable dashboard-create-font" *ngIf="dashboardDataById">
+  <div class="modal-dialog modal-md modal-dialog-scrollable modal-dialog-centered" *ngIf="dashboardDataById">
     <!-- Modal content -->
     <form name="addDashboard" #dashBoardForm="ngForm" (ngSubmit)="onDashboardFormSubmit()" class="form needs-validation" novalidate>
       <div class="modal-content">
@@ -997,37 +1000,49 @@
           </button>
         </div>
         <div class="modal-body event-create-font">
-          <div class="form-group form-row">
-            <label for="dbLongName" class="col-3 col-form-label">Dashboard Name</label>
-            <div class="col-6">
-              <input ngbAutoFocus type="text" class="form-control" id="dbLongName" name="dbLongName" [(ngModel)]="dbLongName" />
+          <div class="row">
+            <div class="form-group col-6">
+              <label for="dbLongName" class="">Dashboard Name</label>
+              <div class="">
+                <input ngbAutoFocus type="text" class="form-control form-control-sm" id="dbLongName" name="dbLongName"
+                  [(ngModel)]="dbLongName" />
+              </div>
+            </div>
+            <div class="form-group col-6">
+              <label for="dbShortName" class="">Short Name</label>
+              <div class="">
+                <input ngbAutoFocus type="text" class="form-control form-control-sm" id="dbShortName" name="dbShortName"
+                  maxlength="8" [(ngModel)]="dbShortName" />
+              </div>
             </div>
           </div>
-          <div class="form-group form-row">
-            <label for="dbShortName" class="col-3 col-form-label">Short Name</label>
-            <div class="col-3">
-              <input ngbAutoFocus type="text" class="form-control" id="dbShortName" name="dbShortName" maxlength="8" [(ngModel)]="dbShortName" />
-            </div>
-          </div>
-          <div class="form-group form-row">
-            <label for="tplSelect" class="col-3 col-form-label">Template Name</label>
-            <div class="col-6">
+          <div class="form-group">
+            <label for="tplSelect" class="">Template Name</label>
+            <div class="">
               <ng-select #tplSelect labelForId="tplSelect" class="custom" [(ngModel)]="selTemplate" name="dbTemplateName" [disabled]="dashboardDataById.act==='edit'">
                 <ng-option *ngFor="let dbTemplate of dbTemplates" [value]="dbTemplate.name"> {{ dbTemplate.name }}</ng-option>
               </ng-select>
             </div>
           </div>
-          <div class="form-group form-row">
-            <label for="" class="col-3 col-form-label">Configured By</label>
-            <div class="col-3">
-              <input type="text" class="form-control" id="dashboard-config-by" readonly value="Sean Healy" />
-            </div>
-            <label for="" class="col-form-label">On</label>
-            <div class="col-3">
-              <div class="input-group">
-                <input type="text" class="form-control" id="dashboard-created-On" readonly placeholder="25/09/2019 03:19" />
+          <div class="">
+            <label for="" class="">Configured By</label>
+            <div class="input-group input-group-sm">
+              <input type="text" class="form-control form-control-sm" id="dashboard-config-by" readonly value="Sean Healy" />
+              <div class="input-group-append">
+                <span class="input-group-text py-0">On</span>
               </div>
+              <input type="text" class="form-control form-control-sm" id="dashboard-created-On" readonly placeholder="25/09/2019 03:19" />
             </div>
+
+            <!-- <div class="">
+              <input type="text" class="form-control form-control-sm" id="dashboard-config-by" readonly value="Sean Healy" />
+            </div>
+            <label for="" class="">On</label>
+            <div class="">
+              <div class="input-group">
+                <input type="text" class="form-control form-control-sm" id="dashboard-created-On" readonly placeholder="25/09/2019 03:19" />
+              </div>
+            </div> -->
           </div>
           <!-- <div class="form-group row">
             <label for="" class="col-md-3 col-form-label">Template Name</label>
@@ -1060,10 +1075,10 @@
 
         </div>
         <div class="modal-footer">
-          <button id="add-dashboard-cancle" type="button" class="btn button-mod btn-secondary btn-sm"
+          <button id="add-dashboard-cancle" type="button" class="btn btn-sm btn-outline-secondary"
             (click)="closeAddDashboardModal('cancel')" id="addDashboardCancle">Cancel
           </button>
-          <button id="add-dashboard-save" type="submit" class="btn btn-info btn-color btn-sm"
+          <button id="add-dashboard-save" type="submit" class="btn btn-info btn-sm"
             id="addDashboardAdd">Save</button>
           <!-- <button id="add-dashboard-save" type="submit" class="btn btn-info btn-color btn-sm"
           (click)="closeAddDashboardModal(dashboardDataById.act)" id="addDashboardAdd">Save</button> -->

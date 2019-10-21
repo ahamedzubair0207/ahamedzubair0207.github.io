@@ -27,8 +27,9 @@ export class VotmCloudOrganizationsHomeComponent implements OnInit {
   @ViewChild('confirmBox', null) confirmBox: VotmCloudConfimDialogComponent;
   orgNameToDelete: any;
   message: any;
+  searchedText: any;
 
-  constructor(private orgservice: OrganizationService, private organizationService: OrganizationService, private route: ActivatedRoute, private toastr: ToastrService, private router: Router, private breadcrumbs : BreadcrumbsService) { }
+  constructor(private orgservice: OrganizationService, private organizationService: OrganizationService, private route: ActivatedRoute, private toastr: ToastrService, private router: Router, private breadcrumbs: BreadcrumbsService) { }
 
   ngOnInit() {
     this.route.paramMap.subscribe((params: ParamMap) => {
@@ -66,7 +67,7 @@ export class VotmCloudOrganizationsHomeComponent implements OnInit {
 
   }
 
-  getIntoContext(newOrg){
+  getIntoContext(newOrg) {
     this.breadcrumbs.addCrumb(newOrg);
     // breadcrum into context
     // [routerLink]="['/org/home', item.id, item.name]"
@@ -105,6 +106,17 @@ export class VotmCloudOrganizationsHomeComponent implements OnInit {
           this.cellularBlocks = response;
         }
       });
+  }
+
+  onOrganizationSearch() {
+    console.log('this.searchedText ', this.searchedText);
+    if (this.searchedText) {
+      this.organizationService.searchOrganizations(this.searchedText)
+        .subscribe(response => {
+          console.log('response ', response);
+          // this.organizationsList = response;
+        });
+    }
   }
 
 }

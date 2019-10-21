@@ -1,3 +1,21 @@
-<p>
-  votm-cloud-asset-child works!
-</p>
+<form>
+  <h4>Associated Child Assets</h4>
+  <div class="row mt-4">
+    <div class="col-3">
+      <div class="enclosing-div">
+        <select class="form-control" multiple>
+          <option><a>Asset 1</a></option>
+          <option><a>Asset 2</a></option>
+          <option><a>Asset 3</a></option>
+          <option><a>Asset 4</a></option>
+        </select>
+      </div>
+    </div>
+    <div class="col-9">
+
+      <div class="enclosing-div">
+        <img id="dropdiv" [src]="image" class="imag-size" *ngIf="image" />
+      </div>
+    </div>
+  </div>
+</form>
