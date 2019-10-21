@@ -569,7 +569,7 @@
                       <div class="form-group">
                           <label for="logopreview">Image Preview</label>
                           <span class="form-control logo-preview" >
-                              <img [src]="imgURL" class="img-fluid" *ngIf="imgURL">
+                              <img [src]="imgURL" class="img-fluid img-fluid-custom" *ngIf="imgURL">
                           </span>
                       </div>
                   
@@ -596,7 +596,7 @@
 
               </div>
 
-              <div class="row">
+              <div class="row-flex mr-auto text-right">
                 <button id="nest-asset-create" type="button" *ngIf="location.locationId"
                   class="btn btn-sm btn-outline-info mr-2 ml-2" (click)="creteAsset($event)"><i
                     class="pr-2 icon-asset-add"></i>Add Asset</button>
@@ -604,7 +604,7 @@
                   type="button" class="btn btn-sm btn-outline-info"><i class="pr-2 icon-location-add"></i>Add
                   Sub-Location</button>
                 <button id="loc-cancel" for="form-cancel" type="button" (click)="onCancelClick($event)"
-                  class="btn btn-outline-secondary btn-sm button-mod"><i class="pr-2 fa fa-remove"></i>Cancel</button>
+                  class="btn btn-outline-secondary btn-sm"><i class="pr-2 fa fa-remove"></i>Cancel</button>
                 <button id="loc-delete" type="button" *ngIf="location.locationId && pageType !=='View'"
                   (click)="openConfirmDialog()" class="btn btn-secondary btn-sm ml-2"><i
                     class="pr-2 icon-trash"></i>Delete</button>
@@ -832,7 +832,7 @@
 
 <!-- Add/Edit Dashboard Model Start-->
 <div id="addDashboardModalWrapper" class="modal">
-  <div class="modal-dialog modal-md modal-dialog-scrollable dashboard-create-font" *ngIf="dashboardDataById">
+  <div class="modal-dialog modal-md modal-dialog-scrollable modal-dialog-centered" *ngIf="dashboardDataById">
     <!-- Modal content -->
     <form name="addDashboard" #dashBoardForm="ngForm" (ngSubmit)="onDashboardFormSubmit()" class="form needs-validation" novalidate>
       <div class="modal-content">
@@ -843,36 +843,32 @@
           </button>
         </div>
         <div class="modal-body event-create-font">
-          <div class="form-group form-row">
-            <label for="dbLongName" class="col-3 col-form-label">Dashboard Name</label>
-            <div class="col-6">
-              <input ngbAutoFocus type="text" class="form-control" id="dbLongName" name="dbLongName" [(ngModel)]="dbLongName" />
-            </div>
+          <div class="row">
+          <div class="form-group col-6">
+            <label for="dbLongName" class="">Dashboard Name</label>
+            <input ngbAutoFocus type="text" class="form-control form-control-sm" id="dbLongName" name="dbLongName" [(ngModel)]="dbLongName" />
           </div>
-          <div class="form-group form-row">
-            <label for="dbShortName" class="col-3 col-form-label">Short Name</label>
-            <div class="col-3">
-              <input ngbAutoFocus type="text" class="form-control" id="dbShortName" name="dbShortName" maxlength="8" [(ngModel)]="dbShortName" />
-            </div>
+          <div class="form-group col-6">
+            <label for="dbShortName" class="">Short Name</label>
+            <input ngbAutoFocus type="text" class="form-control form-control-sm" id="dbShortName" name="dbShortName" maxlength="8" [(ngModel)]="dbShortName" />
           </div>
-          <div class="form-group form-row">
-            <label for="tplSelect" class="col-3 col-form-label">Template Name</label>
-            <div class="col-6">
+          </div>
+          <div class="form-group">
+            <label for="tplSelect" class="">Template Name</label>
+            <div class="">
               <ng-select #tplSelect labelForId="tplSelect" class="custom" [(ngModel)]="selTemplate" name="dbTemplateName" [disabled]="dashboardDataById.act==='edit'">
                 <ng-option *ngFor="let dbTemplate of dbTemplates" [value]="dbTemplate.name"> {{ dbTemplate.name }}</ng-option>
               </ng-select>
             </div>
           </div>
-          <div class="form-group form-row">
-            <label for="" class="col-3 col-form-label">Configured By</label>
-            <div class="col-3">
+          <div class="">
+            <label for="" class="">Configured By</label>
+            <div class="input-group input-group-sm">
               <input type="text" class="form-control" id="dashboard-config-by" readonly value="Sean Healy" />
-            </div>
-            <label for="" class="col-form-label">On</label>
-            <div class="col-3">
-              <div class="input-group">
-                <input type="text" class="form-control" id="dashboard-created-On" readonly placeholder="25/09/2019 03:19" />
+              <div class="input-group-append">
+                <span class="input-group-text py-0">On</span>
               </div>
+              <input type="text" class="form-control" id="dashboard-created-On" readonly placeholder="25/09/2019 03:19" />
             </div>
           </div>
           <!-- <div class="form-group row">
@@ -906,10 +902,10 @@
 
         </div>
         <div class="modal-footer">
-          <button id="add-dashboard-cancle" type="button" class="btn button-mod btn-secondary btn-sm"
+          <button id="add-dashboard-cancle" type="button" class="btn btn-sm btn-outline-secondary"
             (click)="closeAddDashboardModal('cancel')" id="addDashboardCancle">Cancel
           </button>
-          <button id="add-dashboard-save" type="submit" class="btn btn-info btn-color btn-sm"
+          <button id="add-dashboard-save" type="submit" class="btn btn-info btn-sm"
             id="addDashboardAdd">Save</button>
           <!-- <button id="add-dashboard-save" type="submit" class="btn btn-info btn-color btn-sm"
           (click)="closeAddDashboardModal(dashboardDataById.act)" id="addDashboardAdd">Save</button> -->

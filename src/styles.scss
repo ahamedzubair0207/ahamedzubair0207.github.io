@@ -37,7 +37,9 @@ legend{
 .btn-search{
   padding: 0.15rem 0.5rem;
 }
-
+a:hover, .btn:hover{
+  transition: 0.4s;
+}
 // .input-group-text{
 //   padding: .365rem .75rem !important;
 // }
