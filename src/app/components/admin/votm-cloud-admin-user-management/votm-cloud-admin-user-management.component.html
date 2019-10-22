@@ -141,7 +141,7 @@
           </table>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary btn-sm" id="cus_data_btncancel"
+          <button type="button" class="btn btn-outline-secondary btn-sm" id="cus_data_btncancel"
             data-dismiss="modal">Cancel</button>
           <button type="button" class="btn btn-info btn-sm" id="cus_data_btncreate">Save</button>
         </div>
@@ -216,7 +216,7 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary btn-sm" id="grant_user_btncancel"
+          <button type="button" class="btn btn-outline-secondary btn-sm" id="grant_user_btncancel"
             (click)="onClickOfGrantAccessModalClose()">Cancel</button>
           <button type="button" class="btn btn-info btn-sm" id="grant_user_btncreate"
             [disabled]="!selectedOrgForGuestAccess" (click)="onClickOfGrantGuestAccess()">
@@ -372,7 +372,7 @@
           </form>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary btn-sm" id="add_user_btncancel" (click)="onClickOfCloseAddUserModal()">Cancel</button>
+          <button type="button" class="btn btn-outline-secondary btn-sm" id="add_user_btncancel" (click)="onClickOfCloseAddUserModal()">Cancel</button>
           <button type="button" class="btn btn-info btn-sm" id="add_user_btncreate"
           (click)="onClickOfSubmitUser()"
           [disabled]="(!userForm.valid && (userForm.touched || !userForm.touched)) || isCreateUserAPILoading"
