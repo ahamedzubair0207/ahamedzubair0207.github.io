@@ -166,6 +166,7 @@
                     <tr>
                       <th>Favorite Name</th>
                       <th>Order</th>
+                      <th>Action</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -175,6 +176,11 @@
                     <tr *ngFor="let userFav of userprofile.userFavorites" id="{{ userFav.favoriteOrder}}">
                       <td>{{ userFav.favoriteName}}</td>
                       <td class="index">{{ userFav.favoriteOrder}}</td>
+                      <td><a class="action-icon" title="Edit">
+                        <i class="icon-edit"></i>
+                      </a>
+                      <a class="action-icon" title="Delete">
+                        <i class="icon-trash"></i></a></td>
                     </tr>
                   </tbody>
                 </table>
