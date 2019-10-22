@@ -30,7 +30,8 @@
                     <div class="">
                         <ng-select id="metricTypeDropDown" class="custom" [disabled]="pageType==='View'"
                             [ngStyle]="{'background-color':pageType==='View'?'#e9ecef':'#fff'}" [multiple]="false"
-                            name="metricType" [(ngModel)]="alert.UomTypeId" placeholder="Choose Type">
+                            name="metricType" (change)="onMetricTypeChange($event)" [(ngModel)]="alert.UomTypeId"
+                            placeholder="Choose Type">
                             <ng-option value="null" disabled selected>Metric Type</ng-option>
                             <ng-option *ngFor="let metricType of metricTypes" [value]="metricType.id">
                                 {{metricType.name}}</ng-option>
@@ -72,7 +73,7 @@
                 </div>
             </div>
             <div class="col-12 col-md-2 col-xl-2">
-                <label id="excalateAfterLbl" class="">Escalate After Time</label>
+                <label id="excalateAfterLbl" class="">Escalate After</label>
                 <div class="">
                     <div class="input-group">
                         <input type="text" id="excalateAfterInput" name="escalateTime" [(ngModel)]="alert.escalateTime"
@@ -129,7 +130,14 @@
                                         <input [disabled]="!threshold.active" id="thresholdLowCra" type="text"
                                             name="{{threshold.alertConfigurationId}}"
                                             [(ngModel)]="threshold.alertConfigurationValue"
-                                            class="form-control-sm mr-1 w-25" />{{alert.uomName? alert.uomName:'psi1'}}</label>
+                                            class="form-control-sm mr-1 w-25" />
+                                        <span *ngIf="alert.alertRuleTypeId !== 'B45A2094-C4D6-4D36-B26C-3A9F195C6D6F'">
+                                            {{unitToShow? unitToShow:alert.uomName}}
+                                        </span>
+                                        <span *ngIf="alert.alertRuleTypeId === 'B45A2094-C4D6-4D36-B26C-3A9F195C6D6F'">
+                                            %
+                                        </span>
+                                    </label>
                                 </div>
                             </td>
                         </tr>

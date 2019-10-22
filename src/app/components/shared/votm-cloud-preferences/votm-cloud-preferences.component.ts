@@ -1,15 +1,18 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit, Input, AfterViewInit, ViewChild } from '@angular/core';
 import { UnitOfMeassurement } from 'src/app/models/unitOfMeassurement.model';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { ConfigSettingsService } from 'src/app/services/configSettings/configSettings.service';
 import { ApplicationConfiguration } from 'src/app/models/applicationconfig.model';
 import { UserProfile } from 'src/app/models/userprofile.model';
+import { Logo } from 'src/app/models/logo.model';
 import { Toaster } from '../../shared/votm-cloud-toaster/votm-cloud-toaster';
 import { ToastrService } from 'ngx-toastr';
+import { VotmCloudConfimDialogComponent } from '../../shared/votm-cloud-confim-dialog/votm-cloud-confim-dialog.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DatePipe, Location as RouterLocation } from '@angular/common';
 import { UserService } from 'src/app/services/users/userService';
 import { DomSanitizer } from '@angular/platform-browser';
+import { AlertsService } from 'src/app/services/alerts/alerts.service';
 declare var $: any;
 @Component({
   selector: 'app-votm-cloud-preferences',
@@ -35,12 +38,19 @@ export class VotmCloudPreferencesComponent implements OnInit, AfterViewInit {
   userRoles: any;
   fileExtension: any;
   userImgURL: any;
+  public imagePath;
+  public message: string;
+  @ViewChild('file', null) userImage: any;
+  @Input() alertList: any[];
+  @ViewChild('confirmBox', null) confirmBox: VotmCloudConfimDialogComponent
 
   constructor(
     private modalService: NgbModal,
     private configSettingsService: ConfigSettingsService,
     private activeroute: ActivatedRoute,
+    private alertsService: AlertsService,
     private route: Router,
+    private router: Router,
     private datePipe: DatePipe,
     private routerLocation: RouterLocation,
     private toastr: ToastrService,
@@ -49,13 +59,31 @@ export class VotmCloudPreferencesComponent implements OnInit, AfterViewInit {
   ) { }
 
   ngOnInit() {
+    this.userId = '03c7fb47-58ee-4c41-a9d6-2ad0bd43392a';
     this.getAllAppInfo();
     this.tempMeasurement = 'Imperial';
+    this.getAllAlertsByUserId();
 
     // get loggedIn User Detail
-    this.userId = '03c7fb47-58ee-4c41-a9d6-2ad0bd43392a';
+
     this.getUserDetailInfo();
   }
+
+  onEditViewClick(alert, action) {
+    this.router.navigate([`../org/view/${alert.organizationScopeId}/${alert.organizationScopeName}/${alert.organizationScopeId}/alertRule/edit/${alert.alertRuleId}`]);
+  }
+
+  getAllAlertsByUserId() {
+    this.alertsService.getAllAlertsByUserId(this.userId)
+      .subscribe(response => {
+        this.alertList = [];
+        if (response && response.length > 0) {
+          this.alertList = response;
+        }
+      });
+  }
+
+
 
   ngAfterViewInit() {
     // const fixHelperModified = function(e, tr) {
@@ -76,12 +104,12 @@ export class VotmCloudPreferencesComponent implements OnInit, AfterViewInit {
     //     $(this).val(i + 1);
     //   });
     // };
-  
+
     // $('#myTable tbody').sortable({
     //   helper: fixHelperModified,
     //   stop: updateIndex
     // }).disableSelection();
-  
+
     // $('tbody').sortable({
     //   distance: 5,
     //   delay: 100,
@@ -234,7 +262,7 @@ export class VotmCloudPreferencesComponent implements OnInit, AfterViewInit {
         //   this.userImgURL = this.domSanitizer.bypassSecurityTrustUrl(`data:image/${this.fileExtension};base64,${this.userprofile.logo.image}`);
         //   // this.userprofile.logo.imageType = this.fileExtension;
         // }
-        console.log('getUserDetailInfo user details---' + this.userId + JSON.stringify(this.userprofile));
+        // console.log('getUserDetailInfo user details---' + this.userId + JSON.stringify(this.userprofile));
       });
 
   }
@@ -243,7 +271,7 @@ export class VotmCloudPreferencesComponent implements OnInit, AfterViewInit {
     this.userService.getUserAllRoles()
       .subscribe(response => {
         this.userRoles = response;
-        console.log('getUserAllRoles ---' + this.userId + JSON.stringify(this.userRoles));
+        // console.log('getUserAllRoles ---' + this.userId + JSON.stringify(this.userRoles));
       });
   }
 
@@ -371,7 +399,72 @@ export class VotmCloudPreferencesComponent implements OnInit, AfterViewInit {
     }
   }
 
-  
+  preview(files) {
+    this.message = '';
+    if (files.length === 0) {
+      return;
+    }
+
+    var mimeType = files[0].type;
+    if (mimeType.match(/image\/*/) == null) {
+      this.message = 'Only images are supported.';
+      return;
+    }
+    this.handleFileSelect(files);
+    var readerToPreview = new FileReader();
+    this.imagePath = files;
+    readerToPreview.readAsDataURL(files[0]);
+    readerToPreview.onload = (_event) => {
+      this.userImgURL = this.domSanitizer.bypassSecurityTrustUrl(readerToPreview.result.toString());; //readerToPreview.result;
+    };
+  }
+
+  handleFileSelect(files) {
+    var file = files[0];
+    if (files && file) {
+      var reader: any = new FileReader();
+      // reader.onload = this._handleReaderLoaded.bind(this);
+      reader.onload = (e) => {
+        // ADDED CODE
+        let data;
+        if (!e) {
+          data = reader.content;
+        } else {
+          data = e.target.result;
+        }
+        let base64textString = btoa(data);
+        console.log('this.organization ', this.userprofile, data);
+        this.userprofile.logo.image = base64textString;
+      };
+
+      this.userprofile.logo = new Logo();
+      this.userprofile.logo.imageName = file.name;
+      this.userprofile.logo.imageType = file.type;
+      reader.readAsBinaryString(file);
+    }
+  }
+
+  _handleReaderLoaded(readerEvt) {
+    let base64textString;
+    var binaryString = readerEvt.target.result;
+
+
+    // SVG Code
+    // let parser = new DOMParser();
+    // let xmlDoc: XMLDocument = parser.parseFromString(binaryString.toString(), 'image/svg+xml');
+    // // console.log('XMLDocument ', xmlDoc, xmlDoc.getElementsByTagName('svg'))
+    // const xml = (new XMLSerializer()).serializeToString(xmlDoc);
+    // const svg64 = btoa(xml);
+    // const b64Start = 'data:image/svg+xml;base64,';
+    // const image64 = b64Start + svg64;
+    // this.location.logo.image = image64;
+    // // console.log('this.location.logo.image ', this.location.logo.image)
+
+    // Other Images
+    base64textString = btoa(binaryString);
+    this.userprofile.logo.image = base64textString;
+
+  }
 
 
 }
