@@ -28,4 +28,13 @@ export class SharedService {
   setActiveMenu(activeItem: string): void {
     this.activeMenu = activeItem;
   }
+
+  toTitleCase(str) {
+    return str.replace(
+        /\w\S*/g,
+        (txt) => {
+            return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+        }
+    );
+}
 }

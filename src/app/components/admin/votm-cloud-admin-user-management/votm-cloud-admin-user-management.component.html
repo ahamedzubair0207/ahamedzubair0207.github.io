@@ -15,12 +15,12 @@
       </div>
       <div class="col-md-9 col-xl-8 text-right pr-2">
         <div class="form-group">
-          <button class="btn btn-info btn-sm mr-2" data-toggle="modal" type="button" data-target="#cus_data_per" id="customDataPerm">Customize
+          <button class="btn btn-info btn-sm mr-2" data-toggle="modal" type="button" data-target="#cus_data_per" id="custom_permission_btn">Customize
             Data Permissions</button>
-          <button class="btn btn-info btn-sm mr-2" data-toggle="modal" type="button"
-            data-target="#grant_guest_access" id="grantGuest">Grant Guest Access</button>
-          <button class="btn btn-info btn-sm mr-2" data-toggle="modal" type="button" data-target="#cus_add_user" data-backdrop="static" data-keyboard="false" id="addUserGroup" (click)="onClickOfAddUser()">Add
-            User</button>
+          <button class="btn btn-info btn-sm mr-2" type="button" id="guest_access_btn"
+            >Grant Guest Access</button>
+          <button class="btn btn-info btn-sm mr-2"  type="button" (click)="onClickOfAddUser()" id="add_user_btn">
+            Add User</button>
         </div>
       </div>
 
@@ -69,14 +69,13 @@
                 <td>Home</td>
                 <td>Role</td>
                 <td class="text-center">
-                  <a id="user_check_{{userIndex}}" class="mr-2" [title]="user.active ? 'Active' : 'Deactive'" data-toggle="tooltip">
+                  <a id="user_check_{{userIndex}}" class="mr-2" [title]="user.active ? 'Active' : 'Deactive'" (click)="onClickOfConfirmUserStatus(user)">
                     <i [ngClass]="user.active ? 'fa fa-check-circle' : 'fa fa-ban'" ></i>
                   </a>
-                  <a id="user_edit_{{userIndex}}" class="mr-2" data-toggle="modal" data-target="#cus_add_user"
-                    data-backdrop="static" data-keyboard="false" (click)="onClickOfEditUser(user)">
+                  <a id="user_edit_{{userIndex}}" title="Edit" class="mr-2"  (click)="onClickOfEditUser(user)">
                     <i class="icon-edit"></i>
                   </a>
-                  <a id="user_delete_{{userIndex}}" (click)="onClickOfDeleteUser(user)" class="mr-2" >
+                  <a id="user_delete_{{userIndex}}" title="Delete" (click)="onClickOfConfirmDeleteUser(user)" class="mr-2" >
                     <i class="icon-trash"></i>
                   </a>
                 </td>
@@ -150,7 +149,7 @@
     </div>
   </div>
   <!-- Modal Grant Guest Access -->
-  <div id="grant_guest_access" class="modal fade">
+  <div id="grant_guest_access" class="modal">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header">
@@ -228,7 +227,7 @@
     </div>
   </div>
   <!-- Modal Add User -->
-  <div id="cus_add_user" class="modal fade">
+  <div id="add_user" class="modal">
     <div class="modal-dialog modal-xl modal-dialog-scrollable modal-dialog-centered" *ngIf="userForm" >
       <div class="modal-content" >
         <div class="modal-header">
@@ -382,3 +381,9 @@
       </div>
     </div>
   </div>
+
+<app-votm-cloud-confim-dialog (onClose)="onClickOfDeleteUser($event)" #confirmDelUser [message]="confirmDelUserMessage"
+headerMessage="Delete User"></app-votm-cloud-confim-dialog>
+
+<app-votm-cloud-confim-dialog (onClose)="onClickOfChangeUserStatus($event)" #confirmUserStatus [message]="confirmUserStatusMessage"
+headerMessage="Change User Status"></app-votm-cloud-confim-dialog>
