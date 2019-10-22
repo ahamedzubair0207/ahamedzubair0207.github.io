@@ -16,6 +16,7 @@ import { Toaster } from '../../shared/votm-cloud-toaster/votm-cloud-toaster';
 import { OrganizationService } from 'src/app/services/organizations/organization.service';
 import { SortArrays } from '../../shared/votm-sort';
 import { LocationService } from 'src/app/services/locations/location.service';
+declare var $: any;
 @Component({
   selector: 'app-votm-cloud-assets-create',
   templateUrl: './votm-cloud-assets-create.component.html',
@@ -487,6 +488,82 @@ export class VotmCloudAssetsCreateComponent implements OnInit {
 
   ngAfterViewInit() {
     this.changeDetectorRef.detectChanges();
+    const self = this;
+    $.fn.drags = function (opt) {
+
+      opt = $.extend({
+        handle: '',
+        cursor: 'move',
+        draggableClass: 'draggable',
+        activeHandleClass: 'active-handle'
+      }, opt);
+
+      let $selected = null;
+      const $elements = (opt.handle === '') ? this : this.find(opt.handle);
+
+      $elements.css('cursor', opt.cursor).on('mousedown', function (e) {
+        if (e.target !== this) {
+          return;
+        }
+        if (opt.handle === '') {
+          $selected = $(this);
+          $selected.addClass(opt.draggableClass);
+        } else {
+          $selected = $(this).parent();
+          $selected.addClass(opt.draggableClass).find(opt.handle).addClass(opt.activeHandleClass);
+        }
+        const drg_h = $selected.outerHeight();
+        const drg_w = $selected.outerWidth();
+        const pos_y = $selected.offset().top + drg_h - e.pageY;
+        const pos_x = $selected.offset().left + drg_w - e.pageX;
+        $(document).on('mousemove', (e) => {
+          $selected.offset({
+            top: e.pageY + pos_y - drg_h,
+            left: e.pageX + pos_x - drg_w
+          });
+        }).on('mouseup', function (e) {
+          console.log($(this));
+          $(this).off('mousemove'); // Unbind events from document
+          if ($selected !== null) {
+            $selected.removeClass(opt.draggableClass);
+            console.log($selected.css('left'), $selected.css('top'));
+            // $selected.css('left', parseInt($selected.css('left'), 10) / ($selected.parent().width() / 100) + '%');
+            // $selected.css('top', parseInt($selected.css('top'), 10) / ($selected.parent().height() / 100) + '%');
+            // console.log('herer', );
+            // if (self.dropSensor) { self.dropSensor($selected.css('left'), $selected.css('top')); }
+            $selected = null;
+            // $selected.addClass('pad-18');
+          }
+        });
+        e.preventDefault();
+        e.stopPropagation();
+        e.cancelBubble = true;
+        return false;
+      }).on('mouseup', function (e) {
+        if (e.target !== this) {
+          return;
+        }
+        if (opt.handle === '') {
+          $selected.removeClass(opt.draggableClass);
+        } else {
+          $selected.removeClass(opt.draggableClass)
+            .find(opt.handle).removeClass(opt.activeHandleClass);
+        }
+        console.log($selected.css('left'), $selected.css('top'));
+        // $selected.css('left', parseInt($selected.css('left'), 10) / ($selected.parent().width() / 100) + '%');
+        // $selected.css('top', parseInt($selected.css('top'), 10) / ($selected.parent().height() / 100) + '%');
+        // console.log(self.dropSensor);
+        // if (self.dropSensor) {
+        //   self.dropSensor($selected.css('left'), $selected.css('top'));
+        // }
+        // $selected.addClass('pad-18');
+
+        $selected = null;
+      });
+
+      return this;
+
+    };
   }
 
   onTemplateChangeAccept(event) {
@@ -582,7 +659,39 @@ export class VotmCloudAssetsCreateComponent implements OnInit {
     if (!this.parentAssetImageURL) {
       this.parentAssetImageURL = this.locationImageURL;
     }
+    setTimeout(() => {
+      console.log($('#location_asset_position'));
+      const $sensor = $(
+        '<div class=\'icon-asset-robot position-absolute abc\' id="asset_position_icon">'
+      ).html('')
+      .css({
+        left: '1%',
+        top: '10%'
+      })
+      .appendTo('#location_asset_position');
+      $sensor.data(
+        'dockEl',
+        $sensor
+          .clone()
+          .on('mousedown', function (e) {
+            $(this)
+              .removeClass('docked')
+              .data('dragEl')
+              .removeClass('docked')
+                
+              
+              .trigger(
+                $.Event('mousedown', { pageX: e.pageX, pageY: e.pageY })
+              );
+            return false;
+          })
+      );
+      $('#location_asset_position .abc').drags();
+    }, 100);
+    
   }
+
+ 
 
   getParentImage(logo: any, type) {
     if (logo && logo.imageName) {
