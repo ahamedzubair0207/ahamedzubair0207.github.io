@@ -55,6 +55,7 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
   uomTypes: any[] = [];
   @ViewChild('confirmBox', null) confirmBox: VotmCloudConfimDialogComponent;
   searchSignalText: any;
+  unitToShow: any;
 
 
 
@@ -227,6 +228,18 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
             this.metricTypes.push({ id: item.uomtypeId, name: item.uomtypeName });
           });
         }
+      });
+  }
+
+  onMetricTypeChange(event) {
+    console.log('event ', event);
+    let userId = '03c7fb47-58ee-4c41-a9d6-2ad0bd43392a';
+    let uomTypeId = event;
+    let organizationId = this.orgId;
+
+    this.alertsService.getUomForSelectedMetricType(organizationId, userId, uomTypeId)
+      .subscribe(response => {
+        this.unitToShow = response.uomname;
       });
   }
   /*

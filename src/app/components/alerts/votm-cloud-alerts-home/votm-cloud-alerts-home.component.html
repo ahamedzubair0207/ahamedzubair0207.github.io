@@ -47,7 +47,7 @@
               [routerLink]="['alertRule/edit', item.alertRuleId]">
               <i class="icon-edit pr-1"></i>
             </a>
-            <a class="action-icon" (click)="openConfirmDialog(item.id, item.name)" title="Delete">
+            <a class="action-icon" (click)="openConfirmDialog(item.alertRuleId, item.alertRuleName)" title="Delete">
               <i class="icon-trash"></i>
             </a>
           </td>
