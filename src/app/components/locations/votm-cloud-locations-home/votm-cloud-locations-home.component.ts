@@ -25,6 +25,7 @@ export class VotmCloudLocationsHomeComponent implements OnInit {
   @ViewChild('confirmBox', null) confirmBox: VotmCloudConfimDialogComponent;
   locNameToDelete: any;
   toaster: Toaster = new Toaster(this.toastr);
+  searchedText: any;
 
   constructor(private locService: LocationService, private router: Router, private route: ActivatedRoute, private toastr: ToastrService) { }
 
@@ -91,6 +92,17 @@ export class VotmCloudLocationsHomeComponent implements OnInit {
         });
     }
     this.locToDelete = '';
+  }
+
+  onLocationSearch() {
+    console.log('this.searchedText ', this.searchedText);
+    if (this.searchedText) {
+      this.locService.searchLocations(this.searchedText)
+        .subscribe(response => {
+          console.log('response ', response);
+          // this.locationsList = response;
+        });
+    }
   }
 
 }

@@ -598,10 +598,10 @@
 
               <div class="row-flex mr-auto text-right">
                 <button id="nest-asset-create" type="button" *ngIf="location.locationId"
-                  class="btn btn-sm btn-outline-info mr-2 ml-2" (click)="creteAsset($event)"><i
+                  class="btn btn-sm btn-outline-info mr-2 add-sub-btn" (click)="creteAsset($event)"><i
                     class="pr-2 icon-asset-add"></i>Add Asset</button>
                 <button id="nest-loc-create" *ngIf="location.locationId" (click)="createNestedLocation($event)"
-                  type="button" class="btn btn-sm btn-outline-info"><i class="pr-2 icon-location-add"></i>Add
+                  type="button" class="btn btn-sm btn-outline-info add-sub-btn"><i class="pr-2 icon-location-add"></i>Add
                   Sub-Location</button>
                 <button id="loc-cancel" for="form-cancel" type="button" (click)="onCancelClick($event)"
                   class="btn btn-outline-secondary btn-sm"><i class="pr-2 fa fa-remove"></i>Cancel</button>
@@ -657,7 +657,7 @@
 
           <!-- Associated Asset with the Location  -->
           <div class="tab-pane fade" id="loc-asset" role="tabpanle" area-labelledby="loc-asset-tab">
-            <app-votm-cloud-locations-asset></app-votm-cloud-locations-asset>
+            <app-votm-cloud-locations-asset [image]="imgURL"></app-votm-cloud-locations-asset>
           </div>
 
 

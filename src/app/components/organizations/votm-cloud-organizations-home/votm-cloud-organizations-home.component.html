@@ -11,120 +11,123 @@
 
   <form class="form-inline">
     <div class="form-group">
-        <label for="typeahead-config" id="org-filter" class="mr-2">Type to filter events:</label>   
-        <div class="input-group input-group-sm">
-          <input class="form-control" id="searchBox" type="search" placeholder="Search"
+      <!-- <label for="typeahead-config" id="org-filter" class="mr-2">Type to filter events:</label> -->
+      <div class="input-group input-group-sm">
+        <input name="organizationsearch" [(ngModel)]="searchedText" class="form-control" id="searchBox" type="search" placeholder="Search"
           aria-label="Search">
-          <div class="input-group-append">
-            <span class="input-group-text p-0">
-              <button class="btn btn-sm btn-search" id="searchButton" type="submit"><i class="fa fa-search"></i></button>
-            </span>
-          </div>
+        <div class="input-group-append">
+          <span class="input-group-text p-0">
+            <button [disabled]="!searchedText" class="btn btn-sm btn-search" id="searchButton" (click)="onOrganizationSearch()" type="submit"><i
+                class="fa fa-search"></i></button>
+          </span>
         </div>
+      </div>
     </div>
   </form>
 </header>
-    
-    
 
-    <ng-template #recursiveTableList let-list="orgList" let-lvl="level">
-        <ng-container *ngFor="let item of list">
-      
-          <tr>
-            <th scope="row" (click)="item.opened = !item.opened" [ngStyle]="{'padding-left.px': 15*(lvl+1)}">
-              <i class="icon-org-company"></i>
-              <a style="color: #212529;" [routerLink]="['/org/view', curOrgId, curOrgName, item.id]"> {{item.name}}</a>&nbsp; <i *ngIf="item.node.length > 0 "
-                [ngClass]="{'fa': true, 'fa-caret-right': !item.opened, 'fa-caret-down': item.opened}" id="dropdownParentItem"></i>
-            </th>
-            <td class="align-left">{{item.type}}</td>
-            <td class="align-left">{{item.customerNo}}</td>
-            <td class="align-left">{{item.contractStart.split(" ")[0]}}</td>
-            <td class="align-left">{{item.contractEnd.split(" ")[0]}}</td>
-            <td class="align-left">{{item.serviceLevel}}</td>
-            <td class="align-center"><i class="icon-go-bg" style="color: #0ad80a;"></i></td>
-            <td class="align-center">
-              <a class="action-icon" title="List" [routerLink]="['/loc/home', item.id, item.name]">
-                <i class="icon-location"></i>
-              </a>
-              <a class="action-icon" title="Edit" [routerLink]="['/org/edit',curOrgId, curOrgName, item.id]">
-                <i class="icon-edit"></i>
-              </a>
-              <a class="action-icon" *ngIf="item.id.toUpperCase() !== curOrgId.toUpperCase()" (click)="openConfirmDialog(item.id, item.name)" title="Delete">
-                <i class="icon-trash"></i>
-              </a>
-            </td>
-          </tr>
-      
-          <ng-container *ngFor="let subItem of item.node">
-           
-            <tr *ngIf="item.opened && subItem.entityType == 'Organization'">
-              <th scope="row" (click)="subItem.opened = !subItem.opened" [ngStyle]="{'padding-left.px': 15*(lvl+2)}">
-                <i class="icon-org-company"></i>
-                <a style="color: #212529;" [routerLink]="['/org/view', curOrgId, curOrgName, subItem.id]">
-                  {{subItem.name}}</a>&nbsp;<i *ngIf="subItem.node.length > 0 "
-                  [ngClass]="{'fa': true, 'fa-caret-right': !subItem.opened, 'fa-caret-down': subItem.opened}" id="dropdownSubItem"></i>
-              </th>
-              <td class="align-left">{{subItem.type}}</td>
-              <td class="align-left">{{subItem.customerNo}}</td>
-              <td class="align-left">{{subItem.contractStart.split(" ")[0]}}</td>
-              <td class="align-left">{{subItem.contractEnd.split(" ")[0]}}</td>
-              <td class="align-left">{{subItem.serviceLevel}}</td>
-              <td class="align-center"><i class="icon-go-bg" style="color: #0ad80a;"></i></td>
-              <td class="align-center">
-                <a class="action-icon" title="Location"  [routerLink]="['/loc/home', subItem.id, subItem.name]">
-                  <i class="icon-location"></i>
-                </a>
-                <!-- <a class="action-icon" title="View" [routerLink]="['/org/view',curOrgId, curOrgName, subItem.id]">
+
+
+<ng-template #recursiveTableList let-list="orgList" let-lvl="level">
+  <ng-container *ngFor="let item of list">
+
+    <tr>
+      <th scope="row" (click)="item.opened = !item.opened" [ngStyle]="{'padding-left.px': 15*(lvl+1)}">
+        <i class="icon-org-company"></i>
+        <a style="color: #212529;" [routerLink]="['/org/view', curOrgId, curOrgName, item.id]"> {{item.name}}</a>&nbsp;
+        <i *ngIf="item.node && item.node.length > 0 "
+          [ngClass]="{'fa': true, 'fa-caret-right': !item.opened, 'fa-caret-down': item.opened}"
+          id="dropdownParentItem"></i>
+      </th>
+      <td class="align-left">{{item.type}}</td>
+      <td class="align-left">{{item.customerNo}}</td>
+      <td class="align-left">{{item.contractStart.split(" ")[0]}}</td>
+      <td class="align-left">{{item.contractEnd.split(" ")[0]}}</td>
+      <td class="align-left">{{item.serviceLevel}}</td>
+      <td class="align-center"><i class="icon-go-bg" style="color: #0ad80a;"></i></td>
+      <td class="align-center">
+        <a class="action-icon" title="List" [routerLink]="['/loc/home', item.id, item.name]">
+          <i class="icon-location"></i>
+        </a>
+        <a class="action-icon" title="Edit" [routerLink]="['/org/edit',curOrgId, curOrgName, item.id]">
+          <i class="icon-edit"></i>
+        </a>
+        <a class="action-icon" *ngIf="item.id.toUpperCase() !== curOrgId.toUpperCase()"
+          (click)="openConfirmDialog(item.id, item.name)" title="Delete">
+          <i class="icon-trash"></i>
+        </a>
+      </td>
+    </tr>
+
+    <ng-container *ngFor="let subItem of item.node">
+
+      <tr *ngIf="item.opened && subItem.entityType == 'Organization'">
+        <th scope="row" (click)="subItem.opened = !subItem.opened" [ngStyle]="{'padding-left.px': 15*(lvl+2)}">
+          <i class="icon-org-company"></i>
+          <a style="color: #212529;" [routerLink]="['/org/view', curOrgId, curOrgName, subItem.id]">
+            {{subItem.name}}</a>&nbsp;<i *ngIf="subItem.node.length > 0 "
+            [ngClass]="{'fa': true, 'fa-caret-right': !subItem.opened, 'fa-caret-down': subItem.opened}"
+            id="dropdownSubItem"></i>
+        </th>
+        <td class="align-left">{{subItem.type}}</td>
+        <td class="align-left">{{subItem.customerNo}}</td>
+        <td class="align-left">{{subItem.contractStart.split(" ")[0]}}</td>
+        <td class="align-left">{{subItem.contractEnd.split(" ")[0]}}</td>
+        <td class="align-left">{{subItem.serviceLevel}}</td>
+        <td class="align-center"><i class="icon-go-bg" style="color: #0ad80a;"></i></td>
+        <td class="align-center">
+          <a class="action-icon" title="Location" [routerLink]="['/loc/home', subItem.id, subItem.name]">
+            <i class="icon-location"></i>
+          </a>
+          <!-- <a class="action-icon" title="View" [routerLink]="['/org/view',curOrgId, curOrgName, subItem.id]">
                   <i class="fa fa-eye"></i>
                 </a> -->
-                <a class="action-icon" title="Edit" [routerLink]="['/org/edit',curOrgId, curOrgName, subItem.id]">
-                  <i class="icon-edit"></i>
-                </a>
-                <a class="action-icon" (click)="openConfirmDialog(subItem.id, subItem.name)" title="Delete">
-                  <i class="icon-trash"></i>
-                </a>
-              </td>
-            </tr>
-      
-            <ng-container *ngIf="subItem.opened">
-              <ng-container *ngTemplateOutlet="recursiveTableList; context:{ orgList: subItem.node, level: lvl+2 }">
-              </ng-container>
-              
-            </ng-container>
-          </ng-container>
+          <a class="action-icon" title="Edit" [routerLink]="['/org/edit',curOrgId, curOrgName, subItem.id]">
+            <i class="icon-edit"></i>
+          </a>
+          <a class="action-icon" (click)="openConfirmDialog(subItem.id, subItem.name)" title="Delete">
+            <i class="icon-trash"></i>
+          </a>
+        </td>
+      </tr>
+
+      <ng-container *ngIf="subItem.opened">
+        <ng-container *ngTemplateOutlet="recursiveTableList; context:{ orgList: subItem.node, level: lvl+2 }">
         </ng-container>
-      </ng-template>
-      
-      <div class="table-responsive">
-        <table class="table table-sm table-bordered table-hover org-table-fonts" id="orgTbl">
-          <thead class="thead-dark">
-            <tr>
-              <th scope="col" class="align-left table-col-name">Name</th>
-              <th scope="col" class="align-left">Type</th>
-              <th scope="col" class="align-left">Customer #</th>
-              <th scope="col" class="align-left table-col-small">Contract Start</th>
-              <th scope="col" class="align-left table-col-small">Contract End</th>
-              <th scope="col" class="align-left table-col-small">Service Level</th>
-              <th scope="col" class="align-center table-col-small">Status</th>
-              <th scope="col" class="align-center table-col-small">Actions</th>
-            </tr>
-          </thead>
-          <tbody *ngIf="!isGetOrganizationsApiLoading">
-            <ng-container *ngIf="organizationsList.length > 0">
-            <ng-container
-              *ngTemplateOutlet="recursiveTableList; context:{ orgList: organizationsList, level: 0 }"
-              >
-            </ng-container>
-            </ng-container>
-            <tr *ngIf="organizationsList.length === 0">
-              <td colspan="8"> No Organizations data found.</td>
-            </tr>
-          </tbody>
-          <tbody *ngIf="isGetOrganizationsApiLoading">
-              <i class="fa fa-spinner fa-spin fa-2x fa-fw"></i>
-          </tbody>
-        </table>
-      </div>
+
+      </ng-container>
+    </ng-container>
+  </ng-container>
+</ng-template>
+
+<div class="table-responsive">
+  <table class="table table-sm table-bordered table-hover org-table-fonts" id="orgTbl">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col" class="align-left table-col-name">Name</th>
+        <th scope="col" class="align-left">Type</th>
+        <th scope="col" class="align-left">Customer #</th>
+        <th scope="col" class="align-left table-col-small">Contract Start</th>
+        <th scope="col" class="align-left table-col-small">Contract End</th>
+        <th scope="col" class="align-left table-col-small">Service Level</th>
+        <th scope="col" class="align-center table-col-small">Status</th>
+        <th scope="col" class="align-center table-col-small">Actions</th>
+      </tr>
+    </thead>
+    <tbody *ngIf="!isGetOrganizationsApiLoading">
+      <ng-container *ngIf="organizationsList.length > 0">
+        <ng-container *ngTemplateOutlet="recursiveTableList; context:{ orgList: organizationsList, level: 0 }">
+        </ng-container>
+      </ng-container>
+      <tr *ngIf="organizationsList.length === 0">
+        <td colspan="8"> No Organizations data found.</td>
+      </tr>
+    </tbody>
+    <tbody *ngIf="isGetOrganizationsApiLoading">
+      <i class="fa fa-spinner fa-spin fa-2x fa-fw"></i>
+    </tbody>
+  </table>
+</div>
 <!-- </form> -->
 
 

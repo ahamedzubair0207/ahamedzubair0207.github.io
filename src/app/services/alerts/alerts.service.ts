@@ -35,6 +35,13 @@ export class AlertsService {
       );
   }
 
+  getUomForSelectedMetricType(organizationId: string, userId: string, uomTypeId: string): Observable<any> {
+    return this.http.get(`${AppConstants.GET_ALERT_UOMNAMEFORMETRICTYPE}/${organizationId}/${userId}/${uomTypeId}`)
+      .pipe(
+        map(response => response)
+      );
+  }
+
   getUserGroupRoles(): Observable<any> {
     return this.http.get(AppConstants.GET_ALERT_USERGROUPROLE)
       .pipe(
@@ -51,6 +58,13 @@ export class AlertsService {
 
   getAllAlertsByOrgId(orgId: string): Observable<any> {
     return this.http.get(`${AppConstants.GET_ALERT_BYORGID}/${orgId}`)
+      .pipe(
+        map(response => response)
+      );
+  }
+
+  getAllAlertsByUserId(userId: string): Observable<any> {
+    return this.http.get(`${AppConstants.GET_ALERT_BYUSERID}/${userId}`)
       .pipe(
         map(response => response)
       );

@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef, ViewChild, OnDestroy } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild, OnDestroy, Input } from '@angular/core';
 import { DatePipe, Location as RouterLocation } from '@angular/common';
 import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
 import { AssetSignalService } from 'src/app/services/assetSignal/asset-signal.service';
@@ -14,7 +14,7 @@ declare var $: any;
   styleUrls: ['./votom-cloud-assets-signal.component.scss']
 })
 export class VotomCloudAssetsSignalComponent implements OnInit, OnDestroy {
-
+@Input('image') image: any;
   @ViewChild('op', null) panel: OverlayPanel;
   assetId: string; // to store selected asset's id.
   availableSignals: any[] = []; // to store list of available signals based on sensors.
@@ -38,7 +38,8 @@ export class VotomCloudAssetsSignalComponent implements OnInit, OnDestroy {
     this.assetId = this.activatedRoute.snapshot.params.assetId;
     this.getAllAvailableSignals();
     this.getAssetSignalAssociation();
-    this.getAssetById();
+    
+    // this.getAssetById();
   }
 
   getAssetById() {

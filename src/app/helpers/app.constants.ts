@@ -2,6 +2,7 @@ export class AppConstants {
     public static GET_ORG_TREE = '/OrganizationTree';
     public static GET_ORG_LIST = '/Organization';
     public static GET_ORG = '/Organization';
+    public static GET_ORG_SEARCH = '/Organization/Search';
     public static EDIT_ORG = '/Organization';
     public static CREATE_ORG = '/Organization';
     public static DEL_ORG = '/Organization';
@@ -14,6 +15,7 @@ export class AppConstants {
     public static CREATE_LOC = '/Location';
     public static DEL_LOC = '/Location';
     public static GATEWAYS_LOC = 'Location/Gateways';
+    public static GET_LOC_SEARCH = '/Location/Search';
 
     public static GET_USER_GROUPS = '/UserManagement/UserGroups';
     public static GET_ALERTRULE_USERGROUP_SUBSCRIBER = '/ALertRuleUserGroupSubscriber';
@@ -54,8 +56,10 @@ export class AppConstants {
     public static CREATE_ALERT = '/AlertRule';
     public static UPDATE_ALERT = '/AlertRule';
     public static GET_ALERT_BYORGID = '/AlertRules';
+    public static GET_ALERT_BYUSERID = '/AlertRulesByUserId';
     public static GET_ALERT_RULESIGNALS_ASSOCIATION_ASSETS = '/AlertRuleSignalAssociatedwithAsset'; // AlertRuleSignalAssociatedwithAsset/{organizationId}/{alertRuleId}
     public static GET_ALERT_METRICS = '/AlertRules/MetricType';
+    public static GET_ALERT_UOMNAMEFORMETRICTYPE = '/v1/AlertRules/UserUnitofMeasurement';
     public static GET_ALERT_USERGROUPROLE = '/AlertRules/UserGroupRoles';
     public static EDIT_ALERT = '/AlertRule'; // Ahamed Code
     public static DEL_ALERT = '/AlertRule'; // Ahamed Code

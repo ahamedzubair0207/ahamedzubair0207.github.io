@@ -1,0 +1,18 @@
+.enclosing-div{
+    border: 1px solid #000;
+    min-height: 500px;
+    max-height: 500px;
+    padding: 10px;
+    overflow-y: auto;
+  }
+
+  .imag-size{
+    max-height: 470px;
+    min-height: 470px;
+    margin-top: 5px;
+    width: 100%;
+    min-width: 100%;
+    max-width: 100%;
+    object-fit: contain;
+    background-color: #F6F6F6
+  }
