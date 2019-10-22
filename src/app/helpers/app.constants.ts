@@ -28,7 +28,7 @@ export class AppConstants {
     public static ADD_USER_GUEST_ORG = '/UserManagement/UserGuestOrganization';
 
     public static GET_USER_DETAIL = '/UserManagement/UserDetail';
-
+    public static EDIT_USER_NOTIFICATION = '/UserManagement/UserNotification';
     public static GET_OPTIONSLISTDATA = '/Location/optionsListData';
 
     public static GET_ASSET_TREE = '/AssetTree/type/asset';
