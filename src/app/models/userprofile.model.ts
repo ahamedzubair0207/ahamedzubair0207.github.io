@@ -26,6 +26,8 @@ export class UserProfile {
     modifiedOn: string;
     userConfigSettings: UserConfigSettings[];
     userGuestOrganization: UserGuestOrganization[];
+    userFavorites: any[];
+    userNotification: UserNotification[];
 }
 
 class UserConfigSettings {
@@ -59,4 +61,17 @@ export class UserGuestOrganization {
     createdOn: string;
     modifiedBy: string;
     modifiedOn: string;
+}
+
+export class UserNotification {
+    userNotificationId: string;
+    userId: string;
+    criticalAlarm: string;
+    warningAlarm: string;
+    infoMessage: string;
+    active: boolean;
+    createdOn: string;
+    createdBy: string;
+    modifiedOn: string;
+    modifiedBy: string;
 }

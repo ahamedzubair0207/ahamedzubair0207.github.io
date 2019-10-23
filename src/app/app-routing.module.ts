@@ -61,6 +61,7 @@ import {
   OktaCallbackComponent,
 } from '@okta/okta-angular';
 import { VotmCloudAdminSensorDetailsComponent } from './components/admin/admin-sensors/votm-cloud-admin-sensor-details/votm-cloud-admin-sensor-details.component';
+import { AdminUserHomeComponent } from './components/admin/admin-user-home/admin-user-home.component';
 
 
 const routes: Routes = [
@@ -74,12 +75,12 @@ const routes: Routes = [
   //  canActivate: [ OktaAuthGuard ],
    // data: { type: 'Organization' }
  // },
-  
+
   // {
   //   path: '',
   //   component: VotmCloudViewsHomeComponent,
   //   // canActivate: [ OktaAuthGuard ],
-  
+
   // },
 
   {
@@ -292,7 +293,7 @@ const routes: Routes = [
   },
   {
     path: 'admin/usermanagement',
-    component: VotmCloudAdminUserManagementComponent
+    component: AdminUserHomeComponent
   },
   {
     path: 'admin',

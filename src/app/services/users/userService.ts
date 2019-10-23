@@ -43,7 +43,7 @@ export class UserService {
             );
     }
 
-getUserAllRoles() {
+    getUserAllRoles() {
         return this.http.get(AppConstants.GET_USER_ROLES)
             .pipe(
                 map(response => response)
@@ -51,18 +51,22 @@ getUserAllRoles() {
     }
 
     createUser(userObj: UserProfile) {
-      return this.http.post(AppConstants.CREATE_USER, userObj);
+        return this.http.post(AppConstants.CREATE_USER, userObj);
     }
 
     updateUser(userObj: UserProfile) {
-      return this.http.patch(AppConstants.EDIT_USER + '/' + userObj.userId, userObj);
+        return this.http.patch(AppConstants.EDIT_USER + '/' + userObj.userId, userObj);
     }
 
     deleteUser(userId: string) {
-      return this.http.delete(AppConstants.DELETE_USER + '/' + userId, {});
+        return this.http.delete(AppConstants.DELETE_USER + '/' + userId, {});
     }
 
     addUserGuestOrganization(userGuestOrgObj) {
-      return this.http.post(AppConstants.ADD_USER_GUEST_ORG, userGuestOrgObj);
+        return this.http.post(AppConstants.ADD_USER_GUEST_ORG, userGuestOrgObj);
+    }
+
+    updateUserNotification(userObj: UserProfile) {
+        return this.http.patch(AppConstants.EDIT_USER_NOTIFICATION + '/' + userObj.userId, userObj);
     }
 }

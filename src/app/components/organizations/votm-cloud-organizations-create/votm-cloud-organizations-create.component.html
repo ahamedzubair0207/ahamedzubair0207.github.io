@@ -131,16 +131,17 @@
 
               <div class="lock-tab border border-bottom-0">
 
-                <i class="fa fa-lock edit-view-lock" id="view-lock" name="lockTogglebutton"
+                <i class="icon-lock edit-view-lock" id="view-lock" name="lockTogglebutton"
                   *ngIf="pageType.toLowerCase() === 'view'" (click)="onLockClick()"></i>
-                <i class="fa fa-unlock edit-view-lock" id="edit-lock" name="unlockTogglebutton"
+                <i class="icon-lock-open edit-view-lock" id="edit-lock" name="unlockTogglebutton"
                   *ngIf="pageType.toLowerCase() === 'edit'" (click)="onLockClick()"></i>
+                  
 
               </div>
               <div class="row padding-l-4 padding-r-4">
                 <div class="col-12 col-md-6 col-lg-3 col-xl-3">
                   <div class="form-group">
-                    <label class="temp" votmrequired id="org-name">Name: Long</label>
+                    <label class="temp" votmrequired id="org-name">Name:</label>
                     <input type="text" maxlength="100" [(ngModel)]="organization.name"
                       class="form-control form-control-sm" id="org-dtl-name" placeholder="Name" name="name"
                       [disabled]="pageType==='View'" #orgName="ngModel" required>
@@ -153,7 +154,7 @@
                 </div>
                 <div class="col-12 col-md-6 col-lg-1 col-xl-1 ipad-pro-lg-2">
                   <div class="form-group">
-                    <label class="temp" votmrequired id="nameShortLbl">Short</label>
+                    <label class="temp" votmrequired id="nameShortLbl">Abbrev:</label>
                     <div class="">
                       <input type="text" class="form-control form-control-sm" id="nameShort" placeholder="Short"
                         maxlength="500" [disabled]="pageType==='View'" [(ngModel)]="organization.shortName"

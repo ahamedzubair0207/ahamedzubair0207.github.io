@@ -13,6 +13,7 @@ import { DatePipe, Location as RouterLocation } from '@angular/common';
 import { UserService } from 'src/app/services/users/userService';
 import { DomSanitizer } from '@angular/platform-browser';
 import { AlertsService } from 'src/app/services/alerts/alerts.service';
+import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 declare var $: any;
 @Component({
   selector: 'app-votm-cloud-preferences',
@@ -42,7 +43,13 @@ export class VotmCloudPreferencesComponent implements OnInit, AfterViewInit {
   public message: string;
   @ViewChild('file', null) userImage: any;
   @Input() alertList: any[];
-  @ViewChild('confirmBox', null) confirmBox: VotmCloudConfimDialogComponent
+  @ViewChild('confirmBox', null) confirmBox: VotmCloudConfimDialogComponent;
+  userPreferenceForm: FormGroup;
+  userFavEdit: any;
+  userCriticalAlaram: string[];
+  userWarningAlaram: string[];
+  userInfoMessage: string[];
+  userNotificationForm: FormGroup;
 
   constructor(
     private modalService: NgbModal,
@@ -56,9 +63,31 @@ export class VotmCloudPreferencesComponent implements OnInit, AfterViewInit {
     private toastr: ToastrService,
     private userService: UserService,
     private domSanitizer: DomSanitizer,
+    private formBuilder: FormBuilder
   ) { }
 
   ngOnInit() {
+
+    // this.userPreferenceForm = new FormGroup({
+    //   firstName: new FormControl(null, [Validators.required]),
+    // });
+
+    // this.userPreferenceForm = this.formBuilder.group({
+    //   firstName: ['', Validators.required]
+    // });
+
+    this.userNotificationForm = new FormGroup({
+      noti_crit_sms: new FormControl(null, [Validators.required]),
+      noti_crit_email: new FormControl(null, [Validators.required]),
+      noti_crit_web: new FormControl(null, [Validators.required]),
+      noti_war_sms: new FormControl(null, [Validators.required]),
+      noti_war_email: new FormControl(null, [Validators.required]),
+      noti_war_web: new FormControl(null, [Validators.required]),
+      noti_info_sms: new FormControl(null, [Validators.required]),
+      noti_info_email: new FormControl(null, [Validators.required]),
+      noti_info_web: new FormControl(null, [Validators.required])
+    });
+
     this.userId = '03c7fb47-58ee-4c41-a9d6-2ad0bd43392a';
     this.getAllAppInfo();
     this.tempMeasurement = 'Imperial';
@@ -90,17 +119,17 @@ export class VotmCloudPreferencesComponent implements OnInit, AfterViewInit {
     //   console.log('sdgdfgghj');
     //   const $originals = tr.children();
     //   const $helper = tr.clone();
-    //   $helper.children().each(function (index) {
-    //     $(this).width($originals.eq(index).width())
+    //   $helper.children().each(function(index) {
+    //     $(this).width($originals.eq(index).width());
     //   });
     //   return $helper;
     // };
     // const updateIndex = function (e, ui) {
     //   console.log('aaaaaaaaaaaaa');
-    //   $('td.index', ui.item.parent()).each(function (i) {
+    //   $('td.index', ui.item.parent()).each(function(i) {
     //     $(this).html(i + 1 + '');
     //   });
-    //   $('input[type=text]', ui.item.parent()).each(function (i) {
+    //   $('input[type=text]', ui.item.parent()).each(function(i) {
     //     $(this).val(i + 1);
     //   });
     // };
@@ -125,6 +154,20 @@ export class VotmCloudPreferencesComponent implements OnInit, AfterViewInit {
         this.userprofile = response;
         // console.log('getUserDetailInfo user details---' + this.userId + JSON.stringify(this.userprofile));
 
+        // this.userprofile.userNotification.push(
+        //   {
+        //     userNotificationId: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
+        //     userId: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
+        //     criticalAlarm: 'SMS,Email',
+        //     warningAlarm: 'SMS,Web Only',
+        //     infoMessage: 'Web Only',
+        //     active: true,
+        //     createdOn: '2019-10-22T10:32:07.135Z',
+        //     createdBy: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
+        //     modifiedOn: 'string',
+        //     modifiedBy: '3fa85f64-5717-4562-b3fc-2c963f66afa6'
+        //   }
+        // );
 
         // this.userprofile.userConfigSettings.push(
         //   {
@@ -257,12 +300,12 @@ export class VotmCloudPreferencesComponent implements OnInit, AfterViewInit {
         //     }
         //   ]
         // };
-        // if (this.userprofile.logo && this.userprofile.logo.imageName) {
-        //   this.fileExtension = this.userprofile.logo.imageName.slice((Math.max(0, this.userprofile.logo.imageName.lastIndexOf('.')) || Infinity) + 1);
-        //   this.userImgURL = this.domSanitizer.bypassSecurityTrustUrl(`data:image/${this.fileExtension};base64,${this.userprofile.logo.image}`);
-        //   // this.userprofile.logo.imageType = this.fileExtension;
-        // }
-        // console.log('getUserDetailInfo user details---' + this.userId + JSON.stringify(this.userprofile));
+        if (this.userprofile.logo && this.userprofile.logo.imageName) {
+          this.fileExtension = this.userprofile.logo.imageName.slice((Math.max(0, this.userprofile.logo.imageName.lastIndexOf('.')) || Infinity) + 1);
+          this.userImgURL = this.domSanitizer.bypassSecurityTrustUrl(`data:image/${this.fileExtension};base64,${this.userprofile.logo.image}`);
+          // this.userprofile.logo.imageType = this.fileExtension;
+        }
+         console.log('getUserDetailInfo user details---' + this.userId + JSON.stringify(this.userprofile));
       });
 
   }
@@ -298,6 +341,27 @@ export class VotmCloudPreferencesComponent implements OnInit, AfterViewInit {
         this.fillUoM();
         // this.uomArray = new Array[this.applicationConfiguration.unitOfMeassurement.length];
       });
+  }
+
+  onEditFavorite(favId: any) {
+    // for toggle disabled
+    // if (this.userprofile.userFavorites[favId].disabled) {
+    //   this.userprofile.userFavorites[favId].disabled = false;
+    // } else {
+    //   this.userprofile.userFavorites[favId].disabled = true;
+    // }
+    this.userprofile.userFavorites[favId].disabled = true;
+  }
+
+  onUserNotificationSave() {
+    const userNotificationObj = {...this.userNotificationForm.value};
+    console.log('userNotificationObj----', userNotificationObj);
+    userNotificationObj.userId = this.userId;
+    userNotificationObj.criticalAlarm = 'SMS';
+    userNotificationObj.warningAlarm = 'SMS';
+    userNotificationObj.infoMessage = 'SMS';
+    userNotificationObj.active = true;
+    console.log('userNotificationObj update----', userNotificationObj);
   }
 
   fillUoM() {
@@ -344,7 +408,7 @@ export class VotmCloudPreferencesComponent implements OnInit, AfterViewInit {
     if (!this.userprofile.uoMId) {
       this.userprofile.uoMId = [];
     }
-    this.previousUOM = JSON.parse(JSON.stringify(this.userprofile.uoMId))
+    this.previousUOM = JSON.parse(JSON.stringify(this.userprofile.uoMId));
     // Get the modal
     var modal = document.getElementById('uomModal');
     modal.style.display = 'block';

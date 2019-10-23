@@ -1,6 +1,6 @@
 <div class="row">
   <h4 class="col-md-6">User Profile</h4>
-  <!-- <h4 class="col-md-6 text-right"><a href=""><i class="fa fa-lock"></i></a></h4> -->
+  <!-- <h4 class="col-md-6 text-right"><a href=""><i class="icon-lock"></i></a></h4> -->
 </div>
 <div class="row">
   <div class="col-md-12">
@@ -23,7 +23,10 @@
                   <div class="row">
                     <div class="col-md-6">
                       <input type="text" class="form-control form-control-sm" id="noti_fn" placeholder="First name"
-                        name="firstName" [(ngModel)]="userprofile.firstName">
+                        name="firstName" #firstName="ngModel" [(ngModel)]="userprofile.firstName" required>
+                      <div *ngIf="userPreferenceForm.submitted && firstName.invalid" class="invalid-feedback">
+                        <div *ngIf="firstName.errors.required">First name is required</div>
+                      </div>
                     </div>
                     <div class="col-md-6">
                       <input type="text" class="form-control form-control-sm" id="noti_ln" placeholder="Last name"
@@ -159,13 +162,13 @@
             <div class="col-md-6 p-3">
               <fieldset>
                 <legend>Favorites <i class="icon-info"
-                    ngbPopover="To change the order of the favorites, unlock and drag the favorite name to a desired position."
+                    ngbPopover="To change the order of the favorites, drag the favorite name to a desired position."
                     triggers="mouseenter:mouseleave" popoverTitle="Information"></i></legend>
                 <table class="table table-bordered table-sm table-hover mb-3" id="myTable">
                   <thead class="thead-dark">
                     <tr>
                       <th>Favorite Name</th>
-                      <th>Order</th>
+                      <th class="text-center">Order</th>
                       <th>Action</th>
                     </tr>
                   </thead>
@@ -173,14 +176,18 @@
                     <tr *ngIf="userprofile.userFavorites === null || userprofile.userFavorites === 0">
                       <td colspan="2"> No Favorites data found.</td>
                     </tr>
-                    <tr *ngFor="let userFav of userprofile.userFavorites" id="{{ userFav.favoriteOrder}}">
-                      <td>{{ userFav.favoriteName}}</td>
-                      <td class="index">{{ userFav.favoriteOrder}}</td>
+                    <tr *ngFor="let userFav of userprofile.userFavorites; let i = index" id="{{userFav.favoriteOrder}}">
+                      <td>
+                        <input type="text" class="form-control form-control-sm" [disabled]="!userFav.disabled"
+                          name="favName{{userFav.favoriteOrder}}" [(ngModel)]="userFav.favoriteName" required>
+                      </td>
+                      <td class="index text-center">{{ userFav.favoriteOrder}}</td>
                       <td><a class="action-icon" title="Edit">
-                        <i class="icon-edit"></i>
-                      </a>
-                      <a class="action-icon" title="Delete">
-                        <i class="icon-trash"></i></a></td>
+                          <i class="icon-edit" (click)="onEditFavorite(i)"></i>
+                        </a>
+                        <a class="action-icon" title="Delete">
+                          <i class="icon-trash"></i></a>
+                      </td>
                     </tr>
                   </tbody>
                 </table>
@@ -262,85 +269,96 @@
         </form>
       </div>
       <div class="tab-pane fade p-3" id="notification">
-        <fieldset class="">
-          <legend>Notification Delivery Methods</legend>
-          <div class="row mb-3">
-            <div class="col-md-8">
-              <div class="row mb-3">
-                <div class="col-sm-3">Critical Alarm</div>
-                <div class="col-sm-3">
-                  <div class="custom-control custom-checkbox">
-                    <input type="checkbox" class="custom-control-input" name="noti_crit_sms" id="noti_crit_sms">
-                    <label class="custom-control-label" for="noti_crit_sms">SMS</label>
+        <form [formGroup]="userNotificationForm">
+          <fieldset class="">
+            <legend>Notification Delivery Methods</legend>
+            <div class="row mb-3" *ngIf="userprofile">
+              <div class="col-md-8">
+                <div class="row mb-3">
+                  <div class="col-sm-3">Critical Alarm</div>
+                  <div class="col-sm-3">
+                    <div class="custom-control custom-checkbox">
+                      <input type="checkbox" class="custom-control-input" name="noti_crit_sms" formControlName="noti_crit_sms" id="noti_crit_sms"
+                        [checked]="userprofile && userprofile.userNotification[0].criticalAlarm.includes('SMS')">
+                      <label class="custom-control-label" for="noti_crit_sms">SMS</label>
+                    </div>
+                  </div>
+                  <div class="col-sm-3">
+                    <div class="custom-control custom-checkbox">
+                      <input type="checkbox" class="custom-control-input" name="noti_crit_email" formControlName="noti_crit_email" id="noti_crit_email"
+                        [checked]="userprofile && userprofile.userNotification[0].criticalAlarm.includes('Email')">
+                      <label class="custom-control-label" for="noti_crit_email">Email</label>
+                    </div>
+                  </div>
+                  <div class="col-sm-3">
+                    <div class="custom-control custom-checkbox">
+                      <input type="checkbox" class="custom-control-input" name="noti_crit_web" formControlName="noti_crit_web" id="noti_crit_web"
+                        [checked]="userprofile && userprofile.userNotification[0].criticalAlarm.includes('Web Only')">
+                      <label class="custom-control-label" for="noti_crit_web">Web Only</label>
+                    </div>
                   </div>
                 </div>
-                <div class="col-sm-3">
-                  <div class="custom-control custom-checkbox">
-                    <input type="checkbox" class="custom-control-input" name="" id="noti_crit_email">
-                    <label class="custom-control-label" for="noti_crit_email">Email</label>
+                <div class="row mb-3">
+                  <div class="col-sm-3">Warning Alarm</div>
+                  <div class="col-sm-3">
+                    <div class="custom-control custom-checkbox">
+                      <input type="checkbox" class="custom-control-input" name="noti_war_sms" formControlName="noti_war_sms" id="noti_war_sms"
+                        [checked]="userprofile && userprofile.userNotification[0].warningAlarm.includes('SMS')">
+                      <label class="custom-control-label" for="noti_war_sms">SMS</label>
+                    </div>
+                  </div>
+                  <div class="col-sm-3">
+                    <div class="custom-control custom-checkbox">
+                      <input type="checkbox" class="custom-control-input" name="noti_war_email" formControlName="noti_war_email" id="noti_war_email"
+                        [checked]="userprofile && userprofile.userNotification[0].warningAlarm.includes('Email')">
+                      <label class="custom-control-label" for="noti_war_email">Email</label>
+                    </div>
+                  </div>
+                  <div class="col-sm-3">
+                    <div class="custom-control custom-checkbox">
+                      <input type="checkbox" class="custom-control-input" name="noti_war_web" formControlName="noti_war_web" id="noti_war_web"
+                        [checked]="userprofile && userprofile.userNotification[0].warningAlarm.includes('Web Only')">
+                      <label class="custom-control-label" for="noti_war_web">Web Only</label>
+                    </div>
                   </div>
                 </div>
-                <div class="col-sm-3">
-                  <div class="custom-control custom-checkbox">
-                    <input type="checkbox" class="custom-control-input" name="" id="noti_crit_web">
-                    <label class="custom-control-label" for="noti_crit_web">Web Only</label>
+                <div class="row mb-3">
+                  <div class="col-sm-3">Info Message</div>
+                  <div class="col-sm-3">
+                    <div class="custom-control custom-checkbox">
+                      <input type="checkbox" class="custom-control-input" name="noti_info_sms" formControlName="noti_info_sms" id="noti_info_sms"
+                        [checked]="userprofile && userprofile.userNotification[0].infoMessage.includes('SMS')">
+                      <label class="custom-control-label" for="noti_info_sms">SMS</label>
+                    </div>
+                  </div>
+                  <div class="col-sm-3">
+                    <div class="custom-control custom-checkbox">
+                      <input type="checkbox" class="custom-control-input" name="noti_info_email" formControlName="noti_info_email" id="noti_info_email"
+                        [checked]="userprofile && userprofile.userNotification[0].infoMessage.includes('Email')">
+                      <label class="custom-control-label" for="noti_info_email">Email</label>
+                    </div>
+                  </div>
+                  <div class="col-sm-3">
+                    <div class="custom-control custom-checkbox">
+                      <input type="checkbox" class="custom-control-input" name="noti_info_web" formControlName="noti_info_web" id="noti_info_web"
+                        [checked]="userprofile && userprofile.userNotification[0].infoMessage.includes('Web Only')">
+                      <label class="custom-control-label" for="noti_info_web">Web Only</label>
+                    </div>
                   </div>
                 </div>
               </div>
-              <div class="row mb-3">
-                <div class="col-sm-3">Warning Alarm</div>
-                <div class="col-sm-3">
-                  <div class="custom-control custom-checkbox">
-                    <input type="checkbox" class="custom-control-input" name="" id="noti_war_sms">
-                    <label class="custom-control-label" for="noti_war_sms">SMS</label>
-                  </div>
-                </div>
-                <div class="col-sm-3">
-                  <div class="custom-control custom-checkbox">
-                    <input type="checkbox" class="custom-control-input" name="" id="noti_war_email">
-                    <label class="custom-control-label" for="noti_war_email">Email</label>
-                  </div>
-                </div>
-                <div class="col-sm-3">
-                  <div class="custom-control custom-checkbox">
-                    <input type="checkbox" class="custom-control-input" name="" id="noti_war_web">
-                    <label class="custom-control-label" for="noti_war_web">Web Only</label>
-                  </div>
-                </div>
-              </div>
-              <div class="row mb-3">
-                <div class="col-sm-3">Info Message</div>
-                <div class="col-sm-3">
-                  <div class="custom-control custom-checkbox">
-                    <input type="checkbox" class="custom-control-input" name="" id="noti_info_sms">
-                    <label class="custom-control-label" for="noti_info_sms">SMS</label>
-                  </div>
-                </div>
-                <div class="col-sm-3">
-                  <div class="custom-control custom-checkbox">
-                    <input type="checkbox" class="custom-control-input" name="" id="noti_info_email">
-                    <label class="custom-control-label" for="noti_info_email">Email</label>
-                  </div>
-                </div>
-                <div class="col-sm-3">
-                  <div class="custom-control custom-checkbox">
-                    <input type="checkbox" class="custom-control-input" name="" id="noti_info_web">
-                    <label class="custom-control-label" for="noti_info_web">Web Only</label>
-                  </div>
-                </div>
+              <div class="col-md-4 text-right">
+                <button type="button" class="btn btn-sm btn-info" data-toggle="modal" data-target="#myModal"><i
+                    class="fa fa-calendar mr-2"></i>Set Notification Delivery
+                  Schedule</button>
               </div>
             </div>
-            <div class="col-md-4 text-right">
-              <button type="button" class="btn btn-sm btn-info" data-toggle="modal" data-target="#myModal"><i
-                  class="fa fa-calendar mr-2"></i>Set Notification Delivery
-                Schedule</button>
+            <div class="border-top text-right pt-2">
+              <button type="button" class="btn btn-sm btn-outline-secondary mr-2" id="noti_cancel">Cancel</button>
+              <button type="button" class="btn btn-sm btn-info" id="noti_save" (click)="onUserNotificationSave()">Save</button>
             </div>
-          </div>
-          <div class="border-top text-right pt-2">
-            <button class="btn btn-sm btn-outline-secondary mr-2" id="noti_cancel">Cancel</button>
-            <button class="btn btn-sm btn-info" id="noti_save">Save</button>
-          </div>
-        </fieldset>
+          </fieldset>
+        </form>
         <!-- Modal HTML -->
         <div id="myModal" class="modal fade" tabindex="-1">
           <div class="modal-dialog modal-xl modal-dialog-scrollable">

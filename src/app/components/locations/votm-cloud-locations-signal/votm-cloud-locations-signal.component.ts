@@ -306,11 +306,11 @@ export class VotmCloudLocationsSignalComponent implements OnInit, AfterViewInit 
                   })
               );
               $sensor.append('<span id="signal-name-' + sIx + '-' + dsIx + '">' + dsItem.name + '</span>')
-                .append('<a id="signal-edit-btn-' + sIx + '-' + dsIx + '" style="width: 30px; height:30px;cursor:pointer;" ' +
+                .append('<a title="Edit Signal Association" id="signal-edit-btn-' + sIx + '-' + dsIx + '" style="width: 30px; height:30px;cursor:pointer;" ' +
                   'class="icon-edit"></a>')
-                .append('<a id="signal-alert-btn-' + sIx + '-' + dsIx + '" style="width: 30px; height:30px;cursor:pointer;"' +
+                .append('<a title="Alarm Rule Association" id="signal-alert-btn-' + sIx + '-' + dsIx + '" style="width: 30px; height:30px;cursor:pointer;"' +
                   'class="icon-warn"></a>')
-                .append('<a id="signal-detach-btn-' + sIx + '-' + dsIx + '" style="width: 30px; height:30px;cursor:pointer;" ' +
+                .append('<a title="Unlink Association" id="signal-detach-btn-' + sIx + '-' + dsIx + '" style="width: 30px; height:30px;cursor:pointer;" ' +
                   'class="icon-unlink"></a>');
               $(document).on('mousedown', '#signal-edit-btn-' + sIx + '-' + dsIx, (evt) => {
                 console.log('button clicked');
@@ -403,11 +403,11 @@ export class VotmCloudLocationsSignalComponent implements OnInit, AfterViewInit 
                 top: this.associatedSignals[index].imageCoordinates.y
               });
               $sensor.append('<span id="signal-name-' + sIx + '-' + dsIx + '-' + index + '">' + dsItem.name + '</span>')
-                .append('<a id="signal-edit-btn-' + sIx + '-' + dsIx + '-' + index + '" style="width: 30px; height:30px;cursor:pointer;" ' +
+                .append('<a title="Edit Signal Association" id="signal-edit-btn-' + sIx + '-' + dsIx + '-' + index + '" style="width: 30px; height:30px;cursor:pointer;" ' +
                   'class="icon-edit"></a>')
-                .append('<a id="signal-alert-btn-' + sIx + '-' + dsIx + '-' + index + '" style="width: 30px; height:30px;cursor:pointer;"' +
+                .append('<a title="Alarm Rule Association" id="signal-alert-btn-' + sIx + '-' + dsIx + '-' + index + '" style="width: 30px; height:30px;cursor:pointer;"' +
                   'class="icon-warn"></a>')
-                .append('<a id="signal-detach-btn-' + sIx + '-' + dsIx + '-' + index + '" ' +
+                .append('<a title="Unlink Association" id="signal-detach-btn-' + sIx + '-' + dsIx + '-' + index + '" ' +
                   ' style="width: 30px; height:30px;cursor:pointer;" class="icon-unlink"></a>');
               $(document).on('mousedown', '#signal-edit-btn-' + sIx + '-' + dsIx + '-' + index, (evt) => {
                 console.log('button clicked', evt.target.id);
