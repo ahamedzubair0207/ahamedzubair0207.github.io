@@ -561,11 +561,11 @@
                       <div class="form-group"
                         *ngIf="orgId && applicationConfiguration || !orgId && applicationConfiguration ">
                         <!-- <div class="form-group" *ngIf="!orgId && applicationConfiguration"> -->
-                        <label class="" votmrequired id="DefaultLangLbl">{{pageLabels.Language.labelName}}:</label>
+                        <label class="" votmrequired id="DefaultLangLbl">Locale:</label>
                         <div class="">
                         <ng-select id="DefaultLang" class="custom" required
                         [multiple]="false" [(ngModel)]="organization.localeId" name="organization.localeId"
-                        #defLanguage="ngModel" (change)="onLocaleChange()" placeholder="Select Language" [disabled]="pageType==='View'">
+                        #defLanguage="ngModel" (change)="onLocaleChange()" placeholder="Select Locale" [disabled]="pageType==='View'">
                     <ng-option value="null" disabled selected>Language</ng-option>
                       <ng-option
                       *ngFor="let locale of applicationConfiguration.locale" [value]="locale.localeId">{{locale.localeName}}</ng-option>
