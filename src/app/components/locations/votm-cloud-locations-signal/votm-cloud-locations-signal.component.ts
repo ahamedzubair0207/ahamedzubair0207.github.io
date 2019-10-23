@@ -385,6 +385,7 @@ export class VotmCloudLocationsSignalComponent implements OnInit, AfterViewInit 
                 $sensor
                   .clone()
                   .removeClass('docked')
+                  .removeClass('pad-18')
                   .html(dsItem.name)
                   .addClass('list-bkg')
                   .appendTo(dockCntrSel)

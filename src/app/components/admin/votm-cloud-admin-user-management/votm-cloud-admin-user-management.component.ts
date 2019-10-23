@@ -154,14 +154,14 @@ export class VotmCloudAdminUserManagementComponent implements OnInit, OnDestroy 
     console.log(JSON.stringify(userObj));
     userSubmitMethod.subscribe(
       response => {
-        this.toaster.onSuccess('Successfully ' + this.pageType === 'add' ? 'created' : 'updated',
+        this.toaster.onSuccess('Successfully ' + (this.pageType === 'add' ? 'created' : 'updated'),
           this.pageType === 'add' ? 'Created' : 'Updated');
         this.isCreateUserAPILoading = false;
         this.onClickOfCloseAddUserModal();
         this.getUsers();
       }, error => {
         this.isCreateUserAPILoading = false;
-        this.toaster.onFailure('Error while ' +  this.pageType === 'add' ? 'creating' : 'updating' + ' User',
+        this.toaster.onFailure('Error while ' +  (this.pageType === 'add' ? 'creating' : 'updating') + ' User',
           this.pageType === 'add' ? 'Created' : 'Updated');
       }
     );
@@ -249,6 +249,10 @@ export class VotmCloudAdminUserManagementComponent implements OnInit, OnDestroy 
             modal.style.display = 'none';
           }
         };
+      }, error => {
+        if (!user.status) {
+          this.toaster.onFailure('Edit functionality is not available for Deactivated user.',)
+        }
       }
     );
   }
