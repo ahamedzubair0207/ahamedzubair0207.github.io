@@ -173,6 +173,7 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
     this.organization.cellularBlocks = null;
     this.organization.sensorBlocks = null;
     // this.organization.timeZone = null;
+
     this.organization.modifiedOn = null; //TimeConcise
     // this.organization.locale = null;
     this.activeroute.paramMap.subscribe(params => {
@@ -263,6 +264,7 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
     jQuery('.nav-item').tooltip();
   }
 
+  selOrgIcon = "company";
   ngAfterViewInit(): void {
     jQuery('.selectpicker').selectpicker();
     this.showImageLogo();

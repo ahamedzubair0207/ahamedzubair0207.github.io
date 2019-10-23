@@ -141,7 +141,7 @@ export class VotmCloudAssetsCreateComponent implements OnInit {
     // this.asset.active = true;
     this.assetTypes = [{ value: 'assetType1', text: 'assetType1' }, { value: 'assetType2', text: 'assetType2' }]
   }
-
+  selAssetIcon = "robot";
   ngOnDestroy() {
     this.subscriptions.unsubscribe();
   }
