@@ -17,9 +17,9 @@
   <!-- <div class="row"> -->
   <!-- <div class="col-md-12"> -->
   <!-- <h4 class="col-md-6">Edit Template</h4> -->
-  <i class="fa fa-lock edit-view-lock" name="templatetlockbutton" *ngIf="pageType && pageType.toLowerCase() === 'view'"
+  <i class="icon-lock edit-view-lock" name="templatetlockbutton" *ngIf="pageType && pageType.toLowerCase() === 'view'"
     (click)="onLockClick()"></i>
-  <i class="fa fa-unlock edit-view-lock" name="templateunlockbutton"
+  <i class="icon-lock-open edit-view-lock" name="templateunlockbutton"
     *ngIf="pageType && pageType.toLowerCase() === 'edit'" (click)="onLockClick()"></i>
   <!-- </div>
     </div> -->
@@ -36,9 +36,9 @@
       <!-- <div class="row">
         <div class="col-md-12 mb-3">
           <h4 class="col-md-6">Edit Template</h4>
-          <i class="fa fa-lock edit-view-lock" name="templatetlockbutton" *ngIf="pageType.toLowerCase() === 'view'"
+          <i class="icon-lock edit-view-lock" name="templatetlockbutton" *ngIf="pageType.toLowerCase() === 'view'"
             (click)="onLockClick()"></i>
-          <i class="fa fa-unlock edit-view-lock" name="templateunlockbutton" *ngIf="pageType.toLowerCase() === 'edit'"
+          <i class="icon-lock-open edit-view-lock" name="templateunlockbutton" *ngIf="pageType.toLowerCase() === 'edit'"
             (click)="onLockClick()"></i>
         </div>
       </div> -->

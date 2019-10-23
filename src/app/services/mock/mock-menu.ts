@@ -79,5 +79,5 @@ export const MENU_ITEMS: Array<{ id: string, enabled: boolean, url: string, icon
             },
         ]
     },
-    // {  id: "super", enabled: true, url: "super", icon: "menu-icon fa fa-lock", name: 'Super Admin' }
+    // {  id: "super", enabled: true, url: "super", icon: "menu-icon icon-lock", name: 'Super Admin' }
 ];
