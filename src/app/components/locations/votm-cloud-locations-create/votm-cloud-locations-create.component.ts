@@ -228,6 +228,7 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
     this.getDashboardsTemplates();
   }
 
+  selLocIcon = "company";
   getAllLocationByOrganization(orgId: string) {
     this.locationService.getAllLocationTree(orgId)
       .subscribe(response => {

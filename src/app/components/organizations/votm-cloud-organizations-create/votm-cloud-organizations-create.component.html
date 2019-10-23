@@ -216,8 +216,13 @@
                     <label class="" id="icon" for="organizationType">Icon</label>
                     <div class="">
                     <ng-select id="iconDropDown" name= "orgLogo"
-                    labelForId="orgIcon" class="custom" [searchable]="false" 
-                    [clearable]="false" placeholder="Choose Logo">
+                    labelForId="orgIcon" 
+                    class="custom" 
+                    [searchable]="false" 
+                    [clearable]="false" 
+                    [(ngModel)]="selOrgIcon"
+                    [disabled]="pageType==='View'"
+                    placeholder="Choose Logo">
                       <ng-option value="company"><i class="icon-org-company"></i></ng-option>
                       <ng-option value="office"><i class="icon-loc-office"></i></ng-option>
                       <ng-option value="struct"><i class="icon-org-struct"></i></ng-option>
