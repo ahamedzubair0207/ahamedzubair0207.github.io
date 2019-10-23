@@ -251,7 +251,7 @@ export class VotmCloudAdminUserManagementComponent implements OnInit, OnDestroy 
         };
       }, error => {
         if (!user.status) {
-          this.toaster.onFailure('Edit functionality is not available for Deactivated user.',)
+          this.toaster.onFailure('Edit functionality is not available for Deactivated user.', 'Association');
         }
       }
     );
