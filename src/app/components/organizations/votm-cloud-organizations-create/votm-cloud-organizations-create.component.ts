@@ -266,7 +266,7 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
 
   selOrgIcon = "company";
   ngAfterViewInit(): void {
-    jQuery('.selectpicker').selectpicker();
+  //  jQuery('.selectpicker').selectpicker();
     this.showImageLogo();
   }
 

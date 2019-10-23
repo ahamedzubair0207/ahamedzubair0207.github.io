@@ -24,13 +24,16 @@
                     <div class="col-md-6">
                       <input type="text" class="form-control form-control-sm" id="noti_fn" placeholder="First name"
                         name="firstName" #firstName="ngModel" [(ngModel)]="userprofile.firstName" required>
-                      <div *ngIf="userPreferenceForm.submitted && firstName.invalid" class="invalid-feedback">
-                        <div *ngIf="firstName.errors.required">First name is required</div>
+                      <div *ngIf="firstName.dirty && firstName.invalid">
+                        <app-votm-cloud-validator message="First Name is required"></app-votm-cloud-validator>
                       </div>
                     </div>
                     <div class="col-md-6">
                       <input type="text" class="form-control form-control-sm" id="noti_ln" placeholder="Last name"
-                        name="lastName" [(ngModel)]="userprofile.lastName">
+                        name="lastName" #lastName="ngModel" [(ngModel)]="userprofile.lastName" required>
+                      <div *ngIf="lastName.dirty && lastName.invalid">
+                        <app-votm-cloud-validator message="Last Name is required"></app-votm-cloud-validator>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -40,7 +43,15 @@
                       <label for="noti_email" class="">Email</label>
                       <div class="">
                         <input type="email" class="form-control form-control-sm" id="noti_email" placeholder="email"
-                          name="emailId" [(ngModel)]="userprofile.emailId">
+                          name="emailId" #emailId="ngModel" [(ngModel)]="userprofile.emailId" required email>
+                        <div *ngIf="emailId.dirty && emailId.invalid">
+                          <app-votm-cloud-validator
+                            *ngIf="emailId.errors && emailId.errors.required"
+                            message="Email is required"></app-votm-cloud-validator>
+                          <app-votm-cloud-validator
+                            *ngIf="emailId.errors && emailId.errors.email"
+                            message="Please Enter valid email id"></app-votm-cloud-validator>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -48,8 +59,15 @@
                     <div class="form-group">
                       <label for="noti_ph" class="">Phone Number</label>
                       <div class="">
-                        <input type="text" class="form-control form-control-sm" id="noti_ph"
-                          placeholder="+1 (763) 123-456" name="phoneNumber" [(ngModel)]="userprofile.phoneNumber">
+                        <input type="text" class="form-control form-control-sm" id="noti_ph" placeholder="+1 (763) 123-456"
+                          #phoneNumber="ngModel" name="phoneNumber" [(ngModel)]="userprofile.phoneNumber" OnlyNumber="true" maxlength="16" required>
+                          <div *ngIf="phoneNumber.dirty && phoneNumber.invalid">
+                            <app-votm-cloud-validator *ngIf="phoneNumber.errors && phoneNumber.errors.required"
+                              message="Phone Number is required"></app-votm-cloud-validator>
+                          </div>
+                          <app-votm-cloud-char-validator
+                            [condition]="userprofile.phoneNumber && userprofile.phoneNumber.length>=17">
+                          </app-votm-cloud-char-validator>
                       </div>
                     </div>
                   </div>
@@ -167,8 +185,8 @@
                 <table class="table table-bordered table-sm table-hover mb-3" id="myTable">
                   <thead class="thead-dark">
                     <tr>
-                      <th>Favorite Name</th>
                       <th class="text-center">Order</th>
+                      <th>Favorite Name</th>
                       <th>Action</th>
                     </tr>
                   </thead>
@@ -177,15 +195,16 @@
                       <td colspan="2"> No Favorites data found.</td>
                     </tr>
                     <tr *ngFor="let userFav of userprofile.userFavorites; let i = index" id="{{userFav.favoriteOrder}}">
+                      <td class="index text-center">{{ userFav.favoriteOrder}}</td>
                       <td>
                         <input type="text" class="form-control form-control-sm" [disabled]="!userFav.disabled"
                           name="favName{{userFav.favoriteOrder}}" [(ngModel)]="userFav.favoriteName" required>
+                        <input type="hidden" class="favoriteOrder" name="{{userFav.favoriteOrder}}" [(ngModel)]="userFav.favoriteOrder">
                       </td>
-                      <td class="index text-center">{{ userFav.favoriteOrder}}</td>
-                      <td><a class="action-icon" title="Edit">
+                      <td><a class="action-icon" title="Edit Favorite" style="cursor: pointer;">
                           <i class="icon-edit" (click)="onEditFavorite(i)"></i>
                         </a>
-                        <a class="action-icon" title="Delete">
+                        <a class="action-icon" title="Delete Favorite"  style="cursor: pointer;">
                           <i class="icon-trash"></i></a>
                       </td>
                     </tr>
@@ -264,7 +283,7 @@
           <hr>
           <div class="text-right pt-2">
             <button class="btn btn-sm btn-outline-secondary mr-2" id="not_fav_cancel">Cancel</button>
-            <button class="btn btn-sm btn-info" id="noti_fav_save">Save</button>
+            <button class="btn btn-sm btn-info" type="submit" id="noti_fav_save">Save</button>
           </div>
         </form>
       </div>
