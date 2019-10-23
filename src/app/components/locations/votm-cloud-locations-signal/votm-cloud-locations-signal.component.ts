@@ -1,3 +1,4 @@
+import { Alert } from './../../../models/alert.model';
 import { AlertsService } from 'src/app/services/alerts/alerts.service';
 import { Component, OnInit, OnDestroy, ViewChild, AfterViewInit, ViewEncapsulation } from '@angular/core';
 import { Location as RouterLocation } from '@angular/common';
@@ -36,7 +37,10 @@ export class VotmCloudLocationsSignalComponent implements OnInit, AfterViewInit 
   curOrganizationName: string;
   @ViewChild('editOP', null) editOPanel: OverlayPanel; // signal association edit modal refference
   @ViewChild('alertOP', null) alertOPanel: OverlayPanel; // signal association alert modal refference
-  alertRules = [];
+  alertRules: Alert[] = [];
+  isAlarmRuleAssociationAPILoading = false;
+  isSignalAssociationAPILoading = false;
+  selectedAlertRule: Alert;
   sensors = [
   ];
   sensorsCreated = null;
@@ -91,6 +95,8 @@ export class VotmCloudLocationsSignalComponent implements OnInit, AfterViewInit 
         if (e.target !== this) {
           return;
         }
+        self.editOPanel.hide();
+        self.alertOPanel.hide();
         if (opt.handle === '') {
           $selected = $(this);
           $selected.addClass(opt.draggableClass);
@@ -515,6 +521,7 @@ export class VotmCloudLocationsSignalComponent implements OnInit, AfterViewInit 
           (parseInt($sensor.css('left'), 10) / ($sensor.parent().width() / 100)).toFixed(2) + '%';
         this.associatedSignals[index].imageCoordinates.y =
           (parseInt($sensor.css('top'), 10) / ($sensor.parent().height() / 100)).toFixed(2) + '%';
+          console.log($sensor);
         $sensor.mouseenter();
         $('#signal-edit-btn-' + sIx + '-' + dsIx + '-' + index).mousedown();
       }
@@ -526,6 +533,9 @@ export class VotmCloudLocationsSignalComponent implements OnInit, AfterViewInit 
 
   onSaveSignalAssociation() {
     console.log(this.associatedSignals);
+    this.editOPanel.hide();
+    this.alertOPanel.hide();
+    this.isSignalAssociationAPILoading = true;
     const data = this.associatedSignals.map(signal => {
       const obj = {
         locationId: this.locationId,
@@ -550,9 +560,12 @@ export class VotmCloudLocationsSignalComponent implements OnInit, AfterViewInit 
           this.sensorsCreated = null;
           this.toaster.onSuccess('Signal associated successfully', 'Saved');
           this.getLocationSignalAssociation();
+          this.isSignalAssociationAPILoading = false;
+          this
 
         }, error => {
           this.toaster.onFailure('Error while saving signal assocition', 'Error');
+          this.isSignalAssociationAPILoading = false;
         }
       );
   }
@@ -586,12 +599,15 @@ export class VotmCloudLocationsSignalComponent implements OnInit, AfterViewInit 
   closeEditOpanel() {
     this.editOPanel.hide();
     this.selectedSignal.sensorEl.children().hide();
-    this.selectedSignal.imageCoordinates.x = (this.selectedSignal.imageCoordinates.x /
-      (this.selectedSignal.sensorEl.parent().width() / 100)).toFixed(2) + '%';
-    this.selectedSignal.imageCoordinates.y = (this.selectedSignal.imageCoordinates.y /
-      (this.selectedSignal.sensorEl.parent().height() / 100)).toFixed(2) + '%';
-    this.selectedSignal.sensorEl.addClass('pad-18');
     this.selectedSignal.sensorEl.mouseleave();
+    setTimeout( () => {
+      this.selectedSignal.imageCoordinates.x = (this.selectedSignal.imageCoordinates.x /
+        (this.selectedSignal.sensorEl.parent().width() / 100)).toFixed(2) + '%';
+      this.selectedSignal.imageCoordinates.y = (this.selectedSignal.imageCoordinates.y /
+        (this.selectedSignal.sensorEl.parent().height() / 100)).toFixed(2) + '%';
+    }, 150);
+    this.selectedSignal.sensorEl.addClass('pad-18');
+    
   }
 
   onDetachSignalFromAsset() {
@@ -623,6 +639,33 @@ export class VotmCloudLocationsSignalComponent implements OnInit, AfterViewInit 
       console.log(this.associatedSignals);
       this.associatedSignals.splice(index, 1);
       console.log(this.associatedSignals);
+    }
+  }
+
+  onClickOfAlarmRuleAssociation() {
+    if (this.selectedSignal.signalMappingId) {
+      this.isAlarmRuleAssociationAPILoading = true;
+      const alertObj = {...this.selectedAlertRule};
+      console.log(alertObj);
+      alertObj.alertRuleSignalMapping = [];
+      alertObj.alertRuleSignalMapping.push({
+        signalMappingId: this.selectedSignal.signalMappingId,
+        active: true
+      });
+      this.alertsService.updateAlertRule(alertObj).subscribe(
+        response => {
+          this.toaster.onSuccess('Alarm Rule associated successfully.', 'Association');
+          this.alertOPanel.hide();
+          this.isAlarmRuleAssociationAPILoading = false;
+        }, error => {
+          this.toaster.onFailure('Error while associating Alarm Rule.', 'Association');
+          this.alertOPanel.hide();
+          this.isAlarmRuleAssociationAPILoading = false;
+        }
+      );
+    } else {
+      this.toaster.onFailure('Please save the signal association first to set the alarm rule association', 'Association');
+      this.alertOPanel.hide();
     }
   }
 

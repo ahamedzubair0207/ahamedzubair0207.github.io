@@ -59,7 +59,7 @@
 }
 .chart-cont {
   border: 1px solid #333;
-  overflow: visible !important;
+  // overflow: visible !important;
 }
 
 .map-settings-edit {
@@ -391,6 +391,18 @@
 }
 
 .ui-overlaypanel-close {
-  margin-top: 8px;
-  margin-right: 8px;
+    /* background-color: #007ad9; */
+    color: #333;
+    width: 1.538em;
+    height: 1.538em;
+    line-height: 1.538em;
+    text-align: center;
+    position: absolute;
+    top: 1em;
+    right: 1.231em;
+    transition: background-color 0.2s;
+}
+
+body .ui-overlaypanel {
+  z-index: 9999!important;
 }
