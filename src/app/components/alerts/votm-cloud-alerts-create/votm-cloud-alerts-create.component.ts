@@ -53,6 +53,8 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
   toaster: Toaster = new Toaster(this.toastr);
   accessScopeName: string;
   uomTypes: any[] = [];
+  uomId: string;
+  uomName: string;
   @ViewChild('confirmBox', null) confirmBox: VotmCloudConfimDialogComponent;
   searchSignalText: any;
   unitToShow: any;
@@ -86,11 +88,13 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
       if (this.alertId) {
         this.alertsService.getAlertByAlertId(this.alertId)
           .subscribe(response => {
-            // console.log('Alert Record', response);
+            // // console.log('Alert Record', response);
             this.alert = response;
             // this.alert.alertRuleUserGroup[0].userId = 'ea8a69d9-50a1-4773-a7ef-324cd33b3296';
             this.userResponsibities = [];
-            this.alert.UomTypeId = response.uomTypeId;
+            this.alert.uomTypeId = response.uomTypeId;
+            this.alert.uomId = response.uomId;
+            this.alert.uomName = response.uomName;
             this.alert.alertRuleTypeId = response.alertRuleTypeId ? response.alertRuleTypeId.toUpperCase() : null;
             if (this.alert.alertRuleUserGroup && this.alert.alertRuleUserGroup.length > 0) {
               this.alert.alertRuleUserGroup.forEach(alertRuleUserGroup => {
@@ -101,6 +105,8 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
                 }
               });
             }
+
+            this.getUserGroupName();
 
             if (this.alert.alertRuleConfigurationMapping && this.alert.alertRuleConfigurationMapping.length) {
               this.alert.alertRuleConfigurationMapping.forEach(configuration => {
@@ -123,7 +129,7 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
               this.checkIfParentsArechecked();
             });
             // this.selectSignals();
-            console.log('NG ONINIT')
+            // console.log('NG ONINIT')
           });
         this.ALertRuleUserGroupSubscriber();
       } else {
@@ -171,7 +177,7 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
   }
 
   onUserSelection(user) {
-    // console.log('Notified User ', user);
+    // // console.log('Notified User ', user);
     let found: boolean = false;
     if (!this.alert.alertRuleUserGroup) {
       this.alert.alertRuleUserGroup = [];
@@ -183,9 +189,9 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
     });
     if (!found) {
       this.userResponsibities[user.userId] = '';
-      this.alert.alertRuleUserGroup.push({ alertUserGroupRoleId: '', name: user.firstName + ' ' + user.lastName, userId: user.userId, userEmail: user.emailId });
+      this.alert.alertRuleUserGroup.splice(0, 0, { alertUserGroupRoleId: '', name: user.firstName + ' ' + user.lastName, userId: user.userId, userEmail: user.emailId });
     }
-    // console.log(' this.alert.alertRuleUserGroup ', this.alert.alertRuleUserGroup);
+    // // console.log(' this.alert.alertRuleUserGroup ', this.alert.alertRuleUserGroup);
   }
 
   checkForUserGroupSelected(tempUserGroupId, type) {
@@ -201,7 +207,7 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
   }
 
   onUserGroupSelection(userGroup) {
-    // console.log('Notified User ', userGroup);
+    // // console.log('Notified User ', userGroup);
     let found: boolean = false;
     if (!this.alert.alertRuleUserGroup) {
       this.alert.alertRuleUserGroup = [];
@@ -213,9 +219,9 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
     });
     if (!found) {
       this.userResponsibities[userGroup.userGroupId] = '';
-      this.alert.alertRuleUserGroup.push({ alertUserGroupRoleId: '', name: userGroup.userGroupName, userGroupId: userGroup.userGroupId });
+      this.alert.alertRuleUserGroup.splice(0,0,{ alertUserGroupRoleId: '', name: userGroup.userGroupName, userGroupId: userGroup.userGroupId });
     }
-    // console.log(' this.alert.alertRuleUserGroup ', this.alert.alertRuleUserGroup);
+    // // console.log(' this.alert.alertRuleUserGroup ', this.alert.alertRuleUserGroup);
   }
 
   getMeticTypes() {
@@ -232,28 +238,30 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
   }
 
   onMetricTypeChange(event) {
-    console.log('event ', event);
+    // console.log('event ', event);
     let userId = '03c7fb47-58ee-4c41-a9d6-2ad0bd43392a';
     let uomTypeId = event;
     let organizationId = this.orgId;
 
     this.alertsService.getUomForSelectedMetricType(organizationId, userId, uomTypeId)
       .subscribe(response => {
-        this.unitToShow = response.uomname;
+        this.unitToShow = response.uomName;
+        this.alert.uomId = response.uomId;
+        this.alert.uomName = response.uomName;
       });
   }
   /*
     // getUserGroupRoles() {
     //   this.alertsService.getUserGroupRoles()
     //     .subscribe(response => {
-    //       console.log('getUserGroupRoles ', response);
+    //       // console.log('getUserGroupRoles ', response);
     //     });
     // } */
 
   getAccessScopeByOrgId() {
     this.alertsService.getAccessScopeByOrgId(this.orgId)
       .subscribe(response => {
-        // console.log('getAccessScopeByOrgId ', response);
+        // // console.log('getAccessScopeByOrgId ', response);
         // accessScopes
         this.accessScopes = [];
         if (response && response.length > 0) {
@@ -267,7 +275,7 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
   getUserGroupRoles() {
     this.alertsService.getUserGroupRoles()
       .subscribe(response => {
-        // console.log('user Roles ', response);
+        // // console.log('user Roles ', response);
         this.userRoles = response;
         // this.userRoles.forEach(tempRole => {
         //   this.userResponsibities[tempRole.roleId] = '';
@@ -286,6 +294,21 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
       });
   }
 
+  getUserGroupName() {
+    if (this.userGroupSubscribers && this.userGroupSubscribers.length > 0 && this.alert.alertRuleUserGroup && this.alert.alertRuleUserGroup.length > 0) {
+      this.alert.alertRuleUserGroup.forEach(userGroupObj => {
+        this.userGroupSubscribers.forEach(subscriber => {
+          if (userGroupObj.userId && subscriber.userId && userGroupObj.userId === subscriber.userId) {
+            userGroupObj.name = subscriber.userName;
+          }
+          if (userGroupObj.userGroupId && subscriber.userGroupId && userGroupObj.userGroupId === subscriber.userGroupId) {
+            userGroupObj.name = subscriber.userGroupName;
+          }
+        });
+      });
+    }
+  }
+
   ALertRuleUserGroupSubscriber() {
     this.alertsService.ALertRuleUserGroupSubscriber(this.alertId)
       .subscribe(response => {
@@ -296,7 +319,8 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
             this.userGroupSubscribers.push(tempUserGroupSubscribers[i]);
           }
         }
-        // console.log('userGroupSubscribers ', this.userGroupSubscribers);
+        this.getUserGroupName();
+        // // console.log('userGroupSubscribers ', this.userGroupSubscribers);
       });
   }
 
@@ -310,35 +334,35 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
         alertConfigurationLabel: 'Low Critical',   // 364F5CB4-B725-4BD9-8DAA-B3B365123454    Low Critical
         alertConfigurationValue: '',
         class: 'alert-danger text-center',
-        active: true
+        active: this.alertId ? false : true
       },
       {
         alertConfigurationId: 'A307C43E-6C4B-47B1-8427-E13788CF4257',
         alertConfigurationLabel: 'Low Warning',  // A307C43E-6C4B-47B1-8427-E13788CF4257    Low Warning
         alertConfigurationValue: '',
         class: 'alert-warning text-center',
-        active: true
+        active: this.alertId ? false : true
       },
       {
         alertConfigurationId: 'F4410D8E-3BA9-40C1-9D23-9414BCA3DABD',
         alertConfigurationLabel: 'Baseline',  // F4410D8E-3BA9-40C1-9D23-9414BCA3DABD    Baseline
         alertConfigurationValue: '',
         class: 'alert-success text-center',
-        active: true
+        active: this.alertId ? false : true
       },
       {
         alertConfigurationId: '6531DB3F-39CC-4459-8680-AAB303A5B188',
         alertConfigurationLabel: 'High Warning',  // 6531DB3F-39CC-4459-8680-AAB303A5B188    High Warning
         alertConfigurationValue: '',
         class: 'alert-warning text-center',
-        active: true
+        active: this.alertId ? false : true
       },
       {
         alertConfigurationId: '4E045A60-4BEE-44B4-9AF9-151725534706',
         alertConfigurationLabel: 'High Critical',   // 4E045A60-4BEE-44B4-9AF9-151725534706    High Critical
         alertConfigurationValue: '',
         class: 'alert-danger text-center',
-        active: true
+        active: this.alertId ? false : true
       },
 
     ];
@@ -347,7 +371,7 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
   getAlertRuleSignalAssociatedAssetByOrgId() {
     this.alertsService.getAlertRuleSignalAssociatedAssetByOrgId(this.orgId, this.alertId)
       .subscribe(response => {
-        // console.log('response ', response);
+        // // console.log('response ', response);
         this.alertRuleSignalAssociatedAsset = response;
         this.createAssetCheckedProperties();
         setTimeout(() => {
@@ -358,7 +382,7 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
   }
 
   createAssetCheckedProperties() {
-    console.log('this.alertRuleSignalAssociatedAsset ', this.alertRuleSignalAssociatedAsset);
+    // console.log('this.alertRuleSignalAssociatedAsset ', this.alertRuleSignalAssociatedAsset);
 
     if (!this.selectedSignals) {
       this.selectedSignals = [];
@@ -402,23 +426,23 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
     }
 
     this.selectSignals();
-    console.log(' this.treeSignalAssociationList ', this.treeSignalAssociationList);
+    // console.log(' this.treeSignalAssociationList ', this.treeSignalAssociationList);
   }
 
   onAssetCollapse(event) {
-    console.log('onAssetCollapse', event);
+    // console.log('onAssetCollapse', event);
     let asset = event.node.data.value;
     this.selectUnselectAssetCheckbox(asset);
   }
 
   onAssetExpand(event) {
-    console.log('onAssetExpand', event);
+    // console.log('onAssetExpand', event);
     let asset = event.node.data.value;
     this.selectUnselectAssetCheckbox(asset);
   }
 
   onSignalFilter() {
-    console.log(this.searchSignalText)
+    // console.log(this.searchSignalText)
     // this.treeSignalAssociationList.forEach
   }
 
@@ -448,7 +472,7 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
   }
 
   onAssetChecked(event, value, parent) {
-    // console.log('value ', value)
+    // // console.log('value ', value)
     let asset;
     if (value) {
       if (value.hasOwnProperty('signalId')) {
@@ -492,7 +516,7 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
         });
       }
     }
-    console.log(this.selectedSignals);
+    // console.log(this.selectedSignals);
   }
 
 
@@ -505,8 +529,8 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
   }
 
   onSignalSelectionChange(event, signalMappingId: string, asset) {
-    // console.log('ASSET ', asset);
-    // console.log('onSignalSelectionChange ', event, signalMappingId);
+    // // console.log('ASSET ', asset);
+    // // console.log('onSignalSelectionChange ', event, signalMappingId);
     if (!this.alert.alertRuleSignalMapping || this.alert.alertRuleSignalMapping.length === 0) {
       this.alert.alertRuleSignalMapping = [];
     }
@@ -523,9 +547,9 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
     }
 
     this.selectUnselectAssetCheckbox(asset);
-    // console.log(this.selectedSignals);
+    // // console.log(this.selectedSignals);
     // this.alert.alertRuleSignalMapping = this.getUniqueValues(this.alert.alertRuleSignalMapping);
-    // console.log('this.alert.alertRuleSignalMapping ', this.alert.alertRuleSignalMapping);
+    // // console.log('this.alert.alertRuleSignalMapping ', this.alert.alertRuleSignalMapping);
   }
 
   selectUnselectAssetCheckbox(asset) {
@@ -544,7 +568,7 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
       let checkBoxId = asset.assetId ? asset.assetId : asset.locationId;
       let checkbox: any = document.getElementById(checkBoxId);
       if (isAssetSelected) {
-        console.log('Interminate', checkbox);
+        // console.log('Interminate', checkbox);
         if (checkbox) {
           checkbox.indeterminate = false;
           checkbox.checked = true;
@@ -561,17 +585,17 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
         });
         if (isSignalFound) {
           // interminate
-          // console.log('Interminate', checkbox);
+          // // console.log('Interminate', checkbox);
           asset.assetId ? this.assetsChecked[asset.assetId] = false : this.assetsChecked[asset.locationId] = false;
           if (checkbox) {
             checkbox.indeterminate = true;
-            // console.log('selected signals ', asset.locationId, this.selectedSignals, tempSignalArray, isAssetSelected, 'interminate');
+            // // console.log('selected signals ', asset.locationId, this.selectedSignals, tempSignalArray, isAssetSelected, 'interminate');
           }
         } else {
           asset.assetId ? this.assetsChecked[asset.assetId] = false : this.assetsChecked[asset.locationId] = false;
           if (checkbox) {
             checkbox.indeterminate = false;
-            // console.log('checkbox ', checkbox.checked)
+            // // console.log('checkbox ', checkbox.checked)
           }
 
           asset.assetId ? this.assetsChecked[asset.assetId] = false : this.assetsChecked[asset.locationId] = false;
@@ -581,25 +605,25 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
   }
 
   onResponsibityChangeForUserGroup(event, userGroup: AlertRuleUserGroup) {
-    console.log('onResponsibityChangeForUserGroup ', event)
+    // console.log('onResponsibityChangeForUserGroup ', event)
     this.alert.alertRuleUserGroup.forEach(alertRuleUserGroup => {
       if (alertRuleUserGroup.userGroupId === userGroup.userGroupId) {
-        console.log(event.target.value);
+        // console.log(event.target.value);
         alertRuleUserGroup.alertUserGroupRoleId = event.target.value;
       }
     });
-    console.log(' this.alert.alertRuleUserGroup ', this.alert.alertRuleUserGroup);
+    // console.log(' this.alert.alertRuleUserGroup ', this.alert.alertRuleUserGroup);
   }
 
   onResponsibityChangeForUserId(event, userGroup: AlertRuleUserGroup) {
-    console.log('onResponsibityChangeForUserId ', event, userGroup);
+    // console.log('onResponsibityChangeForUserId ', event, userGroup);
     this.alert.alertRuleUserGroup.forEach(alertRuleUserGroup => {
       if (alertRuleUserGroup.userId === userGroup.userId) {
-        console.log(event.target.value);
+        // console.log(event.target.value);
         alertRuleUserGroup.alertUserGroupRoleId = event.target.value;
       }
     });
-    console.log(' this.alert.alertRuleUserGroup ', this.alert.alertRuleUserGroup);
+    // console.log(' this.alert.alertRuleUserGroup ', this.alert.alertRuleUserGroup);
     // this.alert.alertRuleUserGroup.forEach(alertRuleUserGroup=>{
     //   if(alertRuleUserGroup.)
     // })
@@ -630,7 +654,7 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
       this.alertsService.updateAlertRule(this.alert)
         .subscribe(response => {
           this.toaster.onSuccess(`${this.alert.alertRuleName} updated successfully`, 'Updated');
-          console.log('response ', response);
+          // console.log('response ', response);
           this.routerLocation.back();
         }, error => {
           this.toaster.onFailure('Something went wrong. Please fill the form correctly', 'Failed');
@@ -639,13 +663,13 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
       this.alertsService.createAlertRule(this.alert)
         .subscribe(response => {
           this.toaster.onSuccess(`${this.alert.alertRuleName} created successfully`, 'Created');
-          console.log('response ', response);
+          // console.log('response ', response);
           this.routerLocation.back();
         }, error => {
           this.toaster.onFailure('Something went wrong. Please fill the form correctly', 'Fail');
         });
     }
-    console.log('onResponsibityChange ', this.alert);
+    // console.log('onResponsibityChange ', this.alert);
   }
 
   notifiedUserModal() {
@@ -668,7 +692,7 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
     if (!this.notifyUsers || this.notifyUsers.length === 0) {
       this.userService.getAllUsers()
         .subscribe(response => {
-          console.log('response Notify Users ', response);
+          // console.log('response Notify Users ', response);
           this.notifyUsers = [];
           this.notifyUsers = response;
         });
@@ -703,7 +727,7 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
   }
 
   onUserGroupDelete(userGroupSubscriber) {
-    console.log(userGroupSubscriber, this.alert.alertRuleUserGroup);
+    // console.log(userGroupSubscriber, this.alert.alertRuleUserGroup);
     let found: boolean;
     let count: number;
     let isUserId: boolean;
@@ -726,9 +750,9 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
       });
       if (found) {
         this.alert.alertRuleUserGroup.splice(count, 1);
-        // console.log(count);
+        // // console.log(count);
       }
     }
-    console.log(userGroupSubscriber, this.alert.alertRuleUserGroup);
+    // console.log(userGroupSubscriber, this.alert.alertRuleUserGroup);
   }
 }

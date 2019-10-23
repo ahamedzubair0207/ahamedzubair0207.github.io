@@ -55,9 +55,9 @@
 
               <div class="lock-tab border border-bottom-0">
 
-                <i class="fa fa-lock edit-view-lock" name="assetlockbutton" *ngIf="pageType.toLowerCase() === 'view'"
+                <i class="icon-lock edit-view-lock" name="assetlockbutton" *ngIf="pageType.toLowerCase() === 'view'"
                   (click)="onLockClick()"></i>
-                <i class="fa fa-unlock edit-view-lock" name="assetunlockbutton"
+                <i class="icon-lock-open edit-view-lock" name="assetunlockbutton"
                   *ngIf="pageType.toLowerCase() === 'edit'" (click)="onLockClick()"></i>
 
               </div>
@@ -130,11 +130,18 @@
                     <label class="" id="assetIcon">Icon</label>
                     <!-- <div class="selectpicker drop-down"> -->
 
-                    <ng-select id="iconDropDown" class="custom" [searchable]="false" [clearable]="false"
-                      placeholder="Choose Icon">
-                      <ng-option value="company"><i class="icon-asset-motor-tmpl"></i></ng-option>
-                      <ng-option value="company"><i class="icon-asset-motor"></i></ng-option>
-                      <ng-option value="company"><i class="icon-asset-robot"></i></ng-option>
+                    <ng-select id="iconDropDown" 
+                      placeholder="Choose Icon"
+                      name= "assetLogo"
+                      labelForId="assetIcon"
+                      class="custom"
+                      [searchable]="false"
+                      [(ngModel)]="selAssetIcon"
+                      [disabled]="pageType==='View'"
+                      [clearable]="false">
+                      <ng-option value="asset"><i class="icon-asset-motor-tmpl"></i></ng-option>
+                      <ng-option value="motor"><i class="icon-asset-motor"></i></ng-option>
+                      <ng-option value="robot"><i class="icon-asset-robot"></i></ng-option>
                     </ng-select>
                     <!-- <select class="selectpicker form-control-sm form-control" data-style-base="form-control">
                         <option data-icon="icon-org-company"></option>

@@ -4,9 +4,9 @@
             <div class="col-md-6">
                 <h5>Alert Rule Configuration</h5>
             </div>
-            <i class="fa fa-lock edit-view-lock" id="view-lock" name="lockTogglebutton"
+            <i class="icon-lock edit-view-lock" id="view-lock" name="lockTogglebutton"
                 *ngIf="pageType.toLowerCase() === 'view'" (click)="onLockClick()"></i>
-            <i *ngIf="pageType.toLowerCase() === 'edit'" class="fa fa-unlock edit-view-lock" id="edit-lock"
+            <i *ngIf="pageType.toLowerCase() === 'edit'" class="icon-lock-open edit-view-lock" id="edit-lock"
                 name="unlockTogglebutton" (click)="onLockClick()"></i>
         </div>
         <div class="form-group row">
@@ -30,7 +30,7 @@
                     <div class="">
                         <ng-select id="metricTypeDropDown" class="custom" [disabled]="pageType==='View'"
                             [ngStyle]="{'background-color':pageType==='View'?'#e9ecef':'#fff'}" [multiple]="false"
-                            name="metricType" (change)="onMetricTypeChange($event)" [(ngModel)]="alert.UomTypeId"
+                            name="metricType" (change)="onMetricTypeChange($event)" [(ngModel)]="alert.uomTypeId"
                             placeholder="Choose Type">
                             <ng-option value="null" disabled selected>Metric Type</ng-option>
                             <ng-option *ngFor="let metricType of metricTypes" [value]="metricType.id">
@@ -479,7 +479,7 @@
                                         </select>
                                     </td> -->
                                         <td class="text-center"><a style="cursor: pointer;"
-                                                (click)="onUserGroupDelete(userGroupSubscriber)" id="removeUsers"><i
+                                                (click)="onUserGroupDelete(userGroupSubscriber)" id="removeUsers" ng-disabled='true'><i 
                                                     class="icon-trash"></i></a></td>
                                     </tr>
                                 </tbody>

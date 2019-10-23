@@ -99,9 +99,9 @@
 
               <div class="lock-tab border border-bottom-0">
 
-                <i class="fa fa-lock edit-view-lock" name="loclockbutton" *ngIf="pageType.toLowerCase() === 'view'"
+                <i class="icon-lock edit-view-lock" name="loclockbutton" *ngIf="pageType.toLowerCase() === 'view'"
                   (click)="onLockClick()"></i>
-                <i class="fa fa-unlock edit-view-lock" name="locunlockbutton" *ngIf="pageType.toLowerCase() === 'edit'"
+                <i class="icon-lock-open edit-view-lock" name="locunlockbutton" *ngIf="pageType.toLowerCase() === 'edit'"
                   (click)="onLockClick()"></i>
 
               </div>
@@ -198,14 +198,18 @@
 
                       <ng-select 
                       id="iconDropDown"
+                      name= "locLogo"
+                      labelForId="locIcon"
                       class="custom"
                       [searchable]="false"
+                      [(ngModel)]="selLocIcon"
+                      [disabled]="pageType==='View'"
                       [clearable]="false">
                         <ng-option value="company"><i class="icon-location"></i></ng-option>
-                        <ng-option value="company"><i class="icon-loc-pin-map"></i></ng-option>
-                        <ng-option value="company"><i class="icon-loc-pin-factory"></i></ng-option> 
-                        <ng-option value="company"><i class="icon-loc-floor-plan"></i></ng-option>
-                        <ng-option value="company"><i class="icon-loc-pin-floor-plan"></i></ng-option>
+                        <ng-option value="map"><i class="icon-loc-pin-map"></i></ng-option>
+                        <ng-option value="factory"><i class="icon-loc-pin-factory"></i></ng-option> 
+                        <ng-option value="floor"><i class="icon-loc-floor-plan"></i></ng-option>
+                        <ng-option value="locFloor"><i class="icon-loc-pin-floor-plan"></i></ng-option>
                       </ng-select>
                   </div>
                 </div>

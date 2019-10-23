@@ -1,8 +1,10 @@
 export class Alert {
     alertRuleId: string;
     alertRuleName: string; //Alert Rule Name
-    //Ahamed Code
-    UomTypeId: string;
+    // UomTypeId: string;
+    uomTypeId: string;
+    uomId: string;
+    uomName: string;
     // alertTypeId: string; // Drop Down for Metric Type
     alertRuleTypeId: string; // Rule Type
     organizationScopeId: string; // Access Scope 
