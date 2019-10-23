@@ -36,6 +36,7 @@ export class VotmCloudAdminUserManagementComponent implements OnInit, OnDestroy 
   @ViewChild('confirmUserStatus', null) confirmUserStatus: VotmCloudConfimDialogComponent;
   confirmUserStatusMessage = '';
   confirmDelUserMessage = '';
+  customizePermissionsModal: any;
   userModal: any;
   grantGuestAccessModal: any;
 
@@ -209,6 +210,21 @@ export class VotmCloudAdminUserManagementComponent implements OnInit, OnDestroy 
     this.selectedUserForGuestAccess = undefined;
   }
 
+  onClickOfCustomizePermissions() {
+    const modal = document.getElementById('cus_data_per');
+    modal.style.display = 'block';
+    this.customizePermissionsModal = document.getElementById('cus_data_per');
+    window.onclick =  (event) => {
+      if (event.target === modal) {
+        modal.style.display = 'none';
+      }
+    };
+  }
+
+  onClickOfCustomizePermissionModalClose() {
+    this.customizePermissionsModal.style.display = 'none';
+  }
+
   onClickOfEditUser(user) {
     this.pageType = 'edit';
     this.userService.getUserDetail(user.userId).subscribe(
@@ -298,6 +314,9 @@ export class VotmCloudAdminUserManagementComponent implements OnInit, OnDestroy 
     }
     if (this.grantGuestAccessModal) {
       this.grantGuestAccessModal.style.display = 'none';
+    }
+    if (this.customizePermissionsModal) {
+      this.customizePermissionsModal.style.display = 'none';
     }
   }
 }

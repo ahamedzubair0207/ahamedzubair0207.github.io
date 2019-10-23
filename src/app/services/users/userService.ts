@@ -59,7 +59,7 @@ export class UserService {
     }
 
     deleteUser(userId: string) {
-        return this.http.delete(AppConstants.DELETE_USER + '/' + userId, {});
+        return this.http.delete(AppConstants.DELETE_USER + '?userId=' + userId, {});
     }
 
     addUserGuestOrganization(userGuestOrgObj) {
