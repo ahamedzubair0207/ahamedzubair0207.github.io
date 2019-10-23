@@ -106,10 +106,12 @@ span {
   
   /* Dropdown container (hidden by default). Optional: add a lighter background color and some left padding to change the design of the dropdown content */
   .dropdown-container {
-    background-color: #00aaac;
+    background-color: transparent;
     padding-left: 8px;
   }
-
+    .dropdown-container li a{
+        padding-left: 20px !important;
+    }
   .display-block {
       display: block;
   }

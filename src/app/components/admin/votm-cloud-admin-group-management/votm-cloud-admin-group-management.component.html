@@ -46,23 +46,20 @@
               <td>sean.haley@parker.com</td>
               <td>612-213-3456</td>
               <td class="text-center">
-                <a id="user_check_{{userIndex}}" class="mr-2" [title]="user.active ? 'Active' : 'Deactive'" data-toggle="tooltip">
-                  <i [ngClass]="user.active ? 'fa fa-check-circle' : 'fa fa-ban'" ></i>
+                <a  class="mr-2" >
+                  <i class="fa fa-check-circle" ></i>
                 </a>
-                <a id="user_edit_{{userIndex}}" class="mr-2" data-toggle="modal" data-target="#cus_add_user"
-                  data-backdrop="static" data-keyboard="false" (click)="onClickOfEditUser(user)">
+                <a class="mr-2" data-toggle="modal" >
                   <i class="icon-edit"></i>
                 </a>
-                <a id="user_delete_{{userIndex}}" (click)="onClickOfDeleteUser(user)" class="mr-2" >
+                <a class="mr-2" >
                   <i class="icon-trash"></i>
                 </a>
               </td>
 
             </tr>
           <!-- </ng-container> -->
-          <tr *ngIf="!isGetUsersAPILoading && users.length === 0" >
-            <td  class="text-center" colspan="9">No data found.</td>
-          </tr>
+          
         </tbody>
       </table>
     </div>

@@ -115,37 +115,7 @@ export class VotmCloudPreferencesComponent implements OnInit, AfterViewInit {
 
 
   ngAfterViewInit() {
-    // const fixHelperModified = function(e, tr) {
-    //   console.log('sdgdfgghj');
-    //   const $originals = tr.children();
-    //   const $helper = tr.clone();
-    //   $helper.children().each(function(index) {
-    //     $(this).width($originals.eq(index).width());
-    //   });
-    //   return $helper;
-    // };
-    // const updateIndex = function (e, ui) {
-    //   console.log('aaaaaaaaaaaaa');
-    //   $('td.index', ui.item.parent()).each(function(i) {
-    //     $(this).html(i + 1 + '');
-    //   });
-    //   $('input[type=text]', ui.item.parent()).each(function(i) {
-    //     $(this).val(i + 1);
-    //   });
-    // };
 
-    // $('#myTable tbody').sortable({
-    //   helper: fixHelperModified,
-    //   stop: updateIndex
-    // }).disableSelection();
-
-    // $('tbody').sortable({
-    //   distance: 5,
-    //   delay: 100,
-    //   opacity: 0.6,
-    //   cursor: 'move',
-    //   update: function () { }
-    // });
   }
 
   getUserDetailInfo() {
@@ -306,8 +276,44 @@ export class VotmCloudPreferencesComponent implements OnInit, AfterViewInit {
           // this.userprofile.logo.imageType = this.fileExtension;
         }
          console.log('getUserDetailInfo user details---' + this.userId + JSON.stringify(this.userprofile));
+         this.getFavoriteDraggbleRow();
       });
 
+  }
+
+  getFavoriteDraggbleRow() {
+    setTimeout(() => {
+      const fixHelperModified = function(e, tr) {
+        const $originals = tr.children();
+        const $helper = tr.clone();
+        $helper.children().each(function(index) {
+          $(this).width($originals.eq(index).width());
+        });
+        return $helper;
+      };
+      const updateIndex = function (e, ui) {
+        $('td.index', ui.item.parent()).each(function(i) {
+          $(this).html(i + 1 + '');
+        });
+        $('input.favoriteOrder', ui.item.parent()).each(function(i) {
+          $(this).val(i + 1);
+        });
+      };
+
+      $('#myTable tbody').sortable({
+        helper: fixHelperModified,
+        stop: updateIndex
+      }).disableSelection();
+
+      $('#myTable tbody').sortable({
+        distance: 5,
+        delay: 100,
+        opacity: 0.6,
+        cursor: 'move',
+        update: function () { }
+      });
+
+    }, 1000);
   }
 
   getAllUserRoles() {
@@ -345,12 +351,12 @@ export class VotmCloudPreferencesComponent implements OnInit, AfterViewInit {
 
   onEditFavorite(favId: any) {
     // for toggle disabled
-    // if (this.userprofile.userFavorites[favId].disabled) {
-    //   this.userprofile.userFavorites[favId].disabled = false;
-    // } else {
-    //   this.userprofile.userFavorites[favId].disabled = true;
-    // }
-    this.userprofile.userFavorites[favId].disabled = true;
+    if (this.userprofile.userFavorites[favId].disabled) {
+      this.userprofile.userFavorites[favId].disabled = false;
+    } else {
+      this.userprofile.userFavorites[favId].disabled = true;
+    }
+    // this.userprofile.userFavorites[favId].disabled = true;
   }
 
   onUserNotificationSave() {

@@ -68,14 +68,14 @@ export const MENU_ITEMS: Array<{ id: string, enabled: boolean, url: string, icon
                 enabled: true,
                 url: 'admin/networkmanagement',
                 icon: 'menu-icon fa fa-globe',
-                name: 'Network Managment'
+                name: 'Network Management'
             },
             {
                 id: 'user',
                 enabled: true,
                 url: 'admin/usermanagement',
                 icon: 'menu-icon fa fa-user',
-                name: 'User Managment'
+                name: 'User Management'
             },
         ]
     },

@@ -36,6 +36,7 @@ export class VotmCloudAdminUserManagementComponent implements OnInit, OnDestroy 
   @ViewChild('confirmUserStatus', null) confirmUserStatus: VotmCloudConfimDialogComponent;
   confirmUserStatusMessage = '';
   confirmDelUserMessage = '';
+  customizePermissionsModal: any;
   userModal: any;
   grantGuestAccessModal: any;
 
@@ -153,14 +154,14 @@ export class VotmCloudAdminUserManagementComponent implements OnInit, OnDestroy 
     console.log(JSON.stringify(userObj));
     userSubmitMethod.subscribe(
       response => {
-        this.toaster.onSuccess('Successfully ' + this.pageType === 'add' ? 'created' : 'updated',
+        this.toaster.onSuccess('Successfully ' + (this.pageType === 'add' ? 'created' : 'updated'),
           this.pageType === 'add' ? 'Created' : 'Updated');
         this.isCreateUserAPILoading = false;
         this.onClickOfCloseAddUserModal();
         this.getUsers();
       }, error => {
         this.isCreateUserAPILoading = false;
-        this.toaster.onFailure('Error while ' +  this.pageType === 'add' ? 'creating' : 'updating' + ' User',
+        this.toaster.onFailure('Error while ' +  (this.pageType === 'add' ? 'creating' : 'updating') + ' User',
           this.pageType === 'add' ? 'Created' : 'Updated');
       }
     );
@@ -209,6 +210,21 @@ export class VotmCloudAdminUserManagementComponent implements OnInit, OnDestroy 
     this.selectedUserForGuestAccess = undefined;
   }
 
+  onClickOfCustomizePermissions() {
+    const modal = document.getElementById('cus_data_per');
+    modal.style.display = 'block';
+    this.customizePermissionsModal = document.getElementById('cus_data_per');
+    window.onclick =  (event) => {
+      if (event.target === modal) {
+        modal.style.display = 'none';
+      }
+    };
+  }
+
+  onClickOfCustomizePermissionModalClose() {
+    this.customizePermissionsModal.style.display = 'none';
+  }
+
   onClickOfEditUser(user) {
     this.pageType = 'edit';
     this.userService.getUserDetail(user.userId).subscribe(
@@ -233,6 +249,10 @@ export class VotmCloudAdminUserManagementComponent implements OnInit, OnDestroy 
             modal.style.display = 'none';
           }
         };
+      }, error => {
+        if (!user.status) {
+          this.toaster.onFailure('Edit functionality is not available for Deactivated user.', 'Association');
+        }
       }
     );
   }
@@ -298,6 +318,9 @@ export class VotmCloudAdminUserManagementComponent implements OnInit, OnDestroy 
     }
     if (this.grantGuestAccessModal) {
       this.grantGuestAccessModal.style.display = 'none';
+    }
+    if (this.customizePermissionsModal) {
+      this.customizePermissionsModal.style.display = 'none';
     }
   }
 }
