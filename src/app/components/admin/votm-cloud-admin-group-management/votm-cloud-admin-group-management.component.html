@@ -46,23 +46,20 @@
               <td>sean.haley@parker.com</td>
               <td>612-213-3456</td>
               <td class="text-center">
-                <a id="user_check_{{userIndex}}" class="mr-2" [title]="user.active ? 'Active' : 'Deactive'" data-toggle="tooltip">
-                  <i [ngClass]="user.active ? 'fa fa-check-circle' : 'fa fa-ban'" ></i>
+                <a  class="mr-2" >
+                  <i class="fa fa-check-circle" ></i>
                 </a>
-                <a id="user_edit_{{userIndex}}" class="mr-2" data-toggle="modal" data-target="#cus_add_user"
-                  data-backdrop="static" data-keyboard="false" (click)="onClickOfEditUser(user)">
+                <a class="mr-2" data-toggle="modal" >
                   <i class="icon-edit"></i>
                 </a>
-                <a id="user_delete_{{userIndex}}" (click)="onClickOfDeleteUser(user)" class="mr-2" >
+                <a class="mr-2" >
                   <i class="icon-trash"></i>
                 </a>
               </td>
 
             </tr>
           <!-- </ng-container> -->
-          <tr *ngIf="!isGetUsersAPILoading && users.length === 0" >
-            <td  class="text-center" colspan="9">No data found.</td>
-          </tr>
+          
         </tbody>
       </table>
     </div>
@@ -78,7 +75,7 @@
       </div>
       <div class="modal-body">
         <div class="row">
-          <div class="col-12 col-md-6 col-lg-4 col-xl-4">
+          <div class="col-12 col-md-12 col-lg-4 col-xl-4">
             <div class="form-group">
               <label for="" class=""><span class="text-danger">*</span>Group Name</label>
               <div class="">
@@ -86,7 +83,7 @@
               </div>
             </div>
           </div>
-          <div class="col-12 col-md-6 col-lg-8 col-xl-8 text-right">
+          <div class="col-12 col-md-12 col-lg-8 col-xl-8 text-right">
             <div class="form-group row">
               <label class="col-sm-4 col-form-label">Find User</label>
               <div class="col-sm-8 mb-3">
@@ -99,7 +96,7 @@
                 </div>
               </div>
             
-            <div class="col-12 col-md-6 col-lg-12 col-xl-12 text-right ml-auto">
+            <div class="col-12 col-md-12 col-lg-12 col-xl-12 text-right ml-auto">
                 <button class="btn btn-sm btn-info mr-2" id="custom_permission_btn" type="button" data-toggle="modal" data-target="#cus-data-per" >Customize Data Permissions</button>
                 <button class="btn btn-sm btn-info" id="" type="button" data-toggle="modal" data-target="#noti-deli-sche"><i class="fa fa-calander mr-1"></i>Set Notification Delivery Schedule</button>
             </div>

@@ -24,13 +24,16 @@
                     <div class="col-md-6">
                       <input type="text" class="form-control form-control-sm" id="noti_fn" placeholder="First name"
                         name="firstName" #firstName="ngModel" [(ngModel)]="userprofile.firstName" required>
-                      <div *ngIf="userPreferenceForm.submitted && firstName.invalid" class="invalid-feedback">
-                        <div *ngIf="firstName.errors.required">First name is required</div>
+                      <div *ngIf="firstName.dirty && firstName.invalid">
+                        <app-votm-cloud-validator message="First Name is required"></app-votm-cloud-validator>
                       </div>
                     </div>
                     <div class="col-md-6">
                       <input type="text" class="form-control form-control-sm" id="noti_ln" placeholder="Last name"
-                        name="lastName" [(ngModel)]="userprofile.lastName">
+                        name="lastName" #lastName="ngModel" [(ngModel)]="userprofile.lastName" required>
+                      <div *ngIf="lastName.dirty && lastName.invalid">
+                        <app-votm-cloud-validator message="Last Name is required"></app-votm-cloud-validator>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -40,7 +43,15 @@
                       <label for="noti_email" class="">Email</label>
                       <div class="">
                         <input type="email" class="form-control form-control-sm" id="noti_email" placeholder="email"
-                          name="emailId" [(ngModel)]="userprofile.emailId">
+                          name="emailId" #emailId="ngModel" [(ngModel)]="userprofile.emailId" required email>
+                        <div *ngIf="emailId.dirty && emailId.invalid">
+                          <app-votm-cloud-validator
+                            *ngIf="emailId.errors && emailId.errors.required"
+                            message="Email is required"></app-votm-cloud-validator>
+                          <app-votm-cloud-validator
+                            *ngIf="emailId.errors && emailId.errors.email"
+                            message="Please Enter valid email id"></app-votm-cloud-validator>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -48,8 +59,15 @@
                     <div class="form-group">
                       <label for="noti_ph" class="">Phone Number</label>
                       <div class="">
-                        <input type="text" class="form-control form-control-sm" id="noti_ph"
-                          placeholder="+1 (763) 123-456" name="phoneNumber" [(ngModel)]="userprofile.phoneNumber">
+                        <input type="text" class="form-control form-control-sm" id="noti_ph" placeholder="+1 (763) 123-456"
+                          #phoneNumber="ngModel" name="phoneNumber" [(ngModel)]="userprofile.phoneNumber" OnlyNumber="true" maxlength="16" required>
+                          <div *ngIf="phoneNumber.dirty && phoneNumber.invalid">
+                            <app-votm-cloud-validator *ngIf="phoneNumber.errors && phoneNumber.errors.required"
+                              message="Phone Number is required"></app-votm-cloud-validator>
+                          </div>
+                          <app-votm-cloud-char-validator
+                            [condition]="userprofile.phoneNumber && userprofile.phoneNumber.length>=17">
+                          </app-votm-cloud-char-validator>
                       </div>
                     </div>
                   </div>
@@ -95,7 +113,7 @@
                     <div class="row">
                       <div class="col-md-4">
                         <div class="form-group">
-                          <label for="noti_pre_lan" class="">Language</label>
+                          <label for="noti_pre_lan" class="">Locale</label>
                           <div class="">
                             <select required #language="ngModel" id="DefaultLang"
                               [(ngModel)]="userprofile.userConfigSettings[0].localeId" name="language"
@@ -167,8 +185,8 @@
                 <table class="table table-bordered table-sm table-hover mb-3" id="myTable">
                   <thead class="thead-dark">
                     <tr>
-                      <th>Favorite Name</th>
                       <th class="text-center">Order</th>
+                      <th>Favorite Name</th>
                       <th>Action</th>
                     </tr>
                   </thead>
@@ -177,15 +195,16 @@
                       <td colspan="2"> No Favorites data found.</td>
                     </tr>
                     <tr *ngFor="let userFav of userprofile.userFavorites; let i = index" id="{{userFav.favoriteOrder}}">
+                      <td class="index text-center">{{ userFav.favoriteOrder}}</td>
                       <td>
                         <input type="text" class="form-control form-control-sm" [disabled]="!userFav.disabled"
                           name="favName{{userFav.favoriteOrder}}" [(ngModel)]="userFav.favoriteName" required>
+                        <input type="hidden" class="favoriteOrder" name="{{userFav.favoriteOrder}}" [(ngModel)]="userFav.favoriteOrder">
                       </td>
-                      <td class="index text-center">{{ userFav.favoriteOrder}}</td>
-                      <td><a class="action-icon" title="Edit">
+                      <td><a class="action-icon" title="Edit Favorite" style="cursor: pointer;">
                           <i class="icon-edit" (click)="onEditFavorite(i)"></i>
                         </a>
-                        <a class="action-icon" title="Delete">
+                        <a class="action-icon" title="Delete Favorite"  style="cursor: pointer;">
                           <i class="icon-trash"></i></a>
                       </td>
                     </tr>
@@ -264,7 +283,7 @@
           <hr>
           <div class="text-right pt-2">
             <button class="btn btn-sm btn-outline-secondary mr-2" id="not_fav_cancel">Cancel</button>
-            <button class="btn btn-sm btn-info" id="noti_fav_save">Save</button>
+            <button class="btn btn-sm btn-info" type="submit" id="noti_fav_save">Save</button>
           </div>
         </form>
       </div>
@@ -361,7 +380,7 @@
         </form>
         <!-- Modal HTML -->
         <div id="myModal" class="modal fade" tabindex="-1">
-          <div class="modal-dialog modal-xl modal-dialog-scrollable">
+          <div class="modal-dialog modal-xl ">
             <div class="modal-content">
               <div class="modal-header">
                 <h5 class="modal-title">Notification Delivery Schedule</h5>
@@ -399,7 +418,7 @@
                   </thead>
                   <tbody>
                     <tr>
-                      <td class="text-center">1</td>
+                      <td class="text-center">1:00</td>
                       <td class="text-center"></td>
                       <td class="text-center active-cell"></td>
                       <td class="text-center"></td>
@@ -416,7 +435,7 @@
                       <td class="text-center"></td>
                     </tr>
                     <tr>
-                      <td class="text-center">2</td>
+                      <td class="text-center">2:00</td>
                       <td class="text-center"></td>
                       <td class="text-center"></td>
                       <td class="text-center"></td>
@@ -433,7 +452,7 @@
                       <td class="text-center"></td>
                     </tr>
                     <tr>
-                      <td class="text-center">3</td>
+                      <td class="text-center">3:00</td>
                       <td class="text-center"></td>
                       <td class="text-center"></td>
                       <td class="text-center"></td>
@@ -450,7 +469,7 @@
                       <td class="text-center"></td>
                     </tr>
                     <tr>
-                      <td class="text-center">4</td>
+                      <td class="text-center">4:00</td>
                       <td class="text-center"></td>
                       <td class="text-center"></td>
                       <td class="text-center"></td>
@@ -467,7 +486,7 @@
                       <td class="text-center"></td>
                     </tr>
                     <tr>
-                      <td class="text-center">5</td>
+                      <td class="text-center">5:00</td>
                       <td class="text-center"></td>
                       <td class="text-center"></td>
                       <td class="text-center"></td>
@@ -484,7 +503,7 @@
                       <td class="text-center"></td>
                     </tr>
                     <tr>
-                      <td class="text-center">6</td>
+                      <td class="text-center">6:00</td>
                       <td class="text-center"></td>
                       <td class="text-center"></td>
                       <td class="text-center"></td>
@@ -501,7 +520,7 @@
                       <td class="text-center"></td>
                     </tr>
                     <tr>
-                      <td class="text-center">7</td>
+                      <td class="text-center">7:00</td>
                       <td class="text-center"></td>
                       <td class="text-center"></td>
                       <td class="text-center"></td>
@@ -518,7 +537,7 @@
                       <td class="text-center"></td>
                     </tr>
                     <tr>
-                      <td class="text-center">8</td>
+                      <td class="text-center">8:00</td>
                       <td class="text-center"></td>
                       <td class="text-center"></td>
                       <td class="text-center"></td>
@@ -535,7 +554,7 @@
                       <td class="text-center"></td>
                     </tr>
                     <tr>
-                      <td class="text-center">9</td>
+                      <td class="text-center">9:00</td>
                       <td class="text-center"></td>
                       <td class="text-center"></td>
                       <td class="text-center"></td>
@@ -552,7 +571,7 @@
                       <td class="text-center"></td>
                     </tr>
                     <tr>
-                      <td class="text-center">10</td>
+                      <td class="text-center">10:00</td>
                       <td class="text-center"></td>
                       <td class="text-center"></td>
                       <td class="text-center"></td>
@@ -569,7 +588,7 @@
                       <td class="text-center"></td>
                     </tr>
                     <tr>
-                      <td class="text-center">11</td>
+                      <td class="text-center">11:00</td>
                       <td class="text-center"></td>
                       <td class="text-center"></td>
                       <td class="text-center"></td>
@@ -586,7 +605,7 @@
                       <td class="text-center"></td>
                     </tr>
                     <tr>
-                      <td class="text-center">12</td>
+                      <td class="text-center">12:00</td>
                       <td class="text-center"></td>
                       <td class="text-center"></td>
                       <td class="text-center"></td>
@@ -640,7 +659,7 @@
                   <th scope="col" class="align-left table-col-small">Rule Owner</th>
                   <th scope="col" class="align-left table-col-small">Associations</th>
                   <th scope="col" class="align-left table-col-small">Notifications</th>
-                  <th scope="col" class="align-center">Actions</th>
+                  <!-- <th scope="col" class="align-center">Actions</th> -->
                 </tr>
               </thead>
               <tr *ngFor="let item of alertList">
@@ -653,14 +672,14 @@
                 <td class="align-left">{{item.organizationScopeName}}</td>
                 <td class="align-left">{{item.numberofSignalAssociated}}</td>
                 <td class="align-left">{{item.numberofUserAssociated}}</td>
-                <td class="align-center">
+                <!-- <td class="align-center">
                   <a style="color: #212529;" class="action-icon" title="Edit" (click)="onEditViewClick(item)">
                     <i class="icon-edit pr-1"></i>
                   </a>
                   <a class="action-icon" (click)="openConfirmDialog(item.id, item.name)" title="Delete">
                     <i class="icon-trash"></i>
                   </a>
-                </td>
+                </td> -->
               </tr>
             </table>
           </div>

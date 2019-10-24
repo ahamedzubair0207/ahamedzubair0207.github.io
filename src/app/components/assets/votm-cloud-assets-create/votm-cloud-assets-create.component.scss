@@ -200,6 +200,61 @@ a:hover {
 
 .position-absolute {
   position: absolute;
-  font-size: large;
 }
 
+// .sensor-circle {
+//   position: absolute;
+//   height: 30px;
+//   white-space: nowrap;
+//   line-height: 30px;
+//   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+//   font-size: 14px;
+//   font-weight: bold;
+//   color: #333;
+//   text-shadow: none;
+//   padding-left: 35px;
+//   padding-right: 10px;
+//   background-color: #fff;
+//   border: 1px solid #000;
+//   border-radius: 15px;
+//   text-align: left;
+//   text-overflow: ellipsis;
+//   z-index: 5;
+//   margin-left: -15px;
+//   margin-top: -15px;
+// }
+
+ .sensor-circle {
+  cursor: move;
+}
+
+.sensor-circle {
+  position: absolute;
+  left: -1px;
+  top: -1px;
+  height: 30px;
+  width: 30px;
+  line-height: 29px;
+  font-size: 1rem;
+  color: #333;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
+  text-align: center;
+  text-indent: 1px;
+  background-color: rgba(200, 200, 200, 0.85);
+  border: 1px solid rgba(128, 128, 128, 1);
+  border-radius: 15px;
+}
+
+
+.draggable.sensor-circle {
+  width: 30px !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  min-width: initial !important;
+  max-width: initial !important;
+  border-radius: 15px;
+  color: transparent;
+  background-color: transparent;
+  opacity: 0.7;
+  z-index: 100;
+}

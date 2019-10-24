@@ -561,11 +561,11 @@
                       <div class="form-group"
                         *ngIf="orgId && applicationConfiguration || !orgId && applicationConfiguration ">
                         <!-- <div class="form-group" *ngIf="!orgId && applicationConfiguration"> -->
-                        <label class="" votmrequired id="DefaultLangLbl">{{pageLabels.Language.labelName}}:</label>
+                        <label class="" votmrequired id="DefaultLangLbl">Locale:</label>
                         <div class="">
                         <ng-select id="DefaultLang" class="custom" required
                         [multiple]="false" [(ngModel)]="organization.localeId" name="organization.localeId"
-                        #defLanguage="ngModel" (change)="onLocaleChange()" placeholder="Select Language" [disabled]="pageType==='View'">
+                        #defLanguage="ngModel" (change)="onLocaleChange()" placeholder="Select Locale" [disabled]="pageType==='View'">
                     <ng-option value="null" disabled selected>Language</ng-option>
                       <ng-option
                       *ngFor="let locale of applicationConfiguration.locale" [value]="locale.localeId">{{locale.localeName}}</ng-option>
@@ -727,16 +727,17 @@
 
                 <!-- This Button should be on Right  -->
                 <!-- <div class="text-right"> -->
-                <button id="org-save" type="submit" *ngIf="pageType !=='View'" class="btn btn-sm button-right btn-info">
-                  Save
-                  Organization<i class="fa fa-spinner fa-spin fa-fw" *ngIf="isAddOrganizationAPILoading"></i>
-                </button>
+                  <button id="org-save" type="submit" *ngIf="pageType !=='View'" class="btn btn-sm button-right btn-info">
+                    <i class="icon-org-company"></i>Save Organization<i class="fa fa-spinner fa-spin fa-fw" *ngIf="isAddOrganizationAPILoading"></i>
+                  </button>
+                  <button id="org-delete" *ngIf="organization.organizationId && pageType !=='View'" type="button"
+                  class="btn btn-secondary btn-sm button-right mr-2" (click)="openConfirmDialog()"><i class="icon-trash"></i>
+                  Delete</button>
                 <button id="org-cancel" type="button" (click)="onCancelClick($event)"
                   class="btn btn-outline-secondary btn-sm button-right mr-2">
                   Cancel</button>
-                <button id="org-delete" *ngIf="organization.organizationId && pageType !=='View'" type="button"
-                  class="btn btn-secondary btn-sm button-right mr-2" (click)="openConfirmDialog()">
-                  Delete</button>
+                
+                  
 
                 <!-- </div> -->
               </div>

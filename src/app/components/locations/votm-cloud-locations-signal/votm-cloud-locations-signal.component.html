@@ -12,12 +12,14 @@
     <button id="asset-cancel" for="form-cancel" type="button" (click)="onCancelClick($event)"
       class="btn btn-outline-secondary btn-sm mr-2">Cancel</button>
     <button id="loc-signal-association-save" type="button" class="btn btn-info btn-sm" (click)="onSaveSignalAssociation()"
-      [disabled]="associatedSignals.length === 0">Save</button>
+      [disabled]="associatedSignals.length === 0 || isSignalAssociationAPILoading">
+      Save<i *ngIf="isSignalAssociationAPILoading" class="fa fa-spinner fa-spin fa-fw"></i>
+    </button>
   </div>
 
 </div>
 
-<p-overlayPanel #editOP [appendTo]="'body'" [style]="{ 'width' : '300px'}" [dismissable]="false"
+<p-overlayPanel #editOP [appendTo]="'body'" [style]="{ 'width' : '300px', 'z-index': '9999!important'}" [dismissable]="false"
 [showCloseIcon]="true">
   <div class="row"  *ngIf="selectedSignal">
     <div class="col-md-12">
@@ -38,7 +40,7 @@
                   <div class="form-group">
                     <label class="temp" id="edit-panel-x-label">Position: &nbsp; X</label>
                     <div class="">
-                      <input type="text" id="edit-panel-position-x" class="form-control form-control-sm" [(ngModel)]="selectedSignal.imageCoordinates.x" placeholder="Enter Postion X">
+                      <input type="text" id="edit-panel-position-x" class="form-control form-control-sm" [(ngModel)]="selectedSignal.imageCoordinates.xPixels" placeholder="Enter Postion X">
                     </div>
                   </div>
                 </div>
@@ -46,7 +48,7 @@
                   <div class="form-group">
                     <label class="temp" id="edit-panel-y-label">Position: &nbsp; Y</label>
                     <div class="">
-                      <input type="text" id="edit-panel-position-y" class="form-control form-control-sm" [(ngModel)]="selectedSignal.imageCoordinates.y" placeholder="Enter Position Y">
+                      <input type="text" id="edit-panel-position-y" class="form-control form-control-sm" [(ngModel)]="selectedSignal.imageCoordinates.yPixels" placeholder="Enter Position Y">
                     </div>
                   </div>
                 </div>
@@ -100,9 +102,9 @@
                   <div class="form-group">
                     <label class="temp" id="edit-panel-name-label">Add Rule: </label>
                     <div class="">
-                      <select  class="form-control form-control-sm" id="alert-panel-rule-name" >
+                      <select  class="form-control form-control-sm" id="alert-panel-rule-name" [(ngModel)]="selectedAlertRule">
                         <option>Select Any</option>
-                        <option *ngFor="let rule of alertRules" >{{rule.alertRuleName}}</option>
+                        <option *ngFor="let rule of alertRules" [ngValue]="rule">{{rule.alertRuleName}}</option>
                       </select>
                     </div>
                   </div>
@@ -110,7 +112,9 @@
               </div>
             </div>
             <div class="card-footer text-muted">
-                <button class="btn btn-sm btn-info pull-right" >Save</button>
+                <button class="btn btn-sm btn-info pull-right" (click)="onClickOfAlarmRuleAssociation()" [disabled]="isAlarmRuleAssociationAPILoading">
+                  Save  <i *ngIf="isAlarmRuleAssociationAPILoading" class="fa fa-spinner fa-spin fa-fw"></i>
+                </button>
                 <button class="btn btn-sm btn-outline-secondary pull-right mr-1" (click)="onClickOfCreateAssociateRule()">Create & Associate Rule</button>
             </div>
         </div>

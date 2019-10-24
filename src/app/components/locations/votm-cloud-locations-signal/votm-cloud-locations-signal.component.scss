@@ -51,15 +51,16 @@
 }
 
  #sensor-cont {
-  padding-left: 0;
-  padding-right: 0;
+  // padding-left: 0;
+  // padding-right: 0;
+  padding: 5px;
   /*height: 625px;*/
   overflow: auto;
   height: calc(100vh - 10rem);
 }
 .chart-cont {
-  border: 1px solid #333;
-  overflow: visible !important;
+  border: 1px dashed #333;
+  // overflow: visible !important;
 }
 
 .map-settings-edit {
@@ -109,7 +110,7 @@
   margin-top: -15px;
 }
 
- .sensor-circle {
+.cursor-move {
   cursor: move;
 }
 
@@ -391,6 +392,12 @@
 }
 
 .ui-overlaypanel-close {
-  margin-top: 8px;
-  margin-right: 8px;
+    background-color:transparent!important;
+    color: #333!important;
+    top: 1.5em!important;
+    right: 1.3em!important;
+}
+
+body .ui-overlaypanel {
+  z-index: 9999!important;
 }

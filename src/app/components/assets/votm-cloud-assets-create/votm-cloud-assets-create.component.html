@@ -130,7 +130,7 @@
                     <label class="" id="assetIcon">Icon</label>
                     <!-- <div class="selectpicker drop-down"> -->
 
-                    <ng-select id="iconDropDown" 
+                    <ng-select id="iconDropDown"
                       placeholder="Choose Icon"
                       name= "assetLogo"
                       labelForId="assetIcon"
@@ -292,9 +292,23 @@
                     <!-- <label for="locationImage" id="asset-loc--image-lbl">Asset Position: </label> -->
                     <div id="location_asset_position" *ngIf="parentAssetImageURL; else noLocationTemplate">
                         <img [src]="parentAssetImageURL" class="img-fluid" >
+
                         <!-- <i class="icon-asset-robot position-absolute" id="asset_position_icon"></i> -->
                     </div>
-                   
+                    <div class="row" *ngIf="parentAssetImageURL">
+                        <div class="col-md-6">
+                          <label for="assetImage" id="asset-image-lbl">X (In pixels) : </label>
+                          <input type="number" id="asset-image-x-pixels" disabled [(ngModel)]="assetImageCoordinates.x"
+                            name="x-pixels"
+                            class="form-control-file form-control-sm" />
+                        </div>
+                        <div class="col-md-6">
+                          <label for="assetImage" id="asset-image-lbl">Y (In pixels) : </label>
+                          <input type="number" id="asset-image-y-pixels" disabled [(ngModel)]="assetImageCoordinates.y"
+                            name="y-pixels" class="form-control-file form-control-sm" />
+                        </div>
+                      </div>
+
                     <ng-template #noLocationTemplate><br />
                       <div *ngIf="asset.locationId; else noLocationSelectedTemplate">No Image in the selected Location
                       </div>

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, ChangeDetectorRef, OnDestroy, ViewEncapsulation } from '@angular/core';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { AssetsService } from 'src/app/services/assets/assets.service';
 import { Asset } from 'src/app/models/asset.model';
@@ -21,9 +21,10 @@ declare var $: any;
   selector: 'app-votm-cloud-assets-create',
   templateUrl: './votm-cloud-assets-create.component.html',
   styleUrls: ['./votm-cloud-assets-create.component.scss'],
-  providers: [DatePipe]
+  providers: [DatePipe],
+  encapsulation: ViewEncapsulation.None
 })
-export class VotmCloudAssetsCreateComponent implements OnInit {
+export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
   public imagePath;
   imgURL: any;
   locationImageURL: any;
@@ -89,6 +90,10 @@ export class VotmCloudAssetsCreateComponent implements OnInit {
   locationList: any[] = [];
   locationListForDropDown: any[] = [];
   parentAssetListForDropDown: any[];
+  assetImageCoordinates: any = {
+    x: 0,
+    y: 0
+  };
   constructor(
     private modalService: NgbModal,
     private assetService: AssetsService,
@@ -142,9 +147,6 @@ export class VotmCloudAssetsCreateComponent implements OnInit {
     this.assetTypes = [{ value: 'assetType1', text: 'assetType1' }, { value: 'assetType2', text: 'assetType2' }]
   }
   selAssetIcon = "robot";
-  ngOnDestroy() {
-    this.subscriptions.unsubscribe();
-  }
 
   getAssetById() {
     this.assetService.getAssetById(this.assetId)
@@ -527,6 +529,19 @@ export class VotmCloudAssetsCreateComponent implements OnInit {
           if ($selected !== null) {
             $selected.removeClass(opt.draggableClass);
             console.log($selected.css('left'), $selected.css('top'));
+            const x = $selected.css('left');
+            const y = $selected.css('top');
+            const xpercent = parseInt($selected.css('left'), 10) / ($selected.parent().width() / 100);
+            const ypercent = parseInt($selected.css('top'), 10) / ($selected.parent().height() / 100);
+            if (xpercent < 0 || xpercent > 100 || ypercent < 0 || ypercent > 100) {
+              self.assetImageCoordinates.x = 0;
+              self.assetImageCoordinates.x = 0;
+              $selected.css('left', '1%');
+              $selected.css('top', '6%');
+            } else {
+              self.assetImageCoordinates.x = parseFloat(x.replace('px', ''));
+              self.assetImageCoordinates.y = parseFloat(y.replace('px', ''));
+            }
             // $selected.css('left', parseInt($selected.css('left'), 10) / ($selected.parent().width() / 100) + '%');
             // $selected.css('top', parseInt($selected.css('top'), 10) / ($selected.parent().height() / 100) + '%');
             // console.log('herer', );
@@ -550,6 +565,20 @@ export class VotmCloudAssetsCreateComponent implements OnInit {
             .find(opt.handle).removeClass(opt.activeHandleClass);
         }
         console.log($selected.css('left'), $selected.css('top'));
+        const x = $selected.css('left');
+        const y = $selected.css('top');
+        const xpercent = parseInt($selected.css('left'), 10) / ($selected.parent().width() / 100);
+        const ypercent = parseInt($selected.css('top'), 10) / ($selected.parent().height() / 100);
+        console.log(xpercent, '=============', ypercent);
+        if (xpercent < 0 || xpercent > 100 || ypercent < 0 || ypercent > 100) {
+          self.assetImageCoordinates.x = 0;
+          self.assetImageCoordinates.x = 0;
+          $selected.css('left', '1%');
+          $selected.css('top', '6%');
+        } else {
+          self.assetImageCoordinates.x = parseFloat(x.replace('px', ''));
+          self.assetImageCoordinates.y = parseFloat(y.replace('px', ''));
+        }
         // $selected.css('left', parseInt($selected.css('left'), 10) / ($selected.parent().width() / 100) + '%');
         // $selected.css('top', parseInt($selected.css('top'), 10) / ($selected.parent().height() / 100) + '%');
         // console.log(self.dropSensor);
@@ -641,7 +670,7 @@ export class VotmCloudAssetsCreateComponent implements OnInit {
   onParentAssetChange(parentassetId) {
     this.parentAssetListForDropDown.forEach(asset => {
       if (parentassetId === asset.assetId) {
-        this.getParentImage(asset.logo, 'asset')
+        this.getParentImage(asset.logo, 'asset');
 
       }
     });
@@ -660,38 +689,38 @@ export class VotmCloudAssetsCreateComponent implements OnInit {
       this.parentAssetImageURL = this.locationImageURL;
     }
     setTimeout(() => {
-      console.log($('#location_asset_position'));
-      const $sensor = $(
-        '<div class=\'icon-asset-robot position-absolute abc\' id="asset_position_icon">'
-      ).html('')
-      .css({
-        left: '1%',
-        top: '10%'
-      })
-      .appendTo('#location_asset_position');
-      $sensor.data(
-        'dockEl',
-        $sensor
-          .clone()
-          .on('mousedown', function (e) {
-            $(this)
-              .removeClass('docked')
-              .data('dragEl')
-              .removeClass('docked')
-                
-              
-              .trigger(
-                $.Event('mousedown', { pageX: e.pageX, pageY: e.pageY })
-              );
-            return false;
-          })
-      );
-      $('#location_asset_position .abc').drags();
+      if ($('#asset_position_icon').length === 0) {
+        console.log($('#location_asset_position'));
+        const $sensor = $(
+          '<div class=\'sensor-circle icon-asset-robot position-absolute abc\' id="asset_position_icon">'
+        ).html('')
+        .css({
+          left: '1%',
+          top: '6%'
+        })
+        .appendTo('#location_asset_position');
+        $sensor.data(
+          'dockEl',
+          $sensor
+            .clone()
+            .on('mousedown', function (e) {
+              $(this)
+                .removeClass('docked')
+                .data('dragEl')
+                .removeClass('docked')
+                .trigger(
+                  $.Event('mousedown', { pageX: e.pageX, pageY: e.pageY })
+                );
+              return false;
+            })
+        );
+        $('#location_asset_position .abc').drags();
+      }
     }, 100);
-    
+
   }
 
- 
+
 
   getParentImage(logo: any, type) {
     if (logo && logo.imageName) {
@@ -1032,5 +1061,10 @@ export class VotmCloudAssetsCreateComponent implements OnInit {
     if (type === 'signal_association') {
       this.isSignalAssociationClicked = true;
     }
+  }
+
+  ngOnDestroy(): void {
+    $('#asset_position_icon').remove();
+    this.subscriptions.unsubscribe();
   }
 }
