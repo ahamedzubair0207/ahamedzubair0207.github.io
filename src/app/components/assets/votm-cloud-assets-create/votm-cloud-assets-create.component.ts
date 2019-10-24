@@ -537,7 +537,7 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
               self.assetImageCoordinates.x = 0;
               self.assetImageCoordinates.x = 0;
               $selected.css('left', '1%');
-              $selected.css('top', '10%');
+              $selected.css('top', '6%');
             } else {
               self.assetImageCoordinates.x = parseFloat(x.replace('px', ''));
               self.assetImageCoordinates.y = parseFloat(y.replace('px', ''));
@@ -574,7 +574,7 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
           self.assetImageCoordinates.x = 0;
           self.assetImageCoordinates.x = 0;
           $selected.css('left', '1%');
-          $selected.css('top', '10%');
+          $selected.css('top', '6%');
         } else {
           self.assetImageCoordinates.x = parseFloat(x.replace('px', ''));
           self.assetImageCoordinates.y = parseFloat(y.replace('px', ''));
@@ -670,7 +670,7 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
   onParentAssetChange(parentassetId) {
     this.parentAssetListForDropDown.forEach(asset => {
       if (parentassetId === asset.assetId) {
-        this.getParentImage(asset.logo, 'asset')
+        this.getParentImage(asset.logo, 'asset');
 
       }
     });
@@ -689,38 +689,38 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
       this.parentAssetImageURL = this.locationImageURL;
     }
     setTimeout(() => {
-      console.log($('#location_asset_position'));
-      const $sensor = $(
-        '<div class=\'sensor-circle icon-asset-robot position-absolute abc\' id="asset_position_icon">'
-      ).html('')
-      .css({
-        left: '1%',
-        top: '10%'
-      })
-      .appendTo('#location_asset_position');
-      $sensor.data(
-        'dockEl',
-        $sensor
-          .clone()
-          .on('mousedown', function (e) {
-            $(this)
-              .removeClass('docked')
-              .data('dragEl')
-              .removeClass('docked')
-                
-              
-              .trigger(
-                $.Event('mousedown', { pageX: e.pageX, pageY: e.pageY })
-              );
-            return false;
-          })
-      );
-      $('#location_asset_position .abc').drags();
+      if ($('#asset_position_icon').length === 0) {
+        console.log($('#location_asset_position'));
+        const $sensor = $(
+          '<div class=\'sensor-circle icon-asset-robot position-absolute abc\' id="asset_position_icon">'
+        ).html('')
+        .css({
+          left: '1%',
+          top: '6%'
+        })
+        .appendTo('#location_asset_position');
+        $sensor.data(
+          'dockEl',
+          $sensor
+            .clone()
+            .on('mousedown', function (e) {
+              $(this)
+                .removeClass('docked')
+                .data('dragEl')
+                .removeClass('docked')
+                .trigger(
+                  $.Event('mousedown', { pageX: e.pageX, pageY: e.pageY })
+                );
+              return false;
+            })
+        );
+        $('#location_asset_position .abc').drags();
+      }
     }, 100);
-    
+
   }
 
- 
+
 
   getParentImage(logo: any, type) {
     if (logo && logo.imageName) {

@@ -199,8 +199,11 @@ export class VotmCloudLocationsSignalComponent implements OnInit, AfterViewInit 
             this.sensors[i].node[j].sensorName = this.sensors[i].name;
             this.sensors[i].node[j].associationName = this.sensors[i].node[j].name;
             this.sensors[i].node[j].imageCoordinates = {
-              x: 0,
-              y: 0
+              x: '0%',
+              y: '0%',
+              xPixels: 0,
+              yPixels: 0
+
             };
           }
         }
@@ -245,7 +248,7 @@ export class VotmCloudLocationsSignalComponent implements OnInit, AfterViewInit 
       let $sensor;
       $.each(this.sensors, (sIx, sensorItem) => {
         $sensor = $(
-          '<div class="sensor-circle docked signalicon-humidity">'
+          '<div class="sensor-circle docked signalicon-humidity ">'
         )
           .html(sensorItem.name)
           .data('sIx', sIx)
@@ -256,6 +259,7 @@ export class VotmCloudLocationsSignalComponent implements OnInit, AfterViewInit 
           $sensor
             .clone()
             .addClass('list-bkg')
+
             .appendTo(dockCntrSel)
             .data('dragEl', $sensor)
         );
@@ -270,7 +274,7 @@ export class VotmCloudLocationsSignalComponent implements OnInit, AfterViewInit 
 
             if (index !== -1) {
               $sensor = $(
-                '<div class=\'sensor-circle secondary-ds signalicon-temperature pad-18\' id="' + dsItem.id + '-' + sensorItem.id + '">'
+                '<div class=\'sensor-circle secondary-ds signalicon-temperature pad-18 cursor-move\' id="' + dsItem.id + '-' + sensorItem.id + '">'
               )
                 .data('sIx', sIx)
                 .data('dsIx', dsIx)
@@ -335,11 +339,11 @@ export class VotmCloudLocationsSignalComponent implements OnInit, AfterViewInit 
                 console.log(this.selectedSignal.imageCoordinates.y);
                 console.log($sensor.parent().width());
                 console.log($sensor.parent().height());
-                this.selectedSignal.imageCoordinates.x = parseFloat(this.selectedSignal.imageCoordinates.x.replace('%', ''));
-                this.selectedSignal.imageCoordinates.y = parseFloat(this.selectedSignal.imageCoordinates.y.replace('%', ''));
-                this.selectedSignal.imageCoordinates.x = (this.selectedSignal.imageCoordinates.x *
+                this.selectedSignal.imageCoordinates.xPixels = parseFloat(this.selectedSignal.imageCoordinates.x.replace('%', ''));
+                this.selectedSignal.imageCoordinates.yPixels = parseFloat(this.selectedSignal.imageCoordinates.y.replace('%', ''));
+                this.selectedSignal.imageCoordinates.xPixels = (this.selectedSignal.imageCoordinates.xPixels *
                   ($sensor.parent().width() / 100)).toFixed(2);
-                this.selectedSignal.imageCoordinates.y = (this.selectedSignal.imageCoordinates.y *
+                this.selectedSignal.imageCoordinates.xPixels = (this.selectedSignal.imageCoordinates.yPixels *
                   ($sensor.parent().height() / 100)).toFixed(2);
                 evt.preventDefault();
                 this.editOPanel.show(evt);
@@ -371,7 +375,7 @@ export class VotmCloudLocationsSignalComponent implements OnInit, AfterViewInit 
               this.associatedSignals[index]['sensorEl'] = $sensor;
             } else {
               $sensor = $(
-                '<div class=\'sensor-circle secondary-ds docked signalicon-temperature\' id="' + dsItem.id + '-' + sensorItem.id +'">'
+                '<div class=\'sensor-circle secondary-ds docked signalicon-temperature cursor-move\' id="' + dsItem.id + '-' + sensorItem.id +'">'
               )
                 .data('sIx', sIx)
                 .data('dsIx', dsIx)
@@ -425,12 +429,16 @@ export class VotmCloudLocationsSignalComponent implements OnInit, AfterViewInit 
                 const idsSplitList = evt.target.id.split('-');
                 this.selectedSignal = this.sensors[idsSplitList[idsSplitList.length - 2]].node[idsSplitList[idsSplitList.length - 1]];
                 console.log(this.selectedSignal.imageCoordinates.x);
+                console.log(((parseFloat(this.selectedSignal.imageCoordinates.x.replace('%', ''))) *
+                ($sensor.parent().width() / 100)).toFixed(2));
                 console.log(this.selectedSignal.imageCoordinates.y);
-                this.selectedSignal.imageCoordinates.x = parseFloat(this.selectedSignal.imageCoordinates.x.replace('%', ''));
-                this.selectedSignal.imageCoordinates.y = parseFloat(this.selectedSignal.imageCoordinates.y.replace('%', ''));
-                this.selectedSignal.imageCoordinates.x = (this.selectedSignal.imageCoordinates.x *
+                console.log(((parseFloat(this.selectedSignal.imageCoordinates.y.replace('%', ''))) *
+                ($sensor.parent().width() / 100)).toFixed(2));
+                this.selectedSignal.imageCoordinates.xPixels = parseFloat(this.selectedSignal.imageCoordinates.x.replace('%', ''));
+                this.selectedSignal.imageCoordinates.yPixels = parseFloat(this.selectedSignal.imageCoordinates.y.replace('%', ''));
+                this.selectedSignal.imageCoordinates.xPixels = (this.selectedSignal.imageCoordinates.xPixels *
                   ($sensor.parent().width() / 100)).toFixed(2);
-                this.selectedSignal.imageCoordinates.y = (this.selectedSignal.imageCoordinates.y *
+                this.selectedSignal.imageCoordinates.yPixels = (this.selectedSignal.imageCoordinates.yPixels *
                   ($sensor.parent().height() / 100)).toFixed(2);
                 $sensor.children().show();
                 $sensor.removeClass('pad-18');
@@ -485,7 +493,7 @@ export class VotmCloudLocationsSignalComponent implements OnInit, AfterViewInit 
     const yPercent = parseFloat((parseInt($sensor.css('top'), 10) / ($sensor.parent().height() / 100)).toFixed(2));
     console.log(xPercent);
     console.log(yPercent);
-    if (index !== -1){
+    if (index !== -1 && this.associatedSignals[index].signalMappingId) {
       if ($sensor.position().left < 0 || $sensor.position().top < 0 || xPercent > 100 || yPercent > 100) {
         $sensor
           .addClass('docked')
@@ -512,14 +520,15 @@ export class VotmCloudLocationsSignalComponent implements OnInit, AfterViewInit 
           dsIx
         ].imageCoordinates.y = null;
       } else {
-        this.sensors[sIx].node[dsIx].imageCoordinates.x =
-        xPercent + '%';
-        this.sensors[sIx].node[dsIx].imageCoordinates.y =
-        yPercent + '%';
-        const sensorObj = { ...this.sensors[sIx].node[dsIx] };
-        this.associatedSignals.push(sensorObj);
-        $sensor.mouseenter();
-        $('#signal-edit-btn-' + sIx + '-' + dsIx).mousedown();
+          this.sensors[sIx].node[dsIx].imageCoordinates.x =
+            xPercent + '%';
+          this.sensors[sIx].node[dsIx].imageCoordinates.y =
+            yPercent + '%';
+          const sensorObj = { ...this.sensors[sIx].node[dsIx] };
+          this.associatedSignals.push(sensorObj);
+          $sensor.mouseenter();
+          console.log($('#signal-edit-btn-' + sIx + '-' + dsIx));
+          $('#signal-edit-btn-' + sIx + '-' + dsIx).mousedown();
       }
 
       // $('#map-cont-1 .sensor-circle').sensorPopover();
@@ -537,6 +546,8 @@ export class VotmCloudLocationsSignalComponent implements OnInit, AfterViewInit 
     this.alertOPanel.hide();
     this.isSignalAssociationAPILoading = true;
     const data = this.associatedSignals.map(signal => {
+      delete signal.imageCoordinates.xPixels;
+      delete signal.imageCoordinates.yPixels;
       const obj = {
         locationId: this.locationId,
         signalId: signal.id,
@@ -561,7 +572,6 @@ export class VotmCloudLocationsSignalComponent implements OnInit, AfterViewInit 
           this.toaster.onSuccess('Signal associated successfully', 'Saved');
           this.getLocationSignalAssociation();
           this.isSignalAssociationAPILoading = false;
-          this
 
         }, error => {
           this.toaster.onFailure('Error while saving signal assocition', 'Error');
@@ -573,16 +583,21 @@ export class VotmCloudLocationsSignalComponent implements OnInit, AfterViewInit 
   onClickOfSaveSignalAssociationPanel() {
     console.log(this.selectedSignal);
     const index = this.associatedSignals.findIndex(
-      signal => signal.id === this.selectedSignal.id
+      signal => signal.id === this.selectedSignal.id && signal.sensorId === this.selectedSignal.sensorId
     );
+    console.log(index);
     // if (index !== -1) {
     //   delete this.associatedSignals[index];
     // }
     // this.associatedSignals.push(this.selectedSignal);
-    this.selectedSignal.imageCoordinates.x = (this.selectedSignal.imageCoordinates.x /
-      (this.selectedSignal.sensorEl.parent().width() / 100)).toFixed(2) + '%';
-    this.selectedSignal.imageCoordinates.y = (this.selectedSignal.imageCoordinates.y /
-      (this.selectedSignal.sensorEl.parent().height() / 100)).toFixed(2) + '%';
+    // this.selectedSignal.imageCoordinates.x = (this.selectedSignal.imageCoordinates.xPixels /
+    //   (this.selectedSignal.sensorEl.parent().width() / 100)).toFixed(2) + '%';
+    // this.selectedSignal.imageCoordinates.y = (this.selectedSignal.imageCoordinates.yPixels /
+    //   (this.selectedSignal.sensorEl.parent().height() / 100)).toFixed(2) + '%';
+    this.selectedSignal.imageCoordinates.x = parseFloat((parseInt(this.selectedSignal.sensorEl.css('left'), 10) /
+      (this.selectedSignal.sensorEl.parent().width() / 100)).toFixed(2)) + '%';
+    this.selectedSignal.imageCoordinates.y = parseFloat((parseInt(this.selectedSignal.sensorEl.css('top'), 10) /
+      (this.selectedSignal.sensorEl.parent().height() / 100)).toFixed(2)) + '%';
     this.associatedSignals.splice(index, 1, this.selectedSignal);
     this.selectedSignal.sensorEl.css({
       left: this.selectedSignal.imageCoordinates.x,
@@ -601,10 +616,10 @@ export class VotmCloudLocationsSignalComponent implements OnInit, AfterViewInit 
     this.selectedSignal.sensorEl.children().hide();
     this.selectedSignal.sensorEl.mouseleave();
     setTimeout( () => {
-      this.selectedSignal.imageCoordinates.x = (this.selectedSignal.imageCoordinates.x /
-        (this.selectedSignal.sensorEl.parent().width() / 100)).toFixed(2) + '%';
-      this.selectedSignal.imageCoordinates.y = (this.selectedSignal.imageCoordinates.y /
-        (this.selectedSignal.sensorEl.parent().height() / 100)).toFixed(2) + '%';
+      this.selectedSignal.imageCoordinates.x = parseFloat((parseInt(this.selectedSignal.sensorEl.css('left'), 10) /
+      (this.selectedSignal.sensorEl.parent().width() / 100)).toFixed(2)) + '%';
+      this.selectedSignal.imageCoordinates.y = parseFloat((parseInt(this.selectedSignal.sensorEl.css('top'), 10) /
+      (this.selectedSignal.sensorEl.parent().height() / 100)).toFixed(2)) + '%';
     }, 150);
     this.selectedSignal.sensorEl.addClass('pad-18');
 
