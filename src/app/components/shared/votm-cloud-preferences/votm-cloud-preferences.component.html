@@ -113,7 +113,7 @@
                     <div class="row">
                       <div class="col-md-4">
                         <div class="form-group">
-                          <label for="noti_pre_lan" class="">Language</label>
+                          <label for="noti_pre_lan" class="">Locale</label>
                           <div class="">
                             <select required #language="ngModel" id="DefaultLang"
                               [(ngModel)]="userprofile.userConfigSettings[0].localeId" name="language"
@@ -380,7 +380,7 @@
         </form>
         <!-- Modal HTML -->
         <div id="myModal" class="modal fade" tabindex="-1">
-          <div class="modal-dialog modal-xl modal-dialog-scrollable">
+          <div class="modal-dialog modal-xl ">
             <div class="modal-content">
               <div class="modal-header">
                 <h5 class="modal-title">Notification Delivery Schedule</h5>
@@ -418,7 +418,7 @@
                   </thead>
                   <tbody>
                     <tr>
-                      <td class="text-center">1</td>
+                      <td class="text-center">1:00</td>
                       <td class="text-center"></td>
                       <td class="text-center active-cell"></td>
                       <td class="text-center"></td>
@@ -435,7 +435,7 @@
                       <td class="text-center"></td>
                     </tr>
                     <tr>
-                      <td class="text-center">2</td>
+                      <td class="text-center">2:00</td>
                       <td class="text-center"></td>
                       <td class="text-center"></td>
                       <td class="text-center"></td>
@@ -452,7 +452,7 @@
                       <td class="text-center"></td>
                     </tr>
                     <tr>
-                      <td class="text-center">3</td>
+                      <td class="text-center">3:00</td>
                       <td class="text-center"></td>
                       <td class="text-center"></td>
                       <td class="text-center"></td>
@@ -469,7 +469,7 @@
                       <td class="text-center"></td>
                     </tr>
                     <tr>
-                      <td class="text-center">4</td>
+                      <td class="text-center">4:00</td>
                       <td class="text-center"></td>
                       <td class="text-center"></td>
                       <td class="text-center"></td>
@@ -486,7 +486,7 @@
                       <td class="text-center"></td>
                     </tr>
                     <tr>
-                      <td class="text-center">5</td>
+                      <td class="text-center">5:00</td>
                       <td class="text-center"></td>
                       <td class="text-center"></td>
                       <td class="text-center"></td>
@@ -503,7 +503,7 @@
                       <td class="text-center"></td>
                     </tr>
                     <tr>
-                      <td class="text-center">6</td>
+                      <td class="text-center">6:00</td>
                       <td class="text-center"></td>
                       <td class="text-center"></td>
                       <td class="text-center"></td>
@@ -520,7 +520,7 @@
                       <td class="text-center"></td>
                     </tr>
                     <tr>
-                      <td class="text-center">7</td>
+                      <td class="text-center">7:00</td>
                       <td class="text-center"></td>
                       <td class="text-center"></td>
                       <td class="text-center"></td>
@@ -537,7 +537,7 @@
                       <td class="text-center"></td>
                     </tr>
                     <tr>
-                      <td class="text-center">8</td>
+                      <td class="text-center">8:00</td>
                       <td class="text-center"></td>
                       <td class="text-center"></td>
                       <td class="text-center"></td>
@@ -554,7 +554,7 @@
                       <td class="text-center"></td>
                     </tr>
                     <tr>
-                      <td class="text-center">9</td>
+                      <td class="text-center">9:00</td>
                       <td class="text-center"></td>
                       <td class="text-center"></td>
                       <td class="text-center"></td>
@@ -571,7 +571,7 @@
                       <td class="text-center"></td>
                     </tr>
                     <tr>
-                      <td class="text-center">10</td>
+                      <td class="text-center">10:00</td>
                       <td class="text-center"></td>
                       <td class="text-center"></td>
                       <td class="text-center"></td>
@@ -588,7 +588,7 @@
                       <td class="text-center"></td>
                     </tr>
                     <tr>
-                      <td class="text-center">11</td>
+                      <td class="text-center">11:00</td>
                       <td class="text-center"></td>
                       <td class="text-center"></td>
                       <td class="text-center"></td>
@@ -605,7 +605,7 @@
                       <td class="text-center"></td>
                     </tr>
                     <tr>
-                      <td class="text-center">12</td>
+                      <td class="text-center">12:00</td>
                       <td class="text-center"></td>
                       <td class="text-center"></td>
                       <td class="text-center"></td>
@@ -659,7 +659,7 @@
                   <th scope="col" class="align-left table-col-small">Rule Owner</th>
                   <th scope="col" class="align-left table-col-small">Associations</th>
                   <th scope="col" class="align-left table-col-small">Notifications</th>
-                  <th scope="col" class="align-center">Actions</th>
+                  <!-- <th scope="col" class="align-center">Actions</th> -->
                 </tr>
               </thead>
               <tr *ngFor="let item of alertList">
@@ -672,14 +672,14 @@
                 <td class="align-left">{{item.organizationScopeName}}</td>
                 <td class="align-left">{{item.numberofSignalAssociated}}</td>
                 <td class="align-left">{{item.numberofUserAssociated}}</td>
-                <td class="align-center">
+                <!-- <td class="align-center">
                   <a style="color: #212529;" class="action-icon" title="Edit" (click)="onEditViewClick(item)">
                     <i class="icon-edit pr-1"></i>
                   </a>
                   <a class="action-icon" (click)="openConfirmDialog(item.id, item.name)" title="Delete">
                     <i class="icon-trash"></i>
                   </a>
-                </td>
+                </td> -->
               </tr>
             </table>
           </div>
