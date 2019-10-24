@@ -74,7 +74,7 @@ export const MENU_ITEMS: Array<{ id: string, enabled: boolean, url: string, icon
                 id: 'user',
                 enabled: true,
                 url: 'admin/usermanagement',
-                icon: 'menu-icon fa fa-user',
+                icon: 'menu-icon icon-user-circle',
                 name: 'User Management'
             },
         ]
