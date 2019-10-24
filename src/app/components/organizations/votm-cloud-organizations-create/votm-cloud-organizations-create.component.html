@@ -41,8 +41,7 @@
       <a class="nav-link tab-icon"
         id="dashboard{{dbItem.id}}-tab" data-toggle="tab" href="#DashboardID_{{dbItem.id}}" role="tab"
         aria-controls="loc" aria-selected="false" title="{{ dbItem.lName}}"><i
-          class="mr-2  icon-dashboard"></i>{{ dbItem.sName }}
-        <i class="fa fa-pencil ml-2"
+          class="mr-2  icon-dashboard"></i>{{dbItem.sName}}<i class="fa fa-pencil ml-2"
           (click)="openAddDashboardModal('editDashboard', dbItem.id,  dbItem.lName, dbItem.sName);"
           title="Configure Dashboard"></i>&nbsp;
         <i class="icon-trash"
@@ -53,7 +52,7 @@
     <li class="nav-item">
       <div class="add-dashboard-btn-wrapper">
         <a class="nav-link tab-icon create-event-btn" (click)="openAddDashboardModal('addDashboard')"
-          id="createDashboardButton" title="Add New Dashboard"><i class="fa fa-plus"></i></a>
+          id="createOrgDashboardButton" title="Add New Dashboard"><i class="fa fa-plus"></i></a>
       </div>
     </li>
     <!-- Dashboard-david -->
@@ -122,7 +121,7 @@
 
         <div class="tab-content w-100">
 
-          <div class="tab-pane fade show active org-create-font"
+          <div class="tab-pane fade show active"
             *ngIf="(!orgId && pageLabels) || (orgId && pageLabels && organization)" id="org-details" role="tabpanle"
             area-labelledby="org-details-tab">
 
@@ -154,11 +153,11 @@
                 </div>
                 <div class="col-12 col-md-6 col-lg-1 col-xl-1 ipad-pro-lg-2">
                   <div class="form-group">
-                    <label class="temp" votmrequired id="nameShortLbl">Abbrev:</label>
+                    <label class="temp" id="nameShortLbl">Abbrev:</label>
                     <div class="">
-                      <input type="text" class="form-control form-control-sm" id="nameShort" placeholder="Short"
+                      <input type="text" class="form-control form-control-sm" id="nameShort" placeholder="Abbrev"
                         maxlength="500" [disabled]="pageType==='View'" [(ngModel)]="organization.shortName"
-                        name="shortName" #shortName="ngModel" required>
+                        name="shortName" #shortName="ngModel">
                     </div>
                     <div *ngIf="shortName.dirty && shortName.invalid">
                       <app-votm-cloud-validator message="Short Name is required"></app-votm-cloud-validator>
@@ -344,7 +343,7 @@
 
               <fieldset class="form-group billing-padding-4">
                 <legend id="contractHeadingLbl" votmrequired> {{pageLabels.Contract.labelName}}</legend>
-                <div class="row org-create-font">
+                <div class="row">
                   <div class="col-12 col-md-6 col-lg-3 col-xl-2 form-group ipad-pro-lg-4">
                     <!-- <label id="startDatelbl">{{pageLabels.StartDate.labelName}}:</label> -->
                     <!-- <div class="input-group-append"> -->
@@ -363,7 +362,7 @@
                       </div>
                     </div>
                     <!-- <input type="date" id="startDate" [disabled]="pageType==='View'"
-                        [(ngModel)]="organization.contractStartDate" class="form-control org-create-font"
+                        [(ngModel)]="organization.contractStartDate" class="form-control"
                         (change)="onStartDateChange()" (click)="onStartDateChange()" (keyup)="onStartDateChange()"
                         #startDate="ngModel" placeholder="Start Date" name="startDate" required> -->
                     <div *ngIf="startDate.dirty && startDate.invalid">
@@ -386,7 +385,7 @@
                       </div>
                     </div>
                     <!-- <input type="date" id="endDate" [disabled]="pageType==='View'"
-                        [(ngModel)]="organization.contractEndDate" class="form-control org-create-font" #endDate="ngModel"
+                        [(ngModel)]="organization.contractEndDate" class="form-control" #endDate="ngModel"
                         (change)="onEndDateChange()" (click)="onEndDateChange()" (keyup)="onEndDateChange()"
                         placeholder="End Date" name="endDate" required> -->
 
@@ -418,7 +417,7 @@
 
                   <div class="col-12 col-md-6 col-lg-2 col-xl-3 form-group ipad-pro-lg-4">
                     <label id="sensorBlockLbl">Sensor Blocks: </label>
-                    <input type="text" maxlength="5" class="form-control org-create-font form-control-sm"
+                    <input type="text" maxlength="5" class="form-control form-control-sm"
                       [disabled]="pageType==='View'" placeholder="Sensor Block" [(ngModel)]="organization.sensorBlocks"
                       name="sensorBlockCt" required #sensorBlockCt="ngModel">
                     <div *ngIf="sensorBlockCt.dirty && sensorBlockCt.invalid">
@@ -429,7 +428,7 @@
                   <div class="col-12 col-md-6 col-lg-2 col-xl-2 form-group ipad-pro-lg-4">
                     <label id="cellularBlockLbl">Cellular Blocks: </label>
                     <input type="text" maxlength="5" [(ngModel)]="organization.cellularBlocks"
-                      [disabled]="pageType==='View'" class="form-control org-create-font form-control-sm"
+                      [disabled]="pageType==='View'" class="form-control form-control-sm"
                       placeholder="Cellular Block" name="cellularBlock" required #cellularBlockCt="ngModel">
                     <div *ngIf="cellularBlockCt.dirty && cellularBlockCt.invalid">
                       <app-votm-cloud-validator message="Cellular Blocks is required"></app-votm-cloud-validator>
@@ -674,16 +673,14 @@
                 </div>
                 <div class="col-3">
                     <div class="">
-                      <div class="form-group org-create-font">
+                      <div class="form-group">
                         <label id="logoLbl">{{pageLabels.LogoFile.labelName}} :</label>
                         <div class="custom-file">
                           <span style="color:rgb(106,96,85);" *ngIf="message">{{message}}</span>
-                          <input #file id="imageUploadButton" type="file" accept='image/*' [disabled]="pageType==='View'"
-                            (change)="preview(file.files)" class="form-control form-control-sm custom-file-input" />
+                          <input class="custom-file-input ng-pristine ng-invalid" #file id="imageUploadButton" type="file" accept='image/*' [disabled]="pageType==='View'" (change)="preview(file.files)"/>
                           <label class="custom-file-label" for="customFile">Choose file</label>
                           <!-- <label class="custom-file-label" for="customFile">{{message}}</label> -->
-                          <!-- <label id="imageLbl" style="font-weight: bold"
-                                                                                              *ngIf="organization && organization.logo">{{organization.logo.imageName}}</label> -->
+                          <span id="imageLbl" style="font-weight: bold" class="custom-file-label" *ngIf="organization && organization.logo">{{organization.logo.imageName}}</span>
                         </div>
                       </div>
                     </div>
@@ -698,7 +695,7 @@
               </div>
 
 
-              <div class="row org-create-font">
+              <div class="row">
                 <div class="col-12">
                   <label id="orgDescriptionLbl" class="">{{pageLabels.DescriptionofOrganization.labelName}}
                     :</label>
@@ -878,13 +875,13 @@
 
 <!-- UOM Modal -->
 <div id="myModal" class="modal">
-  <div class="modal-dialog modal-lg modal-dialog-scrollable modal-dialog-centered org-create-font">
+  <div class="modal-dialog modal-lg modal-dialog-scrollable modal-dialog-centered">
     <!-- Modal content -->
     <div class="modal-content">
       <div class="modal-header">
         <label for="UOM" class="pr-2">Units of Measure :</label>
         <!-- <div class="form-check form-check-inline">
-          <input [disabled]="pageType==='View'" class="form-check-input org-create-font" type="radio" value="SI"
+          <input [disabled]="pageType==='View'" class="form-check-input" type="radio" value="SI"
             name="UOM" (change)="onUnitChange($event)" checked id="f-si">
           <label class="form-check-label" for="f-si">SI</label>
         </div> -->
@@ -904,7 +901,7 @@
           <label class="custom-control-label" for="f-custom">Custom</label>
         </div>
       </div>
-      <div class="modal-body org-create-font">
+      <div class="modal-body">
 
         <div *ngFor="let uom of applicationConfiguration.unitOfMeassurement; let i = index" [attr.data-index]="i"
           class="">
@@ -916,7 +913,7 @@
                 <div class="">
                   <select [(ngModel)]="uomModels[uom.uomTypeName]"
                     (change)="onUoMDropdownChange($event,uom.uomTypeName)" name="uom.uomTypeName"
-                    class="form-control form-control-sm org-create-font">
+                    class="form-control form-control-sm">
                     <option></option>
                     <option *ngFor="let view of uom.uoMView" [value]="view.uoMId">
                       {{view.uoMName}}
@@ -929,10 +926,10 @@
             <!-- <div class="col-4">
               <div class="row form-group">
                 <label class="col-sm-4 col-form-label" for="uom.uomTypeName">{{uom.uomTypeName}}:</label>
-                <div class="col-sm-8 org-create-font">
+                <div class="col-sm-8">
                   <select [(ngModel)]="uomModels[uom.uomTypeName]"
                     (change)="onUoMDropdownChange($event,uom.uomTypeName)" name="uom.uomTypeName"
-                    class="form-control org-create-font">
+                    class="form-control">
                     <option></option>
                     <option *ngFor="let view of uom.uoMView" [value]="view.uoMId">
                       {{view.uoMName}}
@@ -950,7 +947,7 @@
                   <select [(ngModel)]="uomModels[applicationConfiguration.unitOfMeassurement[i+1].uomTypeName]"
                     (change)="onUoMDropdownChange($event, applicationConfiguration.unitOfMeassurement[i+1].uomTypeName)"
                     name="applicationConfiguration.unitOfMeassurement[i+1].uomTypeName"
-                    class="form-control form-control-sm org-create-font">
+                    class="form-control form-control-sm">
                     <option></option>
                     <option *ngFor="let view of applicationConfiguration.unitOfMeassurement[i+1].uoMView"
                       [value]="view.uoMId">
@@ -968,7 +965,7 @@
                     <select [(ngModel)]="uomModels[applicationConfiguration.unitOfMeassurement[i+2].uomTypeName]"
                       (change)="onUoMDropdownChange($event, applicationConfiguration.unitOfMeassurement[i+2].uomTypeName)"
                       name="applicationConfiguration.unitOfMeassurement[i+2].uomTypeName"
-                      class="form-control form-control-sm org-create-font">
+                      class="form-control form-control-sm">
                       <option></option>
                       <option *ngFor="let view of applicationConfiguration.unitOfMeassurement[i+2].uoMView"
                         [value]="view.uoMId">
@@ -1027,7 +1024,7 @@
             <label for="tplSelect" class="">Template Name</label>
             <div class="">
               <ng-select #tplSelect labelForId="tplSelect" class="custom" [(ngModel)]="selTemplate" name="dbTemplateName" [disabled]="dashboardDataById.act==='edit'">
-                <ng-option *ngFor="let dbTemplate of dbTemplates" [value]="dbTemplate.name"> {{ dbTemplate.name }}</ng-option>
+                <ng-option *ngFor="let dbTemplate of dbTemplates" [value]="dbTemplate.name">{{ dbTemplate.name }}</ng-option>
               </ng-select>
             </div>
           </div>
@@ -1083,8 +1080,7 @@
         </div>
         <div class="modal-footer">
           <button id="add-dashboard-cancle" type="button" class="btn btn-sm btn-outline-secondary"
-            (click)="closeAddDashboardModal('cancel')" id="addDashboardCancle">Cancel
-          </button>
+            (click)="closeAddDashboardModal('cancel')" id="addDashboardCancle">Cancel</button>
           <button id="add-dashboard-save" type="submit" class="btn btn-info btn-sm"
             id="addDashboardAdd">Save</button>
           <!-- <button id="add-dashboard-save" type="submit" class="btn btn-info btn-color btn-sm"

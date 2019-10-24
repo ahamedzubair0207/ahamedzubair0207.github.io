@@ -161,7 +161,7 @@
             <div class="col-md-12">
               <div class="form-group">
                 <label for="guest_access_search">Search</label>
-                <ng-select id="addUserRole" class="custom"
+                <ng-select id="addUserRoleSearch" class="custom"
                   [multiple]="false" [(ngModel)]="selectedUserForGuestAccess"
                   name="addRole" (change)="onChangeOfGuestUser()">
                 <ng-option *ngFor="let user of users"  [value]="user.userId">{{user.firstName}}&nbsp;{{user.lastName}}</ng-option>
@@ -207,7 +207,7 @@
             <div class="col-md-6">
               <div class="form-group">
                 <label for="guest_access" votmrequired>Guest Access</label>
-                <ng-select id="addUserRole" class="custom" [(ngModel)]="selectedOrgForGuestAccess"
+                <ng-select id="addUserRoleGuest" class="custom" [(ngModel)]="selectedOrgForGuestAccess"
                   name="addRole">
                   <ng-option *ngFor="let organization of organizations"  [value]="organization">{{organization.name}}</ng-option>
                 </ng-select>
@@ -315,7 +315,7 @@
                     <div class="form-group">
                       <label for="guest_access" votmrequired>Role</label>
                       <ng-select id="addUserRole" class="custom" formControlName="roleId"
-                          name="addRole">
+                          name="addRoleForUser">
                           <ng-option *ngFor="let role of roles"  [value]="role.roleId">{{role.roleName}}</ng-option>
                         </ng-select>
                         <div *ngIf="userForm.get('roleId').touched && userForm.get('roleId').value === null" >
@@ -331,7 +331,7 @@
                   <div class="form-group">
                     <label for="guest_access" votmrequired>Home Access</label>
                     <ng-select id="userHomeAccess" class="custom" formControlName="organizationId"
-                      name="addRole">
+                      name="addRoleForAccess">
                       <ng-option *ngFor="let organization of organizations"  [value]="organization.organizationId">{{organization.name}}</ng-option>
                     </ng-select>
                     <div *ngIf="userForm.get('organizationId').touched && userForm.get('organizationId').value === null" >
