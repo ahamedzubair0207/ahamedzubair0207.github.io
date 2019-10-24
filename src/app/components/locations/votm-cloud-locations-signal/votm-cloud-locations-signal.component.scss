@@ -391,16 +391,10 @@
 }
 
 .ui-overlaypanel-close {
-    /* background-color: #007ad9; */
-    color: #333;
-    width: 1.538em;
-    height: 1.538em;
-    line-height: 1.538em;
-    text-align: center;
-    position: absolute;
-    top: 1em;
-    right: 1.231em;
-    transition: background-color 0.2s;
+    background-color:transparent!important;
+    color: #333!important;
+    top: 1.5em!important;
+    right: 1.3em!important;
 }
 
 body .ui-overlaypanel {
