@@ -1,29 +1,39 @@
 <header>
   <h5 class=""> Organizations</h5>
-  <div class="btn-group-right org-home-font">
-    <button id="org-create" [routerLink]="['/org/create', curOrgId, curOrgName]" type="button"
-      class="btn btn-sm btn-info">
-      <i class="pr-2 icon-organization-add"></i>Create Organization</button>
-    <button id="org-create-loc" [routerLink]="['/loc/create', curOrgId, curOrgName]" type="button"
-      class="btn btn-sm btn-info loc-table-fonts ml-2">
-      <i class="pr-2 icon-location-add"></i>Create Location</button>
-  </div>
-
-  <form class="form-inline">
-    <div class="form-group">
-      <!-- <label for="typeahead-config" id="org-filter" class="mr-2">Type to filter events:</label> -->
-      <div class="input-group input-group-sm">
-        <input name="organizationsearch" [(ngModel)]="searchedText" class="form-control" id="searchBox" type="search" placeholder="Search"
-          aria-label="Search">
-        <div class="input-group-append">
-          <span class="input-group-text p-0">
-            <button [disabled]="!searchedText" class="btn btn-sm btn-search" id="searchButton" (click)="onOrganizationSearch()" type="submit"><i
-                class="fa fa-search"></i></button>
-          </span>
+  <div class="row">
+    <div class="col-12 col-md-6 col-lg-6 col-xl-6">
+      <form class="">
+        <div class="row">
+          <div class="col-xl-7">
+            <div class="form-group">
+              <!-- <label for="typeahead-config" id="org-filter" class="mr-2">Type to filter events:</label> -->
+              <div class="input-group input-group-sm">
+                <input name="organizationsearch" [(ngModel)]="searchedText" class="form-control" id="searchBox" type="search"
+                  placeholder="Search" aria-label="Search">
+                <div class="input-group-append">
+                  <span class="input-group-text p-0">
+                    <button [disabled]="!searchedText" class="btn btn-sm btn-search" id="searchButton"
+                      (click)="onOrganizationSearch()" type="submit"><i class="fa fa-search"></i></button>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
+      </form>
     </div>
-  </form>
+    <div class="col-12 col-md-6 col-lg-6 col-xl-6 ml-auro text-right">
+      <button id="org-create" [routerLink]="['/org/create', curOrgId, curOrgName]" type="button"
+        class="btn btn-sm btn-info">
+        <i class="pr-2 icon-organization-add"></i>Create Organization</button>
+      <button id="org-create-loc" [routerLink]="['/loc/create', curOrgId, curOrgName]" type="button"
+        class="btn btn-sm btn-info loc-table-fonts ml-2">
+        <i class="pr-2 icon-location-add"></i>Create Location</button>
+    </div>
+  </div>
+       
+    
+  
 </header>
 
 
