@@ -38,13 +38,13 @@
 
 <p-treeTable [scrollable]="true" #tt scrollHeight="400px" [globalFilterFields]="['name']" [resizableColumns]="true"
   [value]="organizationsList">
-  <ng-template pTemplate="caption">
+  <!-- <ng-template pTemplate="caption">
     <div style="text-align: left;">
       <i class="pi pi-search" style="margin:4px 4px 0 0"></i>
       <input type="text" pInputText size="20" placeholder="Type to filter"
         (input)="tt.filterGlobal($event.target.value, 'contains')" style="width:auto" id="organizationFilter">
     </div>
-  </ng-template>
+  </ng-template> -->
   <ng-template pTemplate="colgroup">
     <colgroup>
       <col>

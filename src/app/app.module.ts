@@ -134,6 +134,7 @@ import { DashboardDirective } from './dashboard.directive';
 import { ScoutStyleDashboardComponent } from './components/dashboards/scout-style-dashboard/scout-style-dashboard.component';
 import { AdminUserHomeComponent } from './components/admin/admin-user-home/admin-user-home.component';
 import { VotmCloudAdminGroupManagementComponent } from './components/admin/votm-cloud-admin-group-management/votm-cloud-admin-group-management.component';
+import { VotmCloudFavoritesComponent } from './components/favorites/votm-cloud-favorites/votm-cloud-favorites.component';
 
 const oktaConfig = Object.assign({
   onAuthRequired: ({oktaAuth, router}) => {
@@ -213,7 +214,8 @@ const oktaConfig = Object.assign({
     DashboardDirective,
     ScoutStyleDashboardComponent,
     AdminUserHomeComponent,
-    VotmCloudAdminGroupManagementComponent
+    VotmCloudAdminGroupManagementComponent,
+    VotmCloudFavoritesComponent
   ],
 
 
