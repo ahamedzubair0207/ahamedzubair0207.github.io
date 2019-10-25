@@ -180,9 +180,9 @@
             <div class="col-md-6 p-3">
               <fieldset>
                 <legend>Favorites <i class="icon-info"
-                    ngbPopover="To change the order of the favorites, drag the favorite name to a desired position."
+                    ngbPopover="To change the order of the favorites, drag the favorite order to a desired position."
                     triggers="mouseenter:mouseleave" popoverTitle="Information"></i></legend>
-                <table class="table table-bordered table-sm table-hover mb-3" id="myTable">
+                <table class="table table-bordered table-sm table-hover mb-3" id="myFavTable">
                   <thead class="thead-dark">
                     <tr>
                       <th class="text-center">Order</th>
@@ -195,56 +195,22 @@
                       <td colspan="2"> No Favorites data found.</td>
                     </tr>
                     <tr *ngFor="let userFav of userprofile.userFavorites; let i = index" id="{{userFav.favoriteOrder}}">
-                      <td class="index text-center">{{ userFav.favoriteOrder}}</td>
+                      <td class="index text-center">{{ userFav.favoriteOrder}}
+                        <input type="hidden" class="favoriteOrder" #favOrder="ngModel" name="fav_{{userFav.favoriteOrder}}" [(ngModel)]="userFav.favoriteOrder[i]">
+                      </td>
                       <td>
                         <input type="text" class="form-control form-control-sm" [disabled]="!userFav.disabled"
                           name="favName{{userFav.favoriteOrder}}" [(ngModel)]="userFav.favoriteName" required>
-                        <input type="hidden" class="favoriteOrder" name="{{userFav.favoriteOrder}}" [(ngModel)]="userFav.favoriteOrder">
                       </td>
                       <td><a class="action-icon" title="Edit Favorite" style="cursor: pointer;">
                           <i class="icon-edit" (click)="onEditFavorite(i)"></i>
                         </a>
-                        <a class="action-icon" title="Delete Favorite"  style="cursor: pointer;">
+                        <a class="action-icon" title="Delete Favorite" (click)="onClickOfConfirmDeleteUserFavorite(userFav)" style="cursor: pointer;">
                           <i class="icon-trash"></i></a>
                       </td>
                     </tr>
                   </tbody>
                 </table>
-
-                <!-- <table class="table table-hover" id="myTable">
-                  <thead>
-                  <tr>
-                    <th scope="col" class="text-center">#</th>
-                    <th scope="col">Input</th>
-                    <th scope="col">First</th>
-                    <th scope="col">Last</th>
-                    <th scope="col">Handle</th>
-                  </tr>
-                  </thead>
-                  <tbody>
-                  <tr id="1" >
-                    <td class="index">1</td>
-                    <td class="indexInput"><input type="text" name="abc" id="index" value="1"></td>
-                    <td>Mark</td>
-                    <td>Otto</td>
-                    <td>@mdo</td>
-                  </tr>
-                  <tr id="2">
-                    <td class="index">2</td>
-                    <td class="indexInput"><input type="text" name="abc" id="index" value="2"></td>
-                    <td>Jacob</td>
-                    <td>Thornton</td>
-                    <td>@fat</td>
-                  </tr>
-                  <tr id="3">
-                    <td class="index">3</td>
-                    <td class="indexInput"><input type="text" name="abc" id="index" value="3"></td>
-                    <td>Larry</td>
-                    <td>the Bird</td>
-                    <td>@twitter</td>
-                  </tr>
-                  </tbody>
-                </table> -->
               </fieldset>
               <fieldset class="mt-3" style="height: 229px;">
                 <legend>Organization Access</legend>
@@ -323,7 +289,7 @@
                     <div class="custom-control custom-checkbox">
                       <input type="checkbox" class="custom-control-input" name="noti_war_sms" formControlName="noti_war_sms" id="noti_war_sms"
                         [checked]="userprofile && userprofile.userNotification[0].warningAlarm.includes('SMS')">
-                      <label class="custom-control-label" for="noti_war_sms">SMS</label>
+                      <label class="custom-control-label" for="noti_war_sms">SMS -- {{userprofile.userNotification[0].warningAlarm}}</label>
                     </div>
                   </div>
                   <div class="col-sm-3">
@@ -336,7 +302,7 @@
                   <div class="col-sm-3">
                     <div class="custom-control custom-checkbox">
                       <input type="checkbox" class="custom-control-input" name="noti_war_web" formControlName="noti_war_web" id="noti_war_web"
-                        [checked]="userprofile && userprofile.userNotification[0].warningAlarm.includes('Web Only')">
+                        [checked]="userprofile && userprofile.userNotification[0].warningAlarm.includes('Web only')">
                       <label class="custom-control-label" for="noti_war_web">Web Only</label>
                     </div>
                   </div>
@@ -956,3 +922,5 @@
     </div>
   </div>
 </div> -->
+<app-votm-cloud-confim-dialog (onClose)="onClickOfDeleteUserFavorite($event)" #confirmDelFavorite [message]="confirmDelUserFavoriteMessage"
+headerMessage="Delete Favorite"></app-votm-cloud-confim-dialog>
