@@ -669,17 +669,17 @@ export class VotmCloudLocationsSignalComponent implements OnInit, AfterViewInit 
       });
       this.alertsService.updateAlertRule(alertObj).subscribe(
         response => {
-          this.toaster.onSuccess('Alarm Rule associated successfully.', 'Association');
+          this.toaster.onSuccess('Alarm Rule associated successfully.', 'Association Saved!');
           this.alertOPanel.hide();
           this.isAlarmRuleAssociationAPILoading = false;
         }, error => {
-          this.toaster.onFailure('Error while associating Alarm Rule.', 'Association');
+          this.toaster.onFailure('Error while associating Alarm Rule.', 'Association Error!');
           this.alertOPanel.hide();
           this.isAlarmRuleAssociationAPILoading = false;
         }
       );
     } else {
-      this.toaster.onFailure('Please save the signal association first to set the alarm rule association', 'Association');
+      this.toaster.onFailure('Please save the signal association first to set the alarm rule association', 'Association Error!');
       this.alertOPanel.hide();
     }
   }

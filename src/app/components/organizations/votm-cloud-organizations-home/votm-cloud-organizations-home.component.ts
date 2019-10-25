@@ -7,6 +7,7 @@ import { VotmCloudConfimDialogComponent } from '../../shared/votm-cloud-confim-d
 import { Toaster } from '../../shared/votm-cloud-toaster/votm-cloud-toaster';
 import { ToastrService } from 'ngx-toastr';
 import { TreeNode } from 'primeng/api';
+import {TreeTableModule} from 'primeng/treetable';
 
 @Component({
   selector: 'app-votm-cloud-organizations-home',
