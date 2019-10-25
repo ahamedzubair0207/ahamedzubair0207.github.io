@@ -82,8 +82,8 @@
               </div>
             </div>
             <div class="card-footer text-muted">
-                <button class="btn btn-sm btn-info pull-right" (click)="onClickOfSaveSignalAssociationPanel()">Save</button>
-                <button class="btn btn-sm btn-outline-secondary pull-right mr-1" (click)="closeEditOpanel()">Close</button>
+                <button class="btn btn-sm btn-info pull-right" id="sigSave" (click)="onClickOfSaveSignalAssociationPanel()">Save</button>
+                <button class="btn btn-sm btn-outline-secondary pull-right mr-1" id="sigClose" (click)="closeEditOpanel()">Close</button>
             </div>
         </div>
     </div>
@@ -112,10 +112,9 @@
               </div>
             </div>
             <div class="card-footer text-muted">
-                <button class="btn btn-sm btn-info pull-right" (click)="onClickOfAlarmRuleAssociation()" [disabled]="isAlarmRuleAssociationAPILoading">
-                  Save  <i *ngIf="isAlarmRuleAssociationAPILoading" class="fa fa-spinner fa-spin fa-fw"></i>
+                <button class="btn btn-sm btn-info pull-right" (click)="onClickOfAlarmRuleAssociation()" id="alertSave" [disabled]="isAlarmRuleAssociationAPILoading">Save<i *ngIf="isAlarmRuleAssociationAPILoading" class="fa fa-spinner fa-spin fa-fw"></i>
                 </button>
-                <button class="btn btn-sm btn-outline-secondary pull-right mr-1" (click)="onClickOfCreateAssociateRule()">Create & Associate Rule</button>
+                <button class="btn btn-sm btn-outline-secondary pull-right mr-1" id="alertCreate" (click)="onClickOfCreateAssociateRule()">Create & Associate Rule</button>
             </div>
         </div>
     </div>

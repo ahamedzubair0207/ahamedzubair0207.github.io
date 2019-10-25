@@ -63,7 +63,7 @@
                 <label id="minimumSustainTimeLbl" class="">Minimum Sustain Time</label>
                 <div class="">
                     <div class="input-group">
-                        <input name="sustainTime" id="minimumSustainTimeInput" [(ngModel)]="alert.sustainTime"
+                        <input name="minimumSustainTime" id="minimumSustainTimeInput" [(ngModel)]="alert.sustainTime"
                             type="text" class="form-control form-control-sm" placeholder="0"
                             [disabled]="pageType === 'View'">
                         <div class="input-group-append">
@@ -76,7 +76,7 @@
                 <label id="excalateAfterLbl" class="">Escalate After</label>
                 <div class="">
                     <div class="input-group">
-                        <input type="text" id="excalateAfterInput" name="escalateTime" [(ngModel)]="alert.escalateTime"
+                        <input type="text" id="excalateAfterInput" name="escalateTimeInput" [(ngModel)]="alert.escalateTime"
                             class="form-control form-control-sm" placeholder="0" [disabled]="pageType === 'View'">
                         <div class="input-group-append">
                             <span class="input-group-text form-control-sm" id="minutesLblAlert">Minutes</span>
@@ -85,11 +85,15 @@
                 </div>
             </div>
             <div class="col-12 col-md-2 pl-4 pt-2 col-xl-1">
-                <div class="checkbox">
-                    <input type="checkbox" name="closureRequired" id="closureCheckBox"
-                        [(ngModel)]="alert.closureRequired" class="mr-2" [disabled]="pageType === 'View'">
-                    <label class="mt-2">Closure Required</label>
+                <div class="custom-control custom-switch input-group">
+                    <input type="checkbox" class="custom-control-input mr-2" id="closureCheckBox" name="closure" [(ngModel)]="alert.closureRequired">
+                        <label class="custom-control-label mt-2" for="closureCheckBox">Closure Required</label>
                 </div>
+                <!-- <div class="custom-control custom-switch">
+                    <input type="checkbox" name="closureRequired" id="closureCheckBox"
+                        [(ngModel)]="alert.closureRequired" class="mr-2 custom-control-input" [disabled]="pageType === 'View'">
+                    <label class="mt-2">Closure Required</label>
+                </div> -->
             </div>
             <div class="col-12 col-md-3 col-xl-2">
                 <div class="">
@@ -479,8 +483,8 @@
                                         </select>
                                     </td> -->
                                         <td class="text-center"><a style="cursor: pointer;"
-                                                (click)="onUserGroupDelete(userGroupSubscriber)" id="removeUsers" ng-disabled='true'><i 
-                                                    class="icon-trash"></i></a></td>
+                                                (click)="onUserGroupDelete(userGroupSubscriber)" id="removeUsers"
+                                                ng-disabled='true'><i class="icon-trash"></i></a></td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -492,7 +496,7 @@
         <hr>
         <div class="row">
             <div class="col-md-12 text-right">
-                <button class="btn btn-secondary btn-sm mr-2" (click)="onCancelClick($event)"
+                <button class="btn btn-secondary btn-sm mr-2" type="button" (click)="onCancelClick($event)"
                     id="alertRuleCancelBtn">Cancel</button>
                 <button type="submit" class="btn btn-info btn-sm mr-2" id="alertRuleSaveBtn">Save</button>
             </div>
