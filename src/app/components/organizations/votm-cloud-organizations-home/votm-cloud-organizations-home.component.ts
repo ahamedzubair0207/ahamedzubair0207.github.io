@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { VotmCloudConfimDialogComponent } from '../../shared/votm-cloud-confim-dialog/votm-cloud-confim-dialog.component';
 import { Toaster } from '../../shared/votm-cloud-toaster/votm-cloud-toaster';
 import { ToastrService } from 'ngx-toastr';
+import { TreeNode } from 'primeng/api';
 
 @Component({
   selector: 'app-votm-cloud-organizations-home',
@@ -14,7 +15,7 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class VotmCloudOrganizationsHomeComponent implements OnInit {
 
-  organizationsList = [];
+  organizationsList: Array<TreeNode> = [];
   svcLevels: any[] = [];
   sensorBlocks: any[] = [];
   cellularBlocks: any[] = [];
@@ -77,17 +78,30 @@ export class VotmCloudOrganizationsHomeComponent implements OnInit {
     this.isGetOrganizationsApiLoading = true;
     this.orgservice.getOrganizationTree(this.curOrgId).subscribe(
       response => {
-        this.organizationsList = response.map(
-          x => ({
-            ...x,
-            opened: true
-          })
-        );
+        this.organizationsList =[];
+        if (response && response.length > 0) {
+          this.organizationsList = this.fillOrganizationData(response);
+        }
         this.isGetOrganizationsApiLoading = false;
       }, error => {
         this.isGetOrganizationsApiLoading = false;
       }
     );
+  }
+
+  fillOrganizationData(organizations: any[]) {
+    let organizationList: TreeNode[] = [];
+    organizations.forEach(org => {
+      let tempOrg: TreeNode = { data: org };
+      tempOrg.children = [];
+      if (org.node && org.node.length > 0) {
+        tempOrg.children = this.fillOrganizationData(org.node);
+      } else {
+        tempOrg.children = [];
+      }
+      organizationList.push(tempOrg);
+    });
+    return organizationList;
   }
 
   getOptionsListData(listData: string) {

@@ -12,7 +12,11 @@
               <app-breadcrumbs *ngIf="router.url !== '/login'" ></app-breadcrumbs>
               <div class="mr-3">
                 <ul class="nav navbar-nav ml-auto">
-                  <li class="nav-item"> <a class="nav-link" href="#" id="favBtn"><i class="fa fa-star"></i></a>
+                  <li class="nav-item"> 
+                      <!-- <button type="button" class="btn btn-sm btn-secondary mr-2" data-toggle="modal"
+                      (click)="onAddNotifiedUsersClick()" data-target="#notifiedUserModal" id="notifyUserBtn"><i
+                          class="icon-user-add mr-2"></i>Add Notified User</button> -->
+                          <a class="nav-link" href="#favModal" id="favBtn" data-toggle="modal"><i class="fa fa-star"></i></a>
                   </li>
                   <li class="nav-item dropdown"> <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" id="notificationBtn"><i class="fa fa-bell"></i></a>
                     <div class="dropdown-menu dropdown-menu-notification shadow">
@@ -64,9 +68,9 @@
                     </div>
                   </li>
                   <li class="nav-item user-divider"> 
-                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" id="user"><i class="fa fa-user mr-2 user-icon"></i>Sean Haley </a>
+                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" id="user"><i class="icon-user mr-2 user-icon"></i>Sean Haley </a>
                     <div class="dropdown-menu dropdown-menu-right" >
-                      <a [routerLink]="['/preferences']" class="dropdown-item"><i class="fa fa-user mr-2 dropdown-icon-size"></i>User Preferences</a>
+                      <a [routerLink]="['/preferences']" class="dropdown-item"><i class="icon-user-profile mr-2 dropdown-icon-size"></i>User Preferences</a>
                       <a href="#" class="dropdown-item"><i class="fa fa-key mr-2 dropdown-icon-size"></i>Change Password</a>
                       <a href="#" class="dropdown-item"><i class="fa fa-info mr-2 dropdown-icon-size"></i>Help</a>
                       <!-- <a id="logout-button" class="dropdown-item" *ngIf="isAuthenticated" (click)="logout()"><i class="fa fa-power-off mr-2 dropdown-icon-size"></i>Logout</a> -->
@@ -77,3 +81,29 @@
               </div>
             </div>
     </nav>
+
+
+    <!-- Modal for Favorite  -->
+    <div id="favModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="userFavModal"
+      aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add Favorite</h5>
+            </div>
+            <div class="modal-body table-responsive">
+              <div class="col-12">
+                <label id="favNameLbl" class="">Favorite Name</label>
+                <div class="">
+                    <input type="text" name="alertRuleName"
+                        class="form-control form-control-sm" id="favNameInput" placeholder="Favorite Name">
+                </div>
+            </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-info" id="userFavSave">Save changes</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" id="userModalClose">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

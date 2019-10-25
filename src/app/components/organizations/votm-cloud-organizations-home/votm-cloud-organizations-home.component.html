@@ -36,9 +36,78 @@
   
 </header>
 
+<p-treeTable [scrollable]="true" #tt scrollHeight="400px" [globalFilterFields]="['name']" [resizableColumns]="true"
+  [value]="organizationsList">
+  <!-- <ng-template pTemplate="caption">
+    <div style="text-align: left;">
+      <i class="pi pi-search" style="margin:4px 4px 0 0"></i>
+      <input type="text" pInputText size="20" placeholder="Type to filter"
+        (input)="tt.filterGlobal($event.target.value, 'contains')" style="width:auto" id="organizationFilter">
+    </div>
+  </ng-template> -->
+  <ng-template pTemplate="colgroup">
+    <colgroup>
+      <col>
+      <col>
+      <col>
+      <col>
+      <col>
+      <col>
+      <col [style.width.px]="60">
+      <col>
+      <!-- <col [style.width.px]="108"> -->
+    </colgroup>
+  </ng-template>
+  <ng-template pTemplate="header">
+    <tr>
+      <th ttResizableColumn [ttSortableColumn]="name">Name</th>
+      <th ttResizableColumn>Type</th>
+      <th ttResizableColumn>Customer #</th>
+      <th ttResizableColumn>Contract Start</th>
+      <th ttResizableColumn>Contract End</th>
+      <th ttResizableColumn>Service Level</th>
+      <th ttResizableColumn>Status</th>
+      <th ttResizableColumn class="align-center">Actions</th>
+      <!-- <th class="text-center" ttResizableColumn>Associations</th> -->
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-rowNode let-rowData="rowData">
+    <tr [ttRow]="rowNode">
+
+      <td class="align-left">
+        
+        <a style="color: #212529;" [routerLink]="['/org/view', curOrgId, curOrgName, rowData.id]"><i class="icon-org-company"></i>{{rowData.name}}</a><p-treeTableToggler [rowNode]="rowNode"></p-treeTableToggler>
+      </td>
+      <td class="align-left">{{rowData.type}}</td>
+      <td class="align-left">{{rowData.customerNo}}</td>
+      <td class="align-left">{{rowData.contractStart.split(" ")[0]}}</td>
+      <td class="align-left">{{rowData.contractEnd.split(" ")[0]}}</td>
+      <td class="align-left">{{rowData.serviceLevel}}</td>
+      <td class="align-center"><i class="icon-go" style="color: #28a745;"></i></td>
+      <td class="align-center">
+        <a class="action-icon" title="Location" [routerLink]="['/loc/home', rowData.id, rowData.name]">
+          <i class="icon-location"></i>
+        </a>
+
+        <a class="action-icon" title="Edit" [routerLink]="['/org/edit',curOrgId, curOrgName, rowData.id]">
+          <i class="icon-edit"></i>
+        </a>
+        <a class="action-icon" (click)="openConfirmDialog(rowData.id, rowData.name)" title="Delete">
+          <i class="icon-trash"></i>
+        </a>
+      </td>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="emptymessage">
+    <tr>
+      <td [attr.colspan]="8">No data found.</td>
+    </tr>
+  </ng-template>
+</p-treeTable>
 
 
-<ng-template #recursiveTableList let-list="orgList" let-lvl="level">
+
+<!-- <ng-template #recursiveTableList let-list="orgList" let-lvl="level">
   <ng-container *ngFor="let item of list">
 
     <tr>
@@ -89,9 +158,7 @@
           <a class="action-icon" title="Location" [routerLink]="['/loc/home', subItem.id, subItem.name]">
             <i class="icon-location"></i>
           </a>
-          <!-- <a class="action-icon" title="View" [routerLink]="['/org/view',curOrgId, curOrgName, subItem.id]">
-                  <i class="fa fa-eye"></i>
-                </a> -->
+        
           <a class="action-icon" title="Edit" [routerLink]="['/org/edit',curOrgId, curOrgName, subItem.id]">
             <i class="icon-edit"></i>
           </a>
@@ -138,9 +205,8 @@
     </tbody>
   </table>
 </div>
-<!-- </form> -->
 
-
+ -->
 
 
 
