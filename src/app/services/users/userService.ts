@@ -69,4 +69,8 @@ export class UserService {
     updateUserNotification(userObj: UserProfile) {
         return this.http.patch(AppConstants.EDIT_USER_NOTIFICATION + '/' + userObj.userId, userObj);
     }
+
+    deleteUserFavorite(userFavoriteId: string) {
+        return this.http.delete(AppConstants.DELETE_USER_FAVORITE + '?userFavoriteId=' + userFavoriteId, {});
+    }
 }

@@ -14,6 +14,7 @@ import { UserService } from 'src/app/services/users/userService';
 import { DomSanitizer } from '@angular/platform-browser';
 import { AlertsService } from 'src/app/services/alerts/alerts.service';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
+import { SharedService } from 'src/app/services/shared.service';
 declare var $: any;
 @Component({
   selector: 'app-votm-cloud-preferences',
@@ -44,12 +45,15 @@ export class VotmCloudPreferencesComponent implements OnInit, AfterViewInit {
   @ViewChild('file', null) userImage: any;
   @Input() alertList: any[];
   @ViewChild('confirmBox', null) confirmBox: VotmCloudConfimDialogComponent;
+  @ViewChild('confirmDelFavorite', null) confirmDelFavorite: VotmCloudConfimDialogComponent;
   userPreferenceForm: FormGroup;
   userFavEdit: any;
   userCriticalAlaram: string[];
   userWarningAlaram: string[];
   userInfoMessage: string[];
   userNotificationForm: FormGroup;
+  selectedUserFavoriteForDelete: any;
+  confirmDelUserFavoriteMessage: string;
 
   constructor(
     private modalService: NgbModal,
@@ -63,7 +67,8 @@ export class VotmCloudPreferencesComponent implements OnInit, AfterViewInit {
     private toastr: ToastrService,
     private userService: UserService,
     private domSanitizer: DomSanitizer,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private sharedService: SharedService
   ) { }
 
   ngOnInit() {
@@ -300,12 +305,12 @@ export class VotmCloudPreferencesComponent implements OnInit, AfterViewInit {
         });
       };
 
-      $('#myTable tbody').sortable({
+      $('#myFavTable tbody').sortable({
         helper: fixHelperModified,
         stop: updateIndex
       }).disableSelection();
 
-      $('#myTable tbody').sortable({
+      $('#myFavTable tbody').sortable({
         distance: 5,
         delay: 100,
         opacity: 0.6,
@@ -325,7 +330,7 @@ export class VotmCloudPreferencesComponent implements OnInit, AfterViewInit {
   }
 
   onuserPreferenceSubmit() {
-
+    console.log('onuserPreferenceSubmit==== ', this.userprofile);
     this.userService.updateUser(this.userprofile)
       .subscribe(response => {
         this.toaster.onSuccess('Successfully updated', 'Updated');
@@ -357,6 +362,28 @@ export class VotmCloudPreferencesComponent implements OnInit, AfterViewInit {
       this.userprofile.userFavorites[favId].disabled = true;
     }
     // this.userprofile.userFavorites[favId].disabled = true;
+  }
+
+  onClickOfConfirmDeleteUserFavorite(userFav) {
+    this.selectedUserFavoriteForDelete = userFav;
+    this.confirmDelUserFavoriteMessage = 'Are you sure, you want to delete this Favorite' +
+      this.sharedService.toTitleCase(userFav.favoriteName) + ' ?';
+    this.confirmDelFavorite.open();
+  }
+
+  onClickOfDeleteUserFavorite(event) {
+    if (event) {
+      this.userService.deleteUserFavorite(this.selectedUserFavoriteForDelete.userFavoriteId).subscribe(
+        response => {
+          this.toaster.onSuccess('Successfully deleted.', 'Deleted');
+          this.getUserDetailInfo();
+          this.selectedUserFavoriteForDelete = undefined;
+        }, error => {
+          this.toaster.onFailure('Error while deleting favorites.', 'Deleted');
+          this.selectedUserFavoriteForDelete = undefined;
+        }
+      );
+    }
   }
 
   onUserNotificationSave() {

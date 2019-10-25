@@ -32,6 +32,8 @@ export class AppConstants {
 
     public static GET_USER_DETAIL = '/UserManagement/UserDetail';
     public static EDIT_USER_NOTIFICATION = '/UserManagement/UserNotification';
+
+    public static DELETE_USER_FAVORITE = '/UserManagement/UserFavorites';
     public static GET_OPTIONSLISTDATA = '/Location/optionsListData';
 
     public static GET_ASSET_TREE = '/AssetTree/type/asset';
