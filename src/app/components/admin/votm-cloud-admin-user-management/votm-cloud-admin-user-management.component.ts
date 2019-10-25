@@ -196,7 +196,7 @@ export class VotmCloudAdminUserManagementComponent implements OnInit, OnDestroy 
         this.onClickOfGrantAccessModalClose();
         this.getUsers();
       }, error => {
-        this.toaster.onFailure('Error in granting guest access.', 'Granted');
+        this.toaster.onFailure('Error in granting guest access.', 'Not Granted!');
         this.onClickOfGrantAccessModalClose();
       }
     );

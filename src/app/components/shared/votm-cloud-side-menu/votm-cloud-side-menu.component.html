@@ -2,11 +2,11 @@
     <div class="sidebar-header"></div>
   <ul class="list-unstyled components left-menu-margin">
     <li *ngFor="let eachItem of menuItems"  routerLinkActive="active" [ngClass]="{ 'super-admin' : eachItem.id == 'super' }" >
-      <a *ngIf="eachItem.enabled && eachItem.id !== 'admin'" routerLink="{{eachItem.url}}"  (click)="setActiveItem(eachItem.id)" data-toggle="collapse" aria-expanded="false" data-toggle="tooltip" data-placement="right" title="{{eachItem.name}}">
+      <a *ngIf="eachItem.enabled && (eachItem.id !== 'admin' && eachItem.id !== 'favorites')" routerLink="{{eachItem.url}}"  (click)="setActiveItem(eachItem.id)" data-toggle="collapse" aria-expanded="false" data-toggle="tooltip" data-placement="right" title="{{eachItem.name}}">
           <i [ngClass]="eachItem.icon" class="dropdown-icon-size"></i>
           <span class="icon-text" >{{eachItem.name}}</span>
       </a>
-      <a *ngIf="eachItem.enabled && eachItem.id === 'admin'" (click)="setActiveItem(eachItem.id)" data-toggle="collapse" aria-expanded="false" data-toggle="tooltip" data-placement="right" title="{{eachItem.name}}">
+      <a *ngIf="eachItem.enabled && (eachItem.id === 'admin' || eachItem.id === 'favorites')" (click)="setActiveItem(eachItem.id)" data-toggle="collapse" aria-expanded="false" data-toggle="tooltip" data-placement="right" title="{{eachItem.name}}">
           <i [ngClass]="eachItem.icon" class="dropdown-icon-size"></i>
           <span class="icon-text" >{{eachItem.name}}</span>
           <i class="fa fa-caret-down float-right" id="adminDropDown" style="margin-top:4px;"></i>
