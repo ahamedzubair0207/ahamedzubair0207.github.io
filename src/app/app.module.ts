@@ -137,6 +137,7 @@ import {MapModule, MapAPILoader, MarkerTypeId, IMapOptions, IBox, IMarkerIconInf
   BingMapAPILoaderConfig, BingMapAPILoader, 
   GoogleMapAPILoader,  GoogleMapAPILoaderConfig
 } from 'angular-maps';
+import { VotmSmoothLineComponent } from './components/shared/charts/votm-smooth-line/votm-smooth-line.component';
 
 /// <reference path="node_modules/bingmaps/types/MicrosoftMaps/Microsoft.Maps.All.d.ts" />
 
@@ -226,7 +227,8 @@ export function MapServiceProviderFactory(){
     ScoutStyleDashboardComponent,
     AdminUserHomeComponent,
     VotmCloudAdminGroupManagementComponent,
-    VotmCloudFavoritesComponent
+    VotmCloudFavoritesComponent,
+    VotmSmoothLineComponent
   ],
 
 
