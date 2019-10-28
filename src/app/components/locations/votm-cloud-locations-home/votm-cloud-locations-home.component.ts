@@ -4,6 +4,7 @@ import { LocationService } from '../../../services/locations/location.service';
 import { VotmCloudConfimDialogComponent } from '../../shared/votm-cloud-confim-dialog/votm-cloud-confim-dialog.component';
 import { ToastrService } from 'ngx-toastr';
 import { Toaster } from '../../shared/votm-cloud-toaster/votm-cloud-toaster';
+import { TreeNode } from 'primeng/api';
 
 @Component({
   selector: 'app-votm-cloud-locations-home',
@@ -12,7 +13,7 @@ import { Toaster } from '../../shared/votm-cloud-toaster/votm-cloud-toaster';
 })
 export class VotmCloudLocationsHomeComponent implements OnInit {
 
-  locationsList = [];
+  locationsList: Array<TreeNode> = [];
   curLocId: string;
   curLocName: string;
   parentOrgId: string;
@@ -47,11 +48,28 @@ export class VotmCloudLocationsHomeComponent implements OnInit {
 
   private fetchlocationTreeById() {
     this.locService.getLocationTree(this.curLocId).subscribe(response => {
-      this.locationsList = response.map(x => ({
-        ...x,
-        opened: true
-      }));
+      this.locationsList =[];
+      if (response && response.length > 0) {
+        this.locationsList = this.fillLocationData(response);
+      }
+      console.log('this.locationsList ', this.locationsList);
     });
+
+  }
+
+  fillLocationData(locations: any[]) {
+    let locationList: TreeNode[] = [];
+    locations.forEach(org => {
+      let tempLoc: TreeNode = { data: org };
+      tempLoc.children = [];
+      if (org.node && org.node.length > 0) {
+        tempLoc.children = this.fillLocationData(org.node);
+      } else {
+        tempLoc.children = [];
+      }
+      locationList.push(tempLoc);
+    });
+    return locationList;
   }
 
   onCreateNewLocation() {
@@ -64,10 +82,12 @@ export class VotmCloudLocationsHomeComponent implements OnInit {
 
   private fetchlocationTree() {
     this.locService.getAllLocationTree(this.parentOrgId).subscribe(response => {
-      this.locationsList = response.map(x => ({
-        ...x,
-        opened: true
-      }));
+      this.locationsList =[];
+      if (response && response.length > 0) {
+        this.locationsList = this.fillLocationData(response);
+      }
+      
+    console.log('this.locationsList ', this.locationsList);
     });
   }
 

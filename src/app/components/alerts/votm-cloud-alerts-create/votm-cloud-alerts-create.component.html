@@ -418,13 +418,11 @@
                                 class="icon-star mr-2"></i>Notify
                             Me</button>
                         <button type="button" class="btn btn-sm btn-secondary mr-2" data-toggle="modal"
-                            (click)="onAddNotifiedUsersClick()" data-target="#notifiedUserModal" id="notifyUserBtn"><i
+                            (click)="onAddNotifiedUsersClick()"  data-target="#notifiedUserModal" id="notifyUserBtn"><i
                                 class="icon-user-add mr-2"></i>Add Notified User</button>
                         <button type="button" class="btn btn-sm btn-secondary" data-toggle="modal"
                             data-target="#notifiedUserGroupModal" id="notifyUserGroupBtn"><i
-                                class="icon-user-add mr-2"></i>Add
-                            Notified
-                            Group</button>
+                                class="icon-users-add mr-2"></i>Add Notified Group</button>
 
                         <!-- Button trigger modal -->
                         <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
@@ -506,7 +504,7 @@
 <!-- Add Notified User Modal -->
 <div id="notifiedUserModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="userModal"
     aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Available User</h5>
@@ -589,7 +587,7 @@
                             <th scope="row">{{i+1}}</th>
                             <td>{{userGroup.userGroupName}}</td>
                             <td><a [ngStyle]="{'cursor':(checkForUserGroupSelected(userGroup.userGroupId, 'UserGroup')?'auto':'pointer')}"
-                                    (click)="onUserGroupSelection(userGroup)"><i class="icon-user-add"
+                                    (click)="onUserGroupSelection(userGroup)"><i class="icon-users-add"
                                         [ngStyle]="{'color':(checkForUserGroupSelected(userGroup.userGroupId, 'UserGroup')?'#29a7a1':'black')}"></i></a>
                             </td>
                         </tr>
