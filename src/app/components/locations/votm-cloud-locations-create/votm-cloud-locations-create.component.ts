@@ -73,7 +73,7 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
   dropdownSettings: {};
   // gatewayList: Array<Select2OptionData>; // { item_id: string; item_text: string; }[];
   gatewayList: Array<any>;
-  selectedItems: Array<Select2OptionData>; // { item_id: string; item_text: string; }[];
+  selectedItems: Array<any>; // { item_id: string; item_text: string; }[];
   previousURLToNavigate: string;
   previousUrl: any;
   subscriptions: any;
@@ -340,10 +340,10 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
   private gateGateways() {
     this.gatewayList = [
       { id: 'e9004bb5-67cd-466a-9014-034808a4da4b', text: '4G- PVSG-IQAN' },
-      { id: 'e9004bb5-67cd-466a-9014-034808a4da4b', text: 'Gateway 2' },
-      { id: 'e9004bb5-67cd-466a-9014-034808a4da4b', text: 'Gateway 3' },
-      { id: 'e9004bb5-67cd-466a-9014-034808a4da4b', text: 'Gateway 4' },
-      { id: 'e9004bb5-67cd-466a-9014-034808a4da4b', text: 'Gateway 5' }
+      { id: 'e9004bb5-67cd-466a-9014-034808a4da4q', text: 'Gateway 2' },
+      { id: 'e9004bb5-67cd-466a-9014-034808a4da4d', text: 'Gateway 3' },
+      { id: 'e9004bb5-67cd-466a-9014-034808a4da4e', text: 'Gateway 4' },
+      { id: 'e9004bb5-67cd-466a-9014-034808a4da4f', text: 'Gateway 5' }
     ];
   }
 
@@ -652,6 +652,8 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
       // this.location.geoFenceValue = `${this.rectangleValue1}*${this.rectangleValue2}${this.rectangleUnit}`;
     }
     if (this.selectedItems && this.selectedItems.length > 0) {
+      console.log('this.selectedItems ', this.selectedItems)
+      this.location.gateways = [];
       this.selectedItems.forEach((item) => {
         this.location.gateways.push(item.id);
       });
@@ -673,6 +675,7 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
             this.toaster.onFailure('Something went wrong. Please fill the form correctly', 'Fail');
           });
       } else {
+        delete this.location.uoM;
         this.locationService.createLocation(this.location)
           .subscribe(response => {
             // console.log('response ', response);

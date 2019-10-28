@@ -1,7 +1,7 @@
 
 .btn-group-right{
     float:right;
-    margin-bottom: 20px;
+    // margin-bottom: 20px;
 }
 
 .flt-left{
@@ -30,14 +30,24 @@
     color: #212529;
 }
 
-.org-table-fonts{
-    font-family: 'Roboto', sans-serif;
-    font-size: 14px;
-}
-
-.org-header{
-    font-family: 'Roboto', sans-serif;
-}
 .btn-search{
     padding: 0.15rem 0.5rem;
+}
+
+td {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.pi-sort-down{
+    color:black;
+}
+
+.pi-sort-up{
+    color:black;
+}
+
+body .ui-treetable .ui-sortable-column.ui-state-highlight{
+    color: black !important;
 }

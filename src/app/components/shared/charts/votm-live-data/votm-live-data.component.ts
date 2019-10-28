@@ -26,8 +26,6 @@ export class VotmLiveDataComponent implements OnInit {
   }
 
   ngOnInit() {
-  
- 
 
     let container = am4core.create("chartdiv", am4core.Container);
     container.width = am4core.percent(100);

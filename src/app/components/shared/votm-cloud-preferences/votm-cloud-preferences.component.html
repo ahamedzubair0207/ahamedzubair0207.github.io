@@ -115,13 +115,18 @@
                         <div class="form-group">
                           <label for="noti_pre_lan" class="">Locale</label>
                           <div class="">
+                              <!-- <ng-select id="DefaultLang" class="custom" required [multiple]="false" [(ngModel)]="userprofile.userConfigSettings[0].localeId"
+                                name="userprofile.localeId" #language="ngModel" (change)="onLocaleChange()" placeholder="Select Locale"
+                                [disabled]="pageType==='View'">
+                                <ng-option value="null" disabled selected>Locale</ng-option>
+                                <ng-option *ngFor="let locale of applicationConfiguration.locale" [value]="locale.localeId">{{locale.localeName}}
+                                </ng-option>
+                              </ng-select> -->
                             <select required #language="ngModel" id="DefaultLang"
                               [(ngModel)]="userprofile.userConfigSettings[0].localeId" name="language"
                               class="drop-down form-control form-control-sm">
-                              <!-- <option value="" data-default selected>Select Language</option> -->
-                              <option *ngFor="let locale of applicationConfiguration.locale" [value]="locale.localeId">
-                                {{locale.localeName}}
-                              </option>
+                              <option value="" data-default selected>Select Language</option>
+                              <option *ngFor="let locale of applicationConfiguration.locale" [value]="locale.localeId">{{locale.localeName}}</option>
                             </select>
                           </div>
                         </div>

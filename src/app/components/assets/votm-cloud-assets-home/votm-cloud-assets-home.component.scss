@@ -1,7 +1,7 @@
 
 .btn-group-right{
     float:right;
-    margin-top: 16px;
+    // margin-top: 16px;
 }
 
 .flt-left{
@@ -30,9 +30,21 @@
     color: #212529;
 }
 
-
-
 .underline-on-hover:hover {
     text-decoration: underline;
     cursor: pointer;
+}
+
+td {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+tr {
+    font-size: 13px;
+}
+
+table {
+    font-size: 13px;
 }

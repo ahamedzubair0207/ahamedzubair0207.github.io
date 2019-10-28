@@ -88,19 +88,16 @@ import {
 import {
   VotmCloudAssetTemplateDetailsComponent
 } from './components/assets/votm-cloud-asset-template-details/votm-cloud-asset-template-details.component';
-import {FileUploadModule} from 'primeng/fileupload';
-import {DragDropModule} from 'primeng/dragdrop';
-import {TooltipModule} from 'primeng/tooltip';
-import {OverlayPanelModule} from 'primeng/overlaypanel';
+import { FileUploadModule } from 'primeng/fileupload';
+import { DragDropModule } from 'primeng/dragdrop';
+import { TooltipModule } from 'primeng/tooltip';
+import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { VotmCloudEventsHomeComponent } from './components/events/votm-cloud-events-home/votm-cloud-events-home.component';
 import { VotomCloudTemplateSignalComponent } from './components/assets/votm-cloud-template-signal/votm-cloud-template-signal.component';
 import { VotmCloudRequiredAttributeDirective } from './components/shared/required-attribute/votm-cloud-required-attribute.directive';
 import {
   VotmCloudOrganizationDashboardComponent
 } from './components/organizations/votm-cloud-organization-dashboard/votm-cloud-organization-dashboard.component';
-import {
-  VotmLiveOrderBookDepthChartComponent
-} from './components/shared/charts/votm-live-order-book-depth-chart/votm-live-order-book-depth-chart.component';
 import { VotmLiveDataComponent } from './components/shared/charts/votm-live-data/votm-live-data.component';
 import {
   VotmCloudLocationsDashboardComponent
@@ -119,7 +116,7 @@ import { VotmCloudAdminUserManagementComponent } from './components/admin/votm-c
 import { VotmCloudLocationsAssetComponent } from './components/locations/votm-cloud-locations-asset/votm-cloud-locations-asset.component';
 import { VotmCloudGatewaysDetailsComponent } from './components/gateways/votm-cloud-gateways-details/votm-cloud-gateways-details.component';
 import { VotmCloudReceiverDetailsComponent } from './components/gateways/votm-cloud-receiver-details/votm-cloud-receiver-details.component';
-import {TreeTableModule} from 'primeng/treetable';
+import { TreeTableModule } from 'primeng/treetable';
 import { VotmCloudAdminNetworkMapComponent } from './components/admin/votm-cloud-admin-network-map/votm-cloud-admin-network-map.component';
 import { VotmCloudAdminSensorHomeComponent } from './components/admin/admin-sensors/votm-cloud-admin-sensor-home/votm-cloud-admin-sensor-home.component';
 import { VotmCloudAdminSensorDetailsComponent } from './components/admin/admin-sensors/votm-cloud-admin-sensor-details/votm-cloud-admin-sensor-details.component';
@@ -136,15 +133,30 @@ import { AdminUserHomeComponent } from './components/admin/admin-user-home/admin
 import { VotmCloudAdminGroupManagementComponent } from './components/admin/votm-cloud-admin-group-management/votm-cloud-admin-group-management.component';
 import { VotmCloudFavoritesComponent } from './components/favorites/votm-cloud-favorites/votm-cloud-favorites.component';
 
+import {MapModule, MapAPILoader, MarkerTypeId, IMapOptions, IBox, IMarkerIconInfo, WindowRef, DocumentRef, MapServiceFactory, 
+  BingMapAPILoaderConfig, BingMapAPILoader, 
+  GoogleMapAPILoader,  GoogleMapAPILoaderConfig
+} from 'angular-maps';
+
+/// <reference path="node_modules/bingmaps/types/MicrosoftMaps/Microsoft.Maps.All.d.ts" />
+
 const oktaConfig = Object.assign({
-  onAuthRequired: ({oktaAuth, router}) => {
+  onAuthRequired: ({ oktaAuth, router }) => {
     // Redirect the user to your custom login page
     router.navigate(['/login']);
   }
 }, UserAuthenticationConfig.oidc);
 
 
-
+export function MapServiceProviderFactory(){
+  let bc: BingMapAPILoaderConfig = new BingMapAPILoaderConfig();
+  bc.apiKey ="Ap0AObt84NcDaUThCeWOj52ZqUHv6k4TJhjLibR-DghC-semgoj-0uPbIi8r0E4j"; // your bing map key
+  bc.branch = "experimental"; 
+      // to use the experimental bing brach. There are some bug fixes for
+      // clustering in that branch you will need if you want to use 
+      // clustering.
+  return new BingMapAPILoader(bc, new WindowRef(), new DocumentRef());
+}
 
 @NgModule({
   declarations: [
@@ -189,7 +201,6 @@ const oktaConfig = Object.assign({
     VotomCloudTemplateSignalComponent,
     VotmCloudRequiredAttributeDirective,
     VotmCloudOrganizationDashboardComponent,
-    VotmLiveOrderBookDepthChartComponent,
     VotmLiveDataComponent,
     VotmCloudLocationsDashboardComponent,
     VotmCloudAssetDashboardComponent,
@@ -237,9 +248,13 @@ const oktaConfig = Object.assign({
     TooltipModule,
     OverlayPanelModule,
     OktaAuthModule,
-    TreeTableModule
+    TreeTableModule,
+    MapModule.forRoot()
   ],
   providers: [
+    {
+      provide: MapAPILoader, deps: [], useFactory: MapServiceProviderFactory
+    },
     DatePipe,
     MenuService,
     SharedService,

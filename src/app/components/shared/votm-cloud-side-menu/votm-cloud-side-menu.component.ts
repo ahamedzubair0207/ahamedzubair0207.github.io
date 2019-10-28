@@ -34,11 +34,11 @@ export class VotmCloudSideMenuComponent implements OnInit {
       this.menuItems.forEach(item => {
         if (item.name === 'Favorites') {
           item.childs = [];
-          childs.forEach(child=>{
-            item.childs.push({enabled: true, url: child.url, name: child.favoriteName})
+          childs.forEach(child => {
+            item.childs.push({ enabled: true, url: child.url, name: child.favoriteName })
           })
           // item.childs = childs;
-          
+
           console.log('MenuItem ', item);
         }
       });
@@ -50,22 +50,31 @@ export class VotmCloudSideMenuComponent implements OnInit {
   }
 
   setActiveItem(actItem: string) {
-    const elem = this.elemRef.nativeElement.querySelectorAll('.dropdown-container')[0];
-    console.log(elem);
+    // console.log(elem);
     if (actItem !== 'admin' && actItem !== 'favorites') {
       this.sharedService.setActiveMenu(actItem);
       this.activeItem = this.sharedService.getActiveMenu();
       if (this.activeItem !== 'network' && this.activeItem !== 'user') {
+        const elem = this.elemRef.nativeElement.querySelectorAll('.dropdown-container')[0];
         elem.classList.remove('display-block');
         elem.classList.add('display-none');
       }
     } else {
-      if (!elem.classList.contains('display-block')) {
-        elem.classList.add('display-block');
-        elem.classList.remove('display-none');
-      } else {
-        elem.classList.remove('display-block');
-        elem.classList.add('display-none');
+      let elements: any[] = this.elemRef.nativeElement.querySelectorAll('.dropdown-container');
+      let elem;
+      elements.forEach((element, i) => {
+        if (element.id === actItem) {
+          elem = element;
+        }
+      });
+      if (elem) {
+        if (!elem.classList.contains('display-block')) {
+          elem.classList.add('display-block');
+          elem.classList.remove('display-none');
+        } else {
+          elem.classList.remove('display-block');
+          elem.classList.add('display-none');
+        }
       }
     }
   }

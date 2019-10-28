@@ -674,11 +674,13 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
 
   notifiedUserModal() {
     // Get the modal
+    this.modalService.open({ scrollable: true });
     var modal = document.getElementById('userModal');
     modal.style.display = 'block';
     this.modal = document.getElementById('userModal');
     // Get the <span> element that closes the modal
     var span = document.getElementsByClassName('close')[0];
+    
 
     // When the user clicks anywhere outside of the modal, close it
     window.onclick = function (event) {
@@ -689,6 +691,7 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
   }
 
   onAddNotifiedUsersClick() {
+    
     if (!this.notifyUsers || this.notifyUsers.length === 0) {
       this.userService.getAllUsers()
         .subscribe(response => {

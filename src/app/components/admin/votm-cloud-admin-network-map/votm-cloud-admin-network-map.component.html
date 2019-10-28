@@ -1,3 +1,14 @@
-<p>
-  votm-cloud-admin-network-map works!
-</p>
+<!-- <i class="icon-location"></i> -->
+<div style="height: 600px">
+  <x-map #xmap *ngIf="latlon && !latlon.error" [Options]="_options" [Box]="_box">
+    <x-map-marker [Latitude]="latlon.latitude" [Longitude]="latlon.longitude" [Title]="'Current Location'"><i class="icon-location"></i>
+      <x-info-box [DisableAutoPan]="true" [Title]="'My Location'"
+        [Description]="'Hi, This is your current location.'"><i class="icon-location"></i>
+        <x-info-box-action></x-info-box-action>
+      </x-info-box>
+    </x-map-marker>
+  </x-map>
+  <div *ngIf="latlon && latlon.error">
+    {{latlon.error}}
+  </div>
+</div>
