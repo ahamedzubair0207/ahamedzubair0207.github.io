@@ -133,13 +133,8 @@ import { AdminUserHomeComponent } from './components/admin/admin-user-home/admin
 import { VotmCloudAdminGroupManagementComponent } from './components/admin/votm-cloud-admin-group-management/votm-cloud-admin-group-management.component';
 import { VotmCloudFavoritesComponent } from './components/favorites/votm-cloud-favorites/votm-cloud-favorites.component';
 
-import {MapModule, MapAPILoader, MarkerTypeId, IMapOptions, IBox, IMarkerIconInfo, WindowRef, DocumentRef, MapServiceFactory, 
-  BingMapAPILoaderConfig, BingMapAPILoader, 
-  GoogleMapAPILoader,  GoogleMapAPILoaderConfig
-} from 'angular-maps';
 import { VotmSmoothLineComponent } from './components/shared/charts/votm-smooth-line/votm-smooth-line.component';
-
-/// <reference path="node_modules/bingmaps/types/MicrosoftMaps/Microsoft.Maps.All.d.ts" />
+import {AmModule} from "@acaisoft/angular-azure-maps";
 
 const oktaConfig = Object.assign({
   onAuthRequired: ({ oktaAuth, router }) => {
@@ -147,17 +142,6 @@ const oktaConfig = Object.assign({
     router.navigate(['/login']);
   }
 }, UserAuthenticationConfig.oidc);
-
-
-export function MapServiceProviderFactory(){
-  let bc: BingMapAPILoaderConfig = new BingMapAPILoaderConfig();
-  bc.apiKey ="Ap0AObt84NcDaUThCeWOj52ZqUHv6k4TJhjLibR-DghC-semgoj-0uPbIi8r0E4j"; // your bing map key
-  bc.branch = "experimental"; 
-      // to use the experimental bing brach. There are some bug fixes for
-      // clustering in that branch you will need if you want to use 
-      // clustering.
-  return new BingMapAPILoader(bc, new WindowRef(), new DocumentRef());
-}
 
 @NgModule({
   declarations: [
@@ -251,12 +235,10 @@ export function MapServiceProviderFactory(){
     OverlayPanelModule,
     OktaAuthModule,
     TreeTableModule,
-    MapModule.forRoot()
+    AmModule
   ],
   providers: [
-    {
-      provide: MapAPILoader, deps: [], useFactory: MapServiceProviderFactory
-    },
+    // LoadMapService,
     DatePipe,
     MenuService,
     SharedService,

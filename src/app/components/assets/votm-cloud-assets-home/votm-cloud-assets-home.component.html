@@ -12,7 +12,7 @@
 </form> -->
 
 <p-treeTable [scrollable]="true" #tt scrollHeight="400px" [globalFilterFields]="['name']" [resizableColumns]="true"
-  [value]="assetsList" [autoLayout]="true">
+  [value]="assetsList" [autoLayout]="true" id="assetTbl">
   <ng-template pTemplate="caption">
     <div class="row">
       <div class="col-4">
@@ -24,7 +24,7 @@
               <div class="input-group-append">
                 <span class="input-group-text p-0">
                   <button (click)="onAssetSearch()" [disabled]="!searchedText" class="btn btn-sm btn-search"
-                    id="searchButton" type="submit"><i class="fa fa-search"></i></button>
+                    id="searchButton" type="submit"><i class="icon-search"></i></button>
                 </span>
               </div>
             </div>
