@@ -78,7 +78,7 @@
           <li class="nav-item" placement="top" ngbTooltip="Associate Signals & Gateways">
             <a class="nav-link tab-icon" id="loc-signal-tab" (click)="onClickOfNavTab('signal_association')"
               name="signal-association-edit" href="#loc-signal" data-toggle="tab" role="tab" aria-controls="loc-signal"
-              aria-selected="false"><i class="icon-cell-tower"></i></a>
+              aria-selected="false"><i class="icon-signal"></i></a>
           </li>
 
           <li class="nav-item" placement="top" ngbTooltip="Assets Located in Location">
@@ -696,7 +696,7 @@
       <div class="row" *ngIf="ij==0 || ij==3 || ij==6">
         <div class="col-12 dashboard-gear-icon-wrapper">
           <div class="dashboard-gear-icon"><i class="fa fa-gear" (click)="op3.toggle($event)"></i></div>
-          <app-votm-live-order-book-depth-chart></app-votm-live-order-book-depth-chart>
+          <!-- <app-votm-live-order-book-depth-chart></app-votm-live-order-book-depth-chart> -->
         </div>
       </div>
 
@@ -866,16 +866,16 @@
         <div class="modal-body event-create-font">
           <div class="row">
           <div class="form-group col-6">
-            <label for="dbLongName" class="">Dashboard Name</label>
-            <input ngbAutoFocus type="text" class="form-control form-control-sm" id="dbLongName" name="dbLongName" [(ngModel)]="dbLongName" />
+            <label for="dbLongNameLocLbl" class="">Dashboard Name</label>
+            <input ngbAutoFocus type="text" class="form-control form-control-sm" id="dbLongName" name="dbLongNameLoc" [(ngModel)]="dbLongName" />
           </div>
           <div class="form-group col-6">
-            <label for="dbShortName" class="">Short Name</label>
-            <input ngbAutoFocus type="text" class="form-control form-control-sm" id="dbShortName" name="dbShortName" maxlength="8" [(ngModel)]="dbShortName" />
+            <label for="dbShortNameLocLbl" class="">Short Name</label>
+            <input ngbAutoFocus type="text" class="form-control form-control-sm" id="dbShortName" name="dbShortNameLoc" maxlength="8" [(ngModel)]="dbShortName" />
           </div>
           </div>
           <div class="form-group">
-            <label for="tplSelect" class="">Template Name</label>
+            <label for="tplSelectLbl" class="">Template Name</label>
             <div class="">
               <ng-select #tplSelect labelForId="tplSelect" class="custom" [(ngModel)]="selTemplate" name="dbTemplateName" [disabled]="dashboardDataById.act==='edit'">
                 <ng-option *ngFor="let dbTemplate of dbTemplates" [value]="dbTemplate.name"> {{ dbTemplate.name }}</ng-option>
@@ -923,10 +923,10 @@
 
         </div>
         <div class="modal-footer">
-          <button id="add-dashboard-cancle" type="button" class="btn btn-sm btn-outline-secondary"
+          <button id="add-dashboard-cancle-loc" type="button" class="btn btn-sm btn-outline-secondary"
             (click)="closeAddDashboardModal('cancel')" id="addDashboardCancle">Cancel
           </button>
-          <button id="add-dashboard-save" type="submit" class="btn btn-info btn-sm"
+          <button id="add-dashboard-save-loc" type="submit" class="btn btn-info btn-sm"
             id="addDashboardAdd">Save</button>
           <!-- <button id="add-dashboard-save" type="submit" class="btn btn-info btn-color btn-sm"
           (click)="closeAddDashboardModal(dashboardDataById.act)" id="addDashboardAdd">Save</button> -->

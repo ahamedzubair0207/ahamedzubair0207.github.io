@@ -1,116 +1,236 @@
-    <header>
-        <h5 class=""> Locations</h5>
-      <div class="btn-group-right loc-table-fonts">
-        <button (click)="onCreateNewLocation()" id="cre-loc" type="button" class="btn btn-sm btn-info loc-table-fonts ml-2"
-          style="float: right;"><i class="pr-2 icon-location-add"></i>Create Location</button>
-        <button type="button" (click)="onCreateNewAsset()" id="cre-asset" class="btn btn-sm btn-info loc-table-fonts" style="float: right;"><i
-            class="pr-2 icon-asset-add"></i>Create Asset</button>
-      </div>      
+<header>
+  <h5 class="mb-2 mt-2">Locations</h5>
+  <!-- <div class="row">
+    <div class="col-6">
       <form class="col-12 col-md-6 col-lg-4 col-xl-4 pl-0">
         <div class="form-group">
-            <!-- <label for="typeahead-config" id="loc-filter-eve" class="mr-2">Type to filter events:</label>    -->
-            <div class="input-group input-group-sm">
-              <input class="form-control" name="searchFilterLoc" id="searchBox" [(ngModel)]="searchedText" type="search" placeholder="Search" aria-label="Search">
-              <div class="input-group-append">
-                <span class="input-group-text p-0">
-                  <button (click)="onLocationSearch()" [disabled]="!searchedText" class="btn btn-sm btn-search" id="searchButton" type="submit"><i class="fa fa-search"></i></button>
-                </span>
-              </div>
+          <label for="typeahead-config" id="loc-filter-eve" class="mr-2">Type to filter events:</label>   
+          <div class="input-group input-group-sm">
+            <input class="form-control" name="searchFilterLoc" id="searchBox" [(ngModel)]="searchedText" type="search"
+              placeholder="Search" aria-label="Search">
+            <div class="input-group-append">
+              <span class="input-group-text p-0">
+                <button (click)="onLocationSearch()" [disabled]="!searchedText" class="btn btn-sm btn-search"
+                  id="searchButton" type="submit"><i class="icon-search"></i></button>
+              </span>
             </div>
+          </div>
         </div>
       </form>
-      <!-- <form class="form-inline">
+    </div>
+    <div class="col-6">
+      <div class="btn-group-right">
+        <button (click)="onCreateNewLocation()" id="cre-loc" type="button"
+          class="btn btn-sm btn-info ml-2"><i class="pr-2 icon-location-add"></i>Create
+          Location</button>
+        <button type="button" (click)="onCreateNewAsset()" id="cre-asset" class="btn btn-sm btn-info ml-1"><i
+            class="pr-2 icon-asset-add"></i>Create Asset</button>
+      </div>
+    </div>
+  </div> -->
+  <!-- <form class="form-inline">
         <label for="typeahead-config" id="loc-filter-eve">Type to filter events:</label>
         <input class="form-control ml-2" id="searchBox" type="search" placeholder="Search" aria-label="Search">
         <button class="btn btn-outline-info mr-2 ml-2" id="searchButton" type="submit">Search</button>
       </form> -->
-    </header>
-   
-    
+</header>
+<!-- <div class="pre-scrollable"> -->
+<p-treeTable [scrollable]="true" #tt scrollHeight="400px" [globalFilterFields]="['name']" [resizableColumns]="true"
+  [value]="locationsList" id="locTbl">
+  <ng-template pTemplate="caption">
+    <div class="row">
+      <div class="col-4">
+        <div style="text-align: left;">
+          <div class="input-group input-group-sm">
+            <input class="form-control" name="searchFilterLoc" id="searchBoxLoc" [(ngModel)]="searchedText"
+              type="search" placeholder="Search" aria-label="Search">
+            <div class="input-group-append">
+              <span class="input-group-text p-0">
+                <button (click)="onLocationSearch()" [disabled]="!searchedText" class="btn btn-sm btn-search"
+                  id="searchButton" type="submit"><i class="icon-search"></i></button>
+              </span>
+            </div>
+          </div>
+          <!-- <i class="pi pi-search" style="margin:4px 4px 0 0"></i>
+          <input type="text" pInputText size="20" placeholder="Type to filter"
+            (input)="tt.filterGlobal($event.target.value, 'contains')" style="width:auto" id="organizationFilter"> -->
+        </div>
+      </div>
+      <div class="col-8">
+        <div class="btn-group-right">
+          <button (click)="onCreateNewLocation()" id="cre-loc" type="button" class="btn btn-sm btn-info ml-2"><i
+              class="pr-2 icon-location-add"></i>Create
+            Location</button>
+          <button type="button" (click)="onCreateNewAsset()" id="cre-asset" class="btn btn-sm btn-info ml-1"><i
+              class="pr-2 icon-asset-add"></i>Create Asset</button>
+        </div>
+      </div>
+    </div>
 
-    <ng-template #recursiveTableList let-list="locList" let-lvl="level">
-        <ng-container *ngFor="let item of list">
-      
-          <tr>
-            <th scope="row" (click)="item.opened = !item.opened" [ngStyle]="{'padding-left.px': 15*(lvl+1)}">
-              <i class="icon-loc-pin-map"></i>
-              <a style="color: #212529;" [routerLink]="['/loc/view',item.parentOrgId, item.parentOrgName, item.id]"> {{item.name}}</a>&nbsp; <i *ngIf="item.node.length > 0 "
-                  [ngClass]="{'fa': true, 'fa-caret-right': !item.opened, 'fa-caret-down': item.opened}"></i>
-             
-            </th>
-            <td class="align-left">{{item.type}}</td>
-            <td class="align-left">{{item.parentOrgName}}</td>
-            <td class="align-left">{{item.primaryDistributor}}</td>
-            <td class="align-left">{{item.city}}, {{item.state}}</td>
-            <td class="align-center"><i class="icon-warn-yellow"></i></td>
-            <td class="align-center">
-              <a class="action-icon" title="List"   [routerLink]="['/asset/home',item.parentOrgId, item.parentOrgName, item.id]">
-                <i class="icon-asset-robot"></i>
-              </a>
-              <a class="action-icon" title="Edit"
-                [routerLink]="['/loc/edit', item.parentOrgId, item.parentOrgName, item.id]">
-                <i class="icon-edit"></i>
-              </a>
-              <a class="action-icon" (click)="openConfirmDialog(item.id, item.name)" title="Delete">
-        
-                <i class="icon-trash"></i>
-              </a>
-            </td>
-          </tr>
-      
-          <ng-container *ngFor="let subItem of item.node">
-            <tr *ngIf="item.opened && subItem.entityType == 'Location'">
-              <th scope="row" (click)="subItem.opened = !subItem.opened" [ngStyle]="{'padding-left.px': 15*(lvl+2)}">
-                <i class="icon-location"></i>
-                <a style="color: #212529;" [routerLink]="['/loc/view',subItem.parentId, subItem.parentName, subItem.parentOrgId, subItem.parentOrgName,  subItem.id]">
-                  {{subItem.name}}</a>&nbsp;<i *ngIf="subItem.node.length > 0 "
-                  [ngClass]="{'fa': true, 'fa-caret-right': !subItem.opened, 'fa-caret-down': subItem.opened}"></i>
-              </th>
-              <td class="align-left">{{subItem.type}}</td>
-              <td class="align-left">{{subItem.parentOrgName}}</td>
-              <td class="align-left">{{subItem.distributor}}</td>
-              <td class="align-left">{{subItem.city}}, {{subItem.state}}</td>
-              <td class="align-center"><i class="icon-warn-yellow"></i></td>
-              <td class="align-center">
-                <a class="action-icon" title="Asset" [routerLink]="['/asset/home',subItem.parentOrgId, subItem.parentOrgName, subItem.id]">
-                  <i class="icon-asset-robot"></i>
-                </a>
-                <a class="action-icon" title="Edit"
-                  [routerLink]="['/loc/edit',subItem.parentId, subItem.parentName, subItem.parentOrgId, subItem.parentOrgName,  subItem.id]">
-                  <i class="icon-edit"></i>
-                </a>
-                <a class="action-icon" (click)="openConfirmDialog(subItem.id, subItem.name)" title="Delete">
-                  <i class="icon-trash"></i>
-                </a>
-              </td>
-            </tr>
-      
-            <ng-container *ngIf="subItem.opened">
-              <ng-container *ngTemplateOutlet="recursiveTableList; context:{ locList: subItem.node, level: lvl+2 }">
-              </ng-container>
-              
-            </ng-container>
-          </ng-container>
+
+  </ng-template>
+  <ng-template pTemplate="colgroup">
+    <colgroup>
+      <col>
+      <col>
+      <col>
+      <col>
+      <col>
+      <col [style.width.px]="60">
+      <col>
+    </colgroup>
+  </ng-template>
+  <ng-template pTemplate="header">
+    <tr style="background-color: #dee2e6;">
+      <th ttResizableColumn ttSortableColumn="name">Name
+        <p-treeTableSortIcon field="name"></p-treeTableSortIcon>
+      </th>
+      <th ttResizableColumn ttSortableColumn="type">Type
+        <p-treeTableSortIcon field="type"></p-treeTableSortIcon>
+      </th>
+      <th ttResizableColumn ttSortableColumn="parentOrgName">Organization
+        <p-treeTableSortIcon field="parentOrgName"></p-treeTableSortIcon>
+      </th>
+      <th ttResizableColumn ttSortableColumn="primaryDistributor">Primary Distributor
+        <p-treeTableSortIcon field="primaryDistributor">
+        </p-treeTableSortIcon>
+      </th>
+      <th ttResizableColumn ttSortableColumn="city">City & State
+        <p-treeTableSortIcon field="city"></p-treeTableSortIcon>
+      </th>
+      <th ttResizableColumn>Status</th>
+      <th ttResizableColumn class="align-center">Actions</th>
+      <!-- <th class="text-center" ttResizableColumn>Associations</th> -->
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-rowNode let-rowData="rowData">
+    <tr [ttRow]="rowNode">
+
+      <td class="align-left">
+        <span container="body" [ngbTooltip]="rowData.name">
+          <p-treeTableToggler [rowNode]="rowNode"></p-treeTableToggler>
+          <a style="color: #212529;"
+            [routerLink]="['/loc/view',rowData.parentOrgId, rowData.parentOrgName, rowData.id]">
+            <i class="icon-loc-pin-map"></i>{{rowData.name}}
+          </a>
+        </span>
+      </td>
+      <td class="align-left">{{rowData.type}}</td>
+      <td class="align-left">{{rowData.parentOrgName}}</td>
+      <td class="align-left">{{rowData.primaryDistributor}}</td>
+      <td class="align-left">{{rowData.city}}, {{rowData.state}}</td>
+      <td class="align-center"><i class="icon-warn-yellow"></i></td>
+      <td class="align-center">
+        <a class="action-icon" container="body" ngbTooltip="Asset"
+          [routerLink]="['/asset/home',rowData.parentOrgId, rowData.parentOrgName, rowData.id]">
+          <i class="icon-asset-robot"></i>
+        </a>
+        <a class="action-icon" container="body" ngbTooltip="Edit"
+          [routerLink]="['/loc/edit', rowData.parentOrgId, rowData.parentOrgName, rowData.id]">
+          <i class="icon-edit"></i>
+        </a>
+        <a class="action-icon" container="body" ngbTooltip="Delete"
+          (click)="openConfirmDialog(rowData.id, rowData.name)" title="Delete">
+
+          <i class="icon-trash"></i>
+        </a>
+      </td>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="emptymessage">
+    <tr>
+      <td [attr.colspan]="7">No data found.</td>
+    </tr>
+  </ng-template>
+</p-treeTable>
+<!-- </div> -->
+
+<!-- <ng-template #recursiveTableList let-list="locList" let-lvl="level">
+  <ng-container *ngFor="let item of list">
+
+    <tr>
+      <th scope="row" (click)="item.opened = !item.opened" [ngStyle]="{'padding-left.px': 15*(lvl+1)}">
+        <i class="icon-loc-pin-map"></i>
+        <a style="color: #212529;" [routerLink]="['/loc/view',item.parentOrgId, item.parentOrgName, item.id]">
+          {{item.name}}</a>&nbsp; <i *ngIf="item.node.length > 0 "
+          [ngClass]="{'fa': true, 'fa-caret-right': !item.opened, 'fa-caret-down': item.opened}"></i>
+
+      </th>
+      <td class="align-left">{{item.type}}</td>
+      <td class="align-left">{{item.parentOrgName}}</td>
+      <td class="align-left">{{item.primaryDistributor}}</td>
+      <td class="align-left">{{item.city}}, {{item.state}}</td>
+      <td class="align-center"><i class="icon-warn-yellow"></i></td>
+      <td class="align-center">
+        <a class="action-icon" title="List"
+          [routerLink]="['/asset/home',item.parentOrgId, item.parentOrgName, item.id]">
+          <i class="icon-asset-robot"></i>
+        </a>
+        <a class="action-icon" title="Edit" [routerLink]="['/loc/edit', item.parentOrgId, item.parentOrgName, item.id]">
+          <i class="icon-edit"></i>
+        </a>
+        <a class="action-icon" (click)="openConfirmDialog(item.id, item.name)" title="Delete">
+
+          <i class="icon-trash"></i>
+        </a>
+      </td>
+    </tr>
+
+    <ng-container *ngFor="let subItem of item.node">
+      <tr *ngIf="item.opened && subItem.entityType == 'Location'">
+        <th scope="row" (click)="subItem.opened = !subItem.opened" [ngStyle]="{'padding-left.px': 15*(lvl+2)}">
+          <i class="icon-location"></i>
+          <a style="color: #212529;"
+            [routerLink]="['/loc/view',subItem.parentId, subItem.parentName, subItem.parentOrgId, subItem.parentOrgName,  subItem.id]">
+            {{subItem.name}}</a>&nbsp;<i *ngIf="subItem.node.length > 0 "
+            [ngClass]="{'fa': true, 'fa-caret-right': !subItem.opened, 'fa-caret-down': subItem.opened}"></i>
+        </th>
+        <td class="align-left">{{subItem.type}}</td>
+        <td class="align-left">{{subItem.parentOrgName}}</td>
+        <td class="align-left">{{subItem.distributor}}</td>
+        <td class="align-left">{{subItem.city}}, {{subItem.state}}</td>
+        <td class="align-center"><i class="icon-warn-yellow"></i></td>
+        <td class="align-center">
+          <a class="action-icon" title="Asset"
+            [routerLink]="['/asset/home',subItem.parentOrgId, subItem.parentOrgName, subItem.id]">
+            <i class="icon-asset-robot"></i>
+          </a>
+          <a class="action-icon" title="Edit"
+            [routerLink]="['/loc/edit',subItem.parentId, subItem.parentName, subItem.parentOrgId, subItem.parentOrgName,  subItem.id]">
+            <i class="icon-edit"></i>
+          </a>
+          <a class="action-icon" (click)="openConfirmDialog(subItem.id, subItem.name)" title="Delete">
+            <i class="icon-trash"></i>
+          </a>
+        </td>
+      </tr>
+
+      <ng-container *ngIf="subItem.opened">
+        <ng-container *ngTemplateOutlet="recursiveTableList; context:{ locList: subItem.node, level: lvl+2 }">
         </ng-container>
-      </ng-template>
-      
-      
-      <table class="table table-sm table-bordered table-hover loc-table-fonts" id="locTbl">
-        <thead class="thead-dark">
-          <tr>
-            <th scope="col" class="align-left table-col-name">Name</th>
-            <th scope="col" class="align-left">Type</th>
-            <th scope="col" class="align-left">Organization</th>
-            <th scope="col" class="align-left">Primary Distributor</th>
-            <th scope="col" class="align-left">City & State</th>
-            <th scope="col" class="align-center">Status</th>
-            <th scope="col" class="align-center">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          <ng-container *ngTemplateOutlet="recursiveTableList; context:{ locList: locationsList, level: 0 }"></ng-container>
-        </tbody>
-      </table>
+
+      </ng-container>
+    </ng-container>
+  </ng-container>
+</ng-template>
+
+
+<table class="table table-sm table-bordered table-hover loc-table-fonts" id="locTbl">
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col" class="align-left table-col-name">Name</th>
+      <th scope="col" class="align-left">Type</th>
+      <th scope="col" class="align-left">Organization</th>
+      <th scope="col" class="align-left">Primary Distributor</th>
+      <th scope="col" class="align-left">City & State</th>
+      <th scope="col" class="align-center">Status</th>
+      <th scope="col" class="align-center">Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <ng-container *ngTemplateOutlet="recursiveTableList; context:{ locList: locationsList, level: 0 }"></ng-container>
+  </tbody>
+</table> -->
 
 
 

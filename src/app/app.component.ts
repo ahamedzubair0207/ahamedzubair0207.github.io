@@ -15,17 +15,16 @@ export class AppComponent {
   router: Router;
   isAuthenticated: boolean;
 
-  constructor(public oktaAuth: OktaAuthService,router: Router, private sharedService: SharedService)
-   {
+  constructor(public oktaAuth: OktaAuthService, router: Router, private sharedService: SharedService) {
     this.oktaAuth.$authenticationState.subscribe(isAuthenticated => this.isAuthenticated = isAuthenticated)
     this.router = router;
     this.sharedService.getMenuOpen().subscribe(newVal => this.menuOpen = newVal);
     if (FileReader.prototype.readAsBinaryString === undefined) {
-      FileReader.prototype.readAsBinaryString = function(fileData) {
+      FileReader.prototype.readAsBinaryString = function (fileData) {
         let binary = '';
         let pt = this;
         let reader = new FileReader();
-        reader.onload = function(e) {
+        reader.onload = function (e) {
           let bytes = new Uint8Array(<ArrayBuffer>reader.result);
           let length = bytes.byteLength;
           for (let i = 0; i < length; i++) {
@@ -38,13 +37,18 @@ export class AppComponent {
         reader.readAsArrayBuffer(fileData);
       };
     }
-   }
-
-   async ngOnInit() {
-    this.isAuthenticated = await this.oktaAuth.isAuthenticated();
   }
-  logout() 
-  {
+
+  async ngOnInit() {
+    this.isAuthenticated = await this.oktaAuth.isAuthenticated();
+
+    this.sharedService.getFavorites();
+
+    this.sharedService.favorites.subscribe(response=>{
+      console.log('response favorites ', response);
+    })
+  }
+  logout() {
     this.oktaAuth.logout('/');
   }
 }

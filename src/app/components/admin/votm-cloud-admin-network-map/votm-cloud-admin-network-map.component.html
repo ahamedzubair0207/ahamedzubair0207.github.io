@@ -1,3 +1,6 @@
-<p>
-  votm-cloud-admin-network-map works!
-</p>
+<div *ngIf="mapService.isLoaded">
+  <am-map #maper
+    [_id]="'id'"
+    [initialConfig]="config">
+  </am-map>
+ </div>

@@ -7,8 +7,8 @@
           <div class="input-group input-group-sm">
             <input type="text" id="role_search" class="form-control" placeholder="Search">
             <div class="input-group-append">
-              <!-- <span class="input-group-text"><i class="fa fa-search"></i></span> -->
-              <span class="input-group-text p-0"><button class="btn btn-sm btn-search" id="searchButton" type="submit"><i class="fa fa-search"></i></button></span>
+              <!-- <span class="input-group-text"><i class="icon-search"></i></span> -->
+              <span class="input-group-text p-0"><button class="btn btn-sm btn-search" id="searchButton" type="submit"><i class="icon-search"></i></button></span>
             </div>
           </div>
         </div>
@@ -161,7 +161,7 @@
             <div class="col-md-12">
               <div class="form-group">
                 <label for="guest_access_search">Search</label>
-                <ng-select id="addUserRoleSearch" class="custom"
+                <ng-select id="grantGuestSearch" class="custom"
                   [multiple]="false" [(ngModel)]="selectedUserForGuestAccess"
                   name="addRole" (change)="onChangeOfGuestUser()">
                 <ng-option *ngFor="let user of users"  [value]="user.userId">{{user.firstName}}&nbsp;{{user.lastName}}</ng-option>
@@ -207,7 +207,7 @@
             <div class="col-md-6">
               <div class="form-group">
                 <label for="guest_access" votmrequired>Guest Access</label>
-                <ng-select id="addUserRoleGuest" class="custom" [(ngModel)]="selectedOrgForGuestAccess"
+                <ng-select id="grantUserGuest" class="custom" [(ngModel)]="selectedOrgForGuestAccess"
                   name="addRole">
                   <ng-option *ngFor="let organization of organizations"  [value]="organization">{{organization.name}}</ng-option>
                 </ng-select>

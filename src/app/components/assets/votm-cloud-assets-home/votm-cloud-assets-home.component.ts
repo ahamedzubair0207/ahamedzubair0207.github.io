@@ -9,6 +9,7 @@ import { Toaster } from '../../shared/votm-cloud-toaster/votm-cloud-toaster';
 import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
 import { Asset } from 'src/app/models/asset.model';
+import { TreeNode } from 'primeng/api';
 
 @Component({
   selector: 'app-votm-cloud-assets-home',
@@ -17,7 +18,7 @@ import { Asset } from 'src/app/models/asset.model';
 })
 export class VotmCloudAssetsHomeComponent implements OnInit {
 
-  assetsList = [];
+  assetsList: Array<TreeNode> = [];
   curOrgId: string;
   curOrgName: string;
   assetToDelete: string;
@@ -97,14 +98,10 @@ export class VotmCloudAssetsHomeComponent implements OnInit {
   fetchAssetsTreeById() {
     this.subscriptions.push(this.assetService.getAssetTreeByLocId(this.locationId)
       .subscribe(response => {
-        this.assetsList = response;
-        console.log(' this.assetsList ', this.assetsList);
-        // .map(
-        //   x => ({
-        //     ...x,
-        //     opened: true
-        //   })
-        // );
+        this.assetsList =[];
+        if (response && response.length > 0) {
+          this.assetsList = this.fillAssetData(response);
+        }
       }));
   }
 
@@ -115,14 +112,27 @@ export class VotmCloudAssetsHomeComponent implements OnInit {
   fetchAllAssetsTree() {
     this.subscriptions.push(this.assetService.getAssetTreeByOrgId(this.parentOrgId)
       .subscribe(response => {
-        this.assetsList = response;
-        // .map(
-        //   x => ({
-        //     ...x,
-        //     opened: true
-        //   })
-        // );
+        this.assetsList =[];
+        if (response && response.length > 0) {
+          this.assetsList = this.fillAssetData(response);
+        }
+        // this.assetsList = response;
       }));
+  }
+
+  fillAssetData(assets: any[]) {
+    let assetList: TreeNode[] = [];
+    assets.forEach(asset => {
+      let tempAsset: TreeNode = { data: asset };
+      tempAsset.children = [];
+      if (asset.node && asset.node.length > 0) {
+        tempAsset.children = this.fillAssetData(asset.node);
+      } else {
+        tempAsset.children = [];
+      }
+      assetList.push(tempAsset);
+    });
+    return assetList;
   }
 
   addNum(a: number, b: number): number {

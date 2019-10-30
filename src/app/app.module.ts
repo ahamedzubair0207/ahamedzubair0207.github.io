@@ -88,19 +88,16 @@ import {
 import {
   VotmCloudAssetTemplateDetailsComponent
 } from './components/assets/votm-cloud-asset-template-details/votm-cloud-asset-template-details.component';
-import {FileUploadModule} from 'primeng/fileupload';
-import {DragDropModule} from 'primeng/dragdrop';
-import {TooltipModule} from 'primeng/tooltip';
-import {OverlayPanelModule} from 'primeng/overlaypanel';
+import { FileUploadModule } from 'primeng/fileupload';
+import { DragDropModule } from 'primeng/dragdrop';
+import { TooltipModule } from 'primeng/tooltip';
+import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { VotmCloudEventsHomeComponent } from './components/events/votm-cloud-events-home/votm-cloud-events-home.component';
 import { VotomCloudTemplateSignalComponent } from './components/assets/votm-cloud-template-signal/votm-cloud-template-signal.component';
 import { VotmCloudRequiredAttributeDirective } from './components/shared/required-attribute/votm-cloud-required-attribute.directive';
 import {
   VotmCloudOrganizationDashboardComponent
 } from './components/organizations/votm-cloud-organization-dashboard/votm-cloud-organization-dashboard.component';
-import {
-  VotmLiveOrderBookDepthChartComponent
-} from './components/shared/charts/votm-live-order-book-depth-chart/votm-live-order-book-depth-chart.component';
 import { VotmLiveDataComponent } from './components/shared/charts/votm-live-data/votm-live-data.component';
 import {
   VotmCloudLocationsDashboardComponent
@@ -119,7 +116,7 @@ import { VotmCloudAdminUserManagementComponent } from './components/admin/votm-c
 import { VotmCloudLocationsAssetComponent } from './components/locations/votm-cloud-locations-asset/votm-cloud-locations-asset.component';
 import { VotmCloudGatewaysDetailsComponent } from './components/gateways/votm-cloud-gateways-details/votm-cloud-gateways-details.component';
 import { VotmCloudReceiverDetailsComponent } from './components/gateways/votm-cloud-receiver-details/votm-cloud-receiver-details.component';
-import {TreeTableModule} from 'primeng/treetable';
+import { TreeTableModule } from 'primeng/treetable';
 import { VotmCloudAdminNetworkMapComponent } from './components/admin/votm-cloud-admin-network-map/votm-cloud-admin-network-map.component';
 import { VotmCloudAdminSensorHomeComponent } from './components/admin/admin-sensors/votm-cloud-admin-sensor-home/votm-cloud-admin-sensor-home.component';
 import { VotmCloudAdminSensorDetailsComponent } from './components/admin/admin-sensors/votm-cloud-admin-sensor-details/votm-cloud-admin-sensor-details.component';
@@ -136,15 +133,15 @@ import { AdminUserHomeComponent } from './components/admin/admin-user-home/admin
 import { VotmCloudAdminGroupManagementComponent } from './components/admin/votm-cloud-admin-group-management/votm-cloud-admin-group-management.component';
 import { VotmCloudFavoritesComponent } from './components/favorites/votm-cloud-favorites/votm-cloud-favorites.component';
 
+import { VotmSmoothLineComponent } from './components/shared/charts/votm-smooth-line/votm-smooth-line.component';
+import {AmModule} from "@acaisoft/angular-azure-maps";
+
 const oktaConfig = Object.assign({
-  onAuthRequired: ({oktaAuth, router}) => {
+  onAuthRequired: ({ oktaAuth, router }) => {
     // Redirect the user to your custom login page
     router.navigate(['/login']);
   }
 }, UserAuthenticationConfig.oidc);
-
-
-
 
 @NgModule({
   declarations: [
@@ -189,7 +186,6 @@ const oktaConfig = Object.assign({
     VotomCloudTemplateSignalComponent,
     VotmCloudRequiredAttributeDirective,
     VotmCloudOrganizationDashboardComponent,
-    VotmLiveOrderBookDepthChartComponent,
     VotmLiveDataComponent,
     VotmCloudLocationsDashboardComponent,
     VotmCloudAssetDashboardComponent,
@@ -215,7 +211,8 @@ const oktaConfig = Object.assign({
     ScoutStyleDashboardComponent,
     AdminUserHomeComponent,
     VotmCloudAdminGroupManagementComponent,
-    VotmCloudFavoritesComponent
+    VotmCloudFavoritesComponent,
+    VotmSmoothLineComponent
   ],
 
 
@@ -237,9 +234,11 @@ const oktaConfig = Object.assign({
     TooltipModule,
     OverlayPanelModule,
     OktaAuthModule,
-    TreeTableModule
+    TreeTableModule,
+    AmModule
   ],
   providers: [
+    // LoadMapService,
     DatePipe,
     MenuService,
     SharedService,

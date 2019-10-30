@@ -1,16 +1,127 @@
-<button class="btn btn-info btn-group-right btn-sm asset-table-header" (click)="onCreateAsset()" id="createAssetButton"
-  type="button"><i class="icon-asset-add mr-2"></i>Create Asset</button>
+<header>
+  <h5 class="mb-2 mt-2">Assets</h5>
+</header>
+<!-- <button class="btn btn-info btn-group-right btn-sm asset-table-header" (click)="onCreateAsset()" id="createAssetButton"
+  type="button"><i class="icon-asset-add mr-2"></i>Create Asset</button> -->
 
-<form class="form-inline">
-  <!-- <label for="typeahead-config">Type to filter events:</label> -->
+<!-- <form class="form-inline">
+  <label for="typeahead-config">Type to filter events:</label>
   <input class="form-control ml-2 mb-3 mt-3" id="searchBoxAsset" type="search" placeholder="Search" aria-label="Search">
   <button class="btn btn-outline-info mr-2 ml-2" id="searchButtonAsset" type="submit">Search</button>
 
-</form>
+</form> -->
 
+<p-treeTable [scrollable]="true" #tt scrollHeight="400px" [globalFilterFields]="['name']" [resizableColumns]="true"
+  [value]="assetsList" [autoLayout]="true" id="assetTbl">
+  <ng-template pTemplate="caption">
+    <div class="row">
+      <div class="col-4">
+        <div style="text-align: left;">
+          <!-- <div style="text-align: left;"> -->
+            <div class="input-group input-group-sm">
+              <input class="form-control" name="searchFilterAsset" id="searchBoxAsset" [(ngModel)]="searchedText"
+                type="search" placeholder="Search" aria-label="Search">
+              <div class="input-group-append">
+                <span class="input-group-text p-0">
+                  <button (click)="onAssetSearch()" [disabled]="!searchedText" class="btn btn-sm btn-search"
+                    id="searchButton" type="submit"><i class="icon-search"></i></button>
+                </span>
+              </div>
+            </div>
+            <!-- <i class="pi pi-search" style="margin:4px 4px 0 0"></i>
+        <input type="text" pInputText size="20" placeholder="Type to filter"
+          (input)="tt.filterGlobal($event.target.value, 'contains')" style="width:auto" id="organizationFilter"> -->
+          <!-- </div> -->
+          <!-- <i class="pi pi-search" style="margin:4px 4px 0 0"></i>
+      <input type="text" pInputText size="20" placeholder="Type to filter"
+        (input)="tt.filterGlobal($event.target.value, 'contains')" style="width:auto" id="organizationFilter"> -->
+        </div>
+      </div>
+      <div class="col-8">
+        <button class="btn btn-info btn-group-right btn-sm asset-table-header" (click)="onCreateAsset()"
+          id="createAssetButton" type="button"><i class="icon-asset-add mr-2"></i>Create Asset</button>
+      </div>
+    </div>
+  </ng-template>
+  <ng-template pTemplate="colgroup">
+    <colgroup>
+      <col>
+      <col>
+      <col>
+      <col>
+      <col>
+      <col>
+      <col>
+      <col>
+      <col [style.width.px]="130">
+      <!-- <col [style.width.px]="108"> -->
+    </colgroup>
+  </ng-template>
+  <ng-template pTemplate="header">
+    <tr style="background-color: #dee2e6;">
+      <th ttResizableColumn ttSortableColumn="name" >Name
+        <p-treeTableSortIcon field="name"></p-treeTableSortIcon>
+      </th>
+      <th ttResizableColumn ttSortableColumn="type">Type
+        <p-treeTableSortIcon field="type"></p-treeTableSortIcon>
+      </th>
+      <th ttResizableColumn ttSortableColumn="assetNumber">Asset ID
+        <p-treeTableSortIcon field="assetNumber"></p-treeTableSortIcon>
+      </th>
+      <th ttResizableColumn ttSortableColumn="parentLocationName">Location
+        <p-treeTableSortIcon field="parentLocationName"></p-treeTableSortIcon>
+      </th>
+      <th ttResizableColumn ttSortableColumn="parentOrganizationName">Organization
+        <p-treeTableSortIcon field="parentOrganizationName"></p-treeTableSortIcon>
+      </th>
+      <th ttResizableColumn class="align-center">Alarm Status</th>
+      <th ttResizableColumn>Last Value</th>
+      <th ttResizableColumn>Last Respond Time</th>
+      <th ttResizableColumn class="align-center">Actions</th>
+      <!-- <th class="text-center" ttResizableColumn>Associations</th> -->
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-rowNode let-rowData="rowData">
+    <tr [ttRow]="rowNode">
+
+      <td class="align-left underline-on-hover">
+        <span container="body" [ngbTooltip]="rowData.name">
+          <p-treeTableToggler [rowNode]="rowNode"></p-treeTableToggler>
+          <i class="icon-asset-robot"></i>
+          <a style="color: #212529;" 
+            (click)="onEditViewClick(rowData, 'view')"> {{rowData.name}}</a>&nbsp; <i
+            *ngIf="rowData.node.length > 0 "></i>
+        </span>
+      </td>
+      <td class="align-left">{{rowData.type}}</td>
+      <td class="align-left">{{rowData.assetNumber}}</td>
+      <td class="align-left" container="body" [ngbTooltip]="rowData.parentLocationName">{{rowData.parentLocationName}}
+      </td>
+      <td class="align-left" container="body" [ngbTooltip]="rowData.parentOrganizationName">
+        {{rowData.parentOrganizationName}}</td>
+      <td class="align-center" style="text-align: center;"><i class="icon-critical" style="color: #dc3545;"></i></td>
+      <td class="align-center"></td>
+      <td class="align-center"></td>
+      <td class="align-center">
+        <a class="action-icon" title="Edit" (click)="onEditViewClick(rowData, 'edit')">
+          <i class="icon-edit"></i>
+        </a>
+        <a class="action-icon" (click)="openConfirmDialog(rowData.id, rowData.name)" title="Delete">
+          <i class="icon-trash"></i>
+        </a>
+      </td>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="emptymessage">
+    <tr>
+      <td [attr.colspan]="9">No data found.</td>
+    </tr>
+  </ng-template>
+</p-treeTable>
+<!-- 
 <ng-template #recursiveTableList let-list="assetList" let-lvl="level">
   <ng-container *ngFor="let item of list">
-    <tr class="" >
+    <tr class="">
       <th class="underline-on-hover" scope="row" (click)="item.opened = !item.opened"
         [ngStyle]="{'padding-left.px': 15*(lvl+1)}">
         <i class="icon-asset-robot"></i>
@@ -35,24 +146,7 @@
     </tr>
 
     <ng-container *ngFor="let subItem of item.node">
-      <!-- <tr *ngIf="item.opened && subItem.entityType == 'Asset'">
-                  <th scope="row" [ngStyle]="{'padding-left.px': 15*(lvl+2)}"> <i class="icon-asset-robot"></i>
-                    {{subItem.name? subItem.name : 'Ahamed'}}</th>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td class="align-center">
-                    <a class="action-icon">
-                      <i class="fa fa-list"></i>
-                    </a>
-                  </td>
-                </tr> -->
-
-
+     
       <tr *ngIf="item.opened && subItem.entityType == 'Asset'" class="">
         <th scope="row" (click)="subItem.opened = !subItem.opened" [ngStyle]="{'padding-left.px': 15*(lvl+2)}">
           <i class="icon-asset-robot"></i>
@@ -108,6 +202,6 @@
       </ng-container>
     </tbody>
   </table>
-</div>
+</div> -->
 <app-votm-cloud-confim-dialog (onClose)="deleteAssetById($event)" #confirmBox message="{{message}}"
   headerMessage="Warning"></app-votm-cloud-confim-dialog>

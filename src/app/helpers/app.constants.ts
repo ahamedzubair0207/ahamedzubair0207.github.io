@@ -17,6 +17,9 @@ export class AppConstants {
     public static GATEWAYS_LOC = 'Location/Gateways';
     public static GET_LOC_SEARCH = '/Location/Search';
 
+    public static GET_FAVORITES = '/UserManagement/UserFavorites';
+    public static POST_FAVORITES = '/UserManagement/UserFavorites';
+
     public static GET_USER_GROUPS = '/UserManagement/UserGroups';
     public static GET_ALERTRULE_USERGROUP_SUBSCRIBER = '/ALertRuleUserGroupSubscriber';
     public static GET_USER_ROLES = '/UserManagement/Roles';

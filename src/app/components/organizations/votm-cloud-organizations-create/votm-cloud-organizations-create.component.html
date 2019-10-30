@@ -190,8 +190,7 @@
                       <ng-select id="parentOrgLblList" class="custom" [disabled]="pageType==='View'"
                         [ngStyle]="{'background-color':pageType==='View'?'#e9ecef':'#fff'}" [multiple]="false"
                         name="parentOrgLblList" [(ngModel)]="organization.parentOrganizationId">
-                        <ng-option *ngFor="let org of organizationList" [value]="org.organizationId" id="parentOrgLblList">{{org.name}}
-                        </ng-option>
+                        <ng-option *ngFor="let org of organizationList" [value]="org.organizationId" id="parentOrgLblList">{{org.name}}</ng-option>
                       </ng-select>
                     </div>
                   </div>
@@ -1006,22 +1005,22 @@
         <div class="modal-body event-create-font">
           <div class="row">
             <div class="form-group col-6">
-              <label for="dbLongName" class="">Dashboard Name</label>
+              <label for="dbLongNameOrgLbl" class="">Dashboard Name</label>
               <div class="">
-                <input ngbAutoFocus type="text" class="form-control form-control-sm" id="dbLongName" name="dbLongName"
+                <input ngbAutoFocus type="text" class="form-control form-control-sm" id="dbLongName" name="dbLongNameOrg"
                   [(ngModel)]="dbLongName" />
               </div>
             </div>
             <div class="form-group col-6">
-              <label for="dbShortName" class="">Short Name</label>
+              <label for="dbShortNameOrgLbl" class="">Short Name</label>
               <div class="">
-                <input ngbAutoFocus type="text" class="form-control form-control-sm" id="dbShortName" name="dbShortName"
+                <input ngbAutoFocus type="text" class="form-control form-control-sm" id="dbShortName" name="dbShortNameOrgLbl"
                   maxlength="8" [(ngModel)]="dbShortName" />
               </div>
             </div>
           </div>
           <div class="form-group">
-            <label for="tplSelect" class="">Template Name</label>
+            <label for="tplSelectOrg" class="">Template Name</label>
             <div class="">
               <ng-select #tplSelect labelForId="tplSelect" class="custom" [(ngModel)]="selTemplate" name="dbTemplateName" [disabled]="dashboardDataById.act==='edit'">
                 <ng-option *ngFor="let dbTemplate of dbTemplates" [value]="dbTemplate.name">{{ dbTemplate.name }}</ng-option>
@@ -1079,9 +1078,9 @@
 
         </div>
         <div class="modal-footer">
-          <button id="add-dashboard-cancle" type="button" class="btn btn-sm btn-outline-secondary"
+          <button id="add-dashboard-cancle-org" type="button" class="btn btn-sm btn-outline-secondary"
             (click)="closeAddDashboardModal('cancel')" id="addDashboardCancle">Cancel</button>
-          <button id="add-dashboard-save" type="submit" class="btn btn-info btn-sm"
+          <button id="add-dashboard-save-org" type="submit" class="btn btn-info btn-sm"
             id="addDashboardAdd">Save</button>
           <!-- <button id="add-dashboard-save" type="submit" class="btn btn-info btn-color btn-sm"
           (click)="closeAddDashboardModal(dashboardDataById.act)" id="addDashboardAdd">Save</button> -->

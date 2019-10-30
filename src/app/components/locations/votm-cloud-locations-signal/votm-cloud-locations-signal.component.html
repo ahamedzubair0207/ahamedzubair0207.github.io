@@ -9,7 +9,7 @@
       </div>
   </div>
   <div class="ml-auto mr-3 mt-3">
-    <button id="asset-cancel" for="form-cancel" type="button" (click)="onCancelClick($event)"
+    <button id="loc-sig-cancel" for="form-cancel" type="button" (click)="onCancelClick($event)"
       class="btn btn-outline-secondary btn-sm mr-2">Cancel</button>
     <button id="loc-signal-association-save" type="button" class="btn btn-info btn-sm" (click)="onSaveSignalAssociation()"
       [disabled]="associatedSignals.length === 0 || isSignalAssociationAPILoading">
@@ -82,8 +82,8 @@
               </div>
             </div>
             <div class="card-footer text-muted">
-                <button class="btn btn-sm btn-info pull-right" (click)="onClickOfSaveSignalAssociationPanel()">Save</button>
-                <button class="btn btn-sm btn-outline-secondary pull-right mr-1" (click)="closeEditOpanel()">Close</button>
+                <button class="btn btn-sm btn-info pull-right" id="sigSave" (click)="onClickOfSaveSignalAssociationPanel()">Save</button>
+                <button class="btn btn-sm btn-outline-secondary pull-right mr-1" id="sigClose" (click)="closeEditOpanel()">Close</button>
             </div>
         </div>
     </div>
@@ -112,10 +112,9 @@
               </div>
             </div>
             <div class="card-footer text-muted">
-                <button class="btn btn-sm btn-info pull-right" (click)="onClickOfAlarmRuleAssociation()" [disabled]="isAlarmRuleAssociationAPILoading">
-                  Save  <i *ngIf="isAlarmRuleAssociationAPILoading" class="fa fa-spinner fa-spin fa-fw"></i>
+                <button class="btn btn-sm btn-info pull-right" (click)="onClickOfAlarmRuleAssociation()" id="alertSave" [disabled]="isAlarmRuleAssociationAPILoading">Save<i *ngIf="isAlarmRuleAssociationAPILoading" class="fa fa-spinner fa-spin fa-fw"></i>
                 </button>
-                <button class="btn btn-sm btn-outline-secondary pull-right mr-1" (click)="onClickOfCreateAssociateRule()">Create & Associate Rule</button>
+                <button class="btn btn-sm btn-outline-secondary pull-right mr-1" id="alertCreate" (click)="onClickOfCreateAssociateRule()">Create & Associate Rule</button>
             </div>
         </div>
     </div>

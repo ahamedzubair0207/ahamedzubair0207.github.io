@@ -36,7 +36,7 @@
           <li class="nav-item" placement="top" ngbTooltip="Associate Signals">
             <a class="nav-link tab-icon" id="asset-signal-tab" (click)="onClickOfNavTab('signal_association')"
               name="signal-association-edit" href="#asset-signal" data-toggle="tab" role="tab"
-              aria-controls="asset-signal" aria-selected="false"><i class="icon-cell-tower"></i></a>
+              aria-controls="asset-signal" aria-selected="false"><i class="icon-signal"></i></a>
           </li>
 
           <li class="nav-item" placement="top" ngbTooltip="Child Assets">
@@ -115,8 +115,7 @@
                       [(ngModel)]="asset.organizationId" id="organizationName" name="organizationName"
                       placeholder="Choose Owning Organization" (change)="onParentOrgChange($event)" required>
                       <ng-option value="null" disabled selected>Organization</ng-option>
-                      <ng-option *ngFor="let org of organizationList" [value]="org.organizationId">{{org.name}}
-                      </ng-option>
+                      <ng-option *ngFor="let org of organizationList" [value]="org.organizationId">{{org.name}}</ng-option>
                     </ng-select>
                   </div>
                   <div *ngIf="organizationName.dirty && organizationName.invalid">
@@ -180,8 +179,7 @@
                       [(ngModel)]="asset.locationId" id="installedLocation" name="installedLocation"
                       placeholder="Choose Installed Location" (change)="onLocationChange($event)" required>
                       <ng-option value="null" disabled selected>Location</ng-option>
-                      <ng-option *ngFor="let loc of locationListForDropDown" [value]="loc.locationId">
-                        {{loc.locationName}}</ng-option>
+                      <ng-option *ngFor="let loc of locationListForDropDown" [value]="loc.locationId">{{loc.locationName}}</ng-option>
                     </ng-select>
                   </div>
                   <div *ngIf="installedLocation.dirty && installedLocation.invalid">
@@ -239,8 +237,7 @@
                       [(ngModel)]="asset.parentAssetId" name="parentAsset" id="parentAsset"
                       placeholder="Choose Parent Asset" (change)="onParentAssetChange($event)">
                       <ng-option value="null" disabled selected>Asset</ng-option>
-                      <ng-option *ngFor="let asset of parentAssetListForDropDown" [value]="asset.assetId">
-                        {{asset.assetName}}</ng-option>
+                      <ng-option *ngFor="let asset of parentAssetListForDropDown" [value]="asset.assetId">{{asset.assetName}}</ng-option>
                     </ng-select>
                   </div>
                 </div>
