@@ -17,7 +17,7 @@ declare var $: any;
   styleUrls: ['./votm-cloud-locations-signal.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class VotmCloudLocationsSignalComponent implements OnInit, AfterViewInit {
+export class VotmCloudLocationsSignalComponent implements OnInit {
 
   locationId: string; // to store selected location's id.
   organizationId: string; // to store selected organization's id
@@ -51,6 +51,12 @@ export class VotmCloudLocationsSignalComponent implements OnInit, AfterViewInit 
     Battery: 'E803',
     'Signal Strength': 'E804'
   };
+  derivedSignals: any = [];
+  showAssoc = true;
+  showUnassoc = true;
+  draggingSensorIx: number = null;
+  draggingSignalIx: number = null;
+  grabOffset: any = null;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -75,585 +81,124 @@ export class VotmCloudLocationsSignalComponent implements OnInit, AfterViewInit 
       this.getAlertRulesList();
     });
   }
+  // David's code
+  showSignal(signal: any): boolean {
+    return (signal.associated && this.showAssoc) || ((!signal.associated) && this.showUnassoc);
+  }
 
-  ngAfterViewInit() {
-    console.log(this.editOPanel);
-    const self = this;
-    $.fn.drags = function (opt) {
+  showSensor(signals: any): boolean {
+    let hasAssocSignals: boolean = false;
+    signals.forEach(signal => {
+      hasAssocSignals = hasAssocSignals || ((signal.associated && this.showAssoc) || ((!signal.associated) && this.showUnassoc));
+    });
+    return hasAssocSignals;
+  }
 
-      opt = $.extend({
-        handle: '',
-        cursor: 'move',
-        draggableClass: 'draggable',
-        activeHandleClass: 'active-handle'
-      }, opt);
+  addDerived() {
+    const newSignal = { name: 'my Formula', icon: 'icon-sig-function', associated: true, lastReading: [1434356256, 123, ''] };
+    this.derivedSignals.push(newSignal);
+    // tslint:disable-next-line: no-string-literal
+    newSignal['id'] = this.associatedSignals.length;
+    // tslint:disable-next-line: no-string-literal
+    newSignal['pos'] = { 'left.px': 10, 'top.px': 10 };
+    this.associatedSignals.push(newSignal);
+  }
 
-      let $selected = null;
-      const $elements = (opt.handle === '') ? this : this.find(opt.handle);
+  onStart(event: any, index1, index2) {
+    console.log(index1, index2);
+    if (index2 === undefined) {
+      this.associatedSignals[index1].isClicked = false;
+    }
+    this.draggingSensorIx = event.srcElement.getAttribute('sensorIx');
+    this.draggingSignalIx = event.srcElement.getAttribute('signalIx');
+    this.grabOffset = { x: event.offsetX, y: event.offsetY };
+  }
 
-      $elements.css('cursor', opt.cursor).on('mousedown', function (e) {
-        if (e.target !== this) {
-          return;
-        }
-        self.editOPanel.hide();
-        self.alertOPanel.hide();
-        if (opt.handle === '') {
-          $selected = $(this);
-          $selected.addClass(opt.draggableClass);
-        } else {
-          $selected = $(this).parent();
-          $selected.addClass(opt.draggableClass).find(opt.handle).addClass(opt.activeHandleClass);
-        }
-        const drg_h = $selected.outerHeight();
-        const drg_w = $selected.outerWidth();
-        const pos_y = $selected.offset().top + drg_h - e.pageY;
-        const pos_x = $selected.offset().left + drg_w - e.pageX;
-        $(document).on('mousemove', (e) => {
-          $selected.offset({
-            top: e.pageY + pos_y - drg_h,
-            left: e.pageX + pos_x - drg_w
-          });
-        }).on('mouseup', function (e) {
-          console.log($(this));
-          $(this).off('mousemove'); // Unbind events from document
-          if ($selected !== null) {
-            $selected.removeClass(opt.draggableClass);
-            $selected.css('left', parseInt($selected.css('left'), 10) / ($selected.parent().width() / 100) + '%');
-            $selected.css('top', parseInt($selected.css('top'), 10) / ($selected.parent().height() / 100) + '%');
-            console.log('herer', self.dropSensor);
-            if (self.dropSensor) { self.dropSensor($selected); }
-            $selected = null;
-            // $selected.addClass('pad-18');
-          }
-        });
-        e.preventDefault();
-        e.stopPropagation();
-        e.cancelBubble = true;
-        return false;
-      }).on('mouseup', function (e) {
-        if (e.target !== this) {
-          return;
-        }
-        if (opt.handle === '') {
-          $selected.removeClass(opt.draggableClass);
-        } else {
-          $selected.removeClass(opt.draggableClass)
-            .find(opt.handle).removeClass(opt.activeHandleClass);
-        }
-        $selected.css('left', parseInt($selected.css('left'), 10) / ($selected.parent().width() / 100) + '%');
-        $selected.css('top', parseInt($selected.css('top'), 10) / ($selected.parent().height() / 100) + '%');
-        console.log(self.dropSensor);
-        if (self.dropSensor) {
-          self.dropSensor($selected);
-        }
-        // $selected.addClass('pad-18');
-
-        $selected = null;
-      });
-
-      return this;
-
+  onDrop(event: any) {
+    const pos = {
+      x: (((event.event.offsetX - this.grabOffset.x) / event.event.srcElement.offsetWidth) * 100.0).toFixed(2),
+      y: (((event.event.offsetY - this.grabOffset.y) / event.event.srcElement.offsetHeight) * 100.0).toFixed(2)
     };
-  }
-
-  getAlertRulesList() {
-    this.alertsService.getAllAlertsByOrgId(this.curOrganizationId)
-      .subscribe(response => {
-        this.alertRules = response;
-
-      });
-  }
-
-  /**
-   * To get the location details by location id
-   * Location id will fetch from current route.
-   */
-  getLocationById() {
-    this.locationService.getLocationById(this.locationId)
-      .subscribe(response => {
-        this.location = response;
-        if (this.location.logo && this.location.logo.imageName) {
-          const fileExtension = this.location.logo.imageName.slice(
-            (Math.max(0, this.location.logo.imageName.lastIndexOf('.')) || Infinity) + 1);
-          this.imgURL = this.domSanitizer.bypassSecurityTrustUrl(`data:image/${fileExtension};base64,${this.location.logo.image}`);
-        }
-      });
-  }
-  /**
-   * To get all available signals for that location and organization.
-   * Location id and Organization Id will fetch from current route.
-   * This function sets the sensor disable which are already associated.
-   */
-  getAllAvailableSignals() {
-    this.isGetAvailableSignalsAPILoading = true;
-    this.locationSignalService.getSignalsByLocation(this.locationId, this.curOrganizationId)
-      .subscribe(response => {
-        console.log(response);
-        this.sensors = response;
-        for (let i = 0; i < this.sensors.length; i++) {
-          for (let j = 0; j < this.sensors[i].node.length; j++) {
-            const index = this.associatedSignals.findIndex(
-              signal => signal.signalId === this.sensors[i].node[j].id
-            );
-            this.sensors[i].node[j].sensorId = this.sensors[i].id;
-            this.sensors[i].node[j].sensorName = this.sensors[i].name;
-            this.sensors[i].node[j].associationName = this.sensors[i].node[j].name;
-            this.sensors[i].node[j].imageCoordinates = {
-              x: '0%',
-              y: '0%',
-              xPixels: 0,
-              yPixels: 0
-
-            };
-          }
-        }
-        this.copyAvailableSignals = JSON.parse(JSON.stringify(this.sensors));
-        console.log(this.copyAvailableSignals);
-        this.configSensors('#sensor-cont', '#map-cont-1');
-        // this.setAssociatedSensors('map-cont-1');
-        this.isGetAvailableSignalsAPILoading = false;
-      },
-        error => {
-          this.isGetAvailableSignalsAPILoading = false;
-        });
-  }
-
-
-  getLocationSignalAssociation() {
-    this.isGetAssociatedSignalsAPILoading = true;
-    this.locationSignalService.getSignalAssociation(this.locationId)
-      .subscribe(
-        response => {
-
-          this.getAllAvailableSignals();
-          this.isGetAssociatedSignalsAPILoading = false;
-          for (const signal of response) {
-            signal.imageCoordinates = signal.imageCordinates[signal.associationName];
-            signal.imageCoordinates.x = (parseFloat(signal.imageCoordinates.x.replace('%', ''))).toFixed(2) + '%';
-            signal.imageCoordinates.y = (parseFloat(signal.imageCoordinates.y.replace('%', ''))).toFixed(2) + '%';
-            signal.name = signal.signalName;
-            signal.id = signal.signalId;
-          }
-          this.associatedSignals = [...response];
-        },
-        error => {
-          this.isGetAssociatedSignalsAPILoading = false;
-        }
-      );
-  }
-
-  configSensors(dockCntrSel, mapCntrSel) {
-    const self = this;
-    if (!this.sensorsCreated) {
-      let $sensor;
-      $.each(this.sensors, (sIx, sensorItem) => {
-        $sensor = $(
-          '<div class="sensor-circle docked signalicon-humidity ">'
-        )
-          .html(sensorItem.name)
-          .data('sIx', sIx)
-          .data('dsIx', null)
-          .appendTo(mapCntrSel);
-        $sensor.data(
-          'dockEl',
-          $sensor
-            .clone()
-            .addClass('list-bkg')
-
-            .appendTo(dockCntrSel)
-            .data('dragEl', $sensor)
-        );
-        this.sensors[sIx]['sensorEl'] = $sensor;
-        if (sensorItem.node) {
-          $.each(sensorItem.node, (dsIx, dsItem) => {
-            console.log(dsItem);
-            const index = this.associatedSignals.findIndex(signal => {
-              console.log(signal);
-              return signal.signalId === dsItem.id && signal.sensorId === dsItem.sensorId;
-            });
-
-            if (index !== -1) {
-              $sensor = $(
-                '<div class=\'sensor-circle secondary-ds signalicon-temperature pad-18 cursor-move\' id="' + dsItem.id + '-' + sensorItem.id + '">'
-              )
-                .data('sIx', sIx)
-                .data('dsIx', dsIx)
-                .appendTo(mapCntrSel)
-                .on('mouseenter', function (ev) {
-                  console.log('fghhjkhkl');
-                  $(this).children().show();
-                  $(this).removeClass('pad-18');
-                  ev.stopPropagation();
-                })
-                .on('mouseleave', function (ev) {
-                  console.log(self.editOPanel);
-                  if (!self.editOPanel.visible && !self.alertOPanel.visible) {
-                    $(this).children().hide();
-                    $(this).addClass('pad-18');
-                    ev.stopPropagation();
-                  }
-                });
-              $sensor.data(
-                'dockEl',
-                $sensor
-                  .clone()
-                  .removeClass('docked')
-                  .removeClass('pad-18')
-                  .html(dsItem.name)
-                  .addClass('list-bkg')
-                  .appendTo(dockCntrSel)
-                  .data('dragEl', $sensor)
-                  .on('mousedown', function (e) {
-                    $(this)
-                      .removeClass('docked')
-                      .data('dragEl')
-                      .removeClass('docked')
-                      .offset({
-                        left: $(this).offset().left,
-                        top: $(this).offset().top
-                      })
-                      .trigger(
-                        $.Event('mousedown', { pageX: e.pageX, pageY: e.pageY })
-                      );
-                    return false;
-                  })
-              );
-              $sensor.css({
-                left: this.associatedSignals[index].imageCoordinates.x,
-                top: this.associatedSignals[index].imageCoordinates.y
-              });
-              $sensor.append('<span id="signal-name-' + sIx + '-' + dsIx + '-' + index + '">' + dsItem.name + '</span>')
-                .append('<a title="Edit Signal Association" id="signal-edit-btn-' + sIx + '-' + dsIx + '-' + index + '" style="width: 30px; height:30px;cursor:pointer;" ' +
-                  'class="icon-edit"></a>')
-                .append('<a title="Alarm Rule Association" id="signal-alert-btn-' + sIx + '-' + dsIx + '-' + index + '" style="width: 30px; height:30px;cursor:pointer;"' +
-                  'class="icon-warn"></a>')
-                .append('<a title="Unlink Association" id="signal-detach-btn-' + sIx + '-' + dsIx + '-' + index + '" ' +
-                  ' style="width: 30px; height:30px;cursor:pointer;" class="icon-unlink"></a>');
-              $(document).on('mousedown', '#signal-edit-btn-' + sIx + '-' + dsIx + '-' + index, (evt) => {
-                console.log('button clicked', evt.target.id);
-                $sensor.children().show();
-                $sensor.removeClass('pad-18');
-                const idsSplitList = evt.target.id.split('-');
-                this.selectedSignal = this.associatedSignals[idsSplitList[idsSplitList.length - 1]];
-                console.log(this.selectedSignal.imageCoordinates.x);
-                console.log(this.selectedSignal.imageCoordinates.y);
-                console.log($sensor.parent().width());
-                console.log($sensor.parent().height());
-                this.selectedSignal.imageCoordinates.xPixels = parseFloat(this.selectedSignal.imageCoordinates.x.replace('%', ''));
-                this.selectedSignal.imageCoordinates.yPixels = parseFloat(this.selectedSignal.imageCoordinates.y.replace('%', ''));
-                this.selectedSignal.imageCoordinates.xPixels = (this.selectedSignal.imageCoordinates.xPixels *
-                  ($sensor.parent().width() / 100)).toFixed(2);
-                this.selectedSignal.imageCoordinates.xPixels = (this.selectedSignal.imageCoordinates.yPixels *
-                  ($sensor.parent().height() / 100)).toFixed(2);
-                evt.preventDefault();
-                this.editOPanel.show(evt);
-                this.alertOPanel.hide();
-                evt.cancelBubble = true;
-              });
-              $(document).on('mousedown', '#signal-alert-btn-' + sIx + '-' + dsIx + '-' + index, (evt) => {
-                console.log('button clicked', evt.target.id);
-                $sensor.children().show();
-                $sensor.removeClass('pad-18');
-                const idsSplitList = evt.target.id.split('-');
-                this.selectedSignal = this.associatedSignals[idsSplitList[idsSplitList.length - 1]];
-                console.log(this.selectedSignal.imageCoordinates.x);
-                console.log(this.selectedSignal.imageCoordinates.y);
-                evt.preventDefault();
-                this.alertOPanel.show(evt);
-                this.editOPanel.hide();
-                evt.cancelBubble = true;
-              });
-              $(document).on('mousedown', '#signal-detach-btn-' + sIx + '-' + dsIx + '-' + index, (evt) => {
-                const idsSplitList = evt.target.id.split('-');
-                this.selectedSignal = this.associatedSignals[idsSplitList[idsSplitList.length - 1]];
-                this.editOPanel.hide();
-                this.alertOPanel.hide();
-                this.onDetachSignalFromAsset();
-              });
-              //  $sensor.removeClass('pad-18');
-              $sensor.children().hide();
-              this.associatedSignals[index]['sensorEl'] = $sensor;
-            } else {
-              $sensor = $(
-                '<div class=\'sensor-circle secondary-ds docked signalicon-temperature cursor-move\' id="' + dsItem.id + '-' + sensorItem.id +'">'
-              )
-                .data('sIx', sIx)
-                .data('dsIx', dsIx)
-                .appendTo(mapCntrSel)
-                .on('mouseenter', function (ev) {
-                  console.log('fghhjkhkl');
-                  $(this).children().show();
-                  $(this).removeClass('pad-18');
-                  ev.stopPropagation();
-                })
-                .on('mouseleave', function (ev) {
-                  console.log(self.editOPanel);
-                  if (!self.editOPanel.visible && !self.alertOPanel.visible) {
-                    $(this).children().hide();
-                    $(this).addClass('pad-18');
-                  }
-                  ev.stopPropagation();
-                });
-              $sensor.data(
-                'dockEl',
-                $sensor
-                  .clone()
-                  .html(dsItem.name)
-                  .addClass('list-bkg')
-                  .appendTo(dockCntrSel)
-                  .data('dragEl', $sensor)
-                  .on('mousedown', function (e) {
-                    $(this)
-                      .removeClass('docked')
-                      .data('dragEl')
-                      .removeClass('docked')
-                      .offset({
-                        left: $(this).offset().left,
-                        top: $(this).offset().top
-                      })
-                      .trigger(
-                        $.Event('mousedown', { pageX: e.pageX, pageY: e.pageY })
-                      );
-                    return false;
-                  })
-              );
-              $sensor.append('<span id="signal-name-' + sIx + '-' + dsIx + '">' + dsItem.name + '</span>')
-                .append('<a title="Edit Signal Association" id="signal-edit-btn-' + sIx + '-' + dsIx + '" style="width: 30px; height:30px;cursor:pointer;" ' +
-                  'class="icon-edit"></a>')
-                .append('<a title="Alarm Rule Association" id="signal-alert-btn-' + sIx + '-' + dsIx + '" style="width: 30px; height:30px;cursor:pointer;"' +
-                  'class="icon-warn"></a>')
-                .append('<a title="Unlink Association" id="signal-detach-btn-' + sIx + '-' + dsIx + '" style="width: 30px; height:30px;cursor:pointer;" ' +
-                  'class="icon-unlink"></a>');
-              $(document).on('mousedown', '#signal-edit-btn-' + sIx + '-' + dsIx, (evt) => {
-                console.log('button clicked');
-                const idsSplitList = evt.target.id.split('-');
-                this.selectedSignal = this.sensors[idsSplitList[idsSplitList.length - 2]].node[idsSplitList[idsSplitList.length - 1]];
-                console.log(this.selectedSignal.imageCoordinates.x);
-                console.log(((parseFloat(this.selectedSignal.imageCoordinates.x.replace('%', ''))) *
-                ($sensor.parent().width() / 100)).toFixed(2));
-                console.log(this.selectedSignal.imageCoordinates.y);
-                console.log(((parseFloat(this.selectedSignal.imageCoordinates.y.replace('%', ''))) *
-                ($sensor.parent().width() / 100)).toFixed(2));
-                this.selectedSignal.imageCoordinates.xPixels = parseFloat(this.selectedSignal.imageCoordinates.x.replace('%', ''));
-                this.selectedSignal.imageCoordinates.yPixels = parseFloat(this.selectedSignal.imageCoordinates.y.replace('%', ''));
-                this.selectedSignal.imageCoordinates.xPixels = (this.selectedSignal.imageCoordinates.xPixels *
-                  ($sensor.parent().width() / 100)).toFixed(2);
-                this.selectedSignal.imageCoordinates.yPixels = (this.selectedSignal.imageCoordinates.yPixels *
-                  ($sensor.parent().height() / 100)).toFixed(2);
-                $sensor.children().show();
-                $sensor.removeClass('pad-18');
-                this.editOPanel.show(evt);
-                this.alertOPanel.hide();
-                evt.preventDefault();
-              });
-              $(document).on('mousedown', '#signal-alert-btn-' + sIx + '-' + dsIx, (evt) => {
-                console.log('button clicked');
-                const idsSplitList = evt.target.id.split('-');
-                this.selectedSignal = this.sensors[idsSplitList[idsSplitList.length - 2]].node[idsSplitList[idsSplitList.length - 1]];
-                console.log(this.selectedSignal.imageCoordinates.x);
-                console.log(this.selectedSignal.imageCoordinates.y);
-                $sensor.children().show();
-                $sensor.removeClass('pad-18');
-                this.alertOPanel.show(evt);
-                this.editOPanel.hide();
-                evt.preventDefault();
-              });
-              $(document).on('mousedown', '#signal-detach-btn-' + sIx + '-' + dsIx, (evt) => {
-                const idsSplitList = evt.target.id.split('-');
-                this.selectedSignal = this.sensors[idsSplitList[idsSplitList.length - 2]].node[idsSplitList[idsSplitList.length - 1]];
-                this.editOPanel.hide();
-                this.alertOPanel.hide();
-                this.onDetachSignalFromAsset();
-                evt.preventDefault();
-              });
-              $sensor.removeClass('pad-18');
-              $sensor.children().hide();
-            }
-            this.sensors[sIx].node[dsIx]['sensorEl'] = $sensor;
-
-          });
-        }
-      });
-      $(mapCntrSel + ' .sensor-circle').drags();
-      this.sensorsCreated = true;
-    }
-  }
-
-  dropSensor($sensor) {
-    const sIx = $sensor.data('sIx');
-    const dsIx = $sensor.data('dsIx');
-    console.log(sIx, '========', dsIx);
-    console.log(this.associatedSignals);
-    const index = this.associatedSignals.findIndex(signal => {
-      return signal.id === this.sensors[sIx].node[dsIx].id && signal.sensorId === this.sensors[sIx].id;
-    });
-
-    console.log(index);
-    const xPercent = parseFloat((parseInt($sensor.css('left'), 10) / ($sensor.parent().width() / 100)).toFixed(2));
-    const yPercent = parseFloat((parseInt($sensor.css('top'), 10) / ($sensor.parent().height() / 100)).toFixed(2));
-    console.log(xPercent);
-    console.log(yPercent);
-    if (index !== -1 && this.associatedSignals[index].signalMappingId) {
-      if ($sensor.position().left < 0 || $sensor.position().top < 0 || xPercent > 100 || yPercent > 100) {
-        $sensor
-          .addClass('docked')
-          .data('dockEl')
-          .addClass('docked');
-        this.associatedSignals.splice(index, 1);
-      } else {
-        this.associatedSignals[index].imageCoordinates.x =
-        xPercent + '%';
-        this.associatedSignals[index].imageCoordinates.y =
-        yPercent + '%';
-        console.log($sensor);
-        $sensor.mouseenter();
-        $('#signal-edit-btn-' + sIx + '-' + dsIx + '-' + index).mousedown();
-      }
+    event.data.pos = { 'left.%': pos.x, 'top.%': pos.y };
+    if (!event.data.associated) {
+      event.data.associated = true;
+      event.data.id = this.associatedSignals.length;
+      event.data.isClicked = false;
+      this.associatedSignals.push(event.data);
+      this.sensors[this.draggingSensorIx].node[this.draggingSignalIx].associated = true;
     } else {
-
-      if ($sensor.position().left < 0 || $sensor.position().top < 0 || xPercent > 100 || yPercent > 100) {
-        $sensor
-          .addClass('docked')
-          .data('dockEl')
-          .addClass('docked');
-        this.sensors[sIx].node[dsIx].imageCoordinates.x = this.sensors[sIx].node[
-          dsIx
-        ].imageCoordinates.y = null;
-      } else {
-          this.sensors[sIx].node[dsIx].imageCoordinates.x =
-            xPercent + '%';
-          this.sensors[sIx].node[dsIx].imageCoordinates.y =
-            yPercent + '%';
-          const sensorObj = { ...this.sensors[sIx].node[dsIx] };
-          this.associatedSignals.push(sensorObj);
-          $sensor.mouseenter();
-          console.log($('#signal-edit-btn-' + sIx + '-' + dsIx));
-          $('#signal-edit-btn-' + sIx + '-' + dsIx).mousedown();
-      }
-
-      // $('#map-cont-1 .sensor-circle').sensorPopover();
-      console.log(this.sensors);
-
+      this.associatedSignals.find(({ id }) => id === event.data.id)['pos'] = event.data.pos;
     }
-
     console.log(this.associatedSignals);
-    // this.updateSensors('#map-cont-1');
   }
 
-  onSaveSignalAssociation() {
-    console.log(this.associatedSignals);
-    this.editOPanel.hide();
-    this.alertOPanel.hide();
-    this.isSignalAssociationAPILoading = true;
-    const data = this.associatedSignals.map(signal => {
-      delete signal.imageCoordinates.xPixels;
-      delete signal.imageCoordinates.yPixels;
-      const obj = {
-        locationId: this.locationId,
-        signalId: signal.id,
-        sensorId: signal.sensorId,
-        imageCordinates: {
-        },
-        name: signal.signalName,
-        associationName: signal.associationName,
-        signalMappingId: signal.signalMappingId ? signal.signalMappingId : undefined
-      };
-      obj.imageCordinates[signal.associationName] = signal.imageCoordinates;
-      return obj;
-    });
-    this.locationSignalService.createSignalAssociation(data)
-      .subscribe(
-        response => {
-          console.log(response);
-          $('#map-cont-1').children().not('img').remove();
-          $('#sensor-cont').empty();
-          this.sensors = [];
-          this.sensorsCreated = null;
-          this.toaster.onSuccess('Signal associated successfully', 'Saved');
-          this.getLocationSignalAssociation();
-          this.isSignalAssociationAPILoading = false;
+  onClickOfAssociatedSignal(signal) {
+    this.closeAllIconsDisplay();
+    signal.isClicked = !signal.isClicked;
+    this.selectedSignal = {...signal};
+  }
 
-        }, error => {
-          this.toaster.onFailure('Error while saving signal assocition', 'Error');
-          this.isSignalAssociationAPILoading = false;
-        }
-      );
+  onClickOfEditIcon(index, event) {
+    this.selectedSignal.isClicked = true;
+    this.selectedSignal.imageCordinates = {
+      x:  this.selectedSignal.pos['left.%'],
+      y: this.selectedSignal.pos['top.%']
+    };
+    this.editOPanel.show(event);
+    event.preventDefault();
+    event.stopPropagation();
+    event.cancelBubble = true;
+  }
+
+  closeAllIconsDisplay() {
+    this.associatedSignals.forEach(signal => signal.isClicked = false);
+  }
+
+  onClickOfAlertIcon(index, event) {
+    this.alertOPanel.show(event);
+    this.associatedSignals[index].isClicked = true;
+    event.preventDefault();
+    event.stopPropagation();
+    event.cancelBubble = true;
   }
 
   onClickOfSaveSignalAssociationPanel() {
-    console.log(this.selectedSignal);
+    this.selectedSignal.pos = {
+      'left.%': this.selectedSignal.imageCordinates.x,
+      'top.%': this.selectedSignal.imageCordinates.y
+    };
     const index = this.associatedSignals.findIndex(
-      signal => signal.id === this.selectedSignal.id && signal.sensorId === this.selectedSignal.sensorId
+      signal => signal.signalId === this.selectedSignal.signalId &&
+      signal.sensorId === this.selectedSignal.sensorId
     );
-    console.log(index);
-    // if (index !== -1) {
-    //   delete this.associatedSignals[index];
-    // }
-    // this.associatedSignals.push(this.selectedSignal);
-    // this.selectedSignal.imageCoordinates.x = (this.selectedSignal.imageCoordinates.xPixels /
-    //   (this.selectedSignal.sensorEl.parent().width() / 100)).toFixed(2) + '%';
-    // this.selectedSignal.imageCoordinates.y = (this.selectedSignal.imageCoordinates.yPixels /
-    //   (this.selectedSignal.sensorEl.parent().height() / 100)).toFixed(2) + '%';
-    this.selectedSignal.imageCoordinates.x = parseFloat((parseInt(this.selectedSignal.sensorEl.css('left'), 10) /
-      (this.selectedSignal.sensorEl.parent().width() / 100)).toFixed(2)) + '%';
-    this.selectedSignal.imageCoordinates.y = parseFloat((parseInt(this.selectedSignal.sensorEl.css('top'), 10) /
-      (this.selectedSignal.sensorEl.parent().height() / 100)).toFixed(2)) + '%';
     this.associatedSignals.splice(index, 1, this.selectedSignal);
-    this.selectedSignal.sensorEl.css({
-      left: this.selectedSignal.imageCoordinates.x,
-      top: this.selectedSignal.imageCoordinates.y
-    });
-    this.selectedSignal.sensorEl.children('span').each((i, item) => {
-      console.log(this.selectedSignal.sensorEl.children('span')[i].id);
-      $('#' + this.selectedSignal.sensorEl.children('span')[i].id).html(this.selectedSignal.associationName);
-    });
-    this.editOPanel.hide();
-    this.selectedSignal.sensorEl.mouseleave();
+    console.log(this.associatedSignals);
+    this.closeEditOpanel();
   }
 
   closeEditOpanel() {
     this.editOPanel.hide();
-    this.selectedSignal.sensorEl.children().hide();
-    this.selectedSignal.sensorEl.mouseleave();
-    setTimeout( () => {
-      this.selectedSignal.imageCoordinates.x = parseFloat((parseInt(this.selectedSignal.sensorEl.css('left'), 10) /
-      (this.selectedSignal.sensorEl.parent().width() / 100)).toFixed(2)) + '%';
-      this.selectedSignal.imageCoordinates.y = parseFloat((parseInt(this.selectedSignal.sensorEl.css('top'), 10) /
-      (this.selectedSignal.sensorEl.parent().height() / 100)).toFixed(2)) + '%';
-    }, 150);
-    this.selectedSignal.sensorEl.addClass('pad-18');
-
   }
 
-  onDetachSignalFromAsset() {
+  onDetachSignalFromAsset(index) {
     if (this.selectedSignal.signalMappingId) {
       this.locationSignalService.detachSignalAssociation(this.selectedSignal.signalMappingId).subscribe(
         response => {
-          $('#map-cont-1').children().not('img').remove();
-          $('#sensor-cont').empty();
           this.sensors = [];
-          this.sensorsCreated = null;
           this.toaster.onSuccess('Signal detached successfully', 'Detached');
           this.getLocationSignalAssociation();
         }
       );
     } else {
-      this.selectedSignal.sensorEl
-        .addClass('docked')
-        .data('dockEl')
-        .addClass('docked');
-      let dsIx;
-      const sIx = this.sensors.findIndex(sensor => {
-        dsIx = sensor.node.findIndex(signal => signal.id === this.selectedSignal.id);
-        return this.selectedSignal.sensorId === sensor.id;
-      });
-      this.sensors[sIx].node[dsIx].imageCoordinates.x = this.sensors[sIx].node[
-        dsIx
-      ].imageCoordinates.y = null;
-      const index = this.associatedSignals.findIndex(signal => this.selectedSignal.id === signal.id);
-      console.log(this.associatedSignals);
+      for (const sensor of this.sensors) {
+        for (const signal of sensor.node) {
+          if (signal.signalId === this.associatedSignals[index].signalId &&
+          signal.sensorId === this.associatedSignals[index].sensorId) {
+            signal.associated = false;
+          }
+        }
+      }
       this.associatedSignals.splice(index, 1);
-      console.log(this.associatedSignals);
     }
   }
 
@@ -689,6 +234,140 @@ export class VotmCloudLocationsSignalComponent implements OnInit, AfterViewInit 
       this.organizationId ? this.organizationId : this.curOrganizationId, 'alertRule', 'create']);
   }
 
+  onSaveSignalAssociation() {
+    console.log(this.associatedSignals);
+    this.editOPanel.hide();
+    this.alertOPanel.hide();
+    this.isSignalAssociationAPILoading = true;
+    const data = this.associatedSignals.map(signal => {
+      const obj = {
+        locationId: this.locationId,
+        signalId: signal.signalId,
+        sensorId: signal.sensorId,
+        imageCordinates: {},
+        name: signal.signalName,
+        associationName: signal.associationName,
+        signalMappingId: signal.signalMappingId ? signal.signalMappingId : undefined
+      };
+      obj.imageCordinates[signal.associationName] = {
+        x: signal.pos['left.%'],
+        y: signal.pos['top.%']
+      };
+      return obj;
+    });
+    this.locationSignalService.createSignalAssociation(data)
+      .subscribe(
+        response => {
+          console.log(response);
+          this.sensors = [];
+          this.selectedSignal = undefined;
+          this.toaster.onSuccess('Signal associated successfully', 'Saved');
+          this.getLocationSignalAssociation();
+          this.isSignalAssociationAPILoading = false;
+
+        }, error => {
+          this.toaster.onFailure('Error while saving signal assocition', 'Error');
+          this.isSignalAssociationAPILoading = false;
+        }
+      );
+  }
+
+  // end
+
+  getAlertRulesList() {
+    this.alertsService.getAllAlertsByOrgId(this.curOrganizationId)
+      .subscribe(response => {
+        this.alertRules = response;
+      });
+  }
+
+
+
+  /**
+   * To get the location details by location id
+   * Location id will fetch from current route.
+   */
+  getLocationById() {
+    this.locationService.getLocationById(this.locationId)
+      .subscribe(response => {
+        this.location = response;
+        if (this.location.logo && this.location.logo.imageName) {
+          const fileExtension = this.location.logo.imageName.slice(
+            (Math.max(0, this.location.logo.imageName.lastIndexOf('.')) || Infinity) + 1);
+          this.imgURL = this.domSanitizer.bypassSecurityTrustUrl(`data:image/${fileExtension};base64,${this.location.logo.image}`);
+        }
+      });
+  }
+  /**
+   * To get all available signals for that location and organization.
+   * Location id and Organization Id will fetch from current route.
+   * This function sets the sensor disable which are already associated.
+   */
+  getAllAvailableSignals() {
+    this.isGetAvailableSignalsAPILoading = true;
+    this.locationSignalService.getSignalsByLocation(this.locationId, this.curOrganizationId)
+      .subscribe(response => {
+        console.log(response);
+        this.sensors = response;
+        for (const sensor of this.sensors) {
+          for (const signal of sensor.node) {
+            signal.sensorId = sensor.id;
+            signal.sensorName = sensor.name;
+            signal.signalId = signal.id;
+            signal.signalName = signal.name;
+            signal.associationName = signal.name;
+            signal.associated = false;
+            signal.imageCordinates = {
+              x: 0,
+              y: 0
+            };
+            signal.icon = 'icon-sig-humidity';
+            for (const associateSignal of this.associatedSignals) {
+              if (associateSignal.signalId === signal.signalId &&
+                associateSignal.sensorId === signal.sensorId) {
+                signal.associated = true;
+              }
+            }
+          }
+        }
+        this.copyAvailableSignals = JSON.parse(JSON.stringify(this.sensors));
+        console.log(this.copyAvailableSignals);
+        // this.configSensors('#sensor-cont', '#map-cont-1');
+        // this.setAssociatedSensors('map-cont-1');
+        this.isGetAvailableSignalsAPILoading = false;
+      },
+        error => {
+          this.isGetAvailableSignalsAPILoading = false;
+        });
+  }
+
+
+  getLocationSignalAssociation() {
+    this.isGetAssociatedSignalsAPILoading = true;
+    this.locationSignalService.getSignalAssociation(this.locationId)
+      .subscribe(
+        response => {
+
+          this.getAllAvailableSignals();
+          this.isGetAssociatedSignalsAPILoading = false;
+          for (let i = 0; i < response.length; i++) {
+            const signal = response[i];
+            signal.imageCordinates = signal.imageCordinates[signal.associationName];
+            signal.pos = {};
+            signal.pos['left.%'] = signal.imageCordinates.x;
+            signal.pos['top.%'] = signal.imageCordinates.y;
+            signal.isClicked = false;
+            signal.icon = 'icon-sig-humidity';
+            signal.associated = true;
+            signal.id = i;
+          }
+          this.associatedSignals = [...response];
+        },
+        error => {
+          this.isGetAssociatedSignalsAPILoading = false;
+        }
+      );
+  }
 
   onCancelClick(event) {
     this.routerLocation.back();
