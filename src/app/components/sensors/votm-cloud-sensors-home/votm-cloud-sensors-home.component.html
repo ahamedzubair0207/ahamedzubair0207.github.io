@@ -21,21 +21,19 @@
 </form>
 
 
-<ng-template #recursiveTableList let-list="sensorList" let-lvl="level">
-  <ng-container *ngFor="let item of list">
+<ng-template>
+  <ng-container>
 
     <tr>
       <th scope="row" (click)="item.opened = !item.opened" [ngStyle]="{'padding-left.px': 15*(lvl+1)}">
         <i class="fa fa-thermometer-half"></i>
-        {{item.name}}
+        {{item.sensorName}}
       </th>
       <td class="">{{item.serialNumber}}</td>
-      <td class="">{{item.assetNumber}}</td>
-      <td class=""></td>
-      <td class=""></td>
-      <td class=""></td>
-      <td class=""></td>
-      <td class=""></td>
+      <td class="">{{item.sensorType}}</td>
+      <td class="">{{item.location}}</td>
+      <td class="">{{item.battery}}</td>
+      <td class="">{{item.signal}}</td>
       <td class="align-center">
         <!-- <a class="action-icon" title="List" [routerLink]="['/sensor/home', item.id]">
           <i class="fa fa-list"></i>
@@ -62,10 +60,8 @@
       <th scope="col" class="">Serial #</th>
       <th scope="col" class="">Sensor Type</th>
       <th scope="col" class="">Location</th>
-      <th scope="col" class="">Organization</th>
-      <th scope="col" class="">Reported Value</th>
-      <th scope="col" class="">Last Reported Time</th>
-      <th scope="col" class="">State</th>
+      <th scope="col" class="">Battery</th>
+      <th scope="col" class="">Signal</th>
       <th scope="col" class="text-center">Actions</th>
     </tr>
   </thead>

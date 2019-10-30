@@ -11,7 +11,7 @@
           <span class="icon-text" >{{eachItem.name}}</span>
           <i class="fa fa-caret-down float-right" id="adminDropDown" style="margin-top:4px;"></i>
       </a>
-      <ul class="dropdown-container display-none list-unstyled components left-menu-margin" [id]="eachItem.id" *ngIf="eachItem.childs.length > 0">
+      <ul  class="dropdown-container display-none list-unstyled components left-menu-margin" [id]="eachItem.id" *ngIf="eachItem.childs.length > 0">
           <li *ngFor="let childItem of eachItem.childs"  routerLinkActive="active" [ngClass]="{ 'super-admin' : childItem.id == 'super' }" >
               <a *ngIf="childItem.enabled" routerLink="{{childItem.url}}"  (click)="setActiveItem(childItem.id)" data-toggle="collapse" aria-expanded="false" data-toggle="tooltip" data-placement="right" title="{{childItem.name}}">
                   <i [ngClass]="childItem.icon" class="dropdown-icon-size"></i>
@@ -24,3 +24,4 @@
 
 </nav>
 
+<!-- style="height:160px;overflow:hidden; overflow-y:scroll;" -->
