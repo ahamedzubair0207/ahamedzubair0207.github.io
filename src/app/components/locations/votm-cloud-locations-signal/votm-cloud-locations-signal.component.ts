@@ -1,6 +1,6 @@
 import { Alert } from './../../../models/alert.model';
 import { AlertsService } from 'src/app/services/alerts/alerts.service';
-import { Component, OnInit, OnDestroy, ViewChild, AfterViewInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, AfterViewInit, ViewEncapsulation, ElementRef } from '@angular/core';
 import { Location as RouterLocation } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { OverlayPanel } from 'primeng/overlaypanel';
@@ -41,23 +41,13 @@ export class VotmCloudLocationsSignalComponent implements OnInit {
   isAlarmRuleAssociationAPILoading = false;
   isSignalAssociationAPILoading = false;
   selectedAlertRule: Alert;
-  sensors = [
-  ];
-  sensorsCreated = null;
-  sensorCharCode = {
-    Temperature: 'E802',
-    Humidity: 'E801',
-    'Dew Point': 'E807',
-    Battery: 'E803',
-    'Signal Strength': 'E804'
-  };
+  sensors = [];
   derivedSignals: any = [];
   showAssoc = true;
   showUnassoc = true;
   draggingSensorIx: number = null;
   draggingSignalIx: number = null;
   grabOffset: any = null;
-
   constructor(
     private activatedRoute: ActivatedRoute,
     private route: Router,
@@ -66,7 +56,8 @@ export class VotmCloudLocationsSignalComponent implements OnInit {
     private locationService: LocationService,
     private alertsService: AlertsService,
     private domSanitizer: DomSanitizer,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private eleRef: ElementRef
   ) { }
 
   ngOnInit() {
@@ -87,7 +78,7 @@ export class VotmCloudLocationsSignalComponent implements OnInit {
   }
 
   showSensor(signals: any): boolean {
-    let hasAssocSignals: boolean = false;
+    let hasAssocSignals = false;
     signals.forEach(signal => {
       hasAssocSignals = hasAssocSignals || ((signal.associated && this.showAssoc) || ((!signal.associated) && this.showUnassoc));
     });
@@ -95,16 +86,22 @@ export class VotmCloudLocationsSignalComponent implements OnInit {
   }
 
   addDerived() {
-    const newSignal = { name: 'my Formula', icon: 'icon-sig-function', associated: true, lastReading: [1434356256, 123, ''] };
+    const newSignal = { signalName: 'My Derived Signal', associationName: 'My Derived Signal', icon: 'icon-sig-function', associated: true, derived: true, isClicked: false};
     this.derivedSignals.push(newSignal);
     // tslint:disable-next-line: no-string-literal
     newSignal['id'] = this.associatedSignals.length;
     // tslint:disable-next-line: no-string-literal
-    newSignal['pos'] = { 'left.px': 10, 'top.px': 10 };
+    newSignal['pos'] = { 'left': 1, 'top': 1 };
     this.associatedSignals.push(newSignal);
+    $('#derivedSignalModal').modal({
+      backdrop: 'static',
+      keyboard: false
+    });
   }
 
   onStart(event: any, index1, index2) {
+    this.closeAlertOPanel();
+    this.closeEditOpanel();
     console.log(index1, index2);
     if (index2 === undefined) {
       this.associatedSignals[index1].isClicked = false;
@@ -115,11 +112,14 @@ export class VotmCloudLocationsSignalComponent implements OnInit {
   }
 
   onDrop(event: any) {
-    const pos = {
-      x: (((event.event.offsetX - this.grabOffset.x) / event.event.srcElement.offsetWidth) * 100.0).toFixed(2),
-      y: (((event.event.offsetY - this.grabOffset.y) / event.event.srcElement.offsetHeight) * 100.0).toFixed(2)
+
+    event.data.pos = {
+      left: (((event.event.layerX - this.grabOffset.x + 16) / event.event.srcElement.offsetParent.offsetWidth) * 100.0).toFixed(2),
+      top: (((event.event.layerY - this.grabOffset.y + 16) / event.event.srcElement.offsetParent.offsetHeight) * 100.0).toFixed(2)
     };
-    event.data.pos = { 'left.%': pos.x, 'top.%': pos.y };
+      // event.data.pos = { 'left.%': pos.left, 'top.%': pos.top };
+
+    console.log(event.data.pos.left, '========', event.data.pos.top);
     if (!event.data.associated) {
       event.data.associated = true;
       event.data.id = this.associatedSignals.length;
@@ -127,22 +127,45 @@ export class VotmCloudLocationsSignalComponent implements OnInit {
       this.associatedSignals.push(event.data);
       this.sensors[this.draggingSensorIx].node[this.draggingSignalIx].associated = true;
     } else {
-      this.associatedSignals.find(({ id }) => id === event.data.id)['pos'] = event.data.pos;
+      let id = this.associatedSignals.findIndex(signal => signal.id === event.data.id);
+      this.associatedSignals[id]['pos'] = event.data.pos;
     }
+    this.closeAllIconsDisplay();
+    const index = this.associatedSignals.findIndex(signal => signal.id === event.data.id);
+    this.associatedSignals[index].isClicked = true;
+
+    setTimeout( () => {
+      const elem = this.eleRef.nativeElement.querySelector('#sig_edit_' + index);
+      console.log(elem);
+      if (elem) {
+        elem.dispatchEvent(new Event('click'));
+      }
+    }, 50);
+
+
     console.log(this.associatedSignals);
   }
 
+  getPositionStyle(signal) {
+    const style = {
+      left: 'calc(' + signal.pos.left + '% - 16px)',
+      top: 'calc(' + signal.pos.top + '% - 16px)'
+    };
+    return style;
+  }
+
   onClickOfAssociatedSignal(signal) {
-    this.closeAllIconsDisplay();
+
     signal.isClicked = !signal.isClicked;
     this.selectedSignal = {...signal};
   }
 
   onClickOfEditIcon(index, event) {
-    this.selectedSignal.isClicked = true;
+    this.associatedSignals[index].isClicked = true;
+    this.selectedSignal = this.associatedSignals[index];
     this.selectedSignal.imageCordinates = {
-      x:  this.selectedSignal.pos['left.%'],
-      y: this.selectedSignal.pos['top.%']
+      x:  this.selectedSignal.pos['left'],
+      y: this.selectedSignal.pos['top']
     };
     this.editOPanel.show(event);
     event.preventDefault();
@@ -155,6 +178,8 @@ export class VotmCloudLocationsSignalComponent implements OnInit {
   }
 
   onClickOfAlertIcon(index, event) {
+    this.associatedSignals[index].isClicked = true;
+    this.selectedSignal = this.associatedSignals[index];
     this.alertOPanel.show(event);
     this.associatedSignals[index].isClicked = true;
     event.preventDefault();
@@ -164,8 +189,8 @@ export class VotmCloudLocationsSignalComponent implements OnInit {
 
   onClickOfSaveSignalAssociationPanel() {
     this.selectedSignal.pos = {
-      'left.%': this.selectedSignal.imageCordinates.x,
-      'top.%': this.selectedSignal.imageCordinates.y
+      left: this.selectedSignal.imageCordinates.x,
+      top: this.selectedSignal.imageCordinates.y
     };
     const index = this.associatedSignals.findIndex(
       signal => signal.signalId === this.selectedSignal.signalId &&
@@ -178,9 +203,28 @@ export class VotmCloudLocationsSignalComponent implements OnInit {
 
   closeEditOpanel() {
     this.editOPanel.hide();
+    if (this.selectedSignal) {
+      const index = this.associatedSignals.findIndex(
+        signal => signal.signalId === this.selectedSignal.signalId &&
+        signal.sensorId === this.selectedSignal.sensorId
+      );
+      this.associatedSignals[index].isClicked = false;
+    }
+  }
+
+  closeAlertOPanel() {
+    this.alertOPanel.hide();
+    if (this.selectedSignal) {
+      const index = this.associatedSignals.findIndex(
+        signal => signal.signalId === this.selectedSignal.signalId &&
+        signal.sensorId === this.selectedSignal.sensorId
+      );
+      this.associatedSignals[index].isClicked = false;
+    }
   }
 
   onDetachSignalFromAsset(index) {
+    this.selectedSignal = this.associatedSignals[index];
     if (this.selectedSignal.signalMappingId) {
       this.locationSignalService.detachSignalAssociation(this.selectedSignal.signalMappingId).subscribe(
         response => {
@@ -215,17 +259,17 @@ export class VotmCloudLocationsSignalComponent implements OnInit {
       this.alertsService.updateAlertRule(alertObj).subscribe(
         response => {
           this.toaster.onSuccess('Alarm Rule associated successfully.', 'Association Saved!');
-          this.alertOPanel.hide();
+          this.closeAlertOPanel();
           this.isAlarmRuleAssociationAPILoading = false;
         }, error => {
           this.toaster.onFailure('Error while associating Alarm Rule.', 'Association Error!');
-          this.alertOPanel.hide();
+          this.closeAlertOPanel();
           this.isAlarmRuleAssociationAPILoading = false;
         }
       );
     } else {
       this.toaster.onFailure('Please save the signal association first to set the alarm rule association', 'Association Error!');
-      this.alertOPanel.hide();
+      this.closeAlertOPanel();
     }
   }
 
@@ -239,7 +283,14 @@ export class VotmCloudLocationsSignalComponent implements OnInit {
     this.editOPanel.hide();
     this.alertOPanel.hide();
     this.isSignalAssociationAPILoading = true;
-    const data = this.associatedSignals.map(signal => {
+    const signals = [];
+    for (let i = 0; i < this.associatedSignals.length; i++) {
+      if (this.associatedSignals[i].derived) {
+      } else {
+        signals.push(this.associatedSignals[i]);
+      }
+    }
+    const data = signals.map(signal => {
       const obj = {
         locationId: this.locationId,
         signalId: signal.signalId,
@@ -250,8 +301,8 @@ export class VotmCloudLocationsSignalComponent implements OnInit {
         signalMappingId: signal.signalMappingId ? signal.signalMappingId : undefined
       };
       obj.imageCordinates[signal.associationName] = {
-        x: signal.pos['left.%'],
-        y: signal.pos['top.%']
+        x: signal.pos['left'],
+        y: signal.pos['top']
       };
       return obj;
     });
@@ -354,8 +405,8 @@ export class VotmCloudLocationsSignalComponent implements OnInit {
             const signal = response[i];
             signal.imageCordinates = signal.imageCordinates[signal.associationName];
             signal.pos = {};
-            signal.pos['left.%'] = signal.imageCordinates.x;
-            signal.pos['top.%'] = signal.imageCordinates.y;
+            signal.pos['left'] = signal.imageCordinates.x;
+            signal.pos['top'] = signal.imageCordinates.y;
             signal.isClicked = false;
             signal.icon = 'icon-sig-humidity';
             signal.associated = true;

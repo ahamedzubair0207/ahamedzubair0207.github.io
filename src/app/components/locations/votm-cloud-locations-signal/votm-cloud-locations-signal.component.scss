@@ -1,5 +1,5 @@
 
-@import "../../../../styles/functions", "../../../../styles/_variables.scss";
+@import "../../../../styles/_functions.scss", "../../../../styles/_variables.scss";
 
 .has-search .form-control {
   padding-left: calc(1.5 * #{$font-size-base} + 2 * #{$input-btn-padding-x});
@@ -22,7 +22,7 @@
   border: 1px solid $gray-400;
   padding-left: 0;
   max-height: 100%;
-  overflow: scroll;
+  overflow-y: auto;
 }
 .sensor-list > div {
   white-space: nowrap;
@@ -38,17 +38,30 @@
   user-select: none;
 }
 
-.sensor-list > div:before {
+.sensor-list > div:before,
+.sensor-list > div.derived > span:before {
   position: relative;
   width: 30px;
   margin: 0;
 }
 
+.sensor-list > div.derived > span {
+  white-space: nowrap;
+  text-align: left;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  user-select: none;
+  padding-right: calc(1.5 * #{$font-size-base} + 2 * #{$input-btn-padding-x});
+  display: block;
+}
+
 .sensor-list > div.derived > button {
-  line-height: calc(2 * #{$font-size-base} + 4px);
-  float: right;
+  line-height: calc(2 * #{$font-size-base} + 2px);
   padding-top: 0;
   padding-bottom: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
 }
 
 .signal-list {
@@ -63,9 +76,9 @@
   line-height: calc(2 * #{$font-size-base} + 2px);
   text-shadow: none;
   font-weight: normal;
-  padding-left: 35px;
+  padding-left: calc(2 * #{$font-size-base} + 2px + #{$input-btn-padding-x});
   background-color: #fff;
-  border: 1px solid $gray-400;
+  border: 1px solid $gray-300;
   text-align: left;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -78,14 +91,6 @@
   padding-right: 0;
   user-select: none;
   cursor: move;
-}
-
-div.dndDragging {
-  opacity: 0.5 !important;
-}
-div.dndDragging:before {
-  color: red;
-  content: "\f140";
 }
 
 .signal-list > div:not(:first-child) {
@@ -110,43 +115,68 @@ div.dndDragging:before {
   width: calc(2 * #{$font-size-base} + 4px);
   line-height: calc(2 * #{$font-size-base} + 2px);
   background-color: $gray-300;
-  border: 1px solid $gray-400;
+  border: 1px solid $gray-300;
   border-radius: calc(#{$font-size-base} + 1px);
   margin: 0;
 }
 
-.assoc-container {
+.assoc-pane {
+  position: relative;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: center;
   align-items: center;
   background-color: $gray-100;
 }
 
-.assoc-pane {
-  position: relative;
-  width: 100%;
-  background-color: $white;
+.assoc-img {
   max-width: 100%;
   max-height: 100%;
+  object-fit: contain;
+  outline: 1px dashed $gray-300;
+  background-color: $white;
 }
 
 .assoc-pane > div {
   border-top-right-radius: calc(#{$font-size-base} + 1px) !important;
   border-bottom-right-radius: calc(#{$font-size-base} + 1px) !important;
   display: inline-block !important;
-  width: auto !important;
-  padding-right: calc(#{$font-size-base} / 2) !important;
+  width: 0;
+  padding-right: 0;
+  padding-left: calc(2 * #{$font-size-base} + 2px);
   position: absolute;
+  border-color: $primary;
+}
+.assoc-pane > div:hover {
+  padding-right: calc(#{$font-size-base} / 2 + #{$input-btn-padding-x}) !important;
+  padding-left: calc(2 * #{$font-size-base} + 2px + #{$input-btn-padding-x});
+  width: auto !important;
 }
 
-.assoc-img {
-  width: 100%;
-  max-width: 100%;
-  max-height: 100%;
-  object-fit: contain;
-  outline: 1px dashed $gray-300;
+.assoc-pane > div.active {
+  padding-right: calc(#{$font-size-base} / 2 + #{$input-btn-padding-x}) !important;
+  padding-left: calc(2 * #{$font-size-base} + 2px + #{$input-btn-padding-x});
+  width: auto !important;
 }
+
+.assoc-pane > div:before {
+  color: $white;
+  background-color: $primary;
+}
+
+div.dndDragging {
+  color: transparent;
+  opacity: 0.75 !important;
+  border-color: transparent !important;
+  background-color: transparent !important;
+}
+div.dndDragging:before {
+  content: "\f140";
+  color: red !important;
+  background-color: transparent !important;
+  border-color: transparent !important;
+}
+
 
 .pad-l-1 {
   padding-left: 1.45rem !important;
@@ -165,4 +195,13 @@ div.dndDragging:before {
 
 body .ui-overlaypanel {
   z-index: 9999!important;
+}
+
+.ng-select .ng-select-container {
+  height: calc(1.5em + .5rem + 2px) !important;
+  padding: .25rem .5rem;
+  font-size: .765625rem;
+  line-height: 1.5;
+  border-radius: .2rem;
+  min-height: 28px;
 }
