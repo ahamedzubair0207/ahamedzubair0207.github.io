@@ -115,7 +115,8 @@
                       [(ngModel)]="asset.organizationId" id="organizationName" name="organizationName"
                       placeholder="Choose Owning Organization" (change)="onParentOrgChange($event)" required>
                       <ng-option value="null" disabled selected>Organization</ng-option>
-                      <ng-option *ngFor="let org of organizationList" [value]="org.organizationId">{{org.name}}</ng-option>
+                      <ng-option *ngFor="let org of organizationList" [value]="org.organizationId">{{org.name}}
+                      </ng-option>
                     </ng-select>
                   </div>
                   <div *ngIf="organizationName.dirty && organizationName.invalid">
@@ -179,7 +180,8 @@
                       [(ngModel)]="asset.locationId" id="installedLocation" name="installedLocation"
                       placeholder="Choose Installed Location" (change)="onLocationChange($event)" required>
                       <ng-option value="null" disabled selected>Location</ng-option>
-                      <ng-option *ngFor="let loc of locationListForDropDown" [value]="loc.locationId">{{loc.locationName}}</ng-option>
+                      <ng-option *ngFor="let loc of locationListForDropDown" [value]="loc.locationId">
+                        {{loc.locationName}}</ng-option>
                     </ng-select>
                   </div>
                   <div *ngIf="installedLocation.dirty && installedLocation.invalid">
@@ -237,7 +239,8 @@
                       [(ngModel)]="asset.parentAssetId" name="parentAsset" id="parentAsset"
                       placeholder="Choose Parent Asset" (change)="onParentAssetChange($event)">
                       <ng-option value="null" disabled selected>Asset</ng-option>
-                      <ng-option *ngFor="let asset of parentAssetListForDropDown" [value]="asset.assetId">{{asset.assetName}}</ng-option>
+                      <ng-option *ngFor="let asset of parentAssetListForDropDown" [value]="asset.assetId">
+                        {{asset.assetName}}</ng-option>
                     </ng-select>
                   </div>
                 </div>
@@ -254,36 +257,51 @@
               </div>
 
 
-
-              <div class="row asset-create-font asset-margin">
+              <div class="row asset-margin">
                 <div class="col-md-4">
-                  <label for="assetImage" id="asset-image-lbl">Asset Image : </label>
-                  <div class="custom-file">
-                    <span style="color:rgb(106,96,85);" *ngIf="message">{{message}}</span>
-                    <input class="custom-file-input ng-pristine ng-invalid" [disabled]="pageType==='View'" #file
-                      type="file" id="asset-image" accept='image/*' (change)="onImageChangeClick()" />
-                    <label style="font-weight: bold" *ngIf="asset && asset.logo"
-                      class="custom-file-label">{{asset.logo.imageName}}</label>
-                    <img [src]="imgURL" height="200" width="235" *ngIf="imgURL">
-                  </div>
+                  <fieldset style="height: 300px;">
+                    <legend id="asset-image-lbl">Asset Image</legend>
+                    <div class="form-group">
+                      <!-- <label for="assetImage" id="asset-image-lbl">Asset Image : </label> -->
+
+                      <div class="custom-file">
+                        <span style="color:rgb(106,96,85);" *ngIf="message">{{message}}</span>
+                        <input class="custom-file-input ng-pristine ng-invalid" [disabled]="pageType==='View'" #file
+                          type="file" id="asset-image" accept='image/*' (change)="onImageChangeClick()" />
+                        <label class="custom-file-label" for="customFile">Choose file</label>
+                        <span id="imageLbl" style="font-weight: bold" *ngIf="asset && asset.logo"
+                          class="custom-file-label">{{asset.logo.imageName}}</span>
+                        <!-- <label style="font-weight: bold" *ngIf="asset && asset.logo" class="custom-file-label"
+                                                        for="customFile">{{asset.logo.imageName}}</label> -->
+                      </div>
+                    </div>
+                    <!-- Image preview -->
+                    <div class="form-group" style="background-image: url(assets/images/Parker.jpg);">
+                      <!-- <label for="logopreview">Image Preview</label> -->
+                      <!-- <span class="form-control logo-preview"> -->
+                      <img [src]="imgURL" height="200" width="235" *ngIf="imgURL">
+                      <!-- </span> -->
+                    </div>
+                  </fieldset>
                 </div>
                 <!-- (change)="(!asset.templateId||(asset.templateId && isConfirmToChangeImage==='change'))?onFileChange($event):null" -->
                 <div class="col-md-4 form-group">
-                  <fieldset>
+                  <fieldset style="height: 300px;">
                     <legend id="fileList">Reference Documentation</legend>
                     <!-- <label for="exampleFormControlFile1">Documentation:</label> -->
                     <div class="custom-file">
-                    <input class="form-control-file form-control-sm" type="file" id="documentUpload"
-                      name="documentUpload" id="documentUpload" [disabled]="pageType==='View'"
-                      (change)="onDocChangeClick();" #fileInput multiple>
-                    <a *ngIf="asset.fileStore" style="color:blue;"
-                      (click)="onFileOpen()"><u>{{asset.fileStore.fileName}}</u></a>
+                      <input class="custom-file-input ng-pristine ng-invalid" type="file" id="documentUpload"
+                        name="documentUpload" id="documentUpload" [disabled]="pageType==='View'"
+                        (change)="onDocChangeClick();" #fileInput multiple>
+                      <label class="custom-file-label" for="customFile">Choose file</label>
+                      <a *ngIf="asset.fileStore" style="color:blue;"
+                        (click)="onFileOpen()"><u>{{asset.fileStore.fileName}}</u></a>
                     </div>
                   </fieldset>
                 </div>
 
                 <div class="col-md-4">
-                  <fieldset class="position-relative">
+                  <fieldset class="position-relative" style="height: 300px;">
                     <legend id="asset-loc-image-lbl">Asset Position</legend>
                     <!-- <label for="locationImage" id="asset-loc--image-lbl">Asset Position: </label> -->
                     <div id="location_asset_position" *ngIf="parentAssetImageURL; else noLocationTemplate">

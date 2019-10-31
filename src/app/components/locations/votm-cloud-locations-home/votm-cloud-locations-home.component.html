@@ -74,13 +74,13 @@
       <col>
       <col>
       <col>
-      <col>
+      <col [style.width.px]="170">
       <col>
       <col [style.width.px]="60">
-      <col>
+      <col [style.width.px]="130">
     </colgroup>
   </ng-template>
-  <ng-template pTemplate="header">
+  <ng-template pTemplate="header" id="locTableCol">
     <tr style="background-color: #dee2e6;">
       <th ttResizableColumn ttSortableColumn="name">Name
         <p-treeTableSortIcon field="name"></p-treeTableSortIcon>
@@ -103,7 +103,7 @@
       <!-- <th class="text-center" ttResizableColumn>Associations</th> -->
     </tr>
   </ng-template>
-  <ng-template pTemplate="body" let-rowNode let-rowData="rowData">
+  <ng-template pTemplate="body" let-rowNode let-rowData="rowData" id="locTableRow">
     <tr [ttRow]="rowNode">
 
       <td class="align-left">

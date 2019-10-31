@@ -63,6 +63,21 @@ export class VotmCloudOrganizationDashboardComponent implements OnInit {
     this.getDashboardHTML('parkerdashboard', 0);*/
   }
 
+  resizeDashboard(dbId: any) {
+    console.log(dbId);
+    $('#dashboardIconContainer-' + dbId).removeClass('position-relative');
+    $('#dashboardIconContainer-' + dbId).addClass('dashboard-full-screen');
+    $('#resizeDashboardId-' + dbId).hide();
+    $('#actualDashboardId-' + dbId).show();
+  }
+
+  actualDashboard(dbId: any) {
+    $('#dashboardIconContainer-' + dbId).removeClass('dashboard-full-screen');
+    $('#dashboardIconContainer-' + dbId).addClass('position-relative');
+    $('#actualDashboardId-' + dbId).hide();
+    $('#resizeDashboardId-' + dbId).show();
+  }
+
   /*getDashboards() {
     // service to get all dashboards by userid
 

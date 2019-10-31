@@ -3,8 +3,6 @@ import { NgModule, Directive } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { DatePipe } from '@angular/common';
-
-
 import { Routes, RouterModule } from '@angular/router';
 import {
   OKTA_CONFIG,
@@ -12,11 +10,8 @@ import {
   OktaAuthModule,
   OktaCallbackComponent,
 } from '@okta/okta-angular';
-
+import { DndModule } from 'ngx-drag-drop';
 import UserAuthenticationConfig from './pcm.configuration';
-
-
-
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NgbModule, NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
 import { AppRoutingModule } from './app-routing.module';
@@ -235,7 +230,8 @@ const oktaConfig = Object.assign({
     OverlayPanelModule,
     OktaAuthModule,
     TreeTableModule,
-    AmModule
+    AmModule,
+    DndModule
   ],
   providers: [
     // LoadMapService,
