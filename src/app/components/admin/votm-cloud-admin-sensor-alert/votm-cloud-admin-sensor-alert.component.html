@@ -1,0 +1,108 @@
+<h4>Sensor Alert Subscription</h4>
+
+<div class="row">
+  <div class="col">
+    <fieldset>
+      <legend>Sensor</legend>
+      <div class="row">
+        <div class="col-6">
+          <div class="row" style="margin-top:30px; margin-left:100px;">
+            <div class="col">
+              <div class="custom-control custom-switch">
+                <input type="checkbox" class="custom-control-input" id="batteryLevel">
+                <label class="custom-control-label" for="batteryLevel" id="batteryLevelLbl">Battery Level</label>
+              </div>
+            </div>
+          </div>
+          <div class="row" style="margin-top:11px; margin-left:100px;">
+            <div class="col">
+              <div class="custom-control custom-switch">
+                <input type="checkbox" class="custom-control-input" id="batteryLevel">
+                <label class="custom-control-label" for="batteryLevel" id="batteryLevelLbl">Signal Strength</label>
+              </div>
+            </div>
+          </div>
+          <div class="row" style="margin-top:11px; margin-left:100px;">
+            <div class="col">
+              <div class="custom-control custom-switch">
+                <input type="checkbox" class="custom-control-input" id="batteryLevel">
+                <label class="custom-control-label" for="batteryLevel" id="batteryLevelLbl">Sensor Error Codes <i class="icon-info" ngbPopover="Ex. Disconnected Sensor, Saturation, Over Pressurized, etc."
+                  triggers="mouseenter:mouseleave" popoverTitle="Information"></i></label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="row">
+            <div class="col">
+              <table class="table table-borderless table-sm" id="warnTbl">
+                <tbody>
+                  <tr>
+                    <td class="alert-danger text-center">Critical</td>
+                    <td class="alert-warning text-center">Warning</td>
+                    <td class="alert-success text-center">Good</td>
+                  </tr>
+                  <tr>
+                    <td class="text-center">2.8 V</td>
+                    <td class="text-center">2.9 V</td>
+                    <td class="text-center">3.0 V - 3.4 V</td>
+                  </tr>
+                  <tr>
+                    <td class="text-center">14%</td>
+                    <td class="text-center">15% - 16%</td>
+                    <td class="text-center">17% - 45%</td>
+                  </tr>
+                </tbody>
+              </table>
+              <label></label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </fieldset>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col">
+    <fieldset>
+      <legend>Gateway</legend>
+      <div class="row">
+          <div class="col-6">
+              <div class="row" style="margin-top:30px; margin-left:100px;">
+                <div class="col">
+                  <div class="custom-control custom-switch">
+                    <input type="checkbox" class="custom-control-input" id="gatewayStat">
+                    <label class="custom-control-label" for="gatewayStat" id="gatewayStatLbl">Gateway Offline</label>
+                  </div>
+                </div>
+              </div>
+              <div class="row" style="margin-top:11px; margin-left:100px;">
+                <div class="col">
+                  <div class="custom-control custom-switch">
+                    <input type="checkbox" class="custom-control-input" id="gatewayNetwork">
+                    <label class="custom-control-label" for="gatewayNetwork" id="gatewayNetworkLbl">Gateway Network Connection<i class="icon-info" ngbPopover="Ex. Disconnected Sensor, Saturation, Over Pressurized, etc."
+                      triggers="mouseenter:mouseleave" popoverTitle="Information"></i></label>
+                  </div>
+                </div>
+              </div>
+              <div class="row" style="margin-top:11px; margin-left:100px;">
+                <div class="col">
+                  <div class="custom-control custom-switch">
+                    <input type="checkbox" class="custom-control-input" id="gatewayError">
+                    <label class="custom-control-label" for="gatewayError" id="gatewayErrorLbl">Gateway Error Codes<i class="icon-info" ngbPopover="Ex. Disconnected Sensor, Saturation, Over Pressurized, etc."
+                      triggers="mouseenter:mouseleave" popoverTitle="Information"></i></label>
+                  </div>
+                </div>
+              </div>
+            </div>
+      </div>
+    </fieldset>
+  </div>
+</div>
+<div class="row">
+  <div class="col text-right mt-2">
+    <button type="button" class="btn btn-outline-info btn-sm">Save</button>
+    <button type="button" class="btn btn-secondary btn-sm ml-2">Cancel</button>
+  </div>
+</div>

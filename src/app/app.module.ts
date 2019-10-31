@@ -130,6 +130,7 @@ import { VotmCloudFavoritesComponent } from './components/favorites/votm-cloud-f
 
 import { VotmSmoothLineComponent } from './components/shared/charts/votm-smooth-line/votm-smooth-line.component';
 import {AmModule} from "@acaisoft/angular-azure-maps";
+import { VotmCloudAdminSensorAlertComponent } from './components/admin/votm-cloud-admin-sensor-alert/votm-cloud-admin-sensor-alert.component';
 
 const oktaConfig = Object.assign({
   onAuthRequired: ({ oktaAuth, router }) => {
@@ -207,7 +208,8 @@ const oktaConfig = Object.assign({
     AdminUserHomeComponent,
     VotmCloudAdminGroupManagementComponent,
     VotmCloudFavoritesComponent,
-    VotmSmoothLineComponent
+    VotmSmoothLineComponent,
+    VotmCloudAdminSensorAlertComponent
   ],
 
 
