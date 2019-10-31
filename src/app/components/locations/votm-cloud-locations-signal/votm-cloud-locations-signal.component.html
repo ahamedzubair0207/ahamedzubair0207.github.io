@@ -1,4 +1,4 @@
-<div class="position-relative">
+<div class="position-relative mt-3">
   <div class="row">
     <div class="col-12 col-md-4">
       <div class="form-group has-search">
@@ -20,11 +20,12 @@
   </div>
   <div class="embed-responsive embed-responsive-16by9">
     <div class="embed-responsive-item">
-      <div class="drag-root row h-100">
-        <div class="col-12 col-md-3 h-100">
+      <div class="drag-root d-flex h-100">
+        <div class="col-12 col-md-3 pl-md-0 h-100">
           <div class="sensor-list h-100">
-            <div *ngIf="showSensor(derivedSignals) || showUnassoc" class="icon-sig-function derived">
-              Calculated Signals <button type="button" class="btn btn-sm" (click)="addDerived()"><i class="icon-plus"></i></button>
+            <div *ngIf="showSensor(derivedSignals) || showUnassoc" class="derived">
+              <span class="icon-sig-function"> Calculated Signals</span
+              ><button type="button" class="btn btn-sm" (click)="addDerived()"><i class="icon-plus"></i></button>
               <div class="signal-list">
                 <ng-container *ngFor="let signal of derivedSignals">
                   <div
@@ -36,7 +37,7 @@
                     [dndEffectAllowed]="'move'"
                     (dndStart)="onStart($event)"
                   >
-                    {{ signal.name }}
+                    {{ signal.signalName }}
                   </div>
                 </ng-container>
               </div>
@@ -66,37 +67,31 @@
             </ng-container>
           </div>
         </div>
-        <div class="col-12 col-md-9 pl-md-0 h-100">
-          <div class="border h-100 assoc-container">
-            <div class="assoc-pane">
-              <img *ngIf="imgURL"  [src]="imgURL" class="assoc-img" dndDropzone (dndDrop)="onDrop($event)" />
-              <div
-                *ngFor="let item of associatedSignals; let i = index;"
-                [ngClass]="!item.isClicked ? 'pad-l-1 ' + item.icon : item.icon"
-                [ngStyle]="item.pos"
-                [dndDraggable]="item"
-                [dndEffectAllowed]="'move'"
-                (dndStart)="onStart($event, i)"
-                (click)="onClickOfAssociatedSignal(item)"
-              >
-              <ng-container *ngIf="!item.isClicked" >
-                &#8203;
-              </ng-container>
-              <ng-container *ngIf="item.isClicked">
-                {{selectedSignal ? selectedSignal.associationName : ''}}
-                <a (click)="onClickOfEditIcon(i, $event)"><i class="icon-edit cursor-point"></i></a>
-                <a (click)="onClickOfAlertIcon(i, $event)"><i class="icon-warn cursor-point"></i></a>
-                <a (click)="onDetachSignalFromAsset(i)"><i class="icon-unlink cursor-point"></i></a>
-              </ng-container>
-              </div>
-
+        <div class="col-12 col-md-9 px-md-0">
+          <div class="border h-100 assoc-pane">
+            <!--  [src]="imgURL" -->
+            <img *ngIf="imgURL" [src]="imgURL" class="assoc-img" dndDropzone (dndDrop)="onDrop($event)" />
+            <div
+              id="sig_{{i}}"
+              *ngFor="let item of associatedSignals; let i = index;"
+              [ngClass]="item.isClicked ? 'active ' + item.icon : item.icon"
+              [ngStyle]="getPositionStyle(item)"
+              [dndDraggable]="item"
+              [dndEffectAllowed]="'move'"
+              (dndStart)="onStart($event, i)"
+            >
+              {{item.associationName}}
+              <a id="sig_edit_{{i}}" (click)="onClickOfEditIcon(i, $event)"><i class="icon-edit cursor-point"></i></a>
+              <a id="sig_alert_{{i}}" (click)="onClickOfAlertIcon(i, $event)"><i class="icon-warn cursor-point"></i></a>
+              <a id="sig_unlink_{{i}}" (click)="onDetachSignalFromAsset(i)"><i class="icon-unlink cursor-point"></i></a>
             </div>
+
           </div>
         </div>
       </div>
     </div>
   </div>
-  <div class="ml-auto mr-3 mt-3">
+  <div class="ml-auto mr-3 mt-3 pull-right">
     <button id="loc-sig-cancel" for="form-cancel" type="button" (click)="onCancelClick($event)"
       class="btn btn-outline-secondary btn-sm mr-2">Cancel</button>
     <button id="loc-signal-association-save" type="button" class="btn btn-info btn-sm" (click)="onSaveSignalAssociation()"
@@ -106,34 +101,15 @@
   </div>
 </div>
 
-<!-- <hr>
-<div class="row">
-  <div id="sensor-cont" class="col-md-2"></div>
-  <div class="col-md-10">
-      <div class="chart-cont embed-responsive embed-responsive-16by9" style="background-color: #efefef;">
-          <div class="embed-responsive-item" id="map-cont-1">
-              <img *ngIf="imgURL"  id="map-image" class="img-fluid" [src]="imgURL" />
-          </div>
-      </div>
-  </div>
-  <div class="ml-auto mr-3 mt-3">
-    <button id="loc-sig-cancel" for="form-cancel" type="button" (click)="onCancelClick($event)"
-      class="btn btn-outline-secondary btn-sm mr-2">Cancel</button>
-    <button id="loc-signal-association-save" type="button" class="btn btn-info btn-sm" (click)="onSaveSignalAssociation()"
-      [disabled]="associatedSignals.length === 0 || isSignalAssociationAPILoading">
-      Save<i *ngIf="isSignalAssociationAPILoading" class="fa fa-spinner fa-spin fa-fw"></i>
-    </button>
-  </div>
-
-</div> -->
-
 
 <p-overlayPanel #editOP [appendTo]="'body'" [style]="{ 'width' : '300px', 'z-index': '9999!important'}" [dismissable]="false"
-[showCloseIcon]="true">
+>
   <div class="row"  *ngIf="selectedSignal">
     <div class="col-md-12">
         <div class="card">
-            <div class="card-header">Signal Association</div>
+            <div class="card-header">Signal Association
+                <button type="button" class="pull-right close" (click)="closeEditOpanel()">&times;</button>
+            </div>
             <div class="card-body">
               <div class="row">
                 <div class="col-md-12">
@@ -200,11 +176,13 @@
 </p-overlayPanel>
 
 <p-overlayPanel #alertOP [appendTo]="'body'" [style]="{ 'width' : '300px'}" [dismissable]="false"
-[showCloseIcon]="true">
+>
   <div class="row"  *ngIf="selectedSignal">
     <div class="col-md-12">
         <div class="card">
-            <div class="card-header">Alarm Rule Association</div>
+            <div class="card-header">Alarm Rule Association
+                <button type="button" class="pull-right close" (click)="closeAlertOPanel()">&times;</button>
+            </div>
             <div class="card-body">
               <div class="row">
                 <div class="col-md-12">
@@ -243,6 +221,99 @@
     </div>
   </div>
 <!-- <app-votm-cloud-alerts-create></app-votm-cloud-alerts-create>   (click)="openmodal()"-->
+<div id="derivedSignalModal" class="modal fade" tabindex="-1">
+  <div class="modal-dialog modal-md modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title">Calculated Signal Configuration</h5>
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+          </div>
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-12 col-md-8 col-lg-8">
+                <div class="form-group">
+                  <label for="">Calculated Signal Name</label>
+                  <input type="text" class="form-control form-control-sm" id="" value="My Derived Signal">
+                </div>
+              </div>
+              <div class="col-12 col-md-4 col-lg-4">
+                <div class="form-group">
+                  <label for="">Icon</label>
+                  <ng-select class="">
+                    <ng-option value="company">
+                      <i class="icon-location"></i>
+                    </ng-option>
+                  </ng-select>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12">
+                <div class="form-group">
+                  <label for="">Function Name</label>
+                  <ng-select class="">
+                    <ng-option value="company">
+                      <i class="icon-location"></i>
+                    </ng-option>
+                  </ng-select>
+                  <i>Every period sum the measurements during the period for up to 10 input signals.</i>
+                </div>
+              </div>
+            </div>
+            <fieldset>
+              <legend>Function Inputs</legend>
+              <div class="row">
+                <div class="col-12 col-md-6 col-lg-6">
+                  <div class="form-group">
+                    <label for="">Period type</label>
+                    <ng-select class="">
+                      <ng-option value="company">Month
+                        <i class="icon-location"></i>
+                      </ng-option>
+                    </ng-select>
+                  </div>
+                </div>
+                <div class="col-12 col-md-6 col-lg-6">
+                  <div class="form-group">
+                    <label for="">Summable signal type</label>
+                    <ng-select class="">
+                      <ng-option value="company">Flow
+                        <i class="icon-location"></i>
+                      </ng-option>
+                    </ng-select>
+                  </div>
+                </div>
+                <div class="col-12 col-md-6 col-lg-6">
+                  <div class="form-group">
+                    <label for="">Input Signal 1</label>
+                    <ng-select class="">
+                      <ng-option value="company">Compressor 1 Flow
+                        <i class="icon-location"></i>
+                      </ng-option>
+                    </ng-select>
+                  </div>
+                </div>
+                <div class="col-12 col-md-6 col-lg-6">
+                  <div class="form-group">
+                    <label for="">Input Signal 2</label>
+                    <ng-select class="">
+                      <ng-option value="company">Compressor 2 Flow
+                        <i class="icon-location"></i>
+                      </ng-option>
+                    </ng-select>
+                  </div>
+                </div>
+              </div>
+            </fieldset>
+          </div>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Cancel</button>
+              <button type="button" class="btn btn-primary">Save</button>
+          </div>
+      </div>
+  </div>
+</div>
+
 
 
 

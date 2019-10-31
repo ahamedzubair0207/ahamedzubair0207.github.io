@@ -255,8 +255,7 @@ export class VotmCloudPreferencesComponent implements OnInit, AfterViewInit {
 
   onClickOfConfirmDeleteUserFavorite(userFav) {
     this.selectedUserFavoriteForDelete = userFav;
-    this.confirmDelUserFavoriteMessage = 'Are you sure, you want to delete this Favorite "' +
-      this.sharedService.toTitleCase(userFav.favoriteName) + '" ?';
+    this.confirmDelUserFavoriteMessage = 'Are you sure, you want to delete this Favorite "' + userFav.favoriteName + '" ?';
     this.confirmDelFavorite.open();
   }
 
@@ -276,18 +275,20 @@ export class VotmCloudPreferencesComponent implements OnInit, AfterViewInit {
   }
 
   onClickOfNotificationTab() {
-    this.userNotificationForm = new FormGroup({
-      noti_crit_sms: new FormControl(this.userprofile.userNotification[0].criticalAlarm.includes('SMS')),
-      noti_crit_email: new FormControl(this.userprofile.userNotification[0].criticalAlarm.includes('Email')),
-      noti_crit_web: new FormControl(this.userprofile.userNotification[0].criticalAlarm.includes('Web only')),
-      noti_war_sms: new FormControl(this.userprofile.userNotification[0].warningAlarm.includes('SMS')),
-      noti_war_email: new FormControl(this.userprofile.userNotification[0].warningAlarm.includes('Email')),
-      noti_war_web: new FormControl(this.userprofile.userNotification[0].warningAlarm.includes('Web only')),
-      noti_info_sms: new FormControl(this.userprofile.userNotification[0].infoMessage.includes('SMS')),
-      noti_info_email: new FormControl(this.userprofile.userNotification[0].infoMessage.includes('Email')),
-      noti_info_web: new FormControl(this.userprofile.userNotification[0].infoMessage.includes('Web only'))
-    });
-    // this.getUserDetailInfo();
+    if (this.userprofile.userNotification[0]) {
+      this.userNotificationForm = new FormGroup({
+        noti_crit_sms: new FormControl(this.userprofile.userNotification[0].criticalAlarm.includes('SMS')),
+        noti_crit_email: new FormControl(this.userprofile.userNotification[0].criticalAlarm.includes('Email')),
+        noti_crit_web: new FormControl(this.userprofile.userNotification[0].criticalAlarm.includes('Web only')),
+        noti_war_sms: new FormControl(this.userprofile.userNotification[0].warningAlarm.includes('SMS')),
+        noti_war_email: new FormControl(this.userprofile.userNotification[0].warningAlarm.includes('Email')),
+        noti_war_web: new FormControl(this.userprofile.userNotification[0].warningAlarm.includes('Web only')),
+        noti_info_sms: new FormControl(this.userprofile.userNotification[0].infoMessage.includes('SMS')),
+        noti_info_email: new FormControl(this.userprofile.userNotification[0].infoMessage.includes('Email')),
+        noti_info_web: new FormControl(this.userprofile.userNotification[0].infoMessage.includes('Web only'))
+      });
+      // this.getUserDetailInfo();
+    }
   }
 
   onUserNotificationSave() {

@@ -40,3 +40,26 @@
   .lock-tab:hover {
     background-color: #fdfdfd;
   }
+
+  .dashboard-full-screen {
+    left: 0px;
+    top: 45px;
+    position: fixed;
+    background-color: #ffffff;
+    width: 100%;
+    height: 100%;
+    overflow-y: scroll;
+  }
+
+  .actualDashboardClass {
+    display: none;
+  }
+
+  #resizeDashboardId {
+
+  }
+
+  .icon-resize-small-class {
+    position: fixed;
+    z-index: 99999;
+  }
