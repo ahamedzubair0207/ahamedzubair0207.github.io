@@ -1,18 +1,22 @@
 export class Sensor {
-  organizationId: string;
-  locationId: string;
-  gwSerialNumber: string;
-  gwLocationId: string;
+  sensorId: string;
   serialNumber: string;
   sensorName: string;
+  organizationName: string;
+  locationName: string;
   sensorTypeId: string;
   modelNumber: string;
+  sensorStatusId: string;
+  sensorStatusName: string;
+  sensorTypeName: string;
+  replacedMappedSensorId: string;
+  active: true;
   description: string;
-  sensorSignalMapping: {
-    signalId: string;
-    uoM: string;
-    precision: string;
-    min: string;
-    max: string
-  }
+  assetId: string;
+  organizationId: string;
+  locationId: string;
+  createdBy: string;
+  createdOn: string;
+  modifiedBy: string;
+  modifiedOn: string;
 }
