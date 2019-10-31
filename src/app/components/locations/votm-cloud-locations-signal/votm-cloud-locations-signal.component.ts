@@ -19,6 +19,9 @@ declare var $: any;
 })
 export class VotmCloudLocationsSignalComponent implements OnInit {
 
+
+  modal: any;
+
   locationId: string; // to store selected location's id.
   organizationId: string; // to store selected organization's id
   availableSignals: any[] = []; // to store list of available signals based on sensors.
@@ -373,4 +376,18 @@ export class VotmCloudLocationsSignalComponent implements OnInit {
     this.routerLocation.back();
   }
 
+
+  openmodal() {
+   // Get the modal
+   var modal = document.getElementById('alertModal');
+   modal.style.display = 'block';
+   this.modal = document.getElementById('alertModal');
+
+   // When the user clicks anywhere outside of the modal, close it
+   window.onclick = function (event) {
+     if (event.target == modal) {
+       // modal.style.display = 'none';
+     }
+   };
+  }
 }
