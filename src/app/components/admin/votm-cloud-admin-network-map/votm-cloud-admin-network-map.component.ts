@@ -25,7 +25,11 @@ export class VotmCloudAdminNetworkMapComponent implements OnInit {
     // that will lazy loaded azure map script and styles
     this.mapService.load().toPromise().then(() => {
       atlas.setSubscriptionKey(this.key); // that inject your azure key
-    })
+    });
   }
+
+
+
+  
 
 }

@@ -37,8 +37,8 @@
       <td class="align-left"></td>
       <td class="align-left"></td>
       <td class="align-center"><i class="icon-go" style="color: #28a745;"></i></td>
-      <td class="align-center">
-        <!-- <a class="action-icon" title="List" [routerLink]="['/loc/home', item.id, item.name]">
+      <!-- <td class="align-center">
+        <a class="action-icon" title="List" [routerLink]="['/loc/home', item.id, item.name]">
           <i class="icon-location"></i>
         </a>
         <a class="action-icon" title="Edit" [routerLink]="['/org/edit',curOrgId, curOrgName, item.id]">
@@ -47,8 +47,8 @@
         <a class="action-icon" *ngIf="item.id.toUpperCase() !== curOrgId.toUpperCase()"
           (click)="openConfirmDialog(item.id, item.name)" title="Delete">
           <i class="icon-trash"></i>
-        </a> -->
-      </td>
+        </a>
+      </td> -->
     </tr>
 
     <ng-container *ngFor="let subItem of item.node">
@@ -67,8 +67,8 @@
         <td class="align-left"></td>
         <td class="align-left"></td>
         <td class="align-center"><i class="icon-go" style="color: #28a745;"></i></td>
-        <td class="align-center">
-          <!-- <a class="action-icon" title="Location" [routerLink]="['/loc/home', subItem.id, subItem.name]">
+        <!-- <td class="align-center">
+          <a class="action-icon" title="Location" [routerLink]="['/loc/home', subItem.id, subItem.name]">
             <i class="icon-location"></i>
           </a>
         
@@ -77,8 +77,8 @@
           </a>
           <a class="action-icon" (click)="openConfirmDialog(subItem.id, subItem.name)" title="Delete">
             <i class="icon-trash"></i>
-          </a> -->
-        </td>
+          </a>
+        </td> -->
       </tr>
 
       <ng-container *ngIf="subItem.opened">
@@ -101,7 +101,7 @@
       <th scope="col" class="">Location</th>
       <th scope="col" class="">Battery</th>
       <th scope="col" class="">Signal</th>
-      <th scope="col" class="text-center">Actions</th>
+      <th scope="col" class="text-center">Status</th>
       </tr>
     </thead>
     <tbody>
