@@ -20,8 +20,108 @@
     </div>
 </form>
 
+<ng-template #recursiveTableList let-list="sensorList" let-lvl="level">
+  <ng-container *ngFor="let item of list">
 
-<ng-template>
+    <tr>
+      <th scope="row" (click)="item.opened = !item.opened" [ngStyle]="{'padding-left.px': 15*(lvl+1)}">
+        <i class="icon-signal"></i>
+        <a style="color: #212529;"> {{item.sensorName}}</a>&nbsp;
+        <i *ngIf="item.node && item.node.length > 0 "
+          [ngClass]="{'fa': true, 'fa-caret-right': !item.opened, 'fa-caret-down': item.opened}"
+          id="dropdownParentItem"></i>
+      </th>
+      <td class="align-left"></td>
+      <td class="align-left"></td>
+      <td class="align-left"></td>
+      <td class="align-left"></td>
+      <td class="align-left"></td>
+      <td class="align-center"><i class="icon-go" style="color: #28a745;"></i></td>
+      <td class="align-center">
+        <!-- <a class="action-icon" title="List" [routerLink]="['/loc/home', item.id, item.name]">
+          <i class="icon-location"></i>
+        </a>
+        <a class="action-icon" title="Edit" [routerLink]="['/org/edit',curOrgId, curOrgName, item.id]">
+          <i class="icon-edit"></i>
+        </a>
+        <a class="action-icon" *ngIf="item.id.toUpperCase() !== curOrgId.toUpperCase()"
+          (click)="openConfirmDialog(item.id, item.name)" title="Delete">
+          <i class="icon-trash"></i>
+        </a> -->
+      </td>
+    </tr>
+
+    <ng-container *ngFor="let subItem of item.node">
+
+      <tr *ngIf="item.opened && subItem.entityType == 'Sensor'">
+        <th scope="row" (click)="subItem.opened = !subItem.opened" [ngStyle]="{'padding-left.px': 15*(lvl+2)}">
+          <i class="icon-signal"></i>
+          <a style="color: #212529;">
+            {{subItem.sensorName}}</a>&nbsp;<i *ngIf="subItem.node.length > 0 "
+            [ngClass]="{'fa': true, 'fa-caret-right': !subItem.opened, 'fa-caret-down': subItem.opened}"
+            id="dropdownSubItem"></i>
+        </th>
+        <td class="align-left"></td>
+        <td class="align-left"></td>
+        <td class="align-left"></td>
+        <td class="align-left"></td>
+        <td class="align-left"></td>
+        <td class="align-center"><i class="icon-go" style="color: #28a745;"></i></td>
+        <td class="align-center">
+          <!-- <a class="action-icon" title="Location" [routerLink]="['/loc/home', subItem.id, subItem.name]">
+            <i class="icon-location"></i>
+          </a>
+        
+          <a class="action-icon" title="Edit" [routerLink]="['/org/edit',curOrgId, curOrgName, subItem.id]">
+            <i class="icon-edit"></i>
+          </a>
+          <a class="action-icon" (click)="openConfirmDialog(subItem.id, subItem.name)" title="Delete">
+            <i class="icon-trash"></i>
+          </a> -->
+        </td>
+      </tr>
+
+      <ng-container *ngIf="subItem.opened">
+        <ng-container *ngTemplateOutlet="recursiveTableList; context:{ sensorList: subItem.node, level: lvl+2 }">
+        </ng-container>
+
+      </ng-container>
+    </ng-container>
+  </ng-container>
+</ng-template>
+
+<div class="table-responsive">
+  <table class="table table-sm table-bordered table-hover org-table-fonts" id="sensorTbl">
+    <thead class="thead-dark">
+      <tr>
+        <!-- <th scope="col" class="align-left table-col-name">Name</th> -->
+      <th scope="col" class="">Sensor/Signal Name</th>
+      <th scope="col" class="">Serial #</th>
+      <th scope="col" class="">Sensor Type</th>
+      <th scope="col" class="">Location</th>
+      <th scope="col" class="">Battery</th>
+      <th scope="col" class="">Signal</th>
+      <!-- <th scope="col" class="text-center">Actions</th> -->
+      </tr>
+    </thead>
+    <tbody>
+      <ng-container *ngIf="sensorList.length > 0">
+        <ng-container *ngTemplateOutlet="recursiveTableList; context:{ sensorList: sensorList, level: 0 }">
+        </ng-container>
+      </ng-container>
+      <tr *ngIf="sensorList.length === 0">
+        <td colspan="1"> No Sensor data found.</td>
+      </tr>
+    </tbody>
+    <!-- <tbody *ngIf="isGetOrganizationsApiLoading">
+      <i class="fa fa-spinner fa-spin fa-2x fa-fw"></i>
+    </tbody> -->
+  </table>
+</div>
+
+
+
+<!-- <ng-template>
   <ng-container>
 
     <tr>
@@ -35,12 +135,7 @@
       <td class="">{{item.battery}}</td>
       <td class="">{{item.signal}}</td>
       <td class="align-center">
-        <!-- <a class="action-icon" title="List" [routerLink]="['/sensor/home', item.id]">
-          <i class="fa fa-list"></i>
-        </a>
-        <a class="action-icon" title="View" [routerLink]="['/sensor/view']">
-          <i class="fa fa-eye"></i>
-        </a> -->
+      
         <a class="action-icon" title="Edit" [routerLink]="['/sensor/edit']">
           <i class="icon-edit"></i>
         </a>
@@ -68,7 +163,7 @@
   <tbody>
     <ng-container *ngTemplateOutlet="recursiveTableList; context:{ sensorList: sensorList, level: 0 }"></ng-container>
   </tbody>
-</table>
+</table> -->
 
 
 <app-votm-cloud-confim-dialog (onClose)="deleteSensorById($event)" #confirmBox
