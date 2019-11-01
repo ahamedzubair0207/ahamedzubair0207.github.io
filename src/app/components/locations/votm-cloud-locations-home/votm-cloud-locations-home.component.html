@@ -51,7 +51,7 @@
               </span>
             </div>
           </div>
-          <!-- <i class="pi pi-search" style="margin:4px 4px 0 0"></i>
+          <!-- <i class="icon-search" style="margin:4px 4px 0 0"></i>
           <input type="text" pInputText size="20" placeholder="Type to filter"
             (input)="tt.filterGlobal($event.target.value, 'contains')" style="width:auto" id="organizationFilter"> -->
         </div>
@@ -74,13 +74,13 @@
       <col>
       <col>
       <col>
-      <col>
+      <col [style.width.px]="170">
       <col>
       <col [style.width.px]="60">
-      <col>
+      <col [style.width.px]="130">
     </colgroup>
   </ng-template>
-  <ng-template pTemplate="header">
+  <ng-template pTemplate="header" id="locTableCol">
     <tr style="background-color: #dee2e6;">
       <th ttResizableColumn ttSortableColumn="name">Name
         <p-treeTableSortIcon field="name"></p-treeTableSortIcon>
@@ -103,7 +103,7 @@
       <!-- <th class="text-center" ttResizableColumn>Associations</th> -->
     </tr>
   </ng-template>
-  <ng-template pTemplate="body" let-rowNode let-rowData="rowData">
+  <ng-template pTemplate="body" let-rowNode let-rowData="rowData" id="locTableRow">
     <tr [ttRow]="rowNode">
 
       <td class="align-left">

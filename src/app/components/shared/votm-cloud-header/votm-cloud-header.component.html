@@ -17,7 +17,7 @@
           <!-- <button type="button" class="btn btn-sm btn-secondary mr-2" data-toggle="modal"
                       (click)="onAddNotifiedUsersClick()" data-target="#notifiedUserModal" id="notifyUserBtn"><i
                           class="icon-user-add mr-2"></i>Add Notified User</button> -->
-          <a class="nav-link" href="#favModal" id="favBtn" data-toggle="modal"><i class="fa fa-star"></i></a>
+          <a class="nav-link" (click)="openmodal()"><i class="fa fa-star"></i></a>
         </li>
         <li class="nav-item dropdown"> <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#"
             id="notificationBtn"><i class="fa fa-bell"></i></a>
@@ -88,7 +88,37 @@
 
 
 <!-- Modal for Favorite  -->
-<div id="favModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="userFavModal" aria-hidden="true">
+<div id="favModal" class="modal">
+  <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
+    <!-- Modal content -->
+    <div class="modal-content">
+      <div class="modal-header">
+        <label for="UOM" class="pr-2">Add Favorite</label>
+      </div>
+      <div class="modal-body">
+        <form #favoriteForm="ngForm">
+          <div class="col-12">
+            <label id="favNameLbl" class="">Favorite Name</label>
+            <div class="">
+              <input type="text" [(ngModel)]="currentFavorite.favoriteName" name="favoriteName"
+                class="form-control form-control-sm" id="favNameInput" placeholder="Favorite Name">
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <div class="modal-footer">
+        <button id="user-fav-cancle" type="button" class="btn btn-sm btn-outline-secondary"
+          (click)="closemodal('cancel')">Cancel
+        </button>
+        <button [disabled]="!currentFavorite.favoriteName || (currentFavorite.favoriteName === previousFavoriteName)"
+          id="user-fav-save" type="button" class="btn btn-info btn-sm" (click)="closemodal('save')">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- <div id="favModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="userFavModal" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <form #favoriteForm="ngForm" (ngSubmit)="onFavoriteSubmit()">
       <div class="modal-content">
@@ -99,8 +129,8 @@
           <div class="col-12">
             <label id="favNameLbl" class="">Favorite Name</label>
             <div class="">
-              <input type="text" [(ngModel)]="favoriteName" name="alertRuleName" class="form-control form-control-sm" id="favNameInput"
-                placeholder="Favorite Name">
+              <input type="text" [(ngModel)]="favoriteName" name="alertRuleName" class="form-control form-control-sm"
+                id="favNameInput" placeholder="Favorite Name">
             </div>
           </div>
         </div>
@@ -111,4 +141,4 @@
       </div>
     </form>
   </div>
-</div>
+</div> -->

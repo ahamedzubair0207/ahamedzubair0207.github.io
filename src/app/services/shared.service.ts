@@ -35,7 +35,7 @@ export class SharedService {
 
   getFavorites() {
     let userId = '03c7fb47-58ee-4c41-a9d6-2ad0bd43392a';
-    let type = 'user'
+    let type = 'user';
     this.http.get(AppConstants.GET_FAVORITES + '/' + userId + '/' + type)
       .pipe(
         map(response => response)
@@ -46,6 +46,13 @@ export class SharedService {
 
   postFavorites(body: any) {
     return this.http.post(AppConstants.POST_FAVORITES, body)
+      .pipe(
+        map(response => response)
+      );
+  }
+
+  patchFavorites(body: any) {
+    return this.http.patch(AppConstants.PATCH_FAVORITES, body)
       .pipe(
         map(response => response)
       );

@@ -19,6 +19,7 @@ export class AppConstants {
 
     public static GET_FAVORITES = '/UserManagement/UserFavorites';
     public static POST_FAVORITES = '/UserManagement/UserFavorites';
+    public static PATCH_FAVORITES = '/UserManagement/UserFavorites';
 
     public static GET_USER_GROUPS = '/UserManagement/UserGroups';
     public static GET_ALERTRULE_USERGROUP_SUBSCRIBER = '/ALertRuleUserGroupSubscriber';
@@ -55,6 +56,8 @@ export class AppConstants {
     public static GET_SIGNAL_ASSOCIATION = 'Signals';
     public static CREATE_SIGNAL_ASSOCIATION = 'Signals/Association';
     public static DETACH_SIGNAL_ASSOCIATION = 'Signals';
+
+    public static GET_SENSOR_TREE = '/SensorTree';
 
     public static GET_ALERT = '/Alert';
     public static GET_ALERT_BYALERTID = '/AlertRule';
