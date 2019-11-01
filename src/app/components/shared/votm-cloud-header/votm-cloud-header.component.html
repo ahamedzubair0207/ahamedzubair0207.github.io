@@ -17,7 +17,10 @@
           <!-- <button type="button" class="btn btn-sm btn-secondary mr-2" data-toggle="modal"
                       (click)="onAddNotifiedUsersClick()" data-target="#notifiedUserModal" id="notifyUserBtn"><i
                           class="icon-user-add mr-2"></i>Add Notified User</button> -->
-          <a class="nav-link" (click)="openmodal()"><i class="fa fa-star"></i></a>
+          <a class="nav-link" (click)="openmodal()" id="userFavBtn">
+            <i *ngIf="currentFavorite.userFavoriteId" class="icon-star" style="color: #78C8D2;" id="userFavSelected"></i>
+            <i *ngIf="!currentFavorite.userFavoriteId" class="icon-star-empty" id="userFavNotSelected"></i>
+          </a>
         </li>
         <li class="nav-item dropdown"> <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#"
             id="notificationBtn"><i class="fa fa-bell"></i></a>
@@ -93,7 +96,7 @@
     <!-- Modal content -->
     <div class="modal-content">
       <div class="modal-header">
-        <label for="UOM" class="pr-2">Add Favorite</label>
+        <label for="userFav" class="pr-2">Add Favorite</label>
       </div>
       <div class="modal-body">
         <form #favoriteForm="ngForm">
