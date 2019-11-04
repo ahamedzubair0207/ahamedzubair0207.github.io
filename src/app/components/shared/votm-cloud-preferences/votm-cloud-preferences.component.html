@@ -126,8 +126,7 @@
                               [(ngModel)]="userprofile.userConfigSettings[0].localeId" name="language"
                               class="drop-down form-control form-control-sm">
                               <option value="" data-default selected>Select Language</option>
-                              <option *ngFor="let locale of applicationConfiguration.locale" [value]="locale.localeId">
-                                {{locale.localeName}}</option>
+                              <option *ngFor="let locale of applicationConfiguration.locale" [value]="locale.localeId">{{locale.localeName}}</option>
                             </select>
                           </div>
                         </div>
@@ -141,9 +140,7 @@
                               class="drop-down form-control form-control-sm">
                               <!-- <option value="" data-default selected>Select Timezone</option> -->
                               <option *ngFor="let timeZone of applicationConfiguration.timeZone"
-                                [value]="timeZone.timeZoneId">
-                                {{timeZone.timeZoneName}}
-                              </option>
+                                [value]="timeZone.timeZoneId">{{timeZone.timeZoneName}}</option>
                             </select>
                           </div>
                         </div>

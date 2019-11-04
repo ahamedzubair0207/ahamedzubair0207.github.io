@@ -33,8 +33,7 @@
                             name="metricType" (change)="onMetricTypeChange($event)" [(ngModel)]="alert.uomTypeId"
                             placeholder="Choose Type">
                             <ng-option value="null" disabled selected>Metric Type</ng-option>
-                            <ng-option *ngFor="let metricType of metricTypes" [value]="metricType.id">
-                                {{metricType.name}}</ng-option>
+                            <ng-option *ngFor="let metricType of metricTypes" [value]="metricType.id">{{metricType.name}}</ng-option>
                         </ng-select>
                     </div>
                 </div>
@@ -53,8 +52,7 @@
                             [ngStyle]="{'background-color':pageType==='View'?'#e9ecef':'#fff'}" [multiple]="false"
                             name="ruleType" [(ngModel)]="alert.alertRuleTypeId" placeholder="Choose Type">
                             <ng-option value="null" disabled selected>Rule Type</ng-option>
-                            <ng-option *ngFor="let ruleType of ruleTypes" [value]="ruleType.id">{{ruleType.name}}
-                            </ng-option>
+                            <ng-option *ngFor="let ruleType of ruleTypes" [value]="ruleType.id">{{ruleType.name}}</ng-option>
                         </ng-select>
                     </div>
                 </div>
