@@ -41,6 +41,10 @@ export class AssetsService {
       );
   }
 
+  getAssetTreeByAssetId(assetId: string): Observable<any> {
+    const params = new HttpParams().set('type', 'asset').set('Id', assetId);
+    return this.http.get(AppConstants.GET_ASSETTREE, params);
+  }
   getAllAssetsTree(): Observable<any> {
     return this.http.get(AppConstants.GET_ASSET_TREE)
       .pipe(
@@ -119,5 +123,9 @@ export class AssetsService {
       .pipe(
         map(response => response)
       );
+  }
+
+  addParentChildAssetAssociation(assetId: string, body: any) {
+    return this.http.post(AppConstants.PARENT_CHILD_ASSET_ASSOCIATION + '/' + assetId + '/Association', body);
   }
 }

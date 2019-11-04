@@ -58,8 +58,8 @@ export class UserService {
         return this.http.patch(AppConstants.EDIT_USER + '/' + userObj.userId, userObj);
     }
 
-    deleteUser(userId: string) {
-        return this.http.delete(AppConstants.DELETE_USER + '?userId=' + userId, {});
+    deleteUser(userId: string, type: string) {
+        return this.http.delete(AppConstants.DELETE_USER + '?userId=' + userId + '&type=' + type, {});
     }
 
     addUserGuestOrganization(userGuestOrgObj) {

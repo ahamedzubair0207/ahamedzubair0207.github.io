@@ -1,18 +1,207 @@
-.enclosing-div{
-    border: 1px solid #000;
-    min-height: 500px;
-    max-height: 500px;
-    padding: 10px;
-    overflow-y: auto;
-  }
 
-  .imag-size{
-    max-height: 470px;
-    min-height: 470px;
-    margin-top: 5px;
-    width: 100%;
-    min-width: 100%;
-    max-width: 100%;
-    object-fit: contain;
-    background-color: #F6F6F6
-  }
+@import "../../../../styles/_functions.scss", "../../../../styles/_variables.scss";
+
+.has-search .form-control {
+  padding-left: calc(1.5 * #{$font-size-base} + 2 * #{$input-btn-padding-x});
+}
+
+.has-search .form-control-feedback {
+  position: absolute;
+  z-index: 2;
+  display: block;
+  text-align: center;
+  pointer-events: none;
+  color: $gray-500;
+  padding: calc(#{$input-btn-padding-y} + 1px) $input-btn-padding-x;
+}
+.has-search .form-control-feedback:before {
+  text-shadow: none;
+}
+
+.sensor-list {
+  border: 1px solid $gray-400;
+  padding-left: 0;
+  max-height: 100%;
+  overflow-y: auto;
+}
+.sensor-list > div {
+  white-space: nowrap;
+  line-height: calc(2 * #{$font-size-base} + 4px);
+  font-weight: bold;
+  text-align: left;
+  text-overflow: ellipsis;
+  z-index: 5;
+  background-color: $gray-300;
+  list-style-type: none;
+  position: relative;
+  overflow: hidden;
+  user-select: none;
+}
+
+.sensor-list > div:before,
+.sensor-list > div.derived > span:before {
+  position: relative;
+  width: 30px;
+  margin: 0;
+}
+
+.sensor-list > div.derived > span {
+  white-space: nowrap;
+  text-align: left;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  user-select: none;
+  padding-right: calc(1.5 * #{$font-size-base} + 2 * #{$input-btn-padding-x});
+  display: block;
+}
+
+.sensor-list > div.derived > button {
+  line-height: calc(2 * #{$font-size-base} + 2px);
+  padding-top: 0;
+  padding-bottom: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+.signal-list {
+  background-color: $gray-100;
+  padding: calc(#{$spacer} * 0.5);
+  border-bottom: 1px solid $gray-400;
+}
+
+.signal-list > div,
+.assoc-pane > div {
+  position: relative;
+  line-height: calc(2 * #{$font-size-base} + 2px);
+  text-shadow: none;
+  font-weight: normal;
+  padding-left: calc(2 * #{$font-size-base} + 2px + #{$input-btn-padding-x});
+  background-color: #fff;
+  border: 1px solid $gray-300;
+  text-align: left;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  display: block;
+  width: 100%;
+  border-radius: calc(#{$font-size-base} + 1px);
+  border-top-right-radius: $border-radius;
+  border-bottom-right-radius: $border-radius;
+  padding-right: 0;
+  user-select: none;
+  cursor: move;
+}
+
+.signal-list > div:not(:first-child) {
+  margin-top: calc(#{$spacer} * 0.5);
+}
+
+.signal-list > div.assoc {
+  border-color: $primary;
+}
+
+.signal-list > div.assoc:before {
+  border-color: $primary;
+  background-color: $primary;
+  color: #ffffff;
+}
+
+.signal-list > div:before,
+.assoc-pane > div:before {
+  position: absolute;
+  left: -1px;
+  top: -1px;
+  width: calc(2 * #{$font-size-base} + 4px);
+  line-height: calc(2 * #{$font-size-base} + 2px);
+  background-color: $gray-300;
+  border: 1px solid $gray-300;
+  border-radius: calc(#{$font-size-base} + 1px);
+  margin: 0;
+}
+
+.assoc-pane {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  background-color: $gray-100;
+}
+
+.assoc-img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  outline: 1px dashed $gray-300;
+  background-color: $white;
+}
+
+.assoc-pane > div {
+  border-top-right-radius: calc(#{$font-size-base} + 1px) !important;
+  border-bottom-right-radius: calc(#{$font-size-base} + 1px) !important;
+  display: inline-block !important;
+  width: 0;
+  padding-right: 0;
+  padding-left: calc(2 * #{$font-size-base} + 2px);
+  position: absolute;
+  border-color: $primary;
+}
+.assoc-pane > div:hover {
+  padding-right: calc(#{$font-size-base} / 2 + #{$input-btn-padding-x}) !important;
+  padding-left: calc(2 * #{$font-size-base} + 2px + #{$input-btn-padding-x});
+  width: auto !important;
+}
+
+.assoc-pane > div.active {
+  padding-right: calc(#{$font-size-base} / 2 + #{$input-btn-padding-x}) !important;
+  padding-left: calc(2 * #{$font-size-base} + 2px + #{$input-btn-padding-x});
+  width: auto !important;
+}
+
+.assoc-pane > div:before {
+  color: $white;
+  background-color: $primary;
+}
+
+div.dndDragging {
+  color: transparent;
+  opacity: 0.75 !important;
+  border-color: transparent !important;
+  background-color: transparent !important;
+}
+div.dndDragging:before {
+  content: "\f140";
+  color: red !important;
+  background-color: transparent !important;
+  border-color: transparent !important;
+}
+
+
+.pad-l-1 {
+  padding-left: 1.45rem !important;
+}
+
+.cursor-point {
+  cursor: pointer!important;
+}
+
+.ui-overlaypanel-close {
+    background-color:transparent!important;
+    color: #333!important;
+    top: 1.5em!important;
+    right: 1.3em!important;
+}
+
+body .ui-overlaypanel {
+  z-index: 9999!important;
+}
+
+.ng-select .ng-select-container {
+  height: calc(1.5em + .5rem + 2px) !important;
+  padding: .25rem .5rem;
+  font-size: .765625rem;
+  line-height: 1.5;
+  border-radius: .2rem;
+  min-height: 28px;
+}

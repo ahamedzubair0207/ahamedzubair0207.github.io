@@ -238,7 +238,8 @@ export class VotmCloudAdminUserManagementComponent implements OnInit, OnDestroy 
           phoneNumber: new FormControl(this.selectedUserForEdit.phoneNumber),
           organizationId: new FormControl(this.selectedUserForEdit.organizationId, [Validators.required]),
           roleName: new FormControl(this.selectedUserForEdit.roleName),
-          organizationName: new FormControl(this.selectedUserForEdit.organizationName)
+          organizationName: new FormControl(this.selectedUserForEdit.organizationName),
+          active: new FormControl(this.selectedUserForEdit.active)
         });
         console.log(JSON.stringify(this.selectedUserForEdit));
         const modal = document.getElementById('add_user');
@@ -273,7 +274,7 @@ export class VotmCloudAdminUserManagementComponent implements OnInit, OnDestroy 
 
   onClickOfDeleteUser(event) {
     if (event) {
-      this.userService.deleteUser(this.selectedUserForDelete.userId).subscribe(
+      this.userService.deleteUser(this.selectedUserForDelete.userId, 'delete').subscribe(
         response => {
           this.toaster.onSuccess('Successfully deleted.', 'Deleted');
           this.getUsers();
@@ -301,7 +302,7 @@ export class VotmCloudAdminUserManagementComponent implements OnInit, OnDestroy 
         ...this.selectedUserForEdit
       };
       userObj.active = !userObj.active;
-      this.userService.updateUser(userObj).subscribe(
+      this.userService.deleteUser(this.selectedUserForEdit.userId, 'status').subscribe(
         response => {
           this.toaster.onSuccess('Successfully updated', 'Updated');
           this.getUsers();

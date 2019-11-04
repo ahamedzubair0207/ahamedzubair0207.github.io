@@ -374,11 +374,11 @@
 
           <div class="tab-pane fade" *ngIf="isSignalAssociationClicked" id="asset-signal" role="tabpanle"
             area-labelledby="asset-signal-tab">
-            <app-votom-cloud-assets-signal [image]="imgURL"></app-votom-cloud-assets-signal>
+            <app-votom-cloud-assets-signal *ngIf="imgURL" [image]="imgURL"></app-votom-cloud-assets-signal>
           </div>
 
           <div class="tab-pane fade" id="asset-child" role="tabpanle" area-labelledby="asset-child-tab">
-            <app-votm-cloud-asset-child [image]="imgURL"></app-votm-cloud-asset-child>
+            <app-votm-cloud-asset-child *ngIf="imgURL"  [image]="imgURL"></app-votm-cloud-asset-child>
           </div>
         </div>
       </div>
