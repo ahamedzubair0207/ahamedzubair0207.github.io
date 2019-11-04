@@ -51,6 +51,7 @@ export class AppConstants {
     public static CREATE_ASSET = '/Asset';
     public static CREATE_ASSET_TEMPLATE = '/Asset/Template';
     public static DEL_ASSET = '/Asset';
+    public static PARENT_CHILD_ASSET_ASSOCIATION = 'ParentChildAsset';
 
     public static GET_AVAILABLE_SIGNALS = 'Signals/SignalsTree';
     public static GET_SIGNAL_ASSOCIATION = 'Signals';

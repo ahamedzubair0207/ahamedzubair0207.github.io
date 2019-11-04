@@ -71,11 +71,105 @@ export class VotmCloudLocationsSignalComponent implements OnInit {
       this.curOrganizationId = params.get('curOrgId');
       this.curOrganizationName = params.get('curOrgName');
       this.organizationId = params.get('orgId');
+      console.log(this.curOrganizationId, '====', this.curOrganizationName, '====', this.organizationId);
       this.getLocationSignalAssociation();
       this.getAlertRulesList();
     });
   }
-  // David's code
+
+  getAlertRulesList() {
+    this.alertsService.getAllAlertsByOrgId(this.curOrganizationId)
+      .subscribe(response => {
+        this.alertRules = response;
+      });
+  }
+
+  /**
+   * To get the location details by location id
+   * Location id will fetch from current route.
+   */
+  getLocationById() {
+    this.locationService.getLocationById(this.locationId)
+      .subscribe(response => {
+        this.location = response;
+        if (this.location.logo && this.location.logo.imageName) {
+          const fileExtension = this.location.logo.imageName.slice(
+            (Math.max(0, this.location.logo.imageName.lastIndexOf('.')) || Infinity) + 1);
+          this.imgURL = this.domSanitizer.bypassSecurityTrustUrl(`data:image/${fileExtension};base64,${this.location.logo.image}`);
+        }
+      });
+  }
+  /**
+   * To get all available signals for that location and organization.
+   * Location id and Organization Id will fetch from current route.
+   * This function sets the sensor disable which are already associated.
+   */
+  getAllAvailableSignals() {
+    this.isGetAvailableSignalsAPILoading = true;
+    this.locationSignalService.getSignalsByLocation(this.locationId, this.curOrganizationId)
+      .subscribe(response => {
+        console.log(response);
+        this.sensors = response;
+        for (const sensor of this.sensors) {
+          for (const signal of sensor.node) {
+            signal.sensorId = sensor.id;
+            signal.sensorName = sensor.name;
+            signal.signalId = signal.id;
+            signal.signalName = signal.name;
+            signal.associationName = signal.name;
+            signal.associated = false;
+            signal.imageCordinates = {
+              x: 0,
+              y: 0
+            };
+            signal.icon = 'icon-sig-humidity';
+            for (const associateSignal of this.associatedSignals) {
+              if (associateSignal.signalId === signal.signalId &&
+                associateSignal.sensorId === signal.sensorId) {
+                signal.associated = true;
+              }
+            }
+          }
+        }
+        this.copyAvailableSignals = JSON.parse(JSON.stringify(this.sensors));
+        console.log(this.copyAvailableSignals);
+        // this.configSensors('#sensor-cont', '#map-cont-1');
+        // this.setAssociatedSensors('map-cont-1');
+        this.isGetAvailableSignalsAPILoading = false;
+      },
+        error => {
+          this.isGetAvailableSignalsAPILoading = false;
+        });
+  }
+
+
+  getLocationSignalAssociation() {
+    this.isGetAssociatedSignalsAPILoading = true;
+    this.locationSignalService.getSignalAssociation(this.locationId)
+      .subscribe(
+        response => {
+
+          this.getAllAvailableSignals();
+          this.isGetAssociatedSignalsAPILoading = false;
+          for (let i = 0; i < response.length; i++) {
+            const signal = response[i];
+            signal.imageCordinates = signal.imageCordinates[signal.associationName];
+            signal.pos = {};
+            signal.pos['left'] = signal.imageCordinates.x;
+            signal.pos['top'] = signal.imageCordinates.y;
+            signal.isClicked = false;
+            signal.icon = 'icon-sig-humidity';
+            signal.associated = true;
+            signal.id = i;
+          }
+          this.associatedSignals = [...response];
+        },
+        error => {
+          this.isGetAssociatedSignalsAPILoading = false;
+        }
+      );
+  }
+
   showSignal(signal: any): boolean {
     return (signal.associated && this.showAssoc) || ((!signal.associated) && this.showUnassoc);
   }
@@ -89,12 +183,13 @@ export class VotmCloudLocationsSignalComponent implements OnInit {
   }
 
   addDerived() {
-    const newSignal = { signalName: 'My Derived Signal', associationName: 'My Derived Signal', icon: 'icon-sig-function', associated: true, derived: true, isClicked: false};
+    const newSignal = { signalName: 'My Derived Signal', associationName: 'My Derived Signal',
+      icon: 'icon-sig-function', associated: true, derived: true, isClicked: false};
     this.derivedSignals.push(newSignal);
     // tslint:disable-next-line: no-string-literal
     newSignal['id'] = this.associatedSignals.length;
     // tslint:disable-next-line: no-string-literal
-    newSignal['pos'] = { 'left': 1, 'top': 1 };
+    newSignal['pos'] = { left: 1, top: 1 };
     this.associatedSignals.push(newSignal);
     $('#derivedSignalModal').modal({
       backdrop: 'static',
@@ -328,100 +423,6 @@ export class VotmCloudLocationsSignalComponent implements OnInit {
 
   // end
 
-  getAlertRulesList() {
-    this.alertsService.getAllAlertsByOrgId(this.curOrganizationId)
-      .subscribe(response => {
-        this.alertRules = response;
-      });
-  }
-
-
-
-  /**
-   * To get the location details by location id
-   * Location id will fetch from current route.
-   */
-  getLocationById() {
-    this.locationService.getLocationById(this.locationId)
-      .subscribe(response => {
-        this.location = response;
-        if (this.location.logo && this.location.logo.imageName) {
-          const fileExtension = this.location.logo.imageName.slice(
-            (Math.max(0, this.location.logo.imageName.lastIndexOf('.')) || Infinity) + 1);
-          this.imgURL = this.domSanitizer.bypassSecurityTrustUrl(`data:image/${fileExtension};base64,${this.location.logo.image}`);
-        }
-      });
-  }
-  /**
-   * To get all available signals for that location and organization.
-   * Location id and Organization Id will fetch from current route.
-   * This function sets the sensor disable which are already associated.
-   */
-  getAllAvailableSignals() {
-    this.isGetAvailableSignalsAPILoading = true;
-    this.locationSignalService.getSignalsByLocation(this.locationId, this.curOrganizationId)
-      .subscribe(response => {
-        console.log(response);
-        this.sensors = response;
-        for (const sensor of this.sensors) {
-          for (const signal of sensor.node) {
-            signal.sensorId = sensor.id;
-            signal.sensorName = sensor.name;
-            signal.signalId = signal.id;
-            signal.signalName = signal.name;
-            signal.associationName = signal.name;
-            signal.associated = false;
-            signal.imageCordinates = {
-              x: 0,
-              y: 0
-            };
-            signal.icon = 'icon-sig-humidity';
-            for (const associateSignal of this.associatedSignals) {
-              if (associateSignal.signalId === signal.signalId &&
-                associateSignal.sensorId === signal.sensorId) {
-                signal.associated = true;
-              }
-            }
-          }
-        }
-        this.copyAvailableSignals = JSON.parse(JSON.stringify(this.sensors));
-        console.log(this.copyAvailableSignals);
-        // this.configSensors('#sensor-cont', '#map-cont-1');
-        // this.setAssociatedSensors('map-cont-1');
-        this.isGetAvailableSignalsAPILoading = false;
-      },
-        error => {
-          this.isGetAvailableSignalsAPILoading = false;
-        });
-  }
-
-
-  getLocationSignalAssociation() {
-    this.isGetAssociatedSignalsAPILoading = true;
-    this.locationSignalService.getSignalAssociation(this.locationId)
-      .subscribe(
-        response => {
-
-          this.getAllAvailableSignals();
-          this.isGetAssociatedSignalsAPILoading = false;
-          for (let i = 0; i < response.length; i++) {
-            const signal = response[i];
-            signal.imageCordinates = signal.imageCordinates[signal.associationName];
-            signal.pos = {};
-            signal.pos['left'] = signal.imageCordinates.x;
-            signal.pos['top'] = signal.imageCordinates.y;
-            signal.isClicked = false;
-            signal.icon = 'icon-sig-humidity';
-            signal.associated = true;
-            signal.id = i;
-          }
-          this.associatedSignals = [...response];
-        },
-        error => {
-          this.isGetAssociatedSignalsAPILoading = false;
-        }
-      );
-  }
 
   onCancelClick(event) {
     this.routerLocation.back();

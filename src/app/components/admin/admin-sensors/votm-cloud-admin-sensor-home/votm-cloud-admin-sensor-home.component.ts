@@ -2,8 +2,8 @@ import { Component, OnInit, NgZone } from '@angular/core';
 import * as am4core from '@amcharts/amcharts4/core';
 import * as am4charts from '@amcharts/amcharts4/charts';
 import { TreeNode } from 'primeng/api'
-import { ActivatedRoute, ParamMap} from '@angular/router';
-import { SensorsService} from '../../../../services/sensors/sensors.service';
+import { ActivatedRoute, ParamMap } from '@angular/router';
+import { SensorsService } from '../../../../services/sensors/sensors.service';
 import am4themes_animated from '@amcharts/amcharts4/themes/animated';
 
 @Component({
@@ -27,24 +27,43 @@ export class VotmCloudAdminSensorHomeComponent implements OnInit {
   curOrgName: string;
 
   constructor(private sensorService: SensorsService,
-    private route: ActivatedRoute,private zone: NgZone) { }
+    private route: ActivatedRoute, private zone: NgZone) { }
 
   ngOnInit() {
     // this.getAllGateways();
-    console.log(this.allSensors);
+    // console.log(this.allSensors);
 
     this.route.paramMap.subscribe((params: ParamMap) => {
       this.getSensorTree();
     });
   }
 
-
-  private getSensorTree(){
+  private getSensorTree() {
     this.sensorService.getSensorTree()
-    .subscribe(response => {
-      this.sensorList = response;
-      console.log('sensor list ', this.sensorList);
+      .subscribe(response => {
+        this.sensorList = [];
+        if (response && response.length > 0) {
+          this.sensorList = this.fillSensorsData(response);
+        }
+      });
+  }
+
+  fillSensorsData(sensors: any[]): TreeNode[] {
+    let treeSensors: TreeNode[] = [];
+    sensors.forEach(sensor => {
+      let treeSensor: TreeNode = {};
+      treeSensor.data = { id: sensor.sensorId, name: sensor.sensorName, type: 'Sensor' };
+      // treeSensor.expanded = true;
+      treeSensor.children = [];
+      if (sensor.node && sensor.node.length > 0) {
+        sensor.node.forEach(signal => {
+          treeSensor.children.push({ data: { id: signal.signalId, name: signal.signalName, type: 'Signal' }, children: [] });
+        });
+      }
+      treeSensors.push(treeSensor);
     });
+    console.log('sensors ', treeSensors);
+    return treeSensors;
   }
 
   getAllGateways() {

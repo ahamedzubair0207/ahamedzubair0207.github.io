@@ -607,3 +607,7 @@
 <!-- Delete Confirmation -->
 <app-votm-cloud-confim-dialog (onClose)="deleteAlertById($event)" #confirmBox
     message="Are you sure you want to delete the Alert Rule?" headerMessage="Warning"></app-votm-cloud-confim-dialog>
+
+    
+<app-votm-cloud-confim-dialog (onClose)="changeMetricType($event)" #MetricTypeConfirmBox [message]="metricChangeMessage"
+headerMessage="Warning"></app-votm-cloud-confim-dialog>

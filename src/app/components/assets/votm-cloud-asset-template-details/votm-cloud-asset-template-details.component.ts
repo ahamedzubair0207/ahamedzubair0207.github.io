@@ -33,6 +33,7 @@ export class VotmCloudAssetTemplateDetailsComponent implements OnInit {
   message: string;
   imagePath: any;
   docFile: Blob;
+  templateDeletemessage: string;
 
   constructor(
     private routerLocation: RouterLocation,
@@ -286,7 +287,7 @@ export class VotmCloudAssetTemplateDetailsComponent implements OnInit {
   }
 
   openConfirmDialog() {
-    this.message = `Do you want to delete ${this.template.templateName}?`;
+    this.templateDeletemessage = `Do you want to delete ${this.template.templateName}?`;
     this.confirmBox.open();
 
   }
