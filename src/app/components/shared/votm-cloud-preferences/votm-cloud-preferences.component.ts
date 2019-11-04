@@ -222,7 +222,7 @@ export class VotmCloudPreferencesComponent implements OnInit, AfterViewInit {
     console.log('userPreferenceForm==== ', userPreferenceForm);
     this.userService.updateUser(this.userprofile)
       .subscribe(response => {
-        this.toaster.onSuccess('Successfully updated', 'Updated');
+        this.toaster.onSuccess('User Successfully updated', 'Updated');
       }, error => {
         this.toaster.onFailure('Something went wrong. Please fill the form correctly', 'Fail');
       });
@@ -263,7 +263,7 @@ export class VotmCloudPreferencesComponent implements OnInit, AfterViewInit {
     if (event) {
       this.userService.deleteUserFavorite(this.selectedUserFavoriteForDelete.userFavoriteId).subscribe(
         response => {
-          this.toaster.onSuccess('Successfully deleted.', 'Deleted');
+          this.toaster.onSuccess('Favorite Successfully deleted.', 'Deleted');
           this.getUserDetailInfo();
           this.selectedUserFavoriteForDelete = undefined;
         }, error => {
@@ -275,17 +275,17 @@ export class VotmCloudPreferencesComponent implements OnInit, AfterViewInit {
   }
 
   onClickOfNotificationTab() {
-    if (this.userprofile.userNotification[0]) {
+    if (this.userprofile && this.userprofile.userNotification[0]) {
       this.userNotificationForm = new FormGroup({
         noti_crit_sms: new FormControl(this.userprofile.userNotification[0].criticalAlarm.includes('SMS')),
         noti_crit_email: new FormControl(this.userprofile.userNotification[0].criticalAlarm.includes('Email')),
-        noti_crit_web: new FormControl(this.userprofile.userNotification[0].criticalAlarm.includes('Web only')),
+        noti_crit_web: new FormControl(this.userprofile.userNotification[0].criticalAlarm.includes('Web')),
         noti_war_sms: new FormControl(this.userprofile.userNotification[0].warningAlarm.includes('SMS')),
         noti_war_email: new FormControl(this.userprofile.userNotification[0].warningAlarm.includes('Email')),
-        noti_war_web: new FormControl(this.userprofile.userNotification[0].warningAlarm.includes('Web only')),
+        noti_war_web: new FormControl(this.userprofile.userNotification[0].warningAlarm.includes('Web')),
         noti_info_sms: new FormControl(this.userprofile.userNotification[0].infoMessage.includes('SMS')),
         noti_info_email: new FormControl(this.userprofile.userNotification[0].infoMessage.includes('Email')),
-        noti_info_web: new FormControl(this.userprofile.userNotification[0].infoMessage.includes('Web only'))
+        noti_info_web: new FormControl(this.userprofile.userNotification[0].infoMessage.includes('Web'))
       });
       // this.getUserDetailInfo();
     }
@@ -303,10 +303,10 @@ export class VotmCloudPreferencesComponent implements OnInit, AfterViewInit {
 
     this.userService.updateUserNotification(userNotificationObj).subscribe(
       response => {
-        this.toaster.onSuccess('Successfully updated.', 'Updated');
+        this.toaster.onSuccess('Notification Delivery Methods Successfully updated.', 'Updated');
         this.getUserDetailInfo();
       }, error => {
-        this.toaster.onFailure('Error while updating notifications.', 'Error');
+        this.toaster.onFailure('Error while updating Notification Delivery Methods.', 'Error');
       }
     );
 
