@@ -94,6 +94,7 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
     x: 0,
     y: 0
   };
+  assetRemoveMessage: string;
   constructor(
     private modalService: NgbModal,
     private assetService: AssetsService,
@@ -973,7 +974,7 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
   }
 
   openConfirmDialog() {
-    this.message = `Are you sure you want to delete the "${this.asset.assetName}" Asset?`;
+    this.assetRemoveMessage = `Are you sure you want to delete the "${this.asset.assetName}" Asset?`;
     this.confirmBox.open();
   }
 

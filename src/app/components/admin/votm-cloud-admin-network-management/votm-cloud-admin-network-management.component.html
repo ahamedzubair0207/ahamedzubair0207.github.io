@@ -10,7 +10,7 @@
       <a class="nav-link tab-icon" id="admin-sensor-tab" href="#sensor-table-tab" data-toggle="tab" role="tab"
         aria-controls="admin-sensor" aria-selected="false"><i class="mr-2 icon-sensonode"></i>Sensors</a>
     </li>
-    <li class="nav-item">
+    <li class="nav-item" (click)="onMapTabSelection()">
       <a class="nav-link tab-icon" id="admin-map-tab" href="#map-tab" data-toggle="tab" role="tab"
         aria-controls="admin-map" aria-selected="false"><i class="mr-2 icon-loc-pin-map"></i>Map</a>
     </li>
@@ -44,7 +44,7 @@
     <!-- Admin Map Dashboard Tab  -->
     <div class="tab-pane fade border border-top-0 p-3 mb-3 flex-grow-1" id="map-tab" role="tabpanle"
       area-labelledby="admin-map-tab">
-      <app-votm-cloud-admin-network-map></app-votm-cloud-admin-network-map>
+      <app-votm-cloud-admin-network-map #networkmap></app-votm-cloud-admin-network-map>
     </div>
 
 

@@ -70,8 +70,8 @@ export class AlertsService {
       );
   }
 
-  getAlertRuleSignalAssociatedAssetByOrgId(orgId: string, alertId: string): Observable<any> {
-    return this.http.get(`${AppConstants.GET_ALERT_RULESIGNALS_ASSOCIATION_ASSETS}/${orgId}/${alertId}`)
+  getAlertRuleSignalAssociatedAssetByOrgId(orgId: string, alertId: string, uomId: string): Observable<any> {
+    return this.http.get(`${AppConstants.GET_ALERT_RULESIGNALS_ASSOCIATION_ASSETS}/${orgId}/${alertId}/${uomId}`)
       .pipe(
         map(response => response)
       );
