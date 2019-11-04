@@ -18,6 +18,7 @@ export class VotmCloudOrganizationDashboardComponent implements OnInit {
   dashboardData: any;
   dashboardTemplates: {};
   delDashboardId: any;
+  kioskMode: any;
 
   message: string;
   @ViewChild('confirmBox', null) confirmBox: VotmCloudConfimDialogComponent;
@@ -76,6 +77,24 @@ export class VotmCloudOrganizationDashboardComponent implements OnInit {
     $('#dashboardIconContainer-' + dbId).addClass('position-relative');
     $('#actualDashboardId-' + dbId).hide();
     $('#resizeDashboardId-' + dbId).show();
+  }
+
+
+  onClickOfKiosk() {
+    // Open Chart configuration modal popup
+    const modal = document.getElementById('configure-kiosk-mode-modal');
+    modal.style.display = 'block';
+    this.kioskMode = document.getElementById('configure-kiosk-mode-modal');
+    window.onclick = (event) => {
+      if (event.target === modal) {
+        modal.style.display = 'none';
+      }
+    };
+  }
+
+  onClickOfKioskModalClose() {
+    // Close modal popup
+    this.kioskMode.style.display = 'none';
   }
 
   /*getDashboards() {

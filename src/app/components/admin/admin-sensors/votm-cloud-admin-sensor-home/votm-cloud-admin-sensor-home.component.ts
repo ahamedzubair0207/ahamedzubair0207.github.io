@@ -1,6 +1,9 @@
 import { Component, OnInit, NgZone } from '@angular/core';
 import * as am4core from '@amcharts/amcharts4/core';
 import * as am4charts from '@amcharts/amcharts4/charts';
+import { TreeNode } from 'primeng/api'
+import { ActivatedRoute, ParamMap} from '@angular/router';
+import { SensorsService} from '../../../../services/sensors/sensors.service';
 import am4themes_animated from '@amcharts/amcharts4/themes/animated';
 
 @Component({
@@ -15,11 +18,33 @@ export class VotmCloudAdminSensorHomeComponent implements OnInit {
   sensorsStatusData: any;
   sensorsBettreyLevelData: any;
   sensorsSignalLevelData: any;
-  constructor(private zone: NgZone) { }
+  sensorList: Array<TreeNode> = [];
+  curLocId: string;
+  curLocName: string;
+  parentOrgId: string;
+  parentOrgName: string;
+  curOrgId: string;
+  curOrgName: string;
+
+  constructor(private sensorService: SensorsService,
+    private route: ActivatedRoute,private zone: NgZone) { }
 
   ngOnInit() {
-    this.getAllGateways();
+    // this.getAllGateways();
     console.log(this.allSensors);
+
+    this.route.paramMap.subscribe((params: ParamMap) => {
+      this.getSensorTree();
+    });
+  }
+
+
+  private getSensorTree(){
+    this.sensorService.getSensorTree()
+    .subscribe(response => {
+      this.sensorList = response;
+      console.log('sensor list ', this.sensorList);
+    });
   }
 
   getAllGateways() {

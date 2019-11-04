@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { SharedService } from '../../../services/shared.service';
-import { Router } from '@angular/router';
+import { Router, NavigationEnd } from '@angular/router';
 import { OktaAuthService } from '@okta/okta-angular';
 import { Location as RouterLocation } from '@angular/common';
 import { Toaster } from '../../shared/votm-cloud-toaster/votm-cloud-toaster';
@@ -39,7 +39,24 @@ export class VotmCloudHeaderComponent implements OnInit {
     public oktaAuth: OktaAuthService) {
     this.sharedService.getMenuOpen().subscribe(newVal => this.menuOpen = newVal);
     this.oktaAuth.$authenticationState.subscribe(isAuthenticated => this.isAuthenticated = isAuthenticated)
-
+    router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        console.log('event nav end ', event);
+        this.sharedService.favorites.subscribe(favs => {
+          this.favorites = favs;
+          this.currentFavorite = { 'userId': '03c7fb47-58ee-4c41-a9d6-2ad0bd43392a', 'url': event.url, 'favoriteName': '' };
+          if (favs && favs.length > 0) {
+            favs.forEach(favorite => {
+              if (this.router.url === favorite.url) {
+                this.currentFavorite = favorite;
+              }
+            });
+          }
+          console.log('this.currentFavorite ', this.currentFavorite)
+          this.previousFavoriteName = this.currentFavorite.favoriteName;
+        });
+      }
+    });
   }
 
   async ngOnInit() {
@@ -57,8 +74,8 @@ export class VotmCloudHeaderComponent implements OnInit {
   }
 
   onFavoriteSubmit() {
-    console.log('this.favoriteName, ', this.favoriteName);
-    console.log('this.router ', this.router.url);
+    // console.log('this.favoriteName, ', this.favoriteName);
+    // console.log('this.router ', this.router.url);
 
     // let body = {
     //   'userId': '03c7fb47-58ee-4c41-a9d6-2ad0bd43392a',
@@ -70,7 +87,7 @@ export class VotmCloudHeaderComponent implements OnInit {
     if (this.currentFavorite && this.currentFavorite.userFavoriteId) {
       this.sharedService.patchFavorites(this.currentFavorite)
         .subscribe(response => {
-          console.log('post result ', response);
+          // console.log('post result ', response);
           this.toaster.onSuccess('Favorite name updated successfully.', 'Updated');
           this.sharedService.getFavorites();
           this.currentFavorite = {};
@@ -90,19 +107,6 @@ export class VotmCloudHeaderComponent implements OnInit {
   }
 
   openmodal() {
-
-    this.sharedService.favorites.subscribe(favs => {
-      this.favorites = favs;
-      this.currentFavorite = { 'userId': '03c7fb47-58ee-4c41-a9d6-2ad0bd43392a', 'url': this.router.url, 'favoriteName': '' };
-      if (favs && favs.length > 0) {
-        favs.forEach(favorite => {
-          if (this.router.url === favorite.url) {
-            this.currentFavorite = favorite;
-          }
-        });
-      }
-      this.previousFavoriteName = this.currentFavorite.favoriteName;
-    });
 
     // Get the modal
     var modal = document.getElementById('favModal');

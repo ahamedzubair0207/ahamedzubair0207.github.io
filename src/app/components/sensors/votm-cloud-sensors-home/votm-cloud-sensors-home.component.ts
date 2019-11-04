@@ -12,7 +12,7 @@ import { SensorsService} from '../../../services/sensors/sensors.service';
   styleUrls: ['./votm-cloud-sensors-home.component.scss']
 })
 export class VotmCloudSensorsHomeComponent implements OnInit {
-  sensorList: Array<TreeNode>;
+  sensorList: Array<TreeNode> = [];
   curLocId: string;
   curLocName: string;
   parentOrgId: string;
@@ -41,7 +41,8 @@ export class VotmCloudSensorsHomeComponent implements OnInit {
   private getSensorTree(){
     this.sensorService.getSensorTree()
     .subscribe(response => {
-      this.sensorList = [];
+      this.sensorList = response;
+      console.log('sensor list ', this.sensorList);
     });
   }
 
