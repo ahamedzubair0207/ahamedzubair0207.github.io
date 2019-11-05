@@ -47,6 +47,7 @@
                                         class="custom" [multiple]="false" [(ngModel)]="overLaySource" placeholder="Choose Source" (change)="onChangeOverlaySource($event)">
                                         <ng-option value="location">Location</ng-option>
                                         <ng-option value="asset">Asset</ng-option>
+                                        <ng-option value="custom">Custom</ng-option>
                                     </ng-select>
                                 </div>
                             </div>
@@ -67,9 +68,9 @@
                             <div class="form-group">
                                 <label for="">Asset</label>
                                 <div class="">
-                                    <ng-select id="asset" name="asset" labelForId="asset" class="custom"
-                                        [multiple]="false" [(ngModel)]="asset" placeholder="Choose Asset">
-                                        <ng-option value="child asset">Child Asset</ng-option>
+                                    <ng-select id="widgetassetimageID" name="widgetassetimageID" labelForId="widgetassetimageID" class="custom"
+                                        [multiple]="false" [(ngModel)]="widgetassetimageID" placeholder="Choose Asset">
+                                        <ng-option *ngFor="let assetsChild of assetsSourceChild" [value]="assetsChild.data.id">{{assetsChild.data.name}}</ng-option>
                                     </ng-select>
                                 </div>
                             </div>

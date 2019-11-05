@@ -1,3 +1,4 @@
+import { AssetSignalService } from 'src/app/services/assetSignal/asset-signal.service';
 import { LocationSignalService } from './../../../../services/locationSignal/location-signal.service';
 import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
@@ -6,6 +7,7 @@ import { ActivatedRoute, ParamMap } from '@angular/router';
 import { TreeNode } from 'primeng/api';
 import { LocationService } from 'src/app/services/locations/location.service';
 import { DomSanitizer } from '@angular/platform-browser';
+import { AssetsService } from 'src/app/services/assets/assets.service';
 
 @Component({
   selector: 'app-votm-image-overlay',
@@ -23,14 +25,20 @@ export class VotmImageOverlayComponent implements OnInit {
   locationsList: Array<TreeNode> = [];
   LocationSourceChild: any[];
   widgetlocImageID: any;
-  widgetLocationData: any;
+  widgetImageData: any;
   widgetimgURL: any;
   iconSize: any;
+  assetsList: Array<TreeNode> = [];
+  assetsSourceChild: any[];
+  widgetassetimageID: any;
+  overLaySource: any;
   constructor(
     private toastr: ToastrService,
     private locationSignalService: LocationSignalService,
+    private assetSignalService: AssetSignalService,
     private route: ActivatedRoute,
     private locationService: LocationService,
+    private assetService: AssetsService,
     private domSanitizer: DomSanitizer,
   ) {
 
@@ -49,20 +57,26 @@ export class VotmImageOverlayComponent implements OnInit {
         // this.fetchlocationTree();
       } else {
         // this.fetchlocationTreeById();
-        this.locationService.getLocationTreeByID(this.curLocId).subscribe(response => {
-          this.locationsList = [];
-          if (response && response.length > 0) {
-            this.locationsList = this.fillLocationData(response);
-          }
-          console.log('my this.locationsList ', this.locationsList[0]['children']);
-          this.LocationSourceChild = this.locationsList[0]['children'];
-        });
+        this.fetchlocationTreeById();
+
+        // Get assets
+        this.fetchAssetsTreeById();
       }
 
     });
 
   }
 
+  fetchlocationTreeById() {
+    this.locationService.getLocationTreeByID(this.curLocId).subscribe(response => {
+      this.locationsList = [];
+      if (response && response.length > 0) {
+        this.locationsList = this.fillLocationData(response);
+      }
+      console.log('my this.locationsList ', this.locationsList);
+      this.LocationSourceChild = this.locationsList[0].children;
+    });
+  }
   fillLocationData(locations: any[]) {
     const locationList: TreeNode[] = [];
     locations.forEach(org => {
@@ -76,6 +90,32 @@ export class VotmImageOverlayComponent implements OnInit {
       locationList.push(tempLoc);
     });
     return locationList;
+  }
+
+  fetchAssetsTreeById() {
+    this.assetService.getAssetTreeByLocId(this.curLocId)
+      .subscribe(response => {
+        this.assetsList = [];
+        if (response && response.length > 0) {
+          this.assetsList = this.fillAssetData(response);
+        }
+        console.log('my assetsList ', this.assetsList);
+        this.assetsSourceChild = this.assetsList;
+      });
+  }
+  fillAssetData(assets: any[]) {
+    const assetList: TreeNode[] = [];
+    assets.forEach(asset => {
+      const tempAsset: TreeNode = { data: asset };
+      tempAsset.children = [];
+      if (asset.node && asset.node.length > 0) {
+        tempAsset.children = this.fillAssetData(asset.node);
+      } else {
+        tempAsset.children = [];
+      }
+      assetList.push(tempAsset);
+    });
+    return assetList;
   }
 
   onClickOfCustomizeImageOverlay() {
@@ -105,7 +145,7 @@ export class VotmImageOverlayComponent implements OnInit {
     }
   }
 
-  getImageOverlayConfiguration(locationID) {
+  getImageOverlayConfiguration(overlaySource) {
 
     // Call service to get configured image overlay data 
     // this.widgetService.getImageOverlayConfiguration().subscribe(
@@ -116,30 +156,60 @@ export class VotmImageOverlayComponent implements OnInit {
     //   }
     // );
     this.isImageOverlayConfigured = true;
+    if (!this.iconSize) {
+      this.iconSize = 'widget-icon-small';
+    }
+    if (overlaySource === 'location') {
+      if (!this.widgetlocImageID) {
+        this.widgetlocImageID = this.curLocId;
+      }
+      console.log('locationID======', this.widgetlocImageID);
+      this.getLocationById(this.widgetlocImageID); // get location Image data
+      this.locationSignalService.getSignalAssociation(this.widgetlocImageID)
+        .subscribe(
+          response => {
 
-    console.log('locationID======', locationID);
-    this.getLocationById(locationID); // get location Image data
-    this.locationSignalService.getSignalAssociation(locationID)
-      .subscribe(
-        response => {
+            for (let i = 0; i < response.length; i++) {
+              const signal = response[i];
+              signal.imageCordinates = signal.imageCordinates[signal.associationName];
+              signal.pos = {};
+              signal.pos['left'] = signal.imageCordinates.x;
+              signal.pos['top'] = signal.imageCordinates.y;
+              signal.isClicked = false;
+              signal.icon = 'icon-sig-humidity ' + this.iconSize;
+              signal.associated = true;
+              signal.id = i;
+            }
+            this.associatedSignals = [...response];
+          },
+          error => {
 
-          for (let i = 0; i < response.length; i++) {
-            const signal = response[i];
-            signal.imageCordinates = signal.imageCordinates[signal.associationName];
-            signal.pos = {};
-            signal.pos['left'] = signal.imageCordinates.x;
-            signal.pos['top'] = signal.imageCordinates.y;
-            signal.isClicked = false;
-            signal.icon = 'icon-sig-humidity ' + this.iconSize;
-            signal.associated = true;
-            signal.id = i;
           }
-          this.associatedSignals = [...response];
-        },
-        error => {
+        );
+      } else if (overlaySource === 'asset') {
+        this.getAssetById(this.widgetassetimageID); // get asset Image data
+        this.assetSignalService.getAssetSignalAssociation(this.widgetassetimageID)
+        .subscribe(
+          response => {
 
-        }
-      );
+            for (let i = 0; i < response.length; i++) {
+              const signal = response[i];
+              signal.imageCordinates = signal.imageCordinates[signal.associationName];
+              signal.pos = {};
+              signal.pos['left'] = signal.imageCordinates.x;
+              signal.pos['top'] = signal.imageCordinates.y;
+              signal.isClicked = false;
+              signal.icon = 'icon-sig-humidity ' + this.iconSize;
+              signal.associated = true;
+              signal.id = i;
+            }
+            this.associatedSignals = [...response];
+          },
+          error => {
+
+          }
+        );
+      }
   }
 
   getPositionStyle(signal) {
@@ -157,11 +227,23 @@ export class VotmImageOverlayComponent implements OnInit {
   getLocationById(locationID) {
     this.locationService.getLocationById(locationID)
       .subscribe(response => {
-        this.widgetLocationData = response;
-        if (this.widgetLocationData.logo && this.widgetLocationData.logo.imageName) {
-          const fileExtension = this.widgetLocationData.logo.imageName.slice(
-            (Math.max(0, this.widgetLocationData.logo.imageName.lastIndexOf('.')) || Infinity) + 1);
-          this.widgetimgURL = this.domSanitizer.bypassSecurityTrustUrl(`data:image/${fileExtension};base64,${this.widgetLocationData.logo.image}`);
+        this.widgetImageData = response;
+        if (this.widgetImageData.logo && this.widgetImageData.logo.imageName) {
+          const fileExtension = this.widgetImageData.logo.imageName.slice(
+            (Math.max(0, this.widgetImageData.logo.imageName.lastIndexOf('.')) || Infinity) + 1);
+          this.widgetimgURL = this.domSanitizer.bypassSecurityTrustUrl(`data:image/${fileExtension};base64,${this.widgetImageData.logo.image}`);
+        }
+      });
+  }
+
+  getAssetById(assetID) {
+    this.assetService.getAssetById(assetID)
+      .subscribe(response => {
+        this.widgetImageData = response;
+        if (this.widgetImageData.logo && this.widgetImageData.logo.imageName) {
+          const fileExtension = this.widgetImageData.logo.imageName.slice(
+            (Math.max(0, this.widgetImageData.logo.imageName.lastIndexOf('.')) || Infinity) + 1);
+          this.widgetimgURL = this.domSanitizer.bypassSecurityTrustUrl(`data:image/${fileExtension};base64,${this.widgetImageData.logo.image}`);
         }
       });
   }
@@ -171,7 +253,7 @@ export class VotmImageOverlayComponent implements OnInit {
     this.toaster.onSuccess('Chart Configured Successfully', 'Success');
 
     console.log('widgetlocImage', this.widgetlocImageID);
-    console.log('widgetlocImage', this.iconSize);
+    console.log('widgetassetimageID', this.widgetassetimageID, this.overLaySource);
 
     // Call services to save image overlay configuration data
     // this.widgetService.addImageOverlayConfiguration(imageOvelayConfigureObj).subscribe(
@@ -184,11 +266,19 @@ export class VotmImageOverlayComponent implements OnInit {
     //     this.onClickOfCustomizeImageOverlayModalClose();
     //   }
     // );
-    this.getImageOverlayConfiguration(this.widgetlocImageID);
+    // if (!this.widgetlocImageID) {
+    //   this.widgetlocImageID = this.curLocId;
+    // }
+    this.getImageOverlayConfiguration(this.overLaySource);
     // setTimeout(() => {
     //   console.log('image overlay called');
 
     // }, 500);
+
+    // if (this.overLaySource === 'asset') {
+    //   this.getImageOverlayConfiguration(this.widgetlocImageID);
+    // }
+
   }
 
 }
