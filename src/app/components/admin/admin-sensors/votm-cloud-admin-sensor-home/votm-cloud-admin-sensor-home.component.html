@@ -3,14 +3,14 @@
     <div class="col-md-3 col-xl-4">
       <div class="form-group">
         <!-- <label for="role_search">Search</label> -->
-        <div class="input-group input-group-sm">
+        <!-- <div class="input-group input-group-sm">
           <input type="text" id="gateway_search" class="form-control" placeholder="Search">
           <div class="input-group-append">
-            <!-- <span class="input-group-text"><i class="icon-search"></i></span> -->
+            <span class="input-group-text"><i class="icon-search"></i></span>
             <span class="input-group-text p-0"><button class="btn btn-sm btn-search" id="searchButton" type="submit">
                 <i class="icon-search"></i></button></span>
           </div>
-        </div>
+        </div> -->
       </div>
     </div>
   </div>
@@ -21,10 +21,24 @@
       <p-treeTable [scrollable]="true" #tt scrollHeight="600px" [globalFilterFields]="['name']"
         [resizableColumns]="true" [value]="sensorList" [autoLayout]="true" id="sensorsTbl">
         <ng-template pTemplate="caption">
-          <div style="text-align: left;">
-            <i class="icon-search" style="margin:4px 4px 0 0"></i>
-            <input type="text" pInputText size="20" placeholder="Type to filter"
-              (input)="tt.filterGlobal($event.target.value, 'contains')" style="width:auto" id="organizationFilter">
+          <div class="row">
+            <div class="col-5">
+              <div style="text-align: left;">
+                <div class="input-group input-group-sm">
+                  <input name="sensorSearch" [(ngModel)]="searchedText" class="form-control" id="searchBox" type="search"
+                    placeholder="Search" aria-label="Search">
+                  <div class="input-group-append">
+                    <span class="input-group-text p-0">
+                      <button [disabled]="!searchedText" class="btn btn-sm btn-search" id="searchButton"
+                        (click)="onSensorSearch()" type="submit"><i class="icon-search"></i></button>
+                    </span>
+                  </div>
+                </div>
+                <!-- <i class="icon-search" style="margin:4px 4px 0 0"></i>
+                                      <input type="text" pInputText size="20" placeholder="Type to filter"
+                                        (input)="tt.filterGlobal($event.target.value, 'contains')" style="width:auto" id="organizationFilter"> -->
+              </div>
+            </div>
           </div>
         </ng-template>
         <ng-template pTemplate="colgroup">

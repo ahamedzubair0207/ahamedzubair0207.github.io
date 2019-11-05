@@ -213,7 +213,7 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
         this.setDefaultParentOrganizationOptions();
         this.organization.active = true;
 
-        this.UOM = 'SI';
+        this.UOM = 'Imperial';
         this.organization.address = [new Address()];
         this.organization.address[0].addressType = 'Billing';
         this.organization.address[0].country = null;

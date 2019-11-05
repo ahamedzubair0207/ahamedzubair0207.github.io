@@ -6,6 +6,8 @@ import { Location as RouterLocation } from '@angular/common';
 import { Toaster } from '../../shared/votm-cloud-toaster/votm-cloud-toaster';
 import { ToastrService } from 'ngx-toastr';
 import { Alert } from 'src/app/models/alert.model';
+import {TableModule} from 'primeng/table';
+
 
 @Component({
   selector: 'app-votm-cloud-alerts-home',
@@ -14,7 +16,7 @@ import { Alert } from 'src/app/models/alert.model';
 })
 export class VotmCloudAlertsHomeComponent implements OnInit {
 
-  @Input() alertList: any[];
+  @Input() alertList: Array<TableModule> =[];
   @Input() orgId: string;
   message: any;
   alertToDelete: string;
