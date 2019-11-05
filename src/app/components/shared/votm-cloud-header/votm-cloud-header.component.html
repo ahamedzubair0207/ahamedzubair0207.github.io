@@ -18,12 +18,12 @@
                       (click)="onAddNotifiedUsersClick()" data-target="#notifiedUserModal" id="notifyUserBtn"><i
                           class="icon-user-add mr-2"></i>Add Notified User</button> -->
           <a class="nav-link" (click)="openmodal()" id="userFavBtn">
-            <i *ngIf="currentFavorite.userFavoriteId" class="icon-star" style="color: #78C8D2;" id="userFavSelected"></i>
+            <i *ngIf="currentFavorite.userFavoriteId" class="icon-star" style="color: #00a2ae;" id="userFavSelected"></i>
             <i *ngIf="!currentFavorite.userFavoriteId" class="icon-star-empty" id="userFavNotSelected"></i>
           </a>
         </li>
         <li class="nav-item dropdown"> <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#"
-            id="notificationBtn"><i class="fa fa-bell"></i></a>
+            id="notificationBtn"><i class="icon-bell"></i></a>
           <div class="dropdown-menu dropdown-menu-notification shadow">
             <div class="card">
               <div class="card-header bg-info"><strong class="text-white">Notification</strong></div>

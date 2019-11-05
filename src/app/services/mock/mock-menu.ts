@@ -3,7 +3,7 @@ export const MENU_ITEMS: Array<{ id: string, enabled: boolean, url: string, icon
         id: 'favorites',
         enabled: true,
         url: '/fav',
-        icon: 'menu-icon fa fa-star',
+        icon: 'menu-icon icon-star',
         name: 'Favorites',
         childs: []
     },
@@ -60,14 +60,14 @@ export const MENU_ITEMS: Array<{ id: string, enabled: boolean, url: string, icon
         id: 'admin',
         enabled: true,
         url: 'admin',
-        icon: 'menu-icon fa fa-cogs',
+        icon: 'menu-icon icon-cog-alt',
         name: 'Admin Panel',
         childs: [
             {
                 id: 'network',
                 enabled: true,
                 url: 'admin/networkmanagement',
-                icon: 'menu-icon fa fa-globe',
+                icon: 'menu-icon icon-globe',
                 name: 'Network Management'
             },
             {

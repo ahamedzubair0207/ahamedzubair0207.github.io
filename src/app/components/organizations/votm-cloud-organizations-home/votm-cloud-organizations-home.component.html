@@ -135,14 +135,14 @@
       <td class="align-center">
         <a class="action-icon" container="body" ngbTooltip="Location"
           [routerLink]="['/loc/home', rowData.id, rowData.name]">
-          <i class="icon-location"></i>
+          <i class="icon-location-list"></i>
         </a>
 
         <a class="action-icon" container="body" ngbTooltip="Edit"
           [routerLink]="['/org/edit',curOrgId, curOrgName, rowData.id]">
           <i class="icon-edit"></i>
         </a>
-        <a class="action-icon" container="body" ngbTooltip="Delete"
+        <a class="action-icon" container="body" ngbTooltip="Delete" *ngIf="rowData.id.toUpperCase() !== curOrgId.toUpperCase()"
           (click)="openConfirmDialog(rowData.id, rowData.name)" title="Delete">
           <i class="icon-trash"></i>
         </a>

@@ -107,6 +107,9 @@
 .icon-clock:before { content: '\e869'; } /* '' */
 .icon-users-add:before { content: '\e86a'; } /* '' */
 .icon-search:before { content: '\e86b'; } /* '' */
+.icon-asset-list:before { content: '\e86c'; } /* '' */
+.icon-org-list:before { content: '\e86d'; } /* '' */
+.icon-location-list:before { content: '\e86e'; } /* '' */
 .icon-sig-dewpoint:before { content: '\e886'; } /* '' */
 .icon-sensonode:before { content: '\e97d'; } /* '' */
 .icon-sensonode2:before { content: '\e97e'; } /* '' */
