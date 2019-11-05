@@ -187,9 +187,9 @@
                   <div class="form-group">
                     <label class="" id="parentOrgLbl">{{pageLabels.ParentOrganization.labelName}}:</label>
                     <div class="">
-                      <ng-select id="parentOrgLblList" class="custom" [disabled]="pageType==='View'"
+                      <ng-select id="parentOrgLblList" class="custom" [disabled]="(pageType==='View') || (pageType ==='Edit' && !organization.parentOrganizationId)"
                         [ngStyle]="{'background-color':pageType==='View'?'#e9ecef':'#fff'}" [multiple]="false"
-                        name="parentOrgLblList" [(ngModel)]="organization.parentOrganizationId">
+                        name="parentOrgLblList" loadingText="Data is loading..." [(ngModel)]="organization.parentOrganizationId">
                         <ng-option *ngFor="let org of organizationList" [value]="org.organizationId" id="parentOrgLblList">{{org.name}}</ng-option>
                       </ng-select>
                     </div>

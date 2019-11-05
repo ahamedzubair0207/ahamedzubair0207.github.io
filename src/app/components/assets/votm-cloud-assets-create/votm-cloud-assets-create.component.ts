@@ -16,6 +16,7 @@ import { Toaster } from '../../shared/votm-cloud-toaster/votm-cloud-toaster';
 import { OrganizationService } from 'src/app/services/organizations/organization.service';
 import { SortArrays } from '../../shared/votm-sort';
 import { LocationService } from 'src/app/services/locations/location.service';
+import { VotmCommon } from '../../shared/votm-common';
 declare var $: any;
 @Component({
   selector: 'app-votm-cloud-assets-create',
@@ -633,7 +634,15 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
       this.orgService.getAllOrganizationsList()
         .subscribe(orgList => {
           this.organizationList = orgList;
-          this.organizationList.push({ organizationId: this.asset.organizationId, name: this.asset.organizationName });
+          let orgFound = false;
+          this.organizationList.forEach(org => {
+            if (org.organizationId === this.curOrgId) {
+              orgFound = true;
+            }
+          });
+          if (!orgFound) {
+            this.organizationList.push({ organizationId: this.curOrgId, name: this.curOrgName });
+          }
           this.organizationList.sort(SortArrays.compareValues('name'));
           this.filterLocations();
           this.filterAssets();

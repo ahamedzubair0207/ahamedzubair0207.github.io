@@ -14,6 +14,7 @@ import { UserRole } from 'src/app/models/user-role';
 import { config } from 'rxjs';
 import { NavigationService } from 'src/app/services/navigation/navigation.service';
 import { TreeNode } from 'primeng/api';
+import { VotmCommon } from '../../shared/votm-common';
 
 @Component({
   selector: 'app-votm-cloud-alerts-create',
@@ -127,7 +128,7 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
             this.alert.alertRuleSignalMapping.forEach(signalMapping => {
               this.selectedSignals.push(signalMapping.signalMappingId);
             });
-            this.selectedSignals = this.getUniqueValues(this.selectedSignals);
+            this.selectedSignals = VotmCommon.getUniqueValues(this.selectedSignals);
             this.createAssetCheckedProperties();
             setTimeout(() => {
               this.checkIfParentsArechecked();
@@ -545,15 +546,6 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
       }
     }
     // console.log(this.selectedSignals);
-  }
-
-
-  getUniqueValues(values: any[]) {
-    return values.filter((value, index) => {
-      return index === values.findIndex(obj => {
-        return JSON.stringify(obj) === JSON.stringify(value);
-      });
-    });
   }
 
   onSignalSelectionChange(event, signalMappingId: string, asset) {

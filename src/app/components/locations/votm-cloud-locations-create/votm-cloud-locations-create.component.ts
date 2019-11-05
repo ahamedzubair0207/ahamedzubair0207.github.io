@@ -167,6 +167,7 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
       }
       if (!this.locId) {
         this.locationObject();
+        this.setDefaultParentOrganizationOptions();
       } else {
         this.getLocationById();
       }
@@ -238,6 +239,13 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
       })
   }
 
+  setDefaultParentOrganizationOptions() {
+    if (!this.organizationList || this.organizationList.length === 0) {
+      this.organizationList = [];
+      this.organizationList.push({ organizationId: this.curOrgId, name: this.curOrgName });
+    }
+  }
+
   onParentOrgChange(event) {
     this.getAllLocationByOrganization(event.target.value);
   }
@@ -248,12 +256,12 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
         this.organizationList = response;
         let orgFound = false;
         this.organizationList.forEach(org => {
-          if (org.id === this.curOrgId) {
+          if (org.organizationId === this.curOrgId) {
             orgFound = true;
           }
         });
         if (!orgFound) {
-          this.organizationList.push({ id: this.curOrgId, name: this.curOrgName });
+          this.organizationList.push({ organizationId: this.curOrgId, name: this.curOrgName });
         }
         this.organizationList.sort(SortArrays.compareValues('name'));
         // this.organization.parentOrganizationId = JSON.parse(JSON.stringify(this.organization.parentOrganizationId));
