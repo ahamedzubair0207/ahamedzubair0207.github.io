@@ -792,13 +792,6 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
     }
   }
 
-  onAssociationLockClick(type) {
-    let event = 'view';
-    if (type === 'view') {
-      event = 'edit';
-    }
-    this.locationService.locAssociationLockFlag.emit(event);
-  }
 
 
   // getGeoLocation(address: string): Observable<any> {
