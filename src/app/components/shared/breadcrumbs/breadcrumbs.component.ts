@@ -3,6 +3,7 @@ import { Router, ActivatedRoute, NavigationEnd, RouterEvent } from '@angular/rou
 import { NavigationService } from 'src/app/services/navigation/navigation.service';
 import { filter } from 'rxjs/operators';
 import { truncateWithEllipsis } from '@amcharts/amcharts4/.internal/core/utils/Utils';
+import { VotmCommon } from '../votm-common';
 
 @Component({
   selector: 'app-breadcrumbs',
@@ -146,19 +147,11 @@ export class BreadcrumbsComponent {
     }
   }
 
-  getUniqueValues(values: any[]) {
-    return values.filter((value, index) => {
-      return index === values.findIndex(obj => {
-        return JSON.stringify(obj) === JSON.stringify(value);
-      });
-    });
-  }
-
   loadOrganizations(orgId: string) {
     this.navigationService.getAllSibling('Organization', orgId)
       .subscribe(response => {
         if (response && response.length > 0) {
-          response = this.getUniqueValues(response);
+          response = VotmCommon.getUniqueValues(response);
           let childFound: boolean = false;
           for (let i = 0; i < response.length; i++) {
             if (response[i].id.toLowerCase() === orgId.toLowerCase()) {
@@ -194,7 +187,7 @@ export class BreadcrumbsComponent {
     this.navigationService.getAllSibling('Location', locId)
       .subscribe(response => {
         if (response && response.length > 0) {
-          response = this.getUniqueValues(response);
+          response = VotmCommon.getUniqueValues(response);
           for (let i = 0; i < response.length; i++) {
             if (response[i].id.toLowerCase() === locId.toLowerCase()) {
               this.locBreadcrumbs.push({ name:response[i].name, shortName: this.getShortName(response[i].name), showDots: false, type: 'Location', id: response[i].id, nodes: response, isVisible: true });
@@ -224,7 +217,7 @@ export class BreadcrumbsComponent {
     this.navigationService.getAllSibling('Asset', assetId)
       .subscribe(response => {
         if (response && response.length > 0) {
-          response = this.getUniqueValues(response);
+          response = VotmCommon.getUniqueValues(response);
           for (let i = 0; i < response.length; i++) {
             if (response[i].id.toLowerCase() === assetId.toLowerCase()) {
               this.assetBreadcrumbs.push({name:response[i].name, shortName: this.getShortName(response[i].name), showDots: false, type: 'Asset', id: response[i].id, nodes: response, isVisible: true });
