@@ -122,3 +122,57 @@
     background-color: $green;
   }
  
+
+  .assoc-pane > div.widget-icon-extra-small:before {
+    width: calc(2 * #{$font-size-sm} + 4px);
+    line-height: calc(2 * #{$font-size-sm} + 2px);
+    border-radius: calc(#{$font-size-sm} + 1px);
+    padding-left: calc(2 * #{$font-size-sm} + 2px);
+    background-color: red;
+    border-color: red;
+  }
+
+  .assoc-pane > div.widget-icon-small:before {
+    width: calc(2 * #{$font-size-sm} + 4px);
+    line-height: calc(2 * #{$font-size-sm} + 2px);
+    border-radius: calc(#{$font-size-sm} + 1px);
+    padding-left: calc(2 * #{$font-size-sm} + 2px);
+    background-color: rgb(0, 153, 255);
+    border-color: rgb(0, 153, 255);
+  }
+
+  .assoc-pane > div.widget-icon-medium:before {
+    width: calc(2 * #{$font-size-sm} + 4px);
+    line-height: calc(2 * #{$font-size-sm} + 2px);
+    border-radius: calc(#{$font-size-sm} + 1px);
+    padding-left: calc(2 * #{$font-size-sm} + 2px);
+    background-color: red;
+    border-color: red;
+  }
+
+  .assoc-pane > div.widget-icon-large:before {
+    width: calc(2 * #{$font-size-sm} + 4px);
+    line-height: calc(2 * #{$font-size-sm} + 2px);
+    border-radius: calc(#{$font-size-sm} + 1px);
+    padding-left: calc(2 * #{$font-size-sm} + 2px);
+    background-color: red;
+    border-color: red;
+  }
+
+  .assoc-pane > div.widget-icon-extra-large:before {
+    width: calc(2 * #{$font-size-sm} + 4px);
+    line-height: calc(2 * #{$font-size-sm} + 2px);
+    border-radius: calc(#{$font-size-sm} + 1px);
+    padding-left: calc(2 * #{$font-size-sm} + 2px);
+    background-color: red;
+    border-color: red;
+  }
+
+  .assoc-pane > div.widget-icon-extra-extra-large:before {
+    width: calc(2 * #{$font-size-sm} + 4px);
+    line-height: calc(2 * #{$font-size-sm} + 2px);
+    border-radius: calc(#{$font-size-sm} + 1px);
+    padding-left: calc(2 * #{$font-size-sm} + 2px);
+    background-color: red;
+    border-color: red;
+  }
