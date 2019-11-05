@@ -61,7 +61,7 @@
                     <label class="custom-control-label" for="user_cb_{{userIndex}}"></label>
                   </div>
                 </td>
-                <td>{{user.firstName}}&nbsp;{{user.lastName}}</td>
+                <td><a class="cursor-point" (click)="onClickOfUserDetails(user)">{{user.firstName}}&nbsp;{{user.lastName}}</a></td>
                 <td>{{user.organizationName}}</td>
                 <td>{{user.roleName}}</td>
                 <td>{{user.emailId}}</td>
@@ -72,7 +72,7 @@
                   <a id="user_check_{{userIndex}}" class="mr-2" [title]="user.active ? 'Active' : 'Deactive'" (click)="onClickOfConfirmUserStatus(user)">
                     <i [ngClass]="user.active ? 'fa fa-check-circle' : 'fa fa-ban'" ></i>
                   </a>
-                  <a id="user_edit_{{userIndex}}" title="Edit" class="mr-2"  (click)="onClickOfEditUser(user)">
+                  <a id="user_edit_{{userIndex}}" title="Edit" class="mr-2"  (click)="onClickOfEditUser(user, 'edit')">
                     <i class="icon-edit"></i>
                   </a>
                   <a id="user_delete_{{userIndex}}" title="Delete" (click)="onClickOfConfirmDeleteUser(user)" class="mr-2" >
@@ -231,149 +231,151 @@
     <div class="modal-dialog modal-xl  modal-dialog-centered" *ngIf="userForm" >
       <div class="modal-content" >
         <div class="modal-header">
-          <h5 class="modal-title">{{pageType === 'add' ? 'Add' : (pageType === 'edit' ? 'Edit' : '')}}  &nbsp;User</h5>
+          <h5 class="modal-title">{{pageType === 'add' ? 'Add' : (pageType === 'edit' ? 'Edit' : (pageType === 'view' ? 'View' : ''))}}  &nbsp;User</h5>
           <button type="button" class="close" (click)="onClickOfCloseAddUserModal()">&times;</button>
         </div>
         <div class="modal-body">
           <form [formGroup]="userForm" >
-            <div class="row">
-              <div class="col-12 col-md-12 col-lg-6">
-                <div class="row">
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <label for="user_f_name" votmrequired>First Name</label>
-                      <div class="input-group input-group-sm">
-                        <input type="text" id="user_f_name" class="form-control form-control-sm" placeholder="First Name" formControlName="firstName">
-                        <div class="input-group-append">
-                          <span class="input-group-text"><i class="icon-user-circle-o"></i></span>
+            <fieldset [disabled]="pageType === 'view'">
+              <div class="row">
+                <div class="col-12 col-md-12 col-lg-6">
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="user_f_name" votmrequired>First Name</label>
+                        <div class="input-group input-group-sm">
+                          <input type="text" id="user_f_name" class="form-control form-control-sm" placeholder="First Name" formControlName="firstName">
+                          <div class="input-group-append">
+                            <span class="input-group-text"><i class="icon-user-circle-o"></i></span>
+                          </div>
+
+                        </div>
+
+                        <div *ngIf="userForm.get('firstName').touched && userForm.get('firstName').value === null" >
+                          <app-votm-cloud-validator message="First name is required."></app-votm-cloud-validator>
                         </div>
 
                       </div>
-
-                      <div *ngIf="userForm.get('firstName').touched && userForm.get('firstName').value === null" >
-                        <app-votm-cloud-validator message="First name is required."></app-votm-cloud-validator>
-                      </div>
-
                     </div>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <label for="user_l_name" votmrequired>Last Name</label>
-                      <div class="input-group input-group-sm">
-                        <input type="text" id="user_l_name" class="form-control form-control-sm" placeholder="Last Name" formControlName="lastName">
-                        <div class="input-group-append">
-                          <span class="input-group-text"><i class="icon-user-circle-o"></i></span>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="user_l_name" votmrequired>Last Name</label>
+                        <div class="input-group input-group-sm">
+                          <input type="text" id="user_l_name" class="form-control form-control-sm" placeholder="Last Name" formControlName="lastName">
+                          <div class="input-group-append">
+                            <span class="input-group-text"><i class="icon-user-circle-o"></i></span>
+                          </div>
                         </div>
-                      </div>
 
-                      <div *ngIf="userForm.get('lastName').touched && userForm.get('lastName').value === null" >
-                        <app-votm-cloud-validator message="Last name is required."></app-votm-cloud-validator>
-                      </div>
-
-                    </div>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <label for="user_e_name" votmrequired>Email</label>
-                      <div class="input-group input-group-sm">
-                        <input type="text" id="user_e_name" pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" class="form-control form-control-sm" placeholder="Email" formControlName="emailId">
-                        <div class="input-group-append">
-                          <span class="input-group-text"><i class="fa fa-envelope"></i></span>
+                        <div *ngIf="userForm.get('lastName').touched && userForm.get('lastName').value === null" >
+                          <app-votm-cloud-validator message="Last name is required."></app-votm-cloud-validator>
                         </div>
 
                       </div>
-
-                      <div *ngIf="userForm.get('emailId').touched && userForm.get('emailId').value === null" >
-                        <app-votm-cloud-validator message="Email is required."></app-votm-cloud-validator>
-                      </div>
-                      <div *ngIf="!userForm.get('emailId').valid && userForm.get('emailId').touched && userForm.get('emailId').value !== null">
-                        <app-votm-cloud-validator message="Enter valid email address."></app-votm-cloud-validator>
-                      </div>
-
                     </div>
-                  </div>
-                  <!-- <div class="col-md-6">
-                    <div class="form-group">
-                      <label for="guest_access_user">Guest Access</label>
-                      <select id="guest_access_add_user" class="form-control form-control-sm" >
-                        <option>Quik Coupling Division</option>
-                      </select>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="user_e_name" votmrequired>Email</label>
+                        <div class="input-group input-group-sm">
+                          <input type="text" id="user_e_name" pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" class="form-control form-control-sm" placeholder="Email" formControlName="emailId">
+                          <div class="input-group-append">
+                            <span class="input-group-text"><i class="fa fa-envelope"></i></span>
+                          </div>
+
+                        </div>
+
+                        <div *ngIf="userForm.get('emailId').touched && userForm.get('emailId').value === null" >
+                          <app-votm-cloud-validator message="Email is required."></app-votm-cloud-validator>
+                        </div>
+                        <div *ngIf="!userForm.get('emailId').valid && userForm.get('emailId').touched && userForm.get('emailId').value !== null">
+                          <app-votm-cloud-validator message="Enter valid email address."></app-votm-cloud-validator>
+                        </div>
+
+                      </div>
                     </div>
-                  </div> -->
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <label for="guest_access_user">Phone Number</label>
-                      <div class="input-group input-group-sm">
-                        <input type="text" id="user_phone_number" class="form-control form-control-sm" placeholder="Phone number" formControlName="phoneNumber">
-                        <div class="input-group-append">
-                            <span class="input-group-text"><i class="fa fa-phone"></i></span>
+                    <!-- <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="guest_access_user">Guest Access</label>
+                        <select id="guest_access_add_user" class="form-control form-control-sm" >
+                          <option>Quik Coupling Division</option>
+                        </select>
+                      </div>
+                    </div> -->
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="guest_access_user">Phone Number</label>
+                        <div class="input-group input-group-sm">
+                          <input type="text" id="user_phone_number" class="form-control form-control-sm" placeholder="Phone number" formControlName="phoneNumber">
+                          <div class="input-group-append">
+                              <span class="input-group-text"><i class="fa fa-phone"></i></span>
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <label for="guest_access" votmrequired>Role</label>
-                      <ng-select id="addUserRole" class="custom" formControlName="roleId"
-                          name="addRoleForUser">
-                          <ng-option *ngFor="let role of roles"  [value]="role.roleId">{{role.roleName}}</ng-option>
-                        </ng-select>
-                        <div *ngIf="userForm.get('roleId').touched && userForm.get('roleId').value === null" >
-                          <app-votm-cloud-validator message="Role is required."></app-votm-cloud-validator>
-                        </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="guest_access" votmrequired>Role</label>
+                        <ng-select id="addUserRole" class="custom"  [disabled]="pageType === 'view'" formControlName="roleId"
+                            name="addRoleForUser">
+                            <ng-option *ngFor="let role of roles"  [value]="role.roleId">{{role.roleName}}</ng-option>
+                          </ng-select>
+                          <div *ngIf="userForm.get('roleId').touched && userForm.get('roleId').value === null" >
+                            <app-votm-cloud-validator message="Role is required."></app-votm-cloud-validator>
+                          </div>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-              <div class="col-12 col-md-12 col-lg-6">
-                <fieldset>
-                  <legend>Organizaion Access</legend>
-                  <div class="form-group">
-                    <label for="guest_access" votmrequired>Home Access</label>
-                    <ng-select id="userHomeAccess" class="custom" formControlName="organizationId"
-                      name="addRoleForAccess">
-                      <ng-option *ngFor="let organization of organizations"  [value]="organization.organizationId">{{organization.name}}</ng-option>
-                    </ng-select>
-                    <div *ngIf="userForm.get('organizationId').touched && userForm.get('organizationId').value === null" >
-                      <app-votm-cloud-validator message="Home Access is required."></app-votm-cloud-validator>
+                <div class="col-12 col-md-12 col-lg-6">
+                  <fieldset>
+                    <legend>Organizaion Access</legend>
+                    <div class="form-group">
+                      <label for="guest_access" votmrequired>Home Access</label>
+                      <ng-select id="userHomeAccess" class="custom" formControlName="organizationId" [disabled]="pageType==='view'"
+                        name="addRoleForAccess">
+                        <ng-option *ngFor="let organization of organizations"  [value]="organization.organizationId">{{organization.name}}</ng-option>
+                      </ng-select>
+                      <div *ngIf="userForm.get('organizationId').touched && userForm.get('organizationId').value === null" >
+                        <app-votm-cloud-validator message="Home Access is required."></app-votm-cloud-validator>
+                      </div>
                     </div>
-                  </div>
-                  <div class="form-group">
-                    <label for="guest_access">Guest Access</label>
-                    <table class="table table-bordered table-stripped table-hover table-sm" id="addUserTb">
-                      <thead class="thead-dark">
-                        <tr >
-                          <th>Organization Name</th>
-                          <th>Role</th>
-                          <th class="text-center">Delete</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr  class="text-center" *ngIf="pageType === 'add'" >
-                          <td colspan="3">No data found.</td>
-                        </tr>
-                        <tr  class="text-center" *ngIf="pageType === 'edit' && selectedUserForEdit.userGuestOrganization.length === 0">
+                    <div class="form-group">
+                      <label for="guest_access">Guest Access</label>
+                      <table class="table table-bordered table-stripped table-hover table-sm" id="addUserTb">
+                        <thead class="thead-dark">
+                          <tr >
+                            <th>Organization Name</th>
+                            <th>Role</th>
+                            <th class="text-center">Delete</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr  class="text-center" *ngIf="pageType === 'add'" >
                             <td colspan="3">No data found.</td>
-                        </tr>
-                        <ng-container  *ngIf="pageType === 'edit' && selectedUserForEdit.userGuestOrganization.length > 0">
-                        <tr *ngFor="let guestOrg of selectedUserForEdit.userGuestOrganization; let guestIndex = index;" >
-                          <td> {{guestOrg.organizationName}} </td>
-                          <td> Role </td>
-                          <td  > <a *ngIf="isGetUsersAPILoading" id="user_guest_delete_{{guestIndex}}" class="mr-2" (click)="onClickOfRemoveGuestAccess(guestIndex)"><i class="icon-trash"></i></a> </td>
-                        </tr>
-                        </ng-container>
+                          </tr>
+                          <tr  class="text-center" *ngIf="(pageType === 'edit' || pageType === 'view') && selectedUserForEdit.userGuestOrganization.length === 0">
+                              <td colspan="3">No data found.</td>
+                          </tr>
+                          <ng-container  *ngIf="(pageType === 'edit' || pageType === 'view') && selectedUserForEdit.userGuestOrganization.length > 0">
+                          <tr *ngFor="let guestOrg of selectedUserForEdit.userGuestOrganization; let guestIndex = index;" >
+                            <td> {{guestOrg.organizationName}} </td>
+                            <td> Role </td>
+                            <td  > <a *ngIf="isGetUsersAPILoading" id="user_guest_delete_{{guestIndex}}" class="mr-2" (click)="onClickOfRemoveGuestAccess(guestIndex)"><i class="icon-trash"></i></a> </td>
+                          </tr>
+                          </ng-container>
 
-                      </tbody>
-                    </table>
-                  </div>
-                </fieldset>
+                        </tbody>
+                      </table>
+                    </div>
+                  </fieldset>
+                </div>
               </div>
-            </div>
+            </fieldset>
           </form>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-outline-secondary btn-sm" id="add_user_btncancel" (click)="onClickOfCloseAddUserModal()">Cancel</button>
-          <button type="button" class="btn btn-info btn-sm" id="add_user_btncreate"
+          <button type="button" *ngIf="pageType !== 'view'"  class="btn btn-outline-secondary btn-sm" id="add_user_btncancel" (click)="onClickOfCloseAddUserModal()">Cancel</button>
+          <button type="button" *ngIf="pageType !== 'view'" class="btn btn-info btn-sm" id="add_user_btncreate"
           (click)="onClickOfSubmitUser()"
           [disabled]="(!userForm.valid && (userForm.touched || !userForm.touched)) || isCreateUserAPILoading"
           >{{pageType === 'add' ? 'Create' : 'Update'}} <i *ngIf="isCreateUserAPILoading" class="fa fa-spinner fa-spin fa-fw"></i></button>

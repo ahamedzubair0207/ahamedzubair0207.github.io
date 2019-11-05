@@ -41,6 +41,7 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
 
   public imagePath;
   imgURL: any;
+  imgSize: {width: number, height: number};
   public message: string;
   closeResult: string;
   modal: any;
@@ -285,7 +286,17 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
         }
         if (this.location.logo && this.location.logo.imageName) {
           this.fileExtension = this.location.logo.imageName.slice((Math.max(0, this.location.logo.imageName.lastIndexOf('.')) || Infinity) + 1);
-          this.imgURL = this.domSanitizer.bypassSecurityTrustUrl(`data:image/${this.fileExtension};base64,${this.location.logo.image}`);
+          const base64Img = `data:image/${this.fileExtension};base64,${this.location.logo.image}`
+          this.imgURL = this.domSanitizer.bypassSecurityTrustUrl(base64Img);
+          const img = new Image();
+          img.src = base64Img;
+          img.onload = () => {
+            console.log(img.width, '=====', img.height);
+            this.imgSize = {
+              width: img.width,
+              height: img.height
+            };
+          };
           this.location.logo.imageType = this.fileExtension;
         }
         // if (this.location.geoFenceType === 'bf0bc7b5-1bf8-4a59-a3b5-35904937e89e' && this.location.geoFenceValue.indexOf('undefined') < 0) {
@@ -494,8 +505,8 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
     if (files.length === 0) {
       return;
     }
-
     var mimeType = files[0].type;
+    console.log(files[0]);
     if (mimeType.match(/image\/*/) == null) {
       this.message = 'Only images are supported.';
       return;
@@ -505,7 +516,16 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
     this.imagePath = files;
     readerToPreview.readAsDataURL(files[0]);
     readerToPreview.onload = (_event) => {
-      this.imgURL = this.domSanitizer.bypassSecurityTrustUrl(readerToPreview.result.toString());; //readerToPreview.result;
+      this.imgURL = this.domSanitizer.bypassSecurityTrustUrl(readerToPreview.result.toString()); // readerToPreview.result;
+      const img = new Image();
+      img.src = readerToPreview.result.toString();
+      img.onload = () => {
+        console.log(img.width, '=====', img.height);
+        this.imgSize = {
+          width: img.width,
+          height: img.height
+        };
+      };
     };
   }
 
@@ -526,7 +546,6 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
         console.log('this.organization ', this.location, data);
         this.location.logo.image = base64textString;
       };
-
       this.location.logo = new Logo();
       this.location.logo.imageName = file.name;
       this.location.logo.imageType = file.type;
@@ -772,6 +791,7 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
       this.route.navigate([`loc/${event}/${this.curOrgId}/${this.curOrgName}/${this.location.locationId}`]);
     }
   }
+
 
 
   // getGeoLocation(address: string): Observable<any> {

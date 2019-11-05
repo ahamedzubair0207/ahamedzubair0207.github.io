@@ -126,6 +126,10 @@ export class VotmCloudAdminUserManagementComponent implements OnInit, OnDestroy 
     };
   }
 
+  onClickOfUserDetails(user) {
+    this.onClickOfEditUser(user, 'view');
+  }
+
   onClickOfCloseAddUserModal() {
     this.userModal.style.display = 'none';
     this.userForm = undefined;
@@ -225,8 +229,8 @@ export class VotmCloudAdminUserManagementComponent implements OnInit, OnDestroy 
     this.customizePermissionsModal.style.display = 'none';
   }
 
-  onClickOfEditUser(user) {
-    this.pageType = 'edit';
+  onClickOfEditUser(user, type) {
+    this.pageType = type;
     this.userService.getUserDetail(user.userId).subscribe(
       response => {
         this.selectedUserForEdit = response;
@@ -252,7 +256,7 @@ export class VotmCloudAdminUserManagementComponent implements OnInit, OnDestroy 
         };
       }, error => {
         if (!user.status) {
-          this.toaster.onFailure('Edit functionality is not available for Deactivated user.', 'Association');
+          this.toaster.onFailure(type + ' functionality is not available for Deactivated user.', 'Association');
         }
       }
     );

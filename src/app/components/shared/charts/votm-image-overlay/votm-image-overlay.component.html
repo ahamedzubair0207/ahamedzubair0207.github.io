@@ -1,21 +1,20 @@
 <div class="p-2 border">
-    <div class="text-right chartConfigureIcon"><i class="icon-cog font-15" (click)="onClickOfCustomizeImageOverlay()"></i></div>
+    <div class="text-right chartConfigureIcon"><i class="icon-cog font-15"
+            (click)="onClickOfCustomizeImageOverlay()"></i></div>
     <div class="text-center" *ngIf="!isImageOverlayConfigured">
         <img class="img-fluid" src="../../../../assets/images/configure_image_overlay_widget.jpg">
     </div>
-    <div *ngIf="isImageOverlayConfigured" id="{{ 'image-overlay' + id }}" style="width: 100%;">
+    <div *ngIf="isImageOverlayConfigured" id="{{ 'image-overlay' + id }}" style="width: 100%; height: 350px;">
         <div class="h-100 assoc-pane">
-            <img src="../../../../assets/images/AssemblyLayout2.jpg" class="assoc-img" />
-            <div
-              id="sig_{{i}}"
-              *ngFor="let item of associatedSignals; let i = index;"
-              [ngClass]="item.icon"
-              [ngStyle]="getPositionStyle(item)"
-            >
-              {{item.associationName}}
+            <!-- <img src="../../../../assets/images/AssemblyLayout2.jpg" class="assoc-img" /> -->
+            <img *ngIf="widgetimgURL" [src]="widgetimgURL" class="assoc-img" />
+            
+            <div id="sig_{{i}}" *ngFor="let item of associatedSignals; let i = index;" [ngClass]="item.icon"
+                [ngStyle]="getPositionStyle(item)">
+                {{item.associationName}}
             </div>
 
-          </div>
+        </div>
     </div>
 </div>
 
@@ -23,124 +22,119 @@
 <div id="configure-image-overlay-modal" class="modal">
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Image Overlay Configuration</h5>
-                <button type="button" class="close" (click)="onClickOfCustomizeImageOverlayModalClose()">&times;</button>
-            </div>
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-3">
-                        <div class="form-group">
-                            <label for="">Title:</label>
-                            <input class="form-control form-control-sm" type="text" placeholder=""/>
+            <form name="dashBoardConfigurationForm" #dashBoardConfigurationForm="ngForm"
+                (ngSubmit)="saveImageOverlayConfiguration()">
+                <div class="modal-header">
+                    <h5 class="modal-title">Image Overlay Configuration</h5>
+                    <button type="button" class="close"
+                        (click)="onClickOfCustomizeImageOverlayModalClose()">&times;</button>
+                </div>
+                <div class="modal-body">
+
+                    <div class="row">
+                        <div class="col-3">
+                            <div class="form-group">
+                                <label for="">Title:</label>
+                                <input class="form-control form-control-sm" type="text" name="widgetTitle"
+                                    [(ngModel)]="widgetTitle" placeholder="" />
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="form-group">
+                                <label for="">Overlay Source:</label>
+                                <div class="">
+                                    <ng-select id="imageSource" name="imageSource" labelForId="imageSource"
+                                        class="custom" [multiple]="false" [(ngModel)]="overLaySource" placeholder="Choose Source" (change)="onChangeOverlaySource($event)">
+                                        <ng-option value="location">Location</ng-option>
+                                        <ng-option value="asset">Asset</ng-option>
+                                        <ng-option value="custom">Custom</ng-option>
+                                    </ng-select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-3 d-none" id="locationsList">
+                            <div class="form-group">
+                                <label for="widgetlocImageID">Location</label>
+                                <div class="">
+                                    <ng-select id="widgetlocImageID" name="widgetlocImageID" labelForId="widgetlocImageID"
+                                        class="custom" [multiple]="false" [(ngModel)]="widgetlocImageID"
+                                        placeholder="Choose Location">
+                                        <ng-option *ngFor="let locationChild of LocationSourceChild" [value]="locationChild.data.id">{{locationChild.data.name}}</ng-option>
+                                    </ng-select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-3 d-none" id="assetsList">
+                            <div class="form-group">
+                                <label for="">Asset</label>
+                                <div class="">
+                                    <ng-select id="widgetassetimageID" name="widgetassetimageID" labelForId="widgetassetimageID" class="custom"
+                                        [multiple]="false" [(ngModel)]="widgetassetimageID" placeholder="Choose Asset">
+                                        <ng-option *ngFor="let assetsChild of assetsSourceChild" [value]="assetsChild.data.id">{{assetsChild.data.name}}</ng-option>
+                                    </ng-select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="form-group">
+                                <label for="">Icon Display Size</label>
+                                <div class="">
+                                    <ng-select id="iconSize" name="iconSize" labelForId="iconSize" class="custom"
+                                        [multiple]="false" [(ngModel)]="iconSize" placeholder="Choose Size">
+                                        <ng-option value="widget-icon-extra-small">X-S</ng-option>
+                                        <ng-option value="widget-icon-small">S</ng-option>
+                                        <ng-option value="widget-icon-medium">M</ng-option>
+                                        <ng-option value="widget-icon-large">L</ng-option>
+                                        <ng-option value="widget-icon-extra-large">XL</ng-option>
+                                        <ng-option value="widget-icon-extra-extra-large">XXL</ng-option>
+                                    </ng-select>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-3">
-                        <div class="form-group">
-                            <label for="">Overlay Source:</label>
-                            <div class="">
-                                <ng-select id="imageSource" name= "imageSource"
-                                labelForId="imageSource" 
-                                class="custom" 
-                                [multiple]="false" 
-                                [(ngModel)]="overLaySource"
-                                placeholder="Choose Source"
-                                (change)="onChangeOverlaySource($event)">
-                                  <ng-option value="location">Location</ng-option>
-                                  <ng-option value="asset">Asset</ng-option>
-                                </ng-select>
-                                </div>
+                    <div class="row d-none" id="overlaySourceLocation">
+                        <div class="col-4">
+                            <div class="custom-control custom-switch">
+                                <input type="checkbox" class="custom-control-input" id="locSignal" name="locSignal">
+                                <label class="custom-control-label" for="locSignal" id="locSignalLbl">Show Location
+                                    Signals?</label>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="custom-control custom-switch">
+                                <input type="checkbox" class="custom-control-input" id="assetLocAssociated"
+                                    name="assetLocAssociated">
+                                <label class="custom-control-label" for="assetLocAssociated"
+                                    id="assetLocAssociatedLbl">Show Assets?</label>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-3 d-none" id="locationsList">
-                        <div class="form-group">
-                            <label for="">Location</label>
-                            <div class="">
-                                <ng-select id="locImage" name= "locImage"
-                                labelForId="locImage" 
-                                class="custom"
-                                [multiple]="false"  
-                                [(ngModel)]="locImage"
-                                placeholder="Choose Location">
-                                  <ng-option value="GrantsBurg">GrantsBurg</ng-option>
-                                  <ng-option value="Chetek Plant">Chetek Plant</ng-option>
-                                  <ng-option value="Golden Valley">Golden Valley</ng-option>
-                                </ng-select>
-                                </div>
+                    <div class="row d-none" id="overlaySourceAsset">
+                        <div class="col-4">
+                            <div class="custom-control custom-switch">
+                                <input type="checkbox" class="custom-control-input" id="locAssetSignal"
+                                    name="locAssetSignal">
+                                <label class="custom-control-label" for="locAssetSignal" id="locAssetSignalLbl">Show
+                                    asset signals?</label>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-3 d-none" id="assetsList">
-                        <div class="form-group">
-                            <label for="">Asset</label>
-                            <div class="">
-                                <ng-select id="asset" name= "asset"
-                                labelForId="asset" 
-                                class="custom"
-                                [multiple]="false"  
-                                [(ngModel)]="asset"
-                                placeholder="Choose Asset">
-                                  <ng-option value="child asset">Child Asset</ng-option>
-                                </ng-select>
-                                </div>
-                        </div>
-                    </div>
-                    <div class="col-3">
-                        <div class="form-group">
-                            <label for="">Icon Display Size</label>
-                            <div class="">
-                                <ng-select id="iconSize" name= "iconSize"
-                                labelForId="iconSize" 
-                                class="custom" 
-                                [multiple]="false" 
-                                [(ngModel)]="iconSize"
-                                placeholder="Choose Size">
-                                  <ng-option value="extra-small">X-S</ng-option>
-                                  <ng-option value="small">S</ng-option>
-                                  <ng-option value="medium">M</ng-option>
-                                  <ng-option value="large">L</ng-option>
-                                  <ng-option value="extra-large">XL</ng-option>
-                                  <ng-option value="extra-extra-large">XXL</ng-option>
-                                </ng-select>
-                                </div>
+                        <div class="col-4">
+                            <div class="custom-control custom-switch">
+                                <input type="checkbox" class="custom-control-input" id="childassetLocAssociated">
+                                <label class="custom-control-label" for="childassetLocAssociated"
+                                    id="childassetLocAssociatedLbl">Show Child Assets?</label>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="row d-none" id="overlaySourceLocation">
-                    <div class="col-4">
-                    <div class="custom-control custom-switch">
-                        <input type="checkbox" class="custom-control-input" id="locSignal">
-                        <label class="custom-control-label" for="locSignal" id="locSignalLbl">Show Location Signals?</label>
-                      </div>
-                    </div>
-                      <div class="col-4">
-                      <div class="custom-control custom-switch">
-                          <input type="checkbox" class="custom-control-input" id="assetLocAssociated">
-                          <label class="custom-control-label" for="assetLocAssociated" id="assetLocAssociatedLbl">Show Assets?</label>
-                        </div>
-                      </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary btn-sm" id="imageOverlayCancelBtn"
+                        (click)="onClickOfCustomizeImageOverlayModalClose()">Cancel</button>
+                    <button type="submit" class="btn btn-info btn-sm" id="configSave">
+                        Save
+                    </button>
                 </div>
-                <div class="row d-none" id="overlaySourceAsset">
-                    <div class="col-4">
-                    <div class="custom-control custom-switch">
-                        <input type="checkbox" class="custom-control-input" id="locAssetSignal">
-                        <label class="custom-control-label" for="locAssetSignal" id="locAssetSignalLbl">Show asset signals?</label>
-                      </div>
-                    </div>
-                      <div class="col-4">
-                      <div class="custom-control custom-switch">
-                          <input type="checkbox" class="custom-control-input" id="childassetLocAssociated">
-                          <label class="custom-control-label" for="childassetLocAssociated" id="childassetLocAssociatedLbl">Show Child Assets?</label>
-                        </div>
-                      </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-outline-secondary btn-sm" id="imageOverlayCancelBtn"
-                    (click)="onClickOfCustomizeImageOverlayModalClose()">Cancel</button>
-                <button type="button" class="btn btn-info btn-sm" id="" (click)="saveImageOverlayConfiguration()">
-                    Save
-                </button>
-            </div>
+            </form>
         </div>
     </div>
 </div>

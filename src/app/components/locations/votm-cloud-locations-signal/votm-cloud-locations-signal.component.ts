@@ -21,7 +21,6 @@ export class VotmCloudLocationsSignalComponent implements OnInit {
 
 
   modal: any;
-
   locationId: string; // to store selected location's id.
   organizationId: string; // to store selected organization's id
   availableSignals: any[] = []; // to store list of available signals based on sensors.
@@ -47,10 +46,20 @@ export class VotmCloudLocationsSignalComponent implements OnInit {
   sensors = [];
   derivedSignals: any = [];
   showAssoc = true;
-  showUnassoc = true;
+  showUnassoc = false;
   draggingSensorIx: number = null;
   draggingSignalIx: number = null;
   grabOffset: any = null;
+  pageType = 'view';
+  disable = true;
+  disabled = (this.disable) ? '' : null;
+  @ViewChild('locationImage', { static: false }) elLocImg: ElementRef;
+  imgOffsetLeft = null;
+  imgOffsetTop = null;
+  imgParentWidth = null;
+  imgParentHeight = null;
+  imgSourceHeight = null;
+  imgSourceWidth = null;
   constructor(
     private activatedRoute: ActivatedRoute,
     private route: Router,
@@ -75,6 +84,10 @@ export class VotmCloudLocationsSignalComponent implements OnInit {
       this.getLocationSignalAssociation();
       this.getAlertRulesList();
     });
+    this.pageType = this.activatedRoute.snapshot.data['type'];
+    if (this.pageType.toLowerCase() === 'edit') {
+      this.toggleDisable();
+    }
   }
 
   getAlertRulesList() {
@@ -142,7 +155,6 @@ export class VotmCloudLocationsSignalComponent implements OnInit {
         });
   }
 
-
   getLocationSignalAssociation() {
     this.isGetAssociatedSignalsAPILoading = true;
     this.locationSignalService.getSignalAssociation(this.locationId)
@@ -161,6 +173,7 @@ export class VotmCloudLocationsSignalComponent implements OnInit {
             signal.icon = 'icon-sig-humidity';
             signal.associated = true;
             signal.id = i;
+            signal.bound = true;
           }
           this.associatedSignals = [...response];
         },
@@ -168,6 +181,43 @@ export class VotmCloudLocationsSignalComponent implements OnInit {
           this.isGetAssociatedSignalsAPILoading = false;
         }
       );
+  }
+
+  toggleDisable() {
+    this.disable = !this.disable;
+    this.disabled = (this.disable) ? "" : null;
+    this.showUnassoc = !this.disable;
+  }
+
+  onLoadLocImg() {
+    const el = this.elLocImg.nativeElement;
+    const imgType = el.currentSrc.split(/\#|\?/)[0].split('.').pop().trim();
+    this.imgOffsetLeft = el.offsetLeft;
+    this.imgOffsetTop = el.offsetTop;
+    this.imgParentHeight = el.offsetParent.offsetHeight;
+    this.imgParentWidth = el.offsetParent.offsetWidth;
+    if (imgType !== 'svg') {
+      this.imgSourceHeight = el.naturalHeight;
+      this.imgSourceWidth = el.naturalWidth;
+    } else {
+      this.imgSourceWidth = 5000;
+      this.imgSourceHeight = (5000.0 * parseFloat(el.naturalHeight) / parseFloat(el.naturalWidth)).toFixed(0);
+    }
+  }
+
+  getOriginPos() {
+    const style = {
+      left: 'calc(' + (100 * this.imgOffsetLeft / this.imgParentWidth) + '% + 1px)',
+      top: (100 * this.imgOffsetTop / this.imgParentHeight) + '%'
+    };
+    return style;
+  }
+  getExtentPos() {
+    const style = {
+      right: 'calc(' + (100 * this.imgOffsetLeft / this.imgParentWidth) + '% + 1px)',
+      bottom: (100 * this.imgOffsetTop / this.imgParentHeight) + '%'
+    };
+    return style;
   }
 
   showSignal(signal: any): boolean {
@@ -183,18 +233,15 @@ export class VotmCloudLocationsSignalComponent implements OnInit {
   }
 
   addDerived() {
-    const newSignal = { signalName: 'My Derived Signal', associationName: 'My Derived Signal',
-      icon: 'icon-sig-function', associated: true, derived: true, isClicked: false};
+    const newSignal = { signalName: 'My Derived Signal', associationName: 'My Derived Signal', bound: true,
+      icon: 'icon-sig-function', associated: true, derived: true, isClicked: false, derivedSigid: this.derivedSignals.length};
     this.derivedSignals.push(newSignal);
     // tslint:disable-next-line: no-string-literal
     newSignal['id'] = this.associatedSignals.length;
     // tslint:disable-next-line: no-string-literal
     newSignal['pos'] = { left: 1, top: 1 };
     this.associatedSignals.push(newSignal);
-    $('#derivedSignalModal').modal({
-      backdrop: 'static',
-      keyboard: false
-    });
+    $('#derivedSignalModal').modal('hide');
   }
 
   onStart(event: any, index1, index2) {
@@ -210,7 +257,12 @@ export class VotmCloudLocationsSignalComponent implements OnInit {
   }
 
   onDrop(event: any) {
+    let pos = {
+      left: event.event.offsetX - this.grabOffset.x + 16,
+      top: event.event.offsetY - this.grabOffset.y + 16
+    };
 
+    event.data.pixelPos = pos;
     event.data.pos = {
       left: (((event.event.layerX - this.grabOffset.x + 16) / event.event.srcElement.offsetParent.offsetWidth) * 100.0).toFixed(2),
       top: (((event.event.layerY - this.grabOffset.y + 16) / event.event.srcElement.offsetParent.offsetHeight) * 100.0).toFixed(2)
@@ -222,11 +274,13 @@ export class VotmCloudLocationsSignalComponent implements OnInit {
       event.data.associated = true;
       event.data.id = this.associatedSignals.length;
       event.data.isClicked = false;
+      event.data.bound = true;
       this.associatedSignals.push(event.data);
       this.sensors[this.draggingSensorIx].node[this.draggingSignalIx].associated = true;
     } else {
       let id = this.associatedSignals.findIndex(signal => signal.id === event.data.id);
       this.associatedSignals[id]['pos'] = event.data.pos;
+      this.associatedSignals[id]['pixelPos'] = event.data.pixelPos;
     }
     this.closeAllIconsDisplay();
     const index = this.associatedSignals.findIndex(signal => signal.id === event.data.id);
@@ -243,6 +297,14 @@ export class VotmCloudLocationsSignalComponent implements OnInit {
 
     console.log(this.associatedSignals);
   }
+
+  // getPositionStyle(signal) {
+  //   const style = {
+  //     left: 'calc(' + signal.pos.left + '% - 16px)',
+  //     top: 'calc(' + signal.pos.top + '% - 16px)'
+  //   };
+  //   return style;
+  // }
 
   getPositionStyle(signal) {
     const style = {
@@ -327,20 +389,30 @@ export class VotmCloudLocationsSignalComponent implements OnInit {
       this.locationSignalService.detachSignalAssociation(this.selectedSignal.signalMappingId).subscribe(
         response => {
           this.sensors = [];
+          this.selectedSignal = undefined;
+          this.derivedSignals = [];
           this.toaster.onSuccess('Signal detached successfully', 'Detached');
           this.getLocationSignalAssociation();
+          this.toggleDisable();
         }
       );
     } else {
-      for (const sensor of this.sensors) {
-        for (const signal of sensor.node) {
-          if (signal.signalId === this.associatedSignals[index].signalId &&
-          signal.sensorId === this.associatedSignals[index].sensorId) {
-            signal.associated = false;
+      if (this.selectedSignal.derived) {
+        const ix = this.derivedSignals.findIndex(derivedSignal => derivedSignal.derivedSigid === this.selectedSignal.derivedSigid);
+        this.derivedSignals.splice(ix, 1);
+        this.associatedSignals.splice(index, 1);
+      } else {
+        for (const sensor of this.sensors) {
+          for (const signal of sensor.node) {
+            if (signal.signalId === this.associatedSignals[index].signalId &&
+            signal.sensorId === this.associatedSignals[index].sensorId) {
+              signal.associated = false;
+            }
           }
         }
+        this.associatedSignals.splice(index, 1);
       }
-      this.associatedSignals.splice(index, 1);
+
     }
   }
 
@@ -410,8 +482,10 @@ export class VotmCloudLocationsSignalComponent implements OnInit {
           console.log(response);
           this.sensors = [];
           this.selectedSignal = undefined;
+          this.derivedSignals = [];
           this.toaster.onSuccess('Signal associated successfully', 'Saved');
           this.getLocationSignalAssociation();
+          this.toggleDisable();
           this.isSignalAssociationAPILoading = false;
 
         }, error => {
@@ -419,6 +493,14 @@ export class VotmCloudLocationsSignalComponent implements OnInit {
           this.isSignalAssociationAPILoading = false;
         }
       );
+  }
+
+  onClickOfReset() {
+    this.sensors = [];
+    this.selectedSignal = undefined;
+    this.derivedSignals = [];
+    this.getLocationSignalAssociation();
+    this.toggleDisable();
   }
 
   // end

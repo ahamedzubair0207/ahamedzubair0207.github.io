@@ -265,6 +265,7 @@ export class VotmCloudPreferencesComponent implements OnInit, AfterViewInit {
         response => {
           this.toaster.onSuccess('Favorite Successfully deleted.', 'Deleted');
           this.getUserDetailInfo();
+          this.sharedService.getFavorites(); // get favorites for side bar menu
           this.selectedUserFavoriteForDelete = undefined;
         }, error => {
           this.toaster.onFailure('Error while deleting favorites.', 'Deleted');
