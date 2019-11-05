@@ -510,9 +510,9 @@
                         <!-- <ng-select [disabled]="pageType === 'View'"
                                           class="custom" name="GatewayList"
                                           (valueChanged)="onItemSelect($event)" id="locDtlGeoClaimedGateway"
-                                          [items]="gatewayList" [multiple]="true" 
+                                          [items]="gatewayList" [multiple]="true"
                                           (onSelect)="onItemSelect($event)" (onSelectAll)="onSelectAll($event)"
-                                          [closeOnSelect]="false" 
+                                          [closeOnSelect]="false"
                                           [searchable]="false" bindLabel="gateways"
                                           placeholder="Select Gateways" [(ngModel)]="selectedItems">
                                           <ng-option value="null" disabled selected>Gateway</ng-option>
@@ -566,7 +566,9 @@
                   </div>
                   <!-- logo preview -->
                   <div class="form-group">
-                    <label for="logopreview">Image Preview</label>
+                    <label for="logopreview">Image Preview
+                      <i *ngIf="imgSize" >(Width: {{imgSize.width}}px, Height: {{imgSize.height}}px)</i>
+                    </label>
                     <span class="form-control logo-preview">
                       <img [src]="imgURL" class="img-fluid img-fluid-custom" *ngIf="imgURL">
                     </span>
@@ -627,6 +629,7 @@
 
           <!-- Location Signal & Gateways  -->
           <div class="tab-pane fade" id="loc-signal" role="tabpanle" area-labelledby="loc-signal-tab">
+
             <div class="nav nav-tabs" role="tablist">
               <ul class="nav nav-tabs">
                 <li class="nav-item">

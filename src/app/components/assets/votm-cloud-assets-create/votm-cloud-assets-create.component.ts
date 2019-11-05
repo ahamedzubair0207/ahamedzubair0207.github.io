@@ -96,6 +96,7 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
     y: 0
   };
   assetRemoveMessage: string;
+  imgSize: {width: number, height: number};
   constructor(
     private modalService: NgbModal,
     private assetService: AssetsService,
@@ -160,7 +161,17 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
           this.asset.parentAssetName = this.parentAssetName;
           if (this.asset.logo && this.asset.logo.imageName) {
             this.fileExtension = this.asset.logo.imageName.slice((Math.max(0, this.asset.logo.imageName.lastIndexOf(".")) || Infinity) + 1);
-            this.imgURL = this.domSanitizer.bypassSecurityTrustUrl(`data:image/${this.fileExtension};base64,${this.asset.logo.image}`);
+            const base64Img = `data:image/${this.fileExtension};base64,${this.asset.logo.image}`;
+            this.imgURL = this.domSanitizer.bypassSecurityTrustUrl(base64Img);
+            const img = new Image();
+            img.src = base64Img;
+            img.onload = () => {
+              console.log(img.width, '=====', img.height);
+              this.imgSize = {
+                width: img.width,
+                height: img.height
+              };
+            };
             this.asset.logo.imageType = this.fileExtension;
           }
 
@@ -324,6 +335,15 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
     readerToPreview.readAsDataURL(file);
     readerToPreview.onload = (_event) => {
       this.imgURL = this.domSanitizer.bypassSecurityTrustUrl(readerToPreview.result.toString()); //readerToPreview.result;
+      const img = new Image();
+      img.src = readerToPreview.result.toString();
+      img.onload = () => {
+        console.log(img.width, '=====', img.height);
+        this.imgSize = {
+          width: img.width,
+          height: img.height
+        };
+      };
     };
   }
 
@@ -812,6 +832,7 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
     this.assetForm.resetForm();
     setTimeout(() => {
       this.imgURL = null;
+      this.imgSize = undefined;
       this.imagePath = null;
       if (this.locationImage && this.locationImage.nativeElement) {
         this.locationImage.nativeElement.value = '';
@@ -853,7 +874,17 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
         };
         if (selectedTemplate.logo && selectedTemplate.logo.imageName) {
           this.fileExtension = selectedTemplate.logo.imageName.slice((Math.max(0, selectedTemplate.logo.imageName.lastIndexOf(".")) || Infinity) + 1);
-          this.imgURL = this.domSanitizer.bypassSecurityTrustUrl(`data:image/${this.fileExtension};base64,${selectedTemplate.logo.image}`);
+          const base64Img = `data:image/${this.fileExtension};base64,${selectedTemplate.logo.image}`;
+          this.imgURL = this.domSanitizer.bypassSecurityTrustUrl(base64Img);
+          const img = new Image();
+          img.src = base64Img;
+          img.onload = () => {
+            console.log(img.width, '=====', img.height);
+            this.imgSize = {
+              width: img.width,
+              height: img.height
+            };
+          };
           selectedTemplate.logo.imageType = this.fileExtension;
         }
 
@@ -1018,6 +1049,7 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
       // this.asset.documentationUrl = this.previousAsset.documentationUrl;
       this.acceptedTemplateChages = true;
       this.imgURL = null;
+      this.imgSize = undefined;
       if (this.locationImage && this.locationImage.nativeElement) {
         this.locationImage.nativeElement.value = '';
       }

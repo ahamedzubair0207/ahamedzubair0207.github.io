@@ -1,21 +1,23 @@
 
 @import "../../../../styles/_functions.scss", "../../../../styles/_variables.scss";
 
-.has-search .form-control {
-  padding-left: calc(1.5 * #{$font-size-base} + 2 * #{$input-btn-padding-x});
-}
 
-.has-search .form-control-feedback {
-  position: absolute;
-  z-index: 2;
-  display: block;
-  text-align: center;
-  pointer-events: none;
-  color: $gray-500;
-  padding: calc(#{$input-btn-padding-y} + 1px) $input-btn-padding-x;
-}
-.has-search .form-control-feedback:before {
-  text-shadow: none;
+.has-search {
+  .form-control {
+    padding-left: calc(1.5 * #{$font-size-base} + 2 * #{$input-btn-padding-x});
+  }
+  .form-control-feedback {
+    position: absolute;
+    z-index: 2;
+    display: block;
+    text-align: center;
+    pointer-events: none;
+    color: $gray-500;
+    padding: calc(#{$input-btn-padding-y} + 1px) $input-btn-padding-x;
+    &:before {
+      text-shadow: none;
+    }
+  }
 }
 
 .sensor-list {
@@ -23,55 +25,50 @@
   padding-left: 0;
   max-height: 100%;
   overflow-y: auto;
-}
-.sensor-list > div {
-  white-space: nowrap;
   line-height: calc(2 * #{$font-size-base} + 4px);
+  user-select: none;
+  position: relative;
   font-weight: bold;
-  text-align: left;
-  text-overflow: ellipsis;
-  z-index: 5;
-  background-color: $gray-300;
-  list-style-type: none;
-  position: relative;
-  overflow: hidden;
-  user-select: none;
+  > .sensor-item {
+    white-space: nowrap;
+    text-align: left;
+    text-overflow: ellipsis;
+    background-color: $gray-300;
+    list-style-type: none;
+    overflow: hidden;
+    &:before {
+      position: relative;
+      width: 30px;
+      margin: 0;
+    }
+  }
+  > .derived {
+    background-color: $gray-300;
+    > span {
+      white-space: nowrap;
+      text-align: left;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      padding-right: calc(1.5 * #{$font-size-base} + 2 * #{$input-btn-padding-x});
+      display: block;
+      &:before {
+        position: relative;
+        width: 30px;
+        margin: 0;
+      }
+    }
+    > button {
+      line-height: calc(2 * #{$font-size-base} + 2px);
+      padding-top: 0;
+      padding-bottom: 0;
+      position: absolute;
+      right: 0;
+      top: 0;
+    }
+  }
 }
 
-.sensor-list > div:before,
-.sensor-list > div.derived > span:before {
-  position: relative;
-  width: 30px;
-  margin: 0;
-}
-
-.sensor-list > div.derived > span {
-  white-space: nowrap;
-  text-align: left;
-  text-overflow: ellipsis;
-  overflow: hidden;
-  user-select: none;
-  padding-right: calc(1.5 * #{$font-size-base} + 2 * #{$input-btn-padding-x});
-  display: block;
-}
-
-.sensor-list > div.derived > button {
-  line-height: calc(2 * #{$font-size-base} + 2px);
-  padding-top: 0;
-  padding-bottom: 0;
-  position: absolute;
-  right: 0;
-  top: 0;
-}
-
-.signal-list {
-  background-color: $gray-100;
-  padding: calc(#{$spacer} * 0.5);
-  border-bottom: 1px solid $gray-400;
-}
-
-.signal-list > div,
-.assoc-pane > div {
+.signal-item {
   position: relative;
   line-height: calc(2 * #{$font-size-base} + 2px);
   text-shadow: none;
@@ -91,42 +88,37 @@
   padding-right: 0;
   user-select: none;
   cursor: move;
+  &:before {
+    position: absolute;
+    left: -1px;
+    top: -1px;
+    width: calc(2 * #{$font-size-base} + 4px);
+    line-height: calc(2 * #{$font-size-base} + 2px);
+    background-color: $gray-300;
+    border: 1px solid $gray-300;
+    border-radius: calc(#{$font-size-base} + 1px);
+    margin: 0;
+  }
 }
 
-.signal-list > div:not(:first-child) {
-  margin-top: calc(#{$spacer} * 0.5);
-}
-
-.signal-list > div.assoc {
-  border-color: $primary;
-}
-
-.signal-list > div.assoc:before {
-  border-color: $primary;
-  background-color: $primary;
-  color: #ffffff;
-}
-
-.signal-list > div:before,
-.assoc-pane > div:before {
-  position: absolute;
-  left: -1px;
-  top: -1px;
-  width: calc(2 * #{$font-size-base} + 4px);
-  line-height: calc(2 * #{$font-size-base} + 2px);
-  background-color: $gray-300;
-  border: 1px solid $gray-300;
-  border-radius: calc(#{$font-size-base} + 1px);
-  margin: 0;
-}
-
-.assoc-pane {
-  position: relative;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
+.signal-list {
   background-color: $gray-100;
+  padding: calc(#{$spacer} * 0.5);
+  border-bottom: 1px solid $gray-400;
+  > .signal-item {
+    &:not(:first-child) {
+      margin-top: calc(#{$spacer} * 0.5);
+    }
+    &.assoc {
+      border-color: $primary;
+      cursor: default;
+      &:before {
+        border-color: $primary;
+        background-color: $primary;
+        color: #ffffff;
+      }
+    }
+  }
 }
 
 .assoc-img {
@@ -137,31 +129,55 @@
   background-color: $white;
 }
 
-.assoc-pane > div {
-  border-top-right-radius: calc(#{$font-size-base} + 1px) !important;
-  border-bottom-right-radius: calc(#{$font-size-base} + 1px) !important;
-  display: inline-block !important;
-  width: 0;
-  padding-right: 0;
-  padding-left: calc(2 * #{$font-size-base} + 2px);
-  position: absolute;
-  border-color: $primary;
-}
-.assoc-pane > div:hover {
-  padding-right: calc(#{$font-size-base} / 2 + #{$input-btn-padding-x}) !important;
-  padding-left: calc(2 * #{$font-size-base} + 2px + #{$input-btn-padding-x});
-  width: auto !important;
-}
+.assoc-pane {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  background-color: $gray-100;
+  > .signal-item {
+    border-top-right-radius: calc(#{$font-size-base} + 1px) !important;
+    border-bottom-right-radius: calc(#{$font-size-base} + 1px) !important;
+    display: inline-block !important;
+    width: 0;
+    padding-right: 0;
+    padding-left: calc(2 * #{$font-size-base} + 2px);
+    position: absolute;
+    border-color: $primary;
+    &.active {
+      padding-right: calc(#{$font-size-base} / 2 + #{$input-btn-padding-x});
+      padding-left: calc(2 * #{$font-size-base} + 2px + #{$input-btn-padding-x});
+      width: auto;
+      z-index: 1070;
+    }
+    &:hover {
+      padding-right: calc(#{$font-size-base} / 2 + #{$input-btn-padding-x});
+      padding-left: calc(2 * #{$font-size-base} + 2px + #{$input-btn-padding-x});
+      width: auto;
+      z-index: 1070;
+    }
 
-.assoc-pane > div.active {
-  padding-right: calc(#{$font-size-base} / 2 + #{$input-btn-padding-x}) !important;
-  padding-left: calc(2 * #{$font-size-base} + 2px + #{$input-btn-padding-x});
-  width: auto !important;
-}
-
-.assoc-pane > div:before {
-  color: $white;
-  background-color: $primary;
+    &:before {
+      color: $white;
+      background-color: $primary;
+      border-color: $primary;
+    }
+    &.unbound {
+      border-style: dashed;
+      &:before {
+        color: $primary;
+        background-color: $white;
+        border-style: dashed;
+      }
+    }
+    &.locked {
+      cursor: default;
+    }
+    > i {
+      cursor: pointer;
+    }
+  }
 }
 
 div.dndDragging {
@@ -169,12 +185,26 @@ div.dndDragging {
   opacity: 0.75 !important;
   border-color: transparent !important;
   background-color: transparent !important;
+  width: 0 !important;
+  padding-right: 0 !important;
+  padding-left: calc(2 * #{$font-size-base} + 2px) !important;
+  &:before {
+    content: "\f140";
+    color: red !important;
+    background-color: transparent !important;
+    border-color: transparent !important;
+  }
+  > i {
+    display: none;
+  }
 }
-div.dndDragging:before {
-  content: "\f140";
-  color: red !important;
-  background-color: transparent !important;
-  border-color: transparent !important;
+
+span.loc-origin,
+span.loc-extent {
+  position: absolute;
+  background-color: rgba(255, 255, 255, 0.33);
+  color: red;
+  font-size: x-small;
 }
 
 
@@ -204,4 +234,14 @@ body .ui-overlaypanel {
   line-height: 1.5;
   border-radius: .2rem;
   min-height: 28px;
+}
+
+
+.edit-view-lock{
+  float: right;
+  font-size: 18px;
+  color:  #02b3bf;
+  margin-left: auto;
+  // margin-top: 4px;
+
 }
