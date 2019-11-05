@@ -142,7 +142,7 @@
           [routerLink]="['/org/edit',curOrgId, curOrgName, rowData.id]">
           <i class="icon-edit"></i>
         </a>
-        <a class="action-icon" container="body" ngbTooltip="Delete"
+        <a class="action-icon" container="body" ngbTooltip="Delete" *ngIf="rowData.id.toUpperCase() !== curOrgId.toUpperCase()"
           (click)="openConfirmDialog(rowData.id, rowData.name)" title="Delete">
           <i class="icon-trash"></i>
         </a>
