@@ -115,8 +115,7 @@
                       [(ngModel)]="asset.organizationId" id="organizationName" name="organizationName"
                       placeholder="Choose Owning Organization" (change)="onParentOrgChange($event)" required>
                       <ng-option value="null" disabled selected>Organization</ng-option>
-                      <ng-option *ngFor="let org of organizationList" [value]="org.organizationId">{{org.name}}
-                      </ng-option>
+                      <ng-option *ngFor="let org of organizationList" [value]="org.organizationId">{{org.name}}</ng-option>
                     </ng-select>
                   </div>
                   <div *ngIf="organizationName.dirty && organizationName.invalid">
@@ -180,8 +179,7 @@
                       [(ngModel)]="asset.locationId" id="installedLocation" name="installedLocation"
                       placeholder="Choose Installed Location" (change)="onLocationChange($event)" required>
                       <ng-option value="null" disabled selected>Location</ng-option>
-                      <ng-option *ngFor="let loc of locationListForDropDown" [value]="loc.locationId">
-                        {{loc.locationName}}</ng-option>
+                      <ng-option *ngFor="let loc of locationListForDropDown" [value]="loc.locationId">{{loc.locationName}}</ng-option>
                     </ng-select>
                   </div>
                   <div *ngIf="installedLocation.dirty && installedLocation.invalid">
@@ -239,8 +237,7 @@
                       [(ngModel)]="asset.parentAssetId" name="parentAsset" id="parentAsset"
                       placeholder="Choose Parent Asset" (change)="onParentAssetChange($event)">
                       <ng-option value="null" disabled selected>Asset</ng-option>
-                      <ng-option *ngFor="let asset of parentAssetListForDropDown" [value]="asset.assetId">
-                        {{asset.assetName}}</ng-option>
+                      <ng-option *ngFor="let asset of parentAssetListForDropDown" [value]="asset.assetId">{{asset.assetName}}</ng-option>
                     </ng-select>
                   </div>
                 </div>
@@ -399,7 +396,7 @@
 
 </div>
 
-<app-votm-cloud-confim-dialog (onClose)="deleteAssetById($event)" #confirmBox message="{{message}}"
+<app-votm-cloud-confim-dialog (onClose)="deleteAssetById($event)" #confirmBox message="{{assetRemoveMessage}}"
   headerMessage="Warning"></app-votm-cloud-confim-dialog>
 
 <app-votm-cloud-confim-dialog (onClose)="removeTemplate($event)" #templateConfirmBox
@@ -480,8 +477,7 @@
                     [multiple]="false" [(ngModel)]="templateId" id="parentorg" required
                     [(ngModel)]="asset.organizationId" name="parentorg" #parentorgModel="ngModel"
                     placeholder="Choose Organization">
-                    <ng-option *ngFor="let organization of organizationList" [value]="organization.organizationId">
-                      {{organization.name}}</ng-option>
+                    <ng-option *ngFor="let organization of organizationList" [value]="organization.organizationId">{{organization.name}}</ng-option>
                   </ng-select>
                 </div>
               </div>

@@ -1,8 +1,118 @@
-<!-- <div *ngIf="mapService.isLoaded">
-  <am-map #maper
-    [_id]="'id'"
-    [initialConfig]="config">
-  </am-map>
- </div> -->
+<div class="">
+  <div class="row">
+    <div id="myMap" class="col ml-2 mr-2">
+    </div>
+  </div>
 
- 
+  <div class="row">
+    <div class="col">
+      <div class="sidePanel">
+        <!-- <fieldset style="width:320px;margin-bottom:10px;">
+                <legend>Map Navigation Control Options</legend>
+                This sample shows all the map navigation controls on the map and how they react with different option settings.
+                <br /><br />
+                To test the zoom delta, simply press the zoom button to see how the map zoom per click changes, moving several
+                levels at a time when the delta is greater than one. <br /><br />
+                To test the pitch and compass rotation deltas, hover over the appropriate control and use the addition buttons that
+                appear to see how the new delta has changed the behavior of the button. <br /><br />
+                See the <a href="https://docs.microsoft.com/azure/azure-maps/map-add-controls" target="_blank">Add map controls</a>
+                and <a href="https://docs.microsoft.com/azure/azure-maps/choose-map-style" target="_blank">Choose map style</a>
+                documentation for more examples using the map navigation controls.
+              </fieldset> -->
+
+        <h3>Control Options</h3>
+
+        <table>
+          <tr
+            title="The position the control will be placed on the map. If not specified, the control will be located at the default position it defines.">
+            <td>Control Position:</td>
+            <td>
+              <select id="controlPosition" (change)="addControls()">
+                <option>bottom-left</option>
+                <option>bottom-right</option>
+                <option>non-fixed</option>
+                <option>top-left</option>
+                <option selected="selected">top-right</option>
+              </select>
+            </td>
+          </tr>
+          <tr title="The style of the control.">
+            <td>Control Style:</td>
+            <td>
+              <select id="controlStyle" (change)="addControls()">
+                <option>dark</option>
+                <option selected="selected">light</option>
+              </select>
+            </td>
+          </tr>
+          <tr title="The extent to which the map will zoom with each click of the control.">
+            <td>Zoom Delta:</td>
+            <td>
+              <select id="zoomControlDelta" (change)="addControls()">
+                <option selected="selected">1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+              </select>
+            </td>
+          </tr>
+          <tr title="The angle that the map will tilt with each click of the control.">
+            <td>Pitch Delta:</td>
+            <td>
+              <select id="pitchControlDelta" (change)="addControls()">
+                <option>5</option>
+                <option selected="selected">10</option>
+                <option>15</option>
+                <option>20</option>
+                <option>25</option>
+                <option>30</option>
+                <option>35</option>
+                <option>40</option>
+                <option>45</option>
+              </select>
+            </td>
+          </tr>
+          <tr title="The angle that the map will rotate with each click of the control.">
+            <td>Compass Rotation Delta:</td>
+            <td>
+              <select id="compassControlRotationDelta" (change)="addControls()">
+                <option>5</option>
+                <option>10</option>
+                <option selected="selected">15</option>
+                <option>20</option>
+                <option>25</option>
+                <option>30</option>
+                <option>35</option>
+                <option>40</option>
+                <option>45</option>
+              </select>
+            </td>
+          </tr>
+        </table>
+      
+      </div>
+    </div>
+  </div>
+
+</div>
+
+
+
+
+<!-- <div id="myMap" style="position:relative;width:100%;min-width:290px;height:600px;"></div>
+
+  <fieldset style="width:calc(100% - 30px);min-width:290px;margin-top:10px;">
+    <legend>Point Clusters in Bubble Layer</legend>
+    This sample shows how to enable point based clustering on a data source and render them differently from individual
+    points on the map. Clustered points have four properties;
+
+    <ul>
+      <li>cluster - A boolean value indicating that it is a cluster.</li>
+      <li>cluster_id - A unique id for the cluster which can be used with the DataSource getClusterExpansionZoom,
+        getClusterChildren, and getClusterLeaves functions.</li>
+      <li>point_count - The number of points the cluster contains.</li>
+      <li>point_count_abbreviated - A string that abbreviates the point_count value if it is long. (i.e. 4,000 becomes
+        4K)</li>
+    </ul>
+  </fieldset> -->

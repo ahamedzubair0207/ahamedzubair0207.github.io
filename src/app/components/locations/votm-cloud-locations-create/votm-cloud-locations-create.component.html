@@ -166,8 +166,7 @@
                             [ngStyle]="{'background-color':pageType==='View'?'#e9ecef':'#fff'}" [multiple]="false"
                             [(ngModel)]="location.organizationId" id="organizationId" name="organizationId">
                             <ng-option value="null" disabled selected>Parent Organization</ng-option>
-                            <ng-option *ngFor="let org of organizationList" [value]="org.organizationId">{{org.name}}
-                            </ng-option>
+                            <ng-option *ngFor="let org of organizationList" [value]="org.organizationId">{{org.name}}</ng-option>
                           </ng-select>
                         </div>
                       </ng-template>
@@ -209,8 +208,7 @@
 
                 <div class="col-12 col-md-6 col-lg-3 col-xl-3">
                   <div class="form-group">
-                    <label class="" for="parentLoc">{{pageLabels.ParentLocation.labelName}}
-                      :</label>
+                    <label class="" for="parentLoc">{{pageLabels.ParentLocation.labelName}}:</label>
                     <div class="">
 
                       <input *ngIf="(parentLocId || locId); else elseLocationPart" for="parentLocname"
@@ -223,8 +221,7 @@
                           [(ngModel)]="location.parentLocationId" id="parentLocation" name="installedLocation"
                           placeholder="Choose Parent Location">
                           <ng-option value="null" disabled selected>Parent Location</ng-option>
-                          <ng-option *ngFor="let loc of locationListForDropDown" [value]="loc.id">{{loc.name}}
-                          </ng-option>
+                          <ng-option *ngFor="let loc of locationListForDropDown" [value]="loc.id">{{loc.name}}</ng-option>
                         </ng-select>
                       </ng-template>
                       <!-- <label for="parentLocname">{{parentLocName}}</label> -->
@@ -349,8 +346,7 @@
                             [(ngModel)]="location.address[0].country" placeholder="Country" id="locDtlStrtCountry"
                             name="country">
                             <ng-option value="null" disabled selected>Country</ng-option>
-                            <ng-option *ngFor="let country of countries" [value]="country.countryName">
-                              {{country.countryName}}</ng-option>
+                            <ng-option *ngFor="let country of countries" [value]="country.countryName">{{country.countryName}}</ng-option>
                           </ng-select>
                         </div>
                         <div *ngIf="country.dirty && country.invalid">
@@ -477,8 +473,7 @@
                             [(ngModel)]="location.localeId" placeholder="Select Locale" id="locDtlGeoLang1"
                             name="language">
                             <ng-option value="null" disabled selected>Language</ng-option>
-                            <ng-option *ngFor="let locale of applicationConfiguration.locale" [value]="locale.localeId">
-                              {{locale.localeName}}</ng-option>
+                            <ng-option *ngFor="let locale of applicationConfiguration.locale" [value]="locale.localeId">{{locale.localeName}}</ng-option>
                           </ng-select>
                         </div>
                         <div *ngIf="defLanguage.dirty && defLanguage.invalid">
@@ -888,8 +883,7 @@
             <div class="">
               <ng-select #tplSelect labelForId="tplSelect" class="custom" [(ngModel)]="selTemplate"
                 name="dbTemplateName" [disabled]="dashboardDataById.act==='edit'">
-                <ng-option *ngFor="let dbTemplate of dbTemplates" [value]="dbTemplate.name"> {{ dbTemplate.name }}
-                </ng-option>
+                <ng-option *ngFor="let dbTemplate of dbTemplates" [value]="dbTemplate.name">{{ dbTemplate.name }}</ng-option>
               </ng-select>
             </div>
           </div>

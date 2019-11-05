@@ -209,6 +209,8 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
           parentOrganizationName: this.activeroute.snapshot.paramMap.get('curOrgName') // 'Parker1'
         };
         this.organization.parentOrganizationId = this.parentOrganizationInfo.parentOrganizationId;
+        
+        this.setDefaultParentOrganizationOptions();
         this.organization.active = true;
 
         this.UOM = 'SI';
@@ -266,7 +268,7 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
 
   selOrgIcon = "company";
   ngAfterViewInit(): void {
-  //  jQuery('.selectpicker').selectpicker();
+    //  jQuery('.selectpicker').selectpicker();
     this.showImageLogo();
   }
 
@@ -395,8 +397,15 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
             });
           }
         });
-
+        this.setDefaultParentOrganizationOptions();
       });
+  }
+
+  setDefaultParentOrganizationOptions() {
+    if (!this.organizationList || this.organizationList.length === 0) {
+      this.organizationList = [];
+      this.organizationList.push({ organizationId: this.curOrgId, name: this.curOrgName });
+    }
   }
 
   getScreenLabels() {
@@ -725,14 +734,15 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
         this.organizationList = response;
         let orgFound = false;
         this.organizationList.forEach(org => {
-          if (org.id === this.curOrgId) {
+          if (org.organizationId === this.curOrgId) {
             orgFound = true;
           }
         });
         if (!orgFound) {
-          this.organizationList.push({ id: this.curOrgId, name: this.curOrgName });
+          this.organizationList.push({ organizationId: this.curOrgId, name: this.curOrgName });
         }
         this.organizationList.sort(SortArrays.compareValues('name'));
+        VotmCommon.getUniqueValues(this.organizationList);
         // this.organization.parentOrganizationId = JSON.parse(JSON.stringify(this.organization.parentOrganizationId));
       });
   }
