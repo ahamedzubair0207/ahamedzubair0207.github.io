@@ -222,14 +222,15 @@ export class VotmCloudAssociationComponent implements OnInit {
           elem.dispatchEvent(new Event('click'));
         }
       }, 50);
+      const index = this.droppedList.findIndex(signal => signal.did === event.data.did);
+      this.droppedList[index].isClicked = true;
     } else {
       let id = this.droppedList.findIndex(signal => signal.did === event.data.did);
       this.droppedList[id]['pos'] = event.data.pos;
       this.droppedList[id]['pixelPos'] = event.data.pixelPos;
     }
     this.closeAllIconsDisplay();
-    const index = this.droppedList.findIndex(signal => signal.did === event.data.did);
-    this.droppedList[index].isClicked = true;
+   
     console.log(this.droppedList);
   }
 
