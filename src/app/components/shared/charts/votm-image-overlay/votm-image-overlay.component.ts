@@ -75,6 +75,9 @@ export class VotmImageOverlayComponent implements OnInit {
       }
       console.log('my this.locationsList ', this.locationsList);
       this.LocationSourceChild = this.locationsList[0].children;
+      // Include Parent location (it self in dropdown)
+      this.LocationSourceChild.push({'data':this.locationsList[0].data});
+      console.log('my updated locationsList ', this.locationsList);
     });
   }
   fillLocationData(locations: any[]) {

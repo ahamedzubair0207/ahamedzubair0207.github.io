@@ -235,12 +235,13 @@ export class VotmCloudAdminUserManagementComponent implements OnInit, OnDestroy 
       response => {
         this.selectedUserForEdit = response;
         this.userForm = new FormGroup({
-          firstName: new FormControl(this.selectedUserForEdit.firstName, [Validators.required]),
-          lastName: new FormControl(this.selectedUserForEdit.lastName, [Validators.required]),
-          emailId: new FormControl(this.selectedUserForEdit.emailId, [Validators.required]),
-          roleId: new FormControl(this.selectedUserForEdit.roleId, [Validators.required]),
-          phoneNumber: new FormControl(this.selectedUserForEdit.phoneNumber),
-          organizationId: new FormControl(this.selectedUserForEdit.organizationId, [Validators.required]),
+          firstName: new FormControl({ value: this.selectedUserForEdit.firstName, disabled: type === 'view'}, [Validators.required]),
+          lastName: new FormControl({value: this.selectedUserForEdit.lastName, disabled: type === 'view'}, [Validators.required]),
+          emailId: new FormControl({value: this.selectedUserForEdit.emailId, disabled: type === 'view'}, [Validators.required]),
+          roleId: new FormControl({value: this.selectedUserForEdit.roleId, disabled: type === 'view'}, [Validators.required]),
+          phoneNumber: new FormControl({ value: this.selectedUserForEdit.phoneNumber, disabled: type === 'view'}),
+          organizationId: new FormControl({ value: this.selectedUserForEdit.organizationId, disabled: type === 'view'},
+          [Validators.required]),
           roleName: new FormControl(this.selectedUserForEdit.roleName),
           organizationName: new FormControl(this.selectedUserForEdit.organizationName),
           active: new FormControl(this.selectedUserForEdit.active)

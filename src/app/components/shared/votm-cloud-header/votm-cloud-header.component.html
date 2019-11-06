@@ -100,12 +100,10 @@
       </div>
       <div class="modal-body">
         <form #favoriteForm="ngForm">
-          <div class="col-12">
-            <label id="favNameLbl" class="">Favorite Name</label>
-            <div class="">
-              <input type="text" [(ngModel)]="currentFavorite.favoriteName" name="favoriteName"
-                class="form-control form-control-sm" id="favNameInput" placeholder="Favorite Name">
-            </div>
+          <label id="favNameLbl" class="">Favorite Name</label>
+          <div class="">
+            <input type="text" [(ngModel)]="currentFavorite.favoriteName" name="favoriteName"
+              class="form-control form-control-sm" id="favNameInput" placeholder="Favorite Name">
           </div>
         </form>
       </div>

@@ -40,7 +40,7 @@
           </li>
 
           <li class="nav-item" placement="top" ngbTooltip="Child Assets">
-            <a class="nav-link tab-icon" id="asset-child-tab" name="asset-child-edit" href="#asset-child"
+            <a class="nav-link tab-icon" id="asset-child-tab" (click)="onClickOfNavTab('child_asset')" name="asset-child-edit" href="#asset-child"
               data-toggle="tab" role="tab" aria-controls="asset-child-nav" aria-selected="false"><i
                 class="icon-asset-robot"></i></a>
           </li>
@@ -278,7 +278,7 @@
                           <i *ngIf="imgSize" >(Width: {{imgSize.width}}px, Height: {{imgSize.height}}px)</i>
                       </label>
                       <span class="form-control logo-preview">
-                      <img [src]="imgURL" height="200" width="235" *ngIf="imgURL">
+                      <img [src]="imgURL" height="197" width="233" *ngIf="imgURL">
                       </span>
                     </div>
                   </fieldset>
@@ -300,34 +300,34 @@
                 </div>
 
                 <div class="col-md-4">
-                  <fieldset class="position-relative" style="height: 300px;">
+                    <fieldset class="position-relative" style="height: 300px;">
                     <legend id="asset-loc-image-lbl">Asset Position</legend>
-                    <!-- <label for="locationImage" id="asset-loc--image-lbl">Asset Position: </label> -->
-                    <div id="location_asset_position" *ngIf="parentAssetImageURL; else noLocationTemplate">
-                      <img [src]="parentAssetImageURL" class="img-fluid">
 
-                      <!-- <i class="icon-asset-robot position-absolute" id="asset_position_icon"></i> -->
+                    <!-- Image preview -->
+                    <div class="form-group" >
+                      <span class="form-control logo-preview" id="location_asset_position" *ngIf="parentAssetImageURL; else noLocationTemplate">
+                        <img [src]="parentAssetImageURL" height="197" width="233">
+                      </span>
                     </div>
                     <div class="row" *ngIf="parentAssetImageURL">
-                      <div class="col-md-6">
-                        <label for="assetImage" id="asset-image-lbl">X (In pixels) : </label>
-                        <input type="number" id="asset-image-x-pixels" disabled [(ngModel)]="assetImageCoordinates.x"
-                          name="x-pixels" class="form-control-file form-control-sm" />
+                        <div class="col-md-6">
+                          <label for="assetImage" id="asset-image-lbl">X (In pixels) : </label>
+                          <input type="number" id="asset-image-x-pixels" disabled [(ngModel)]="assetImageCoordinates.x"
+                            name="x-pixels" class="form-control-file form-control-sm" />
+                        </div>
+                        <div class="col-md-6">
+                          <label for="assetImage" id="asset-image-lbl">Y (In pixels) : </label>
+                          <input type="number" id="asset-image-y-pixels" disabled [(ngModel)]="assetImageCoordinates.y"
+                            name="y-pixels" class="form-control-file form-control-sm" />
+                        </div>
                       </div>
-                      <div class="col-md-6">
-                        <label for="assetImage" id="asset-image-lbl">Y (In pixels) : </label>
-                        <input type="number" id="asset-image-y-pixels" disabled [(ngModel)]="assetImageCoordinates.y"
-                          name="y-pixels" class="form-control-file form-control-sm" />
-                      </div>
-                    </div>
-
-                    <ng-template #noLocationTemplate><br />
-                      <div *ngIf="asset.locationId; else noLocationSelectedTemplate">No Image in the selected Location
-                      </div>
-                      <ng-template #noLocationSelectedTemplate>
-                        No location/Asset Selected
+                      <ng-template #noLocationTemplate><br />
+                        <div *ngIf="asset.locationId; else noLocationSelectedTemplate">No Image in the selected Location.
+                        </div>
+                        <ng-template #noLocationSelectedTemplate>
+                          No location/Asset Selected.
+                        </ng-template>
                       </ng-template>
-                    </ng-template>
                   </fieldset>
                 </div>
 
@@ -376,8 +376,8 @@
             <app-votom-cloud-assets-signal *ngIf="imgURL" [image]="imgURL"></app-votom-cloud-assets-signal>
           </div>
 
-          <div class="tab-pane fade" id="asset-child" role="tabpanle" area-labelledby="asset-child-tab">
-            <app-votm-cloud-asset-child *ngIf="imgURL"  [image]="imgURL"></app-votm-cloud-asset-child>
+          <div class="tab-pane fade" *ngIf="isChildAssetAssociation"  id="asset-child" role="tabpanle" area-labelledby="asset-child-tab">
+            <app-votm-cloud-asset-child *ngIf="imgURL" ></app-votm-cloud-asset-child>
           </div>
         </div>
       </div>

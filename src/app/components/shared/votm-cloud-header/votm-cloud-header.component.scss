@@ -467,3 +467,13 @@ a.article:hover {
 	-webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
 	background-color:rgba(0,0,0,0.20); 
 }
+
+.modal{
+    background-color: rgba(0, 0, 0, 0.4);
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    z-index: 9;
+}

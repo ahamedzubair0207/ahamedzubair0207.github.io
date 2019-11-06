@@ -1,3 +1,4 @@
+import { VotmCloudAssociationComponent } from './components/shared/votm-cloud-association/votm-cloud-association.component';
 
 import { NgModule, Directive } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
@@ -225,7 +226,8 @@ const oktaConfig = Object.assign({
     WidgetTrendComponent,
     WidgetGaugeComponent,
     QcdDashboardComponent,
-    ParkerQcdDashboardComponent
+    ParkerQcdDashboardComponent,
+    VotmCloudAssociationComponent
   ],
 
 
