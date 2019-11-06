@@ -41,7 +41,6 @@ export class VotmCloudHeaderComponent implements OnInit {
     this.oktaAuth.$authenticationState.subscribe(isAuthenticated => this.isAuthenticated = isAuthenticated)
     router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
-        console.log('event nav end ', event);
         this.sharedService.favorites.subscribe(favs => {
           this.favorites = favs;
           this.currentFavorite = { 'userId': '03c7fb47-58ee-4c41-a9d6-2ad0bd43392a', 'url': event.url, 'favoriteName': '' };
@@ -52,7 +51,6 @@ export class VotmCloudHeaderComponent implements OnInit {
               }
             });
           }
-          console.log('this.currentFavorite ', this.currentFavorite)
           this.previousFavoriteName = this.currentFavorite.favoriteName;
         });
       }
@@ -96,7 +94,6 @@ export class VotmCloudHeaderComponent implements OnInit {
     } else {
       this.sharedService.postFavorites(this.currentFavorite)
         .subscribe(response => {
-          console.log('post result ', response);
           this.toaster.onSuccess('Successfully Added to the Favorites', 'Added');
           this.sharedService.getFavorites();
           this.currentFavorite = {};

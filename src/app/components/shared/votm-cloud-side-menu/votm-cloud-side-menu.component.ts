@@ -30,7 +30,6 @@ export class VotmCloudSideMenuComponent implements OnInit {
     this.menuItems = this.menuService.getMenu();
 
     this.sharedService.favorites.subscribe(childs => {
-      console.log('favorites ', childs);
       this.menuItems.forEach(item => {
         if (item.name === 'Favorites') {
           item.childs = [];
@@ -39,7 +38,6 @@ export class VotmCloudSideMenuComponent implements OnInit {
           })
           // item.childs = childs;
 
-          console.log('MenuItem ', item);
         }
       });
     });

@@ -133,7 +133,7 @@
         <td class="align-left">
           <span container="body" [ngbTooltip]="rowData.name">
             <p-treeTableToggler [rowNode]="rowNode"></p-treeTableToggler>
-            <i class="icon-org-company"></i>{{rowData.name}}
+            <i class="icon-sensonode2"></i>{{rowData.name}}
           </span>
         </td>
         <td class="align-left"></td>
@@ -142,11 +142,14 @@
         <td class="align-left"></td>
         <td class="align-left"></td>
         <td class="align-center"><i class="icon-go" style="color: #28a745;"></i></td>
-        <!-- <td class="align-center"><a class="action-icon" container="body" ngbTooltip="Edit" (click)="onEditViewClick(item, 'edit')">
-            <i class="icon-edit"></i>
-          </a>
+        <td class="align-center"><a class="action-icon" container="body" ngbTooltip="Edit">
+            <i class="icon-edit"></i></a>
+          <a class="action-icon" container="body" ngbTooltip="Used/Un-Used">
+            <i class="icon-unlink"></i></a></td>
+        <!-- <td class="align-center"><a class="action-icon" container="body" ngbTooltip="Edit">
+            <i class="icon-edit"></i></a>
           <a class="action-icon" container="body" ngbTooltip="Delete">
-            <i class="icon-trash"></i>
+            <i class="icon-trash"></i></a>
         </td> -->
       </tr>
     </ng-template>
