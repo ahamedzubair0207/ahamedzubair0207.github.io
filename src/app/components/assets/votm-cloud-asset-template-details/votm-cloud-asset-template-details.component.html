@@ -6,7 +6,7 @@
   <li class="nav-item">
     <a class="nav-link active" id="template-details-tab" name="template-view-edit" href="#template-details"
       data-toggle="tab" role="tab" aria-controls="template-details" aria-selected="true"><i
-        class="pr-2 fa fa-archive"></i>
+        class="pr-2 icon-asset-robot"></i>
       Details</a>
   </li>
   <li class="nav-item">
@@ -191,11 +191,11 @@
       </div>
       <div class="mb-0 text-right">
         <button id="template-cancel" id="template-cancel-btn" for="form-cancel" type="button"
-          (click)="onCancelClick($event)" class="btn btn-secondary btn-sm mr-2">Cancel</button>
+          (click)="onCancelClick($event)" class="btn btn-secondary btn-sm mr-2"><i class="icon-asset-list"></i>Return to List</button>
         <button id="asset-delete" id="template-delete-btn" *ngIf="pageType !=='View'" type="button"
-          (click)="openConfirmDialog()" class="btn btn-secondary btn-sm mr-2">Delete</button>
+          (click)="openConfirmDialog()" class="btn btn-secondary btn-sm mr-2"><i class="icon-trash"></i>Delete</button>
         <button id="asset-save" id="template-save-btn" *ngIf="pageType !=='View'" type="submit"
-          class="btn btn-info btn-sm">Save</button>
+          class="btn btn-info btn-sm"><i class="icon-asset-robot"></i>Save</button>
       </div>
 
     </form>

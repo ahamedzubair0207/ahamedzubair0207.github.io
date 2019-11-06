@@ -606,7 +606,7 @@
                     class="pr-2 icon-location-add"></i>Add
                   Sub-Location</button>
                 <button id="loc-cancel" for="form-cancel" type="button" (click)="onCancelClick($event)"
-                  class="btn btn-outline-secondary btn-sm"><i class="pr-2 fa fa-remove"></i>Cancel</button>
+                  class="btn btn-outline-secondary btn-sm"><i class="pr-2 icon-location-list"></i>Return to List</button>
                 <button id="loc-delete" type="button" *ngIf="location.locationId && pageType !=='View'"
                   (click)="openConfirmDialog()" class="btn btn-secondary btn-sm ml-2"><i
                     class="pr-2 icon-trash"></i>Delete</button>
@@ -750,7 +750,7 @@
         </div> -->
         <div class="form-check form-check-inline">
           <input [disabled]="pageType==='View'" class="form-check-input" type="radio" value="Imperial" name="UOM"
-            (change)="onUnitChange($event)" id="f-imperial">
+            (change)="onUnitChange($event)" id="f-imperial" checked="checked">
           <label class="form-check-label" for="f-imperial">Imperial</label>
         </div>
         <div class="form-check form-check-inline">

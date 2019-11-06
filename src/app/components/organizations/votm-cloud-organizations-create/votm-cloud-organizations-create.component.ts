@@ -117,6 +117,7 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
   dbShortName: string = '';
   dbLastIdNum: number = 0;
   newTabId: string = '';
+  activeTab: string;
   // Dashboard-david end
 
   constructor(
@@ -167,6 +168,8 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
   }
 
   ngOnInit() {
+
+
     this.organization.svclevels = null;
     this.organization.localeId = null;
     this.organization.timeZoneId = null;
@@ -180,6 +183,18 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
       this.curOrgId = params.get('curOrgId');
       this.curOrgName = params.get('curOrgName');
       this.orgId = params.get('orgId');
+
+      this.activeroute.fragment.subscribe(
+        (fragment) => {
+          this.activeTab = fragment;
+          console.log(fragment, this.activeTab);
+          if (fragment === 'org-alert') {
+            this.fetchLertRuleLost();
+          } else {
+            this.activeTab = 'org-details';
+          }
+        }
+      );
 
       // this.organizationService.getCountries()
       // .subscribe(response => {
@@ -209,11 +224,11 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
           parentOrganizationName: this.activeroute.snapshot.paramMap.get('curOrgName') // 'Parker1'
         };
         this.organization.parentOrganizationId = this.parentOrganizationInfo.parentOrganizationId;
-        
+
         this.setDefaultParentOrganizationOptions();
         this.organization.active = true;
 
-        this.UOM = 'SI';
+        this.UOM = 'Imperial';
         this.organization.address = [new Address()];
         this.organization.address[0].addressType = 'Billing';
         this.organization.address[0].country = null;
@@ -260,8 +275,8 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
         templateName: 'Standard Asset Dashboard'
       }
     ];
-    console.log(this.dashboardTemplates);
-    console.log(this.dashboardData);
+    // console.log(this.dashboardTemplates);
+    // console.log(this.dashboardData);
 
     jQuery('.nav-item').tooltip();
   }
@@ -288,7 +303,7 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
   }
 
   onCountryChange(event) {
-    // console.log('Country change ', this.organization.address[0].country);
+    // // console.log('Country change ', this.organization.address[0].country);
     if (this.organization.address && this.organization.address.length > 0) {
       this.organization.address[0].state = null;
     } else {
@@ -322,7 +337,7 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
   }
 
   onStartDateChange() {
-    // console.log('Start Date ', this.tempContractStartDate);
+    // // console.log('Start Date ', this.tempContractStartDate);
     this.organizationForm.form.controls['startDate'].markAsDirty();
     this.compareDate();
   }
@@ -334,11 +349,11 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
   }
 
   compareDate() {
-    // console.log('ENTERED');
+    // // console.log('ENTERED');
     if (this.tempContractStartDate && this.tempContractEndDate) {
       let startDate = new Date(this.tempContractStartDate.year, this.tempContractStartDate.month, this.tempContractStartDate.day);
       let endDate = new Date(this.tempContractEndDate.year, this.tempContractEndDate.month, this.tempContractEndDate.day);
-      // console.log('Start Date , End Date ', startDate, endDate);
+      // // console.log('Start Date , End Date ', startDate, endDate);
       if (startDate >= endDate) {
         this.organizationForm.form.controls['startDate'].setErrors({ 'invalidDate': true });
       } else {
@@ -348,7 +363,7 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
   }
 
   onEndDateChange() {
-    // console.log('End Date ', this.tempContractEndDate);
+    // // console.log('End Date ', this.tempContractEndDate);
     this.organizationForm.form.controls['endDate'].markAsDirty();
     this.compareDate();
   }
@@ -367,7 +382,7 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
 
         if (this.organization.modifiedOn) {
           this.modifiedDate = moment(this.organization.modifiedOn).format(VotmCommon.dateFormat) + ' ' + moment(this.organization.modifiedOn).format(VotmCommon.timeFormat);
-          console.log('temp date ', moment(this.organization.modifiedOn));
+          // console.log('temp date ', moment(this.organization.modifiedOn));
         }
 
         this.fillUoM();
@@ -578,18 +593,18 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
     // SVG Code
     // let parser = new DOMParser();
     // let xmlDoc: XMLDocument = parser.parseFromString(binaryString.toString(), 'image/svg+xml');
-    // // console.log('XMLDocument ', xmlDoc, xmlDoc.getElementsByTagName('svg'))
+    // // // console.log('XMLDocument ', xmlDoc, xmlDoc.getElementsByTagName('svg'))
     // const xml = (new XMLSerializer()).serializeToString(xmlDoc);
     // const svg64 = btoa(xml);
     // const b64Start = 'data:image/svg+xml;base64,';
     // const image64 = b64Start + svg64;
     // this.organization.logo.image = image64;
-    // // console.log('this.organization.logo.image ', this.organization.logo.image)
+    // // // console.log('this.organization.logo.image ', this.organization.logo.image)
 
     // Other Images
     base64textString = btoa(binaryString);
     this.organization.logo.image = base64textString;
-    // console.log('organization ', base64textString);
+    // // console.log('organization ', base64textString);
   }
 
   open(content) {
@@ -650,7 +665,7 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
     }
   }
   onUnitChange(value) {
-    // // console.log(value);
+    // // // console.log(value);
     this.tempMeasurement = value.target.value;
   }
 
@@ -662,7 +677,7 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
   }
 
   onUoMDropdownChange(event, uomName: string) {
-    // console.log('ahamed ', uomName, event.target.value);
+    // // console.log('ahamed ', uomName, event.target.value);
     // let isFound: boolean = false;
     // for (let i = 0; i < this.uomArray.length; i++) {
     //   if (this.uomArray[i].uoMTypeId === uomName) {
@@ -677,7 +692,7 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
   }
 
   onUoMValueSelect(uomType, uomMeasureId) {
-    // console.log('UOM  ID ', uomType, uomMeasureId)
+    // // console.log('UOM  ID ', uomType, uomMeasureId)
   }
 
   onOrganizationSubmit() {
@@ -691,14 +706,14 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
       this.organization.contractEndDate = new Date(this.tempContractEndDate.year, this.tempContractEndDate.month, this.tempContractEndDate.day).toDateString();
     }
     if (this.organizationForm && this.organizationForm.invalid) {
-      // console.log('Invalid Form');
+      // // console.log('Invalid Form');
       this.toaster.onFailure('Please fill the form correctly.', 'Form is invalid!');
       Object.keys(this.organizationForm.form.controls).forEach(element => {
         this.organizationForm.form.controls[element].markAsDirty();
       });
       this.isAddOrganizationAPILoading = false;
     } else {
-      // console.log('Valid Form');
+      // // console.log('Valid Form');
       if (this.orgId) {
         this.organizationService.updateOrganization(this.organization)
           .subscribe(response => {
@@ -748,13 +763,24 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
   }
 
 
+  goToTab(location: string): void {
+    window.location.hash = '';
+    window.location.hash = location;
+  }
+
 
   onAlertRuleTabClick() {
-    // console.log('onAlertRuleTabClick');
+    this.goToTab('org-alert');
+    this.fetchLertRuleLost();
+    // // console.log('onAlertRuleTabClick');
+   
+  }
+
+  fetchLertRuleLost(){
     if (!this.alertRuleList || this.alertRuleList.length === 0) {
       this.alertRuleservice.getAllAlertsByOrgId(this.orgId)
         .subscribe(response => {
-          // console.log('response ', response);
+          // // console.log('response ', response);
           this.alertRuleList = response;
         });
     }
@@ -772,7 +798,7 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
     if (!this.templateList || this.templateList.length === 0) {
       this.assetService.getAllTemplates()
         .subscribe(response => {
-          // console.log('response of templates ', response);
+          // // console.log('response of templates ', response);
           this.templateList = response;
         });
     }
@@ -821,11 +847,11 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
   }
 
   async getDashboardHTML(formName: string, index) {
-    // console.log(formName, '--getDashboardHTML functiona called');
+    // // console.log(formName, '--getDashboardHTML functiona called');
 
     await this.organizationService.getDashboardHTML(formName)
       .subscribe(response => {
-        // console.log('return response---', response);
+        // // console.log('return response---', response);
         this.userdashboardData[index].dashboardHTML = this.sanitizer.bypassSecurityTrustHtml(response);
         setTimeout(() => {
           // setData('Hello');
@@ -854,7 +880,7 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
 
   openAddDashboardModal(dashboardAct: string, dashboardId: any, dashboardLongName: string, dashboardSortName: string) {
     // this.dashBoardDataByID = getDashboardById(dashboardId)
-    console.log(dashboardLongName);
+    // console.log(dashboardLongName);
     if (dashboardAct === 'editDashboard') {
       this.dashboardDataById = {
         act: 'edit',
@@ -875,7 +901,7 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
       this.dbLongName = '';
       this.dbShortName = '';
     }
-    console.log('dashboardDataById---', this.dashboardDataById);
+    // console.log('dashboardDataById---', this.dashboardDataById);
 
     // Get the modal
     let addDashboardmodal = document.getElementById('addDashboardModalWrapper');
@@ -894,7 +920,7 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
   }
 
   onDashboardFormSubmit() {
-    console.log('onDashboardFormSubmit', this.dashboardDataById);
+    // console.log('onDashboardFormSubmit', this.dashboardDataById);
     // this.addDashboardArray = {
     //   id: '4',
     //   templateName: 'Standard Asset Dashboard',
@@ -905,12 +931,12 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
     this.newTabId = "dbtab-" + this.dbLastIdNum;
     this.dbItems.push(new DbItem(this.newTabId, this.dbLongName, this.dbShortName, this.selTemplate,
       this.dbTemplates.find(({ name }) => name === this.selTemplate).component, ''));
-    console.log('this.dbItems---added', this.dbItems);
+    // console.log('this.dbItems---added', this.dbItems);
     this.closeAddDashboardModal(true);
   }
 
   closeAddDashboardModal(event: any) {
-    console.log('==', event);
+    // console.log('==', event);
     this.addDashboardmodal.style.display = 'none';
     // if (event === 'save') {
     //
@@ -926,7 +952,7 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
   }
 
   deleteOrganizationDashboardById(event) {
-    console.log('deleteOrganizationDashboardById===', event);
+    // console.log('deleteOrganizationDashboardById===', event);
     if (event) {
       // delete dashboard service goes here
     }
@@ -948,7 +974,7 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
       if (localeName) {
         this.placeholder = VotmCommon.dateFormat = moment.localeData(localeName).longDateFormat('L');
         VotmCommon.timeFormat = moment.localeData(localeName).longDateFormat('LTS');
-        console.log('VotmCommon.timeFormat ', VotmCommon.timeFormat);
+        // console.log('VotmCommon.timeFormat ', VotmCommon.timeFormat);
 
         let obj1: NgbDateMomentParserFormatter = new NgbDateMomentParserFormatter();
         let updatedStartDate = obj1.format(this.tempContractStartDate);
@@ -959,7 +985,7 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
         this.tempContractEndDate = obj1.parse(updatedEndDate);
         if (this.organization.modifiedOn) {
           this.modifiedDate = moment(this.organization.modifiedOn).format(VotmCommon.dateFormat) + ' ' + moment(this.organization.modifiedOn).format(VotmCommon.timeFormat);
-          console.log('temp time ', moment(this.organization.modifiedOn).format(VotmCommon.timeFormat));
+          // console.log('temp time ', moment(this.organization.modifiedOn).format(VotmCommon.timeFormat));
         }
       }
     }

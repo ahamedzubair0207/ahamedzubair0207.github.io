@@ -41,9 +41,28 @@ export class VotmCloudSensorsHomeComponent implements OnInit {
   private getSensorTree(){
     this.sensorService.getSensorTree()
     .subscribe(response => {
-      this.sensorList = response;
-      console.log('sensor list ', this.sensorList);
+      this.sensorList = [];
+      if (response && response.length > 0) {
+        this.sensorList = this.fillSensorsData(response);
+      }
     });
+  }
+
+  fillSensorsData(sensors: any[]): TreeNode[] {
+    let treeSensors: TreeNode[] = [];
+    sensors.forEach(sensor => {
+      let treeSensor: TreeNode = {};
+      treeSensor.data = { id: sensor.sensorId, name: sensor.sensorName, type: 'Sensor' };
+      // treeSensor.expanded = true;
+      treeSensor.children = [];
+      if (sensor.node && sensor.node.length > 0) {
+        sensor.node.forEach(signal => {
+          treeSensor.children.push({ data: { id: signal.signalId, name: signal.signalName, type: 'Signal' }, children: [] });
+        });
+      }
+      treeSensors.push(treeSensor);
+    });
+    return treeSensors;
   }
 
   deleteSensorById(event) {}

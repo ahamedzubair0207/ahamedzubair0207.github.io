@@ -13,14 +13,15 @@
       </div>
     </div>
 
-  <!-- <button class="btn btn-sm btn-outline-info mr-2 ml-2" id="sensorSearchButton" type="submit">Search</button> -->
-</div>
+    <!-- <button class="btn btn-sm btn-outline-info mr-2 ml-2" id="sensorSearchButton" type="submit">Search</button> -->
+  </div>
   <div class="btn-group-right">
-      <button [routerLink]="['/sensor/detail']" id="sensorConfigBtn" type="button" class="btn btn-info btn-sm">Configure Sensors</button>
-    </div>
+    <button [routerLink]="['/sensor/detail']" id="sensorConfigBtn" type="button" class="btn btn-info btn-sm">Configure
+      Sensors</button>
+  </div>
 </form>
 
-<ng-template #recursiveTableList let-list="sensorList" let-lvl="level">
+<!-- <ng-template #recursiveTableList let-list="sensorList" let-lvl="level">
   <ng-container *ngFor="let item of list">
 
     <tr>
@@ -37,7 +38,7 @@
       <td class="align-left"></td>
       <td class="align-left"></td>
       <td class="align-center"><i class="icon-go" style="color: #28a745;"></i></td>
-      <!-- <td class="align-center">
+      <td class="align-center">
         <a class="action-icon" title="List" [routerLink]="['/loc/home', item.id, item.name]">
           <i class="icon-location"></i>
         </a>
@@ -48,7 +49,7 @@
           (click)="openConfirmDialog(item.id, item.name)" title="Delete">
           <i class="icon-trash"></i>
         </a>
-      </td> -->
+      </td>
     </tr>
 
     <ng-container *ngFor="let subItem of item.node">
@@ -67,7 +68,7 @@
         <td class="align-left"></td>
         <td class="align-left"></td>
         <td class="align-center"><i class="icon-go" style="color: #28a745;"></i></td>
-        <!-- <td class="align-center">
+        <td class="align-center">
           <a class="action-icon" title="Location" [routerLink]="['/loc/home', subItem.id, subItem.name]">
             <i class="icon-location"></i>
           </a>
@@ -78,7 +79,7 @@
           <a class="action-icon" (click)="openConfirmDialog(subItem.id, subItem.name)" title="Delete">
             <i class="icon-trash"></i>
           </a>
-        </td> -->
+        </td>
       </tr>
 
       <ng-container *ngIf="subItem.opened">
@@ -88,13 +89,81 @@
       </ng-container>
     </ng-container>
   </ng-container>
-</ng-template>
+</ng-template> -->
 
-<div class="table-responsive">
-  <table class="table table-sm table-bordered table-hover org-table-fonts" id="sensorTbl">
+<div class="row ml-1 mr-1">
+  <p-treeTable [scrollable]="true" #tt scrollHeight="600px" [globalFilterFields]="['name']" [resizableColumns]="true"
+    [value]="sensorList" [autoLayout]="true" id="sensorsTbl">
+    <ng-template pTemplate="caption">
+      <div style="text-align: left;">
+        <i class="icon-search" style="margin:4px 4px 0 0"></i>
+        <input type="text" pInputText size="20" placeholder="Type to filter"
+          (input)="tt.filterGlobal($event.target.value, 'contains')" style="width:auto" id="sensorFilter">
+      </div>
+    </ng-template>
+    <ng-template pTemplate="colgroup">
+      <colgroup>
+        <col>
+        <col>
+        <col>
+        <col [style.width.px]="80">
+        <col [style.width.px]="80">
+        <col [style.width.px]="80">
+        <col [style.width.px]="60">
+        <col [style.width.px]="130">
+      </colgroup>
+    </ng-template>
+    <ng-template pTemplate="header">
+      <tr style="background-color: #dee2e6;">
+        <th ttResizableColumn ttSortableColumn="name">Sensor Name
+          <p-treeTableSortIcon field="name"></p-treeTableSortIcon>
+        </th>
+        <th ttResizableColumn>Serial Number</th>
+        <th ttResizableColumn>Type</th>
+        <th ttResizableColumn>Location</th>
+        <th ttResizableColumn>Battery</th>
+        <th ttResizableColumn>Signal</th>
+        <th ttResizableColumn>Status</th>
+        <th ttResizableColumn>Actions</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rowNode let-rowData="rowData">
+      <tr [ttRow]="rowNode">
+
+        <td class="align-left">
+          <span container="body" [ngbTooltip]="rowData.name">
+            <p-treeTableToggler [rowNode]="rowNode"></p-treeTableToggler>
+            <i class="icon-sensonode2"></i>{{rowData.name}}
+          </span>
+        </td>
+        <td class="align-left"></td>
+        <td class="align-left"></td>
+        <td class="align-left"></td>
+        <td class="align-left"></td>
+        <td class="align-left"></td>
+        <td class="align-center"><i class="icon-go" style="color: #28a745;"></i></td>
+        <td class="align-center"><a class="action-icon" container="body" ngbTooltip="Edit">
+            <i class="icon-edit"></i></a>
+          <a class="action-icon" container="body" ngbTooltip="Used/Un-Used">
+            <i class="icon-unlink"></i></a></td>
+        <!-- <td class="align-center"><a class="action-icon" container="body" ngbTooltip="Edit">
+            <i class="icon-edit"></i></a>
+          <a class="action-icon" container="body" ngbTooltip="Delete">
+            <i class="icon-trash"></i></a>
+        </td> -->
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td [attr.colspan]="8">No data found.</td>
+      </tr>
+    </ng-template>
+  </p-treeTable>
+
+  <!-- <table class="table table-sm table-bordered table-hover org-table-fonts" id="sensorTbl">
     <thead class="thead-dark">
       <tr>
-        <!-- <th scope="col" class="align-left table-col-name">Name</th> -->
+        <th scope="col" class="align-left table-col-name">Name</th>
       <th scope="col" class="">Sensor/Signal Name</th>
       <th scope="col" class="">Serial #</th>
       <th scope="col" class="">Sensor Type</th>
@@ -113,10 +182,10 @@
         <td colspan="1"> No Sensor data found.</td>
       </tr>
     </tbody>
-    <!-- <tbody *ngIf="isGetOrganizationsApiLoading">
+    <tbody *ngIf="isGetOrganizationsApiLoading">
       <i class="fa fa-spinner fa-spin fa-2x fa-fw"></i>
-    </tbody> -->
-  </table>
+    </tbody>
+  </table> -->
 </div>
 
 
