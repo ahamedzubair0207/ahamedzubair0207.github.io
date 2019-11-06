@@ -1,13 +1,13 @@
 <div class="p-2 border">
     <div class="text-right chartConfigureIcon"><i class="icon-cog font-15"
             (click)="onClickOfCustomizeImageOverlay()"></i></div>
-    <div class="text-center" *ngIf="!isImageOverlayConfigured">
-        <img class="img-fluid" src="../../../../assets/images/configure_image_overlay_widget.jpg">
+    <div class="text-center con-wid-preview" *ngIf="!isImageOverlayConfigured">
+        <img class="img-fluid img-fluid-custom" src="../../../../assets/images/configure_image_overlay_widget.jpg">
     </div>
-    <div *ngIf="isImageOverlayConfigured" id="{{ 'image-overlay' + id }}" style="width: 100%; height: 350px;">
+    <div *ngIf="isImageOverlayConfigured" id="{{ 'image-overlay' + id }}" style="" class="con-wid-preview">
         <div class="h-100 assoc-pane">
             <!-- <img src="../../../../assets/images/AssemblyLayout2.jpg" class="assoc-img" /> -->
-            <img *ngIf="widgetimgURL" [src]="widgetimgURL" class="assoc-img" />
+            <img *ngIf="widgetimgURL" [src]="widgetimgURL" class="assoc-img img-fluid img-fluid-custom" />
             
             <div id="sig_{{i}}" *ngFor="let item of associatedSignals; let i = index;" [ngClass]="item.icon"
                 [ngStyle]="getPositionStyle(item)">
