@@ -40,7 +40,7 @@
           </li>
 
           <li class="nav-item" placement="top" ngbTooltip="Child Assets">
-            <a class="nav-link tab-icon" id="asset-child-tab" name="asset-child-edit" href="#asset-child"
+            <a class="nav-link tab-icon" id="asset-child-tab" (click)="onClickOfNavTab('child_asset')" name="asset-child-edit" href="#asset-child"
               data-toggle="tab" role="tab" aria-controls="asset-child-nav" aria-selected="false"><i
                 class="icon-asset-robot"></i></a>
           </li>
@@ -306,7 +306,7 @@
                     <!-- Image preview -->
                     <div class="form-group" >
                       <span class="form-control logo-preview" id="location_asset_position" *ngIf="parentAssetImageURL; else noLocationTemplate">
-                          <img [src]="parentAssetImageURL" height="197" width="233">
+                        <img [src]="parentAssetImageURL" height="197" width="233">
                       </span>
                     </div>
                     <div class="row" *ngIf="parentAssetImageURL">
@@ -322,10 +322,10 @@
                         </div>
                       </div>
                       <ng-template #noLocationTemplate><br />
-                        <div *ngIf="asset.locationId; else noLocationSelectedTemplate">No Image in the selected Location
+                        <div *ngIf="asset.locationId; else noLocationSelectedTemplate">No Image in the selected Location.
                         </div>
                         <ng-template #noLocationSelectedTemplate>
-                          No location/Asset Selected
+                          No location/Asset Selected.
                         </ng-template>
                       </ng-template>
                   </fieldset>
@@ -376,8 +376,8 @@
             <app-votom-cloud-assets-signal *ngIf="imgURL" [image]="imgURL"></app-votom-cloud-assets-signal>
           </div>
 
-          <div class="tab-pane fade" id="asset-child" role="tabpanle" area-labelledby="asset-child-tab">
-            <app-votm-cloud-asset-child *ngIf="imgURL"  [image]="imgURL"></app-votm-cloud-asset-child>
+          <div class="tab-pane fade" *ngIf="isChildAssetAssociation"  id="asset-child" role="tabpanle" area-labelledby="asset-child-tab">
+            <app-votm-cloud-asset-child *ngIf="imgURL" ></app-votm-cloud-asset-child>
           </div>
         </div>
       </div>

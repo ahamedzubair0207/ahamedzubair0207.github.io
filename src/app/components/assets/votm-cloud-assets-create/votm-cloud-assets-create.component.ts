@@ -30,6 +30,7 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
   imgURL: any;
   locationImageURL: any;
   parentAssetImageURL: any;
+  parentAssetImageSize: {width: number, height: number};
   public message: string;
   closeResult: string;
   modal: any;
@@ -96,6 +97,7 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
     y: 0
   };
   assetRemoveMessage: string;
+  isChildAssetAssociation = false;
   imgSize: {width: number, height: number};
   constructor(
     private modalService: NgbModal,
@@ -717,6 +719,7 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
   getExactImage() {
     if (!this.parentAssetImageURL) {
       this.parentAssetImageURL = this.locationImageURL;
+
     }
     setTimeout(() => {
       if ($('#asset_position_icon').length === 0) {
@@ -750,17 +753,26 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
 
   }
 
-
-
   getParentImage(logo: any, type) {
     if (logo && logo.imageName) {
       let tempFileExtension = logo.imageName.slice((Math.max(0, logo.imageName.lastIndexOf(".")) || Infinity) + 1);
-      type === 'location' ? this.locationImageURL = this.domSanitizer.bypassSecurityTrustUrl(`data:image/${tempFileExtension};base64,${logo.image}`)
-        : this.parentAssetImageURL = this.domSanitizer.bypassSecurityTrustUrl(`data:image/${tempFileExtension};base64,${logo.image}`);
+      const base64Img = `data:image/${tempFileExtension};base64,${logo.image}`;
+      const img = new Image();
+      img.src = base64Img;
+      img.onload = () => {
+        console.log(img.width, '=====', img.height);
+        this.parentAssetImageSize = {
+          width: img.width,
+          height: img.height
+        };
+      };
+      type === 'location' ? this.locationImageURL = this.domSanitizer.bypassSecurityTrustUrl(base64Img)
+        : this.parentAssetImageURL = this.domSanitizer.bypassSecurityTrustUrl(base64Img);
       // this.asset.logo.imageType = this.fileExtension;
     } else {
       type === 'location' ? this.locationImageURL = null : this.parentAssetImageURL = null;
     }
+
     this.getExactImage();
   }
 
@@ -1100,8 +1112,11 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
 
   onClickOfNavTab(type) {
     this.isSignalAssociationClicked = false;
+    this.isChildAssetAssociation = false;
     if (type === 'signal_association') {
       this.isSignalAssociationClicked = true;
+    } else if (type === 'child_asset') {
+      this.isChildAssetAssociation = true;
     }
   }
 
