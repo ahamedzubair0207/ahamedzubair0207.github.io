@@ -253,16 +253,17 @@ export class VotmCloudPreferencesComponent implements OnInit, AfterViewInit {
 
   onEditFavorite(favId: any) {
     // for toggle disabled
+    /*
     if (this.userprofile.userFavorites[favId].disabled) {
       this.userprofile.userFavorites[favId].disabled = false;
     } else {
       this.userprofile.userFavorites[favId].disabled = true;
-    }
+    }*/
     /*
       Uncomment if don't want input edit toggle(enable disabled on "edit" btn click),
       below code will enable favorite name input once clicked 
     */
-    // this.userprofile.userFavorites[favId].disabled = true;
+    this.userprofile.userFavorites[favId].disabled = true;
   }
 
   onClickOfConfirmDeleteUserFavorite(userFav) {
