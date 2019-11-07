@@ -379,12 +379,12 @@ export class VotmCloudPreferencesComponent implements OnInit, AfterViewInit {
     var span = document.getElementsByClassName('close')[0];
 
     // When the user clicks anywhere outside of the modal, close it
-    // window.onclick = function (event) {
-    //   if (event.target == modal) {
-    //     console.log('AHAMED');
-    //     modal.style.display = "none";
-    //   }
-    // }
+    window.onclick = function (event) {
+      if (event.target == modal) {
+        console.log('AHAMED');
+        modal.style.display = "none";
+      }
+    }
 
   }
 
@@ -492,5 +492,5 @@ export class VotmCloudPreferencesComponent implements OnInit, AfterViewInit {
 
   }
 
-
+ 
 }

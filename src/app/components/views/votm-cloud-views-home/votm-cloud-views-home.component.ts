@@ -14,21 +14,21 @@ export class VotmCloudViewsHomeComponent implements OnInit {
 
   constructor(public oktaAuth: OktaAuthService) 
   {
-    this.oktaAuth.$authenticationState.subscribe(isAuthenticated => this.isAuthenticated = isAuthenticated)
+    // this.oktaAuth.$authenticationState.subscribe(isAuthenticated => this.isAuthenticated = isAuthenticated)
  
 
    }
 
   async ngOnInit() {
-    this.isAuthenticated = await this.oktaAuth.isAuthenticated();
-    if (this.isAuthenticated) {
-      const userClaims = await this.oktaAuth.getUser();
-      this.userName = userClaims.name;
-    }
+    // this.isAuthenticated = await this.oktaAuth.isAuthenticated();
+    // if (this.isAuthenticated) {
+    //   const userClaims = await this.oktaAuth.getUser();
+    //   this.userName = userClaims.name;
+    // }
   }
 
-  logout() {
-    this.oktaAuth.logout('/');
-  }
+  // logout() {
+  //   this.oktaAuth.logout('/');
+  // }
 
 }
