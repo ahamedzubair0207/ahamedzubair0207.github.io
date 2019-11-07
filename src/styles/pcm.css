@@ -1,11 +1,11 @@
 @font-face {
     font-family: 'pcm';
-    src: url('../font/pcm.eot?3697115');
-    src: url('../font/pcm.eot?3697115#iefix') format('embedded-opentype'),
-        url('../font/pcm.woff2?3697115') format('woff2'),
-        url('../font/pcm.woff?3697115') format('woff'),
-        url('../font/pcm.ttf?3697115') format('truetype'),
-        url('../font/pcm.svg?3697115#pcm') format('svg');
+    src: url('../assets/pcm-font/font/pcm.eot?3697115');
+    src: url('../assets/pcm-font/font/pcm.eot?3697115#iefix') format('embedded-opentype'),
+        url('../assets/pcm-font/font/pcm.woff2?3697115') format('woff2'),
+        url('../assets/pcm-font/font/pcm.woff?3697115') format('woff'),
+        url('../assets/pcm-font/font/pcm.ttf?3697115') format('truetype'),
+        url('../assets/pcm-font/font/pcm.svg?3697115#pcm') format('svg');
     font-weight: normal;
     font-style: normal;
 }
