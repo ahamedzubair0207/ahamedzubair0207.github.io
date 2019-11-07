@@ -376,7 +376,7 @@
                         class="geo-loc-lat form-control form-control-sm" placeholder="Latitude" name="geoLocationLat"
                         #geoLocationLat="ngModel" maxlength="50" id="locDtlGeoLatitude">
                       <button id="geo-loc-btn" type="button" class="btn btn-outline-secondary btn-sm"
-                        (click)="onGeoLocationClick()"><i class="icon-bullseye"></i>Geocode</button>
+                        (click)="onGeoLocationClick()" [disabled]="pageType==='View'"><i class="icon-bullseye"></i>Geocode</button>
                       <div
                         *ngIf="(geoLocationLong.dirty && geoLocationLong.invalid) || (geoLocationLat.dirty && geoLocationLat.invalid) ">
                         <app-votm-cloud-validator [message]="geoLocationErrorMessage"></app-votm-cloud-validator>
@@ -390,13 +390,13 @@
                       <div class="form-check form-check-inline ">
                         <input class="form-check-input" (change)="onGeoUnitChange()" [disabled]="pageType==='View'"
                           type="radio" [(ngModel)]="location.geoFenceType" name="geofenceRadius" id="f-radius"
-                          value="bf0bc7b5-1bf8-4a59-a3b5-35904937e89e">
+                          value="bf0bc7b5-1bf8-4a59-a3b5-35904937e89e" >
                         <label class="form-check-label" for="f-radius">Radius</label>
                       </div>
                       <div class="form-check form-check-inline">
                         <input class="form-check-input" value="d5764af5-114b-48e6-9980-544634167826"
                           [(ngModel)]="location.geoFenceType" (change)="onGeoUnitChange()"
-                          [disabled]="pageType==='View'" type="radio" name="geofenceRectangle" id="f-square">
+                          [disabled]="pageType==='View'" type="radio" name="geofenceRectangle" id="f-square" checked>
                         <label class="form-check-label" for="f-square">Rectangle</label>
                       </div>
                       <div
@@ -448,7 +448,7 @@
                               {{timeZone.timeZoneName}}</option>
                           </select>
                           <button id="geo-loc-btn-lookup" type="button" class="btn btn-outline-secondary btn-sm btn-geo"
-                            (click)="onLookupClick()"><i class="icon-bullseye"></i>Lookup</button>
+                            (click)="onLookupClick()" [disabled]="pageType==='View'"><i class="icon-bullseye"></i>Lookup</button>
                           <div *ngIf="timezone.dirty && timezone.invalid">
                             <app-votm-cloud-validator message="TimeZone is required"></app-votm-cloud-validator>
                           </div>
@@ -525,7 +525,7 @@
 
                         <ng-select [items]="gatewayList" [multiple]="true" [closeOnSelect]="false" [hideSelected]="true"
                           bindLabel="text" placeholder="Select gateways" name="gatewayslist"
-                          [(ngModel)]="selectedItems">
+                          [(ngModel)]="selectedItems" [disabled]="pageType==='View'">
                           <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
                             <div class="ng-value" *ngFor="let item of items | slice:0:2">
                               <span class="ng-value-label">{{item.text}}</span>
@@ -606,7 +606,7 @@
                     class="pr-2 icon-location-add"></i>Add
                   Sub-Location</button>
                 <button id="loc-cancel" for="form-cancel" type="button" (click)="onCancelClick($event)"
-                  class="btn btn-outline-secondary btn-sm"><i class="pr-2 icon-location-list"></i>Return to List</button>
+                  class="btn btn-secondary btn-sm"><i class="pr-2 icon-location-list"></i>Return to List</button>
                 <button id="loc-delete" type="button" *ngIf="location.locationId && pageType !=='View'"
                   (click)="openConfirmDialog()" class="btn btn-secondary btn-sm ml-2"><i
                     class="pr-2 icon-trash"></i>Delete</button>
@@ -844,7 +844,7 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button id="loc-uom-cancle" type="button" class="btn btn-sm btn-outline-secondary"
+        <button id="loc-uom-cancle" type="button" class="btn btn-sm btn-secondary"
           (click)="closemodal('cancel')">Cancel
         </button>
         <button id="loc-uom-save" type="button" class="btn btn-info btn-sm" (click)="closemodal('save')">Save</button>
@@ -932,7 +932,7 @@
 
         </div>
         <div class="modal-footer">
-          <button id="add-dashboard-cancle-loc" type="button" class="btn btn-sm btn-outline-secondary"
+          <button id="add-dashboard-cancle-loc" type="button" class="btn btn-sm btn-secondary"
             (click)="closeAddDashboardModal('cancel')" id="addDashboardCancle">Cancel
           </button>
           <button id="add-dashboard-save-loc" type="submit" class="btn btn-info btn-sm"

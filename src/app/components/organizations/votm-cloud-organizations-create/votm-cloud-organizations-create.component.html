@@ -172,7 +172,7 @@
                         class="form-control form-control-sm" placeholder="Customer Number" maxlength="500"
                         #customerNum="ngModel" [disabled]="pageType==='View'" name="customerNum" required>
                       <!-- <div class="input-group-append">
-                              <span class="input-group-text"><i class="fa fa-phone"></i></span>
+                              <span class="input-group-text"><i class="icon-phone"></i></span>
                           </div> -->
                       <div *ngIf="customerNum.dirty && customerNum.invalid">
                         <app-votm-cloud-validator message="Customer No. is required"></app-votm-cloud-validator>
@@ -239,7 +239,7 @@
                         #primaryContactEmailAddress="ngModel" maxlength="100" placeholder="Email Address" name="contact"
                         required>
                       <div class="input-group-append">
-                        <span class="input-group-text"><i class="fa fa-envelope"></i></span>
+                        <span class="input-group-text"><i class="icon-mail"></i></span>
                       </div>
                     </div>
                     <div *ngIf="primaryContactEmailAddress.dirty && primaryContactEmailAddress.invalid">
@@ -265,7 +265,7 @@
                         maxlength="100" OnlyNumber="true" placeholder="Phone Number" #contactPhone="ngModel"
                         name="contactPhone" required>
                       <div class="input-group-append">
-                        <span class="input-group-text"><i class="fa fa-phone"></i></span>
+                        <span class="input-group-text"><i class="icon-phone"></i></span>
                       </div>
                     </div>
                     <div *ngIf="contactPhone.dirty && contactPhone.invalid">
@@ -308,7 +308,7 @@
                         #primaryDistributorEmail="ngModel" class="form-control form-control-sm" email
                         placeholder="Primary Distributor Email" maxlength="100" required>
                       <div class="input-group-append">
-                        <span class="input-group-text"><i class="fa fa-envelope"></i></span>
+                        <span class="input-group-text"><i class="icon-mail"></i></span>
                       </div>
                       <div *ngIf="primaryDistributorEmail.dirty && primaryDistributorEmail.invalid">
                         <app-votm-cloud-validator
@@ -450,7 +450,7 @@
                               class="form-control form-control-sm" #address1="ngModel" placeholder="Street Name"
                               name="address1" required>
                             <div class="input-group-append">
-                              <span class="input-group-text"><i class="fa fa-building"></i></span>
+                              <span class="input-group-text"><i class="icon-loc-office"></i></span>
                             </div>
                           </div>
                           <div *ngIf="address1.dirty && address1.invalid">
@@ -467,7 +467,7 @@
                               class="form-control form-control-sm" placeholder="Apt/Suite Number" #address2="ngModel"
                               name="address2">
                             <div class="input-group-append">
-                              <span class="input-group-text"><i class="fa fa-building"></i></span>
+                              <span class="input-group-text"><i class="icon-loc-office"></i></span>
                             </div>
                           </div>
                           <!-- <div *ngIf="address1.dirty && address1.invalid">
@@ -725,7 +725,7 @@
                   <button id="org-delete" *ngIf="organization.organizationId && pageType !=='View'" type="button"
                   class="btn btn-secondary btn-sm button-right mr-2" (click)="openConfirmDialog()"><i class="icon-trash"></i>Delete</button>
                 <button id="org-cancel" type="button" (click)="onCancelClick($event)"
-                  class="btn btn-outline-secondary btn-sm button-right mr-2"><i class="icon-org-list"></i>Return to List</button>
+                  class="btn btn-secondary btn-sm button-right mr-2"><i class="icon-org-list"></i>Return to List</button>
                 
                   
 
@@ -972,7 +972,7 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button id="org-uom-cancle" type="button" class="btn btn-sm btn-outline-secondary"
+        <button id="org-uom-cancle" type="button" class="btn btn-sm btn-secondary"
           (click)="closemodal('cancel')">Cancel
         </button>
         <button id="org-uom-save" type="button" class="btn btn-info btn-sm"
@@ -1072,7 +1072,7 @@
 
         </div>
         <div class="modal-footer">
-          <button id="add-dashboard-cancle-org" type="button" class="btn btn-sm btn-outline-secondary"
+          <button id="add-dashboard-cancle-org" type="button" class="btn btn-sm btn-secondary"
             (click)="closeAddDashboardModal('cancel')" id="addDashboardCancle">Cancel</button>
           <button id="add-dashboard-save-org" type="submit" class="btn btn-info btn-sm"
             id="addDashboardAdd">Save</button>
