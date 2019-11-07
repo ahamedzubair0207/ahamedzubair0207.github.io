@@ -1,6 +1,7 @@
+import { DbItem } from './../../../../models/db-item';
 import { AssetSignalService } from 'src/app/services/assetSignal/asset-signal.service';
 import { LocationSignalService } from './../../../../services/locationSignal/location-signal.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { Toaster } from '../../votm-cloud-toaster/votm-cloud-toaster';
 import { ActivatedRoute, ParamMap } from '@angular/router';
@@ -16,7 +17,8 @@ import { AssetsService } from 'src/app/services/assets/assets.service';
 })
 export class VotmImageOverlayComponent implements OnInit {
 
-
+  @Input() data: DbItem;
+  @Input() id: string;
   customizeImageOverlay: any;
   isImageOverlayConfigured: boolean;
   toaster: Toaster = new Toaster(this.toastr);
@@ -32,6 +34,7 @@ export class VotmImageOverlayComponent implements OnInit {
   assetsSourceChild: any[];
   widgetassetimageID: any;
   overLaySource: any;
+  wId: string;
   constructor(
     private toastr: ToastrService,
     private locationSignalService: LocationSignalService,
@@ -45,6 +48,7 @@ export class VotmImageOverlayComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.wId = this.data.id + '-' + this.id;
     this.isImageOverlayConfigured = false;
 
     this.route.paramMap.subscribe((params: ParamMap) => {
@@ -123,9 +127,9 @@ export class VotmImageOverlayComponent implements OnInit {
 
   onClickOfCustomizeImageOverlay() {
     // Open Chart configuration modal popup
-    const modal = document.getElementById('configure-image-overlay-modal');
+    const modal = document.getElementById('configure-image-overlay-modal-' + this.wId);
     modal.style.display = 'block';
-    this.customizeImageOverlay = document.getElementById('configure-image-overlay-modal');
+    this.customizeImageOverlay = document.getElementById('configure-image-overlay-modal-' + this.wId);
     window.onclick = (event) => {
       if (event.target === modal) {
         modal.style.display = 'none';
@@ -150,7 +154,7 @@ export class VotmImageOverlayComponent implements OnInit {
 
   getImageOverlayConfiguration(overlaySource) {
 
-    // Call service to get configured image overlay data 
+    // Call service to get configured image overlay data
     // this.widgetService.getImageOverlayConfiguration().subscribe(
     //   response => {
     //     this.isImageOverlayConfigured = true;
