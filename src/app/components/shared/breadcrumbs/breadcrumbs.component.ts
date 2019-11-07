@@ -55,7 +55,7 @@ export class BreadcrumbsComponent {
     // } else
     if (this.currentUrl.startsWith(`/org/edit`) || this.currentUrl.startsWith(`/org/view`)) {
       let parts = this.currentUrl.split('/');
-      this.orgId = parts[5];
+      this.orgId = parts[5].indexOf('#') >= 0 ? parts[5].split('#')[0] : parts[5];
       this.orgName = parts[4];
       this.pageType = 'Organization';
       this.parentOrgId = parts[3];
@@ -155,7 +155,7 @@ export class BreadcrumbsComponent {
           let childFound: boolean = false;
           for (let i = 0; i < response.length; i++) {
             if (response[i].id.toLowerCase() === orgId.toLowerCase()) {
-              this.breadcrumbs.push({ name:response[i].name, shortName: this.getShortName(response[i].name), showDots: false, type: 'Organization', id: response[i].id, nodes: response, isVisible: true });
+              this.breadcrumbs.push({ name: response[i].name, shortName: this.getShortName(response[i].name), showDots: false, type: 'Organization', id: response[i].id, nodes: response, isVisible: true });
               if (response[i].parentId) {
                 this.loadOrganizations(response[i].parentId);
               } else {
@@ -190,7 +190,7 @@ export class BreadcrumbsComponent {
           response = VotmCommon.getUniqueValues(response);
           for (let i = 0; i < response.length; i++) {
             if (response[i].id.toLowerCase() === locId.toLowerCase()) {
-              this.locBreadcrumbs.push({ name:response[i].name, shortName: this.getShortName(response[i].name), showDots: false, type: 'Location', id: response[i].id, nodes: response, isVisible: true });
+              this.locBreadcrumbs.push({ name: response[i].name, shortName: this.getShortName(response[i].name), showDots: false, type: 'Location', id: response[i].id, nodes: response, isVisible: true });
               if (response[i].parentId) {
                 this.loadLocations(response[i].parentId);
               } else {
@@ -220,7 +220,7 @@ export class BreadcrumbsComponent {
           response = VotmCommon.getUniqueValues(response);
           for (let i = 0; i < response.length; i++) {
             if (response[i].id.toLowerCase() === assetId.toLowerCase()) {
-              this.assetBreadcrumbs.push({name:response[i].name, shortName: this.getShortName(response[i].name), showDots: false, type: 'Asset', id: response[i].id, nodes: response, isVisible: true });
+              this.assetBreadcrumbs.push({ name: response[i].name, shortName: this.getShortName(response[i].name), showDots: false, type: 'Asset', id: response[i].id, nodes: response, isVisible: true });
               if (response[i].parentId) {
                 this.loadAssets(response[i].parentId);
               } else {

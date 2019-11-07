@@ -4,14 +4,22 @@
     <div class="text-center con-wid-preview" *ngIf="!isImageOverlayConfigured">
         <img class="img-fluid img-fluid-custom" src="../../../../assets/images/configure_image_overlay_widget.jpg">
     </div>
-    <div *ngIf="isImageOverlayConfigured" id="{{ 'image-overlay' + id }}" style="" class="con-wid-preview">
+    <div *ngIf="isImageOverlayConfigured" id="{{ 'image-overlay' + wId }}" class="con-wid-preview">
         <div class="h-100 assoc-pane">
             <!-- <img src="../../../../assets/images/AssemblyLayout2.jpg" class="assoc-img" /> -->
             <img *ngIf="widgetimgURL" [src]="widgetimgURL" class="assoc-img img-fluid img-fluid-custom" />
-            
+
             <div id="sig_{{i}}" *ngFor="let item of associatedSignals; let i = index;" [ngClass]="item.icon"
                 [ngStyle]="getPositionStyle(item)">
-                {{item.associationName}}
+                <div class="signal-data-wrapper">
+                  <p><b>QCD > Chetak > NoCam 5122</b></p>
+                  <p>09/13/2019 11:45PM</p>
+                  <p><b>Critical alarm on asset</b></p>
+                  <hr class="mt-1 mb-1">
+                  <p><b>{{item.associationName}}</b></p>
+                  <p>Temprature : 142&deg; F</p>
+                  <p>Above critical threshold of 95&deg; F</p>
+                </div>
             </div>
 
         </div>
@@ -19,7 +27,7 @@
 </div>
 
 <!-- Modal Column Chart -->
-<div id="configure-image-overlay-modal" class="modal">
+<div id="configure-image-overlay-modal-{{wId}}" class="modal">
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
             <form name="dashBoardConfigurationForm" #dashBoardConfigurationForm="ngForm"

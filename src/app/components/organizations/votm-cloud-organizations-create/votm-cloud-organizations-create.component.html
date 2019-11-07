@@ -92,7 +92,7 @@
 
           <!-- Asset Template Tab  -->
           <li class="nav-item" placement="top" ngbTooltip="List of Templates">
-            <a class="nav-link tab-icon" id="asset-template-tab" name="asset-template-list" href="#asset-template"
+            <a class="nav-link tab-icon" id="asset-template-tab" [ngClass]="{ 'active':activeTab==='asset-template'}" name="asset-template-list" href="#asset-template"
               (click)="onTemplateTabClick()" data-toggle="tab" role="tab" aria-controls="asset-template"
               aria-selected="false"><i class="icon-asset-robot-tmpl"></i></a>
           </li>
@@ -754,13 +754,13 @@
             </form>
 
           </div>
-
+          
           <div class="create-org-container tab-pane fade" [ngClass]="{ 'active show':activeTab==='org-alert'}"  id="org-alert" data-toggle="tab" role="tabpanle"
             area-labelledby="org-alert-tab">
             <app-votm-cloud-alerts-home [alertList]="alertRuleList" [orgId]="orgId"></app-votm-cloud-alerts-home>
           </div>
 
-          <div class="create-org-container tab-pane fade" id="asset-template" data-toggle="tab" role="tabpanle"
+          <div class="create-org-container tab-pane fade"  [ngClass]="{ 'active show':activeTab==='asset-template'}" id="asset-template" data-toggle="tab" role="tabpanle"
             area-labelledby="asset-template-tab">
             <app-votm-cloud-asset-template-list [templateList]="templateList"></app-votm-cloud-asset-template-list>
           </div>

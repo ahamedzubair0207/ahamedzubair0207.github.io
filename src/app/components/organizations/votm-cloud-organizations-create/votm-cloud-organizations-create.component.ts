@@ -183,15 +183,21 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
       this.curOrgId = params.get('curOrgId');
       this.curOrgName = params.get('curOrgName');
       this.orgId = params.get('orgId');
-
+      this.activeTab = 'org-details';
       this.activeroute.fragment.subscribe(
         (fragment) => {
-          this.activeTab = fragment;
-          console.log(fragment, this.activeTab);
+          let tabList = ['org-details', 'org-alert', 'asset-template'];
+          if (fragment && tabList.indexOf(fragment) < 0) {
+            // this.activeTab = 'org-details';
+            this.goToTab('org-details');
+          } else {
+            console.log('Entererd in else ', fragment)
+            if (fragment) {
+              this.activeTab = fragment;
+            }
+          }
           if (fragment === 'org-alert') {
             this.fetchLertRuleLost();
-          } else {
-            this.activeTab = 'org-details';
           }
         }
       );
@@ -275,8 +281,6 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
         templateName: 'Standard Asset Dashboard'
       }
     ];
-    // console.log(this.dashboardTemplates);
-    // console.log(this.dashboardData);
 
     jQuery('.nav-item').tooltip();
   }
@@ -303,7 +307,6 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
   }
 
   onCountryChange(event) {
-    // // console.log('Country change ', this.organization.address[0].country);
     if (this.organization.address && this.organization.address.length > 0) {
       this.organization.address[0].state = null;
     } else {
@@ -337,7 +340,6 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
   }
 
   onStartDateChange() {
-    // // console.log('Start Date ', this.tempContractStartDate);
     this.organizationForm.form.controls['startDate'].markAsDirty();
     this.compareDate();
   }
@@ -349,11 +351,9 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
   }
 
   compareDate() {
-    // // console.log('ENTERED');
     if (this.tempContractStartDate && this.tempContractEndDate) {
       let startDate = new Date(this.tempContractStartDate.year, this.tempContractStartDate.month, this.tempContractStartDate.day);
       let endDate = new Date(this.tempContractEndDate.year, this.tempContractEndDate.month, this.tempContractEndDate.day);
-      // // console.log('Start Date , End Date ', startDate, endDate);
       if (startDate >= endDate) {
         this.organizationForm.form.controls['startDate'].setErrors({ 'invalidDate': true });
       } else {
@@ -363,7 +363,6 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
   }
 
   onEndDateChange() {
-    // // console.log('End Date ', this.tempContractEndDate);
     this.organizationForm.form.controls['endDate'].markAsDirty();
     this.compareDate();
   }
@@ -382,7 +381,6 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
 
         if (this.organization.modifiedOn) {
           this.modifiedDate = moment(this.organization.modifiedOn).format(VotmCommon.dateFormat) + ' ' + moment(this.organization.modifiedOn).format(VotmCommon.timeFormat);
-          // console.log('temp date ', moment(this.organization.modifiedOn));
         }
 
         this.fillUoM();
@@ -773,10 +771,10 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
     this.goToTab('org-alert');
     this.fetchLertRuleLost();
     // // console.log('onAlertRuleTabClick');
-   
+
   }
 
-  fetchLertRuleLost(){
+  fetchLertRuleLost() {
     if (!this.alertRuleList || this.alertRuleList.length === 0) {
       this.alertRuleservice.getAllAlertsByOrgId(this.orgId)
         .subscribe(response => {
@@ -795,6 +793,7 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
   }
 
   onTemplateTabClick() {
+    this.goToTab('asset-template');
     if (!this.templateList || this.templateList.length === 0) {
       this.assetService.getAllTemplates()
         .subscribe(response => {
