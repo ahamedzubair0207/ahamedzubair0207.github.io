@@ -81,7 +81,7 @@ export class VotmCloudHeaderComponent implements OnInit {
     //   'favoriteName': this.currentFavorite.favoriteName
     //   // 'favoriteOrder':12
     // }
-
+    console.log('this.currentFavorite', this.currentFavorite);
     if (this.currentFavorite && this.currentFavorite.userFavoriteId) {
       this.sharedService.patchFavorites(this.currentFavorite)
         .subscribe(response => {
