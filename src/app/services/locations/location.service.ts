@@ -88,7 +88,6 @@ export class LocationService {
       .set('api-version', '1.0')
       .set('subscription-key', 'g5km6coCc-GZ7BuSq2OXfwBK_sswYgVMG10VZ6yu4Rg')
       .set('query', address);
-    console.log('params ', params.toString());
     return this.httpClient.get('https://atlas.microsoft.com/search/address/json', { params })
       .pipe(
         map(response => response)
@@ -101,7 +100,6 @@ export class LocationService {
       .set('subscription-key', 'g5km6coCc-GZ7BuSq2OXfwBK_sswYgVMG10VZ6yu4Rg')
       // .set('options', 'all')
       .set('query', coordinates);
-    console.log('params ', params.toString());
     return this.httpClient.get('https://atlas.microsoft.com/timezone/byCoordinates/json', { params })
       .pipe(
         map(response => response)

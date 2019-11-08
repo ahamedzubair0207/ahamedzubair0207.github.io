@@ -16,7 +16,6 @@ export class VotmCloudAdminGatewaysHomeComponent implements OnInit {
 
   ngOnInit() {
     this.getAllGateways();
-    console.log(this.allGetways);
   }
 
   getAllGateways() {

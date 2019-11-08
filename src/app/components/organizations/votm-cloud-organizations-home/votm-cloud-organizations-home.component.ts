@@ -52,7 +52,6 @@ export class VotmCloudOrganizationsHomeComponent implements OnInit {
   }
 
   deleteOrganizationById(event) {
-    console.log('event on close ', event);
     if (event) {
       this.orgservice.deleteOrganization(this.orgToDelete)
         .subscribe(response => {
@@ -124,11 +123,9 @@ export class VotmCloudOrganizationsHomeComponent implements OnInit {
   }
 
   onOrganizationSearch() {
-    console.log('this.searchedText ', this.searchedText);
     if (this.searchedText) {
       this.organizationService.searchOrganizations(this.searchedText)
         .subscribe(response => {
-          console.log('response ', response);
           // this.organizationsList = response;
         });
     }

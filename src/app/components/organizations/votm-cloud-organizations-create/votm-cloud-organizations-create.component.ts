@@ -168,8 +168,6 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
   }
 
   ngOnInit() {
-
-
     this.organization.svclevels = null;
     this.organization.localeId = null;
     this.organization.timeZoneId = null;
@@ -186,7 +184,7 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
       this.activeTab = 'org-details';
       this.activeroute.fragment.subscribe(
         (fragment) => {
-          let tabList = ['org-details', 'org-alert', 'asset-template'];
+          let tabList = ['org-details', 'org-alert', 'asset-template', 'org-sensors', 'org-gateways'];
           if (fragment && tabList.indexOf(fragment) < 0) {
             // this.activeTab = 'org-details';
             this.goToTab('org-details');
@@ -762,7 +760,7 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
 
 
   goToTab(location: string): void {
-    window.location.hash = '';
+    // window.location.hash = '';
     window.location.hash = location;
   }
 

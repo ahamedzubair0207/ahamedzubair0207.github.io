@@ -55,7 +55,6 @@ export class VotmCloudAssetTemplateListComponent implements OnInit {
   }
 
   deleteAssetById(event) {
-    console.log('event on close ', event);
     if (event) {
       this.assetService.deleteAsset(this.assetToDelete)
         .subscribe(response => {
@@ -74,7 +73,6 @@ export class VotmCloudAssetTemplateListComponent implements OnInit {
   getAllTemplate() {
     this.assetService.getAllTemplates()
       .subscribe(response => {
-        console.log('response of templates ', response);
         this.templateList = response;
       });
   }

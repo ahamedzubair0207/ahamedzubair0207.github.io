@@ -34,10 +34,15 @@ export class VotmCloudSideMenuComponent implements OnInit {
         if (item.name === 'Favorites') {
           item.childs = [];
           childs.forEach(child => {
-            let url = child.url;
-            console.log('url ', url);
+            let url: string = child.url;
+            let fragment;
+            if (url.indexOf('#') >= 0) {
+              fragment = url.split('#')[1];
+              url = url.split('#')[0];
+            }
             // pass fragment separately
-            item.childs.push({ enabled: true, url: url, name: child.favoriteName, icon: 'menu-icon icon-star' });
+
+            item.childs.push({ enabled: true, url: url, fragment: fragment, name: child.favoriteName, icon: 'menu-icon icon-star' });
           })
           // item.childs = childs;
         }

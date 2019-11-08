@@ -17,7 +17,6 @@ export class VotmCloudAdminNetworkManagementComponent implements OnInit {
     if (this.networkmap && this.networkmap.map && this.networkmap.map.map)
       setTimeout(() => {
         this.networkmap.map.map.resize();
-        console.log('onMapTabSelection');
       }, 200);
   }
 }
