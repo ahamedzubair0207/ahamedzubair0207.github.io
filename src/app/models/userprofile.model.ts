@@ -1,6 +1,7 @@
 import { ApplicationConfiguration } from './applicationconfig.model';
 import { Logo } from './logo.model';
 export class UserProfile {
+    name?: string
     timeZone?: string;
     locale?: string;
     uoM?: Array<string>;

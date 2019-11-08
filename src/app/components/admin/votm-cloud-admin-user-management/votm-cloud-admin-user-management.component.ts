@@ -39,6 +39,7 @@ export class VotmCloudAdminUserManagementComponent implements OnInit, OnDestroy 
   customizePermissionsModal: any;
   userModal: any;
   grantGuestAccessModal: any;
+  searchedText: string;
 
   constructor(
     private userService: UserService,
@@ -58,12 +59,17 @@ export class VotmCloudAdminUserManagementComponent implements OnInit, OnDestroy 
     this.isGetUsersAPILoading = true;
     this.userService.getAllUsers().subscribe(
       response => {
+        response.forEach(user => user.name = user.firstName + ' ' + user.lastName);
         this.users = response;
         this.isGetUsersAPILoading = false;
       }, error => {
         this.isGetUsersAPILoading = false;
       }
     );
+  }
+
+  onUserSearch() {
+
   }
 
   getRoles() {

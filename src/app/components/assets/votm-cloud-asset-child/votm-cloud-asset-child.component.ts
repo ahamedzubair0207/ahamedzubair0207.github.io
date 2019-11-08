@@ -51,7 +51,8 @@ export class VotmCloudAssetChildComponent implements OnInit {
   childAssets: any[] = [];
   derivedSignals: any = [];
   showAssoc = true;
-  showUnassoc = true;
+  disable = true;
+  showUnassoc = false;
   draggingChildAssetIx: number = null;
   grabOffset: any = null;
   asset: Asset;
@@ -110,6 +111,18 @@ export class VotmCloudAssetChildComponent implements OnInit {
           childAsset.associationName = childAsset.name;
           childAsset.associated = false;
         }
+        for (let i = 0; i < this.childAssets.length; i++) {
+          const asset = {...this.childAssets[i]};
+          asset.pos = {};
+          // asset.pos['left'] = asset.imageCordinates.x;
+          // asset.pos['top'] = asset.imageCordinates.y;
+          asset.isClicked = false;
+          asset.icon = 'icon-sig-humidity';
+          asset.associated = true;
+          asset.did = i;
+          asset.bound = true;
+          this.associatedChildAssets.push(asset);
+        }
         this.isGetChildAssetsAPILoading = false;
       },
         error => {
@@ -120,6 +133,8 @@ export class VotmCloudAssetChildComponent implements OnInit {
 
   getChildAssetAssociation() {
     this.isGetassociatedChildAssetsAPILoading = true;
+
+
     // this.locationSignalService.getSignalAssociation(this.parentLocationId)
     //   .subscribe(
     //     response => {
@@ -141,6 +156,11 @@ export class VotmCloudAssetChildComponent implements OnInit {
     //       this.isGetassociatedChildAssetsAPILoading = false;
     //     }
     //   );
+  }
+
+  toggleDisable() {
+    this.disable = !this.disable;
+    this.showUnassoc = !this.disable;
   }
 
   showSignal(signal: any): boolean {
@@ -257,6 +277,11 @@ export class VotmCloudAssetChildComponent implements OnInit {
 
   onCancelClick(event) {
     this.routerLocation.back();
+  }
+
+  onReset() {
+    this.getChildAssets();
+    this.toggleDisable();
   }
 
 

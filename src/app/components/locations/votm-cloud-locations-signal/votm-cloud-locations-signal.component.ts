@@ -35,6 +35,10 @@ export class VotmCloudLocationsSignalComponent implements OnInit {
   derivedSignals: any = [];
   alertRules: any[] = [];
   location: Location;
+  disable = true;
+  showUnassoc = false;
+  showAssoc = true;
+  model = 'Signal';
   constructor(
     private activatedRoute: ActivatedRoute,
     private route: Router,
@@ -48,13 +52,14 @@ export class VotmCloudLocationsSignalComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.locationId = this.activatedRoute.snapshot.paramMap.get('locId');
-    this.getLocationById();
+
     this.activatedRoute.paramMap.subscribe(params => {
       this.curOrganizationId = params.get('curOrgId');
       this.curOrganizationName = params.get('curOrgName');
       this.organizationId = params.get('orgId');
+      this.locationId = params.get('locId');
       console.log(this.curOrganizationId, '====', this.curOrganizationName, '====', this.organizationId);
+      this.getLocationById();
       this.getLocationSignalAssociation();
       this.getAlertRulesList();
     });
@@ -139,7 +144,7 @@ export class VotmCloudLocationsSignalComponent implements OnInit {
             signal.isClicked = false;
             signal.icon = 'icon-sig-humidity';
             signal.associated = true;
-            signal.id = i;
+            signal.did = i;
             signal.bound = true;
           }
           this.associatedSignals = [...response];
@@ -150,11 +155,18 @@ export class VotmCloudLocationsSignalComponent implements OnInit {
       );
   }
 
+  toggleDisable() {
+    this.disable = !this.disable;
+    this.showUnassoc = !this.disable;
+    this.showAssoc = true;
+  }
+
   onDetachSignalFromAsset(signalMappingId) {
     this.locationSignalService.detachSignalAssociation(signalMappingId).subscribe(
       response => {
         this.toaster.onSuccess('Signal detached successfully', 'Detached');
         this.getLocationSignalAssociation();
+        this.toggleDisable();
       }
     );
   }
@@ -163,6 +175,7 @@ export class VotmCloudLocationsSignalComponent implements OnInit {
     this.alertsService.updateAlertRule(alertObj).subscribe(
       response => {
         this.toaster.onSuccess('Alarm Rule associated successfully.', 'Association Saved!');
+        this.toggleDisable();
       }, error => {
         this.toaster.onFailure('Error while associating Alarm Rule.', 'Association Error!');
       }
@@ -201,10 +214,16 @@ export class VotmCloudLocationsSignalComponent implements OnInit {
           console.log(response);
           this.toaster.onSuccess('Signal associated successfully', 'Saved');
           this.getLocationSignalAssociation();
+          this.toggleDisable();
         }, error => {
           this.toaster.onFailure('Error while saving signal assocition', 'Error');
         }
       );
+  }
+
+  onReset() {
+    this.getLocationSignalAssociation();
+    this.toggleDisable();
   }
 
 
