@@ -20,7 +20,7 @@ declare var $: any;
 })
 export class VotmCloudAssociationComponent implements OnInit {
 
-  modal: any;
+  derivedSignalModal: any;
   organizationId: string; // to store selected organization's id
   selectedSignal; // selected signal to display overlay panel.
   toaster: Toaster = new Toaster(this.toastr);
@@ -31,18 +31,17 @@ export class VotmCloudAssociationComponent implements OnInit {
   curOrganizationName: string;
   @ViewChild('editOP', null) editOPanel: OverlayPanel; // signal association edit modal refference
   @ViewChild('alertOP', null) alertOPanel: OverlayPanel; // signal association alert modal refference
-  alertRules: Alert[] = [];
   isAlarmRuleAssociationAPILoading = false;
   isSignalAssociationAPILoading = false;
   selectedAlertRule: Alert;
   derivedSignals: any = [];
-  showAssoc = true;
-  showUnassoc = false;
+  @Input() showAssoc = true;
+  @Input() showUnassoc = false;
   draggingSensorIx: number = null;
   draggingSignalIx: number = null;
   grabOffset: any = null;
   pageType = 'view';
-  disable = true;
+  @Input() disable = true;
   disabled = (this.disable) ? '' : null;
   @ViewChild('locationImage', { static: false }) elLocImg: ElementRef;
   imgOffsetLeft = null;
@@ -51,6 +50,8 @@ export class VotmCloudAssociationComponent implements OnInit {
   imgParentHeight = null;
   imgSourceHeight = null;
   imgSourceWidth = null;
+  @Input() isDragDropRequired;
+  @Input() model = 'Signal';
   @Input() imageURL: string;
   @Input() dragList: any[] = [];
   @Input() droppedList: any[] = [];
@@ -59,10 +60,12 @@ export class VotmCloudAssociationComponent implements OnInit {
   @Input() showAlertIcon: boolean;
   @Input() showDetachIcon: boolean;
   @Input() showSensorsDetail: boolean;
+  @Input() alertRules: Alert[] = [];
   @Output() detach: EventEmitter<any> = new EventEmitter<any>();
   @Output() saveAssociation: EventEmitter<any> = new EventEmitter<any>();
   @Output() reload: EventEmitter<any> = new EventEmitter<any>();
   @Output() saveAlarmAssociation: EventEmitter<any> = new EventEmitter<any>();
+  @Output() resetPage: EventEmitter<any> = new EventEmitter<any>();
   constructor(
     private activatedRoute: ActivatedRoute,
     private route: Router,
@@ -82,9 +85,7 @@ export class VotmCloudAssociationComponent implements OnInit {
       this.organizationId = params.get('orgId');
       console.log(this.curOrganizationId, '====', this.curOrganizationName, '====', this.organizationId);
       this.getLocationSignalAssociation();
-      if (this.showAlertIcon) {
-        this.getAlertRulesList();
-      }
+
     });
     this.pageType = this.activatedRoute.snapshot.data['type'];
     if (this.pageType.toLowerCase() === 'edit') {
@@ -101,17 +102,11 @@ export class VotmCloudAssociationComponent implements OnInit {
     this.reload.next();
   }
 
-  getAlertRulesList() {
-    this.alertsService.getAllAlertsByOrgId(this.curOrganizationId)
-      .subscribe(response => {
-        this.alertRules = response;
-      });
-  }
 
   toggleDisable() {
     console.log(this.dragList);
     this.disable = !this.disable;
-    this.disabled = (this.disable) ? "" : null;
+    this.disabled = (this.disable) ? '' : null;
     this.showUnassoc = !this.disable;
   }
 
@@ -132,6 +127,17 @@ export class VotmCloudAssociationComponent implements OnInit {
     console.log(this.imgOffsetLeft, '[[[[[[[[[[[[[[[[', this.imgOffsetTop);
     console.log(this.imgParentHeight, ']]]]]]]]]]]]]]]', this.imgParentWidth);
     console.log(this.imgSourceHeight, '======', this.imgSourceWidth);
+    if (!this.isDragDropRequired) {
+      for (const asset of this.droppedList) {
+        if (Object.keys(asset.pos).length === 0) {
+          asset.pos = {
+            left: (100 * this.imgOffsetLeft / this.imgParentWidth),
+            top: (100 * this.imgOffsetTop / this.imgParentHeight)
+          };
+        }
+      }
+    }
+    console.log(this.droppedList);
   }
 
   getOriginPos() {
@@ -141,6 +147,7 @@ export class VotmCloudAssociationComponent implements OnInit {
     };
     return style;
   }
+
   getExtentPos() {
     const style = {
       right: 'calc(' + (100 * this.imgOffsetLeft / this.imgParentWidth) + '% + 1px)',
@@ -166,7 +173,7 @@ export class VotmCloudAssociationComponent implements OnInit {
       icon: 'icon-sig-function', associated: true, derived: true, isClicked: false, derivedSigid: this.derivedSignals.length};
     this.derivedSignals.push(newSignal);
     // tslint:disable-next-line: no-string-literal
-    newSignal['id'] = this.droppedList.length;
+    newSignal['did'] = this.droppedList.length;
     // tslint:disable-next-line: no-string-literal
     newSignal['pos'] = {
       left: (100 * this.imgOffsetLeft / this.imgParentWidth),
@@ -174,7 +181,7 @@ export class VotmCloudAssociationComponent implements OnInit {
     };
     this.droppedList.push(newSignal);
     console.log(newSignal);
-    $('#derivedSignalModal').modal('hide');
+    this.closeModal(this.derivedSignalModal);
   }
 
   onStart(event: any, index1, index2) {
@@ -191,15 +198,17 @@ export class VotmCloudAssociationComponent implements OnInit {
 
   onDrop(event: any) {
     let pos = {
-      left: event.event.offsetX - this.grabOffset.x + 16,
-      top: event.event.offsetY - this.grabOffset.y + 16
+      left: event.event.offsetX,
+      top: event.event.offsetY
     };
 
     event.data.pixelPos = pos;
+    console.log(event.data.pixelPos);
     event.data.pos = {
       left: (((event.event.layerX - this.grabOffset.x + 16) / event.event.srcElement.offsetParent.offsetWidth) * 100.0).toFixed(2),
       top: (((event.event.layerY - this.grabOffset.y + 16) / event.event.srcElement.offsetParent.offsetHeight) * 100.0).toFixed(2)
     };
+    console.log(event.data.pos);
       // event.data.pos = { 'left.%': pos.left, 'top.%': pos.top };
 
     console.log(event.data.pos.left, '========', event.data.pos.top);
@@ -225,12 +234,17 @@ export class VotmCloudAssociationComponent implements OnInit {
       const index = this.droppedList.findIndex(signal => signal.did === event.data.did);
       this.droppedList[index].isClicked = true;
     } else {
-      let id = this.droppedList.findIndex(signal => signal.did === event.data.did);
+      console.log(this.droppedList);
+      console.log(event.data);
+      let id = this.droppedList.findIndex(signal => {
+        console.log(signal.did, '=========', event.data.did);
+        return signal.did === event.data.did;
+      });
       this.droppedList[id]['pos'] = event.data.pos;
       this.droppedList[id]['pixelPos'] = event.data.pixelPos;
     }
     this.closeAllIconsDisplay();
-   
+
     console.log(this.droppedList);
   }
 
@@ -243,6 +257,7 @@ export class VotmCloudAssociationComponent implements OnInit {
   // }
 
   getPositionStyle(signal) {
+    console.log(signal);
     const style = {
       left: 'calc(' + signal.pos.left + '% - 16px)',
       top: 'calc(' + signal.pos.top + '% - 16px)'
@@ -286,6 +301,27 @@ export class VotmCloudAssociationComponent implements OnInit {
   }
 
   onClickOfSaveSignalAssociationPanel() {
+    // if (this.selectedSignal.imageCordinates.x === 0) {
+    //   this.selectedSignal.pos = {
+    //     left: (100 * this.imgOffsetLeft / this.imgParentWidth),
+    //     top: this.selectedSignal.imageCordinates.y
+    //   };
+    // } else if (this.selectedSignal.imageCordinates.y === 0) {
+    //   this.selectedSignal.pos = {
+    //     top: (100 * this.imgOffsetTop / this.imgParentHeight),
+    //     left: this.selectedSignal.imageCordinates.x
+    //   };
+    // } else if (this.selectedSignal.imageCordinates.x === 100) {
+    //   this.selectedSignal.pos = {
+    //     left: (100 * this.imgOffsetLeft / this.imgParentWidth),
+    //     top: this.selectedSignal.imageCordinates.y
+    //   };
+    // } else if (this.selectedSignal.imageCordinates.y === 100) {
+    //   this.selectedSignal.pos = {
+    //     top: (100 * this.imgOffsetTop / this.imgParentHeight),
+    //     left: this.selectedSignal.imageCordinates.x
+    //   };
+    // }
     this.selectedSignal.pos = {
       left: this.selectedSignal.imageCordinates.x,
       top: this.selectedSignal.imageCordinates.y
@@ -325,7 +361,6 @@ export class VotmCloudAssociationComponent implements OnInit {
     this.selectedSignal = this.droppedList[index];
     if (this.selectedSignal.signalMappingId) {
       this.detach.emit(this.selectedSignal.signalMappingId);
-      this.toggleDisable();
       this.dragList = [];
       this.selectedSignal = undefined;
       this.derivedSignals = [];
@@ -382,16 +417,16 @@ export class VotmCloudAssociationComponent implements OnInit {
     this.dragList = [];
     this.selectedSignal = undefined;
     this.derivedSignals = [];
-    this.toggleDisable();
     this.isSignalAssociationAPILoading = false;
   }
 
   onClickOfReset() {
+    this.editOPanel.hide();
+    this.alertOPanel.hide();
     this.dragList = [];
     this.selectedSignal = undefined;
     this.derivedSignals = [];
-    this.getLocationSignalAssociation();
-    this.toggleDisable();
+    this.resetPage.emit();
   }
 
   // end
@@ -401,19 +436,21 @@ export class VotmCloudAssociationComponent implements OnInit {
     this.routerLocation.back();
   }
 
+  openmodal(id) {
+    // Get the modal
+    const modal = document.getElementById(id);
+    modal.style.display = 'block';
+    this.derivedSignalModal = document.getElementById(id);
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = (event) => {
+      if (event.target === modal) {
+        modal.style.display = 'none';
+      }
+    };
+   }
 
-  openmodal() {
-   // Get the modal
-   var modal = document.getElementById('alertModal');
-   modal.style.display = 'block';
-   this.modal = document.getElementById('alertModal');
-
-   // When the user clicks anywhere outside of the modal, close it
-   window.onclick = function (event) {
-     if (event.target == modal) {
-       // modal.style.display = 'none';
-     }
-   };
+  closeModal(key) {
+    key.style.display = 'none';
   }
 
 }

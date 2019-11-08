@@ -1,33 +1,60 @@
-
-    <div class="row">
-      <h5 class="col-xl-12">User Management</h5>
-      <div class="col-md-3 col-xl-4">
-        <div class="form-group">
-          <!-- <label for="role_search">Search</label> -->
-          <div class="input-group input-group-sm">
-            <input type="text" id="role_search" class="form-control" placeholder="Search">
-            <div class="input-group-append">
-              <!-- <span class="input-group-text"><i class="icon-search"></i></span> -->
-              <span class="input-group-text p-0"><button class="btn btn-sm btn-search" id="searchButton" type="submit"><i class="icon-search"></i></button></span>
-            </div>
-          </div>
+<div class="row">
+  <h5 class="col-xl-12">User Management</h5>
+  <div class="col-md-3 col-xl-4">
+    <div class="form-group">
+      <!-- <label for="role_search">Search</label> -->
+      <div class="input-group input-group-sm">
+        <input
+          type="text"
+          id="role_search"
+          class="form-control"
+          placeholder="Search"
+        />
+        <div class="input-group-append">
+          <!-- <span class="input-group-text"><i class="icon-search"></i></span> -->
+          <span class="input-group-text p-0"
+            ><button
+              class="btn btn-sm btn-search"
+              id="searchButton"
+              type="submit"
+            >
+              <i class="icon-search"></i></button
+          ></span>
         </div>
       </div>
-      <div class="col-md-9 col-xl-8 text-right pr-2">
-        <div class="form-group">
-          <button class="btn btn-info btn-sm mr-2" type="button" (click)="onClickOfCustomizePermissions()" id="custom_permission_btn">Customize
-            Data Permissions</button>
-          <button class="btn btn-info btn-sm mr-2" type="button" id="guest_access_btn" (click)="onChangeOfGuestUser()"
-            >Grant Guest Access</button>
-          <button class="btn btn-info btn-sm mr-2"  type="button" (click)="onClickOfAddUser()" id="add_user_btn">
-            Add User</button>
-        </div>
-      </div>
-
     </div>
-    <div class="">
-      <div class="table-responsive">
-        <table class="table table-bordered table-sm table-stripped table-hover" id="user_table">
+  </div>
+  <div class="col-md-9 col-xl-8 text-right pr-2">
+    <div class="form-group">
+      <button
+        class="btn btn-info btn-sm mr-2"
+        type="button"
+        (click)="onClickOfCustomizePermissions()"
+        id="custom_permission_btn"
+      >
+        Customize Data Permissions
+      </button>
+      <button
+        class="btn btn-info btn-sm mr-2"
+        type="button"
+        id="guest_access_btn"
+        (click)="onChangeOfGuestUser()"
+      >
+        Grant Guest Access
+      </button>
+      <button
+        class="btn btn-info btn-sm mr-2"
+        type="button"
+        (click)="onClickOfAddUser()"
+        id="add_user_btn"
+      >
+        Add User
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- <table class="table table-bordered table-sm table-stripped table-hover" id="user_table">
           <thead class="thead-dark">
             <tr>
               <th  class="text-center">
@@ -86,214 +113,539 @@
               <td  class="text-center" colspan="9">No data found.</td>
             </tr>
           </tbody>
+        </table> -->
+
+<p-table
+  [globalFilterFields]="['name']"
+  [resizableColumns]="true"
+  [value]="users"
+  id="locTbl"
+  [loading]="isGetUsersAPILoading"
+  autoLayout="true"
+>
+  <ng-template pTemplate="caption">
+    <div class="row">
+      <div class="col-4">
+        <div style="text-align: left;">
+          <div class="input-group input-group-sm">
+            <input
+              class="form-control"
+              name="searchFilterLoc"
+              id="searchBoxLoc"
+              [(ngModel)]="searchedText"
+              type="search"
+              placeholder="Search"
+              aria-label="Search"
+            />
+            <div class="input-group-append">
+              <span class="input-group-text p-0">
+                <button
+                  (click)="onUserSearch()"
+                  [disabled]="!searchedText"
+                  class="btn btn-sm btn-search"
+                  id="searchButton"
+                  type="submit"
+                >
+                  <i class="icon-search"></i>
+                </button>
+              </span>
+            </div>
+          </div>
+          <!-- <i class="icon-search" style="margin:4px 4px 0 0"></i>
+          <input type="text" pInputText size="20" placeholder="Type to filter"
+            (input)="tt.filterGlobal($event.target.value, 'contains')" style="width:auto" id="organizationFilter"> -->
+        </div>
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template pTemplate="header" id="UserTableCol">
+    <tr style="background-color: #dee2e6;">
+      <th [pSortableColumn]="'name'">
+        User name
+        <p-sortIcon field="name"></p-sortIcon>
+      </th>
+      <th [pSortableColumn]="'organizationName'">
+        Home Org
+        <p-sortIcon field="organizationName"></p-sortIcon>
+      </th>
+      <th [pSortableColumn]="'roleName'">
+        Role
+        <p-sortIcon field="roleName"></p-sortIcon>
+      </th>
+      <th [pSortableColumn]="'emailId'">
+        Email
+        <p-sortIcon field="emailId"> </p-sortIcon>
+      </th>
+      <th [pSortableColumn]="'phoneNumber'">
+        Permissions
+        <p-sortIcon field="phoneNumber"></p-sortIcon>
+      </th>
+      <th [pSortableColumn]="'access'">
+        Access
+        <p-sortIcon field="access"></p-sortIcon>
+      </th>
+      <th [pSortableColumn]="'permissions'">
+        Permissions
+        <p-sortIcon field="permissions"></p-sortIcon>
+      </th>
+      <th class="align-center">Action</th>
+      <!-- <th class="text-center" ttResizableColumn>Associations</th> -->
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="colgroup">
+    <colgroup>
+      <col />
+      <col />
+      <col />
+      <col />
+      <col />
+      <col />
+      <col />
+      <col />
+    </colgroup>
+  </ng-template>
+  <ng-template
+    pTemplate="body"
+    let-user
+    id="userTableRow"
+    let-rowIndex="rowIndex"
+  >
+    <tr>
+      <td class="align-left">
+        <a class="cursor-point" (click)="onClickOfUserDetails(user)">
+          {{ user.name }}
+        </a>
+      </td>
+      <td class="align-left">{{ user.organizationName }}</td>
+      <td class="align-left">{{ user.roleName }}</td>
+      <td class="align-left">{{ user.emailId }}</td>
+      <td class="align-left">{{ user.phoneNumber }}</td>
+      <td class="align-left">Home</td>
+      <td class="align-left">Role</td>
+      <td class="align-center">
+        <a
+          id="user_check_{{ rowIndex }}"
+          class="mr-2"
+          [title]="user.active ? 'Active' : 'Deactive'"
+          (click)="onClickOfConfirmUserStatus(user)"
+        >
+          <i [ngClass]="user.active ? 'fa fa-check-circle' : 'fa fa-ban'"></i>
+        </a>
+        <a
+          id="user_edit_{{ rowIndex }}"
+          title="Edit"
+          class="mr-2"
+          (click)="onClickOfEditUser(user, 'edit')"
+        >
+          <i class="icon-edit"></i>
+        </a>
+        <a
+          id="user_delete_{{ rowIndex }}"
+          title="Delete"
+          (click)="onClickOfConfirmDeleteUser(user)"
+          class="mr-2"
+        >
+          <i class="icon-trash"></i>
+        </a>
+      </td>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="emptymessage">
+    <tr>
+      <td [attr.colspan]="8">No data found.</td>
+    </tr>
+  </ng-template>
+</p-table>
+
+<!-- Modal Customize Data Permissions -->
+<div id="cus_data_per" class="modal">
+  <div class="modal-dialog modal-xl  modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Customize Data Permissions</h5>
+        <button
+          type="button"
+          class="close"
+          (click)="onClickOfCustomizePermissionModalClose()"
+        >
+          &times;
+        </button>
+      </div>
+      <div class="modal-body">
+        <table
+          class="table table-bordered table-sm table-stripped table-hover"
+          id="cus_data_per_table"
+        >
+          <thead class="thead-dark">
+            <tr>
+              <th>Site</th>
+              <th class="text-center">View</th>
+              <th class="text-center">Create</th>
+              <th class="text-center">Edit</th>
+              <th class="text-center">Delete</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Parker Hannifin Corporation</td>
+              <td class="text-center">
+                <div class="custom-control custom-checkbox">
+                  <input
+                    type="checkbox"
+                    class="custom-control-input"
+                    name="customCheck"
+                    id="customCheck0"
+                  />
+                  <label
+                    class="custom-control-label"
+                    for="customCheck0"
+                  ></label>
+                </div>
+              </td>
+              <td class="text-center">
+                <div class="custom-control custom-checkbox">
+                  <input
+                    type="checkbox"
+                    class="custom-control-input"
+                    name="customCheck"
+                    id="customCheck1"
+                    checked
+                  />
+                  <label
+                    class="custom-control-label"
+                    for="customCheck1"
+                  ></label>
+                </div>
+              </td>
+              <td class="text-center">
+                <div class="custom-control custom-checkbox">
+                  <input
+                    type="checkbox"
+                    class="custom-control-input"
+                    name="customCheck"
+                    id="customCheck2"
+                  />
+                  <label
+                    class="custom-control-label"
+                    for="customCheck2"
+                  ></label>
+                </div>
+              </td>
+              <td class="text-center">
+                <div class="custom-control custom-checkbox">
+                  <input
+                    type="checkbox"
+                    class="custom-control-input"
+                    name="customCheck"
+                    id="customCheck3"
+                  />
+                  <label
+                    class="custom-control-label"
+                    for="customCheck3"
+                  ></label>
+                </div>
+              </td>
+            </tr>
+          </tbody>
         </table>
       </div>
-    </div>
-
-  <!-- Modal Customize Data Permissions -->
-  <div id="cus_data_per" class="modal">
-    <div class="modal-dialog modal-xl  modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Customize Data Permissions</h5>
-          <button type="button" class="close" (click)="onClickOfCustomizePermissionModalClose()">&times;</button>
-        </div>
-        <div class="modal-body">
-          <table class="table table-bordered table-sm table-stripped table-hover" id="cus_data_per_table">
-            <thead class="thead-dark">
-              <tr>
-                <th>Site</th>
-                <th class="text-center">View</th>
-                <th class="text-center">Create</th>
-                <th class="text-center">Edit</th>
-                <th class="text-center">Delete</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Parker Hannifin Corporation</td>
-                <td class="text-center">
-                  <div class="custom-control custom-checkbox">
-                    <input type="checkbox" class="custom-control-input" name="customCheck" id="customCheck0">
-                    <label class="custom-control-label" for="customCheck0"></label>
-                  </div>
-                </td>
-                <td class="text-center">
-                  <div class="custom-control custom-checkbox">
-                    <input type="checkbox" class="custom-control-input" name="customCheck" id="customCheck1" checked>
-                    <label class="custom-control-label" for="customCheck1"></label>
-                  </div>
-                </td>
-                <td class="text-center">
-                  <div class="custom-control custom-checkbox">
-                    <input type="checkbox" class="custom-control-input" name="customCheck" id="customCheck2">
-                    <label class="custom-control-label" for="customCheck2"></label>
-                  </div>
-                </td>
-                <td class="text-center">
-                  <div class="custom-control custom-checkbox">
-                    <input type="checkbox" class="custom-control-input" name="customCheck" id="customCheck3">
-                    <label class="custom-control-label" for="customCheck3"></label>
-                  </div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary btn-sm" id="cus_data_btncancel"
-          (click)="onClickOfCustomizePermissionModalClose()">Cancel</button>
-          <button type="button" class="btn btn-info btn-sm" id="cus_data_btncreate">Save</button>
-        </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-outline-secondary btn-sm"
+          id="cus_data_btncancel"
+          (click)="onClickOfCustomizePermissionModalClose()"
+        >
+          Cancel
+        </button>
+        <button
+          type="button"
+          class="btn btn-info btn-sm"
+          id="cus_data_btncreate"
+        >
+          Save
+        </button>
       </div>
     </div>
   </div>
-  <!-- Modal Grant Guest Access -->
-  <div id="grant_guest_access" class="modal">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Grant Guest Access</h5>
-          <button type="button" class="close" (click)="onClickOfGrantAccessModalClose()">&times;</button>
-        </div>
-        <div class="modal-body">
-          <div class="row">
-            <div class="col-md-12">
-              <div class="form-group">
-                <label for="guest_access_search">Search</label>
-                <ng-select id="grantGuestSearch" class="custom"
-                  [multiple]="false" [(ngModel)]="selectedUserForGuestAccess"
-                  name="addRole" (change)="onChangeOfGuestUser()">
-                <ng-option *ngFor="let user of users"  [value]="user.userId">{{user.firstName}}&nbsp;{{user.lastName}}</ng-option>
-                </ng-select>
-              </div>
+</div>
+<!-- Modal Grant Guest Access -->
+<div id="grant_guest_access" class="modal">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Grant Guest Access</h5>
+        <button
+          type="button"
+          class="close"
+          (click)="onClickOfGrantAccessModalClose()"
+        >
+          &times;
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+              <label for="guest_access_search">Search</label>
+              <ng-select
+                id="grantGuestSearch"
+                class="custom"
+                [multiple]="false"
+                [(ngModel)]="selectedUserForGuestAccess"
+                name="addRole"
+                (change)="onChangeOfGuestUser()"
+              >
+                <ng-option *ngFor="let user of users" [value]="user.userId"
+                  >{{ user.firstName }}&nbsp;{{ user.lastName }}</ng-option
+                >
+              </ng-select>
             </div>
           </div>
+        </div>
 
-          <div class="row">
-            <div class="col-md-6">
-              <div class="form-group">
-                <label for="gga_f_name">First Name</label>
-                <div class="input-group input-group-sm">
-                  <input type="text" id="gga_f_name" disabled class="form-control" placeholder="First Name" [value]="selectedUserForEdit ? selectedUserForEdit.firstName : ''">
-                  <div class="input-group-append">
-                    <span class="input-group-text"><i class="icon-user-circle-o"></i></span>
-                  </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="gga_f_name">First Name</label>
+              <div class="input-group input-group-sm">
+                <input
+                  type="text"
+                  id="gga_f_name"
+                  disabled
+                  class="form-control"
+                  placeholder="First Name"
+                  [value]="
+                    selectedUserForEdit ? selectedUserForEdit.firstName : ''
+                  "
+                />
+                <div class="input-group-append">
+                  <span class="input-group-text"
+                    ><i class="icon-user-circle-o"></i
+                  ></span>
                 </div>
-              </div>
-            </div>
-            <div class="col-md-6">
-              <div class="form-group">
-                <label for="gga_l_name">Last Name</label>
-                <div class="input-group input-group-sm">
-                  <input type="text" id="gga_l_name" disabled class="form-control" placeholder="Last Name" [value]="selectedUserForEdit ? selectedUserForEdit.lastName : ''">
-                  <div class="input-group-append">
-                    <span class="input-group-text"><i class="icon-user-circle-o"></i></span>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-6">
-              <div class="form-group">
-                <label for="gga_e_name">Email</label>
-                <div class="input-group input-group-sm">
-                  <input type="email" id="gga_e_name" disabled class="form-control" placeholder="email" [value]="selectedUserForEdit ? selectedUserForEdit.emailId : ''">
-                  <div class="input-group-append">
-                    <span class="input-group-text"><i class="icon-mail"></i></span>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-6">
-              <div class="form-group">
-                <label for="guest_access" votmrequired>Guest Access</label>
-                <ng-select id="grantUserGuest" class="custom" [(ngModel)]="selectedOrgForGuestAccess"
-                  name="addRole">
-                  <ng-option *ngFor="let organization of organizations"  [value]="organization">{{organization.name}}</ng-option>
-                </ng-select>
               </div>
             </div>
           </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="gga_l_name">Last Name</label>
+              <div class="input-group input-group-sm">
+                <input
+                  type="text"
+                  id="gga_l_name"
+                  disabled
+                  class="form-control"
+                  placeholder="Last Name"
+                  [value]="
+                    selectedUserForEdit ? selectedUserForEdit.lastName : ''
+                  "
+                />
+                <div class="input-group-append">
+                  <span class="input-group-text"
+                    ><i class="icon-user-circle-o"></i
+                  ></span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="gga_e_name">Email</label>
+              <div class="input-group input-group-sm">
+                <input
+                  type="email"
+                  id="gga_e_name"
+                  disabled
+                  class="form-control"
+                  placeholder="email"
+                  [value]="
+                    selectedUserForEdit ? selectedUserForEdit.emailId : ''
+                  "
+                />
+                <div class="input-group-append">
+                  <span class="input-group-text"
+                    ><i class="icon-mail"></i
+                  ></span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="guest_access" votmrequired>Guest Access</label>
+              <ng-select
+                id="grantUserGuest"
+                class="custom"
+                [(ngModel)]="selectedOrgForGuestAccess"
+                name="addRole"
+              >
+                <ng-option
+                  *ngFor="let organization of organizations"
+                  [value]="organization"
+                  >{{ organization.name }}</ng-option
+                >
+              </ng-select>
+            </div>
+          </div>
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary btn-sm" id="grant_user_btncancel"
-            (click)="onClickOfGrantAccessModalClose()">Cancel</button>
-          <button type="button" class="btn btn-info btn-sm" id="grant_user_btncreate"
-            [disabled]="!selectedOrgForGuestAccess" (click)="onClickOfGrantGuestAccess()">
-            Grant
-          </button>
-        </div>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-outline-secondary btn-sm"
+          id="grant_user_btncancel"
+          (click)="onClickOfGrantAccessModalClose()"
+        >
+          Cancel
+        </button>
+        <button
+          type="button"
+          class="btn btn-info btn-sm"
+          id="grant_user_btncreate"
+          [disabled]="!selectedOrgForGuestAccess"
+          (click)="onClickOfGrantGuestAccess()"
+        >
+          Grant
+        </button>
       </div>
     </div>
   </div>
-  <!-- Modal Add User -->
-  <div id="add_user" class="modal">
-    <div class="modal-dialog modal-xl  modal-dialog-centered" *ngIf="userForm" >
-      <div class="modal-content" >
-        <div class="modal-header">
-          <h5 class="modal-title">{{pageType === 'add' ? 'Add' : (pageType === 'edit' ? 'Edit' : (pageType === 'view' ? 'View' : ''))}}  &nbsp;User</h5>
-          <button type="button" class="close" (click)="onClickOfCloseAddUserModal()">&times;</button>
-        </div>
-        <div class="modal-body">
-          <form [formGroup]="userForm" >
-
-            <div class="row">
-              <div class="col-12 col-md-12 col-lg-6">
-                <div class="row">
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <label for="user_f_name" votmrequired>First Name</label>
-                      <div class="input-group input-group-sm">
-                        <input type="text" id="user_f_name" class="form-control form-control-sm" placeholder="First Name" formControlName="firstName">
-                        <div class="input-group-append">
-                          <span class="input-group-text"><i class="icon-user-circle-o"></i></span>
-                        </div>
-
+</div>
+<!-- Modal Add User -->
+<div id="add_user" class="modal">
+  <div class="modal-dialog modal-xl  modal-dialog-centered" *ngIf="userForm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">
+          {{
+            pageType === "add"
+              ? "Add"
+              : pageType === "edit"
+              ? "Edit"
+              : pageType === "view"
+              ? "View"
+              : ""
+          }}
+          &nbsp;User
+        </h5>
+        <button
+          type="button"
+          class="close"
+          (click)="onClickOfCloseAddUserModal()"
+        >
+          &times;
+        </button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="userForm">
+          <div class="row">
+            <div class="col-12 col-md-12 col-lg-6">
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="user_f_name" votmrequired>First Name</label>
+                    <div class="input-group input-group-sm">
+                      <input
+                        type="text"
+                        id="user_f_name"
+                        class="form-control form-control-sm"
+                        placeholder="First Name"
+                        formControlName="firstName"
+                      />
+                      <div class="input-group-append">
+                        <span class="input-group-text"
+                          ><i class="icon-user-circle-o"></i
+                        ></span>
                       </div>
+                    </div>
 
-                      <div *ngIf="userForm.get('firstName').touched && userForm.get('firstName').value === null" >
-                        <app-votm-cloud-validator message="First name is required."></app-votm-cloud-validator>
-                      </div>
-
+                    <div
+                      *ngIf="
+                        userForm.get('firstName').touched &&
+                        userForm.get('firstName').value === null
+                      "
+                    >
+                      <app-votm-cloud-validator
+                        message="First name is required."
+                      ></app-votm-cloud-validator>
                     </div>
                   </div>
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <label for="user_l_name" votmrequired>Last Name</label>
-                      <div class="input-group input-group-sm">
-                        <input type="text" id="user_l_name" class="form-control form-control-sm" placeholder="Last Name" formControlName="lastName">
-                        <div class="input-group-append">
-                          <span class="input-group-text"><i class="icon-user-circle-o"></i></span>
-                        </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="user_l_name" votmrequired>Last Name</label>
+                    <div class="input-group input-group-sm">
+                      <input
+                        type="text"
+                        id="user_l_name"
+                        class="form-control form-control-sm"
+                        placeholder="Last Name"
+                        formControlName="lastName"
+                      />
+                      <div class="input-group-append">
+                        <span class="input-group-text"
+                          ><i class="icon-user-circle-o"></i
+                        ></span>
                       </div>
+                    </div>
 
-                      <div *ngIf="userForm.get('lastName').touched && userForm.get('lastName').value === null" >
-                        <app-votm-cloud-validator message="Last name is required."></app-votm-cloud-validator>
-                      </div>
-
+                    <div
+                      *ngIf="
+                        userForm.get('lastName').touched &&
+                        userForm.get('lastName').value === null
+                      "
+                    >
+                      <app-votm-cloud-validator
+                        message="Last name is required."
+                      ></app-votm-cloud-validator>
                     </div>
                   </div>
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <label for="user_e_name" votmrequired>Email</label>
-                      <div class="input-group input-group-sm">
-                        <input type="text" id="user_e_name" pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" class="form-control form-control-sm" placeholder="Email" formControlName="emailId">
-                        <div class="input-group-append">
-                          <span class="input-group-text"><i class="icon-mail"></i></span>
-                        </div>
-
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="user_e_name" votmrequired>Email</label>
+                    <div class="input-group input-group-sm">
+                      <input
+                        type="text"
+                        id="user_e_name"
+                        pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"
+                        class="form-control form-control-sm"
+                        placeholder="Email"
+                        formControlName="emailId"
+                      />
+                      <div class="input-group-append">
+                        <span class="input-group-text"
+                          ><i class="icon-mail"></i
+                        ></span>
                       </div>
+                    </div>
 
-                      <div *ngIf="userForm.get('emailId').touched && userForm.get('emailId').value === null" >
-                        <app-votm-cloud-validator message="Email is required."></app-votm-cloud-validator>
-                      </div>
-                      <div *ngIf="!userForm.get('emailId').valid && userForm.get('emailId').touched && userForm.get('emailId').value !== null">
-                        <app-votm-cloud-validator message="Enter valid email address."></app-votm-cloud-validator>
-                      </div>
-
+                    <div
+                      *ngIf="
+                        userForm.get('emailId').touched &&
+                        userForm.get('emailId').value === null
+                      "
+                    >
+                      <app-votm-cloud-validator
+                        message="Email is required."
+                      ></app-votm-cloud-validator>
+                    </div>
+                    <div
+                      *ngIf="
+                        !userForm.get('emailId').valid &&
+                        userForm.get('emailId').touched &&
+                        userForm.get('emailId').value !== null
+                      "
+                    >
+                      <app-votm-cloud-validator
+                        message="Enter valid email address."
+                      ></app-votm-cloud-validator>
                     </div>
                   </div>
-                  <!-- <div class="col-md-6">
+                </div>
+                <!-- <div class="col-md-6">
                     <div class="form-group">
                       <label for="guest_access_user">Guest Access</label>
                       <select id="guest_access_add_user" class="form-control form-control-sm" >
@@ -301,91 +653,183 @@
                       </select>
                     </div>
                   </div> -->
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <label for="guest_access_user">Phone Number</label>
-                      <div class="input-group input-group-sm">
-                        <input type="text" id="user_phone_number" class="form-control form-control-sm" placeholder="Phone number" formControlName="phoneNumber">
-                        <div class="input-group-append">
-                            <span class="input-group-text"><i class="fa fa-phone"></i></span>
-                        </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="guest_access_user">Phone Number</label>
+                    <div class="input-group input-group-sm">
+                      <input
+                        type="text"
+                        id="user_phone_number"
+                        class="form-control form-control-sm"
+                        placeholder="Phone number"
+                        formControlName="phoneNumber"
+                      />
+                      <div class="input-group-append">
+                        <span class="input-group-text"
+                          ><i class="fa fa-phone"></i
+                        ></span>
                       </div>
                     </div>
                   </div>
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <label for="guest_access" votmrequired>Role</label>
-                      <ng-select id="addUserRole" class="custom"  formControlName="roleId"
-                          name="addRoleForUser">
-                          <ng-option *ngFor="let role of roles"  [value]="role.roleId">{{role.roleName}}</ng-option>
-                        </ng-select>
-                        <div *ngIf="userForm.get('roleId').touched && userForm.get('roleId').value === null" >
-                          <app-votm-cloud-validator message="Role is required."></app-votm-cloud-validator>
-                        </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="guest_access" votmrequired>Role</label>
+                    <ng-select
+                      id="addUserRole"
+                      class="custom"
+                      formControlName="roleId"
+                      name="addRoleForUser"
+                    >
+                      <ng-option
+                        *ngFor="let role of roles"
+                        [value]="role.roleId"
+                        >{{ role.roleName }}</ng-option
+                      >
+                    </ng-select>
+                    <div
+                      *ngIf="
+                        userForm.get('roleId').touched &&
+                        userForm.get('roleId').value === null
+                      "
+                    >
+                      <app-votm-cloud-validator
+                        message="Role is required."
+                      ></app-votm-cloud-validator>
                     </div>
                   </div>
                 </div>
               </div>
-              <div class="col-12 col-md-12 col-lg-6">
-                <fieldset>
-                  <legend>Organizaion Access</legend>
-                  <div class="form-group">
-                    <label for="guest_access" votmrequired>Home Access</label>
-                    <ng-select id="userHomeAccess" class="custom" formControlName="organizationId"
-                      name="addRoleForAccess">
-                      <ng-option *ngFor="let organization of organizations"  [value]="organization.organizationId">{{organization.name}}</ng-option>
-                    </ng-select>
-                    <div *ngIf="userForm.get('organizationId').touched && userForm.get('organizationId').value === null" >
-                      <app-votm-cloud-validator message="Home Access is required."></app-votm-cloud-validator>
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label for="guest_access">Guest Access</label>
-                    <table class="table table-bordered table-stripped table-hover table-sm" id="addUserTb">
-                      <thead class="thead-dark">
-                        <tr >
-                          <th>Organization Name</th>
-                          <th>Role</th>
-                          <th class="text-center">Delete</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr  class="text-center" *ngIf="pageType === 'add'" >
-                          <td colspan="3">No data found.</td>
-                        </tr>
-                        <tr  class="text-center" *ngIf="(pageType === 'edit' || pageType === 'view') && selectedUserForEdit.userGuestOrganization.length === 0">
-                            <td colspan="3">No data found.</td>
-                        </tr>
-                        <ng-container  *ngIf="(pageType === 'edit' || pageType === 'view') && selectedUserForEdit.userGuestOrganization.length > 0">
-                        <tr *ngFor="let guestOrg of selectedUserForEdit.userGuestOrganization; let guestIndex = index;" >
-                          <td> {{guestOrg.organizationName}} </td>
-                          <td> Role </td>
-                          <td  > <a *ngIf="isGetUsersAPILoading" id="user_guest_delete_{{guestIndex}}" class="mr-2" (click)="onClickOfRemoveGuestAccess(guestIndex)"><i class="icon-trash"></i></a> </td>
-                        </tr>
-                        </ng-container>
-
-                      </tbody>
-                    </table>
-                  </div>
-                </fieldset>
-              </div>
             </div>
-
-          </form>
-        </div>
-        <div class="modal-footer">
-          <button type="button" *ngIf="pageType !== 'view'"  class="btn btn-secondary btn-sm" id="add_user_btncancel" (click)="onClickOfCloseAddUserModal()">Cancel</button>
-          <button type="button" *ngIf="pageType !== 'view'" class="btn btn-info btn-sm" id="add_user_btncreate"
+            <div class="col-12 col-md-12 col-lg-6">
+              <fieldset>
+                <legend>Organizaion Access</legend>
+                <div class="form-group">
+                  <label for="guest_access" votmrequired>Home Access</label>
+                  <ng-select
+                    id="userHomeAccess"
+                    class="custom"
+                    formControlName="organizationId"
+                    name="addRoleForAccess"
+                  >
+                    <ng-option
+                      *ngFor="let organization of organizations"
+                      [value]="organization.organizationId"
+                      >{{ organization.name }}</ng-option
+                    >
+                  </ng-select>
+                  <div
+                    *ngIf="
+                      userForm.get('organizationId').touched &&
+                      userForm.get('organizationId').value === null
+                    "
+                  >
+                    <app-votm-cloud-validator
+                      message="Home Access is required."
+                    ></app-votm-cloud-validator>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="guest_access">Guest Access</label>
+                  <table
+                    class="table table-bordered table-stripped table-hover table-sm"
+                    id="addUserTb"
+                  >
+                    <thead class="thead-dark">
+                      <tr>
+                        <th>Organization Name</th>
+                        <th>Role</th>
+                        <th class="text-center">Delete</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr class="text-center" *ngIf="pageType === 'add'">
+                        <td colspan="3">No data found.</td>
+                      </tr>
+                      <tr
+                        class="text-center"
+                        *ngIf="
+                          (pageType === 'edit' || pageType === 'view') &&
+                          selectedUserForEdit.userGuestOrganization.length === 0
+                        "
+                      >
+                        <td colspan="3">No data found.</td>
+                      </tr>
+                      <ng-container
+                        *ngIf="
+                          (pageType === 'edit' || pageType === 'view') &&
+                          selectedUserForEdit.userGuestOrganization.length > 0
+                        "
+                      >
+                        <tr
+                          *ngFor="
+                            let guestOrg of selectedUserForEdit.userGuestOrganization;
+                            let guestIndex = index
+                          "
+                        >
+                          <td>{{ guestOrg.organizationName }}</td>
+                          <td>Role</td>
+                          <td>
+                            <a
+                              *ngIf="isGetUsersAPILoading"
+                              id="user_guest_delete_{{ guestIndex }}"
+                              class="mr-2"
+                              (click)="onClickOfRemoveGuestAccess(guestIndex)"
+                              ><i class="icon-trash"></i
+                            ></a>
+                          </td>
+                        </tr>
+                      </ng-container>
+                    </tbody>
+                  </table>
+                </div>
+              </fieldset>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          *ngIf="pageType !== 'view'"
+          class="btn btn-outline-secondary btn-sm"
+          id="add_user_btncancel"
+          (click)="onClickOfCloseAddUserModal()"
+        >
+          Cancel
+        </button>
+        <button
+          type="button"
+          *ngIf="pageType !== 'view'"
+          class="btn btn-info btn-sm"
+          id="add_user_btncreate"
           (click)="onClickOfSubmitUser()"
-          [disabled]="(!userForm.valid && (userForm.touched || !userForm.touched)) || isCreateUserAPILoading"
-          >{{pageType === 'add' ? 'Create' : 'Update'}} <i *ngIf="isCreateUserAPILoading" class="fa fa-spinner fa-spin fa-fw"></i></button>
-        </div>
+          [disabled]="
+            (!userForm.valid && (userForm.touched || !userForm.touched)) ||
+            isCreateUserAPILoading
+          "
+        >
+          {{ pageType === "add" ? "Create" : "Update" }}
+          <i
+            *ngIf="isCreateUserAPILoading"
+            class="fa fa-spinner fa-spin fa-fw"
+          ></i>
+        </button>
       </div>
     </div>
   </div>
+</div>
 
-<app-votm-cloud-confim-dialog (onClose)="onClickOfDeleteUser($event)" #confirmDelUser [message]="confirmDelUserMessage"
-headerMessage="Delete User"></app-votm-cloud-confim-dialog>
+<app-votm-cloud-confim-dialog
+  (onClose)="onClickOfDeleteUser($event)"
+  #confirmDelUser
+  [message]="confirmDelUserMessage"
+  headerMessage="Delete User"
+></app-votm-cloud-confim-dialog>
 
-<app-votm-cloud-confim-dialog (onClose)="onClickOfChangeUserStatus($event)" #confirmUserStatus [message]="confirmUserStatusMessage"
-headerMessage="Change User Status"></app-votm-cloud-confim-dialog>
+<app-votm-cloud-confim-dialog
+  (onClose)="onClickOfChangeUserStatus($event)"
+  #confirmUserStatus
+  [message]="confirmUserStatusMessage"
+  headerMessage="Change User Status"
+></app-votm-cloud-confim-dialog>

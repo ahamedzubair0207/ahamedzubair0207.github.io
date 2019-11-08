@@ -24,8 +24,25 @@ export class AssetSignalService {
       );
   }
 
+  getAvailableSignalsForAsset(organizationId, locationId, assetId): Observable<any> {
+    return this.http.get(AppConstants.GET_AVAILABLE_SIGNALS + '?organization=' + organizationId +
+      '&location=' + locationId + '&assetId=' + assetId)
+      .pipe(
+        map(response => response)
+      );
+  }
+
   getAssetSignalAssociation(assetId: string) {
     return this.http.get(AppConstants.GET_SIGNAL_ASSOCIATION + '/' + assetId + '/AssetAssociation');
+  }
+
+  createSignalAssociation(data) {
+    return this.http.post(AppConstants.CREATE_SIGNAL_ASSOCIATION, data);
+  }
+
+  detachSignalAssociation(signalMappingId) {
+    const obj = {};
+    return this.http.delete(AppConstants.DETACH_SIGNAL_ASSOCIATION + '/' + signalMappingId + '/Association', obj);
   }
 
 }

@@ -24,7 +24,7 @@
   <div class="tab-content w-100">
 
     <div class="tab-pane fade border border-top-0 p-3 mb-3 shadow show active" id="asset-details-tab"
-      *ngIf="(!assetId && pageLabels) || (assetId && pageLabels && asset)" role="tabpanle"
+      *ngIf="(!assetId && pageLabels) || (assetId && pageLabels && asset)" role="tabpanel"
       area-labelledby="asset-info-tab">
       <div class="d-flex flex-row">
         <ul class="nav nav-tabs nav-tabs-vertical nav-tabs-left pt-3" aria-orientation="vertical">
@@ -48,7 +48,7 @@
         </ul>
         <div class="tab-content w-100">
           <div class="tab-pane fade show active" *ngIf="(!assetId && pageLabels) || (assetId && pageLabels && asset)"
-            id="asset-details" role="tabpanle" area-labelledby="asset-details-tab">
+            id="asset-details" role="tabpanel" area-labelledby="asset-details-tab">
             <form #assetForm="ngForm" class="asset-create-font create-asset-container needs-validation"
               (ngSubmit)="onAssetSubmit()" novalidate>
 
@@ -371,26 +371,26 @@
             </form>
           </div>
 
-          <div class="tab-pane fade" *ngIf="isSignalAssociationClicked" id="asset-signal" role="tabpanle"
+          <div class="tab-pane fade"  id="asset-signal" role="tabpanel"
             area-labelledby="asset-signal-tab">
-            <app-votom-cloud-assets-signal *ngIf="imgURL" [image]="imgURL"></app-votom-cloud-assets-signal>
+            <app-votom-cloud-assets-signal *ngIf="isSignalAssociationClicked"></app-votom-cloud-assets-signal>
           </div>
 
-          <div class="tab-pane fade" *ngIf="isChildAssetAssociation"  id="asset-child" role="tabpanle" area-labelledby="asset-child-tab">
-            <app-votm-cloud-asset-child *ngIf="imgURL" ></app-votm-cloud-asset-child>
+          <div class="tab-pane fade"   id="asset-child" role="tabpanel" area-labelledby="asset-child-tab">
+            <app-votm-cloud-asset-child *ngIf="isChildAssetAssociation" ></app-votm-cloud-asset-child>
           </div>
         </div>
       </div>
     </div>
 
-    <div class="tab-pane fade" id="event-details-tab" role="tabpanle" area-labelledby="event-details-tab">
+    <div class="tab-pane fade" id="event-details-tab" role="tabpanel" area-labelledby="event-details-tab">
       <app-votm-cloud-events-asset></app-votm-cloud-events-asset>
     </div>
 
-    <div class="tab-pane fade" id="dashboard1-details-tab" role="tabpanle" area-labelledby="dashboard1-details-tab">
+    <div class="tab-pane fade" id="dashboard1-details-tab" role="tabpanel" area-labelledby="dashboard1-details-tab">
     </div>
 
-    <div class="tab-pane fade" id="dashboard2-details-tab" role="tabpanle" area-labelledby="dashboard2-details-tab">
+    <div class="tab-pane fade" id="dashboard2-details-tab" role="tabpanel" area-labelledby="dashboard2-details-tab">
     </div>
 
   </div>

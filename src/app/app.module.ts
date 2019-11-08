@@ -16,6 +16,8 @@ import UserAuthenticationConfig from './pcm.configuration';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NgbModule, NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
 import { AppRoutingModule } from './app-routing.module';
+import {TableModule} from 'primeng/table';
+
 import { AppComponent } from './app.component';
 import { VotmCloudViewsHomeComponent } from './components/views/votm-cloud-views-home/votm-cloud-views-home.component';
 import { VotmCloudAlertsHomeComponent } from './components/alerts/votm-cloud-alerts-home/votm-cloud-alerts-home.component';
@@ -250,6 +252,7 @@ const oktaConfig = Object.assign({
     OverlayPanelModule,
     OktaAuthModule,
     TreeTableModule,
+    TableModule,
     AmModule,
     DndModule
   ],
