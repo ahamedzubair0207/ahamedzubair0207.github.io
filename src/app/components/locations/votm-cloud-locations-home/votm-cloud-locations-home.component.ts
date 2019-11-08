@@ -36,7 +36,6 @@ export class VotmCloudLocationsHomeComponent implements OnInit {
       this.curLocName = params.get('locName');
       this.parentOrgId = params.get('orgId');
       this.parentOrgName = params.get('orgName');
-      console.log(' this.curLocId ', this.parentOrgId, this.parentOrgName);
       if (!this.curLocId) {
         this.fetchlocationTree();
       } else {
@@ -52,7 +51,6 @@ export class VotmCloudLocationsHomeComponent implements OnInit {
       if (response && response.length > 0) {
         this.locationsList = this.fillLocationData(response);
       }
-      console.log('this.locationsList ', this.locationsList);
     });
 
   }
@@ -87,7 +85,6 @@ export class VotmCloudLocationsHomeComponent implements OnInit {
         this.locationsList = this.fillLocationData(response);
       }
       
-    console.log('this.locationsList ', this.locationsList);
     });
   }
 
@@ -99,7 +96,6 @@ export class VotmCloudLocationsHomeComponent implements OnInit {
   }
 
   deleteLocationById(event) {
-    console.log('event on close ', event);
     if (event) {
       this.locService.deleteLocation(this.locToDelete)
         .subscribe(response => {
@@ -115,11 +111,9 @@ export class VotmCloudLocationsHomeComponent implements OnInit {
   }
 
   onLocationSearch() {
-    console.log('this.searchedText ', this.searchedText);
     if (this.searchedText) {
       this.locService.searchLocations(this.searchedText)
         .subscribe(response => {
-          console.log('response ', response);
           // this.locationsList = response;
         });
     }

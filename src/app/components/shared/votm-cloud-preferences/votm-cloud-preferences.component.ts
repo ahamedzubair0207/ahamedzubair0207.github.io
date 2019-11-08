@@ -149,7 +149,6 @@ export class VotmCloudPreferencesComponent implements OnInit, AfterViewInit {
           this.userImgURL = this.domSanitizer.bypassSecurityTrustUrl(`data:image/${this.fileExtension};base64,${this.userprofile.logo.image}`);
           // this.userprofile.logo.imageType = this.fileExtension;
         }
-        console.log('getUserDetailInfo user details---' + this.userId + JSON.stringify(this.userprofile));
         this.getFavoriteDraggbleRow(this.userprofile);
       });
 
@@ -170,7 +169,6 @@ export class VotmCloudPreferencesComponent implements OnInit, AfterViewInit {
           $(this).html(i + 1 + '');
         });
         // $('input.favoriteOrder', ui.item.parent()).each(function (i) {
-        //   //console.log($(this).val());
         //   $(this).val(i + 1);
         // });
         $('input.favoriteOrderId', ui.item.parent()).each(function (i) {
@@ -218,8 +216,6 @@ export class VotmCloudPreferencesComponent implements OnInit, AfterViewInit {
   }
 
   onuserPreferenceSubmit(userPreferenceForm: any) {
-    console.log('onuserPreferenceSubmit==== ', this.userprofile);
-    console.log('userPreferenceForm==== ', userPreferenceForm);
     this.userService.updateUser(this.userprofile)
       .subscribe(response => {
         this.toaster.onSuccess('User Successfully updated', 'Updated');
@@ -227,7 +223,6 @@ export class VotmCloudPreferencesComponent implements OnInit, AfterViewInit {
 
         // Disabled All edit favorites input on preference save
         for (const userfavorites of this.userprofile.userFavorites) {
-          console.log('userfavorites', userfavorites);
           userfavorites.disabled = false;
         }
 
@@ -313,7 +308,6 @@ export class VotmCloudPreferencesComponent implements OnInit, AfterViewInit {
     userNotificationObj.warningAlarm = $('.warningNotificationClass:checked').map(function() { return this.value; }).get().join(',');
     userNotificationObj.infoMessage = $('.infoNotificationClass:checked').map(function() { return this.value; }).get().join(',');
     userNotificationObj.active = true;
-    console.log('userNotificationObj update----', userNotificationObj);
 
     this.userService.updateUserNotification(userNotificationObj).subscribe(
       response => {
@@ -381,7 +375,6 @@ export class VotmCloudPreferencesComponent implements OnInit, AfterViewInit {
     // When the user clicks anywhere outside of the modal, close it
     window.onclick = function (event) {
       if (event.target == modal) {
-        console.log('AHAMED');
         modal.style.display = "none";
       }
     }
@@ -459,7 +452,6 @@ export class VotmCloudPreferencesComponent implements OnInit, AfterViewInit {
           data = e.target.result;
         }
         let base64textString = btoa(data);
-        console.log('this.organization ', this.userprofile, data);
         this.userprofile.logo.image = base64textString;
       };
 

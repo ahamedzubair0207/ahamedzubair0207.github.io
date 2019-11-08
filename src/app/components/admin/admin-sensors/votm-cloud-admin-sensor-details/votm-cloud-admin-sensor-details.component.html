@@ -17,37 +17,38 @@
             <div class="col-12 col-md-6 col-lg-4 col-xl-3">
               <div class="form-group">
                 <label for="s_name">Sensor Name</label>
-                <input class="form-control form-control-sm" placeholder="Pressure - E3000012" type="text" id="s_name" />
+                <input class="form-control form-control-sm" placeholder="Sensor Name" type="text" id="s_name"
+                  [(ngModel)]="sensorDetailsData.sensorName" name="sensorName" #sensorName="ngModel" />
               </div>
             </div>
             <div class="col-12 col-md-6 col-lg-4 col-xl-3">
               <div class="form-group">
                 <label for="s_no">Serial Number</label>
-                <input class="form-control form-control-sm" placeholder="E3000012" type="text" id="s_no" />
+                <input class="form-control form-control-sm" placeholder="Serial Number" type="text" id="s_no" [(ngModel)]="sensorDetailsData.serialNumber" name="serialNumber" #serialNumber="ngModel" />
               </div>
             </div>
             <div class="col-12 col-md-6 col-lg-4 col-xl-3">
               <div class="form-group">
                 <label for="s_des">Description</label>
-                <input class="form-control form-control-sm" placeholder="Description" type="text" id="s_des" />
+                <input class="form-control form-control-sm" placeholder="Description" type="text" id="s_des" [(ngModel)]="sensorDetailsData.description" name="description" #description="ngModel" />
               </div>
             </div>
             <div class="col-12 col-md-6 col-lg-4 col-xl-3">
               <div class="form-group">
                 <label for="s_type">Sensor Type</label>
-                <input class="form-control form-control-sm" placeholder="sensor type" type="text" id="s_type" />
+                <input class="form-control form-control-sm" placeholder="sensor type" type="text" id="s_type" [(ngModel)]="sensorDetailsData.sensorTypeName" name="sensorTypeName" #sensorTypeName="ngModel" />
               </div>
             </div>
             <div class="col-12 col-md-6 col-lg-4 col-xl-3">
               <div class="form-group">
                 <label for="s_mo_nu">Model Number</label>
-                <input class="form-control form-control-sm" placeholder="sensor type" type="text" id="s_mo_nu" />
+                <input class="form-control form-control-sm" placeholder="sensor type" type="text" id="s_mo_nu" [(ngModel)]="sensorDetailsData.sensorModelNumber" name="sensorModelNumber" #sensorModelNumber="ngModel" />
               </div>
             </div>
             <div class="col-6 col-md-4 col-lg-4 col-xl-3">
               <div class="form-group">
                 <label for="s_se_st">Sensor State</label>
-                <input class="form-control form-control-sm" placeholder="OK" type="text" id="s_se_st" />
+                <input class="form-control form-control-sm" placeholder="OK" type="text" id="s_se_st" [(ngModel)]="sensorDetailsData.sensorStatusName" name="sensorStatusName" #sensorStatusName="ngModel" />
               </div>
             </div>
             <div class="col-6 col-md-4 col-lg-4 col-xl-3">
@@ -59,7 +60,7 @@
                       <span class="demo-icon icon-battery-75"></span>
                     </span>
                   </div>
-                  <input class="form-control form-control-sm" placeholder="2.9 VDC" type="text" id="s_bt_le" />
+                  <input class="form-control form-control-sm" placeholder="Battery Level" type="text" id="s_bt_le" />
                 </div>
               </div>
             </div>
@@ -72,7 +73,7 @@
                       <span class="demo-icon icon-signal-75"></span>
                     </span>
                   </div>
-                  <input class="form-control form-control-sm" placeholder="2.9 VDC" type="text" id="s_bt_le" />
+                  <input class="form-control form-control-sm" placeholder="Signal Stregth" type="text" id="s_bt_le" />
                 </div>
               </div>
             </div>
@@ -117,7 +118,7 @@
           </fieldset>
         </div>
       </div>
-      <fieldset>
+      <!-- <fieldset>
         <legend>Signal Mapping</legend>
         <div class="row">
           <div class="col-12 col-md-4 col-lg-3 col-xl-2">
@@ -172,13 +173,14 @@
             </div>
           </div>
         </div>
-      </fieldset>
+      </fieldset> -->
       <div class="row mt-3">
         <div class="col-12">
           <table class="table table-sm table-bordered table-hover org-table-fonts">
             <thead class="thead-dark">
               <tr>
-                <th>Asset/Location & Signal Name</th>
+                <th>Signal Name</th>
+                <th>Asset/Location Association</th>
                 <th>Association Name</th>
                 <th>Last Value</th>
                 <th>Report Time</th>
@@ -187,17 +189,19 @@
             </thead>
             <tbody>
               <tr>
+                <td><i class="demo-icon icon-sig-temperature"></i> Gage Pressure</td>
                 <td><i class="demo-icon icon-asset-robot mr-2"></i> GV > Compressor Room > Air Compressor 1</td>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td>Outlet Pressure</td>
+                <td>157 psi</td>
+                <td>9/12/19 00:00</td>
                 <td><i class="demo-icon icon-warn text-danger mr-2"></i> Critical</td>
               </tr>
               <tr>
+                <td><i class="demo-icon icon-sig-temperature"></i> Temprature</td>
                 <td><i class="demo-icon icon-asset-robot mr-2"></i> GV > Compressor Room > Air Compressor 1</td>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td>Outlet Temprature</td>
+                <td>85 &deg;F</td>
+                <td>9/12/19 00:01</td>
                 <td><i class="demo-icon icon-warn text-danger mr-2"></i> Critical</td>
               </tr>
             </tbody>

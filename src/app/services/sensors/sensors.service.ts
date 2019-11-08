@@ -14,12 +14,25 @@ export class SensorsService {
 
   constructor(private http: CustomHttp, private httpClient: HttpClient) { }
 
-
-  
-  getSensorTree(){
+  getSensorTree() {
     return this.http.get(AppConstants.GET_SENSOR_TREE)
       .pipe(
         map(response => response)
       );
   }
+
+  getSensorList() {
+    return this.http.get(AppConstants.GET_SENSOR_LIST)
+      .pipe(
+        map(response => response)
+      );
+  }
+
+  getSensorDetailsById(sensorId) {
+    return this.http.get(AppConstants.GET_SENSOR_DETAIL_BY_ID + '/' + sensorId)
+      .pipe(
+        map(response => response)
+      );
+  }
+
 }

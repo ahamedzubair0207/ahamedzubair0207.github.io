@@ -84,7 +84,6 @@
               name="asset-association-edit" href="#loc-asset" data-toggle="tab" role="tab" aria-controls="loc-asset"
               aria-selected="false"><i class="icon-asset-robot"></i></a>
           </li>
-
         </ul>
 
         <!-- Location Details  -->
@@ -628,33 +627,9 @@
           </div>
 
           <!-- Location Signal & Gateways  -->
-          <div class="tab-pane fade" id="loc-signal" role="tabpanle" area-labelledby="loc-signal-tab">
+          <div class="tab-pane fade" id="loc-signal" role="tabpanle" area-labelledby="loc-signal-tab" >
 
-            <div class="nav nav-tabs" role="tablist">
-              <ul class="nav nav-tabs">
-                <li class="nav-item">
-                  <a class="nav-link active tab-icon" id="signal" (click)="onClickOfNavTab('signal_association')"
-                    href="#signal-tab" data-toggle="tab" role="tab" aria-controls="signal" aria-selected="true">
-                    Signals</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link tab-icon" id="gateway" (click)="onClickOfNavTab('gateway_association')"
-                    href="#gateway-tab" data-toggle="tab" role="tab" aria-controls="gateway" aria-selected="true">
-                    Gateways</a>
-                </li>
-              </ul>
-            </div>
-            <div class="tab-content" id="">
-              <div class="tab-pane fade show active" *ngIf="isSignalAssociationClicked" id="signal-tab" role="tabpanle"
-                area-labelledby="signal-tab">
-                <app-votm-cloud-locations-signal></app-votm-cloud-locations-signal>
-              </div>
-              <div class="tab-pane fade" *ngIf="isGatewayAssociationClicked" id="gateway-tab" role="tabpanle"
-                area-labelledby="gateway-tab">
-                <!-- <app-votm-cloud-locations-signal></app-votm-cloud-locations-signal> -->
-                <app-votm-cloud-locations-gateway></app-votm-cloud-locations-gateway>
-              </div>
-            </div>
+              <app-votm-cloud-locations-signal *ngIf="isSignalAssociationClicked" ></app-votm-cloud-locations-signal>
           </div>
 
 

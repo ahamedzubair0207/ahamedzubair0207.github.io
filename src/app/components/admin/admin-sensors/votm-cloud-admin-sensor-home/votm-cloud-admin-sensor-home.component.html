@@ -71,7 +71,7 @@
             <td class="align-left">
               <span container="body" [ngbTooltip]="rowData.name">
                 <p-treeTableToggler [rowNode]="rowNode"></p-treeTableToggler>
-                <i class="icon-org-company"></i>{{rowData.name}}
+                <a [routerLink]="['/admin/networkmanagement/sensorDetails', rowData.id]"><i class="icon-org-company"></i>{{rowData.name}}</a>
               </span>
             </td>
             <td class="align-left"></td>

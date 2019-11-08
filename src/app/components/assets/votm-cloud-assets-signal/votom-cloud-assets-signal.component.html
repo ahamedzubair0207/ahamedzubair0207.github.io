@@ -1,149 +1,50 @@
-<div>
-  <p-overlayPanel
-    #op
-    id="op"
-    [appendTo]="'body'"
-    [dismissable]="false"
-    [showCloseIcon]="true"
-  >
-    <h6 *ngIf="selectedSignal">
-      {{ selectedSignal.name }}&nbsp;
-      <a (click)="op2.toggle($event)"><i class="fa fa-pencil-square-o"></i></a
-      >&nbsp; <a (click)="op3.toggle($event)"><i class="fa fa-exclamation-triangle"></i></a>&nbsp;
-      <a ><i class="icon-trash"></i></a>
-    </h6>
-  </p-overlayPanel>
-
-  <p-overlayPanel #op2 [appendTo]="'body'" [dismissable]="false"
-  [showCloseIcon]="true">
+<div  class="position-relative" *ngIf="imgURL">
+    <div class="lock-tab cursor-point" >
+        <a (click)="toggleDisable()"><i [ngClass]="disable ? 'icon-lock edit-view-lock' : 'icon-lock-open edit-view-lock'"></i></a>
+    </div>
     <div class="row">
-      <div class="col-md-12">
-          <div class="card">
-              <div class="card-header">Signal Association</div>
-              <div class="card-body">
-                <div class="row">
-
-                  <div class="col-sm-3"><label>Name: &nbsp;</label></div>
-
-                  <div class="col-sm-9">
-                    <input type="text" id="signal_name" class="form-control" placeholder="Enter Signal Name">
-                  </div>
-                </div>
-                <div class="row mar-top-5">
-                  <div class="col-sm-3"><label>Position: &nbsp; X: &nbsp;</label></div>
-
-                  <div class="col-sm-4">
-                    <input type="text" id="position_x" class="form-control" placeholder="Enter Postion X">
-                  </div>
-
-                    <div class="col-sm-1">Y:  &nbsp;</div>
-                    <div class="col-sm-4">
-                      <input type="text" id="position_y" class="form-control" placeholder="Enter Position Y">
-                    </div>
-
-
-                </div>
-                <div class="row mar-top-5">
-                  <div class="col-sm-12">
-                  <label> Source Signal Type: </label> Gage Pressure
-                  </div>
-                </div>
-                <div class="row mar-top-5">
-                    <div class="col-sm-12">
-                    <label> Source Sensor: </label> Pressure Sensor E300025
-                    </div>
-                  </div>
-
-              </div>
-              <div class="card-footer text-muted">
-
-                  <button class="btn btn-primary mt-3 pull-right" >Save</button>
-              </div>
-          </div>
+      <div class="col-12 col-md-3 pl-md-2">
+        <div class="form-group has-search">
+          <span class="icon-search form-control-feedback"></span>
+          <input type="text" class="form-control" placeholder="Filter Signals" />
+        </div>
       </div>
+      <div class="col-12 col-md-6 form-group py-1" [class.d-none]="disable">
+        Signals to show:&nbsp;&nbsp;
+        <div class="custom-control custom-checkbox custom-control-inline" >
+          <input type="checkbox" id="assocSignals" class="custom-control-input" [checked]="showAssoc" (change)="showAssoc = !showAssoc" />
+          <label class="custom-control-label" for="assocSignals">Associated</label>
+        </div>
+        <div class="custom-control custom-checkbox custom-control-inline">
+          <input type="checkbox" id="unassocSignals" class="custom-control-input" [checked]="showUnassoc" (change)="showUnassoc = !showUnassoc" />
+          <label class="custom-control-label" for="unassocSignals">Unassociated</label>
+        </div>
+      </div>
+    </div>
+
+    <app-votm-cloud-association
+      [imageURL]="imgURL"
+      [dragList]="sensors"
+      [droppedList]="associatedSignals"
+      [showDerivedSignal]="true"
+      [showSensorsDetail]="true"
+      [showEditIcon]="true"
+      [showAlertIcon]="true"
+      [showDetachIcon]="true"
+      [isDragDropRequired]="true"
+      [disable]="disable"
+      [alertRules]="alertRules"
+      [showUnassoc]="showUnassoc"
+      [showAssoc]="showAssoc"
+      (detach)="onDetachSignalFromAsset($event)"
+      (reload)="getAllAvailableSignals()"
+      (saveAssociation)="onSaveSignalAssociation($event)"
+      (saveAlarmAssociation)="onClickOfAlarmRuleAssociation($event)"
+      (resetPage)="onReset($event)"
+
+    >
+    </app-votm-cloud-association>
   </div>
-  </p-overlayPanel>
-
-    <p-overlayPanel #op3 [appendTo]="'body'" [dismissable]="false"
-    [showCloseIcon]="true">
-
-    <div class="row">
-        <div class="col-md-12">
-            <div class="card">
-                <div class="card-header">Alarm Rule Association</div>
-                <div class="card-body">
-                    <select class="form-control">
-                        <option>1</option>
-                    </select>
-
-                </div>
-                <div class="card-footer text-muted">
-                    <button class="btn btn-primary mt-3 pull-left" (click)="onClickOfCreateAssociateRule()">Create & Associate Rule</button>
-                    &nbsp;&nbsp;
-                    <button class="btn btn-primary mt-3 pull-right" >Save</button>
-                </div>
-            </div>
-        </div>
+  <div class="center" *ngIf="!imgURL">
+      <i  class="fa fa-spinner fa-2x fa-spin fa-fw"></i>
     </div>
-  </p-overlayPanel>
-
-  <form class="form">
-    <h4 class="col">Associate Signal</h4>
-
-    <div class="row org-create-font mar-top-30">
-      <div class="col-md-4">
-        <div class="enclosing-div">
-          <h5>Available Signals</h5>
-          <hr />
-          <ul>
-            <ng-container
-              *ngFor="let sensor of availableSignals; let sensorIndex = index"
-            >
-              <li *ngIf="sensor.node.length > 0">
-                <h6><i class="fa fa-plus"></i> &nbsp;{{ sensor.name }}</h6>
-                <ul>
-                  <li
-                    *ngFor="let signal of sensor.node; let signalIndex = index"
-
-                  >
-                  <a [class.disabled]="isSignalDisabled(signal)">
-                    <!-- <img
-                      [src]="signal.image"
-                      style="cursor:pointer"
-                      width="40"
-                      height="40"
-                      id="signal_{{ sensorIndex }}_{{ signalIndex }}"
-                    /> -->
-                    <i class="icon-sig-temperature"></i>
-                    </a>
-                    &nbsp; {{ signal.name }}
-
-                  </li>
-                </ul>
-              </li>
-            </ng-container>
-          </ul>
-        </div>
-      </div>
-
-      <div class="col-md-8" >
-          <!-- *ngIf="assetImageURL" -->
-        <div  class="enclosing-div" >
-          <img id="dropdiv" [src]="image" class="imag-size" *ngIf="image"/>
-        </div>
-      </div>
-    </div>
-    <br />
-    <div class="col">
-      <button
-        id="asset-cancel"
-        for="form-cancel"
-        type="button"
-        (click)="onCancelClick($event)"
-        class="btn btn-secondary"
-      >
-        Cancel
-      </button>
-    </div>
-  </form>
-</div>

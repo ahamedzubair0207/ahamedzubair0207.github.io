@@ -39,6 +39,7 @@ export class VotmCloudAdminUserManagementComponent implements OnInit, OnDestroy 
   customizePermissionsModal: any;
   userModal: any;
   grantGuestAccessModal: any;
+  searchedText: string;
 
   constructor(
     private userService: UserService,
@@ -58,12 +59,17 @@ export class VotmCloudAdminUserManagementComponent implements OnInit, OnDestroy 
     this.isGetUsersAPILoading = true;
     this.userService.getAllUsers().subscribe(
       response => {
+        response.forEach(user => user.name = user.firstName + ' ' + user.lastName);
         this.users = response;
         this.isGetUsersAPILoading = false;
       }, error => {
         this.isGetUsersAPILoading = false;
       }
     );
+  }
+
+  onUserSearch() {
+
   }
 
   getRoles() {
@@ -89,7 +95,6 @@ export class VotmCloudAdminUserManagementComponent implements OnInit, OnDestroy 
         this.selectedUsers.splice(index, 1);
       }
     }
-    console.log(this.selectedUsers);
   }
 
   onClickOfSelectAllCheckBox() {
@@ -100,7 +105,6 @@ export class VotmCloudAdminUserManagementComponent implements OnInit, OnDestroy 
     } else {
       this.selectedUsers = [];
     }
-    console.log(this.selectedUsers);
   }
 
   onClickOfAddUser() {
@@ -155,7 +159,6 @@ export class VotmCloudAdminUserManagementComponent implements OnInit, OnDestroy 
       userObj.userGuestOrganization = this.selectedUserForEdit.userGuestOrganization;
       userSubmitMethod = this.userService.updateUser(userObj);
     }
-    console.log(JSON.stringify(userObj));
     userSubmitMethod.subscribe(
       response => {
         this.toaster.onSuccess('Successfully ' + (this.pageType === 'add' ? 'created' : 'updated'),
@@ -246,7 +249,6 @@ export class VotmCloudAdminUserManagementComponent implements OnInit, OnDestroy 
           organizationName: new FormControl(this.selectedUserForEdit.organizationName),
           active: new FormControl(this.selectedUserForEdit.active)
         });
-        console.log(JSON.stringify(this.selectedUserForEdit));
         const modal = document.getElementById('add_user');
         modal.style.display = 'block';
         this.userModal = document.getElementById('add_user');

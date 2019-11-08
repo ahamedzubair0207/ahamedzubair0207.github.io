@@ -64,7 +64,6 @@ export class VotmCloudAssetTemplateDetailsComponent implements OnInit {
   fetchTemplateById() {
     this.assetService.getTemplateById(this.templateId)
       .subscribe(response => {
-        // console.log('Response from Template ', response);
         if (response && response.length > 0) {
           this.template = response[0];
         }
@@ -116,12 +115,10 @@ export class VotmCloudAssetTemplateDetailsComponent implements OnInit {
         this.parentAssetListForDropDown.sort(SortArrays.compareValues('assetName'));
       }
     }
-    console.log('Filtered assets ', this.parentAssetListForDropDown);
   }
 
   onTemplateSubmit() {
     // this.asset.documentationUrl = 'ABDFE';
-    console.log('templateForm INFO ', this.templateForm);
 
     if (this.template) {
       if (!this.template.logo) {
@@ -134,7 +131,6 @@ export class VotmCloudAssetTemplateDetailsComponent implements OnInit {
     // this.template.assetName = null;
     if (this.template && this.template.invalid) {
       this.toaster.onFailure('Please fill the form correctly.', 'Form is invalid!');
-      console.log('If block ');
       Object.keys(this.templateForm.form.controls).forEach(element => {
         this.templateForm.form.controls[element].markAsDirty();
       });
@@ -178,7 +174,6 @@ export class VotmCloudAssetTemplateDetailsComponent implements OnInit {
   }
 
   preview(file) {
-    console.log('Loaded Preview');
     this.message = '';
     if (!file) {
       return;
@@ -212,7 +207,6 @@ export class VotmCloudAssetTemplateDetailsComponent implements OnInit {
           data = e.target.result;
         }
         let base64textString = btoa(data);
-        // console.log('this.organization ', this.location, data)
         this.template.logo.image = base64textString;
       };
 
@@ -235,7 +229,6 @@ export class VotmCloudAssetTemplateDetailsComponent implements OnInit {
 
       this.docFile = new Blob(binaryData, { type: file.type });
 
-      console.log('type of file ', typeof (this.docFile));
       this.handleDocSelect(file);
       // let readerToPreview = new FileReader();
       // // this.imagePath = file;
@@ -243,7 +236,6 @@ export class VotmCloudAssetTemplateDetailsComponent implements OnInit {
       // // readerToPreview.onload = (_event) => {
       // //   this.imgURL = this.domSanitizer.bypassSecurityTrustUrl(readerToPreview.result.toString()); //readerToPreview.result;
       // // }
-      // // console.log('AHAMED', this.resultABCD)
     }
   }
 
@@ -269,7 +261,6 @@ export class VotmCloudAssetTemplateDetailsComponent implements OnInit {
           data = e.target.result;
         }
         let base64textString = btoa(data);
-        // console.log('this.organization ', this.location, data)
         this.template.fileStore.file = base64textString;
       };
 

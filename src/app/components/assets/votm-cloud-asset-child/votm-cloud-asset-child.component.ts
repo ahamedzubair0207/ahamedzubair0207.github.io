@@ -51,7 +51,8 @@ export class VotmCloudAssetChildComponent implements OnInit {
   childAssets: any[] = [];
   derivedSignals: any = [];
   showAssoc = true;
-  showUnassoc = true;
+  disable = true;
+  showUnassoc = false;
   draggingChildAssetIx: number = null;
   grabOffset: any = null;
   asset: Asset;
@@ -110,6 +111,18 @@ export class VotmCloudAssetChildComponent implements OnInit {
           childAsset.associationName = childAsset.name;
           childAsset.associated = false;
         }
+        for (let i = 0; i < this.childAssets.length; i++) {
+          const asset = {...this.childAssets[i]};
+          asset.pos = {};
+          // asset.pos['left'] = asset.imageCordinates.x;
+          // asset.pos['top'] = asset.imageCordinates.y;
+          asset.isClicked = false;
+          asset.icon = 'icon-sig-humidity';
+          asset.associated = true;
+          asset.did = i;
+          asset.bound = true;
+          this.associatedChildAssets.push(asset);
+        }
         this.isGetChildAssetsAPILoading = false;
       },
         error => {
@@ -120,6 +133,8 @@ export class VotmCloudAssetChildComponent implements OnInit {
 
   getChildAssetAssociation() {
     this.isGetassociatedChildAssetsAPILoading = true;
+
+
     // this.locationSignalService.getSignalAssociation(this.parentLocationId)
     //   .subscribe(
     //     response => {
@@ -143,6 +158,11 @@ export class VotmCloudAssetChildComponent implements OnInit {
     //   );
   }
 
+  toggleDisable() {
+    this.disable = !this.disable;
+    this.showUnassoc = !this.disable;
+  }
+
   showSignal(signal: any): boolean {
     return (signal.associated && this.showAssoc) || ((!signal.associated) && this.showUnassoc);
   }
@@ -159,7 +179,6 @@ export class VotmCloudAssetChildComponent implements OnInit {
 
   onStart(event: any, index1) {
     this.closeEditOpanel();
-    console.log(index1);
     this.draggingChildAssetIx = event.srcElement.getAttribute('assetIx');
     this.grabOffset = { x: event.offsetX, y: event.offsetY };
   }
@@ -206,7 +225,6 @@ export class VotmCloudAssetChildComponent implements OnInit {
       signal.sensorId === this.selectedChildAsset.sensorId
     );
     this.associatedChildAssets.splice(index, 1, this.selectedChildAsset);
-    console.log(this.associatedChildAssets);
     this.closeEditOpanel();
   }
 
@@ -222,7 +240,6 @@ export class VotmCloudAssetChildComponent implements OnInit {
   }
 
   onSaveChildAssetAssociation(associatedChildAssets) {
-    console.log(associatedChildAssets);
     const data = associatedChildAssets.map(asset => {
       const obj = {
         locationId: this.parentLocationId,
@@ -238,11 +255,9 @@ export class VotmCloudAssetChildComponent implements OnInit {
       };
       return obj;
     });
-    console.log(data);
     this.assetService.addParentChildAssetAssociation(this.assetId, data)
       .subscribe(
         response => {
-          console.log(response);
           // this.asset = undefined;
           this.associatedChildAssets = [];
           this.toaster.onSuccess('Child Asset associated successfully', 'Saved');
@@ -257,6 +272,11 @@ export class VotmCloudAssetChildComponent implements OnInit {
 
   onCancelClick(event) {
     this.routerLocation.back();
+  }
+
+  onReset() {
+    this.getChildAssets();
+    this.toggleDisable();
   }
 
 

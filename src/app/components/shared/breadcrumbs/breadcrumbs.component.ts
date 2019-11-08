@@ -56,10 +56,11 @@ export class BreadcrumbsComponent {
     if (this.currentUrl.startsWith(`/org/edit`) || this.currentUrl.startsWith(`/org/view`)) {
       let parts = this.currentUrl.split('/');
       this.orgId = parts[5].indexOf('#') >= 0 ? parts[5].split('#')[0] : parts[5];
-      this.orgName = parts[4];
+      // this.orgName = parts[4];
       this.pageType = 'Organization';
       this.parentOrgId = parts[3];
       this.breadcrumbs = [];
+      console.log('OrgId ', this.orgId);
       // if (this.orgId.toLowerCase() === this.parentOrgId.toLowerCase()) {
       //   this.breadcrumbs.push({ name: parts[4], nodes: [] });
       // } else {

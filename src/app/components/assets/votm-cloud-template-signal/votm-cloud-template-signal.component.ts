@@ -40,10 +40,6 @@ export class VotomCloudTemplateSignalComponent implements OnInit, OnDestroy {
     private domSanitizer: DomSanitizer,
   ) { }
 
-  ngDoCheck() {
-    // console.log('dimensions ', this.imgURL, this.templateImage ? (this.templateImage.nativeElement as HTMLImageElement).offsetHeight : null);
-  }
-
   ngOnInit() {
     this.assetId = this.activatedRoute.snapshot.params.assetId;
     this.getAllAvailableSignals();

@@ -168,7 +168,6 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
             const img = new Image();
             img.src = base64Img;
             img.onload = () => {
-              console.log(img.width, '=====', img.height);
               this.imgSize = {
                 width: img.width,
                 height: img.height
@@ -548,11 +547,9 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
             left: e.pageX + pos_x - drg_w
           });
         }).on('mouseup', function (e) {
-          console.log($(this));
           $(this).off('mousemove'); // Unbind events from document
           if ($selected !== null) {
             $selected.removeClass(opt.draggableClass);
-            console.log($selected.css('left'), $selected.css('top'));
             const x = $selected.css('left');
             const y = $selected.css('top');
             const xpercent = parseInt($selected.css('left'), 10) / ($selected.parent().width() / 100);

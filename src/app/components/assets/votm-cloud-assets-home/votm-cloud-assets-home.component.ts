@@ -59,7 +59,6 @@ export class VotmCloudAssetsHomeComponent implements OnInit {
   }
 
   onCreateAsset() {
-    console.log('AHAMED CLICKED ', this.parentOrgName, this.parentOrgId);
     this.router.navigate([`asset/create/${this.parentOrgId}/${this.parentOrgName}`]);
   }
 
@@ -72,7 +71,6 @@ export class VotmCloudAssetsHomeComponent implements OnInit {
   }
 
   deleteAssetById(event) {
-    console.log('event on close ', event);
     if (event) {
       this.assetService.deleteAsset(this.assetToDelete)
         .subscribe(response => {
@@ -136,18 +134,15 @@ export class VotmCloudAssetsHomeComponent implements OnInit {
   }
 
   addNum(a: number, b: number): number {
-    console.log(a + b);
     let c = a + b;
     return c;
   }
 
   onListClick(asset: any) {
-    console.log('onListClick ', asset);
     this.router.navigate([`asset/home/${asset.parentOrganizationId}/${asset.parentOrganizationName}/${asset.id}`]);
   }
 
   onEditViewClick(asset, action) {
-    console.log('asset ', asset);
     if (asset.parentId) {
       this.router.navigate([`asset/${action}/${asset.parentOrganizationId}/${asset.parentOrganizationName}/${asset.parentLocationId}/${asset.parentLocationName}/${asset.parentId}/${asset.parentName}/${asset.id}`]);
     } else {
@@ -164,7 +159,6 @@ export class VotmCloudAssetsHomeComponent implements OnInit {
     if (!this.templateList || this.templateList.length === 0) {
       this.assetService.getAllTemplates()
         .subscribe(response => {
-          console.log('response of templates ', response);
           this.templateList = response;
         });
     }

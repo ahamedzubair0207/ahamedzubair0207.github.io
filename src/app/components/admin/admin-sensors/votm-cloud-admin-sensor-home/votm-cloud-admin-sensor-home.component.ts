@@ -31,7 +31,6 @@ export class VotmCloudAdminSensorHomeComponent implements OnInit {
 
   ngOnInit() {
     // this.getAllGateways();
-    // console.log(this.allSensors);
 
     this.route.paramMap.subscribe((params: ParamMap) => {
       this.getSensorTree();
@@ -62,7 +61,7 @@ export class VotmCloudAdminSensorHomeComponent implements OnInit {
       }
       treeSensors.push(treeSensor);
     });
-    console.log('sensors ', treeSensors);
+    // console.log('sensors ', treeSensors);
     return treeSensors;
   }
 

@@ -1,2 +1,124 @@
+<div class="p-2 border">
+    <div class="text-right chartConfigureIcon"><i class="icon-cog font-15" (click)="onClickOfCustomizeTrendChart()"></i></div>
+    <div class="text-center con-wid-preview" *ngIf="!isTrendChartConfigured">
+        <img class="img-fluid img-fluid-custom" src="../../../../../assets/images/configure_trend_chart_widget.jpg">
+    </div>
+    <div *ngIf="isTrendChartConfigured" id="{{ 'chartdiv-line-' + id }}" style="width: 100%; height: 350px"></div>
+</div>
 
-<div id="{{ 'chartdiv-line-' + id }}" style="width: 100%; height: 42vh;"></div>
+<!-- <div id="{{ 'chartdiv-line-' + id }}" style="width: 100%; height: 42vh;"></div> -->
+
+<!-- Modal Trend Chart -->
+<div id="configure-Trend-chart-modal" class="modal">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Time Configure Trend Chart</h5>
+                <button type="button" class="close" (click)="onClickOfCustomizeTrendChartModalClose()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="">Title</label>
+                            <input class="form-control form-control-sm" type="text" placeholder=""/>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label class="w-100" for="">Signal Level to Chart</label>
+                            <div class="custom-control custom-radio custom-control-inline">
+                                <input type="radio" class="custom-control-input" name="customRadio" id="1">
+                                <label class="custom-control-label" for="1">Organization</label>
+                            </div>
+                            <div class="custom-control custom-radio custom-control-inline">
+                                <input type="radio" class="custom-control-input" name="customRadio" id="2">
+                                <label class="custom-control-label" for="2">Location</label>
+                            </div>
+                            <div class="custom-control custom-radio custom-control-inline">
+                                <input type="radio" class="custom-control-input" name="customRadio" id="3">
+                                <label class="custom-control-label" for="3">Asset</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="">Signal to Show</label>
+                            <select class="form-control form-control-sm">
+                                <option>1</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="">Max Periods in Chart</label>
+                            <select class="form-control form-control-sm">
+                                <option>1</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="">Show Signal State?</label>
+                            <div class="custom-control custom-switch">
+                                <input type="checkbox" class="custom-control-input" id="customSwitch1">
+                                <label class="custom-control-label" for="customSwitch1"></label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="form-group">
+                            <label for="">Start at beginning of current</label>
+                            <div class="input-group input-group-sm">
+                                <select class="form-control form-control-sm">
+                                    <option>Month</option>
+                                </select>
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">Minus</span>
+                                </div>
+                                <input type="text" class="form-control" placeholder="1">
+                                <div class="input-group-append">
+                                    <select class="form-control form-control-sm">
+                                        <option>Year</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="">Subtotal Trend by</label>
+                            <select class="form-control form-control-sm">
+                                <option>Organization</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="">Type</label>
+                            <select class="form-control form-control-sm">
+                                <option>Distributor</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="">Click to navigate to subtotal level?</label>
+                            <div class="custom-control custom-switch">
+                                <input type="checkbox" class="custom-control-input" id="customSwitch2">
+                                <label class="custom-control-label" for="customSwitch2"></label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary btn-sm" id="grant_user_btncancel"
+                    (click)="onClickOfCustomizeTrendChartModalClose()">Cancel</button>
+                <button type="button" class="btn btn-info btn-sm" id="" (click)="saveTrendChartConfiguration()">
+                    Save
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

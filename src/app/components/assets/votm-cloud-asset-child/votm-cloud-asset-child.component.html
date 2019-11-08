@@ -1,14 +1,50 @@
-<app-votm-cloud-association
-  [imageURL]="imgURL"
-  [dragList]="childAssets"
-  [droppedList]="associatedChildAssets"
-  [showDerivedSignal]="false"
-  [showSensorsDetail]="false"
-  [showEditIcon]="true"
-  [showAlertIcon]="false"
-  [showDetachIcon]="false"
-  (reload)="getChildAssetAssociation()"
-  (saveAssociation)="onSaveChildAssetAssociation($event)"
-  *ngIf="imgURL"
->
-</app-votm-cloud-association>
+<div  class="position-relative" *ngIf="imgURL">
+  <div class="lock-tab cursor-point" >
+      <a (click)="toggleDisable()"><i [ngClass]="disable ? 'icon-lock edit-view-lock' : 'icon-lock-open edit-view-lock'"></i></a>
+  </div>
+  <div class="row">
+    <div class="col-12 col-md-3 pl-md-2">
+      <div class="form-group has-search">
+        <span class="icon-search form-control-feedback"></span>
+        <input type="text" class="form-control" placeholder="Filter Assets" />
+      </div>
+    </div>
+    <!-- <div class="col-12 col-md-6 form-group py-1" [class.d-none]="disable">
+      {{model}}s to show:&nbsp;&nbsp;
+      <div class="custom-control custom-checkbox custom-control-inline" *ngIf="model === 'Signal'" >
+        <input type="checkbox" id="assocSignals" class="custom-control-input" [checked]="showAssoc" (change)="showAssoc = !showAssoc" />
+        <label class="custom-control-label" for="assocSignals">Associated</label>
+      </div>
+      <div class="custom-control custom-checkbox custom-control-inline" *ngIf="model === 'Signal'">
+        <input type="checkbox" id="unassocSignals" class="custom-control-input" [checked]="showUnassoc" (change)="showUnassoc = !showUnassoc" />
+        <label class="custom-control-label" for="unassocSignals">Unassociated</label>
+      </div>
+      <div class="custom-control custom-checkbox custom-control-inline" *ngIf="model === 'Gateway'" >
+          <input type="checkbox" id="claimedGateways" class="custom-control-input" />
+          <label class="custom-control-label" for="assocSignals">Claimed</label>
+        </div>
+        <div class="custom-control custom-checkbox custom-control-inline" *ngIf="model === 'Gateway'">
+          <input type="checkbox" id="unClaimedGateways" class="custom-control-input" />
+          <label class="custom-control-label" for="unassocSignals">Unclaimed</label>
+        </div>
+    </div> -->
+  </div>
+  <app-votm-cloud-association
+    [imageURL]="imgURL"
+    [droppedList]="associatedChildAssets"
+    [showEditIcon]="true"
+    [showAlertIcon]="false"
+    [showDetachIcon]="false"
+    [disable]="disable"
+    [isDragDropRequired]="false"
+    [showUnassoc]="showUnassoc"
+    (reload)="getChildAssetAssociation()"
+    (saveAssociation)="onSaveChildAssetAssociation($event)"
+    (resetPage)="onReset()"
+
+  >
+  </app-votm-cloud-association>
+</div>
+<div class="center" *ngIf="!imgURL">
+  <i  class="fa fa-spinner fa-2x fa-spin fa-fw"></i>
+</div>

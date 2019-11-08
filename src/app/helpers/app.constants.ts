@@ -59,6 +59,8 @@ export class AppConstants {
     public static DETACH_SIGNAL_ASSOCIATION = 'Signals';
 
     public static GET_SENSOR_TREE = '/SensorTree';
+    public static GET_SENSOR_DETAIL_BY_ID = '/Sensor';
+    public static GET_SENSOR_LIST = '/Sensor';
 
     public static GET_ALERT = '/Alert';
     public static GET_ALERT_BYALERTID = '/AlertRule';
