@@ -77,6 +77,8 @@ export class VotmCloudLocationsSignalComponent implements OnInit {
           const fileExtension = this.location.logo.imageName.slice(
             (Math.max(0, this.location.logo.imageName.lastIndexOf('.')) || Infinity) + 1);
           this.imgURL = this.domSanitizer.bypassSecurityTrustUrl(`data:image/${fileExtension};base64,${this.location.logo.image}`);
+        } else {
+          this.imgURL = '../../../../assets/images/default-image.svg';
         }
       });
   }

@@ -126,7 +126,6 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
   ngOnInit() {
 
     this.activatedRoute.paramMap.subscribe(params => {
-      alert('asfsdgf');
       this.asset.organizationId = this.curOrgId = params.get("parentOrgId");
       this.asset.organizationName = this.curOrgName = params.get("parentOrgName");
       this.asset.locationId = this.parentLocId = params.get("parentLocId");
