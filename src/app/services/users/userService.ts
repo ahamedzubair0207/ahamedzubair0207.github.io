@@ -6,7 +6,7 @@ import { UserGroup } from 'src/app/models/user-groups';
 import { map } from 'rxjs/operators';
 import { AppConstants } from 'src/app/helpers/app.constants';
 import { UserRole } from 'src/app/models/user-role';
-import { HttpParams } from '@angular/common/http';
+import { HttpParams, HttpClient } from '@angular/common/http';
 
 
 @Injectable({
@@ -14,7 +14,8 @@ import { HttpParams } from '@angular/common/http';
 })
 export class UserService {
 
-    constructor(private http: CustomHttp) { }
+    constructor(private http: CustomHttp,
+      private httpClient: HttpClient) { }
 
     getUserGroups(): Observable<Array<UserGroup>> {
         return this.http.get(AppConstants.GET_USER_GROUPS)
@@ -78,5 +79,18 @@ export class UserService {
 
     deleteUserFavorite(userFavoriteId: string) {
         return this.http.delete(AppConstants.DELETE_USER_FAVORITE + '?userFavoriteId=' + userFavoriteId, {});
+    }
+
+    getUserUOMDetail(userId) {
+      return this.http.get(AppConstants.GET_USER_UOM + '/' + userId);
+    }
+
+    addUserUOMDetail(uomObj) {
+      return this.http.post(AppConstants.ADD_USER_UOM, uomObj);
+    }
+
+    deleteUserUOMDetail(uomObj) {
+      console.log(uomObj);
+      return this.http.post(AppConstants.DELETE_USER_UOM, uomObj);
     }
 }

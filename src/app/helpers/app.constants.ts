@@ -21,6 +21,11 @@ export class AppConstants {
     public static POST_FAVORITES = '/UserManagement/UserFavorites';
     public static PATCH_FAVORITES = '/UserManagement/UserFavorites';
 
+    public static GET_USER_UOM = 'UserManagement/UnitofMeasurement';
+    public static ADD_USER_UOM = 'UserManagement/UnitofMeasurement';
+    public static DELETE_USER_UOM = 'UserManagement/UnitofMeasurement/delete';
+
+
     public static GET_USER_GROUPS = '/UserManagement/UserGroups';
     public static GET_ALERTRULE_USERGROUP_SUBSCRIBER = '/ALertRuleUserGroupSubscriber';
     public static GET_USER_ROLES = '/UserManagement/Roles';
