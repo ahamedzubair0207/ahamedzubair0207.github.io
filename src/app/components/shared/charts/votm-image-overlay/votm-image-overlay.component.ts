@@ -35,6 +35,8 @@ export class VotmImageOverlayComponent implements OnInit {
   widgetassetimageID: any;
   overLaySource: any;
   wId: string;
+  parentOrgId: string;
+  assetId: string;
   constructor(
     private toastr: ToastrService,
     private locationSignalService: LocationSignalService,
@@ -54,24 +56,35 @@ export class VotmImageOverlayComponent implements OnInit {
     this.route.paramMap.subscribe((params: ParamMap) => {
       this.curLocId = params.get('locId');
       // this.curLocName = params.get('locName');
-      // this.parentOrgId = params.get('orgId');
+      this.parentOrgId = params.get('orgId');
       // this.parentOrgName = params.get('orgName');
-      console.log('m y this.curLocId ', this.curLocId);
-      if (!this.curLocId) {
-        // this.fetchlocationTree();
-      } else {
-        // this.fetchlocationTreeById();
-        this.fetchlocationTreeById();
+      this.assetId = params.get('assetId');
+      console.log('m y this.curLocId parentOrgId', this.curLocId, this.parentOrgId);
 
+      if (this.parentOrgId) {
+        // Organization dashboard
+        // fetch all location & assets by org id
+        // asset tree by orgid -
+        // https://phc-pcm-dev-api.azurewebsites.net/v1//AssetTree?type=organization&Id=7a59bdd8-6e1d-48f9-a961-aa60b2918dde
+      } else if (this.curLocId) {
+        // Location dashbaord
+        // fetch all child location & it selft
+        // fetch all assets by location ID
+        // this.fetchlocationTreeById();
+        this.fetchlocationTreeByLocationId();
         // Get assets
-        this.fetchAssetsTreeById();
+        this.fetchAssetsTreeByLocationId();
+      } else if (this.assetId) {
+        // Asset Dashboard
+        // Fetch all child assets & itself
       }
+
 
     });
 
   }
 
-  fetchlocationTreeById() {
+  fetchlocationTreeByLocationId() {
     this.locationService.getLocationTreeByID(this.curLocId).subscribe(response => {
       this.locationsList = [];
       if (response && response.length > 0) {
@@ -80,7 +93,7 @@ export class VotmImageOverlayComponent implements OnInit {
       console.log('my this.locationsList ', this.locationsList);
       this.LocationSourceChild = this.locationsList[0].children;
       // Include Parent location (it self in dropdown)
-      this.LocationSourceChild.push({'data':this.locationsList[0].data});
+      this.LocationSourceChild.push({data: this.locationsList[0].data});
       console.log('my updated locationsList ', this.locationsList);
     });
   }
@@ -99,7 +112,7 @@ export class VotmImageOverlayComponent implements OnInit {
     return locationList;
   }
 
-  fetchAssetsTreeById() {
+  fetchAssetsTreeByLocationId() {
     this.assetService.getAssetTreeByLocId(this.curLocId)
       .subscribe(response => {
         this.assetsList = [];
