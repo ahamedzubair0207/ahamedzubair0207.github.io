@@ -179,7 +179,6 @@ export class VotmCloudAssetChildComponent implements OnInit {
 
   onStart(event: any, index1) {
     this.closeEditOpanel();
-    console.log(index1);
     this.draggingChildAssetIx = event.srcElement.getAttribute('assetIx');
     this.grabOffset = { x: event.offsetX, y: event.offsetY };
   }
@@ -226,7 +225,6 @@ export class VotmCloudAssetChildComponent implements OnInit {
       signal.sensorId === this.selectedChildAsset.sensorId
     );
     this.associatedChildAssets.splice(index, 1, this.selectedChildAsset);
-    console.log(this.associatedChildAssets);
     this.closeEditOpanel();
   }
 
@@ -242,7 +240,6 @@ export class VotmCloudAssetChildComponent implements OnInit {
   }
 
   onSaveChildAssetAssociation(associatedChildAssets) {
-    console.log(associatedChildAssets);
     const data = associatedChildAssets.map(asset => {
       const obj = {
         locationId: this.parentLocationId,
@@ -258,11 +255,9 @@ export class VotmCloudAssetChildComponent implements OnInit {
       };
       return obj;
     });
-    console.log(data);
     this.assetService.addParentChildAssetAssociation(this.assetId, data)
       .subscribe(
         response => {
-          console.log(response);
           // this.asset = undefined;
           this.associatedChildAssets = [];
           this.toaster.onSuccess('Child Asset associated successfully', 'Saved');

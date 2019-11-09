@@ -2,6 +2,8 @@ import { Component, OnInit, NgZone } from '@angular/core';
 import * as am4core from "@amcharts/amcharts4/core";
 import * as am4charts from "@amcharts/amcharts4/charts";
 import am4themes_animated from "@amcharts/amcharts4/themes/animated";
+import { ToastrService } from 'ngx-toastr';
+import { Toaster } from '../../votm-cloud-toaster/votm-cloud-toaster';
 
 am4core.useTheme(am4themes_animated);
 @Component({
@@ -13,17 +15,24 @@ export class VotmLineGraphComponent implements OnInit {
 
   private chart: am4charts.XYChart;
   id: any;
+  customizeTrendChart: any;
+  isTrendChartConfigured: boolean;
+  toaster: Toaster = new Toaster(this.toastr);
 
-  constructor(private zone: NgZone) {
+  constructor(private zone: NgZone , private toastr: ToastrService) {
     this.id = Math.floor((Math.random() * 100) + 1);
    }
 
   ngOnInit() {
-    
+    this.isTrendChartConfigured = false;
   }
 
   ngAfterViewInit() {
    
+    if (this.isTrendChartConfigured) {
+      this.getAMTrendChart();
+    }
+
       let chart = am4core.create("chartdiv-line-"+this.id, am4charts.XYChart);
 
       chart.paddingRight = 20;
@@ -84,5 +93,61 @@ export class VotmLineGraphComponent implements OnInit {
       }
     });
   }
+
+  onClickOfCustomizeTrendChart() {
+    // Open Chart configuration modal popup
+    const modal = document.getElementById('configure-Trend-chart-modal');
+    modal.style.display = 'block';
+    this.customizeTrendChart = document.getElementById('configure-Trend-chart-modal');
+    window.onclick = (event) => {
+      if (event.target === modal) {
+        modal.style.display = 'none';
+      }
+    };
+  }
+
+  onClickOfCustomizeTrendChartModalClose() {
+    // Close modal popup
+    this.customizeTrendChart.style.display = 'none';
+  }
+
+  getChartConfiguration() {
+
+    // Call service to get configured chart data & to verify chart is configured or not
+    // this.widgetService.getColumnChartConfiguration().subscribe(
+    //   response => {
+    //     this.isColumnChartConfigured = true;
+    //   }, error => {
+    //     this.isColumnChartConfigured = false;
+    //   }
+    // );
+    this.isTrendChartConfigured = true;
+  }
+
+  saveTrendChartConfiguration() {
+    this.customizeTrendChart.style.display = 'none';
+    this.toaster.onSuccess('Chart Configured Successfully', 'Success');
+    // Call services to save chart configuration data
+    // this.widgetService.addColumnChartConfiguration(columnChartConfigureObj).subscribe(
+    //   response => {
+    //     this.toaster.onSuccess('Chart Configured Successfully', 'Success');
+    //     this.onClickOfCustomizeColumnChartModalClose();
+    //     this.getChartConfiguration();
+    //   }, error => {
+    //     this.toaster.onFailure('Error in Chart Configuration', 'Failure');
+    //     this.onClickOfCustomizeColumnChartModalClose();
+    //   }
+    // );
+    this.getChartConfiguration();
+    setTimeout(() => {
+      this.getAMTrendChart();
+    }, 500);
+
+  }
+
+  getAMTrendChart(){
+
+  }
+
 
 }

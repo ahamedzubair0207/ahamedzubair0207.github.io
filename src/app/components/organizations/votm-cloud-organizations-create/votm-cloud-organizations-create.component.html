@@ -99,16 +99,16 @@
 
           <!-- Sensor Tab  -->
           <li class="nav-item" placement="top" ngbTooltip="List of Sensors">
-            <a class="nav-link tab-icon" id="org-sensor-tab" name="org-sensor-list" href="#org-sensor" data-toggle="tab"
-              role="tab" aria-controls="org-sensor" aria-selected="false">
+            <a class="nav-link tab-icon" [ngClass]="{ 'active':activeTab==='org-sensors'}" id="org-sensor-tab" name="org-sensor-list" href="#org-sensor" data-toggle="tab"
+            (click)="goToTab('org-sensors')" role="tab" aria-controls="org-sensor" aria-selected="false">
               <i class="icon-sensonode"></i></a>
           </li>
 
           <!-- Gateways Tab  -->
 
           <li class="nav-item" placement="top" ngbTooltip="List of Gateways">
-            <a class="nav-link tab-icon" id="org-gateways-tab" name="org-gateways-list" href="#org-gateways"
-              data-toggle="tab" role="tab" aria-controls="org-gateways" aria-selected="false"><i
+            <a class="nav-link tab-icon" [ngClass]="{ 'active':activeTab==='org-gateways'}" id="org-gateways-tab" name="org-gateways-list" href="#org-gateways"
+            (click)="goToTab('org-gateways')" data-toggle="tab" role="tab" aria-controls="org-gateways" aria-selected="false"><i
                 class="icon-gateway"></i></a>
           </li>
 
@@ -759,17 +759,17 @@
             <app-votm-cloud-alerts-home [alertList]="alertRuleList" [orgId]="orgId"></app-votm-cloud-alerts-home>
           </div>
 
-          <div class="create-org-container tab-pane fade"  [ngClass]="{ 'active show':activeTab==='asset-template'}" id="asset-template" data-toggle="tab" role="tabpanle"
+          <div class="create-org-container tab-pane fade" [ngClass]="{ 'active show':activeTab==='asset-template'}" id="asset-template" data-toggle="tab" role="tabpanle"
             area-labelledby="asset-template-tab">
             <app-votm-cloud-asset-template-list [templateList]="templateList"></app-votm-cloud-asset-template-list>
           </div>
 
-          <div class="create-org-container tab-pane fade" id="org-sensor" data-toggle="tab" role="tabpanle"
+          <div class="create-org-container tab-pane fade" [ngClass]="{ 'active show':activeTab==='org-sensors'}" id="org-sensor" data-toggle="tab" role="tabpanle"
             area-labelledby="org-sensor-tab">
             <app-votm-cloud-sensors-home></app-votm-cloud-sensors-home>
           </div>
 
-          <div class="create-org-container tab-pane fade" id="org-gateways" data-toggle="tab" role="tabpanle"
+          <div class="create-org-container tab-pane fade" [ngClass]="{ 'active show':activeTab==='org-gateways'}" id="org-gateways" data-toggle="tab" role="tabpanle"
             area-labelledby="org-gateways-tab">
             <app-votm-cloud-gateways-home></app-votm-cloud-gateways-home>
           </div>

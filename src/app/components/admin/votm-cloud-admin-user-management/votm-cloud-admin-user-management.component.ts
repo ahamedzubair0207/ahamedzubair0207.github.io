@@ -95,7 +95,6 @@ export class VotmCloudAdminUserManagementComponent implements OnInit, OnDestroy 
         this.selectedUsers.splice(index, 1);
       }
     }
-    console.log(this.selectedUsers);
   }
 
   onClickOfSelectAllCheckBox() {
@@ -106,7 +105,6 @@ export class VotmCloudAdminUserManagementComponent implements OnInit, OnDestroy 
     } else {
       this.selectedUsers = [];
     }
-    console.log(this.selectedUsers);
   }
 
   onClickOfAddUser() {
@@ -161,7 +159,6 @@ export class VotmCloudAdminUserManagementComponent implements OnInit, OnDestroy 
       userObj.userGuestOrganization = this.selectedUserForEdit.userGuestOrganization;
       userSubmitMethod = this.userService.updateUser(userObj);
     }
-    console.log(JSON.stringify(userObj));
     userSubmitMethod.subscribe(
       response => {
         this.toaster.onSuccess('Successfully ' + (this.pageType === 'add' ? 'created' : 'updated'),
@@ -252,7 +249,6 @@ export class VotmCloudAdminUserManagementComponent implements OnInit, OnDestroy 
           organizationName: new FormControl(this.selectedUserForEdit.organizationName),
           active: new FormControl(this.selectedUserForEdit.active)
         });
-        console.log(JSON.stringify(this.selectedUserForEdit));
         const modal = document.getElementById('add_user');
         modal.style.display = 'block';
         this.userModal = document.getElementById('add_user');

@@ -29,7 +29,6 @@ export class BreadcrumbsService {
 
   // 
   addCrumb(crumbObj: any){
-    console.log("in add crumb ", crumbObj);
     let crumbType = crumbObj.entityType;
     // console.log(crumbObj);
     switch(crumbType){
@@ -54,7 +53,6 @@ export class BreadcrumbsService {
 
   // It will call when you select item from dropdown (Used to navigate)
   navToObj(crumbObj: any){
-    console.log('AHAMED navToObj', crumbObj );
     let crumbType = crumbObj.entityType;
     switch(crumbType){
       case "Organization":{
@@ -100,7 +98,6 @@ export class BreadcrumbsService {
   }
 
   getDisplayList(){
-    console.log('getDisplayList ', this.orgList)
     this.displayList = [];
     this.displayList = this.displayList.concat(this.orgList);
     this.displayList = this.displayList.concat(this.locList);

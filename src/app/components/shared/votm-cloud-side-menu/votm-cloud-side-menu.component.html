@@ -29,7 +29,7 @@
         </a>
         <ul  style="overflow:hidden; overflow-y:scroll;" class="dropdown-container display-none list-unstyled components left-menu-margin" [id]="eachItem.id" *ngIf="eachItem.childs.length > 0">
             <li *ngFor="let childItem of eachItem.childs"  routerLinkActive="active" [ngClass]="{ 'super-admin' : childItem.id == 'super' }" >
-                <a *ngIf="childItem.enabled" routerLink="{{childItem.url}}"  (click)="setActiveItem(childItem.id)" data-toggle="collapse" aria-expanded="false" data-toggle="tooltip" data-placement="right" title="{{childItem.name}}">
+                <a *ngIf="childItem.enabled" routerLink="{{childItem.url}}" [fragment]="childItem.fragment" (click)="setActiveItem(childItem.id)" data-toggle="collapse" aria-expanded="false" data-toggle="tooltip" data-placement="right" title="{{childItem.name}}">
                     <i [ngClass]="childItem.icon" class="dropdown-icon-size" id="userFavDropDown"></i>
                     <span class="icon-text" >{{childItem.name}}</span>
                 </a>

@@ -45,7 +45,6 @@ export class AppComponent {
     this.sharedService.getFavorites();
 
     this.sharedService.favorites.subscribe(response=>{
-      console.log('response favorites ', response);
     })
   }
   logout() {
