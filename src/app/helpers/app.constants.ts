@@ -28,6 +28,7 @@ export class AppConstants {
     public static CREATE_USER = '/UserManagement/User';
     public static DELETE_USER = '/UserManagement/User';
     public static EDIT_USER = '/UserManagement/User';
+    public static USER_SEARCH = 'UserManagement/User/Search';
 
     public static ADD_USER_GUEST_ORG = '/UserManagement/UserGuestOrganization';
 

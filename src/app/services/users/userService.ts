@@ -6,6 +6,7 @@ import { UserGroup } from 'src/app/models/user-groups';
 import { map } from 'rxjs/operators';
 import { AppConstants } from 'src/app/helpers/app.constants';
 import { UserRole } from 'src/app/models/user-role';
+import { HttpParams } from '@angular/common/http';
 
 
 @Injectable({
@@ -20,6 +21,11 @@ export class UserService {
             .pipe(
                 map(response => response)
             );
+    }
+
+    searchUsers(searchText: string): Observable<any> {
+      const params = new HttpParams().set('userName', searchText);
+      return this.http.get(AppConstants.USER_SEARCH, params);
     }
 
     getAllUsers() {
