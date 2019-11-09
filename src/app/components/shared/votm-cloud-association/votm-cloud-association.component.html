@@ -1,10 +1,10 @@
 
 <div class="mt-3">
-  <div class="embed-responsive embed-responsive-16by9" *ngIf="model === 'Signal'" >
+  <div class="embed-responsive embed-responsive-16by9" >
     <div class="embed-responsive-item">
       <div class="drag-root d-flex h-100">
-        <div class="col-12 col-md-3 pl-md-0 h-100" *ngIf="isDragDropRequired" >
-          <div class="sensor-list h-100">
+        <div class="col-12 col-md-3 pl-md-0 h-100"  >
+          <div class="sensor-list h-100" *ngIf="isDragDropRequired">
             <div *ngIf="(showSensor(derivedSignals) || showUnassoc)" class="derived">
               <span class="icon-sig-function">Calculated Signals</span
               ><button type="button" class="btn btn-sm" (click)="openmodal('derivedSignalModal')" ><i class="icon-plus"></i></button>
@@ -68,8 +68,24 @@
                 </div>
             </ng-template> -->
           </div>
+          <div class="sensor-list h-100" *ngIf="!isDragDropRequired" >
+                <div class="signal-list">
+                  <ng-container *ngFor="let item of dragList; let j = index">
+                    <div
+                      class="signal-item {{ item.icon }} cursor-point"
+                      *ngIf="!disable"
+                      (click)="onClickOfAssetName(item)"
+                    >
+                      {{ item.name }}
+                    </div>
+                  </ng-container>
+                  <div *ngIf="dragList.length === 0" >
+                    No data available.
+                  </div>
+                </div>
+          </div>
         </div>
-        <div class="col-12  px-md-0" [ngClass]="isDragDropRequired ? 'col-md-9' : 'col-md-12'" >
+        <div class="col-12 col-md-9 px-md-0" >
           <div class="border h-100 assoc-pane">
             <!--  [src]="imgURL" -->
             <img #locationImage [src]="imageURL" class="assoc-img" (load)="onLoadLocImg()" dndDropzone (dndDrop)="onDrop($event)" />

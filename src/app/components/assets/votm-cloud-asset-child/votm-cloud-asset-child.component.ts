@@ -78,6 +78,8 @@ export class VotmCloudAssetChildComponent implements OnInit {
       this.parentAssetName = params.get('parentAssetName');
       this.assetId = params.get('assetId');
       this.getAssetById();
+      this.disable = true;
+      this.showUnassoc = false;
     });
     this.getChildAssets();
   }

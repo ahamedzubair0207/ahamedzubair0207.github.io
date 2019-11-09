@@ -124,7 +124,9 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+
     this.activatedRoute.paramMap.subscribe(params => {
+      alert('asfsdgf');
       this.asset.organizationId = this.curOrgId = params.get("parentOrgId");
       this.asset.organizationName = this.curOrgName = params.get("parentOrgName");
       this.asset.locationId = this.parentLocId = params.get("parentLocId");
@@ -132,6 +134,8 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
       this.asset.parentAssetId = this.parentAssetId = params.get("parentAssetId");
       this.asset.parentAssetName = this.parentAssetName = params.get("parentAssetName");
       this.assetId = params.get('assetId');
+      $('.nav-tabs a[href="#asset-details"]').tab('show');
+      this.onClickOfNavTab('asset-details');
       if (this.assetId) {
         this.getAssetById();
       }
