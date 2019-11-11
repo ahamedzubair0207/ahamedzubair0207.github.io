@@ -211,7 +211,7 @@
                
                 <div class="col-12 col-md-6 col-lg-2 col-xl-1 ipad-l-25 ipad-pro-lg-3">
                   <div class="form-group">
-                    <label class="" id="icon" for="organizationType">Icon</label>
+                    <label class="" id="icon" for="organizationType">Icon:</label>
                     <div class="">
                     <ng-select id="iconDropDown" name= "orgLogo"
                     labelForId="orgIcon" 
@@ -338,7 +338,7 @@
               </div>
 
               <fieldset class="form-group billing-padding-4">
-                <legend id="contractHeadingLbl" votmrequired> {{pageLabels.Contract.labelName}}</legend>
+                <legend id="contractHeadingLbl" votmrequired> {{pageLabels.Contract.labelName}}:</legend>
                 <div class="row">
                   <div class="col-12 col-md-6 col-lg-3 col-xl-2 form-group ipad-pro-lg-4">
                     <!-- <label id="startDatelbl">{{pageLabels.StartDate.labelName}}:</label> -->
@@ -439,7 +439,7 @@
 
                 <div class="col-6">
                   <fieldset class="mb-2 billing-padding-4" [disabled]="pageType==='View'">
-                    <legend id="billingaddress" votmrequired>{{pageLabels.BillingAddress.labelName}} :</legend>
+                    <legend id="billingaddress" votmrequired>{{pageLabels.BillingAddress.labelName}}:</legend>
                     <div class="row">
 
                       <div class="col-12 col-md-12 col-lg-12 col-xl-12">
@@ -595,8 +595,7 @@
                       <div class="form-group">
                         <!-- <div class="form-group" *ngIf="!orgId && applicationConfiguration"> -->
                         <!-- <label for="DefatimezoneultLang">* {{pageLabels.TimeZone.labelName}} :</label> -->
-                        <label class="" votmrequired id="timezoneLbl">{{pageLabels.DefaultTimeZone.labelName}}
-                          :</label>
+                        <label class="" votmrequired id="timezoneLbl">{{pageLabels.DefaultTimeZone.labelName}}:</label>
                         <div class="">
                         <!-- <select required #timezone="ngModel" id="timezone" [disabled]="pageType==='View'"
                           [(ngModel)]="organization.timeZoneId" name="timezone"
@@ -647,8 +646,7 @@
 
                     <div class="col-12">
                       <div class="form-group">
-                        <label class="" name="uom-change-lbl" votmrequired id="unitsOfMeasureLbl">Default
-                          UOM</label>
+                        <label class="" name="uom-change-lbl" votmrequired id="unitsOfMeasureLbl">Default UOM:</label>
                         <div class="input-group input-group-sm">
                           <div class="input-group-prepend">
                             <span class="input-group-text" name="uom-logo" id="unitsOfMeasureSelected">{{UOM}}</span>
@@ -669,7 +667,7 @@
                 <div class="col-3">
                     <div class="">
                       <div class="form-group">
-                        <label id="logoLbl">{{pageLabels.LogoFile.labelName}} :</label>
+                        <label id="logoLbl">{{pageLabels.LogoFile.labelName}}:</label>
                         <div class="custom-file">
                           <span style="color:rgb(106,96,85);" *ngIf="message">{{message}}</span>
                           <input class="custom-file-input ng-pristine ng-invalid" #file id="imageUploadButton" type="file" accept='image/*' [disabled]="pageType==='View'" (change)="preview(file.files)"/>
@@ -681,7 +679,7 @@
                     </div>
                    <!-- logo preview -->
                   <div class="form-group">
-                    <label for="logopreview">Image Preview</label>
+                    <label for="logopreview">Image Preview:</label>
                     <span class="form-control logo-preview">
                       <img [src]="imgURL" class="img-fluid img-fluid-custom" *ngIf="imgURL">
                     </span>
@@ -692,8 +690,7 @@
 
               <div class="row">
                 <div class="col-12">
-                  <label id="orgDescriptionLbl" class="">{{pageLabels.DescriptionofOrganization.labelName}}
-                    :</label>
+                  <label id="orgDescriptionLbl" class="">{{pageLabels.DescriptionofOrganization.labelName}}:</label>
                   <textarea class="form-control form-control-sm" id="orgDesText" #description="ngModel"
                     [disabled]="pageType==='View'" [(ngModel)]="organization.description"
                     (keyup)="onDescriptionChange()" name="orgDescription" rows="3" id="f-orgDescription"></textarea>

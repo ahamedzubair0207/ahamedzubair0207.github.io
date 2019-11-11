@@ -1,3 +1,58 @@
-<p>
-  votm-cloud-gateways-home works!
-</p>
+<p-treeTable [value]="files1" [scrollable]="true" #tt scrollHeight="400px" [globalFilterFields]="['name']" [resizableColumns]="true">
+  <ng-template pTemplate="caption">
+    <div class="row">
+      <div class="col-4">
+        <div class="input-group input-group-sm">
+          <input class="form-control" name="searchFilterLoc" id="searchBoxListGateway" [(ngModel)]="searchedText"
+            type="search" placeholder="Search" aria-label="Search">
+          <div class="input-group-append">
+            <span class="input-group-text p-0">
+              <button (click)="onLocationSearch()" [disabled]="!searchedText" class="btn btn-sm btn-search"
+                id="searchButton" type="submit"><i class="icon-search"></i></button>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>  
+  </ng-template>
+  <ng-template pTemplate="header">
+      <tr>
+            <th>Gateway Name</th>
+            <th>Serial Number</th>
+            <th>Type</th>
+            <th>Location</th>
+            <th>On-line Time</th>
+            <th>Data Transfer</th>
+            <th class="text-center">Action</th>
+        </tr>
+    </ng-template>
+    <!-- pTemplate="body" let-rowNode let-rowData="rowData" -->
+    <ng-template >
+        <tr>
+            <td>1
+                <!-- <p-treeTableToggler [rowNode]="rowNode"></p-treeTableToggler>
+                {{rowData.name}} -->
+            </td>
+            <td>2</td>
+            <td>3</td>
+            <td>4</td>
+            <td>5</td>
+            <td>6</td>
+            <td class="text-center">
+              <a class="action-icon"><i class="icon-asset-list"></i></a>
+              <a class="action-icon"><i class="icon-edit"></i></a>
+              <a class="action-icon"><i class="icon-trash"></i></a>
+            </td>
+        </tr>
+    </ng-template>
+</p-treeTable>
+<div class="row mt-3">
+  <div class="col-6">
+    <button class="btn btn-info btn-sm mr-2"><i class="icon-org-company mr-1"></i>Add Suborganization</button>
+    <button class="btn btn-info btn-sm"><i class="icon-location mr-1"></i>Add Location</button>
+  </div>
+  <div class="col-6 text-right">
+    <button class="btn btn-outline-secondary btn-sm mr-2">Cancel</button>
+    <button class="btn btn-info btn-sm"><i class="icon-org-company mr-1"></i>Save Organization</button>
+  </div>
+</div>
