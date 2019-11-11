@@ -97,7 +97,7 @@ export class VotmCloudLocationsSignalComponent implements OnInit {
    */
   getAllAvailableSignals() {
     this.isGetAvailableSignalsAPILoading = true;
-    this.locationSignalService.getSignalsByLocation(this.locationId, this.curOrganizationId)
+    this.locationSignalService.getSignalsByLocation('location', this.locationId)
       .subscribe(response => {
         console.log(response);
         this.sensors = response;

@@ -85,7 +85,7 @@ export class VotomCloudAssetsSignalComponent implements OnInit {
   }
 
   getAllAvailableSignals() {
-    this.assetSignalService.getAvailableSignalsForAsset(this.organizationId, this.locationId, this.assetId).subscribe(response => {
+    this.assetSignalService.getAvailableSignalsForLocation('location', this.locationId).subscribe(response => {
       console.log(response);
       this.sensors = response;
       for (const sensor of this.sensors) {

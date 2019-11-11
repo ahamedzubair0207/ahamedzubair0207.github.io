@@ -23,7 +23,7 @@ export class AppConstants {
 
     public static GET_USER_UOM = 'UserManagement/UnitofMeasurement';
     public static ADD_USER_UOM = 'UserManagement/UnitofMeasurement';
-    public static DELETE_USER_UOM = 'UserManagement/UnitofMeasurement/delete';
+    public static DELETE_USER_UOM = 'UserManagement/DeleteUnitofMeasurement';
 
 
     public static GET_USER_GROUPS = '/UserManagement/UserGroups';
@@ -63,6 +63,7 @@ export class AppConstants {
     public static GET_SIGNAL_ASSOCIATION = 'Signals';
     public static CREATE_SIGNAL_ASSOCIATION = 'Signals/Association';
     public static DETACH_SIGNAL_ASSOCIATION = 'Signals';
+
 
     public static GET_SENSOR_TREE = '/SensorTree';
     public static GET_SENSOR_DETAIL_BY_ID = '/Sensor';

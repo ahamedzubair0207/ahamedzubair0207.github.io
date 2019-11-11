@@ -201,7 +201,9 @@ export class VotmCloudPreferencesComponent implements OnInit, AfterViewInit {
     const savedUOM = [];
     for (const uom of this.userUOMData) {
       if (uom && uom.uomid.length === 0) {
-        deletedUOM.push(uom.userUomId);
+        deletedUOM.push({
+          userUomId: uom.userUomId
+        });
       } else {
         savedUOM.push(uom);
       }

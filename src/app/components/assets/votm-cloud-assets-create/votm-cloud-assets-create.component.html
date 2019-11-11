@@ -311,14 +311,14 @@
                     </div>
                     <div class="row" *ngIf="parentAssetImageURL">
                         <div class="col-md-6">
-                          <label for="assetImage" id="asset-image-lbl">X (In pixels) : </label>
+                          <label for="assetImage" id="asset-image-lbl">X: </label>
                           <input type="number" id="asset-image-x-pixels" disabled [(ngModel)]="assetImageCoordinates.x"
-                            name="x-pixels" class="form-control-file form-control-sm" />
+                            name="x-pixels" class="form-control form-control-sm" />
                         </div>
                         <div class="col-md-6">
-                          <label for="assetImage" id="asset-image-lbl">Y (In pixels) : </label>
+                          <label for="assetImage" id="asset-image-lbl">Y: </label>
                           <input type="number" id="asset-image-y-pixels" disabled [(ngModel)]="assetImageCoordinates.y"
-                            name="y-pixels" class="form-control-file form-control-sm" />
+                            name="y-pixels" class="form-control form-control-sm"/>
                         </div>
                       </div>
                       <ng-template #noLocationTemplate><br />

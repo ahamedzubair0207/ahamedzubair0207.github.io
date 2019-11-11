@@ -105,6 +105,7 @@ export class VotmCloudAssetChildComponent implements OnInit {
    * This function sets the sensor disable which are already associated.
    */
   getChildAssets() {
+    console.log(this.assetId);
     this.isGetChildAssetsAPILoading = true;
     this.assetService.getAssetTreeByAssetId(this.assetId)
       .subscribe(response => {
