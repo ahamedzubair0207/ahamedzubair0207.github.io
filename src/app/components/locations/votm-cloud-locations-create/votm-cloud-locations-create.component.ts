@@ -41,7 +41,7 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
 
   public imagePath;
   imgURL: any;
-  imgSize: {width: number, height: number};
+  imgSize: { width: number, height: number };
   public message: string;
   closeResult: string;
   modal: any;
@@ -542,8 +542,14 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
         } else {
           data = e.target.result;
         }
-        let base64textString = btoa(data);
-        console.log('this.organization ', this.location, data);
+        let base64textString;
+        if (this.location.logo && this.location.logo.imageType === 'image/svg+xml') {
+          base64textString = data;
+        } else {
+          base64textString = btoa(data);
+        }
+
+        // console.log('this.organization ', this.location, data);
         this.location.logo.image = base64textString;
       };
       this.location.logo = new Logo();
@@ -587,7 +593,6 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
   }
 
   private getDismissReason(reason: any): string {
-    debugger;
     if (reason === ModalDismissReasons.ESC) {
       return 'by pressing ESC';
     } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {

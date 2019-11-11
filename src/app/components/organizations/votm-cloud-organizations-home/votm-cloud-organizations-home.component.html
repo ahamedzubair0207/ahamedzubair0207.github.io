@@ -38,44 +38,44 @@
 <p-treeTable [scrollable]="true" #tt scrollHeight="400px" [globalFilterFields]="['name']" [resizableColumns]="true"
   [value]="organizationsList" [autoLayout]="true" id="orgTbl">
   <ng-template pTemplate="caption">
-    
-      <!-- <div class="row"> -->
-      <!-- <div class="col-12 col-md-6 col-lg-6 col-xl-6"> -->
-      <!-- <form class=""> -->
-        <div class="row">
-          <div class="col-4">
-              <div style="text-align: left;">
-            <!-- <div class="form-group"> -->
-              <!-- <label for="typeahead-config" id="org-filter" class="mr-2">Type to filter events:</label> -->
-              <div class="input-group input-group-sm">
-                <input name="organizationsearch" [(ngModel)]="searchedText" class="form-control" id="searchBox"
-                  type="search" placeholder="Search" aria-label="Search">
-                <div class="input-group-append">
-                  <span class="input-group-text p-0">
-                    <button [disabled]="!searchedText" class="btn btn-sm btn-search" id="searchButton"
-                      (click)="onOrganizationSearch()" type="submit"><i class="icon-search"></i></button>
-                  </span>
-                </div>
-              </div>
+
+    <!-- <div class="row"> -->
+    <!-- <div class="col-12 col-md-6 col-lg-6 col-xl-6"> -->
+    <!-- <form class=""> -->
+    <div class="row">
+      <div class="col-4">
+        <div style="text-align: left;">
+          <!-- <div class="form-group"> -->
+          <!-- <label for="typeahead-config" id="org-filter" class="mr-2">Type to filter events:</label> -->
+          <div class="input-group input-group-sm">
+            <input name="organizationsearch" [(ngModel)]="searchedText" class="form-control" id="searchBox"
+              type="search" placeholder="Search" aria-label="Search">
+            <div class="input-group-append">
+              <span class="input-group-text p-0">
+                <button [disabled]="!searchedText" class="btn btn-sm btn-search" id="searchButton"
+                  (click)="onOrganizationSearch()" type="submit"><i class="icon-search"></i></button>
+              </span>
             </div>
-            <!-- </div> -->
-          </div>
-          <div class="col-8">
-            <button id="org-create" [routerLink]="['/org/create', curOrgId, curOrgName]" type="button"
-              class="btn btn-sm btn-info btn-group-right ml-2">
-              <i class="pr-2 icon-organization-add"></i>Create Organization</button>
-            <button id="org-create-loc" [routerLink]="['/loc/create', curOrgId, curOrgName]" type="button"
-              class="btn btn-sm btn-info loc-table-fonts btn-group-right">
-              <i class="pr-2 icon-location-add"></i>Create Location</button>
           </div>
         </div>
-      <!-- </form> -->
-      <!-- </div> -->
-      <!-- </div> -->
-      <!-- <i class="icon-search" style="margin:4px 4px 0 0"></i>
+        <!-- </div> -->
+      </div>
+      <div class="col-8">
+        <button id="org-create" [routerLink]="['/org/create', curOrgId, curOrgName]" type="button"
+          class="btn btn-sm btn-info btn-group-right ml-2">
+          <i class="pr-2 icon-organization-add"></i>Create Organization</button>
+        <button id="org-create-loc" [routerLink]="['/loc/create', curOrgId, curOrgName]" type="button"
+          class="btn btn-sm btn-info loc-table-fonts btn-group-right">
+          <i class="pr-2 icon-location-add"></i>Create Location</button>
+      </div>
+    </div>
+    <!-- </form> -->
+    <!-- </div> -->
+    <!-- </div> -->
+    <!-- <i class="icon-search" style="margin:4px 4px 0 0"></i>
       <input type="text" pInputText size="20" placeholder="Type to filter"
         (input)="tt.filterGlobal($event.target.value, 'contains')" style="width:auto" id="organizationFilter"> -->
-    
+
   </ng-template>
   <ng-template pTemplate="colgroup">
     <colgroup>
@@ -142,7 +142,8 @@
           [routerLink]="['/org/edit',curOrgId, curOrgName, rowData.id]">
           <i class="icon-edit"></i>
         </a>
-        <a class="action-icon" container="body" ngbTooltip="Delete" *ngIf="rowData.id.toUpperCase() !== curOrgId.toUpperCase()"
+        <a class="action-icon" container="body" ngbTooltip="Delete"
+          *ngIf="rowData.id.toUpperCase() !== curOrgId.toUpperCase()"
           (click)="openConfirmDialog(rowData.id, rowData.name)" title="Delete">
           <i class="icon-trash"></i>
         </a>
@@ -271,6 +272,18 @@
 </div>
 
  -->
+
+
+<!-- <li class="dropright">
+  <a class="dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    Dropright
+  </a>
+  <div class="dropdown-menu">
+    <a class="dropdown-item" href="#">Link 1</a>
+    <a class="dropdown-item" href="#">Link 2</a>
+    <a class="dropdown-item" href="#">Link 3</a>
+  </div>
+</li> -->
 
 
 

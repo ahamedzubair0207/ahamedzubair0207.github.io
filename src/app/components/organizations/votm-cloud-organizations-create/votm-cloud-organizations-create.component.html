@@ -156,7 +156,7 @@
                     <label class="temp" id="nameShortLbl">Abbrev:</label>
                     <div class="">
                       <input type="text" class="form-control form-control-sm" id="nameShort" placeholder="Abbrev"
-                        maxlength="500" [disabled]="pageType==='View'" [(ngModel)]="organization.shortName"
+                        maxlength="5" [disabled]="pageType==='View'" [(ngModel)]="organization.shortName"
                         name="shortName" #shortName="ngModel">
                     </div>
                     <div *ngIf="shortName.dirty && shortName.invalid">
@@ -169,7 +169,7 @@
                     <label class="temp" votmrequired id="customerNumLbl">Customer #:</label>
                     <div class="input-group">
                       <input type="text" [(ngModel)]="organization.customerNumber" id="customerNum"
-                        class="form-control form-control-sm" placeholder="Customer Number" maxlength="500"
+                        class="form-control form-control-sm" placeholder="Customer Number" maxlength="10"
                         #customerNum="ngModel" [disabled]="pageType==='View'" name="customerNum" required>
                       <!-- <div class="input-group-append">
                               <span class="input-group-text"><i class="icon-phone"></i></span>
@@ -211,7 +211,7 @@
                
                 <div class="col-12 col-md-6 col-lg-2 col-xl-1 ipad-l-25 ipad-pro-lg-3">
                   <div class="form-group">
-                    <label class="" id="icon" for="organizationType">Icon</label>
+                    <label class="" id="icon" for="organizationType">Icon:</label>
                     <div class="">
                     <ng-select id="iconDropDown" name= "orgLogo"
                     labelForId="orgIcon" 
@@ -288,7 +288,7 @@
                         class="form-control form-control-sm" placeholder="Primary Distributor Name"
                         #primaryDistributorName="ngModel" maxlength="50" required>
                       <div *ngIf="primaryDistributorName.dirty && primaryDistributorName.invalid">
-                        <app-votm-cloud-validator message="Primary Distributor Name is required">
+                        <app-votm-cloud-validator message="Distributor Name is required">
                         </app-votm-cloud-validator>
                       </div>
                     </div>
@@ -313,7 +313,7 @@
                       <div *ngIf="primaryDistributorEmail.dirty && primaryDistributorEmail.invalid">
                         <app-votm-cloud-validator
                           *ngIf="primaryDistributorEmail.errors && primaryDistributorEmail.errors.required"
-                          message="Primary Distributor Contact is required"></app-votm-cloud-validator>
+                          message="Distributor Contact Email is required"></app-votm-cloud-validator>
                         <app-votm-cloud-validator
                           *ngIf="primaryDistributorEmail.errors && primaryDistributorEmail.errors.email"
                           message="This is not valid mail id"></app-votm-cloud-validator>
@@ -566,7 +566,7 @@
                       *ngFor="let locale of applicationConfiguration.locale" [value]="locale.localeId">{{locale.localeName}}</ng-option>
                     </ng-select>
                         <div *ngIf="defLanguage.dirty && defLanguage.invalid">
-                          <app-votm-cloud-validator message="Language is required"></app-votm-cloud-validator>
+                          <app-votm-cloud-validator message="Locale is required"></app-votm-cloud-validator>
                         </div>
                         </div>
                       </div>

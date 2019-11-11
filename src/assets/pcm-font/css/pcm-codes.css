@@ -110,6 +110,9 @@
 .icon-asset-list:before { content: '\e86c'; } /* '' */
 .icon-org-list:before { content: '\e86d'; } /* '' */
 .icon-location-list:before { content: '\e86e'; } /* '' */
+.icon-vert-ellipsis:before { content: '\e86f'; } /* '' */
+.icon-ellipsis:before { content: '\e870'; } /* '' */
+.icon-export:before { content: '\e871'; } /* '' */
 .icon-sig-dewpoint:before { content: '\e886'; } /* '' */
 .icon-sensonode:before { content: '\e97d'; } /* '' */
 .icon-sensonode2:before { content: '\e97e'; } /* '' */

@@ -1,5 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import * as atlas from 'azure-maps-control';
+import { FullscreenControl } from './votm-cloud-map-control/FullScreenControl';
+import { SpiderClusterManager } from './votm-cloud-map-control/SpiderClusterManager';
 
 @Component({
   selector: 'app-votm-cloud-admin-network-map',
@@ -13,7 +15,10 @@ export class VotmCloudAdminNetworkMapComponent implements OnInit {
   datasource: any;
   controls = [];
   //GeoJSON feed of all earthquakes from the past 30 days. Sourced from the USGS.
+  // earthquakeFeed = 'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.geojson';
   earthquakeFeed = 'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.geojson';
+  spiderManager: any;
+  popup: any;
 
   constructor() { }
 
@@ -34,7 +39,7 @@ export class VotmCloudAdminNetworkMapComponent implements OnInit {
       center: new atlas.data.Position(-97, 39),
       zoom: 3,
       // style: 'night',
-      view: 'Unified',
+      view: 'Auto',
       //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
       "subscription-key": this.key
     });
@@ -42,6 +47,14 @@ export class VotmCloudAdminNetworkMapComponent implements OnInit {
 
     //Wait until the map resources are ready.
     this.map.events.add('ready', () => {
+
+      //Create a popup.
+      this.popup = new atlas.Popup();
+      //Hide popup when user clicks or moves the map.
+      this.map.events.add('click', this.hidePopup.bind(this));
+      this.map.events.add('movestart', this.hidePopup.bind(this));
+
+
       //Create a data source and add it to the map.
       this.datasource = new atlas.source.DataSource(null, {
         //Tell the data source to cluster point data.
@@ -75,6 +88,7 @@ export class VotmCloudAdminNetworkMapComponent implements OnInit {
           750, 'rgba(255,0,0,0.8)'        //If the point_count >= 100, color is red.
         ],
         strokeWidth: 0,
+        blur: 0.5,
         filter: ['has', 'point_count'] //Only rendered data points which have a point_count property, which clusters do.
       });
       //Add a click event to the layer so we can zoom in when a user clicks a cluster.
@@ -86,6 +100,11 @@ export class VotmCloudAdminNetworkMapComponent implements OnInit {
       this.map.events.add('mouseleave', clusterBubbleLayer, () => {
         this.map.getCanvas().style.cursor = '';
       });
+
+      var shapeLayer = new atlas.layer.SymbolLayer(this.datasource, null, {
+        filter: ['!', ['has', 'point_count']] //Filter out clustered points from this layer.
+      });
+
       //Add the clusterBubbleLayer and two additional layers to the map.
       this.map.layers.add([
         clusterBubbleLayer,
@@ -100,16 +119,68 @@ export class VotmCloudAdminNetworkMapComponent implements OnInit {
           }
         }),
         //Create a layer to render the individual locations.
-        new atlas.layer.SymbolLayer(this.datasource, null, {
-          filter: ['!', ['has', 'point_count']] //Filter out clustered points from this layer.
-        })
+        shapeLayer
       ]);
       //Retrieve a GeoJSON data set and add it to the data source. 
+      // this.datasource.importDataFromUrl('../geojson/SamplePoiDataSet.json');
       this.datasource.importDataFromUrl(this.earthquakeFeed);
+
+      // Adding Link line into clusters
+      this.spiderManager = new SpiderClusterManager(this.map, clusterBubbleLayer, shapeLayer, {
+        featureSelected: (shape, cluster) => {
+          if (cluster) {
+            this.showPopup(cluster.geometry.coordinates, shape.getProperties(), [0, 0]);
+          } else {
+            this.showPopup(shape.getCoordinates(), shape.getProperties(), [0, -20]);
+          }
+        },
+        featureUnselected: () => {
+          this.hidePopup();
+        }
+      });
 
       // control Option Map
       this.addControls();
     });
+  }
+
+  showPopup(position, properties, pixelOffset) {
+    this.popup.setOptions({
+      //Update the content of the popup.
+      content: '<div style="padding:10px;max-height:200px;overflow-y:auto;">' + this.object2Table(properties) + '</div>',
+      //Update the position of the popup with the symbols coordinate.
+      position: position,
+      //Offset the popups position for better alignment with the layer.
+      pixelOffset: pixelOffset
+    });
+    //Open the popup.
+    this.popup.open(this.map);
+  }
+
+  hidePopup() {
+    if (this.popup) {
+      this.popup.close();
+    }
+  }
+
+  object2Table(obj) {
+    //Create a HTML table from an objects property names and values.
+    var html = ['<table><tr><td><b>Property</b></td><td><b>Value</b></td><tr>'];
+    Object.keys(obj).forEach((key, index) =>{
+      //Ignore private properties which are commonly denoted using an underscore.
+      if (obj[key] && key.indexOf('_') !== 0) {
+        html.push('<tr><td>', key, '</td><td>');
+        if (typeof obj[key] === 'object') {
+          //If the value of the property is an object, create a sub-table recursively.
+          html.push(this.object2Table(obj[key]));
+        } else {
+          html.push(obj[key]);
+        }
+        html.push('</td><tr>');
+      }
+    });
+    html.push('</table>');
+    return html.join('');
   }
 
   addControls() {
@@ -147,6 +218,11 @@ export class VotmCloudAdminNetworkMapComponent implements OnInit {
       //Alternatively, specify an array of all the map styles you would like displayed in the style picker.
       //mapStyles: ['road', 'road_shaded_relief', 'grayscale_light', 'night', 'grayscale_dark', 'satellite', 'satellite_road_labels']
     }));
+
+    this.controls.push(new FullscreenControl({
+      style: 'auto'
+    }));
+
     //Add controls to the map.
     this.map.controls.add(this.controls, {
       position: positionOption

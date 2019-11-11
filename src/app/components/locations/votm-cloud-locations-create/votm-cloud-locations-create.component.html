@@ -130,7 +130,7 @@
                         name="name" required maxlength="10"> -->
                       <input type="text" id="LocShortName" class="form-control form-control-sm"
                         [disabled]="pageType==='View'" id="locDtlShortlName" placeholder="Abbrev" name="name" required
-                        maxlength="10">
+                        maxlength="5">
                       <!-- <div *ngIf="locName.dirty && locName.invalid">
                         <app-votm-cloud-validator message="Name is required"></app-votm-cloud-validator>
                       </div>
@@ -143,8 +143,7 @@
 
                 <div class="col-12 col-md-6 col-lg-3 col-xl-3">
                   <div class="form-group">
-                    <label class="" for="parentorganization">{{pageLabels.ParentOrganization.labelName}}
-                      :</label>
+                    <label class="" for="parentorganization">{{pageLabels.ParentOrganization.labelName}}:</label>
                     <div class="">
                       <input *ngIf="(parentLocId || locId); else elsePart" for="parentorganizationname"
                         class="form-control form-control-sm" type="text"
@@ -176,8 +175,7 @@
 
                 <div class="col-12 col-md-6 col-lg-4 col-xl-3">
                   <div class="form-group">
-                    <label class="" for="locationType">{{pageLabels.LocationType.labelName}}:
-                    </label>
+                    <label class="" for="locationType">{{pageLabels.LocationType.labelName}}:</label>
                     <div class="">
                       <input type="text" [(ngModel)]="location.locationType" class="form-control form-control-sm"
                         placeholder="Enter Location Type" [disabled]="pageType==='View'" #locationType="ngModel"
@@ -191,7 +189,7 @@
 
                 <div class="col-12 col-md-6 col-lg-2 col-xl-2">
                   <div class="form-group">
-                    <label class="" id="locationTypeIcon">Icon</label>
+                    <label class="" id="locationTypeIcon">Icon:</label>
                     <!-- <div class="selectpicker drop-down"> -->
 
                     <ng-select id="iconDropDown" name="locLogo" labelForId="locIcon" class="custom" [searchable]="false"
@@ -231,8 +229,7 @@
                 <div class="col-12 col-md-6 col-lg-3 col-xl-3">
                   <div class="form-group">
                     <label class="" id="primaryContact" votmrequired>
-                      {{pageLabels.PrimaryContact.labelName}}
-                      :</label>
+                      {{pageLabels.PrimaryContact.labelName}}:</label>
                     <div class="">
                       <!-- No Validation Needed  -->
                       <input type="email" [disabled]="pageType==='View'" [(ngModel)]="location.primaryContact"
@@ -273,7 +270,7 @@
                 <div class="col-md-6">
                   <!-- Street Address  -->
                   <fieldset class="mb-3">
-                    <legend id="loc-street-add" votmrequired>{{pageLabels.BillingAddress.labelName}} </legend>
+                    <legend id="loc-street-add" votmrequired>{{pageLabels.BillingAddress.labelName}}</legend>
 
                     <div class="row">
                       <div class="col-12 form-group">
@@ -434,8 +431,7 @@
                   <div class="row">
                     <div class="col-12 col-md-6 col-lg-6 col-xl-6" *ngIf="applicationConfiguration">
                       <div class="form-group">
-                        <label class="" id="timezone" votmrequired>{{pageLabels.DefaultTimeZone.labelName}}
-                          :</label>
+                        <label class="" id="timezone" votmrequired>{{pageLabels.DefaultTimeZone.labelName}}:</label>
                         <div class="d-flex align-items-center">
                           <select required #timezone="ngModel" [disabled]="pageType==='View'"
                             [(ngModel)]="location.timeZoneId" name="timezone"
@@ -476,7 +472,7 @@
                           </ng-select>
                         </div>
                         <div *ngIf="defLanguage.dirty && defLanguage.invalid">
-                          <app-votm-cloud-validator message="Language is required"></app-votm-cloud-validator>
+                          <app-votm-cloud-validator message="Locale is required"></app-votm-cloud-validator>
                         </div>
 
                       </div>
@@ -494,7 +490,7 @@
                     <div class="col-12 col-md-6 col-lg-6 col-xl-6">
                       <!-- Claimed Gateway -->
                       <div class="form-group">
-                        <label class="" id="gateway">Claimed Gateway: </label>
+                        <label class="" id="gateway">Claimed Gateway:</label>
                         <!-- <div class=""> -->
                         <!-- <ng-multiselect-dropdown [disabled]="pageType==='View'"
                                             class="gateway-dropdown" [placeholder]="'Gateway List'"
@@ -543,7 +539,7 @@
                 <div class="col-md-6">
                   <!-- Logo -->
                   <div class="form-group">
-                    <label for="locImage">{{pageLabels.LogoFile.labelName}} :</label>
+                    <label for="locImage">{{pageLabels.LogoFile.labelName}}:</label>
                     <div class="custom-file">
                       <span style="color:rgb(106,96,85);" *ngIf="message">{{message}}</span>
                       <input class="custom-file-input ng-pristine ng-invalid" id="locDtlLocImg" type="file"
@@ -788,9 +784,7 @@
                     class="form-control form-control-sm">
                     <option></option>
                     <option *ngFor="let view of applicationConfiguration.unitOfMeassurement[i+1].uoMView"
-                      [value]="view.uoMId">
-                      {{view.uoMName}}
-                    </option>
+                      [value]="view.uoMId">{{view.uoMName}}</option>
                   </select>
                 </div>
               </div>
