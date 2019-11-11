@@ -37,6 +37,7 @@ export class VotmImageOverlayComponent implements OnInit {
   wId: string;
   parentOrgId: string;
   assetId: string;
+  widgetImageOverlaySource: any;
   constructor(
     private toastr: ToastrService,
     private locationSignalService: LocationSignalService,
@@ -52,6 +53,7 @@ export class VotmImageOverlayComponent implements OnInit {
   ngOnInit() {
     this.wId = this.data.id + '-' + this.id;
     this.isImageOverlayConfigured = false;
+    this.widgetImageOverlaySource = ['Location', 'Asset', 'Custom'];
 
     this.route.paramMap.subscribe((params: ParamMap) => {
       this.curLocId = params.get('locId');
@@ -64,24 +66,49 @@ export class VotmImageOverlayComponent implements OnInit {
       if (this.parentOrgId) {
         // Organization dashboard
         // fetch all location & assets by org id
-        // asset tree by orgid -
-        // https://phc-pcm-dev-api.azurewebsites.net/v1//AssetTree?type=organization&Id=7a59bdd8-6e1d-48f9-a961-aa60b2918dde
+        this.fetchlocationTreeByOrganizationId();
+        // Fetch all asset tree by orgid
+        this.fetchAssetsTreeByOrganizationId();
       } else if (this.curLocId) {
         // Location dashbaord
         // fetch all child location & it selft
+        this.fetchlocationTreeByLocationId();
+
         // fetch all assets by location ID
         // this.fetchlocationTreeById();
-        this.fetchlocationTreeByLocationId();
-        // Get assets
         this.fetchAssetsTreeByLocationId();
       } else if (this.assetId) {
         // Asset Dashboard
         // Fetch all child assets & itself
+        this.fetchAssetsTreeByAssetId();
       }
 
 
     });
 
+  }
+
+  fetchlocationTreeByOrganizationId() {
+    this.locationService.getAllLocationTree(this.parentOrgId).subscribe(response => {
+      this.locationsList = [];
+      if (response && response.length > 0) {
+        this.LocationSourceChild = this.fillLocationData(response);
+      }
+      console.log('location by Org id ', this.locationsList);
+      // this.LocationSourceChild = this.locationsList[0].children;
+    });
+  }
+
+  fetchAssetsTreeByOrganizationId() {
+    this.assetService.getAssetTreeByOrgId(this.parentOrgId)
+      .subscribe(response => {
+        this.assetsList = [];
+        if (response && response.length > 0) {
+          this.assetsList = this.fillAssetData(response);
+        }
+        console.log('location by Org id ', this.assetsList);
+        this.assetsSourceChild = this.assetsList;
+      });
   }
 
   fetchlocationTreeByLocationId() {
@@ -92,11 +119,28 @@ export class VotmImageOverlayComponent implements OnInit {
       }
       console.log('my this.locationsList ', this.locationsList);
       this.LocationSourceChild = this.locationsList[0].children;
-      // Include Parent location (it self in dropdown)
+      // Requirement to Include Parent location (it self in dropdown)
       this.LocationSourceChild.push({data: this.locationsList[0].data});
       console.log('my updated locationsList ', this.locationsList);
     });
   }
+
+  fetchAssetsTreeByAssetId() {
+    this.assetService.getAssetTreeByAssetId('acc9975e-c02a-4fc5-be83-a047821c0b08')
+      .subscribe(response => {
+        this.assetsList = [];
+        if (response && response.length > 0) {
+          // this.assetsList = this.fillAssetData(response);
+          this.assetsList = response[0].node[0].node;
+        }
+        console.log('assets by asset id ', this.assetsList);
+        this.assetsSourceChild = this.assetsList;
+
+        // this.assetsSourceChild.push({data: response[0].node[0]});
+        // console.log('my updated assets ', this.assetsSourceChild);
+      });
+  }
+
   fillLocationData(locations: any[]) {
     const locationList: TreeNode[] = [];
     locations.forEach(org => {
@@ -157,11 +201,15 @@ export class VotmImageOverlayComponent implements OnInit {
 
   onChangeOverlaySource(event) {
     if (event === 'location') {
-      $('#overlaySourceLocation, #locationsList').removeClass('d-none');
-      $('#overlaySourceAsset, #assetsList').addClass('d-none');
+      $('#overlaySourceLocation-' + this.wId).removeClass('d-none');
+      $('#locationsList-' + this.wId).removeClass('d-none');
+      $('#overlaySourceAsset-' + this.wId).addClass('d-none');
+      $('#assetsList-' + this.wId).addClass('d-none');
     } else if (event === 'asset') {
-      $('#overlaySourceAsset, #assetsList').removeClass('d-none');
-      $('#overlaySourceLocation, #locationsList').addClass('d-none');
+      $('#overlaySourceAsset-' + this.wId).removeClass('d-none');
+      $('#assetsList-' + this.wId).removeClass('d-none');
+      $('#overlaySourceLocation-' + this.wId).addClass('d-none');
+      $('#locationsList-' + this.wId).addClass('d-none');
     }
   }
 

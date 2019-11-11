@@ -60,7 +60,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-3 d-none" id="locationsList">
+                        <div class="col-3 d-none" id="locationsList-{{wId}}">
                             <div class="form-group">
                                 <label for="widgetlocImageID">Location</label>
                                 <div class="">
@@ -72,7 +72,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-3 d-none" id="assetsList">
+                        <div class="col-3 d-none" id="assetsList-{{wId}}">
                             <div class="form-group">
                                 <label for="">Asset</label>
                                 <div class="">
@@ -100,7 +100,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row d-none" id="overlaySourceLocation">
+                    <div class="row d-none" id="overlaySourceLocation-{{wId}}">
                         <div class="col-4">
                             <div class="custom-control custom-switch">
                                 <input type="checkbox" [checked]="true" class="custom-control-input" id="locSignal" name="locSignal">
@@ -117,7 +117,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row d-none" id="overlaySourceAsset">
+                    <div class="row d-none" id="overlaySourceAsset-{{wId}}">
                         <div class="col-4">
                             <div class="custom-control custom-switch">
                                 <input type="checkbox" [checked]="true" class="custom-control-input" id="locAssetSignal"

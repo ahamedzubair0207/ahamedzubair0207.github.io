@@ -17,6 +17,11 @@ import { OrganizationService } from 'src/app/services/organizations/organization
 import { SortArrays } from '../../shared/votm-sort';
 import { LocationService } from 'src/app/services/locations/location.service';
 import { VotmCommon } from '../../shared/votm-common';
+// Dashboard-david start
+import { DashboardService } from '../../../services/dasboards/dashboard.service';
+import { DbTplItem } from 'src/app/models/db-tpl-item';
+import { DbItem } from 'src/app/models/db-item';
+// Dashboard-david end
 declare var $: any;
 @Component({
   selector: 'app-votm-cloud-assets-create',
@@ -99,6 +104,20 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
   assetRemoveMessage: string;
   isChildAssetAssociation = false;
   imgSize: {width: number, height: number};
+
+  // Dashboard-david start
+  dbTemplates: DbTplItem[];
+  dbItems: DbItem[] = [];
+  selTemplate: string;
+  dbLongName: string = '';
+  dbShortName: string = '';
+  dbLastIdNum: number = 0;
+  newTabId: string = '';
+  activeTab: string;
+  addDashboardmodal: HTMLElement;
+  dashboardDataById: { act: string; title: string; dashboardName: string; dashboardHTML: string; };
+  // Dashboard-david end
+
   constructor(
     private modalService: NgbModal,
     private assetService: AssetsService,
@@ -111,7 +130,8 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
     private toastr: ToastrService,
     private changeDetectorRef: ChangeDetectorRef,
     private locService: LocationService,
-    private orgService: OrganizationService
+    private orgService: OrganizationService,
+    private dbService: DashboardService, // Dashboard-david
   ) {
     this.subscriptions = route.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
@@ -121,6 +141,26 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
         this.previousUrl = event.url;
       }
     });
+
+    // Dashboard-david start
+    // this.dbService.hello();
+    this.dbTemplates = this.dbService.getDashboardTemplates();
+    this.selTemplate = this.dbTemplates[0].name;
+
+    // this.newTab.subscribe(() => {
+    //   this.dbLastIdNum++;
+    //   this.newTabId = "dbtab-" + this.dbLastIdNum;
+    //   this.dbItems.push(new DbItem(this.newTabId, this.dbLongName, this.dbShortName, this.selTemplate,
+    //     this.dbTemplates.find(({ name }) => name === this.selTemplate).component, ''));
+    //   this.dbLongName = '';
+    //   this.dbShortName = '';
+    //   this.selTemplate = this.dbTemplates[0].name;
+    //   setTimeout(() => {
+    //     // this.tabSet.select(this.newTabId);
+    //   }, 1);
+    // });
+    // Dashboard-david end
+
   }
 
   ngOnInit() {
@@ -363,7 +403,7 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
         } else {
           data = e.target.result;
         }
-        let base64textString = btoa(data);
+        const base64textString = btoa(data);
         // console.log('this.organization ', this.location, data)
         this.asset.logo.image = base64textString;
       };
@@ -389,7 +429,7 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
         else {
           data = e.target.result;
         }
-        let base64textString = btoa(data);
+        const base64textString = btoa(data);
         // console.log('this.organization ', this.location, data)
         this.asset.fileStore.file = base64textString;
       };
@@ -755,7 +795,7 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
 
   getParentImage(logo: any, type) {
     if (logo && logo.imageName) {
-      let tempFileExtension = logo.imageName.slice((Math.max(0, logo.imageName.lastIndexOf(".")) || Infinity) + 1);
+      const tempFileExtension = logo.imageName.slice((Math.max(0, logo.imageName.lastIndexOf(".")) || Infinity) + 1);
       const base64Img = `data:image/${tempFileExtension};base64,${logo.image}`;
       const img = new Image();
       img.src = base64Img;
@@ -1124,4 +1164,67 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
     $('#asset_position_icon').remove();
     this.subscriptions.unsubscribe();
   }
+
+  openAddDashboardModal(dashboardAct: string, dashboardId: any, dashboardLongName: string, dashboardSortName: string) {
+    // this.dashBoardDataByID = getDashboardById(dashboardId)
+    // console.log(dashboardLongName);
+    if (dashboardAct === 'editDashboard') {
+      this.dashboardDataById = {
+        act: 'edit',
+        title: 'Edit Dashboard',
+        dashboardName: '',
+        dashboardHTML: ''
+      };
+      this.dbLongName = dashboardLongName;
+      this.dbShortName = dashboardSortName;
+      this.selTemplate = this.dbTemplates[0].name;
+    } else if (dashboardAct === 'addDashboard') {
+      this.dashboardDataById = {
+        act: 'create',
+        title: 'Create Dashboard',
+        dashboardName: '',
+        dashboardHTML: ''
+      };
+      this.dbLongName = '';
+      this.dbShortName = '';
+    }
+    // console.log('dashboardDataById---', this.dashboardDataById);
+
+    // Get the modal
+    const addDashboardmodal = document.getElementById('addDashboardModalWrapper');
+    addDashboardmodal.style.display = 'block';
+    this.addDashboardmodal = document.getElementById('addDashboardModalWrapper');
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName('close')[0];
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function (event) {
+      if (event.target === addDashboardmodal) {
+        addDashboardmodal.style.display = 'none';
+      }
+    };
+
+  }
+
+  onDashboardFormSubmit() {
+    this.dbLastIdNum++;
+    this.newTabId = "dbtab-" + this.dbLastIdNum;
+    this.dbItems.push(new DbItem(this.newTabId, this.dbLongName, this.dbShortName, this.selTemplate,
+      this.dbTemplates.find(({ name }) => name === this.selTemplate).component, ''));
+    // console.log('this.dbItems---added', this.dbItems);
+    this.closeAddDashboardModal(true);
+  }
+
+  closeAddDashboardModal(event: any) {
+    // console.log('==', event);
+    this.addDashboardmodal.style.display = 'none';
+    // if (event === 'save') {
+    //
+    // } else if (event === 'create') {
+    //
+    // }
+  }
+
+
+
 }
