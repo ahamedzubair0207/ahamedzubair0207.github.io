@@ -21,6 +21,11 @@ export class AppConstants {
     public static POST_FAVORITES = '/UserManagement/UserFavorites';
     public static PATCH_FAVORITES = '/UserManagement/UserFavorites';
 
+    public static GET_USER_UOM = 'UserManagement/UnitofMeasurement';
+    public static ADD_USER_UOM = 'UserManagement/UnitofMeasurement';
+    public static DELETE_USER_UOM = 'UserManagement/DeleteUnitofMeasurement';
+
+
     public static GET_USER_GROUPS = '/UserManagement/UserGroups';
     public static GET_ALERTRULE_USERGROUP_SUBSCRIBER = '/ALertRuleUserGroupSubscriber';
     public static GET_USER_ROLES = '/UserManagement/Roles';
@@ -28,6 +33,7 @@ export class AppConstants {
     public static CREATE_USER = '/UserManagement/User';
     public static DELETE_USER = '/UserManagement/User';
     public static EDIT_USER = '/UserManagement/User';
+    public static USER_SEARCH = 'UserManagement/User/Search';
 
     public static ADD_USER_GUEST_ORG = '/UserManagement/UserGuestOrganization';
 
@@ -57,6 +63,7 @@ export class AppConstants {
     public static GET_SIGNAL_ASSOCIATION = 'Signals';
     public static CREATE_SIGNAL_ASSOCIATION = 'Signals/Association';
     public static DETACH_SIGNAL_ASSOCIATION = 'Signals';
+
 
     public static GET_SENSOR_TREE = '/SensorTree';
     public static GET_SENSOR_DETAIL_BY_ID = '/Sensor';

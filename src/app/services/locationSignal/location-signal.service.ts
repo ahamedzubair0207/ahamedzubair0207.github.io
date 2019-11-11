@@ -18,8 +18,8 @@ export class LocationSignalService {
     ) { }
 
 
-  getSignalsByLocation(locationId, OrganizationId) {
-    return this.http.get(AppConstants.GET_AVAILABLE_SIGNALS + '?organization=' + OrganizationId + '&location=' + locationId);
+  getSignalsByLocation(type, id) {
+    return this.http.get(AppConstants.GET_SENSOR_TREE + '/type/' + type + '/Id/' + id);
   }
 
   getSignalAssociation(locationId) {

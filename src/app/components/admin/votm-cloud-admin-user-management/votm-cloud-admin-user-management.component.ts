@@ -69,7 +69,20 @@ export class VotmCloudAdminUserManagementComponent implements OnInit, OnDestroy 
   }
 
   onUserSearch() {
-
+    this.isGetUsersAPILoading = true;
+    if (this.searchedText) {
+      this.userService.searchUsers(this.searchedText).subscribe(
+        response => {
+          response.forEach(user => user.name = user.firstName + ' ' + user.lastName);
+          this.users = response;
+          this.isGetUsersAPILoading = false;
+        }, error => {
+          this.isGetUsersAPILoading = false;
+        }
+      );
+    } else {
+      this.getUsers();
+    }
   }
 
   getRoles() {

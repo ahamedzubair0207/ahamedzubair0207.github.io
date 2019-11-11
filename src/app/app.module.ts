@@ -142,6 +142,7 @@ import { WidgetTrendComponent } from './components/shared/charts/widget-trend/wi
 import { WidgetGaugeComponent } from './components/shared/charts/widget-gauge/widget-gauge.component';
 import { QcdDashboardComponent } from './dashboards/qcd-dashboard/qcd-dashboard.component';
 import { ParkerQcdDashboardComponent } from './components/dashboards/parker-qcd-dashboard/parker-qcd-dashboard.component';
+import { VotmCloudAssetsDashboardComponent } from './components/assets/votm-cloud-assets-dashboard/votm-cloud-assets-dashboard.component';
 
 const oktaConfig = Object.assign({
   onAuthRequired: ({ oktaAuth, router }) => {
@@ -229,7 +230,8 @@ const oktaConfig = Object.assign({
     WidgetGaugeComponent,
     QcdDashboardComponent,
     ParkerQcdDashboardComponent,
-    VotmCloudAssociationComponent
+    VotmCloudAssociationComponent,
+    VotmCloudAssetsDashboardComponent
   ],
 
 

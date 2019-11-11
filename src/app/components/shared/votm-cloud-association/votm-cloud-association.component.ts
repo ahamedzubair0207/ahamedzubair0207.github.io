@@ -68,24 +68,21 @@ export class VotmCloudAssociationComponent implements OnInit {
   @Output() resetPage: EventEmitter<any> = new EventEmitter<any>();
   constructor(
     private activatedRoute: ActivatedRoute,
-    private route: Router,
+    private router: Router,
     private routerLocation: RouterLocation,
-    private locationSignalService: LocationSignalService,
-    private locationService: LocationService,
-    private alertsService: AlertsService,
-    private domSanitizer: DomSanitizer,
     private toastr: ToastrService,
     private eleRef: ElementRef
   ) { }
 
   ngOnInit() {
+
     this.activatedRoute.paramMap.subscribe(params => {
+      console.log(params);
       this.curOrganizationId = params.get('curOrgId');
       this.curOrganizationName = params.get('curOrgName');
       this.organizationId = params.get('orgId');
       console.log(this.curOrganizationId, '====', this.curOrganizationName, '====', this.organizationId);
       this.getLocationSignalAssociation();
-
     });
     this.pageType = this.activatedRoute.snapshot.data['type'];
     if (this.pageType.toLowerCase() === 'edit') {
@@ -404,7 +401,7 @@ export class VotmCloudAssociationComponent implements OnInit {
   }
 
   onClickOfCreateAssociateRule() {
-    this.route.navigate(['org', 'view', this.curOrganizationId, this.curOrganizationName,
+    this.router.navigate(['org', 'view', this.curOrganizationId, this.curOrganizationName,
       this.organizationId ? this.organizationId : this.curOrganizationId, 'alertRule', 'create']);
   }
 
@@ -427,6 +424,21 @@ export class VotmCloudAssociationComponent implements OnInit {
     this.selectedSignal = undefined;
     this.derivedSignals = [];
     this.resetPage.emit();
+  }
+
+  onClickOfAssetName(asset) {
+    console.log(asset);
+    if (asset.parentId) {
+      this.router.navigate(['asset', 'view', asset.parentOrganizationId, asset.parentOrganizationName,
+        asset.parentLocationId, asset.parentLocationName, asset.parentId, asset.parentName, asset.id]);
+    } else {
+      if (asset.parentLocationId) {
+        this.router.navigate(['asset', 'view', asset.parentOrganizationId, asset.parentOrganizationName,
+          asset.parentLocationId, asset.parentLocationName, asset.id]);
+      } else {
+        this.router.navigate(['asset', 'view', asset.parentOrganizationId, asset.parentOrganizationName, asset.id]);
+      }
+    }
   }
 
   // end
