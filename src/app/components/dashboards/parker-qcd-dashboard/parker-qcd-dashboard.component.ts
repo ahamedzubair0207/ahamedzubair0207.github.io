@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { DbTemplate } from 'src/app/models/db-template';
+import { DbTemplate } from './../../../models/db-template';
 
 @Component({
   selector: 'app-parker-qcd-dashboard',

@@ -78,6 +78,8 @@ export class VotmCloudAssetChildComponent implements OnInit {
       this.parentAssetName = params.get('parentAssetName');
       this.assetId = params.get('assetId');
       this.getAssetById();
+      this.disable = true;
+      this.showUnassoc = false;
     });
     this.getChildAssets();
   }
@@ -90,6 +92,8 @@ export class VotmCloudAssetChildComponent implements OnInit {
           const fileExtension = this.asset.logo.imageName.slice(
             (Math.max(0, this.asset.logo.imageName.lastIndexOf('.')) || Infinity) + 1);
           this.imgURL = this.domSanitizer.bypassSecurityTrustUrl(`data:image/${fileExtension};base64,${this.asset.logo.image}`);
+        } else {
+          this.imgURL = '../../../../assets/images/default-image.svg';
         }
       }
     );
@@ -101,6 +105,7 @@ export class VotmCloudAssetChildComponent implements OnInit {
    * This function sets the sensor disable which are already associated.
    */
   getChildAssets() {
+    console.log(this.assetId);
     this.isGetChildAssetsAPILoading = true;
     this.assetService.getAssetTreeByAssetId(this.assetId)
       .subscribe(response => {

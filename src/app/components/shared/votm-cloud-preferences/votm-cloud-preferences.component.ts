@@ -54,6 +54,8 @@ export class VotmCloudPreferencesComponent implements OnInit, AfterViewInit {
   userNotificationForm: FormGroup;
   selectedUserFavoriteForDelete: any;
   confirmDelUserFavoriteMessage: string;
+  userUOMData: any[] = [];
+  selectedUserUOMData: any[] = [];
 
   constructor(
     private modalService: NgbModal,
@@ -97,7 +99,6 @@ export class VotmCloudPreferencesComponent implements OnInit, AfterViewInit {
     this.getAllAppInfo();
     this.tempMeasurement = 'Imperial';
     this.getAllAlertsByUserId();
-
     // get loggedIn User Detail
 
     this.getUserDetailInfo();
@@ -116,7 +117,6 @@ export class VotmCloudPreferencesComponent implements OnInit, AfterViewInit {
         }
       });
   }
-
 
 
   ngAfterViewInit() {
@@ -151,7 +151,74 @@ export class VotmCloudPreferencesComponent implements OnInit, AfterViewInit {
         }
         this.getFavoriteDraggbleRow(this.userprofile);
       });
+  }
 
+
+  getUOMDetailByUserId() {
+    this.userService.getUserUOMDetail(this.userId).subscribe(
+      response => {
+        this.userUOMData = response;
+        for (const userUOM of this.userUOMData) {
+          console.log(userUOM);
+          this.uomModels[userUOM.uomtypeId] = userUOM.uomid;
+        }
+      }
+    );
+  }
+
+  onUoMDropdownChange(uomTypeId, uomId) {
+    console.log(uomTypeId);
+    console.log(uomId);
+    const obj = {
+      uomtypeId: uomTypeId,
+      uomid: uomId,
+      userId: this.userId,
+      active: true
+    };
+    if (this.userUOMData.length === 0) {
+      this.userUOMData.push(obj);
+    } else {
+      const index = this.userUOMData.findIndex(uom => uom.uomtypeId === uomTypeId);
+      if (index !== -1) {
+        this.userUOMData[index].uomid = uomId;
+      } else {
+        this.userUOMData.push(obj);
+      }
+    }
+    console.log(this.userUOMData);
+  }
+
+  getUOMSelected(uomTypeId) {
+    this.userUOMData.forEach(uom => {
+      if (uom.uomtypeId === uomTypeId) {
+        return uom.uomid;
+      }
+    });
+  }
+
+  onSaveUOMDetails() {
+    const deletedUOM = [];
+    const savedUOM = [];
+    for (const uom of this.userUOMData) {
+      if (uom && uom.uomid.length === 0) {
+        deletedUOM.push({
+          userUomId: uom.userUomId
+        });
+      } else {
+        savedUOM.push(uom);
+      }
+    }
+    this.userService.addUserUOMDetail(savedUOM).subscribe(
+      response => {
+        this.toaster.onSuccess('User UOM details added successfully.', 'Added');
+        this.getUOMDetailByUserId();
+        this.closemodal('save');
+      },
+      error => {
+        this.toaster.onFailure('Error in adding User UOM details.', 'Added');
+      }
+    );
+    this.userService.deleteUserUOMDetail(deletedUOM).subscribe();
   }
 
   getFavoriteDraggbleRow(userprofile) {
@@ -239,9 +306,9 @@ export class VotmCloudPreferencesComponent implements OnInit, AfterViewInit {
         const uom = this.applicationConfiguration.unitOfMeassurement;
         this.uomModels = {};
         for (let i = 0; i < uom.length; i++) {
-          this.uomModels[uom[i].uomTypeName] = '';
+          this.uomModels[uom[i].uomTypeId] = '';
         }
-        this.fillUoM();
+        this.getUOMDetailByUserId();
         // this.uomArray = new Array[this.applicationConfiguration.unitOfMeassurement.length];
       });
   }
@@ -256,7 +323,7 @@ export class VotmCloudPreferencesComponent implements OnInit, AfterViewInit {
     }*/
     /*
       Uncomment if don't want input edit toggle(enable disabled on "edit" btn click),
-      below code will enable favorite name input once clicked 
+      below code will enable favorite name input once clicked
     */
     this.userprofile.userFavorites[favId].disabled = true;
   }
@@ -384,22 +451,6 @@ export class VotmCloudPreferencesComponent implements OnInit, AfterViewInit {
   closemodal(event: string) {
     document.getElementById('uomModal').style.display = 'none';
     // this.modal.style.display = "none";
-    if (event === 'save') {
-      this.UOM = this.tempMeasurement;
-      this.userprofile.uoMId = [];
-      this.userprofile.uoM = [];
-      const uom = this.applicationConfiguration.unitOfMeassurement;
-      if (uom && uom.length > 0) {
-        for (let i = 0; i < uom.length; i++) {
-          if (this.uomModels[uom[i].uomTypeName]) {
-            this.userprofile.uoM.push(this.uomModels[uom[i].uomTypeName]);
-            this.userprofile.uoMId.push(this.uomModels[uom[i].uomTypeName]);
-          }
-        }
-      }
-    } else {
-      this.fillUoM();
-    }
   }
   onUnitChange(value) {
     // // console.log(value);
@@ -484,5 +535,5 @@ export class VotmCloudPreferencesComponent implements OnInit, AfterViewInit {
 
   }
 
- 
+
 }

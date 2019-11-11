@@ -24,9 +24,8 @@ export class AssetSignalService {
       );
   }
 
-  getAvailableSignalsForAsset(organizationId, locationId, assetId): Observable<any> {
-    return this.http.get(AppConstants.GET_AVAILABLE_SIGNALS + '?organization=' + organizationId +
-      '&location=' + locationId + '&assetId=' + assetId)
+  getAvailableSignalsForLocation(type, id): Observable<any> {
+    return this.http.get(AppConstants.GET_SENSOR_TREE + '/type/' + type + '/Id/' + id)
       .pipe(
         map(response => response)
       );

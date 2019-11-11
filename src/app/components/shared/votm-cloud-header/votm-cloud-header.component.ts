@@ -122,6 +122,8 @@ export class VotmCloudHeaderComponent implements OnInit {
     this.modal.style.display = 'none';
     if (event === 'save') {
       this.onFavoriteSubmit();
+    } else {
+      this.currentFavorite.favoriteName = this.previousFavoriteName;
     }
   }
 }

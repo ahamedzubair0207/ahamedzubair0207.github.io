@@ -110,6 +110,9 @@
 .icon-asset-list { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe86c;&nbsp;'); }
 .icon-org-list { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe86d;&nbsp;'); }
 .icon-location-list { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe86e;&nbsp;'); }
+.icon-vert-ellipsis { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe86f;&nbsp;'); }
+.icon-ellipsis { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe870;&nbsp;'); }
+.icon-export { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe871;&nbsp;'); }
 .icon-sig-dewpoint { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe886;&nbsp;'); }
 .icon-sensonode { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe97d;&nbsp;'); }
 .icon-sensonode2 { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe97e;&nbsp;'); }

@@ -11,7 +11,7 @@
         </div>
         <div class="form-group row">
             <div class="col-12 col-md-3 col-xl-2">
-                <label id="alertRuleNameLbl" class="">Alert Rule Name</label>
+                <label id="alertRuleNameLbl" class="">Alert Rule Name:</label>
                 <div class="">
                     <input type="text" name="alertRuleName" [(ngModel)]="alert.alertRuleName"
                         class="form-control form-control-sm" id="alertRuleNameInput" placeholder="Alert Rule Name"
@@ -19,7 +19,7 @@
                 </div>
             </div>
             <div class="col-12 col-md-3 col-xl-2">
-                <label id="metricTypeLbl" class="">Metric Type</label>
+                <label id="metricTypeLbl" class="">Metric Type:</label>
                 <div class="">
                     <!-- <select name="metricType" id="metricTypeDropDown" [(ngModel)]="alert.UomTypeId"
                         class="form-control form-control-sm" [disabled]="pageType === 'View'">
@@ -32,7 +32,7 @@
                             [ngStyle]="{'background-color':pageType==='View'?'#e9ecef':'#fff'}" [multiple]="false"
                             name="metricType" (change)="onMetricTypeChange($event)" [(ngModel)]="alert.uomTypeId"
                             placeholder="Choose Type">
-                            <ng-option value="null" disabled selected>Metric Type</ng-option>
+                            <ng-option value="null" disabled selected>Metric Type:</ng-option>
                             <ng-option *ngFor="let metricType of metricTypes" [value]="metricType.id">{{metricType.name}}</ng-option>
                         </ng-select>
                     </div>
@@ -40,7 +40,7 @@
             </div>
 
             <div class="col-12 col-md-3 col-xl-1">
-                <label id="ruleTypeLbl" class="">Rule Type</label>
+                <label id="ruleTypeLbl" class="">Rule Type:</label>
                 <div class="">
                     <!-- <select name="ruleType" id="ruleTypeDropDown" [(ngModel)]="alert.alertRuleTypeId"
                         class="form-control form-control-sm" [disabled]="pageType === 'View'">
@@ -71,7 +71,7 @@
                 </div>
             </div>
             <div class="col-12 col-md-2 col-xl-2">
-                <label id="excalateAfterLbl" class="">Escalate After</label>
+                <label id="excalateAfterLbl" class="">Escalate After:</label>
                 <div class="">
                     <div class="input-group">
                         <input type="text" id="excalateAfterInput" name="escalateTimeInput" [(ngModel)]="alert.escalateTime"
@@ -95,7 +95,7 @@
             </div>
             <div class="col-12 col-md-3 col-xl-2">
                 <div class="">
-                    <label id="accessTypeLbl" class="">Rule Owner</label>
+                    <label id="accessTypeLbl" class="">Rule Owner:</label>
                     <div class="">
                         <input type="text" name="organizationScopeId" [(ngModel)]="accessScopeName"
                             class="form-control form-control-sm" id="alertRuleNameInput" disabled>

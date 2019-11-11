@@ -17,7 +17,7 @@ export class VotmCloudLoginComponent implements OnInit {
   Login(){
     this.Token = window.location.href;
     localStorage.setItem('token', this.Token);
-    this.router.navigateByUrl('/view/home');
+    this.router.navigateByUrl('/org/home/7a59bdd8-6e1d-48f9-a961-aa60b2918dde/VOTM');
   }
 
 }
