@@ -109,11 +109,11 @@
                 </div>
                 <div class="">
                   <fieldset>
-                    <legend>Preferences</legend>
+                    <legend>Preferences:</legend>
                     <div class="row">
                       <div class="col-12 col-md-6 col-lg-4 ipad-pro-lg-6">
                         <div class="form-group">
-                          <label for="noti_pre_lan" class="">Locale:</label>
+                          <label for="noti_pre_lan" class="">Locale</label>
                           <div class="">
                             <!-- <ng-select id="DefaultLang" class="custom" required [multiple]="false" [(ngModel)]="userprofile.userConfigSettings[0].localeId"
                                 name="userprofile.localeId" #language="ngModel" (change)="onLocaleChange()" placeholder="Select Locale"
@@ -133,7 +133,7 @@
                       </div>
                       <div class="col-12 col-md-6 col-lg-4 ipad-pro-lg-6">
                         <div class="form-group">
-                          <label for="noti_pre_timezone" class="">Timezone:</label>
+                          <label for="noti_pre_timezone" class="">Timezone</label>
                           <div class="">
                             <select required #timezone="ngModel" id="timezone"
                               [(ngModel)]="userprofile.userConfigSettings[0].timeZoneId" name="timezone"
@@ -162,7 +162,7 @@
                   </div> -->
                       <div class="col-12 col-md-6 col-lg-4 ipad-pro-lg-6">
                         <div class="form-group">
-                          <label for="noti_pre_units" class="">Units of Measure:</label>
+                          <label for="noti_pre_units" class="">Units of Measure</label>
                           <div class="input-group input-group-sm">
                             <div class="input-group-prepend">
                               <span class="input-group-text pt-0 pb-0" name="uom-logo"
@@ -183,7 +183,7 @@
             </div>
             <div class="col-12 col-md-6 p-3">
               <fieldset>
-                <legend>Favorites <i class="icon-info"
+                <legend>Favorites: <i class="icon-info"
                     ngbPopover="To change the order of the favorites, drag the favorite order to a desired position."
                     triggers="mouseenter:mouseleave" popoverTitle="Information"></i></legend>
                 <div class="tableFixHead">
@@ -223,7 +223,7 @@
                 </div>
               </fieldset>
               <fieldset class="mt-3">
-                <legend>Organization Access</legend>
+                <legend>Organization Access:</legend>
                 <div class="form-group row">
                   <div class="col-12 col-md-12 col-lg-4 ipad-pro-lg-12 mb-3">
                     <label for="org_ha" class="">Home Access</label>
@@ -266,7 +266,7 @@
       <div class="tab-pane fade p-3" id="notification">
         <form [formGroup]="userNotificationForm">
           <fieldset class="">
-            <legend>Notification Delivery Methods</legend>
+            <legend>Notification Delivery Methods:</legend>
             <div class="row mb-3" *ngIf="userprofile">
               <div class="col-12 col-md-8 col-lg-8 ipad-pro-lg-12">
                 <div class="row mb-3">
@@ -367,7 +367,7 @@
               </div>
             </div>
             <div class="border-top text-right pt-2">
-              <button type="button" class="btn btn-sm btn-secondary mr-2" id="noti_cancel">Cancel</button>
+              <button type="button" class="btn btn-sm btn-outline-secondary mr-2" id="noti_cancel">Cancel</button>
               <button type="button" class="btn btn-sm btn-info" id="noti_save"
                 (click)="onUserNotificationSave()">Save</button>
             </div>
@@ -627,7 +627,7 @@
           </div>
         </div>
         <fieldset class="mt-3">
-          <legend>Alarm Subscriptions</legend>
+          <legend>Alarm Subscriptions:</legend>
           <div class="row">
             <div class="col-md-6 mb-2">
 
