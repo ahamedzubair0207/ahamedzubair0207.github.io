@@ -1,4 +1,4 @@
-<div  class="position-relative" *ngIf="imgURL">
+<div  class="position-relative" >
   <div class="lock-tab cursor-point" >
       <a (click)="toggleDisable()"><i [ngClass]="disable ? 'icon-lock edit-view-lock' : 'icon-lock-open edit-view-lock'"></i></a>
   </div>
@@ -57,7 +57,7 @@
     (saveAssociation)="onSaveSignalAssociation($event)"
     (saveAlarmAssociation)="onClickOfAlarmRuleAssociation($event)"
     (resetPage)="onReset($event)"
-    *ngIf="imgURL"
+    *ngIf="imgURL && model === 'Signal'"
   >
   </app-votm-cloud-association>
 </div>

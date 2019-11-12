@@ -11,6 +11,7 @@ import {
   OktaAuthModule,
   OktaCallbackComponent,
 } from '@okta/okta-angular';
+import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { DndModule } from 'ngx-drag-drop';
 import UserAuthenticationConfig from './pcm.configuration';
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -136,13 +137,10 @@ import {AmModule} from "@acaisoft/angular-azure-maps";
 import { VotmCloudAdminSensorAlertComponent } from './components/admin/votm-cloud-admin-sensor-alert/votm-cloud-admin-sensor-alert.component';
 import { VotmImageOverlayComponent } from './components/shared/charts/votm-image-overlay/votm-image-overlay.component';
 import { VotmMapOverlayComponent } from './components/shared/charts/votm-map-overlay/votm-map-overlay.component';
-import { WidgetDataTableComponent } from './components/shared/charts/widget-data-table/widget-data-table.component';
-import { WidgetImageOverlayComponent } from './components/shared/charts/widget-image-overlay/widget-image-overlay.component';
-import { WidgetTrendComponent } from './components/shared/charts/widget-trend/widget-trend.component';
-import { WidgetGaugeComponent } from './components/shared/charts/widget-gauge/widget-gauge.component';
 import { QcdDashboardComponent } from './dashboards/qcd-dashboard/qcd-dashboard.component';
 import { ParkerQcdDashboardComponent } from './components/dashboards/parker-qcd-dashboard/parker-qcd-dashboard.component';
 import { VotmCloudAssetsDashboardComponent } from './components/assets/votm-cloud-assets-dashboard/votm-cloud-assets-dashboard.component';
+import { VotmCloudSpinnerComponent } from './components/shared/votm-cloud-spinner/votm-cloud-spinner.component';
 
 const oktaConfig = Object.assign({
   onAuthRequired: ({ oktaAuth, router }) => {
@@ -224,14 +222,11 @@ const oktaConfig = Object.assign({
     VotmCloudAdminSensorAlertComponent,
     VotmImageOverlayComponent,
     VotmMapOverlayComponent,
-    WidgetDataTableComponent,
-    WidgetImageOverlayComponent,
-    WidgetTrendComponent,
-    WidgetGaugeComponent,
     QcdDashboardComponent,
     ParkerQcdDashboardComponent,
     VotmCloudAssociationComponent,
-    VotmCloudAssetsDashboardComponent
+    VotmCloudAssetsDashboardComponent,
+    VotmCloudSpinnerComponent
   ],
 
 
@@ -256,7 +251,8 @@ const oktaConfig = Object.assign({
     TreeTableModule,
     TableModule,
     AmModule,
-    DndModule
+    DndModule,
+    NgxDatatableModule
   ],
   providers: [
     // LoadMapService,

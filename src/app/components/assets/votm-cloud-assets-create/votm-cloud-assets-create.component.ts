@@ -35,7 +35,7 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
   imgURL: any;
   locationImageURL: any;
   parentAssetImageURL: any;
-  parentAssetImageSize: {width: number, height: number};
+  parentAssetImageSize: { width: number, height: number };
   public message: string;
   closeResult: string;
   modal: any;
@@ -103,7 +103,7 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
   };
   assetRemoveMessage: string;
   isChildAssetAssociation = false;
-  imgSize: {width: number, height: number};
+  imgSize: { width: number, height: number };
 
   // Dashboard-david start
   dbTemplates: DbTplItem[];
@@ -116,6 +116,12 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
   activeTab: string;
   addDashboardmodal: HTMLElement;
   dashboardDataById: { act: string; title: string; dashboardName: string; dashboardHTML: string; };
+  loader: boolean;
+  assetLoader: boolean;
+  orgLoader: boolean;
+  locationLoader: boolean;
+  screenLabelsLoader: boolean;
+  appInfoLoader: boolean;
   // Dashboard-david end
 
   constructor(
@@ -187,8 +193,6 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
     this.getAllAssets();
     this.getAllOrganization();
     this.getAllLocations();
-
-
     this.getScreenLabels();
     this.getAllAppInfo();
     // this.asset.active = true;
@@ -197,8 +201,10 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
   selAssetIcon = "robot";
 
   getAssetById() {
+    this.loader = true;
     this.assetService.getAssetById(this.assetId)
       .subscribe(response => {
+        this.loader = false;
         this.asset = response;
         if (this.asset) {
           this.asset.organizationName = this.curOrgName;
@@ -263,16 +269,20 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
   }
 
   getScreenLabels() {
+    this.screenLabelsLoader = true;
     this.configSettingsService.getCreateLocScreenLabels()
       .subscribe(response => {
         this.pageLabels = response;
+        this.screenLabelsLoader = false;
       });
   }
 
   getAllAppInfo() {
+    this.appInfoLoader = true;
     this.configSettingsService.getApplicationInfo()
       .subscribe((response: any) => {
         this.applicationConfiguration = response;
+        this.appInfoLoader = false;
       });
   }
 
@@ -683,16 +693,19 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
   }
 
   getAllAssets() {
+    this.assetLoader = true;
     this.assetService.getAllAssets()
       .subscribe(response => {
         this.parentAssetsList = response;
         this.parentAssetsList.sort(SortArrays.compareValues('assetName'));
         this.filterAssets();
-      })
+        this.assetLoader = false;
+      });
   }
 
   getAllOrganization() {
     if (!this.organizationList || this.organizationList.length === 0) {
+      this.orgLoader = true;
       this.orgService.getAllOrganizationsList()
         .subscribe(orgList => {
           this.organizationList = orgList;
@@ -708,6 +721,7 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
           this.organizationList.sort(SortArrays.compareValues('name'));
           this.filterLocations();
           this.filterAssets();
+          this.orgLoader = false;
         });
     }
   }
@@ -767,11 +781,11 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
         const $sensor = $(
           '<div class=\'sensor-circle icon-asset-robot position-absolute abc\' id="asset_position_icon">'
         ).html('')
-        .css({
-          left: '1%',
-          top: '6%'
-        })
-        .appendTo('#location_asset_position');
+          .css({
+            left: '1%',
+            top: '6%'
+          })
+          .appendTo('#location_asset_position');
         $sensor.data(
           'dockEl',
           $sensor
@@ -866,10 +880,12 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
   }
 
   getAllLocations() {
+    this.locationLoader = true;
     this.locService.getAllLocations()
       .subscribe(locList => {
         this.locationList = locList;
         this.filterLocations();
+        this.locationLoader = false;
         // this.locationList.push({ organizationId: this.asset.organizationId, name: this.asset.organizationName });
         // this.locationList.sort(SortArrays.compareValues('name'));
       });

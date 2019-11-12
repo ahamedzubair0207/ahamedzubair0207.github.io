@@ -105,6 +105,7 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
   isAddOrganizationAPILoading = false;
   organizationList: any[] = [];
   locationListForDropDown: any[] = [];
+  isAssetAssociationClicked = false;
 
   // Dashboard-david start
   dbTemplates: DbTplItem[];
@@ -820,11 +821,11 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
 
   onClickOfNavTab(type) {
     this.isSignalAssociationClicked = false;
-    this.isGatewayAssociationClicked = false;
+    this.isAssetAssociationClicked = false;
     if (type === 'signal_association') {
       this.isSignalAssociationClicked = true;
-    } else if (type === 'gateway_association') {
-      this.isGatewayAssociationClicked = true;
+    } else if (type === 'asset_association') {
+      this.isAssetAssociationClicked = true;
     }
   }
   getDashboards() {

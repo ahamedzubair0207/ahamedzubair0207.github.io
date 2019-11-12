@@ -27,6 +27,7 @@
     "@ng-select/ng-select": "^3.0.7",
     "@okta/okta-angular": "^1.2.2",
     "@okta/okta-signin-widget": "^3.3.1",
+    "@swimlane/ngx-datatable": "^16.0.2",
     "angular-in-memory-web-api": "^0.8.0",
     "angular-maps": "^6.0.3",
     "async": "^2.5.0",

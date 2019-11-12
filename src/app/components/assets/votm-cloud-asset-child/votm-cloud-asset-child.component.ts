@@ -116,18 +116,7 @@ export class VotmCloudAssetChildComponent implements OnInit {
           childAsset.associationName = childAsset.name;
           childAsset.associated = false;
         }
-        for (let i = 0; i < this.childAssets.length; i++) {
-          const asset = {...this.childAssets[i]};
-          asset.pos = {};
-          // asset.pos['left'] = asset.imageCordinates.x;
-          // asset.pos['top'] = asset.imageCordinates.y;
-          asset.isClicked = false;
-          asset.icon = 'icon-sig-humidity';
-          asset.associated = true;
-          asset.did = i;
-          asset.bound = true;
-          this.associatedChildAssets.push(asset);
-        }
+        this.getChildAssetAssociation();
         this.isGetChildAssetsAPILoading = false;
       },
         error => {
@@ -138,31 +127,55 @@ export class VotmCloudAssetChildComponent implements OnInit {
 
   getChildAssetAssociation() {
     this.isGetassociatedChildAssetsAPILoading = true;
+    this.assetService.getParentChildAssetAssociation(this.assetId)
+      .subscribe(
+        response => {
+          this.isGetassociatedChildAssetsAPILoading = false;
+          for (let i = 0; i < response.length; i++) {
+            const childAsset = response[i];
+            childAsset.isClicked = false;
+            childAsset.icon = 'icon-sig-humidity';
+            childAsset.associated = true;
+            childAsset.did = i;
+            childAsset.bound = true;
+            childAsset.imageCordinates = childAsset.imageCoordinates[childAsset.childAssetId];
+            childAsset.pos = {};
+            childAsset.pos['left'] = childAsset.imageCordinates.x;
+            childAsset.pos['top'] = childAsset.imageCordinates.y;
+          }
+          this.associatedChildAssets = [...response];
+          for (let i = 0; i < this.childAssets.length; i++) {
+            const childAsset = this.childAssets[i];
+            const index = this.associatedChildAssets.findIndex(assChild => assChild.childAssetId === childAsset.id);
+            console.log(index);
+            if (index !== -1) {
+              childAsset.associated = true;
+              this.associatedChildAssets[index].organizationId = this.asset.organizationId;
+              this.associatedChildAssets[index].organizationName = this.asset.organizationName;
+              this.associatedChildAssets[index].parentAssetId = this.asset.assetId;
+              this.associatedChildAssets[index].parentAssetName = this.asset.assetName;
+              this.associatedChildAssets[index].locationId = this.asset.locationId;
+              this.associatedChildAssets[index].locationName = this.asset.locationName;
+              this.associatedChildAssets[index].associationName = childAsset.name;
+              console.log(this.associatedChildAssets[index]);
+            } else {
+              childAsset.pos = {};
+              childAsset.isClicked = false;
+              childAsset.icon = 'icon-sig-humidity';
+              childAsset.associated = true;
+              childAsset.did = i;
+              childAsset.bound = true;
+              this.associatedChildAssets.push(childAsset);
+            }
+          }
+          console.log(JSON.stringify(this.associatedChildAssets));
 
-
-    // this.locationSignalService.getSignalAssociation(this.parentLocationId)
-    //   .subscribe(
-    //     response => {
-    //       this.isGetassociatedChildAssetsAPILoading = false;
-    //       for (let i = 0; i < response.length; i++) {
-    //         const signal = response[i];
-    //         signal.imageCordinates = signal.imageCordinates[signal.associationName];
-    //         signal.pos = {};
-    //         signal.pos['left'] = signal.imageCordinates.x;
-    //         signal.pos['top'] = signal.imageCordinates.y;
-    //         signal.isClicked = false;
-    //         signal.icon = 'icon-sig-humidity';
-    //         signal.associated = true;
-    //         signal.id = i;
-    //       }
-    //       this.associatedChildAssets = [...response];
-    //     },
-    //     error => {
-    //       this.isGetassociatedChildAssetsAPILoading = false;
-    //     }
-    //   );
+        },
+        error => {
+          this.isGetassociatedChildAssetsAPILoading = false;
+        }
+      );
   }
-
   toggleDisable() {
     this.disable = !this.disable;
     this.showUnassoc = !this.disable;

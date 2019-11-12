@@ -26,13 +26,22 @@ export class VotmCloudAdminSensorDetailsComponent implements OnInit {
   }
 
   getSensorDetailsById() {
-    // Get Sensor Details by Id
+    //Get Sensor Details by Id
     this.sensorsService.getSensorDetailsById(this.sensorId)
       .subscribe(response => {
         this.sensorDetailsData = response;
         console.log('sensordatadetails===', this.sensorDetailsData);
 
       });
+
+    // Get Sensor Details by Type=sensor, organization & Id=sensor id, org id
+    // - v1/SensorTree/type/sensor/Id/588a6bc3-2ec3-4801-912e-0abfe9e3ef7d
+    // this.sensorsService.getSensorDetailsByTypeAndId('sensor', this.sensorId)
+    // .subscribe(response => {
+    //   this.sensorDetailsData = response;
+    //   console.log('getSensorDetailsByTypeAndId===', this.sensorDetailsData);
+
+    // });
 
   }
 
