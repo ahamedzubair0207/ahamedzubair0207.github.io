@@ -35,4 +35,12 @@ export class SensorsService {
       );
   }
 
+  getSensorDetailsByTypeAndId(type, typeId) {
+    //type = organization, sensor && Id= Organization Id, sensor ID
+    return this.http.get(AppConstants.GET_SENSOR_DETAIL_BY_TYPE_AND_ID + '/' + type + 'Id' + typeId)
+      .pipe(
+        map(response => response)
+      );
+  }
+
 }

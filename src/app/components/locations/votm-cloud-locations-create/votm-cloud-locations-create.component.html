@@ -401,11 +401,11 @@
                         <input type="number" class="form-control form-control-sm geo-text-box w-50" name="radius"
                           [(ngModel)]="location.geoRadius" placeholder="Radius" [disabled]="pageType==='View'"
                           id="locDtlRadiusVal">
-                        <select name="radiusUnit" [disabled]="pageType==='View'" [(ngModel)]="location.geoFenceValue"
-                          class="drop-down geo-drop-down form-control form-control-sm w-50" id="locDtlRadiusGeoFecVal">
-                          <option value="ft">Feet</option>
-                          <option value="meters">Meters</option>
-                        </select>
+                        <ng-select name="radiusUnit" [disabled]="pageType==='View'" [(ngModel)]="location.geoFenceValue"
+                          class="custom drop-down geo-drop-down w-50" id="locDtlRadiusGeoFecVal">
+                          <ng-option value="ft">Feet</ng-option>
+                          <ng-option value="meters">Meters</ng-option>
+                        </ng-select>
                       </div>
                       <div ng-show="geofence == 'f-square'"
                         *ngIf="location && location.geoFenceType && location.geoFenceType ==='d5764af5-114b-48e6-9980-544634167826'"
@@ -417,12 +417,12 @@
                           <input [disabled]="pageType==='View'" type="number" name="height"
                             [(ngModel)]="location.geoHeight" class="form-control form-control-sm col"
                             placeholder="Height" maxlength="50" id="locDtlSqrGeoHeight">
-                          <select name="rectangleUnit" [disabled]="pageType==='View'"
+                          <ng-select name="rectangleUnit" [disabled]="pageType==='View'"
                             [(ngModel)]="location.geoFenceValue"
-                            class="drop-down geo-drop-down col form-control form-control-sm" id="locDtlSqrGeofncVal">
-                            <option value="ft">Feet</option>
-                            <option value="meters">Meters</option>
-                          </select>
+                            class="custom drop-down geo-drop-down col" id="locDtlSqrGeofncVal">
+                            <ng-option value="ft">Feet</ng-option>
+                            <ng-option value="meters">Meters</ng-option>
+                          </ng-select>
                         </div>
                       </div>
                     </div>
@@ -433,15 +433,15 @@
                       <div class="form-group">
                         <label class="" id="timezone" votmrequired>{{pageLabels.DefaultTimeZone.labelName}}:</label>
                         <div class="d-flex align-items-center">
-                          <select required #timezone="ngModel" [disabled]="pageType==='View'"
+                          <ng-select required #timezone="ngModel" [disabled]="pageType==='View'"
                             [(ngModel)]="location.timeZoneId" name="timezone"
-                            class="drop-down form-control form-control-sm" id="locDtlDfltTimezone1">
+                            class="custom drop-down" id="locDtlDfltTimezone1">
                             <!-- <option value="" data-default selected>Select Timezone</option> -->
-                            <option value="null" disabled selected>Click Lookup</option>
-                            <option *ngFor="let timeZone of applicationConfiguration.timeZone"
+                            <ng-option value="null" disabled selected>Click Lookup</ng-option>
+                            <ng-option *ngFor="let timeZone of applicationConfiguration.timeZone"
                               [value]="timeZone.timeZoneId">
-                              {{timeZone.timeZoneName}}</option>
-                          </select>
+                              {{timeZone.timeZoneName}}</ng-option>
+                          </ng-select>
                           <button id="geo-loc-btn-lookup" type="button" class="btn btn-outline-secondary btn-sm btn-geo"
                             (click)="onLookupClick()" [disabled]="pageType==='View'"><i class="icon-bullseye"></i>Lookup</button>
                           <div *ngIf="timezone.dirty && timezone.invalid">
@@ -745,14 +745,14 @@
               <div class="form-group">
                 <label class="" for="uom.uomTypeName">{{uom.uomTypeName}}:</label>
                 <div class="">
-                  <select [(ngModel)]="uomModels[uom.uomTypeName]"
+                  <ng-select [(ngModel)]="uomModels[uom.uomTypeName]"
                     (change)="onUoMDropdownChange($event,uom.uomTypeName)" name="uom.uomTypeName"
-                    class="form-control form-control-sm">
-                    <option></option>
-                    <option *ngFor="let view of uom.uoMView" [value]="view.uoMId">
+                    class="custom">
+                    <ng-option></ng-option>
+                    <ng-option *ngFor="let view of uom.uoMView" [value]="view.uoMId">
                       {{view.uoMName}}
-                    </option>
-                  </select>
+                    </ng-option>
+                  </ng-select>
                 </div>
               </div>
             </div>
@@ -778,14 +778,14 @@
                 <label class=""
                   for="applicationConfiguration.unitOfMeassurement[i+1].uomTypeName">{{applicationConfiguration.unitOfMeassurement[i+1].uomTypeName}}:</label>
                 <div class="">
-                  <select [(ngModel)]="uomModels[applicationConfiguration.unitOfMeassurement[i+1].uomTypeName]"
+                  <ng-select [(ngModel)]="uomModels[applicationConfiguration.unitOfMeassurement[i+1].uomTypeName]"
                     (change)="onUoMDropdownChange($event, applicationConfiguration.unitOfMeassurement[i+1].uomTypeName)"
                     name="applicationConfiguration.unitOfMeassurement[i+1].uomTypeName"
-                    class="form-control form-control-sm">
-                    <option></option>
-                    <option *ngFor="let view of applicationConfiguration.unitOfMeassurement[i+1].uoMView"
-                      [value]="view.uoMId">{{view.uoMName}}</option>
-                  </select>
+                    class="custom">
+                    <ng-option></ng-option>
+                    <ng-option *ngFor="let view of applicationConfiguration.unitOfMeassurement[i+1].uoMView"
+                      [value]="view.uoMId">{{view.uoMName}}</ng-option>
+                  </ng-select>
                 </div>
               </div>
             </div>
@@ -796,16 +796,16 @@
                 <label class=""
                   for="applicationConfiguration.unitOfMeassurement[i+2].uomTypeName">{{applicationConfiguration.unitOfMeassurement[i+2].uomTypeName}}:</label>
                 <div class="">
-                  <select [(ngModel)]="uomModels[applicationConfiguration.unitOfMeassurement[i+2].uomTypeName]"
+                  <ng-select [(ngModel)]="uomModels[applicationConfiguration.unitOfMeassurement[i+2].uomTypeName]"
                     (change)="onUoMDropdownChange($event, applicationConfiguration.unitOfMeassurement[i+2].uomTypeName)"
                     name="applicationConfiguration.unitOfMeassurement[i+2].uomTypeName"
-                    class="form-control form-control-sm">
-                    <option></option>
-                    <option *ngFor="let view of applicationConfiguration.unitOfMeassurement[i+2].uoMView"
+                    class="custom">
+                    <ng-option></ng-option>
+                    <ng-option *ngFor="let view of applicationConfiguration.unitOfMeassurement[i+2].uoMView"
                       [value]="view.uoMId">
                       {{view.uoMName}}
-                    </option>
-                  </select>
+                    </ng-option>
+                  </ng-select>
                 </div>
               </div>
             </div>

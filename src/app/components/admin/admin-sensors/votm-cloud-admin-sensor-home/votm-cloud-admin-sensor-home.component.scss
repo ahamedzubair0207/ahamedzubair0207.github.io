@@ -12,4 +12,10 @@ td {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    & a:link{
+      color: #212529;
+    }
+    & a:visited{
+      color: #212529;
+    }
   }
