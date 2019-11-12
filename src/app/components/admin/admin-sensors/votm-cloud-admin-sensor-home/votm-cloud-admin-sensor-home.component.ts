@@ -82,16 +82,18 @@ export class VotmCloudAdminSensorHomeComponent implements OnInit {
 
           // Push Signal Battery Value from child battery signal
           if (signal.signalName !== null &&
-            signal.signalId === 'e9326142-068b-494b-bff7-421a44fa0cae' &&
-            signal.signalName.toLowerCase() === 'battery'
+            // signal.signalId === 'e9326142-068b-494b-bff7-421a44fa0cae' ||
+            // signal.signalName.toLowerCase() === 'battery'
+            signal.signalId === 'e9326142-068b-494b-bff7-421a44fa0cae'
             ) {
               treeSensor.data.batteryValue = signal.signalValue;
           }
 
           // Push Signal Battery Value from child battery signal
           if (signal.signalName !== null &&
-            signal.signalId === 'fa7b422d-2018-4fdb-ba50-0b4be9bf2735' &&
-            signal.signalName.toLowerCase() === 'signal'
+            // signal.signalId === 'fa7b422d-2018-4fdb-ba50-0b4be9bf2735' ||
+            // signal.signalName.toLowerCase() === 'signal'
+            signal.signalId === 'fa7b422d-2018-4fdb-ba50-0b4be9bf2735'
             ) {
               treeSensor.data.signalStrength = signal.signalValue;
           }
@@ -120,11 +122,12 @@ export class VotmCloudAdminSensorHomeComponent implements OnInit {
   checkRowDisplay(sensorObj) {
     // e9326142-068b-494b-bff7-421a44fa0cae == battery
     // fa7b422d-2018-4fdb-ba50-0b4be9bf2735 == signal
-    if (sensorObj.name !== null &&
-      sensorObj.id !== 'e9326142-068b-494b-bff7-421a44fa0cae' &&
-      sensorObj.id !== 'fa7b422d-2018-4fdb-ba50-0b4be9bf2735' &&
-      sensorObj.name.toLowerCase() !== 'signal' &&
-      sensorObj.name.toLowerCase() !== 'battery'
+    if (
+        sensorObj.name !== null &&
+        // (sensorObj.id !== 'e9326142-068b-494b-bff7-421a44fa0cae' || sensorObj.name.toLowerCase() !== 'battery') &&
+        // (sensorObj.id !== 'fa7b422d-2018-4fdb-ba50-0b4be9bf2735' || sensorObj.name.toLowerCase() !== 'signal')
+        (sensorObj.id !== 'e9326142-068b-494b-bff7-421a44fa0cae') &&
+        (sensorObj.id !== 'fa7b422d-2018-4fdb-ba50-0b4be9bf2735')
     ) {
       return true;
     }

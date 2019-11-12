@@ -435,7 +435,7 @@
                         <div class="d-flex align-items-center">
                           <ng-select required #timezone="ngModel" [disabled]="pageType==='View'"
                             [(ngModel)]="location.timeZoneId" name="timezone"
-                            class="custom drop-down" id="locDtlDfltTimezone1">
+                            class="custom drop-down w-100" id="locDtlDfltTimezone1">
                             <!-- <option value="" data-default selected>Select Timezone</option> -->
                             <ng-option value="null" disabled selected>Click Lookup</ng-option>
                             <ng-option *ngFor="let timeZone of applicationConfiguration.timeZone"
@@ -520,7 +520,7 @@
 
                         <ng-select [items]="gatewayList" [multiple]="true" [closeOnSelect]="false" [hideSelected]="true"
                           bindLabel="text" placeholder="Select gateways" name="gatewayslist"
-                          [(ngModel)]="selectedItems" [disabled]="pageType==='View'">
+                          [(ngModel)]="selectedItems" [disabled]="pageType==='View'" class="custom">
                           <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
                             <div class="ng-value" *ngFor="let item of items | slice:0:2">
                               <span class="ng-value-label">{{item.text}}</span>

@@ -86,8 +86,8 @@
             <td class="align-left">{{rowData.signalStrength}}</td>
             <td class="align-center">
               <i class="icon-critical" style="color: red;" *ngIf="rowData.sensorStatusName === 'High Critical'"></i>
-              <i class="icon-warn" style="color: #ffffcc" *ngIf="rowData.sensorStatusName === 'High Warning'"></i>
-              <i class="icon-go" style="color: #28a745;" *ngIf="rowData.sensorStatusName === 'Normal'"></i>
+              <i class="icon-warn" style="color: #e6e60d;" *ngIf="rowData.sensorStatusName === 'High Warning'"></i>
+              <i class="icon-go" style="color: #28a745;" *ngIf="rowData.sensorStatusName === 'Baseline'"></i>
             </td>
           </tr>
         </ng-template>
