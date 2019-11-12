@@ -534,3 +534,19 @@ a.article:hover {
 	-webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
 	background-color:rgba(0,0,0,0.20); 
 }
+
+.dropdown-toggle::after {
+    display:none;
+}
+
+.scrollable-menu {
+    height: auto;
+    max-height: 200px;
+    overflow-x: hidden;
+}
+
+.favorite .tooltip-inner {
+  margin-top:122px;
+  text-align:left;
+  background-color: #78C8D2;
+}

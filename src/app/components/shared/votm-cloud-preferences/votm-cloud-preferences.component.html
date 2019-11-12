@@ -20,7 +20,7 @@
             <div class="col-12 col-md-6">
               <div class="row-flex">
                 <div class="form-group">
-                  <label for="noti_fn" class="">Display Name</label>
+                  <label for="noti_fn" class="">Display Name:</label>
                   <div class="row">
                     <div class="col-12 col-md-6 col-lg-6">
                       <input type="text" class="form-control form-control-sm" id="noti_fn" placeholder="First name"
@@ -41,7 +41,7 @@
                 <div class="row">
                   <div class="col-12 col-md-6 col-lg-4 ipad-pro-lg-6">
                     <div class="form-group">
-                      <label for="noti_email" class="">Email</label>
+                      <label for="noti_email" class="">Email:</label>
                       <div class="">
                         <input type="email" class="form-control form-control-sm" id="noti_email" placeholder="email"
                           name="emailId" #emailId="ngModel" [(ngModel)]="userprofile.emailId" required email>
@@ -56,7 +56,7 @@
                   </div>
                   <div class="col-12 col-md-6 col-lg-4 ipad-pro-lg-6">
                     <div class="form-group">
-                      <label for="noti_ph" class="">Phone Number</label>
+                      <label for="noti_ph" class="">Phone Number:</label>
                       <div class="">
                         <input type="text" class="form-control form-control-sm" id="noti_ph"
                           placeholder="+1 (763) 123-456" #phoneNumber="ngModel" name="phoneNumber"
@@ -73,7 +73,7 @@
                   </div>
                   <div class="col-12 col-md-6 col-lg-4 ipad-pro-lg-6">
                     <div class="form-group">
-                      <label for="noti_role" class="">Role</label>
+                      <label for="noti_role" class="">Role:</label>
                       <div class="">
                         <input type="text" name="userPrefRole" [(ngModel)]="userprofile.roleName"
                           class="form-control form-control-sm" disabled id="userPrefRole">
@@ -84,7 +84,7 @@
                 <div class="row">
                   <div class="col-12 col-md-6 col-lg-5">
                     <div class="form-group">
-                      <label for="noti_user_image" class="">User Image</label>
+                      <label for="noti_user_image" class="">User Image:</label>
                       <!-- <div class="">
                         <input type="file" class="form-control form-control-sm" id="noti_user_image"
                           placeholder="Browse">
@@ -101,7 +101,7 @@
                     </div>
                   </div>
                   <div class="col-12 col-md-6 col-lg-7">
-                    <label for="logopreview">Image Preview</label>
+                    <label for="logopreview">Image Preview:</label>
                     <div class="form-control logo-preview">
                       <img [src]="userImgURL" class="img-fluid img-fluid-custom" *ngIf="userImgURL">
                     </div>
@@ -113,7 +113,7 @@
                     <div class="row">
                       <div class="col-12 col-md-6 col-lg-4 ipad-pro-lg-6">
                         <div class="form-group">
-                          <label for="noti_pre_lan" class="">Locale</label>
+                          <label for="noti_pre_lan" class="">Locale:</label>
                           <div class="">
                             <!-- <ng-select id="DefaultLang" class="custom" required [multiple]="false" [(ngModel)]="userprofile.userConfigSettings[0].localeId"
                                 name="userprofile.localeId" #language="ngModel" (change)="onLocaleChange()" placeholder="Select Locale"
@@ -125,7 +125,7 @@
                             <select required #language="ngModel" id="DefaultLang"
                               [(ngModel)]="userprofile.userConfigSettings[0].localeId" name="language"
                               class="drop-down form-control form-control-sm">
-                              <option value="" data-default selected>Select Language</option>
+                              <option value="" data-default selected>Select Locale</option>
                               <option *ngFor="let locale of applicationConfiguration.locale" [value]="locale.localeId">{{locale.localeName}}</option>
                             </select>
                           </div>
@@ -133,7 +133,7 @@
                       </div>
                       <div class="col-12 col-md-6 col-lg-4 ipad-pro-lg-6">
                         <div class="form-group">
-                          <label for="noti_pre_timezone" class="">Timezone</label>
+                          <label for="noti_pre_timezone" class="">Timezone:</label>
                           <div class="">
                             <select required #timezone="ngModel" id="timezone"
                               [(ngModel)]="userprofile.userConfigSettings[0].timeZoneId" name="timezone"
@@ -162,7 +162,7 @@
                   </div> -->
                       <div class="col-12 col-md-6 col-lg-4 ipad-pro-lg-6">
                         <div class="form-group">
-                          <label for="noti_pre_units" class="">Units of Measure</label>
+                          <label for="noti_pre_units" class="">Units of Measure:</label>
                           <div class="input-group input-group-sm">
                             <div class="input-group-prepend">
                               <span class="input-group-text pt-0 pb-0" name="uom-logo"

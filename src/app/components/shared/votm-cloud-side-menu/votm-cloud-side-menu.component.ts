@@ -1,11 +1,12 @@
-import { Component, OnInit, ElementRef } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewEncapsulation } from '@angular/core';
 import { SharedService } from '../../../services/shared.service';
 import { MenuService } from '../../../services/menu/menu.service';
 
 @Component({
   selector: 'app-votm-cloud-side-menu',
   templateUrl: './votm-cloud-side-menu.component.html',
-  styleUrls: ['./votm-cloud-side-menu.component.scss']
+  styleUrls: ['./votm-cloud-side-menu.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class VotmCloudSideMenuComponent implements OnInit {
 
@@ -45,6 +46,7 @@ export class VotmCloudSideMenuComponent implements OnInit {
             item.childs.push({ enabled: true, url: url, fragment: fragment, name: child.favoriteName, icon: 'menu-icon icon-star' });
           })
           // item.childs = childs;
+          console.log('item ', item)
         }
       });
     });
