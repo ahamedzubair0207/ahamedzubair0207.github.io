@@ -432,16 +432,14 @@
                     <div class="col-12 col-md-6 col-lg-6 col-xl-6" *ngIf="applicationConfiguration">
                       <div class="form-group">
                         <label class="" id="timezone" votmrequired>{{pageLabels.DefaultTimeZone.labelName}}:</label>
-                        <div class="d-flex align-items-center">
-                          <select required #timezone="ngModel" [disabled]="pageType==='View'"
-                            [(ngModel)]="location.timeZoneId" name="timezone"
-                            class="drop-down form-control form-control-sm" id="locDtlDfltTimezone1">
-                            <!-- <option value="" data-default selected>Select Timezone</option> -->
-                            <option value="null" disabled selected>Click Lookup</option>
-                            <option *ngFor="let timeZone of applicationConfiguration.timeZone"
-                              [value]="timeZone.timeZoneId">
-                              {{timeZone.timeZoneName}}</option>
-                          </select>
+                        <div class="">
+                            <ng-select [disabled]="pageType==='View'" #timezone="ngModel" class="custom" required
+                            [ngStyle]="{'background-color':pageType==='View'?'#e9ecef':'#fff'}" [multiple]="false"
+                            [(ngModel)]="location.timeZoneId" placeholder="Select Time Zone"
+                            name="timezone" id="locDtlDfltTimezone1">
+                            <ng-option value="null" disabled selected>Click Lookup</ng-option>
+                            <ng-option *ngFor="let timeZone of applicationConfiguration.timeZone" [value]="timeZone.timeZoneId">{{timeZone.timeZoneName}}</ng-option>
+                          </ng-select>
                           <button id="geo-loc-btn-lookup" type="button" class="btn btn-outline-secondary btn-sm btn-geo"
                             (click)="onLookupClick()" [disabled]="pageType==='View'"><i class="icon-bullseye"></i>Lookup</button>
                           <div *ngIf="timezone.dirty && timezone.invalid">

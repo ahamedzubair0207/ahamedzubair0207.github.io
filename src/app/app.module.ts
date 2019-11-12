@@ -143,6 +143,7 @@ import { WidgetGaugeComponent } from './components/shared/charts/widget-gauge/wi
 import { QcdDashboardComponent } from './dashboards/qcd-dashboard/qcd-dashboard.component';
 import { ParkerQcdDashboardComponent } from './components/dashboards/parker-qcd-dashboard/parker-qcd-dashboard.component';
 import { VotmCloudAssetsDashboardComponent } from './components/assets/votm-cloud-assets-dashboard/votm-cloud-assets-dashboard.component';
+import { VotmCloudSpinnerComponent } from './components/shared/votm-cloud-spinner/votm-cloud-spinner.component';
 
 const oktaConfig = Object.assign({
   onAuthRequired: ({ oktaAuth, router }) => {
@@ -231,7 +232,8 @@ const oktaConfig = Object.assign({
     QcdDashboardComponent,
     ParkerQcdDashboardComponent,
     VotmCloudAssociationComponent,
-    VotmCloudAssetsDashboardComponent
+    VotmCloudAssetsDashboardComponent,
+    VotmCloudSpinnerComponent
   ],
 
 
