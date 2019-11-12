@@ -66,20 +66,29 @@
           </tr>
         </ng-template>
         <ng-template pTemplate="body" let-rowNode let-rowData="rowData">
-          <tr [ttRow]="rowNode">
-
+          <tr [ttRow]="rowNode" *ngIf="checkRowDisplay(rowData)">
+              <!--  -->
             <td class="align-left">
               <span container="body" [ngbTooltip]="rowData.name">
                 <p-treeTableToggler [rowNode]="rowNode"></p-treeTableToggler>
-                <a [routerLink]="['/admin/networkmanagement/sensorDetails', rowData.id]"><i class="icon-org-company"></i>{{rowData.name}}</a>
+                <ng-container *ngIf="rowData.type === 'Sensor'">
+                    <a [routerLink]="['/admin/networkmanagement/sensorDetails', rowData.id]"><i class="icon-org-company"></i>{{rowData.name}}</a>
+                </ng-container>
+                <ng-container *ngIf="rowData.type === 'Signal'">
+                    <i class="icon-org-company"></i>{{rowData.name}}
+                </ng-container>
               </span>
             </td>
-            <td class="align-left"></td>
-            <td class="align-left"></td>
-            <td class="align-left"></td>
-            <td class="align-left"></td>
-            <td class="align-left"></td>
-            <td class="align-center"><i class="icon-go" style="color: #28a745;"></i></td>
+            <td class="align-left">{{rowData.serialNumber}}</td>
+            <td class="align-left">{{rowData.sensorType}}</td>
+            <td class="align-left">{{rowData.gwLocationName}}</td>
+            <td class="align-left">{{rowData.batteryValue}}</td>
+            <td class="align-left">{{rowData.signalStrength}}</td>
+            <td class="align-center">
+              <i class="icon-critical" style="color: red;" *ngIf="rowData.sensorStatusName === 'High Critical'"></i>
+              <i class="icon-warn" style="color: #e6e60d;" *ngIf="rowData.sensorStatusName === 'High Warning'"></i>
+              <i class="icon-go" style="color: #28a745;" *ngIf="rowData.sensorStatusName === 'Baseline'"></i>
+            </td>
           </tr>
         </ng-template>
         <ng-template pTemplate="emptymessage">

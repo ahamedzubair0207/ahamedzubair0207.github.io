@@ -11,6 +11,7 @@ import {
   OktaAuthModule,
   OktaCallbackComponent,
 } from '@okta/okta-angular';
+import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { DndModule } from 'ngx-drag-drop';
 import UserAuthenticationConfig from './pcm.configuration';
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -258,7 +259,8 @@ const oktaConfig = Object.assign({
     TreeTableModule,
     TableModule,
     AmModule,
-    DndModule
+    DndModule,
+    NgxDatatableModule
   ],
   providers: [
     // LoadMapService,

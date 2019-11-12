@@ -75,6 +75,7 @@
                       class="signal-item {{ item.icon }} cursor-point"
                       *ngIf="!disable"
                       (click)="onClickOfAssetName(item)"
+                      [ngClass]="{ assoc: item.associated, locked: disable }"
                     >
                       {{ item.name }}
                     </div>
@@ -132,7 +133,7 @@
   <div class="row"  *ngIf="selectedSignal">
     <div class="col-md-12">
         <div class="card border-0">
-            <div class="card-header">Signal Association
+            <div class="card-header">Association
                 <button type="button" class="pull-right close" (click)="closeEditOpanel()">&times;</button>
             </div>
             <div class="card-body">

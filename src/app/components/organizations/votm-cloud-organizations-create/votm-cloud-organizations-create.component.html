@@ -134,7 +134,7 @@
                   *ngIf="pageType.toLowerCase() === 'view'" (click)="onLockClick()"></i>
                 <i class="icon-lock-open edit-view-lock" id="edit-lock" name="unlockTogglebutton"
                   *ngIf="pageType.toLowerCase() === 'edit'" (click)="onLockClick()"></i>
-                  
+
 
               </div>
               <div class="row padding-l-4 padding-r-4">
@@ -208,16 +208,16 @@
                     </div>
                   </div>
                 </div>
-               
+
                 <div class="col-12 col-md-6 col-lg-2 col-xl-1 ipad-l-25 ipad-pro-lg-3">
                   <div class="form-group">
                     <label class="" id="icon" for="organizationType">Icon:</label>
                     <div class="">
                     <ng-select id="iconDropDown" name= "orgLogo"
-                    labelForId="orgIcon" 
-                    class="custom" 
-                    [searchable]="false" 
-                    [clearable]="false" 
+                    labelForId="orgIcon"
+                    class="custom"
+                    [searchable]="false"
+                    [clearable]="false"
                     [(ngModel)]="selOrgIcon"
                     [disabled]="pageType==='View'"
                     placeholder="Choose Logo">
@@ -343,7 +343,7 @@
                   <div class="col-12 col-md-6 col-lg-3 col-xl-2 form-group ipad-pro-lg-4">
                     <!-- <label id="startDatelbl">{{pageLabels.StartDate.labelName}}:</label> -->
                     <!-- <div class="input-group-append"> -->
-                    <label id="startDatelbl">Term:</label>
+                    <label id="startDatelbl">Term</label>
                     <!-- <button class="ml-5 btn btn-light calendar" (click)="d.toggle()" type="button"><i
                             class="icon-calendar"></i></button> -->
                     <!-- </div> -->
@@ -370,7 +370,7 @@
                   </div>
 
                   <div class="col-12 col-md-6 col-lg-3 col-xl-2 form-group ipad-pro-lg-4">
-                    <label id="endDateLbl">{{pageLabels.EndDate.labelName}}:</label>
+                    <label id="endDateLbl">{{pageLabels.EndDate.labelName}}</label>
                     <div class="input-group">
                       <input class="form-control form-control-sm" (click)="contractEndDate.toggle(); onEndDateChange();"
                         placeholder="{{placeholder}}" [disabled]="pageType==='View'" [(ngModel)]="tempContractEndDate"
@@ -391,7 +391,7 @@
                   </div>
 
                   <div class="col-12 col-md-12 col-lg-2 col-xl-3 form-group ipad-pro-lg-4">
-                    <label id="serviceLbl">{{pageLabels.SVCLevel.labelName}}: </label>
+                    <label id="serviceLbl">{{pageLabels.SVCLevel.labelName}}</label>
                     <!-- <select [disabled]="pageType==='View'" id="service" [(ngModel)]="organization.svclevels"
                       name="svcLevel" #svcLevel="ngModel" class="drop-down form-control form-control-sm" required>
                       <option value="null" disabled selected>Select Level</option>
@@ -412,7 +412,7 @@
                   </div>
 
                   <div class="col-12 col-md-6 col-lg-2 col-xl-3 form-group ipad-pro-lg-4">
-                    <label id="sensorBlockLbl">Sensor Blocks: </label>
+                    <label id="sensorBlockLbl">Sensor Blocks</label>
                     <input type="text" maxlength="5" class="form-control form-control-sm"
                       [disabled]="pageType==='View'" placeholder="Sensor Block" [(ngModel)]="organization.sensorBlocks"
                       name="sensorBlockCt" required #sensorBlockCt="ngModel">
@@ -422,7 +422,7 @@
                   </div>
 
                   <div class="col-12 col-md-6 col-lg-2 col-xl-2 form-group ipad-pro-lg-4">
-                    <label id="cellularBlockLbl">Cellular Blocks: </label>
+                    <label id="cellularBlockLbl">Cellular Blocks</label>
                     <input type="text" maxlength="5" [(ngModel)]="organization.cellularBlocks"
                       [disabled]="pageType==='View'" class="form-control form-control-sm"
                       placeholder="Cellular Block" name="cellularBlock" required #cellularBlockCt="ngModel">
@@ -522,7 +522,7 @@
 
                         <div class="">
                           <ng-select id="country" class="custom" #country="ngModel" [disabled]="pageType==='View'"
-                            [ngStyle]="{'background-color':pageType==='View'?'#e9ecef':'#fff'}" 
+                            [ngStyle]="{'background-color':pageType==='View'?'#e9ecef':'#fff'}"
                             [multiple]="false" placeholder="Country"
                             name="country" [(ngModel)]="organization.address[0].country" (change)="onCountryChange($event)" required>
                             <ng-option value="null" disabled selected>Country</ng-option>
@@ -723,8 +723,8 @@
                   class="btn btn-secondary btn-sm button-right mr-2" (click)="openConfirmDialog()"><i class="icon-trash"></i>Delete</button>
                 <button id="org-cancel" type="button" (click)="onCancelClick($event)"
                   class="btn btn-secondary btn-sm button-right mr-2"><i class="icon-org-list"></i>Return to List</button>
-                
-                  
+
+
 
                 <!-- </div> -->
               </div>
@@ -750,7 +750,7 @@
             </form>
 
           </div>
-          
+
           <div class="create-org-container tab-pane fade" [ngClass]="{ 'active show':activeTab==='org-alert'}"  id="org-alert" data-toggle="tab" role="tabpanle"
             area-labelledby="org-alert-tab">
             <app-votm-cloud-alerts-home [alertList]="alertRuleList" [orgId]="orgId"></app-votm-cloud-alerts-home>
@@ -901,14 +901,14 @@
               <div class="form-group">
                 <label class="" for="uom.uomTypeName">{{uom.uomTypeName}}:</label>
                 <div class="">
-                  <select [(ngModel)]="uomModels[uom.uomTypeName]"
+                  <ng-select [(ngModel)]="uomModels[uom.uomTypeName]"
                     (change)="onUoMDropdownChange($event,uom.uomTypeName)" name="uom.uomTypeName"
-                    class="form-control form-control-sm">
-                    <option></option>
-                    <option *ngFor="let view of uom.uoMView" [value]="view.uoMId">
+                    class="custom">
+                    <ng-option></ng-option>
+                    <ng-option *ngFor="let view of uom.uoMView" [value]="view.uoMId">
                       {{view.uoMName}}
-                    </option>
-                  </select>
+                    </ng-option>
+                  </ng-select>
                 </div>
               </div>
             </div>
@@ -934,16 +934,16 @@
                 <label class=""
                   for="applicationConfiguration.unitOfMeassurement[i+1].uomTypeName">{{applicationConfiguration.unitOfMeassurement[i+1].uomTypeName}}:</label>
                 <div class="">
-                  <select [(ngModel)]="uomModels[applicationConfiguration.unitOfMeassurement[i+1].uomTypeName]"
+                  <ng-select [(ngModel)]="uomModels[applicationConfiguration.unitOfMeassurement[i+1].uomTypeName]"
                     (change)="onUoMDropdownChange($event, applicationConfiguration.unitOfMeassurement[i+1].uomTypeName)"
                     name="applicationConfiguration.unitOfMeassurement[i+1].uomTypeName"
-                    class="form-control form-control-sm">
-                    <option></option>
-                    <option *ngFor="let view of applicationConfiguration.unitOfMeassurement[i+1].uoMView"
+                    class="custom">
+                    <ng-option></ng-option>
+                    <ng-option *ngFor="let view of applicationConfiguration.unitOfMeassurement[i+1].uoMView"
                       [value]="view.uoMId">
                       {{view.uoMName}}
-                    </option>
-                  </select>
+                    </ng-option>
+                  </ng-select>
                 </div>
               </div>
             </div>
@@ -952,16 +952,16 @@
                   <label class=""
                     for="applicationConfiguration.unitOfMeassurement[i+2].uomTypeName">{{applicationConfiguration.unitOfMeassurement[i+2].uomTypeName}}:</label>
                   <div class="">
-                    <select [(ngModel)]="uomModels[applicationConfiguration.unitOfMeassurement[i+2].uomTypeName]"
+                    <ng-select [(ngModel)]="uomModels[applicationConfiguration.unitOfMeassurement[i+2].uomTypeName]"
                       (change)="onUoMDropdownChange($event, applicationConfiguration.unitOfMeassurement[i+2].uomTypeName)"
                       name="applicationConfiguration.unitOfMeassurement[i+2].uomTypeName"
-                      class="form-control form-control-sm">
-                      <option></option>
-                      <option *ngFor="let view of applicationConfiguration.unitOfMeassurement[i+2].uoMView"
+                      class="custom">
+                      <ng-option></ng-option>
+                      <ng-option *ngFor="let view of applicationConfiguration.unitOfMeassurement[i+2].uoMView"
                         [value]="view.uoMId">
                         {{view.uoMName}}
-                      </option>
-                    </select>
+                      </ng-option>
+                    </ng-select>
                   </div>
                 </div>
               </div>

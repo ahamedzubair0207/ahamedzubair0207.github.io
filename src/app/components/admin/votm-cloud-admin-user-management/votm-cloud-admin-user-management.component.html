@@ -54,68 +54,104 @@
   </div>
 </div>
 
-<!-- <table class="table table-bordered table-sm table-stripped table-hover" id="user_table">
-          <thead class="thead-dark">
-            <tr>
-              <th  class="text-center">
-                <div class="custom-control custom-checkbox">
-                  <input type="checkbox" class="custom-control-input" name="select_all_cb" id="select_all_cb"
-                    (change)="onClickOfSelectAllCheckBox()" [checked]="users.length !== 0 && selectedUsers.length === users.length">
-                  <label class="custom-control-label" for="select_all_cb"></label>
-                </div>
-              </th>
-              <th class="">User Name</th>
-              <th class="">Home Org</th>
-              <th class="">Role</th>
-              <th class="">Email</th>
-              <th class="">Phone</th>
-              <th class="">Access</th>
-              <th class="">Permissions</th>
-              <th class="text-center">Action</th>
-            </tr>
-          </thead>
-          <tbody>
-              <tr  class="text-center" *ngIf="isGetUsersAPILoading" >
-                  <i class="fa fa-spinner fa-spin fa-2x fa-fw"></i>
-              </tr>
-            <ng-container  *ngIf="!isGetUsersAPILoading && users.length > 0" >
-              <tr *ngFor="let user of users; let userIndex = index;" >
 
-                <td class="text-center">
-                  <div class="custom-control custom-checkbox">
-                    <input type="checkbox" class="custom-control-input" name="user_cb" id="user_cb_{{userIndex}}"
-                     (change)="onClickOfUserCheckBox(user)" [checked]="selectedUsers.indexOf(user) !== -1">
-                    <label class="custom-control-label" for="user_cb_{{userIndex}}"></label>
-                  </div>
-                </td>
-                <td><a class="cursor-point" (click)="onClickOfUserDetails(user)">{{user.firstName}}&nbsp;{{user.lastName}}</a></td>
-                <td>{{user.organizationName}}</td>
-                <td>{{user.roleName}}</td>
-                <td>{{user.emailId}}</td>
-                <td>{{user.phoneNumber}}</td>
-                <td>Home</td>
-                <td>Role</td>
-                <td class="text-center">
-                  <a id="user_check_{{userIndex}}" class="mr-2" [title]="user.active ? 'Active' : 'Deactive'" (click)="onClickOfConfirmUserStatus(user)">
-                    <i [ngClass]="user.active ? 'fa fa-check-circle' : 'fa fa-ban'" ></i>
-                  </a>
-                  <a id="user_edit_{{userIndex}}" title="Edit" class="mr-2"  (click)="onClickOfEditUser(user, 'edit')">
-                    <i class="icon-edit"></i>
-                  </a>
-                  <a id="user_delete_{{userIndex}}" title="Delete" (click)="onClickOfConfirmDeleteUser(user)" class="mr-2" >
-                    <i class="icon-trash"></i>
-                  </a>
-                </td>
+    <!-- <table class="table table-bordered table-sm table-hover mb-3" id="myFavTable">
+      <thead class="thead-dark">
+        <tr>
+          <th class="text-center">Order</th>
+          <th>Favorite Name</th>
+          <th class="text-center">Action</th>
+        </tr>
+      </thead>
+      <tbody >
+        <tr *ngIf="userprofile.userFavorites === null || userprofile.userFavorites === 0">
+          <td colspan="2"> No Favorites data found.</td>
+        </tr>
+        <tr *ngFor="let userFav of userprofile.userFavorites; let i = index"
+          id="{{userFav.favoriteOrder}}">
+          <td class="index text-center">{{userFav.favoriteOrder}}
+          </td>
+          <td>
+            <input type="text" class="form-control form-control-sm" [disabled]="!userFav.disabled"
+              name="favName{{userFav.favoriteOrder}}" [(ngModel)]="userFav.favoriteName" required>
 
-              </tr>
-            </ng-container>
-            <tr *ngIf="!isGetUsersAPILoading && users.length === 0" >
-              <td  class="text-center" colspan="9">No data found.</td>
-            </tr>
-          </tbody>
-        </table> -->
+            <input type="hidden" class="favoriteOrderId" value="{{userFav.userFavoriteId}}"
+              #favOrder="ngModel" name="{{userFav.userFavoriteId}}" [(ngModel)]="userFav.userFavoriteId">
+          </td>
+          <td class="text-center"><a class="action-icon" title="Edit Favorite" style="cursor: pointer;">
+              <i class="icon-edit" (click)="onEditFavorite(i)"></i>
+            </a>
+            <a class="action-icon" title="Delete Favorite"
+              (click)="onClickOfConfirmDeleteUserFavorite(userFav)" style="cursor: pointer;">
+              <i class="icon-trash"></i></a>
+          </td>
+        </tr>
+      </tbody>
+    </table> -->
 
-<p-table
+    <div class="tableFixHead">
+      <table class="table table-bordered table-sm table-hover mb-3" id="user_table">
+              <thead class="">
+                <tr>
+                  <th  class="text-center">
+                    <div class="custom-control custom-checkbox">
+                      <input type="checkbox" class="custom-control-input" name="select_all_cb" id="select_all_cb"
+                        (change)="onClickOfSelectAllCheckBox()" [checked]="users.length !== 0 && selectedUsers.length === users.length">
+                      <label class="custom-control-label" for="select_all_cb"></label>
+                    </div>
+                  </th>
+                  <th class="">User Name</th>
+                  <th class="">Home Org</th>
+                  <th class="">Role</th>
+                  <th class="">Email</th>
+                  <th class="">Phone</th>
+                  <th class="">Access</th>
+                  <th class="">Permissions</th>
+                  <th class="text-center">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                  <tr  class="text-center" *ngIf="isGetUsersAPILoading" >
+                      <i class="fa fa-spinner fa-spin fa-2x fa-fw"></i>
+                  </tr>
+                <ng-container  *ngIf="!isGetUsersAPILoading && users.length > 0" >
+                  <tr *ngFor="let user of users; let userIndex = index;" >
+
+                    <td class="text-center">
+                      <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" name="user_cb" id="user_cb_{{userIndex}}"
+                          (change)="onClickOfUserCheckBox(user)" [checked]="selectedUsers.indexOf(user) !== -1">
+                        <label class="custom-control-label" for="user_cb_{{userIndex}}"></label>
+                      </div>
+                    </td>
+                    <td><a class="cursor-point" (click)="onClickOfUserDetails(user)">{{user.firstName}}&nbsp;{{user.lastName}}</a></td>
+                    <td>{{user.organizationName}}</td>
+                    <td>{{user.roleName}}</td>
+                    <td>{{user.emailId}}</td>
+                    <td>{{user.phoneNumber}}</td>
+                    <td>Home</td>
+                    <td>Role</td>
+                    <td class="text-center">
+                      <a id="user_check_{{userIndex}}" class="mr-2" [title]="user.active ? 'Active' : 'Deactive'" (click)="onClickOfConfirmUserStatus(user)">
+                        <i [ngClass]="user.active ? 'fa fa-check-circle' : 'fa fa-ban'" ></i>
+                      </a>
+                      <a id="user_edit_{{userIndex}}" title="Edit" class="mr-2"  (click)="onClickOfEditUser(user, 'edit')">
+                        <i class="icon-edit"></i>
+                      </a>
+                      <a id="user_delete_{{userIndex}}" title="Delete" (click)="onClickOfConfirmDeleteUser(user)" class="mr-2" >
+                        <i class="icon-trash"></i>
+                      </a>
+                    </td>
+
+                  </tr>
+                </ng-container>
+                <tr *ngIf="!isGetUsersAPILoading && users.length === 0" >
+                  <td  class="text-center" colspan="9">No data found.</td>
+                </tr>
+              </tbody>
+            </table>
+    </div>
+<!-- <p-table
   [globalFilterFields]="['name']"
   [resizableColumns]="true"
   [value]="users"
@@ -150,9 +186,7 @@
               </span>
             </div>
           </div>
-          <!-- <i class="icon-search" style="margin:4px 4px 0 0"></i>
-          <input type="text" pInputText size="20" placeholder="Type to filter"
-            (input)="tt.filterGlobal($event.target.value, 'contains')" style="width:auto" id="organizationFilter"> -->
+
         </div>
       </div>
     </div>
@@ -189,7 +223,7 @@
         <p-sortIcon field="permissions"></p-sortIcon>
       </th>
       <th class="align-center">Action</th>
-      <!-- <th class="text-center" ttResizableColumn>Associations</th> -->
+
     </tr>
   </ng-template>
   <ng-template pTemplate="colgroup">
@@ -255,7 +289,33 @@
       <td [attr.colspan]="8">No data found.</td>
     </tr>
   </ng-template>
-</p-table>
+</p-table> -->
+
+<div class="mt-3">
+<ngx-datatable
+class="material expandable"
+style="height: 400px;"
+[rows]="users"
+columnMode="force"
+[headerHeight]="50"
+[footerHeight]="0"
+[rowHeight]="50"
+[scrollbarV]="true"
+>
+<ngx-datatable-column name="Name" [width]="300">
+  <ng-template let-value="value" ngx-datatable-cell-template>
+    {{ value }}
+  </ng-template>
+</ngx-datatable-column>
+<ngx-datatable-column name="Organization Name" prop="organizationName"></ngx-datatable-column>
+<ngx-datatable-column name="Role Name" prop="roleName"></ngx-datatable-column>
+<ngx-datatable-column name="Email" prop="emailId"></ngx-datatable-column>
+<ngx-datatable-column name="Phone" prop="phoneNumber"></ngx-datatable-column>
+<ngx-datatable-column name="Permissions" ></ngx-datatable-column>
+<ngx-datatable-column name="Access"></ngx-datatable-column>
+</ngx-datatable>
+</div>
+
 
 <!-- Modal Customize Data Permissions -->
 <div id="cus_data_per" class="modal">

@@ -35,7 +35,7 @@ export class VotmCloudLocationsSignalComponent implements OnInit {
   derivedSignals: any = [];
   alertRules: any[] = [];
   location: Location;
-  disable = true;
+  @Input() disable = true;
   showUnassoc = false;
   showAssoc = true;
   model = 'Signal';

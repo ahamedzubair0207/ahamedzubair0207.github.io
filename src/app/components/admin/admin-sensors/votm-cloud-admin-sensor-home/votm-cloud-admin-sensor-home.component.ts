@@ -25,9 +25,13 @@ export class VotmCloudAdminSensorHomeComponent implements OnInit {
   parentOrgName: string;
   curOrgId: string;
   curOrgName: string;
+  batteryValue: any;
+  signalStrength: string;
 
-  constructor(private sensorService: SensorsService,
-    private route: ActivatedRoute, private zone: NgZone) { }
+  constructor(
+    private sensorService: SensorsService,
+    private route: ActivatedRoute,
+    private zone: NgZone) { }
 
   ngOnInit() {
     // this.getAllGateways();
@@ -43,6 +47,8 @@ export class VotmCloudAdminSensorHomeComponent implements OnInit {
         this.sensorList = [];
         if (response && response.length > 0) {
           this.sensorList = this.fillSensorsData(response);
+          console.log('sensor list ==', this.sensorList);
+
         }
       });
   }
@@ -51,18 +57,82 @@ export class VotmCloudAdminSensorHomeComponent implements OnInit {
     let treeSensors: TreeNode[] = [];
     sensors.forEach(sensor => {
       let treeSensor: TreeNode = {};
-      treeSensor.data = { id: sensor.sensorId, name: sensor.sensorName, type: 'Sensor' };
+
+      treeSensor.data = {
+        id: sensor.sensorId,
+        name: sensor.sensorName,
+        sensorType: sensor.sensorType,
+        serialNumber: sensor.serialNumber,
+        description: sensor.description,
+        modelNumber: sensor.modelNumber,
+        sensorStatusName: sensor.sensorStatusName,
+        gwSerialNumber: sensor.gwSerialNumber,
+        isLink: sensor.isLink,
+        gwLocationId: sensor.gwLocationId,
+        gwLocationName: sensor.gwLocationName,
+        type: 'Sensor'
+      };
       // treeSensor.expanded = true;
+      treeSensor.data.batteryValue = '';
       treeSensor.children = [];
       if (sensor.node && sensor.node.length > 0) {
         sensor.node.forEach(signal => {
+
           treeSensor.children.push({ data: { id: signal.signalId, name: signal.signalName, type: 'Signal' }, children: [] });
+
+          // Push Signal Battery Value from child battery signal
+          if (signal.signalName !== null &&
+            // signal.signalId === 'e9326142-068b-494b-bff7-421a44fa0cae' ||
+            // signal.signalName.toLowerCase() === 'battery'
+            signal.signalId === 'e9326142-068b-494b-bff7-421a44fa0cae'
+            ) {
+              treeSensor.data.batteryValue = signal.signalValue;
+          }
+
+          // Push Signal Battery Value from child battery signal
+          if (signal.signalName !== null &&
+            // signal.signalId === 'fa7b422d-2018-4fdb-ba50-0b4be9bf2735' ||
+            // signal.signalName.toLowerCase() === 'signal'
+            signal.signalId === 'fa7b422d-2018-4fdb-ba50-0b4be9bf2735'
+            ) {
+              treeSensor.data.signalStrength = signal.signalValue;
+          }
+
         });
       }
       treeSensors.push(treeSensor);
     });
     // console.log('sensors ', treeSensors);
     return treeSensors;
+
+    // data: {
+    //   signalId: signal.signalId,
+    //   signalName: signal.signalName,
+    //   signalValue: signal.signalValue,
+    //   assetId: signal.assetId,
+    //   assetName: signal.assetName,
+    //   locationId: signal.locationId,
+    //   locationName: signal.locationName,
+    //   associationName: signal.associationName,
+    //   modifiedOn: signal.modifiedOn,
+    //   alarmState: signal.alarmState,
+    //   type: 'Signal'
+  }
+
+  checkRowDisplay(sensorObj) {
+    // e9326142-068b-494b-bff7-421a44fa0cae == battery
+    // fa7b422d-2018-4fdb-ba50-0b4be9bf2735 == signal
+    if (
+        sensorObj.name !== null &&
+        // (sensorObj.id !== 'e9326142-068b-494b-bff7-421a44fa0cae' || sensorObj.name.toLowerCase() !== 'battery') &&
+        // (sensorObj.id !== 'fa7b422d-2018-4fdb-ba50-0b4be9bf2735' || sensorObj.name.toLowerCase() !== 'signal')
+        (sensorObj.id !== 'e9326142-068b-494b-bff7-421a44fa0cae') &&
+        (sensorObj.id !== 'fa7b422d-2018-4fdb-ba50-0b4be9bf2735')
+    ) {
+      return true;
+    }
+
+    return false;
   }
 
   getAllGateways() {
