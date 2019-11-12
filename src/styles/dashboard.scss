@@ -1,0 +1,31 @@
+.chart-actions {
+  display: block;
+  position: absolute;
+  top: 0.25rem;
+  right: 0.25rem;
+  .dropdown-item {
+    &.custom-checkbox {
+      padding: 0.25rem 0.75rem 0.25rem 2.25rem;
+    }
+    @at-root button#{&} {
+      padding: 0.25rem 0.75rem;
+    }
+  }
+  > .dropdown,
+  > a {
+    display: inline-block;
+  }
+  > .dropdown-toggle,
+  > .dropdown > a,
+  > a {
+    border: none;
+    color: $gray-600 !important;
+    cursor: pointer;
+    &:hover {
+      color: $gray-900 !important;
+    }
+  }
+  > .dropdown > .dropdown-toggle:after {
+    display: none;
+  }
+}
