@@ -343,7 +343,7 @@
                   <div class="col-12 col-md-6 col-lg-3 col-xl-2 form-group ipad-pro-lg-4">
                     <!-- <label id="startDatelbl">{{pageLabels.StartDate.labelName}}:</label> -->
                     <!-- <div class="input-group-append"> -->
-                    <label id="startDatelbl">Term:</label>
+                    <label id="startDatelbl">Term</label>
                     <!-- <button class="ml-5 btn btn-light calendar" (click)="d.toggle()" type="button"><i
                             class="icon-calendar"></i></button> -->
                     <!-- </div> -->
@@ -370,7 +370,7 @@
                   </div>
 
                   <div class="col-12 col-md-6 col-lg-3 col-xl-2 form-group ipad-pro-lg-4">
-                    <label id="endDateLbl">{{pageLabels.EndDate.labelName}}:</label>
+                    <label id="endDateLbl">{{pageLabels.EndDate.labelName}}</label>
                     <div class="input-group">
                       <input class="form-control form-control-sm" (click)="contractEndDate.toggle(); onEndDateChange();"
                         placeholder="{{placeholder}}" [disabled]="pageType==='View'" [(ngModel)]="tempContractEndDate"
@@ -391,7 +391,7 @@
                   </div>
 
                   <div class="col-12 col-md-12 col-lg-2 col-xl-3 form-group ipad-pro-lg-4">
-                    <label id="serviceLbl">{{pageLabels.SVCLevel.labelName}}: </label>
+                    <label id="serviceLbl">{{pageLabels.SVCLevel.labelName}}</label>
                     <!-- <select [disabled]="pageType==='View'" id="service" [(ngModel)]="organization.svclevels"
                       name="svcLevel" #svcLevel="ngModel" class="drop-down form-control form-control-sm" required>
                       <option value="null" disabled selected>Select Level</option>
@@ -412,7 +412,7 @@
                   </div>
 
                   <div class="col-12 col-md-6 col-lg-2 col-xl-3 form-group ipad-pro-lg-4">
-                    <label id="sensorBlockLbl">Sensor Blocks: </label>
+                    <label id="sensorBlockLbl">Sensor Blocks</label>
                     <input type="text" maxlength="5" class="form-control form-control-sm"
                       [disabled]="pageType==='View'" placeholder="Sensor Block" [(ngModel)]="organization.sensorBlocks"
                       name="sensorBlockCt" required #sensorBlockCt="ngModel">
@@ -422,7 +422,7 @@
                   </div>
 
                   <div class="col-12 col-md-6 col-lg-2 col-xl-2 form-group ipad-pro-lg-4">
-                    <label id="cellularBlockLbl">Cellular Blocks: </label>
+                    <label id="cellularBlockLbl">Cellular Blocks</label>
                     <input type="text" maxlength="5" [(ngModel)]="organization.cellularBlocks"
                       [disabled]="pageType==='View'" class="form-control form-control-sm"
                       placeholder="Cellular Block" name="cellularBlock" required #cellularBlockCt="ngModel">
