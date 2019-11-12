@@ -128,4 +128,8 @@ export class AssetsService {
   addParentChildAssetAssociation(assetId: string, body: any) {
     return this.http.post(AppConstants.PARENT_CHILD_ASSET_ASSOCIATION + '/' + assetId + '/Association', body);
   }
+
+  getParentChildAssetAssociation(assetId: string) {
+    return this.http.get(AppConstants.PARENT_CHILD_ASSET_ASSOCIATION + '/' + assetId + '/Association');
+  }
 }

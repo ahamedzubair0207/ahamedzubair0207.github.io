@@ -631,7 +631,7 @@
 
           <!-- Associated Asset with the Location  -->
           <div class="tab-pane fade" id="loc-asset" role="tabpanle" area-labelledby="loc-asset-tab">
-            <app-votm-cloud-locations-asset [image]="imgURL"></app-votm-cloud-locations-asset>
+            <app-votm-cloud-locations-asset *ngIf="isAssetAssociationClicked" ></app-votm-cloud-locations-asset>
           </div>
 
 

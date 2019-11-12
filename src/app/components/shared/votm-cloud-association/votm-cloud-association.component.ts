@@ -82,7 +82,6 @@ export class VotmCloudAssociationComponent implements OnInit {
       this.curOrganizationName = params.get('curOrgName');
       this.organizationId = params.get('orgId');
       console.log(this.curOrganizationId, '====', this.curOrganizationName, '====', this.organizationId);
-      this.getLocationSignalAssociation();
     });
     this.pageType = this.activatedRoute.snapshot.data['type'];
     if (this.pageType.toLowerCase() === 'edit') {
@@ -125,6 +124,7 @@ export class VotmCloudAssociationComponent implements OnInit {
     console.log(this.imgParentHeight, ']]]]]]]]]]]]]]]', this.imgParentWidth);
     console.log(this.imgSourceHeight, '======', this.imgSourceWidth);
     if (!this.isDragDropRequired) {
+      console.log(JSON.stringify(this.droppedList));
       for (const asset of this.droppedList) {
         if (Object.keys(asset.pos).length === 0) {
           asset.pos = {
@@ -254,7 +254,6 @@ export class VotmCloudAssociationComponent implements OnInit {
   // }
 
   getPositionStyle(signal) {
-    console.log(signal);
     const style = {
       left: 'calc(' + signal.pos.left + '% - 16px)',
       top: 'calc(' + signal.pos.top + '% - 16px)'
@@ -269,14 +268,23 @@ export class VotmCloudAssociationComponent implements OnInit {
   }
 
   onClickOfEditIcon(index, event) {
-    this.alertOPanel.hide();
-    this.droppedList[index].isClicked = true;
-    this.selectedSignal = this.droppedList[index];
-    this.selectedSignal.imageCordinates = {
-      x:  this.selectedSignal.pos['left'],
-      y: this.selectedSignal.pos['top']
-    };
-    this.editOPanel.show(event);
+
+    if (this.selectedSignal) {
+      this.droppedList[this.selectedSignal.selectedIndex].isClicked = false;
+      this.editOPanel.hide();
+      this.alertOPanel.hide();
+    }
+    setTimeout( () => {
+      this.droppedList[index].isClicked = true;
+      this.selectedSignal = this.droppedList[index];
+      this.selectedSignal['selectedIndex'] = index;
+      this.selectedSignal.imageCordinates = {
+        x:  this.selectedSignal.pos['left'],
+        y: this.selectedSignal.pos['top']
+      };
+      this.editOPanel.show(event);
+    }, 300);
+
     event.preventDefault();
     event.stopPropagation();
     event.cancelBubble = true;
@@ -287,11 +295,18 @@ export class VotmCloudAssociationComponent implements OnInit {
   }
 
   onClickOfAlertIcon(index, event) {
-    this.editOPanel.hide();
-    this.droppedList[index].isClicked = true;
-    this.selectedSignal = this.droppedList[index];
-    this.alertOPanel.show(event);
-    this.droppedList[index].isClicked = true;
+    if (this.selectedSignal) {
+      this.droppedList[this.selectedSignal.selectedIndex].isClicked = false;
+      this.editOPanel.hide();
+      this.alertOPanel.hide();
+    }
+    setTimeout( () => {
+      this.droppedList[index].isClicked = true;
+      this.selectedSignal = this.droppedList[index];
+      this.selectedSignal['selectedIndex'] = index;
+      this.alertOPanel.show(event);
+      this.droppedList[index].isClicked = true;
+    }, 300);
     event.preventDefault();
     event.stopPropagation();
     event.cancelBubble = true;
@@ -335,22 +350,14 @@ export class VotmCloudAssociationComponent implements OnInit {
   closeEditOpanel() {
     this.editOPanel.hide();
     if (this.selectedSignal) {
-      const index = this.droppedList.findIndex(
-        signal => signal.signalId === this.selectedSignal.signalId &&
-        signal.sensorId === this.selectedSignal.sensorId
-      );
-      this.droppedList[index].isClicked = false;
+      this.droppedList[this.selectedSignal.selectedIndex].isClicked = false;
     }
   }
 
   closeAlertOPanel() {
     this.alertOPanel.hide();
     if (this.selectedSignal) {
-      const index = this.droppedList.findIndex(
-        signal => signal.signalId === this.selectedSignal.signalId &&
-        signal.sensorId === this.selectedSignal.sensorId
-      );
-      this.droppedList[index].isClicked = false;
+      this.droppedList[this.selectedSignal.selectedIndex].isClicked = false;
     }
   }
 
