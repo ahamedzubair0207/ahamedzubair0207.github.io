@@ -383,17 +383,17 @@
                   <div class="form-group">
                     <label for="geofence" class="">{{pageLabels.GeoFence.labelName}}:</label>
                     <div class="">
-                      <div class="form-check form-check-inline ">
-                        <input class="form-check-input" (change)="onGeoUnitChange()" [disabled]="pageType==='View'"
+                      <div class="custom-control custom-radio custom-control-inline">
+                        <input class="custom-control-input" (change)="onGeoUnitChange()" [disabled]="pageType==='View'"
                           type="radio" [(ngModel)]="location.geoFenceType" name="geofenceRadius" id="f-radius"
                           value="bf0bc7b5-1bf8-4a59-a3b5-35904937e89e" >
-                        <label class="form-check-label" for="f-radius">Radius</label>
+                        <label class="custom-control-label mb-1" for="f-radius">Radius</label>
                       </div>
-                      <div class="form-check form-check-inline">
-                        <input class="form-check-input" value="d5764af5-114b-48e6-9980-544634167826"
+                      <div class="custom-control custom-radio custom-control-inline">
+                        <input class="custom-control-input" value="d5764af5-114b-48e6-9980-544634167826"
                           [(ngModel)]="location.geoFenceType" (change)="onGeoUnitChange()"
-                          [disabled]="pageType==='View'" type="radio" name="geofenceRectangle" id="f-square" checked>
-                        <label class="form-check-label" for="f-square">Rectangle</label>
+                          [disabled]="pageType==='View'" type="radio" name="geofenceRectangle" id="f-square" checked="checked">
+                        <label class="custom-control-label mb-1" for="f-square">Rectangle</label>
                       </div>
                       <div
                         *ngIf="location && location.geoFenceType && location.geoFenceType ==='bf0bc7b5-1bf8-4a59-a3b5-35904937e89e'"
@@ -718,20 +718,20 @@
             name="UOM" (change)="onUnitChange($event)" checked id="f-si">
           <label class="form-check-label" for="f-si">SI</label>
         </div> -->
-        <div class="form-check form-check-inline">
-          <input [disabled]="pageType==='View'" class="form-check-input" type="radio" value="Imperial" name="UOM"
+        <div class="custom-control custom-radio custom-control-inline">
+          <input [disabled]="pageType==='View'" class="custom-control-input" type="radio" value="Imperial" name="UOM"
             (change)="onUnitChange($event)" id="f-imperial" checked="checked">
-          <label class="form-check-label" for="f-imperial">Imperial</label>
+          <label class="custom-control-label" for="f-imperial">Imperial</label>
         </div>
-        <div class="form-check form-check-inline">
-          <input [disabled]="pageType==='View'" class="form-check-input" type="radio" value="Metric" name="UOM"
+        <div class="custom-control custom-radio custom-control-inline">
+          <input [disabled]="pageType==='View'" class="custom-control-input" type="radio" value="Metric" name="UOM"
             (change)="onUnitChange($event)" id="f-metric">
-          <label class="form-check-label" for="f-metric">Metric</label>
+          <label class="custom-control-label" for="f-metric">Metric</label>
         </div>
-        <div class="form-check form-check-inline">
-          <input [disabled]="pageType==='View'" class="form-check-input" type="radio" value="Custom" name="UOM"
+        <div class="custom-control custom-radio custom-control-inline">
+          <input [disabled]="pageType==='View'" class="custom-control-input" type="radio" value="Custom" name="UOM"
             (change)="onUnitChange($event)" id="f-custom">
-          <label class="form-check-label" for="f-custom">Custom</label>
+          <label class="custom-control-label" for="f-custom">Custom</label>
         </div>
       </div>
       <div class="modal-body org-create-font">
