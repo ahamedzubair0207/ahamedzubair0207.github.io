@@ -118,4 +118,12 @@ export class LocationService {
       map(response => response)
     );
   }
+
+  addAssetAssociation(body: any) {
+    return this.http.post(AppConstants.ASSOCIATE_LOCATION_ASSET, body);
+  }
+
+  getAssetAssociation(locationId: string) {
+    return this.http.get(AppConstants.GET_ASSOCIATE_LOCATION_ASSET + '/' + locationId + '/Association');
+  }
 }

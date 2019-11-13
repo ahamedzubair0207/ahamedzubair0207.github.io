@@ -304,8 +304,14 @@ const routes: Routes = [
     component: VotmCloudAdminGatewaysDetailsComponent
   },
   {
-    path: 'admin/networkmanagement/sensorDetails/:sensorId',
-    component: VotmCloudAdminSensorDetailsComponent
+    path: 'admin/networkmanagement/sensorDetails/view/:sensorId',
+    component: VotmCloudAdminSensorDetailsComponent,
+    data: { type: 'View' }
+  },
+  {
+    path: 'admin/networkmanagement/sensorDetails/edit/:sensorId',
+    component: VotmCloudAdminSensorDetailsComponent,
+    data: { type: 'Edit' }
   },
   {
     path: 'super',

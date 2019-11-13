@@ -81,7 +81,7 @@ export class VotmCloudAssetChildComponent implements OnInit {
       this.disable = true;
       this.showUnassoc = false;
     });
-    this.getChildAssets();
+
   }
 
   getAssetById() {
@@ -95,6 +95,7 @@ export class VotmCloudAssetChildComponent implements OnInit {
         } else {
           this.imgURL = '../../../../assets/images/default-image.svg';
         }
+        this.getChildAssets();
       }
     );
   }
@@ -134,14 +135,14 @@ export class VotmCloudAssetChildComponent implements OnInit {
           for (let i = 0; i < response.length; i++) {
             const childAsset = response[i];
             childAsset.isClicked = false;
-            childAsset.icon = 'icon-sig-humidity';
+            childAsset.icon = 'icon-asset-robot';
             childAsset.associated = true;
             childAsset.did = i;
             childAsset.bound = true;
             childAsset.imageCordinates = childAsset.imageCoordinates[childAsset.childAssetId];
-            childAsset.pos = {};
-            childAsset.pos['left'] = childAsset.imageCordinates.x;
-            childAsset.pos['top'] = childAsset.imageCordinates.y;
+            childAsset.pctPos = {};
+            childAsset.pctPos['left'] = childAsset.imageCordinates.x;
+            childAsset.pctPos['top'] = childAsset.imageCordinates.y;
           }
           this.associatedChildAssets = [...response];
           for (let i = 0; i < this.childAssets.length; i++) {
@@ -159,9 +160,9 @@ export class VotmCloudAssetChildComponent implements OnInit {
               this.associatedChildAssets[index].associationName = childAsset.name;
               console.log(this.associatedChildAssets[index]);
             } else {
-              childAsset.pos = {};
+              childAsset.pctPos = { left: 0, top: 0};
               childAsset.isClicked = false;
-              childAsset.icon = 'icon-sig-humidity';
+              childAsset.icon = 'icon-asset-robot';
               childAsset.associated = true;
               childAsset.did = i;
               childAsset.bound = true;
@@ -181,95 +182,21 @@ export class VotmCloudAssetChildComponent implements OnInit {
     this.showUnassoc = !this.disable;
   }
 
-  showSignal(signal: any): boolean {
-    return (signal.associated && this.showAssoc) || ((!signal.associated) && this.showUnassoc);
-  }
-
-  showSensor(signals: any): boolean {
-    let hasAssocSignals = false;
-    signals.forEach(signal => {
-      hasAssocSignals = hasAssocSignals || ((signal.associated && this.showAssoc) || ((!signal.associated) && this.showUnassoc));
-    });
-    return hasAssocSignals;
-  }
-
-
-
-  onStart(event: any, index1) {
-    this.closeEditOpanel();
-    this.draggingChildAssetIx = event.srcElement.getAttribute('assetIx');
-    this.grabOffset = { x: event.offsetX, y: event.offsetY };
-  }
-
-  getPositionStyle(signal) {
-    const style = {
-      left: 'calc(' + signal.pos.left + '% - 16px)',
-      top: 'calc(' + signal.pos.top + '% - 16px)'
-    };
-    return style;
-  }
-
-  onClickOfAssociatedSignal(signal) {
-
-    signal.isClicked = !signal.isClicked;
-    this.selectedChildAsset = {...signal};
-  }
-
-  onClickOfEditIcon(index, event) {
-    this.associatedChildAssets[index].isClicked = true;
-    this.selectedChildAsset = this.associatedChildAssets[index];
-    this.selectedChildAsset.imageCordinates = {
-      x:  this.selectedChildAsset.pos['left'],
-      y: this.selectedChildAsset.pos['top']
-    };
-    this.editOPanel.show(event);
-    event.preventDefault();
-    event.stopPropagation();
-    event.cancelBubble = true;
-  }
-
-  closeAllIconsDisplay() {
-    this.associatedChildAssets.forEach(signal => signal.isClicked = false);
-  }
-
-
-  onClickOfSaveSignalAssociationPanel() {
-    this.selectedChildAsset.pos = {
-      left: this.selectedChildAsset.imageCordinates.x,
-      top: this.selectedChildAsset.imageCordinates.y
-    };
-    const index = this.associatedChildAssets.findIndex(
-      signal => signal.signalId === this.selectedChildAsset.signalId &&
-      signal.sensorId === this.selectedChildAsset.sensorId
-    );
-    this.associatedChildAssets.splice(index, 1, this.selectedChildAsset);
-    this.closeEditOpanel();
-  }
-
-  closeEditOpanel() {
-    this.editOPanel.hide();
-    if (this.selectedChildAsset) {
-      const index = this.associatedChildAssets.findIndex(
-        signal => signal.signalId === this.selectedChildAsset.signalId &&
-        signal.sensorId === this.selectedChildAsset.sensorId
-      );
-      this.associatedChildAssets[index].isClicked = false;
-    }
-  }
 
   onSaveChildAssetAssociation(associatedChildAssets) {
     const data = associatedChildAssets.map(asset => {
+      console.log(asset);
       const obj = {
         locationId: this.parentLocationId,
         parentAssetId: this.assetId,
-        childAssetId: asset.id,
+        childAssetId: asset.assetMappingId ? asset.childAssetId : asset.id,
         imageCoordinates: {},
         name: asset.name,
         assetMappingId: asset.assetMappingId ? asset.assetMappingId : undefined
       };
-      obj.imageCoordinates[asset.name] = {
-        x: asset.pos['left'],
-        y: asset.pos['top']
+      obj.imageCoordinates[asset.associationName] = {
+        x: asset.pctPos['left'],
+        y: asset.pctPos['top']
       };
       return obj;
     });
@@ -280,36 +207,16 @@ export class VotmCloudAssetChildComponent implements OnInit {
           this.associatedChildAssets = [];
           this.toaster.onSuccess('Child Asset associated successfully', 'Saved');
           this.getChildAssets();
+          this.toggleDisable();
         }, error => {
           this.toaster.onFailure('Error while saving child asset assocition', 'Error');
         }
       );
   }
 
-  // end
-
-  onCancelClick(event) {
-    this.routerLocation.back();
-  }
-
   onReset() {
     this.getChildAssets();
     this.toggleDisable();
-  }
-
-
-  openmodal() {
-   // Get the modal
-   var modal = document.getElementById('alertModal');
-   modal.style.display = 'block';
-   this.modal = document.getElementById('alertModal');
-
-   // When the user clicks anywhere outside of the modal, close it
-   window.onclick = function (event) {
-     if (event.target == modal) {
-       // modal.style.display = 'none';
-     }
-   };
   }
 
 }

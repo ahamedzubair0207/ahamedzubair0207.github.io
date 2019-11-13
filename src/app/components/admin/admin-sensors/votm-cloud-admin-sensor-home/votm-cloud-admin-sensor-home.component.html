@@ -59,35 +59,60 @@
             </th>
             <th ttResizableColumn>Serial #</th>
             <th ttResizableColumn>Type</th>
-            <th ttResizableColumn>GW</th>
+            <th ttResizableColumn *ngIf="originList !== 'organizationView'">GW</th>
+            <th ttResizableColumn *ngIf="originList === 'organizationView'">Location</th>
             <th ttResizableColumn>Battery</th>
             <th ttResizableColumn>Signal</th>
             <th ttResizableColumn>Status</th>
+            <th ttResizableColumn *ngIf="originList === 'organizationView'">Actions</th>
           </tr>
         </ng-template>
         <ng-template pTemplate="body" let-rowNode let-rowData="rowData">
-          <tr [ttRow]="rowNode" *ngIf="checkRowDisplay(rowData)">
+          <tr [ttRow]="rowNode"
+          *ngIf="checkRowDisplay(rowData)"
+          [ngClass]="{'sensor-is-linked': rowData.isLink, 'sensor-is-unlinked': originList === 'organizationView' && !rowData.isLink}">
               <!--  -->
             <td class="align-left">
               <span container="body" [ngbTooltip]="rowData.name">
                 <p-treeTableToggler [rowNode]="rowNode"></p-treeTableToggler>
-                <ng-container *ngIf="rowData.type === 'Sensor'">
-                    <a [routerLink]="['/admin/networkmanagement/sensorDetails', rowData.id]"><i class="icon-org-company"></i>{{rowData.name}}</a>
+                <!-- Display In EDIT mode If Admin View and Type Sensor -->
+                <ng-container *ngIf="originList !== 'organizationView' && rowData.type === 'Sensor'">
+                    <a [routerLink]="['/admin/networkmanagement/sensorDetails/edit', rowData.id]"><i class="icon-sensonode"></i>{{rowData.name}}</a>
+                </ng-container>
+                <!-- Display In View Mode If organizaton View and Type Sensor -->
+                <ng-container *ngIf="originList === 'organizationView' && rowData.type === 'Sensor'">
+                    <a [routerLink]="['/admin/networkmanagement/sensorDetails/view', rowData.id]"><i class="icon-sensonode"></i>{{rowData.name}}</a>
                 </ng-container>
                 <ng-container *ngIf="rowData.type === 'Signal'">
-                    <i class="icon-org-company"></i>{{rowData.name}}
+                    <i class="icon-signal"></i>{{rowData.name}}
                 </ng-container>
               </span>
             </td>
             <td class="align-left">{{rowData.serialNumber}}</td>
             <td class="align-left">{{rowData.sensorType}}</td>
-            <td class="align-left">{{rowData.gwLocationName}}</td>
-            <td class="align-left">{{rowData.batteryValue}}</td>
-            <td class="align-left">{{rowData.signalStrength}}</td>
+            <td class="align-left" *ngIf="originList !== 'organizationView'">{{rowData.gwLocationName}}</td>
+            <td class="align-left" *ngIf="originList === 'organizationView'">{{rowData.locationName}}</td>
+            <td class="align-left">
+              <ng-container *ngIf="rowData.batteryValue && rowData.type === 'Sensor'">
+                  <i class="icon-battery-75"></i> {{rowData.batteryValue}} %
+              </ng-container>
+            </td>
+            <td class="align-left">
+              <ng-container *ngIf="rowData.signalStrength && rowData.type === 'Sensor'">
+                  <i class="icon-signal-75"></i> {{rowData.signalStrength}} %
+              </ng-container>
+            </td>
             <td class="align-center">
               <i class="icon-critical" style="color: red;" *ngIf="rowData.sensorStatusName === 'High Critical'"></i>
               <i class="icon-warn" style="color: #e6e60d;" *ngIf="rowData.sensorStatusName === 'High Warning'"></i>
               <i class="icon-go" style="color: #28a745;" *ngIf="rowData.sensorStatusName === 'Baseline'"></i>
+            </td>
+            <td class="align-center sensor-actions" *ngIf="originList === 'organizationView'">
+              <ng-container *ngIf="rowData.type === 'Sensor'">
+                <a [routerLink]="['/admin/networkmanagement/sensorDetails/edit', rowData.id]"><i class="icon-edit" title="Edit Sensor"></i></a>
+                <i class="icon-unlink" title="Unlink Sensor" (click)="unlinkSensor(rowData.id)" *ngIf="rowData.isLink"></i>
+                <!-- <i class="icon-unlink" *ngIf="!rowData.isLink"></i> -->
+              </ng-container>
             </td>
           </tr>
         </ng-template>

@@ -22,4 +22,5 @@ export class Asset {
     // template?: string;
     templateId: string;
     templateName: string;
+    imageCoordinates?: any;
 }
