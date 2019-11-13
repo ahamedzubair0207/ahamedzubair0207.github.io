@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { WidgetGaugeComponent } from './widget-gauge.component';
+import { VotmCloudSpinnerComponent } from './votm-cloud-spinner.component';
 
-describe('WidgetGaugeComponent', () => {
-  let component: WidgetGaugeComponent;
-  let fixture: ComponentFixture<WidgetGaugeComponent>;
+describe('VotmCloudSpinnerComponent', () => {
+  let component: VotmCloudSpinnerComponent;
+  let fixture: ComponentFixture<VotmCloudSpinnerComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ WidgetGaugeComponent ]
+      declarations: [ VotmCloudSpinnerComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(WidgetGaugeComponent);
+    fixture = TestBed.createComponent(VotmCloudSpinnerComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

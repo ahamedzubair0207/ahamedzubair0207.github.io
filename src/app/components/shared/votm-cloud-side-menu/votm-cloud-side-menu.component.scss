@@ -278,7 +278,7 @@ a.article:hover {
 }
 #content.active{
     margin-left: 50px;
-    background: #00a2ae;
+    // background: #00a2ae;
 }
 
 /* ---------------------------------------------------
@@ -488,9 +488,8 @@ a.article:hover {
 .qcd-dark .active, .qcd-dark a:hover{
     color:rgba(255, 255, 255, 0.75);
 }
-.navbar-dark .navbar-nav .nav-link i{
-    color: #fff;
-}
+
+
 .user-icon{
     width: 24px;
     height: 24px;
