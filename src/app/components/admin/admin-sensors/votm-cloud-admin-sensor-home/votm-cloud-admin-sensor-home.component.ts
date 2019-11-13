@@ -1,10 +1,12 @@
-import { Component, OnInit, NgZone } from '@angular/core';
+import { Component, OnInit, NgZone, Input, Output } from '@angular/core';
 import * as am4core from '@amcharts/amcharts4/core';
 import * as am4charts from '@amcharts/amcharts4/charts';
 import { TreeNode } from 'primeng/api'
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { SensorsService } from '../../../../services/sensors/sensors.service';
 import am4themes_animated from '@amcharts/amcharts4/themes/animated';
+import { ToastrService } from 'ngx-toastr';
+import { Toaster } from 'src/app/components/shared/votm-cloud-toaster/votm-cloud-toaster';
 
 @Component({
   selector: 'app-votm-cloud-admin-sensor-home',
@@ -27,18 +29,52 @@ export class VotmCloudAdminSensorHomeComponent implements OnInit {
   curOrgName: string;
   batteryValue: any;
   signalStrength: string;
+  toaster: Toaster = new Toaster(this.toastr);
+  // Flag to check sensor list is from Organization or from n/w mangement
+  // app-votm-cloud-admin-sensor-home == selector called in Org create component with originList="originListView"
+  @Input() originList: any;
+  OrgId: string;
 
   constructor(
     private sensorService: SensorsService,
     private route: ActivatedRoute,
-    private zone: NgZone) { }
+    private zone: NgZone,
+    private toastr: ToastrService
+    ) { }
 
   ngOnInit() {
     // this.getAllGateways();
-
     this.route.paramMap.subscribe((params: ParamMap) => {
-      this.getSensorTree();
+
+      this.curOrgId = params.get('curOrgId');
+      this.OrgId = params.get('orgId');
+      console.log('sensor originList==========', this.originList);
+      console.log('sensor curOrgId==========', this.curOrgId);
+      console.log('sensor OrgId==========', this.OrgId);
+
+      if (this.OrgId && this.OrgId !== '') {
+        // Fetch sensors of Organization
+        this.getSensorTreeByTypeAndId('organization', this.OrgId);
+        console.log('org sensor list');
+
+      } else  {
+        // Fetch all sensors
+        this.getSensorTree();
+      }
+
     });
+  }
+
+  private getSensorTreeByTypeAndId(type, typeId) {
+    this.sensorService.getSensorDetailsByTypeAndId(type, typeId)
+      .subscribe(response => {
+        this.sensorList = [];
+        if (response && response.length > 0) {
+          this.sensorList = this.fillSensorsData(response);
+          console.log('org sensor list ==', this.sensorList);
+
+        }
+      });
   }
 
   private getSensorTree() {
@@ -61,6 +97,8 @@ export class VotmCloudAdminSensorHomeComponent implements OnInit {
       treeSensor.data = {
         id: sensor.sensorId,
         name: sensor.sensorName,
+        locationId: sensor.parentLocationId,
+        locationName: sensor.parentLocationName,
         sensorType: sensor.sensorType,
         serialNumber: sensor.serialNumber,
         description: sensor.description,
@@ -74,11 +112,19 @@ export class VotmCloudAdminSensorHomeComponent implements OnInit {
       };
       // treeSensor.expanded = true;
       treeSensor.data.batteryValue = '';
+      treeSensor.data.signalStrength = '';
       treeSensor.children = [];
       if (sensor.node && sensor.node.length > 0) {
         sensor.node.forEach(signal => {
-
-          treeSensor.children.push({ data: { id: signal.signalId, name: signal.signalName, type: 'Signal' }, children: [] });
+          treeSensor.children.push({
+            data: {
+              id: signal.signalId,
+              name: signal.signalName,
+              isLink: sensor.isLink,
+              type: 'Signal'
+            },
+            children: []
+          });
 
           // Push Signal Battery Value from child battery signal
           if (signal.signalName !== null &&
@@ -104,19 +150,6 @@ export class VotmCloudAdminSensorHomeComponent implements OnInit {
     });
     // console.log('sensors ', treeSensors);
     return treeSensors;
-
-    // data: {
-    //   signalId: signal.signalId,
-    //   signalName: signal.signalName,
-    //   signalValue: signal.signalValue,
-    //   assetId: signal.assetId,
-    //   assetName: signal.assetName,
-    //   locationId: signal.locationId,
-    //   locationName: signal.locationName,
-    //   associationName: signal.associationName,
-    //   modifiedOn: signal.modifiedOn,
-    //   alarmState: signal.alarmState,
-    //   type: 'Signal'
   }
 
   checkRowDisplay(sensorObj) {
@@ -133,6 +166,19 @@ export class VotmCloudAdminSensorHomeComponent implements OnInit {
     }
 
     return false;
+  }
+
+  unlinkSensor(sensorId) {
+    const sensorObj = {
+      isLink: false,
+    };
+    this.sensorService.updateSensorLinkStatus(sensorId, sensorObj)
+      .subscribe(response => {
+        this.toaster.onSuccess('Sensor Unlinked Successfully', 'Updated');
+        this.getSensorTreeByTypeAndId('organization', this.OrgId);
+      }, error => {
+        this.toaster.onFailure('Something went wrong. Please try again', 'Fail');
+    });
   }
 
   getAllGateways() {

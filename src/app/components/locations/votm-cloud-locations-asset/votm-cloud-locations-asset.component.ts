@@ -1,14 +1,12 @@
 import { LocationService } from './../../../services/locations/location.service';
-import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Toaster } from '../../shared/votm-cloud-toaster/votm-cloud-toaster';
 import { OverlayPanel } from 'primeng/overlaypanel';
 import { Alert } from 'src/app/models/alert.model';
 import { Asset } from 'src/app/models/asset.model';
 import { Location } from 'src/app/models/location.model';
-import { ActivatedRoute, Router } from '@angular/router';
-import { LocationSignalService } from 'src/app/services/locationSignal/location-signal.service';
+import { ActivatedRoute } from '@angular/router';
 import { AssetsService } from 'src/app/services/assets/assets.service';
-import { AlertsService } from 'src/app/services/alerts/alerts.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ToastrService } from 'ngx-toastr';
 import { Location as RouterLocation } from '@angular/common';
@@ -53,14 +51,11 @@ export class VotmCloudLocationsAssetComponent implements OnInit {
   asset: Asset;
   constructor(
     private activatedRoute: ActivatedRoute,
-    private route: Router,
     private routerLocation: RouterLocation,
-    private locationSignalService: LocationSignalService,
     private locationService: LocationService,
     private assetService: AssetsService,
     private domSanitizer: DomSanitizer,
-    private toastr: ToastrService,
-    private eleRef: ElementRef
+    private toastr: ToastrService
   ) { }
 
   ngOnInit() {
@@ -73,7 +68,7 @@ export class VotmCloudLocationsAssetComponent implements OnInit {
       this.disable = true;
       this.showUnassoc = false;
     });
-    this.getAssets();
+
   }
 
   getLocationById() {
@@ -87,6 +82,7 @@ export class VotmCloudLocationsAssetComponent implements OnInit {
         } else {
           this.imgURL = '../../../../assets/images/default-image.svg';
         }
+        this.getAssets();
       }
     );
   }
@@ -107,21 +103,10 @@ export class VotmCloudLocationsAssetComponent implements OnInit {
           childAsset.associationName = childAsset.name;
           childAsset.associated = false;
         }
-        for (let i = 0; i < this.assetsList.length; i++) {
-          const asset = {...this.assetsList[i]};
-          asset.pos = {};
-          // asset.pos['left'] = asset.imageCordinates.x;
-          // asset.pos['top'] = asset.imageCordinates.y;
-          asset.isClicked = false;
-          asset.icon = 'icon-sig-humidity';
-          asset.associated = true;
-          asset.did = i;
-          asset.bound = true;
-          this.associatedAssets.push(asset);
-        }
+        this.getAssetAssociation();
         this.isGetChildAssetsAPILoading = false;
       },
-        error => {
+        () => {
           this.isGetChildAssetsAPILoading = false;
         });
   }
@@ -129,29 +114,53 @@ export class VotmCloudLocationsAssetComponent implements OnInit {
 
   getAssetAssociation() {
     this.isGetassociatedAssetsAPILoading = true;
+    this.locationService.getAssetAssociation(this.locationId)
+      .subscribe(
+        response => {
+          this.isGetassociatedAssetsAPILoading = false;
+          for (let i = 0; i < response.length; i++) {
+            const childAsset = response[i];
+            childAsset.isClicked = false;
+            childAsset.icon = 'icon-asset-robot';
+            childAsset.associated = true;
+            childAsset.did = i;
+            childAsset.bound = true;
+            childAsset.imageCordinates = childAsset.imageCoordinates[childAsset.assetId];
+            childAsset.pctPos = {};
 
+            childAsset.pctPos['left'] = childAsset.imageCordinates.x;
+            childAsset.pctPos['top'] = childAsset.imageCordinates.y;
+          }
+          this.associatedAssets = [...response];
+          for (let i = 0; i < this.assetsList.length; i++) {
+            const childAsset = this.assetsList[i];
+            const index = this.associatedAssets.findIndex(assChild => assChild.assetId === childAsset.id);
+            console.log(index);
+            if (index !== -1) {
+              childAsset.associated = true;
+              console.log(this.location);
+              this.associatedAssets[index].organizationId = this.location.organizationId;
+              this.associatedAssets[index].locationId = this.location.locationId;
+              this.associatedAssets[index].locationName = this.location.locationName;
+              this.associatedAssets[index].associationName = childAsset.name;
+              console.log(this.associatedAssets[index]);
+            } else {
+              childAsset.pctPos = { left: 0, top: 0};
+              childAsset.isClicked = false;
+              childAsset.icon = 'icon-asset-robot';
+              childAsset.associated = true;
+              childAsset.did = i;
+              childAsset.bound = true;
+              this.associatedAssets.push(childAsset);
+            }
+          }
+          console.log(JSON.stringify(this.associatedAssets));
 
-    // this.locationSignalService.getSignalAssociation(this.parentLocationId)
-    //   .subscribe(
-    //     response => {
-    //       this.isGetassociatedAssetsAPILoading = false;
-    //       for (let i = 0; i < response.length; i++) {
-    //         const signal = response[i];
-    //         signal.imageCordinates = signal.imageCordinates[signal.associationName];
-    //         signal.pos = {};
-    //         signal.pos['left'] = signal.imageCordinates.x;
-    //         signal.pos['top'] = signal.imageCordinates.y;
-    //         signal.isClicked = false;
-    //         signal.icon = 'icon-sig-humidity';
-    //         signal.associated = true;
-    //         signal.id = i;
-    //       }
-    //       this.associatedAssets = [...response];
-    //     },
-    //     error => {
-    //       this.isGetassociatedAssetsAPILoading = false;
-    //     }
-    //   );
+        },
+        () => {
+          this.isGetassociatedAssetsAPILoading = false;
+        }
+      );
   }
 
   toggleDisable() {
@@ -159,135 +168,38 @@ export class VotmCloudLocationsAssetComponent implements OnInit {
     this.showUnassoc = !this.disable;
   }
 
-  showSignal(signal: any): boolean {
-    return (signal.associated && this.showAssoc) || ((!signal.associated) && this.showUnassoc);
-  }
-
-  showSensor(signals: any): boolean {
-    let hasAssocSignals = false;
-    signals.forEach(signal => {
-      hasAssocSignals = hasAssocSignals || ((signal.associated && this.showAssoc) || ((!signal.associated) && this.showUnassoc));
-    });
-    return hasAssocSignals;
-  }
-
-
-
-  onStart(event: any, index1) {
-    this.closeEditOpanel();
-    this.draggingChildAssetIx = event.srcElement.getAttribute('assetIx');
-    this.grabOffset = { x: event.offsetX, y: event.offsetY };
-  }
-
-  getPositionStyle(signal) {
-    const style = {
-      left: 'calc(' + signal.pos.left + '% - 16px)',
-      top: 'calc(' + signal.pos.top + '% - 16px)'
-    };
-    return style;
-  }
-
-  onClickOfAssociatedSignal(signal) {
-
-    signal.isClicked = !signal.isClicked;
-    this.selectedChildAsset = {...signal};
-  }
-
-  onClickOfEditIcon(index, event) {
-    this.associatedAssets[index].isClicked = true;
-    this.selectedChildAsset = this.associatedAssets[index];
-    this.selectedChildAsset.imageCordinates = {
-      x:  this.selectedChildAsset.pos['left'],
-      y: this.selectedChildAsset.pos['top']
-    };
-    this.editOPanel.show(event);
-    event.preventDefault();
-    event.stopPropagation();
-    event.cancelBubble = true;
-  }
-
-  closeAllIconsDisplay() {
-    this.associatedAssets.forEach(signal => signal.isClicked = false);
-  }
-
-
-  onClickOfSaveSignalAssociationPanel() {
-    this.selectedChildAsset.pos = {
-      left: this.selectedChildAsset.imageCordinates.x,
-      top: this.selectedChildAsset.imageCordinates.y
-    };
-    const index = this.associatedAssets.findIndex(
-      signal => signal.signalId === this.selectedChildAsset.signalId &&
-      signal.sensorId === this.selectedChildAsset.sensorId
-    );
-    this.associatedAssets.splice(index, 1, this.selectedChildAsset);
-    this.closeEditOpanel();
-  }
-
-  closeEditOpanel() {
-    this.editOPanel.hide();
-    if (this.selectedChildAsset) {
-      const index = this.associatedAssets.findIndex(
-        signal => signal.signalId === this.selectedChildAsset.signalId &&
-        signal.sensorId === this.selectedChildAsset.sensorId
-      );
-      this.associatedAssets[index].isClicked = false;
-    }
-  }
-
   onSaveChildAssetAssociation(associatedAssets) {
-    // const data = associatedAssets.map(asset => {
-    //   const obj = {
-    //     locationId: this.parentLocationId,
-    //     parentAssetId: this.assetId,
-    //     childAssetId: asset.id,
-    //     imageCoordinates: {},
-    //     name: asset.name,
-    //     assetMappingId: asset.assetMappingId ? asset.assetMappingId : undefined
-    //   };
-    //   obj.imageCoordinates[asset.name] = {
-    //     x: asset.pos['left'],
-    //     y: asset.pos['top']
-    //   };
-    //   return obj;
-    // });
-    // this.assetService.addParentChildAssetAssociation(this.assetId, data)
-    //   .subscribe(
-    //     response => {
-    //       // this.asset = undefined;
-    //       this.associatedAssets = [];
-    //       this.toaster.onSuccess('Child Asset associated successfully', 'Saved');
-    //       this.getChildAssets();
-    //     }, error => {
-    //       this.toaster.onFailure('Error while saving child asset assocition', 'Error');
-    //     }
-    //   );
-  }
-
-  // end
-
-  onCancelClick(event) {
-    this.routerLocation.back();
+    const data = associatedAssets.map(asset => {
+      console.log(asset);
+      const obj = {
+        locationId: this.locationId,
+        assetId: asset.assetMappingId ? asset.assetId : asset.id,
+        imageCoordinates: {},
+        assetMappingId: asset.assetMappingId ? asset.assetMappingId : undefined
+      };
+      obj.imageCoordinates[asset.associationName] = {
+        x: asset.pctPos['left'],
+        y: asset.pctPos['top']
+      };
+      return obj;
+    });
+    this.locationService.addAssetAssociation(data)
+      .subscribe(
+        () => {
+          // this.asset = undefined;
+          this.associatedAssets = [];
+          this.toaster.onSuccess('Asset associated successfully', 'Saved');
+          this.getAssets();
+          this.toggleDisable();
+        }, () => {
+          this.toaster.onFailure('Error while saving asset assocition', 'Error');
+        }
+      );
   }
 
   onReset() {
     this.getAssets();
     this.toggleDisable();
-  }
-
-
-  openmodal() {
-   // Get the modal
-   var modal = document.getElementById('alertModal');
-   modal.style.display = 'block';
-   this.modal = document.getElementById('alertModal');
-
-   // When the user clicks anywhere outside of the modal, close it
-   window.onclick = function (event) {
-     if (event.target == modal) {
-       // modal.style.display = 'none';
-     }
-   };
   }
 
 }

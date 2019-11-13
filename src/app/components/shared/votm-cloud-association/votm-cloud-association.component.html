@@ -27,7 +27,7 @@
             <ng-container>
               <ng-container *ngFor="let sensor of dragList; let i = index"  >
                 <div *ngIf="showSensor(sensor.node)" class="sensor-item icon-sensonode">
-                  {{ sensor.name }}
+                  {{ sensor.sensorName }}
                   <!-- - {{ sensor.sensorType }} -->
                   <div class="signal-list">
                     <ng-container *ngFor="let signal of sensor.node; let j = index">
@@ -87,18 +87,21 @@
           </div>
         </div>
         <div class="col-12 col-md-9 px-md-0" >
-          <div class="border h-100 assoc-pane">
+          <div class="border h-100 assoc-pane" (window:resize)="onResize($event)">
             <!--  [src]="imgURL" -->
             <img #locationImage [src]="imageURL" class="assoc-img" (load)="onLoadLocImg()" dndDropzone (dndDrop)="onDrop($event)" />
-            <span class="loc-origin"  [class.d-none]="disable" [ngStyle]="getOriginPos()">[0,0]</span>
-            <span class="loc-extent" [class.d-none]="disable" [ngStyle]="getExtentPos()">[{{ imgSourceWidth }},{{ imgSourceHeight }}]</span>
+            <span class="loc-origin"  [class.d-none]="disable" [style.left.px]="imgOffsetLeft + 1" [style.top.px]="imgOffsetTop">[0,0]</span>
+            <span class="loc-extent" [class.d-none]="disable" [style.right.px]="imgOffsetLeft + 1" [style.bottom.px]="imgOffsetTop">
+              [{{ imgSourceWidth }},{{ imgSourceHeight }}]
+            </span>
             <div
               id="sig_{{i}}"
               *ngFor="let item of droppedList; let i = index;"
               style="position: absolute;"
               class="signal-item {{ item.icon }}"
               [ngClass]="{ locked: disable, active: item.isClicked, unbound: !item.bound }"
-              [ngStyle]="getPositionStyle(item)"
+              [style.left.px]="imgOffsetLeft + item.pctPos.left * imgOffsetWidth - 16"
+              [style.top.px]="imgOffsetTop + item.pctPos.top * imgOffsetHeight - 16"
               [dndDraggable]="item"
               [dndEffectAllowed]="'move'"
               (dndStart)="onStart($event, i)"
@@ -116,7 +119,7 @@
   </div>
   <div class="ml-auto mr-3 mt-3 pull-right" [class.d-none]="disable" *ngIf="model === 'Signal'">
     <button id="loc-sig-cancel" for="form-cancel" type="button" (click)="onCancelClick($event)"
-      class="btn btn-outline-secondary btn-sm mr-2">Cancel</button>
+      class="btn btn-outline-secondary btn-sm mr-2">Return to List</button>
     <button id="loc-sig-reset" for="form-reset" type="button" (click)="onClickOfReset()"
       class="btn btn-info btn-sm mr-2">Reset</button>
     <button id="loc-signal-association-save" type="button" class="btn btn-info btn-sm" (click)="onSaveSignalAssociation()"
@@ -163,22 +166,6 @@
                     </div>
                   </div>
                 </div>
-                <!-- <div class="col-md-12">
-                  <div class="form-group">
-                    <label class="temp" id="edit-panel-x-label">Source Signal Type: </label>
-                    <div class="">
-                      {{selectedSignal.name}}
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-12">
-                  <div class="form-group">
-                    <label class="temp" id="edit-panel-x-label">Source Sensor: </label>
-                    <div class="">
-                      {{selectedSignal.sensorName}}
-                    </div>
-                  </div>
-                </div> -->
                 <div class="row-flex" *ngIf="isDragDropRequired" >
                   <div class="col-sm-12">
                   <i> Source Signal Type:  {{selectedSignal.name}}</i>
