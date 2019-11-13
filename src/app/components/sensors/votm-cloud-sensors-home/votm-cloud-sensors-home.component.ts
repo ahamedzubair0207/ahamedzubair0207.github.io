@@ -27,9 +27,9 @@ export class VotmCloudSensorsHomeComponent implements OnInit {
   toaster: Toaster = new Toaster(this.toastr);
   searchedText: any;
 
-  constructor(private sensorService: SensorsService, 
-    private router: Router, 
-    private route: ActivatedRoute, 
+  constructor(private sensorService: SensorsService,
+    private router: Router,
+    private route: ActivatedRoute,
     private toastr: ToastrService) { }
 
   ngOnInit() {

@@ -10,6 +10,7 @@ import { ParamMap, ActivatedRoute } from '@angular/router';
 export class VotmCloudAdminSensorDetailsComponent implements OnInit {
   sensorId: string;
   sensorDetailsData: any;
+  pageType: any;
 
   constructor(
     private route: ActivatedRoute,
@@ -19,9 +20,10 @@ export class VotmCloudAdminSensorDetailsComponent implements OnInit {
   ngOnInit() {
     this.route.paramMap.subscribe((params: ParamMap) => {
       this.sensorId = params.get('sensorId');
-
       this.getSensorDetailsById();
     });
+    this.pageType = this.route.snapshot.data['type'];
+    console.log('pageType===', this.pageType);
 
   }
 

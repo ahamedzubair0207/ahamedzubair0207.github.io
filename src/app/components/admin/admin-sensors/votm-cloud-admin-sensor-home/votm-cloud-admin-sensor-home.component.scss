@@ -19,3 +19,21 @@ td {
       color: #212529;
     }
   }
+
+  .sensor-is-unlinked > td {
+    color: #ccc !important;
+    & a:link{
+      color: #ccc;
+    }
+    & a:visited{
+      color: #ccc;
+    }
+  }
+
+  .sensor-is-linked {
+
+  }
+
+  .sensor-actions > i {
+    cursor: pointer;
+  }

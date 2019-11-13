@@ -120,6 +120,9 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
   activeTab: string;
   // Dashboard-david end
 
+  // Flag to pass originList to sensor list common selector - app-votm-cloud-admin-sensor-home
+  originListView: string = 'organizationView';
+
   constructor(
     private assetService: AssetsService,
     private modalService: NgbModal,
