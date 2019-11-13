@@ -16,6 +16,8 @@ export class AppConstants {
     public static DEL_LOC = '/Location';
     public static GATEWAYS_LOC = 'Location/Gateways';
     public static GET_LOC_SEARCH = '/Location/Search';
+    public static ASSOCIATE_LOCATION_ASSET = 'Asset/Association';
+    public static GET_ASSOCIATE_LOCATION_ASSET = 'Asset';
 
     public static GET_FAVORITES = '/UserManagement/UserFavorites';
     public static POST_FAVORITES = '/UserManagement/UserFavorites';

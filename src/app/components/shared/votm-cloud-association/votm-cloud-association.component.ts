@@ -50,6 +50,9 @@ export class VotmCloudAssociationComponent implements OnInit {
   imgParentHeight = null;
   imgSourceHeight = null;
   imgSourceWidth = null;
+  imgOffsetWidth = null;
+  imgOffsetHeight = null;
+  grabElement: any = null;
   @Input() isDragDropRequired;
   @Input() model = 'Signal';
   @Input() imageURL: string;
@@ -99,6 +102,7 @@ export class VotmCloudAssociationComponent implements OnInit {
   }
 
 
+
   toggleDisable() {
     console.log(this.dragList);
     this.disable = !this.disable;
@@ -111,8 +115,11 @@ export class VotmCloudAssociationComponent implements OnInit {
     const imgType = el.currentSrc.split(/\#|\?/)[0].split('.').pop().trim();
     this.imgOffsetLeft = el.offsetLeft;
     this.imgOffsetTop = el.offsetTop;
-    this.imgParentHeight = el.offsetParent.offsetHeight;
-    this.imgParentWidth = el.offsetParent.offsetWidth;
+    this.imgOffsetWidth = el.offsetWidth;
+    this.imgOffsetHeight = el.offsetHeight;
+    this.imgParentHeight = el.offsetParent.clientHeight;
+    this.imgParentWidth = el.offsetParent.clientWidth;
+
     if (imgType !== 'svg') {
       this.imgSourceHeight = el.naturalHeight;
       this.imgSourceWidth = el.naturalWidth;
@@ -123,35 +130,27 @@ export class VotmCloudAssociationComponent implements OnInit {
     console.log(this.imgOffsetLeft, '[[[[[[[[[[[[[[[[', this.imgOffsetTop);
     console.log(this.imgParentHeight, ']]]]]]]]]]]]]]]', this.imgParentWidth);
     console.log(this.imgSourceHeight, '======', this.imgSourceWidth);
-    if (!this.isDragDropRequired) {
-      console.log(JSON.stringify(this.droppedList));
-      for (const asset of this.droppedList) {
-        if (Object.keys(asset.pos).length === 0) {
-          asset.pos = {
-            left: (100 * this.imgOffsetLeft / this.imgParentWidth),
-            top: (100 * this.imgOffsetTop / this.imgParentHeight)
-          };
-        }
-      }
+    // if (!this.isDragDropRequired) {
+    //   console.log(JSON.stringify(this.droppedList));
+    //   for (const asset of this.droppedList) {
+    //     if (Object.keys(asset.pctPos).length === 0) {
+    //       asset.pctPos = { left: .1, top: .1 };
+    //     }
+    //   }
+    // }
+    // console.log(this.droppedList);
+  }
+
+  onResize(event) {
+    if (this.elLocImg) {
+      this.imgOffsetTop = this.elLocImg.nativeElement.offsetTop;
+      this.imgOffsetLeft = this.elLocImg.nativeElement.offsetLeft;
+      this.imgOffsetWidth = this.elLocImg.nativeElement.offsetWidth;
+      this.imgOffsetHeight = this.elLocImg.nativeElement.offsetHeight;
     }
-    console.log(this.droppedList);
   }
 
-  getOriginPos() {
-    const style = {
-      left: 'calc(' + (100 * this.imgOffsetLeft / this.imgParentWidth) + '% + 1px)',
-      top: (100 * this.imgOffsetTop / this.imgParentHeight) + '%'
-    };
-    return style;
-  }
 
-  getExtentPos() {
-    const style = {
-      right: 'calc(' + (100 * this.imgOffsetLeft / this.imgParentWidth) + '% + 1px)',
-      bottom: (100 * this.imgOffsetTop / this.imgParentHeight) + '%'
-    };
-    return style;
-  }
 
   showSignal(signal: any): boolean {
     return (signal.associated && this.showAssoc) || ((!signal.associated) && this.showUnassoc);
@@ -172,10 +171,11 @@ export class VotmCloudAssociationComponent implements OnInit {
     // tslint:disable-next-line: no-string-literal
     newSignal['did'] = this.droppedList.length;
     // tslint:disable-next-line: no-string-literal
-    newSignal['pos'] = {
-      left: (100 * this.imgOffsetLeft / this.imgParentWidth),
-      top: (100 * this.imgOffsetTop / this.imgParentHeight)
-    };
+    // newSignal['pos'] = {
+    //   left: (100 * this.imgOffsetLeft / this.imgParentWidth),
+    //   top: (100 * this.imgOffsetTop / this.imgParentHeight)
+    // };
+    newSignal['pctPos'] = { left: 0, top: 0 };
     this.droppedList.push(newSignal);
     console.log(newSignal);
     this.closeModal(this.derivedSignalModal);
@@ -191,54 +191,56 @@ export class VotmCloudAssociationComponent implements OnInit {
     this.draggingSensorIx = event.srcElement.getAttribute('sensorIx');
     this.draggingSignalIx = event.srcElement.getAttribute('signalIx');
     this.grabOffset = { x: event.offsetX, y: event.offsetY };
+    this.grabElement = event.srcElement;
   }
 
   onDrop(event: any) {
+    const signal = event.data;
     let pos = {
-      left: event.event.offsetX,
-      top: event.event.offsetY
+      left: event.event.offsetX - this.grabOffset.x + 16,
+      top: event.event.offsetY - this.grabOffset.y + 16
+    };
+    console.log(pos);
+    signal.pctPos = {
+      left: (pos.left / event.event.srcElement.offsetWidth).toFixed(5),
+      top: (pos.top / event.event.srcElement.offsetHeight).toFixed(5)
     };
 
-    event.data.pixelPos = pos;
-    console.log(event.data.pixelPos);
-    event.data.pos = {
-      left: (((event.event.layerX - this.grabOffset.x + 16) / event.event.srcElement.offsetParent.offsetWidth) * 100.0).toFixed(2),
-      top: (((event.event.layerY - this.grabOffset.y + 16) / event.event.srcElement.offsetParent.offsetHeight) * 100.0).toFixed(2)
-    };
-    console.log(event.data.pos);
-      // event.data.pos = { 'left.%': pos.left, 'top.%': pos.top };
+    console.log(signal.pctPos);
+      // signal.pos = { 'left.%': pos.left, 'top.%': pos.top };
 
-    console.log(event.data.pos.left, '========', event.data.pos.top);
-    if (!event.data.associated) {
-      event.data.associated = true;
-      event.data.did = this.droppedList.length;
-      event.data.isClicked = false;
-      event.data.bound = true;
-      this.droppedList.push(event.data);
+    console.log(signal.pctPos.left, '========', signal.pctPos.top);
+    if (!signal.associated) {
+      signal.associated = true;
+      signal.did = this.droppedList.length;
+      signal.isClicked = false;
+      signal.bound = true;
+      signal.sourceSensor = this.dragList[this.draggingSensorIx].sensorId;
+      signal.sourceSignal = this.dragList[this.draggingSensorIx].node[this.draggingSignalIx].type;
+      this.droppedList.push(signal);
       if (this.showSensorsDetail) {
         this.dragList[this.draggingSensorIx].node[this.draggingSignalIx].associated = true;
       } else {
         this.dragList[this.draggingSignalIx].associated = true;
       }
       setTimeout( () => {
-        const index = this.droppedList.findIndex(signal => signal.did === event.data.did);
+        const index = this.droppedList.findIndex(signalObj => signalObj.did === signal.did);
         const elem = this.eleRef.nativeElement.querySelector('#sig_edit_' + index);
         console.log(elem);
         if (elem) {
           elem.dispatchEvent(new Event('click'));
         }
       }, 50);
-      const index = this.droppedList.findIndex(signal => signal.did === event.data.did);
+      const index = this.droppedList.findIndex(signalObj => signalObj.did === signal.did);
       this.droppedList[index].isClicked = true;
     } else {
       console.log(this.droppedList);
-      console.log(event.data);
-      let id = this.droppedList.findIndex(signal => {
-        console.log(signal.did, '=========', event.data.did);
-        return signal.did === event.data.did;
+      console.log(signal);
+      let id = this.droppedList.findIndex(signalObj => {
+        console.log(signalObj.did, '=========', signal.did);
+        return signalObj.did === signal.did;
       });
-      this.droppedList[id]['pos'] = event.data.pos;
-      this.droppedList[id]['pixelPos'] = event.data.pixelPos;
+      this.droppedList[id]['pctPos'] = signal.pctPos;
     }
     this.closeAllIconsDisplay();
 
@@ -252,14 +254,6 @@ export class VotmCloudAssociationComponent implements OnInit {
   //   };
   //   return style;
   // }
-
-  getPositionStyle(signal) {
-    const style = {
-      left: 'calc(' + signal.pos.left + '% - 16px)',
-      top: 'calc(' + signal.pos.top + '% - 16px)'
-    };
-    return style;
-  }
 
   onClickOfAssociatedSignal(signal) {
 
@@ -279,8 +273,8 @@ export class VotmCloudAssociationComponent implements OnInit {
       this.selectedSignal = this.droppedList[index];
       this.selectedSignal['selectedIndex'] = index;
       this.selectedSignal.imageCordinates = {
-        x:  this.selectedSignal.pos['left'],
-        y: this.selectedSignal.pos['top']
+        x:  this.selectedSignal.pctPos['left'] * 100,
+        y: this.selectedSignal.pctPos['top'] * 100
       };
       this.editOPanel.show(event);
     }, 300);
@@ -334,9 +328,9 @@ export class VotmCloudAssociationComponent implements OnInit {
     //     left: this.selectedSignal.imageCordinates.x
     //   };
     // }
-    this.selectedSignal.pos = {
-      left: this.selectedSignal.imageCordinates.x,
-      top: this.selectedSignal.imageCordinates.y
+    this.selectedSignal.pctPos = {
+      left: this.selectedSignal.imageCordinates.x / 100,
+      top: this.selectedSignal.imageCordinates.y / 100
     };
     const index = this.droppedList.findIndex(
       signal => signal.signalId === this.selectedSignal.signalId &&

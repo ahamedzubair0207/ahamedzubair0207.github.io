@@ -1,3 +1,4 @@
+@import "../../../../styles/_functions.scss", "../../../../styles/_variables.scss";
 
 
   .asset-margin{
@@ -219,40 +220,112 @@ a:hover {
 //   margin-top: -15px;
 // }
 
- .sensor-circle {
-  cursor: move;
+.assoc-img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  outline: 1px dashed $gray-300;
+  background-color: $white;
 }
 
-.sensor-circle {
-  position: absolute;
-  left: -1px;
-  top: -1px;
-  height: 30px;
-  width: 30px;
-  line-height: 29px;
-  font-size: 1rem;
-  color: #333;
-  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
-  text-align: center;
-  text-indent: 1px;
-  background-color: rgba(200, 200, 200, 0.85);
-  border: 1px solid rgba(128, 128, 128, 1);
-  border-radius: 15px;
+.assoc-pane {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  background-color: $gray-100;
+  > .signal-item {
+    border-top-right-radius: calc(#{$font-size-base} + 1px) !important;
+    border-bottom-right-radius: calc(#{$font-size-base} + 1px) !important;
+    display: inline-block !important;
+    width: 0;
+    padding-right: 0;
+    padding-left: calc(2 * #{$font-size-base} + 2px);
+    position: absolute;
+    border-color: $primary;
+    &:before {
+      color: $white;
+      background-color: $primary;
+      border-color: $primary;
+    }
+    &.unbound {
+      border-style: dashed;
+      &:before {
+        color: $primary;
+        background-color: $white;
+        border-style: dashed;
+      }
+    }
+    &.locked {
+      cursor: default;
+    }
+    > i {
+      cursor: pointer;
+    }
+  }
 }
 
-
-.draggable.sensor-circle {
-  width: 30px !important;
-  padding: 0 !important;
-  overflow: hidden !important;
-  min-width: initial !important;
-  max-width: initial !important;
-  border-radius: 15px;
+div.dndDragging {
   color: transparent;
-  background-color: transparent;
-  opacity: 0.7;
-  z-index: 100;
+  opacity: 0.75 !important;
+  border-color: transparent !important;
+  background-color: transparent !important;
+  width: 0 !important;
+  padding-right: 0 !important;
+  padding-left: calc(2 * #{$font-size-base} + 2px) !important;
+  &:before {
+    content: "\f140";
+    color: red !important;
+    background-color: transparent !important;
+    border-color: transparent !important;
+  }
+  > i {
+    display: none;
+  }
 }
+
+span.loc-origin,
+span.loc-extent {
+  position: absolute;
+  background-color: rgba(255, 255, 255, 0.33);
+  color: red;
+  font-size: x-small;
+}
+
+.signal-item {
+  position: relative;
+  line-height: calc(2 * #{$font-size-base} + 2px);
+  text-shadow: none;
+  font-weight: normal;
+  padding-left: calc(2 * #{$font-size-base} + 2px + #{$input-btn-padding-x});
+  background-color: #fff;
+  border: 1px solid $gray-300;
+  text-align: left;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  display: block;
+  width: 100%;
+  border-radius: calc(#{$font-size-base} + 1px);
+  border-top-right-radius: $border-radius;
+  border-bottom-right-radius: $border-radius;
+  padding-right: 0;
+  user-select: none;
+  cursor: move;
+  &:before {
+    position: absolute;
+    left: -1px;
+    top: -1px;
+    width: calc(2 * #{$font-size-base} + 4px);
+    line-height: calc(2 * #{$font-size-base} + 2px);
+    background-color: $gray-300;
+    border: 1px solid $gray-300;
+    border-radius: calc(#{$font-size-base} + 1px);
+    margin: 0;
+  }
+}
+
 
 .logo-preview{
   background-color: #f1f1f1;

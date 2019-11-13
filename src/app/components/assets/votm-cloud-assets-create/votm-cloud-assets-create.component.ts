@@ -103,7 +103,16 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
   };
   assetRemoveMessage: string;
   isChildAssetAssociation = false;
-  imgSize: { width: number, height: number };
+  imgSize: {width: number, height: number};
+  @ViewChild('assetPosititonImage', { static: false }) elAssetPositionImg: ElementRef;
+  imgOffsetLeft = null;
+  imgOffsetTop = null;
+  imgParentWidth = null;
+  imgParentHeight = null;
+  imgSourceHeight = null;
+  imgSourceWidth = null;
+  imgOffsetWidth = null;
+  imgOffsetHeight = null;
 
   // Dashboard-david start
   dbTemplates: DbTplItem[];
@@ -116,6 +125,7 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
   activeTab: string;
   addDashboardmodal: HTMLElement;
   dashboardDataById: { act: string; title: string; dashboardName: string; dashboardHTML: string; };
+  grabOffset: any = null;
   loader: boolean;
   assetLoader: boolean;
   orgLoader: boolean;
@@ -185,10 +195,8 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
         this.getAssetById();
       }
     });
-
     this.pageType = this.activatedRoute.snapshot.data['type'];
     this.pageTitle = `${this.pageType} Asset`;
-
     this.templateWarningMessage = 'This is message';
     this.getAllAssets();
     this.getAllOrganization();
@@ -201,14 +209,18 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
   selAssetIcon = "robot";
 
   getAssetById() {
-    this.loader = true;
     this.assetService.getAssetById(this.assetId)
       .subscribe(response => {
-        this.loader = false;
         this.asset = response;
         if (this.asset) {
           this.asset.organizationName = this.curOrgName;
           this.asset.locationName = this.parentLocName;
+          console.log(this.asset);
+          if (this.asset.parentAssetId) {
+            this.getParentAssetById(this.asset.parentAssetId);
+          } else {
+            this.getLocationById(this.asset.locationId);
+          }
           this.asset.parentAssetName = this.parentAssetName;
           if (this.asset.logo && this.asset.logo.imageName) {
             this.fileExtension = this.asset.logo.imageName.slice((Math.max(0, this.asset.logo.imageName.lastIndexOf(".")) || Infinity) + 1);
@@ -224,39 +236,54 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
             };
             this.asset.logo.imageType = this.fileExtension;
           }
-
-
-
-          // if (this.asset.fileStore && this.asset.fileStore.fileName) {
-          //   let docExtension = this.asset.fileStore.fileName.slice((Math.max(0, this.asset.fileStore.fileName.lastIndexOf(".")) || Infinity) + 1);
-          //   console.log('docExtension ', docExtension);
-          //   this.asset.fileStore.fileName = this.asset.fileStore.fileName + '.xlsx';
-          //   this.fileExtensionDoc = this.asset.fileStore.fileName.slice((Math.max(0, this.asset.fileStore.fileName.lastIndexOf(".")) || Infinity) + 1);
-          //   // let abcd = this.domSanitizer.bypassSecurityTrustUrl(`data:image/xlsx;base64,${selectedTemplate.fileStore.file}`);
-
-
-          //   // Temp
-          //   const url = `data:image/xlsx;base64,${this.asset.fileStore.file}`;
-          //   fetch(url)
-          //     .then(res => res.blob())
-          //     .then(blob => {
-          //       let abcd = new File([blob], "File name");
-          //       var binaryData = [];
-          //       binaryData.push(abcd);
-          //       this.docFile = new Blob(binaryData, { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' })
-          //       this.asset.fileStore.fileType = this.fileExtensionDoc;
-          //     });
-
-
-          //   // this.docFileInput.nativeElement = abcd;
-          // }
-          // // this.previousAsset = JSON.parse(JSON.stringify(this.asset));
-          // // this.acceptedTemplateChages = true;
-
-
-
         }
       });
+  }
+
+  getParentAssetById(parentAssetId) {
+    this.assetService.getAssetById(parentAssetId)
+      .subscribe(response => {
+        if (response.logo && response.logo.imageName) {
+          const fileExtension = response.logo.imageName.slice((Math.max(0, response.logo.imageName.lastIndexOf(".")) || Infinity) + 1);
+          const base64Img = `data:image/${fileExtension};base64,${response.logo.image}`;
+          this.parentAssetImageURL = this.domSanitizer.bypassSecurityTrustUrl(base64Img);
+        } else {
+          this.imgURL = '../../../../assets/images/default-image.svg';
+        }
+      }
+    );
+  }
+
+  getLocationById(locationId) {
+    this.locService.getLocationById(locationId)
+      .subscribe(response => {
+        if (response.logo && response.logo.imageName) {
+          const fileExtension = response.logo.imageName.slice((Math.max(0, response.logo.imageName.lastIndexOf(".")) || Infinity) + 1);
+          const base64Img = `data:image/${fileExtension};base64,${response.logo.image}`;
+          this.parentAssetImageURL = this.domSanitizer.bypassSecurityTrustUrl(base64Img);
+        } else {
+          this.imgURL = '../../../../assets/images/default-image.svg';
+        }
+      }
+    );
+  }
+
+  onStart(event: any) {
+    console.log('on start');
+    this.grabOffset = { x: event.offsetX, y: event.offsetY };
+  }
+
+  onDrop(event: any) {
+    const pos = {
+      left: event.event.offsetX - this.grabOffset.x + 16,
+      top: event.event.offsetY - this.grabOffset.y + 16
+    };
+    this.asset.imageCoordinates = {};
+    this.asset.imageCoordinates[this.asset.assetId] = {
+      x: (pos.left / event.event.srcElement.offsetWidth).toFixed(5),
+      y: (pos.top / event.event.srcElement.offsetHeight).toFixed(5)
+    };
+    console.log(this.asset.imageCoordinates);
   }
 
   createNestedAsset(event) {
@@ -770,64 +797,35 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
     });
   }
 
-  getExactImage() {
-    if (!this.parentAssetImageURL) {
-      this.parentAssetImageURL = this.locationImageURL;
+  // getExactImage() {
+  //   if (!this.parentAssetImageURL) {
+  //     this.parentAssetImageURL = this.locationImageURL;
 
-    }
-    setTimeout(() => {
-      if ($('#asset_position_icon').length === 0) {
-        console.log($('#location_asset_position'));
-        const $sensor = $(
-          '<div class=\'sensor-circle icon-asset-robot position-absolute abc\' id="asset_position_icon">'
-        ).html('')
-          .css({
-            left: '1%',
-            top: '6%'
-          })
-          .appendTo('#location_asset_position');
-        $sensor.data(
-          'dockEl',
-          $sensor
-            .clone()
-            .on('mousedown', function (e) {
-              $(this)
-                .removeClass('docked')
-                .data('dragEl')
-                .removeClass('docked')
-                .trigger(
-                  $.Event('mousedown', { pageX: e.pageX, pageY: e.pageY })
-                );
-              return false;
-            })
-        );
-        $('#location_asset_position .abc').drags();
-      }
-    }, 100);
+  //   }
 
-  }
+  // }
 
   getParentImage(logo: any, type) {
-    if (logo && logo.imageName) {
-      const tempFileExtension = logo.imageName.slice((Math.max(0, logo.imageName.lastIndexOf(".")) || Infinity) + 1);
-      const base64Img = `data:image/${tempFileExtension};base64,${logo.image}`;
-      const img = new Image();
-      img.src = base64Img;
-      img.onload = () => {
-        console.log(img.width, '=====', img.height);
-        this.parentAssetImageSize = {
-          width: img.width,
-          height: img.height
-        };
-      };
-      type === 'location' ? this.locationImageURL = this.domSanitizer.bypassSecurityTrustUrl(base64Img)
-        : this.parentAssetImageURL = this.domSanitizer.bypassSecurityTrustUrl(base64Img);
-      // this.asset.logo.imageType = this.fileExtension;
-    } else {
-      type === 'location' ? this.locationImageURL = null : this.parentAssetImageURL = null;
-    }
+    // if (logo && logo.imageName) {
+    //   const tempFileExtension = logo.imageName.slice((Math.max(0, logo.imageName.lastIndexOf(".")) || Infinity) + 1);
+    //   const base64Img = `data:image/${tempFileExtension};base64,${logo.image}`;
+    //   const img = new Image();
+    //   img.src = base64Img;
+    //   img.onload = () => {
+    //     console.log(img.width, '=====', img.height);
+    //     this.parentAssetImageSize = {
+    //       width: img.width,
+    //       height: img.height
+    //     };
+    //   };
+    //   type === 'location' ? this.locationImageURL = this.domSanitizer.bypassSecurityTrustUrl(base64Img)
+    //     : this.parentAssetImageURL = this.domSanitizer.bypassSecurityTrustUrl(base64Img);
+    //   // this.asset.logo.imageType = this.fileExtension;
+    // } else {
+    //   type === 'location' ? this.locationImageURL = null : this.parentAssetImageURL = null;
+    // }
 
-    this.getExactImage();
+    // this.getExactImage();
   }
 
   filterAssets() {
@@ -1241,6 +1239,33 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
     // }
   }
 
+  onLoadLocImg() {
+    const el = this.elAssetPositionImg.nativeElement;
+    const imgType = el.currentSrc.split(/\#|\?/)[0].split('.').pop().trim();
+    this.imgOffsetLeft = el.offsetLeft;
+    this.imgOffsetTop = el.offsetTop;
+    this.imgOffsetWidth = el.offsetWidth;
+    this.imgOffsetHeight = el.offsetHeight;
+    this.imgParentHeight = el.offsetParent.clientHeight;
+    this.imgParentWidth = el.offsetParent.clientWidth;
+
+    if (imgType !== 'svg') {
+      this.imgSourceHeight = el.naturalHeight;
+      this.imgSourceWidth = el.naturalWidth;
+    } else {
+      this.imgSourceWidth = 5000;
+      this.imgSourceHeight = (5000.0 * parseFloat(el.naturalHeight) / parseFloat(el.naturalWidth)).toFixed(0);
+    }
+  }
+
+  onResize(event) {
+    if (this.elAssetPositionImg) {
+      this.imgOffsetTop = this.elAssetPositionImg.nativeElement.offsetTop;
+      this.imgOffsetLeft = this.elAssetPositionImg.nativeElement.offsetLeft;
+      this.imgOffsetWidth = this.elAssetPositionImg.nativeElement.offsetWidth;
+      this.imgOffsetHeight = this.elAssetPositionImg.nativeElement.offsetHeight;
+    }
+  }
 
 
 }

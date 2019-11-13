@@ -78,7 +78,7 @@ export class VotmCloudLocationsSignalComponent implements OnInit {
             (Math.max(0, this.location.logo.imageName.lastIndexOf('.')) || Infinity) + 1);
           this.imgURL = this.domSanitizer.bypassSecurityTrustUrl(`data:image/${fileExtension};base64,${this.location.logo.image}`);
         } else {
-          this.imgURL = '../../../../assets/images/default-image.svg';
+          this.imgURL = '../../../../assets/images/location-backdrop-dflt.png';
         }
       });
   }
@@ -103,11 +103,11 @@ export class VotmCloudLocationsSignalComponent implements OnInit {
         this.sensors = response;
         for (const sensor of this.sensors) {
           for (const signal of sensor.node) {
-            signal.sensorId = sensor.id;
-            signal.sensorName = sensor.name;
-            signal.signalId = signal.id;
-            signal.signalName = signal.name;
-            signal.associationName = signal.name;
+            signal.sensorId = sensor.sensorId;
+            signal.sensorName = sensor.sensorName;
+            signal.signalId = signal.signalId;
+            signal.signalName = signal.signalName;
+            signal.associationName = signal.signalName;
             signal.associated = false;
             signal.imageCordinates = {
               x: 0,
@@ -140,9 +140,9 @@ export class VotmCloudLocationsSignalComponent implements OnInit {
           for (let i = 0; i < response.length; i++) {
             const signal = response[i];
             signal.imageCordinates = signal.imageCordinates[signal.associationName];
-            signal.pos = {};
-            signal.pos['left'] = signal.imageCordinates.x;
-            signal.pos['top'] = signal.imageCordinates.y;
+            signal.pctPos = {};
+            signal.pctPos['left'] = signal.imageCordinates.x;
+            signal.pctPos['top'] = signal.imageCordinates.y;
             signal.isClicked = false;
             signal.icon = 'icon-sig-humidity';
             signal.associated = true;
@@ -205,8 +205,8 @@ export class VotmCloudLocationsSignalComponent implements OnInit {
         signalMappingId: signal.signalMappingId ? signal.signalMappingId : undefined
       };
       obj.imageCordinates[signal.associationName] = {
-        x: signal.pos['left'],
-        y: signal.pos['top']
+        x: signal.pctPos['left'],
+        y: signal.pctPos['top']
       };
       return obj;
     });
