@@ -122,6 +122,12 @@ const routes: Routes = [
     component: VotmCloudOrganizationsCreateComponent,
     // canActivate: [ OktaAuthGuard ],
     data: { type: 'Create' }
+  },  
+  {
+    path: 'org/create-suborg/:curOrgId/:curOrgName',
+    component: VotmCloudOrganizationsCreateComponent,
+    // canActivate: [ OktaAuthGuard ],
+    data: { type: 'Create', action:'suborganization' }
   },
   {
     path: 'org/view/:curOrgId/:curOrgName/:orgId',
