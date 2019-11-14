@@ -374,7 +374,7 @@ export class VotmCloudAssociationComponent implements OnInit {
         }
         this.droppedList.splice(index, 1);
       }
-
+      this.selectedSignal = undefined;
     }
   }
 

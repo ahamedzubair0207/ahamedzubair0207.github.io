@@ -44,7 +44,7 @@
 
       <li *ngIf="eachItem.enabled && (eachItem.id === 'favorites')"
         [ngClass]="{ 'super-admin' : eachItem.id == 'super' }">
-        <a container="body" triggers="click" tooltipClass="favorite" [autoClose]="'outside'" placement="right" [ngbTooltip]="tipContent"  >
+        <a container="body" triggers="click" tooltipClass="favorite" [autoClose]="true" placement="right" [ngbTooltip]="tipContent"  >
           <i [ngClass]="eachItem.icon" class="dropdown-icon-size" id="favDropDown"></i>
           <span class="icon-text">{{eachItem.name}}</span>
           <i class="fa fa-caret-right float-right" id="adminDropDown" style="margin-top:4px;"></i>
