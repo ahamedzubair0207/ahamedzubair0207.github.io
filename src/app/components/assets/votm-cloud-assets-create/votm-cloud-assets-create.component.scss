@@ -329,11 +329,15 @@ span.loc-extent {
 
 .logo-preview{
   background-color: #f1f1f1;
-    min-height: 200px;
+    min-height: 330px;
     /* margin: 0 auto; */
     justify-content: center;
     text-align: center;
     display: flex;
-    /* flex: 1 1 100%; */
-    align-items: center
+    /* flex: 1 1 100%; 
+    align-items: center*/
+}
+.asset-btm-same{
+  height: 40vh;
+  max-height: 45vh;
 }

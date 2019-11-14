@@ -386,7 +386,7 @@
                       <div class="custom-control custom-radio custom-control-inline">
                         <input class="custom-control-input" (change)="onGeoUnitChange()" [disabled]="pageType==='View'"
                           type="radio" [(ngModel)]="location.geoFenceType" name="geofenceRadius" id="f-radius"
-                          value="bf0bc7b5-1bf8-4a59-a3b5-35904937e89e" >
+                          value="bf0bc7b5-1bf8-4a59-a3b5-35904937e89e" checked="checked">
                         <label class="custom-control-label mb-1" for="f-radius">Radius</label>
                       </div>
                       <div class="custom-control custom-radio custom-control-inline">
@@ -623,14 +623,10 @@
 
           <!-- Location Signal & Gateways  -->
           <div class="tab-pane fade" id="loc-signal" role="tabpanle" area-labelledby="loc-signal-tab" >
-              <!-- <div class="lock-tab border border-bottom-0">
-                  <i class="icon-lock edit-view-lock" name="loclockbutton" *ngIf="pageType.toLowerCase() === 'view'"
-                    (click)="onLockClick()"></i>
-                  <i class="icon-lock-open edit-view-lock" name="locunlockbutton"
-                    *ngIf="pageType.toLowerCase() === 'edit'" (click)="onLockClick()"></i>
-                </div> -->
+
               <app-votm-cloud-locations-signal *ngIf="isSignalAssociationClicked" ></app-votm-cloud-locations-signal>
           </div>
+
 
           <!-- Associated Asset with the Location  -->
           <div class="tab-pane fade" id="loc-asset" role="tabpanle" area-labelledby="loc-asset-tab">
