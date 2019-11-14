@@ -32,9 +32,9 @@ declare var $: any;
 })
 export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
   public imagePath;
-  imgURL: any;
-  locationImageURL: any;
-  parentAssetImageURL: any;
+  imgURL: any = '../../../../assets/images/default-image-svg.svg';
+  locationImageURL: any = '../../../../assets/images/default-image-svg.svg';
+  parentAssetImageURL: any = '../../../../assets/images/default-image.png';
   parentAssetImageSize: { width: number, height: number };
   public message: string;
   closeResult: string;
@@ -259,7 +259,7 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
           const base64Img = `data:image/${fileExtension};base64,${response.logo.image}`;
           this.parentAssetImageURL = this.domSanitizer.bypassSecurityTrustUrl(base64Img);
         } else {
-          this.imgURL = '../../../../assets/images/default-image.svg';
+          this.imgURL = '../../../../assets/images/default-image-svg.svg';
         }
       }
       );
@@ -273,7 +273,7 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
           const base64Img = `data:image/${fileExtension};base64,${response.logo.image}`;
           this.parentAssetImageURL = this.domSanitizer.bypassSecurityTrustUrl(base64Img);
         } else {
-          this.imgURL = '../../../../assets/images/default-image.svg';
+          this.imgURL = '../../../../assets/images/default-image-svg.svg';
         }
       }
       );

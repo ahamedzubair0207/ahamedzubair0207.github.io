@@ -16,7 +16,8 @@
   </div>
 
   <div class="row">
-    <div class="col-12 col-md-6 col-lg-8 col-xl-9">
+    <!-- Full width if it is Organization View -->
+    <div [ngClass]="{'col-12 col-md-6 col-lg-8 col-xl-9': originList !== 'organizationView'}">
 
       <p-treeTable [scrollable]="true" #tt scrollHeight="600px" [globalFilterFields]="['name']"
         [resizableColumns]="true" [value]="sensorList" [autoLayout]="true" id="sensorsTbl">
@@ -44,12 +45,13 @@
         <ng-template pTemplate="colgroup">
           <colgroup>
             <col>
-            <col [style.width.px]="100">
-            <col >
-            <col [style.width.px]="80">
+            <col [style.width.px]="150">
+            <col>
+            <col>
             <col [style.width.px]="80">
             <col [style.width.px]="80">
             <col [style.width.px]="60">
+            <col [style.width.px]="100" *ngIf="originList === 'organizationView'">
           </colgroup>
         </ng-template>
         <ng-template pTemplate="header">
@@ -110,7 +112,7 @@
             <td class="align-center sensor-actions" *ngIf="originList === 'organizationView'">
               <ng-container *ngIf="rowData.type === 'Sensor'">
                 <a [routerLink]="['/admin/networkmanagement/sensorDetails/edit', rowData.id]"><i class="icon-edit" title="Edit Sensor"></i></a>
-                <i class="icon-unlink" title="Unlink Sensor" (click)="unlinkSensor(rowData.id)" *ngIf="rowData.isLink"></i>
+                <i class="icon-unlink" title="Unlink Sensor" (click)="openSensorUnlinkConfirmDialog(rowData.id, rowData.name)" *ngIf="rowData.isLink"></i>
                 <!-- <i class="icon-unlink" *ngIf="!rowData.isLink"></i> -->
               </ng-container>
             </td>
@@ -123,7 +125,8 @@
         </ng-template>
       </p-treeTable>
     </div>
-    <div class="col-12 col-md-6 col-lg-4 col-xl-3">
+    <!-- Do Not show charts in Organization View -->
+    <div class="col-12 col-md-6 col-lg-4 col-xl-3" *ngIf="originList !== 'organizationView'">
       <!--Sensors status start-->
       <fieldset class="mb-3">
         <legend>Sensors Status</legend>
@@ -237,3 +240,8 @@
     </div>
   </div>
 </form>
+
+<!-- Delete Organization Dashboard Start-->
+<app-votm-cloud-confim-dialog (onClose)="unlinkSensorConfirmation($event)" #confirmBoxSensor [message]="unlinkSensorMessage"
+  headerMessage="Warning"></app-votm-cloud-confim-dialog>
+<!-- Delete Organization Dashboard End-->

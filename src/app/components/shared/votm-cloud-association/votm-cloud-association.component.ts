@@ -15,8 +15,7 @@ declare var $: any;
 @Component({
   selector: 'app-votm-cloud-association',
   templateUrl: './votm-cloud-association.component.html',
-  styleUrls: ['./votm-cloud-association.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  styleUrls: ['./votm-cloud-association.component.scss']
 })
 export class VotmCloudAssociationComponent implements OnInit {
 
@@ -86,10 +85,7 @@ export class VotmCloudAssociationComponent implements OnInit {
       this.organizationId = params.get('orgId');
       console.log(this.curOrganizationId, '====', this.curOrganizationName, '====', this.organizationId);
     });
-    this.pageType = this.activatedRoute.snapshot.data['type'];
-    if (this.pageType.toLowerCase() === 'edit') {
-      this.toggleDisable();
-    }
+
   }
 
   // ngAfterContentInit() {
@@ -378,7 +374,7 @@ export class VotmCloudAssociationComponent implements OnInit {
         }
         this.droppedList.splice(index, 1);
       }
-
+      this.selectedSignal = undefined;
     }
   }
 

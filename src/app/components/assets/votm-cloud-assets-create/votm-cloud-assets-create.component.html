@@ -272,7 +272,7 @@
 
               <div class="row asset-margin">
                 <div class="col-md-4">
-                  <fieldset style="height: 300px;">
+                  <fieldset class="asset-btm-same">
                     <legend id="asset-image-lbl">Asset Image</legend>
                     <div class="form-group">
                       <!-- <label for="assetImage" id="asset-image-lbl">Asset Image : </label> -->
@@ -294,7 +294,7 @@
                         <i *ngIf="imgSize">(Width: {{imgSize.width}}px, Height: {{imgSize.height}}px)</i>
                       </label>
                       <span class="form-control logo-preview">
-                        <img [src]="imgURL" height="197" width="233" *ngIf="imgURL">
+                        <img [src]="imgURL" class="img-fluid" *ngIf="imgURL">
                       </span>
                     </div>
                   </fieldset>
@@ -302,7 +302,7 @@
 
                 <!-- (change)="(!asset.templateId||(asset.templateId && isConfirmToChangeImage==='change'))?onFileChange($event):null" -->
                 <div class="col-md-4 form-group">
-                  <fieldset style="height: 300px;">
+                  <fieldset class="asset-btm-same">
                     <legend id="fileList">Reference Documentation:</legend>
                     <!-- <label for="exampleFormControlFile1">Documentation:</label> -->
                     <div class="custom-file">
@@ -317,12 +317,12 @@
                 </div>
 
                 <div class="col-md-4">
-                  <fieldset class="position-relative" style="height: 300px;">
+                  <fieldset class="position-relative asset-btm-same">
                     <legend id="asset-loc-image-lbl">Asset Position:</legend>
 
                     <!-- Image preview -->
 
-                    <div class="form-group border h-100 assoc-pane" (window:resize)="onResize($event)"
+                    <div class="form-group border assoc-pane" (window:resize)="onResize($event)"
                       *ngIf="parentAssetImageURL; else noLocationTemplate">
                       <img #assetPosititonImage [src]="parentAssetImageURL" class="assoc-img" (load)="onLoadLocImg()"
                         dndDropzone (dndDrop)="onDrop($event)" />
@@ -411,7 +411,7 @@
         </div>
       </div>
     </div>
-  </div>
+
 
   <div class="tab-pane fade border border-top-0 p-3 mb-3 flex-grow-1" id="event-details-tab" role="tabpanel"
     area-labelledby="event-details-tab">
@@ -423,6 +423,7 @@
     id="DashboardID_{{dbItem.id}}" role="tabpanel">
     <app-votm-cloud-asset-dashboard [dbItem]="dbItem"></app-votm-cloud-asset-dashboard>
   </div>
+</div>
   <!-- Dashboard-david -->
 
 </div>

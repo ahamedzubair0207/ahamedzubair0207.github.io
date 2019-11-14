@@ -1,12 +1,12 @@
+<div class="lock-tab border border-bottom-0 cursor-point" >
+    <a (click)="toggleDisable()"><i [ngClass]="disable ? 'icon-lock edit-view-lock' : 'icon-lock-open edit-view-lock'"></i></a>
+</div>
 <div  class="position-relative" *ngIf="imgURL">
-    <div class="lock-tab cursor-point" >
-        <a (click)="toggleDisable()"><i [ngClass]="disable ? 'icon-lock edit-view-lock' : 'icon-lock-open edit-view-lock'"></i></a>
-    </div>
     <div class="row">
       <div class="col-12 col-md-3 pl-md-2">
         <div class="form-group has-search">
           <span class="icon-search form-control-feedback"></span>
-          <input type="text" class="form-control" placeholder="Filter Signals" />
+          <input type="text" class="form-control" placeholder="Filter Assets" />
         </div>
       </div>
       <div class="col-12 col-md-6 form-group py-1" [class.d-none]="disable">

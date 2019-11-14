@@ -7,7 +7,7 @@
   }
   .form-control-feedback {
     position: absolute;
-    z-index: 2;
+    z-index: 1;
     display: block;
     text-align: center;
     pointer-events: none;
@@ -213,6 +213,10 @@ span.loc-extent {
 
 .cursor-point {
   cursor: pointer!important;
+}
+
+.cursor-default {
+  cursor: default!important;
 }
 
 .ui-overlaypanel-close {
