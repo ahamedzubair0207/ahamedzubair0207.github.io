@@ -8,7 +8,7 @@
     </li>
     <li class="nav-item">
       <a class="nav-link tab-icon" id="event-tab" href="#event-details-tab" data-toggle="tab" role="tab"
-        aria-controls="event-details" aria-selected="false"><i class="mr-2 icon-warn"></i>Events Log</a>
+        aria-controls="event-details" aria-selected="false"><i class="mr-2 icon-warn"></i>Event Log</a>
     </li>
     <!-- <li class="nav-item">
       <a class="nav-link tab-icon" id="dashboard1-tab" href="#dashboard1-details-tab" data-toggle="tab" role="tab"
@@ -167,7 +167,7 @@
                 <div class="col-12 col-md-6 col-lg-2 col-xl-2 ipad-l-25">
                   <div class="form-group">
                     <label class="temp" votmrequired id="customerNumLbl">Customer #:</label>
-                    <div class="input-group">
+                    <div class="">
                       <input type="text" [(ngModel)]="organization.customerNumber" id="customerNum"
                         class="form-control" placeholder="Customer Number" maxlength="10"
                         #customerNum="ngModel" [disabled]="pageType==='View'" name="customerNum" required>
@@ -183,7 +183,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="col-12 col-md-6 col-lg-2 col-xl-3 ipad-pro-lg-3 ipad-l-25">
+                <div class="col-12 col-md-6 col-lg-3 col-xl-3 ipad-pro-lg-3 ipad-l-25">
                   <div class="form-group">
                     <label class="" id="parentOrgLbl">{{pageLabels.ParentOrganization.labelName}}:</label>
                     <div class="">
@@ -209,7 +209,7 @@
                   </div>
                 </div>
 
-                <div class="col-12 col-md-6 col-lg-2 col-xl-1 ipad-l-25 ipad-pro-lg-3">
+                <div class="col-12 col-md-6 col-lg-1 col-xl-1 ipad-l-25 ipad-pro-lg-3">
                   <div class="form-group">
                     <label class="" id="icon" for="organizationType">Icon:</label>
                     <div class="">
@@ -229,7 +229,7 @@
                   </div>
                 </div>
 
-                <div class="col-12 col-md-6 col-lg-3 col-xl-2">
+                <div class="col-12 col-md-6 col-lg-3 col-xl-3">
                   <div class="form-group">
                     <label class="input-group temp" votmrequired id="primarycontactLbl">
                       &nbsp;{{pageLabels.PrimaryContact.labelName}}:</label>
@@ -262,7 +262,7 @@
                     <div class="input-group">
                       <input type="text" id="primarycontactnumber" [disabled]="pageType==='View'"
                         class="form-control" [(ngModel)]="organization.contactPhone" number
-                        maxlength="100" OnlyNumber="true" placeholder="Phone Number" #contactPhone="ngModel"
+                        maxlength="15" OnlyNumber="true" placeholder="Phone Number" #contactPhone="ngModel"
                         name="contactPhone" required>
                       <div class="input-group-append">
                         <span class="input-group-text"><i class="icon-phone"></i></span>
@@ -275,11 +275,11 @@
                       message="This is not valid phone #"></app-votm-cloud-validator> -->
                     </div>
                     <app-votm-cloud-char-validator
-                      [condition]="organization.primaryContactEmailAddress && organization.primaryContactEmailAddress.length>=100">
+                      [condition]="organization.contactPhone && organization.contactPhone.length>=15">
                     </app-votm-cloud-char-validator>
                   </div>
                 </div>
-                <div class="col-12 col-md-6 col-lg-2 col-xl-2 ipad-l-25 ipad-pro-lg-3">
+                <div class="col-12 col-md-6 col-lg-3 col-xl-3 ipad-l-25 ipad-pro-lg-3">
                   <div class="form-group">
                     <label class="temp" votmrequired id="primaryDistributorNamelbl">Distributor:
                     </label>
@@ -297,7 +297,7 @@
                     [condition]="organization.primaryDistributorName && organization.primaryDistributorName.length>=50">
                   </app-votm-cloud-char-validator>
                 </div>
-                <div class="col-12 col-md-6 col-lg-2 col-xl-2 ipad-l-25 ipad-pro-lg-3">
+                <div class="col-12 col-md-6 col-lg-3 col-xl-3 ipad-l-25 ipad-pro-lg-3">
                   <div class="form-group">
                     <label class="temp" votmrequired id="primaryDistributorEmailLbl">Distributor
                       Contact:

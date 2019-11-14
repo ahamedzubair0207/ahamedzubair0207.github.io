@@ -17,7 +17,7 @@ import UserAuthenticationConfig from './pcm.configuration';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NgbModule, NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
 import { AppRoutingModule } from './app-routing.module';
-import {TableModule} from 'primeng/table';
+import { TableModule } from 'primeng/table';
 
 import { AppComponent } from './app.component';
 import { VotmCloudViewsHomeComponent } from './components/views/votm-cloud-views-home/votm-cloud-views-home.component';
@@ -126,14 +126,13 @@ import { VotmCloudAssetChildComponent } from './components/assets/votm-cloud-ass
 import { NgbDateMomentParserFormatter } from './components/shared/votm-ngbdatepickerformatter/votm-ngbdatepickerformatter';
 import { BasicDashboardComponent } from './components/dashboards/basic-dashboard/basic-dashboard.component';
 import { DashboardhostComponent } from './components/dashboardhost/dashboardhost.component';
-import { DashboardDirective } from './dashboard.directive';
 import { ScoutStyleDashboardComponent } from './components/dashboards/scout-style-dashboard/scout-style-dashboard.component';
 import { AdminUserHomeComponent } from './components/admin/admin-user-home/admin-user-home.component';
 import { VotmCloudAdminGroupManagementComponent } from './components/admin/votm-cloud-admin-group-management/votm-cloud-admin-group-management.component';
 import { VotmCloudFavoritesComponent } from './components/favorites/votm-cloud-favorites/votm-cloud-favorites.component';
 
 import { VotmSmoothLineComponent } from './components/shared/charts/votm-smooth-line/votm-smooth-line.component';
-import {AmModule} from "@acaisoft/angular-azure-maps";
+import { AmModule } from "@acaisoft/angular-azure-maps";
 import { VotmCloudAdminSensorAlertComponent } from './components/admin/votm-cloud-admin-sensor-alert/votm-cloud-admin-sensor-alert.component';
 import { VotmImageOverlayComponent } from './components/shared/charts/votm-image-overlay/votm-image-overlay.component';
 import { VotmMapOverlayComponent } from './components/shared/charts/votm-map-overlay/votm-map-overlay.component';
@@ -141,6 +140,7 @@ import { QcdDashboardComponent } from './dashboards/qcd-dashboard/qcd-dashboard.
 import { ParkerQcdDashboardComponent } from './components/dashboards/parker-qcd-dashboard/parker-qcd-dashboard.component';
 import { VotmCloudAssetsDashboardComponent } from './components/assets/votm-cloud-assets-dashboard/votm-cloud-assets-dashboard.component';
 import { VotmCloudSpinnerComponent } from './components/shared/votm-cloud-spinner/votm-cloud-spinner.component';
+import { DashboardDirective } from './components/dashboards/dashboard.directive';
 
 const oktaConfig = Object.assign({
   onAuthRequired: ({ oktaAuth, router }) => {
@@ -213,7 +213,6 @@ const oktaConfig = Object.assign({
     VotmCloudAssetChildComponent,
     BasicDashboardComponent,
     DashboardhostComponent,
-    DashboardDirective,
     ScoutStyleDashboardComponent,
     AdminUserHomeComponent,
     VotmCloudAdminGroupManagementComponent,
@@ -226,7 +225,8 @@ const oktaConfig = Object.assign({
     ParkerQcdDashboardComponent,
     VotmCloudAssociationComponent,
     VotmCloudAssetsDashboardComponent,
-    VotmCloudSpinnerComponent
+    VotmCloudSpinnerComponent,
+    DashboardDirective
   ],
 
 
