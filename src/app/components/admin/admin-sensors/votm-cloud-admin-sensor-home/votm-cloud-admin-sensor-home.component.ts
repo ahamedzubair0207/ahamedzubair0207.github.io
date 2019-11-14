@@ -1,4 +1,5 @@
-import { Component, OnInit, NgZone, Input, Output } from '@angular/core';
+import { SharedService } from 'src/app/services/shared.service';
+import { Component, OnInit, NgZone, Input, Output, ViewChild } from '@angular/core';
 import * as am4core from '@amcharts/amcharts4/core';
 import * as am4charts from '@amcharts/amcharts4/charts';
 import { TreeNode } from 'primeng/api'
@@ -7,6 +8,7 @@ import { SensorsService } from '../../../../services/sensors/sensors.service';
 import am4themes_animated from '@amcharts/amcharts4/themes/animated';
 import { ToastrService } from 'ngx-toastr';
 import { Toaster } from 'src/app/components/shared/votm-cloud-toaster/votm-cloud-toaster';
+import { VotmCloudConfimDialogComponent } from 'src/app/components/shared/votm-cloud-confim-dialog/votm-cloud-confim-dialog.component';
 
 @Component({
   selector: 'app-votm-cloud-admin-sensor-home',
@@ -34,16 +36,23 @@ export class VotmCloudAdminSensorHomeComponent implements OnInit {
   // app-votm-cloud-admin-sensor-home == selector called in Org create component with originList="originListView"
   @Input() originList: any;
   OrgId: string;
+  @ViewChild('confirmBoxSensor', null) confirmBoxSensor: VotmCloudConfimDialogComponent;
+  unlinkSensorMessage: string;
+  unlinkSensorId: any;
+  loggedInUserData: { 'userId': string; 'organizationId': string; };
 
   constructor(
     private sensorService: SensorsService,
     private route: ActivatedRoute,
     private zone: NgZone,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private sharedService: SharedService
     ) { }
 
   ngOnInit() {
     // this.getAllGateways();
+    // Get LoggedInUser Data
+    this.loggedInUserData = this.sharedService.getLoggedInUser();
     this.route.paramMap.subscribe((params: ParamMap) => {
 
       this.curOrgId = params.get('curOrgId');
@@ -59,10 +68,15 @@ export class VotmCloudAdminSensorHomeComponent implements OnInit {
 
       } else  {
         // Fetch all sensors
-        this.getSensorTree();
+        // this.getSensorTree();
+
+        // get logged in admin user home organization
+        // currently taking static - VOTM - 7a59bdd8-6e1d-48f9-a961-aa60b2918dde
+        this.getSensorTreeByTypeAndId('organization', this.loggedInUserData.organizationId);
       }
 
     });
+
   }
 
   private getSensorTreeByTypeAndId(type, typeId) {
@@ -152,6 +166,7 @@ export class VotmCloudAdminSensorHomeComponent implements OnInit {
     return treeSensors;
   }
 
+  // Get boolen value for signal row display
   checkRowDisplay(sensorObj) {
     // e9326142-068b-494b-bff7-421a44fa0cae == battery
     // fa7b422d-2018-4fdb-ba50-0b4be9bf2735 == signal
@@ -179,6 +194,19 @@ export class VotmCloudAdminSensorHomeComponent implements OnInit {
       }, error => {
         this.toaster.onFailure('Something went wrong. Please try again', 'Fail');
     });
+  }
+
+  openSensorUnlinkConfirmDialog(sensorId, sensorName) {
+    this.unlinkSensorId = sensorId;
+    this.unlinkSensorMessage = `Do you want to Unlink the "${sensorName}" Sensor?`;
+    this.confirmBoxSensor.open();
+  }
+
+  unlinkSensorConfirmation(event) {
+    if (event) {
+      // unlink Sensor
+      this.unlinkSensor(this.unlinkSensorId);
+    }
   }
 
   getAllGateways() {
@@ -224,65 +252,67 @@ export class VotmCloudAdminSensorHomeComponent implements OnInit {
 
   ngAfterViewInit() {
 
-    this.sensorsStatusData = [
-      {
-        type: 'Online',
-        percent: 70,
-        color: '#67b7dc',
-        subs: ''
-      },
-      {
-        type: 'Offline',
-        percent: 30,
-        color: '#6794dc',
-        subs: ''
-      }];
+    if (this.OrgId && this.OrgId === '') {
+      this.sensorsStatusData = [
+        {
+          type: 'Online',
+          percent: 70,
+          color: '#67b7dc',
+          subs: ''
+        },
+        {
+          type: 'Offline',
+          percent: 30,
+          color: '#6794dc',
+          subs: ''
+        }];
 
-    this.sensorsPieChartGraph('sensor-status-chartdiv-pie-sliced', this.sensorsStatusData);
+      this.sensorsPieChartGraph('sensor-status-chartdiv-pie-sliced', this.sensorsStatusData);
 
-    this.sensorsBettreyLevelData = [
-      {
-        type: 'Good',
-        percent: 50,
-        color: '#67b7dc',
-        subs: ''
-      },
-      {
-        type: 'Low',
-        percent: 30,
-        color: '#6794dc',
-        subs: ''
-      },
-      {
-        type: 'Replace',
-        percent: 20,
-        color: '#6784dc',
-        subs: ''
-      }
-    ];
-    this.sensorsPieChartGraph('bettery-level-chartdiv-pie-sliced', this.sensorsBettreyLevelData);
+      this.sensorsBettreyLevelData = [
+        {
+          type: 'Good',
+          percent: 50,
+          color: '#67b7dc',
+          subs: ''
+        },
+        {
+          type: 'Low',
+          percent: 30,
+          color: '#6794dc',
+          subs: ''
+        },
+        {
+          type: 'Replace',
+          percent: 20,
+          color: '#6784dc',
+          subs: ''
+        }
+      ];
+      this.sensorsPieChartGraph('bettery-level-chartdiv-pie-sliced', this.sensorsBettreyLevelData);
 
-    this.sensorsSignalLevelData = [
-      {
-        type: 'Great',
-        percent: 60,
-        color: '#67b7dc',
-        subs: ''
-      },
-      {
-        type: 'Good',
-        percent: 30,
-        color: '#6794dc',
-        subs: ''
-      },
-      {
-        type: 'Low',
-        percent: 10,
-        color: '#6784dc',
-        subs: ''
-      }
-    ];
-    this.sensorsPieChartGraph('signal-level-chartdiv-pie-sliced', this.sensorsSignalLevelData);
+      this.sensorsSignalLevelData = [
+        {
+          type: 'Great',
+          percent: 60,
+          color: '#67b7dc',
+          subs: ''
+        },
+        {
+          type: 'Good',
+          percent: 30,
+          color: '#6794dc',
+          subs: ''
+        },
+        {
+          type: 'Low',
+          percent: 10,
+          color: '#6784dc',
+          subs: ''
+        }
+      ];
+      this.sensorsPieChartGraph('signal-level-chartdiv-pie-sliced', this.sensorsSignalLevelData);
+    }
   }
 
   ngOnDestroy() {
