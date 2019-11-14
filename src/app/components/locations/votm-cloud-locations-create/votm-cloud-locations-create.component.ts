@@ -40,7 +40,7 @@ import { DbItem } from 'src/app/models/db-item';
 export class VotmCloudLocationsCreateComponent implements OnInit {
 
   public imagePath;
-  imgURL: any;
+  imgURL: any = '../../../../assets/images/default-image.svg';
   imgSize: { width: number, height: number };
   public message: string;
   closeResult: string;
