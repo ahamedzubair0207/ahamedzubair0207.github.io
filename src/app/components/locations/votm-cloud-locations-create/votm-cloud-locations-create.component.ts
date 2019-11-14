@@ -40,7 +40,7 @@ import { DbItem } from 'src/app/models/db-item';
 export class VotmCloudLocationsCreateComponent implements OnInit {
 
   public imagePath;
-  imgURL: any;
+  imgURL: any = '../../../../assets/images/default-image-svg.svg';
   imgSize: { width: number, height: number };
   public message: string;
   closeResult: string;
@@ -115,6 +115,7 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
   dbShortName: string = '';
   dbLastIdNum: number = 0;
   newTabId: string = '';
+  disableParentOrganization: boolean;
   // Dashboard-david end
 
   constructor(
@@ -143,6 +144,8 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
     // this.dbService.hello();
     this.dbTemplates = this.dbService.getDashboardTemplates();
     this.selTemplate = this.dbTemplates[0].name;
+    this.location.geoFenceType = 'bf0bc7b5-1bf8-4a59-a3b5-35904937e89e';
+    this.location.geoFenceValue = 'ft';
     // Dashboard-david end
   }
 
@@ -163,6 +166,7 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
       this.parentLocId = params.get('parentLocId');
       this.parentLocName = params.get('parentLocName');
       this.locId = params.get('locId');
+
       if (!this.parentLocId && !this.locId) {
         this.getAllOrganizations();
         this.getAllLocationByOrganization(this.curOrgId);
@@ -203,6 +207,16 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
 
     this.pageType = this.activatedRoute.snapshot.data['type'];
     this.pageTitle = `${this.pageType} Location`;
+    this.activatedRoute.fragment.subscribe(
+      (fragment) => {
+        if (fragment && fragment === 'sublocation' && this.activatedRoute.snapshot.data['type'] === 'Create') {
+          this.disableParentOrganization = true;
+        } else {
+          this.disableParentOrganization = false;
+        }
+
+      }
+    );
 
 
     this.parentOrganizationInfo = {
@@ -248,8 +262,8 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
     }
   }
 
-  onParentOrgChange(event) {
-    this.getAllLocationByOrganization(event.target.value);
+  onParentOrgChange(value) {
+    this.getAllLocationByOrganization(value);
   }
 
   getAllOrganizations() {
@@ -467,7 +481,7 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
   }
 
   creteAsset(event) {
-    this.route.navigate([`asset/create/${this.curOrgId}/${this.curOrgName}/${this.location.locationId}/${this.location.locationName}`]);
+    this.route.navigate([`asset/create/${this.curOrgId}/${this.curOrgName}/${this.location.locationId}/${this.location.locationName}`],{fragment:'subasset'});
   }
   locationObject() {
     this.location.address = [new Address()];
@@ -674,6 +688,9 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
     this.location.geoWidth = null;
     this.location.geoHeight = null;
     this.location.geoFenceValue = null;
+    if (this.location.geoFenceType === 'bf0bc7b5-1bf8-4a59-a3b5-35904937e89e') {
+      this.location.geoFenceValue = 'ft';
+    }
   }
 
   onLocationSubmit() {
@@ -785,12 +802,11 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
     }
   }
 
-  onLockClick() {
+  onLockClick(type) {
     let event = 'view';
     if (this.pageType.toLowerCase() === 'view') {
       event = 'edit';
     }
-
     if (this.location.parentLocationId) {
       this.route.navigate([`loc/${event}/${this.location.parentLocationId}/${this.location.parentLocationName}/${this.curOrgId}/${this.curOrgName}/${this.location.locationId}`]);
     } else {

@@ -7,7 +7,7 @@
   }
   .form-control-feedback {
     position: absolute;
-    z-index: 2;
+    z-index: 1;
     display: block;
     text-align: center;
     pointer-events: none;
@@ -215,6 +215,10 @@ span.loc-extent {
   cursor: pointer!important;
 }
 
+.cursor-default {
+  cursor: default!important;
+}
+
 .ui-overlaypanel-close {
     background-color:transparent!important;
     color: #333!important;
@@ -236,13 +240,13 @@ body .ui-overlaypanel {
 }
 
 
-.edit-view-lock{
-  float: right;
-  font-size: 18px;
-  color:  #02b3bf;
-  margin-left: auto;
-  // margin-top: 4px;
-}
+// .edit-view-lock{
+//   float: right;
+//   font-size: 18px;
+//   color:  #02b3bf;
+//   margin-left: auto;
+//   // margin-top: 4px;
+// }
 
 body .ui-overlaypanel .ui-overlaypanel-content {
   padding: 0!important;
@@ -254,13 +258,13 @@ body .ui-overlaypanel .ui-overlaypanel-content {
   cursor: pointer!important;
 }
 
-.edit-view-lock{
-  float: right;
-  font-size: 18px;
-  color:  #02b3bf;
-  margin-left: auto;
-  // margin-top: 4px;
-}
+// .edit-view-lock{
+//   float: right;
+//   font-size: 18px;
+//   color:  #02b3bf;
+//   margin-left: auto;
+//   // margin-top: 4px;
+// }
 
 .mb-30 {
   margin-bottom: -30px;

@@ -187,7 +187,7 @@
                   <div class="form-group">
                     <label class="" id="parentOrgLbl">{{pageLabels.ParentOrganization.labelName}}:</label>
                     <div class="">
-                      <ng-select id="parentOrgLblList" class="custom" [disabled]="(pageType==='View') || (pageType ==='Edit' && !organization.parentOrganizationId)"
+                      <ng-select id="parentOrgLblList" class="custom" [disabled]="(pageType==='View') || (pageType ==='Edit' && !organization.parentOrganizationId) || (actionType)"
                         [ngStyle]="{'background-color':pageType==='View'?'#e9ecef':'#fff'}" [multiple]="false"
                         name="parentOrgLblList" loadingText="Data is loading..." [(ngModel)]="organization.parentOrganizationId">
                         <ng-option *ngFor="let org of organizationList" [value]="org.organizationId" id="parentOrgLblList">{{org.name}}</ng-option>
@@ -764,6 +764,7 @@
           <div class="create-org-container tab-pane fade" [ngClass]="{ 'active show':activeTab==='org-sensors'}" id="org-sensor" data-toggle="tab" role="tabpanle"
             area-labelledby="org-sensor-tab">
             <app-votm-cloud-admin-sensor-home [originList]="originListView"></app-votm-cloud-admin-sensor-home>
+            <!-- <app-votm-cloud-sensors-home></app-votm-cloud-sensors-home> -->
           </div>
 
           <div class="create-org-container tab-pane fade" [ngClass]="{ 'active show':activeTab==='org-gateways'}" id="org-gateways" data-toggle="tab" role="tabpanle"

@@ -44,14 +44,14 @@
 
       <li *ngIf="eachItem.enabled && (eachItem.id === 'favorites')"
         [ngClass]="{ 'super-admin' : eachItem.id == 'super' }">
-        <a container="body" triggers="click" tooltipClass="favorite" [autoClose]="'outside'" placement="right" [ngbTooltip]="tipContent"  >
+        <a container="body" triggers="click" tooltipClass="favorite" [autoClose]="true" placement="right" [ngbTooltip]="tipContent"  >
           <i [ngClass]="eachItem.icon" class="dropdown-icon-size" id="favDropDown"></i>
           <span class="icon-text">{{eachItem.name}}</span>
           <i class="fa fa-caret-right float-right" id="adminDropDown" style="margin-top:4px;"></i>
         </a>
         <ng-template #tipContent class="scrollable-menu scrollbar-primary" style="margin-top:122px;" routerLinkActive="active">
           <div *ngFor="let childItem of eachItem.childs">
-            <a style="color:black;font-size: 13px;" *ngIf="childItem.enabled" routerLink="{{childItem.url}}" [fragment]="childItem.fragment">
+            <a *ngIf="childItem.enabled" routerLink="{{childItem.url}}" [fragment]="childItem.fragment">
               <i [ngClass]="childItem.icon" class="dropdown-icon-size" id="userFavDropDown"></i>
               <span class="icon-text">{{childItem.name}}</span>
             </a>

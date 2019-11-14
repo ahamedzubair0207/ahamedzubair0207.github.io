@@ -45,7 +45,7 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
 
 
   public imagePath;
-  imgURL: any;
+  imgURL: any = '../../../../assets/images/default-image-svg.svg';
   public message: string;
   closeResult: string;
   modal: any;
@@ -122,6 +122,7 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
 
   // Flag to pass originList to sensor list common selector - app-votm-cloud-admin-sensor-home
   originListView: string = 'organizationView';
+  actionType: string;
 
   constructor(
     private assetService: AssetsService,
@@ -248,6 +249,7 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
     });
 
     this.pageType = this.activeroute.snapshot.data['type'];
+    this.actionType = this.activeroute.snapshot.data['action'];
     this.pageTitle = `${this.pageType} Organization`;
     this.tempMeasurement = 'SI';
 
@@ -460,13 +462,13 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
   }
 
   createNestedOrganization(event) {
-    this.route.navigate([`org/create/${this.organization.organizationId}/${this.organization.name}`]);
+    this.route.navigate([`org/create-suborg/${this.organization.organizationId}/${this.organization.name}`]);
   }
 
   createNestedLocation(event) {
     // let parentLocId = '19d7e5e5-fda7-4778-b943-62e36078087a';
     // let parentLocName = 'Mineapolis';
-    this.route.navigate([`loc/create/${this.organization.organizationId}/${this.organization.name}`]);
+    this.route.navigate([`loc/create/${this.organization.organizationId}/${this.organization.name}`],{fragment:'sublocation'});
   }
 
   openConfirmDialog() {

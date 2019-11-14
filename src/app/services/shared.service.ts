@@ -66,4 +66,14 @@ export class SharedService {
       }
     );
   }
+
+  getLoggedInUser() {
+
+    const loggedInUserData = {
+      'userId': '03c7fb47-58ee-4c41-a9d6-2ad0bd43392a',
+      'organizationId' : '7a59bdd8-6e1d-48f9-a961-aa60b2918dde'
+    };
+    return loggedInUserData;
+  }
+
 }

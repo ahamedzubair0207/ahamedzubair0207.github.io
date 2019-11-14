@@ -39,7 +39,7 @@ export class VotmCloudPreferencesComponent implements OnInit, AfterViewInit {
   userDetails: any;
   userRoles: any;
   fileExtension: any;
-  userImgURL: any;
+  userImgURL: any = '../../../../assets/images/default-image-svg.svg';
   public imagePath;
   public message: string;
   @ViewChild('file', null) userImage: any;

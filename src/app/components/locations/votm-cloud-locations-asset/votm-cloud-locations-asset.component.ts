@@ -49,6 +49,7 @@ export class VotmCloudLocationsAssetComponent implements OnInit {
   draggingChildAssetIx: number = null;
   grabOffset: any = null;
   asset: Asset;
+  pageType: string;
   constructor(
     private activatedRoute: ActivatedRoute,
     private routerLocation: RouterLocation,
@@ -59,14 +60,18 @@ export class VotmCloudLocationsAssetComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+
+    this.pageType = this.activatedRoute.snapshot.data['type'];
+    console.log(this.pageType);
+    if (this.pageType.toLowerCase() === 'edit') {
+      this.toggleDisable();
+    }
     this.activatedRoute.paramMap.subscribe(params => {
       console.log(params);
       this.curOrganizationId = params.get('curOrgId');
       this.curOrganizationName = params.get('curOrgName');
       this.locationId = params.get('locId');
       this.getLocationById();
-      this.disable = true;
-      this.showUnassoc = false;
     });
 
   }
@@ -80,7 +85,7 @@ export class VotmCloudLocationsAssetComponent implements OnInit {
             (Math.max(0, this.location.logo.imageName.lastIndexOf('.')) || Infinity) + 1);
           this.imgURL = this.domSanitizer.bypassSecurityTrustUrl(`data:image/${fileExtension};base64,${this.location.logo.image}`);
         } else {
-          this.imgURL = '../../../../assets/images/default-image.svg';
+          this.imgURL = '../../../../assets/images/default-image-svg.svg';
         }
         this.getAssets();
       }
