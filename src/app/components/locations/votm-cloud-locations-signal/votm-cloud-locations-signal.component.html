@@ -1,7 +1,8 @@
+<div class="lock-tab border border-bottom-0 cursor-point" >
+    <a (click)="toggleDisable()"><i [ngClass]="disable ? 'icon-lock edit-view-lock' : 'icon-lock-open edit-view-lock'"></i></a>
+</div>
 <div  class="position-relative" >
-  <div class="lock-tab cursor-point" >
-      <a (click)="toggleDisable()"><i [ngClass]="disable ? 'icon-lock edit-view-lock' : 'icon-lock-open edit-view-lock'"></i></a>
-  </div>
+
   <div class="row">
     <div class="col-12 col-md-3">
       <div class="btn-group btn-group-toggle" ngbRadioGroup name="radioBasic" [(ngModel)]="model">

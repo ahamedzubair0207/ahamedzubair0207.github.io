@@ -785,12 +785,11 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
     }
   }
 
-  onLockClick() {
+  onLockClick(type) {
     let event = 'view';
     if (this.pageType.toLowerCase() === 'view') {
       event = 'edit';
     }
-
     if (this.location.parentLocationId) {
       this.route.navigate([`loc/${event}/${this.location.parentLocationId}/${this.location.parentLocationName}/${this.curOrgId}/${this.curOrgName}/${this.location.locationId}`]);
     } else {

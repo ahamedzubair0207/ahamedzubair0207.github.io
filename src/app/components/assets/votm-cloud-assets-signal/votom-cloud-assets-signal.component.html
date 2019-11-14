@@ -1,7 +1,7 @@
+<div class="lock-tab border border-bottom-0 cursor-point" >
+    <a (click)="toggleDisable()"><i [ngClass]="disable ? 'icon-lock edit-view-lock' : 'icon-lock-open edit-view-lock'"></i></a>
+</div>
 <div  class="position-relative" *ngIf="imgURL">
-    <div class="lock-tab cursor-point" >
-        <a (click)="toggleDisable()"><i [ngClass]="disable ? 'icon-lock edit-view-lock' : 'icon-lock-open edit-view-lock'"></i></a>
-    </div>
     <div class="row">
       <div class="col-12 col-md-3 pl-md-2">
         <div class="form-group has-search">

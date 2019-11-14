@@ -85,10 +85,7 @@ export class VotmCloudAssociationComponent implements OnInit {
       this.organizationId = params.get('orgId');
       console.log(this.curOrganizationId, '====', this.curOrganizationName, '====', this.organizationId);
     });
-    this.pageType = this.activatedRoute.snapshot.data['type'];
-    if (this.pageType.toLowerCase() === 'edit') {
-      this.toggleDisable();
-    }
+
   }
 
   // ngAfterContentInit() {

@@ -39,6 +39,7 @@ export class VotmCloudLocationsSignalComponent implements OnInit {
   showUnassoc = false;
   showAssoc = true;
   model = 'Signal';
+  pageType: string;
   constructor(
     private activatedRoute: ActivatedRoute,
     private route: Router,
@@ -52,7 +53,10 @@ export class VotmCloudLocationsSignalComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-
+    this.pageType = this.activatedRoute.snapshot.data['type'];
+    if (this.pageType.toLowerCase() === 'edit') {
+      this.toggleDisable();
+    }
     this.activatedRoute.paramMap.subscribe(params => {
       this.curOrganizationId = params.get('curOrgId');
       this.curOrganizationName = params.get('curOrgName');

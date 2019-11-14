@@ -36,6 +36,7 @@ export class VotomCloudAssetsSignalComponent implements OnInit {
   disable = true;
   showUnassoc = false;
   showAssoc = true;
+  pageType: string;
   constructor(
     private activatedRoute: ActivatedRoute,
     private route: Router,
@@ -48,6 +49,10 @@ export class VotomCloudAssetsSignalComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.pageType = this.activatedRoute.snapshot.data['type'];
+    if (this.pageType.toLowerCase() === 'edit') {
+      this.toggleDisable();
+    }
     this.assetId = this.activatedRoute.snapshot.params.assetId;
     this.activatedRoute.paramMap.subscribe(params => {
       this.organizationId = params.get('parentOrgId');

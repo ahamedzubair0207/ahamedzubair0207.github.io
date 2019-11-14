@@ -56,6 +56,7 @@ export class VotmCloudAssetChildComponent implements OnInit {
   draggingChildAssetIx: number = null;
   grabOffset: any = null;
   asset: Asset;
+  pageType: string;
   constructor(
     private activatedRoute: ActivatedRoute,
     private route: Router,
@@ -69,6 +70,10 @@ export class VotmCloudAssetChildComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.pageType = this.activatedRoute.snapshot.data['type'];
+    if (this.pageType.toLowerCase() === 'edit') {
+      this.toggleDisable();
+    }
     this.activatedRoute.paramMap.subscribe(params => {
       this.curOrganizationId = params.get('parentOrgId');
       this.curOrganizationName = params.get('parentOrgName');
@@ -78,8 +83,6 @@ export class VotmCloudAssetChildComponent implements OnInit {
       this.parentAssetName = params.get('parentAssetName');
       this.assetId = params.get('assetId');
       this.getAssetById();
-      this.disable = true;
-      this.showUnassoc = false;
     });
 
   }
