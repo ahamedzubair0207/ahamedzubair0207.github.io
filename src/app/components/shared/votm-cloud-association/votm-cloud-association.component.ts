@@ -15,8 +15,7 @@ declare var $: any;
 @Component({
   selector: 'app-votm-cloud-association',
   templateUrl: './votm-cloud-association.component.html',
-  styleUrls: ['./votm-cloud-association.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  styleUrls: ['./votm-cloud-association.component.scss']
 })
 export class VotmCloudAssociationComponent implements OnInit {
 

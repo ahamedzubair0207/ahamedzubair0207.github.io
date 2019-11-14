@@ -28,7 +28,7 @@
               <ng-container *ngFor="let sensor of dragList; let i = index"  >
                 <div *ngIf="showSensor(sensor.node)" class="sensor-item icon-sensonode">
                   {{ sensor.sensorName }}
-                  <!-- - {{ sensor.sensorType }} -->
+
                   <div class="signal-list">
                     <ng-container *ngFor="let signal of sensor.node; let j = index">
                       <div
@@ -69,13 +69,14 @@
             </ng-template> -->
           </div>
           <div class="sensor-list h-100" *ngIf="!isDragDropRequired" >
+              <div class="sensor-item icon-asset-robot">
+                  Assets
                 <div class="signal-list">
                   <ng-container *ngFor="let item of dragList; let j = index">
                     <div
-                      class="signal-item {{ item.icon }} cursor-point"
-                      *ngIf="!disable"
-                      (click)="onClickOfAssetName(item)"
-                      [ngClass]="{ assoc: item.associated, locked: disable }"
+                      class="signal-item {{ item.icon }}"
+                      (click)="!disable ? onClickOfAssetName(item) : ''"
+                      [ngClass]="!disable ? 'cursor-point' : 'cursor-default'"
                     >
                       {{ item.name }}
                     </div>
@@ -84,6 +85,7 @@
                     No data available.
                   </div>
                 </div>
+              </div>
           </div>
         </div>
         <div class="col-12 col-md-9 px-md-0" >

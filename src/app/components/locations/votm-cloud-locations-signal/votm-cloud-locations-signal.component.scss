@@ -1,5 +1,5 @@
 
-
+@import "../../../../styles/_functions.scss", "../../../../styles/_variables.scss";
 .cursor-point {
   cursor: pointer!important;
 }
@@ -14,4 +14,22 @@
 
 .mb-30 {
   margin-bottom: -30px;
+}
+
+.has-search {
+  .form-control {
+    padding-left: calc(1.5 * #{$font-size-base} + 2 * #{$input-btn-padding-x});
+  }
+  .form-control-feedback {
+    position: absolute;
+    z-index: 2;
+    display: block;
+    text-align: center;
+    pointer-events: none;
+    color: $gray-500;
+    padding: calc(#{$input-btn-padding-y} + 1px) $input-btn-padding-x;
+    &:before {
+      text-shadow: none;
+    }
+  }
 }
