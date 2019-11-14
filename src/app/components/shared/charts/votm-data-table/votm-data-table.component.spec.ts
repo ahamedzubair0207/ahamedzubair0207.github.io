@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { QcdDashboardComponent } from './qcd-dashboard.component';
+import { VotmDataTableComponent } from './votm-data-table.component';
 
-describe('QcdDashboardComponent', () => {
-  let component: QcdDashboardComponent;
-  let fixture: ComponentFixture<QcdDashboardComponent>;
+describe('VotmDataTableComponent', () => {
+  let component: VotmDataTableComponent;
+  let fixture: ComponentFixture<VotmDataTableComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ QcdDashboardComponent ]
+      declarations: [ VotmDataTableComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(QcdDashboardComponent);
+    fixture = TestBed.createComponent(VotmDataTableComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

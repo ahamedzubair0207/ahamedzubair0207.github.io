@@ -1,0 +1,27 @@
+[
+  {
+    "signalName": "Outlet Pressure",
+    "data": "200 psi",
+    "sensorId": "E400025",
+    "signal": "17%"
+  },
+  {
+    "signalName": "Differental Pressure",
+    "data": "10 psi",
+    "sensorId": "Calculated",
+    "signal": "17%"
+  },
+  {
+    "signalName": "Oven Temp",
+    "data": "150 F",
+    "sensorId": "E500025",
+    "signal": "17%"
+  },
+  {
+    "signalName": "Cooler Temp",
+    "data": "-12 F",
+    "sensorId": "E600025",
+    "signal": "17%"
+  }
+ 
+]
