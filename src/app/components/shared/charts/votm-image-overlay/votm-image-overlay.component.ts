@@ -28,7 +28,7 @@ export class VotmImageOverlayComponent implements OnInit {
   LocationSourceChild: any[];
   widgetlocImageID: any;
   widgetImageData: any;
-  widgetimgURL: any = '../../../../assets/images/default-image.svg';
+  widgetimgURL: any = '../../../../assets/images/default-image-svg.svg';
   iconSize: any;
   assetsList: Array<TreeNode> = [];
   assetsSourceChild: any[];

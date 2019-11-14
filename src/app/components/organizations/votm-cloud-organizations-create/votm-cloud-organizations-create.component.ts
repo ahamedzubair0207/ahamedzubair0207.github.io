@@ -45,7 +45,7 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
 
 
   public imagePath;
-  imgURL: any = '../../../../assets/images/default-image.svg';
+  imgURL: any = '../../../../assets/images/default-image-svg.svg';
   public message: string;
   closeResult: string;
   modal: any;

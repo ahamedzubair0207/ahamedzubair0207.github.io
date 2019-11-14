@@ -96,7 +96,7 @@ export class VotmCloudAssetChildComponent implements OnInit {
             (Math.max(0, this.asset.logo.imageName.lastIndexOf('.')) || Infinity) + 1);
           this.imgURL = this.domSanitizer.bypassSecurityTrustUrl(`data:image/${fileExtension};base64,${this.asset.logo.image}`);
         } else {
-          this.imgURL = '../../../../assets/images/default-image.svg';
+          this.imgURL = '../../../../assets/images/default-image-svg.svg';
         }
         this.getChildAssets();
       }
