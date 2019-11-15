@@ -1,26 +1,9 @@
-
-.edit-view-lock{
-  float: right;
-  font-size: 28px;
-  color:  #02b3bf;
-}
-
 .tab-border{
   border-left: 1px solid rgba(0,0,0,.125);
   border-right: 1px solid rgba(0,0,0,.125);
   border-bottom: 1px solid rgba(0,0,0,.125);
 }
 
-fieldset{
-  padding: 10px;
-  border: 1px solid #ddd;
-}
-legend{
-  font-size: 1rem;
-  width: auto;
-  padding: 0 5px;
-  margin: 0;
-}
 .txt-r{
   text-align: right;
 }
@@ -56,10 +39,13 @@ legend{
 }
 
 .edit-view-lock{
-  float: right; 
-  font-size: 28px; 
-  color:  #495057;
-  margin-left: auto;
-  margin-top: 4px;
+  // float: right; 
+  // font-size: 28px; 
+  // color:  #495057;
+  // margin-left: auto;
+  // margin-top: 4px;
 }
-
+// lock tab
+.lock-tab {
+  top: calc(-2.3125rem - 0.875rem - (13px));
+} 

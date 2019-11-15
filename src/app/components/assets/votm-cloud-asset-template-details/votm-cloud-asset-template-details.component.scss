@@ -11,23 +11,23 @@
   }
 
  .edit-view-lock{
-    float: right; 
-    font-size: 28px;
-    line-height: 0; 
-    color:  #02b3bf;
-    margin-left: auto;
+    // float: right; 
+    // font-size: 28px;
+    // line-height: 0; 
+    // color:  #02b3bf;
+    // margin-left: auto;
   }
 
-  .lock-tab {
-    position: absolute;
-    right: 15px;
-    top: 6px;
-    background-color: #ffffff;
-    padding: 2px;
-    padding-top: 5px;
-    padding-right: 14px;
-    border-radius: 0.25rem 0.25rem 0 0;
-}
+//   .lock-tab {
+//     position: absolute;
+//     right: 15px;
+//     top: 6px;
+//     background-color: #ffffff;
+//     padding: 2px;
+//     padding-top: 5px;
+//     padding-right: 14px;
+//     border-radius: 0.25rem 0.25rem 0 0;
+// }
   .create-asset-container {
     padding: 15px;
     background-color: white;
@@ -147,13 +147,3 @@ a:hover {
 }
 
 /* --------------- */
-.lock-tab{
-  position: absolute;
-  right: 15px;
-  top: -40px;
-  background-color: #ffffff;
-  padding: 2px;
-  padding-top: 5px;
-  padding-right: 5px;
-  border-radius: 0.25rem 0.25rem 0 0;
-}
