@@ -3,5 +3,6 @@ export const environment = {
 
   protocol: 'https',
   server: 'phc-pcm-dev-api.azurewebsites.net',
-  virtualName: 'v1'
+  virtualName: 'v1',
+  signalRURL: 'phc-pcm-dev-ingestfa.azurewebsites.net'
 };

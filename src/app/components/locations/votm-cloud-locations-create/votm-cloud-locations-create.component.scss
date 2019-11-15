@@ -31,26 +31,30 @@
   width:100%!important;
   }
 
-  .lock-tab {
-    position: absolute;
-    right: 15px;
-    top: 8px;
-    background-color: #ffffff;
-    padding-top: 8px;
-    padding-left: 11px;
-    padding-right: 11px;
-    border-radius: 0.25rem 0.25rem 0 0;
+//   .lock-tab {
+//     position: absolute;
+//     right: 15px;
+//     top: 8px;
+//     background-color: #ffffff;
+//     padding-top: 8px;
+//     padding-left: 11px;
+//     padding-right: 11px;
+//     border-radius: 0.25rem 0.25rem 0 0;
     
-}
+// }
 
 .edit-view-lock{
-  float: right; 
-  font-size: 18px;
-  color:  #495057;
-  margin-left: auto;
-  // margin-top: 4px;
+  // float: right; 
+  // font-size: 18px;
+  // color:  #495057;
+  // margin-left: auto;
+  // // margin-top: 4px;
 
 }
+// lock tab
+.lock-tab {
+  // top: calc(-2.3125rem - 0.875rem - (4px));
+} 
 
 .geo-drop-down{
   margin-left: 10px;

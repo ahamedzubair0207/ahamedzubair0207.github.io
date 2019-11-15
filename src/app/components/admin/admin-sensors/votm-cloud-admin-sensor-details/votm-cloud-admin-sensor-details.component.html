@@ -7,28 +7,37 @@
   </ul>
 
   <div class="tab-content bg-white">
+
     <div class="tab-pane fade show active border border-top-0 p-3 mb-3 flex-grow-1 shadow" id="detailed-sensors-tab"
       role="tabpanle" area-labelledby="details-sensors-tab">
+      <div class="position-relative">
+        <div class="lock-tab border border-bottom-0">
+          <i class="icon-lock" *ngIf="pageType.toLowerCase() === 'view'" (click)="onLockClick()"></i>
+          <i class="icon-lock-open edit-view-lock" id="edit-lock" name="unlockTogglebutton"
+                  *ngIf="pageType.toLowerCase() === 'edit'" (click)="onLockClick()"></i>
+        </div>
+      </div>
       <h5>{{pageType}} Sensor Detail</h5>
+      <form #sensorDetailForm="ngForm" (ngSubmit)="updateSensorDetail(sensorDetailForm.value)">
       <div class="row" *ngIf="sensorDetailsData">
-        <div class="col-md-6 col-lg-6 col-xl-6">
+        <div class="col-md-6 col-lg-8 col-xl-8">
           <div class="row">
             <div class="col-12 col-md-6 col-lg-4 col-xl-3">
               <div class="form-group">
-                <label for="s_name">Sensor Name</label>
+                <label for="s_name">Sensor Name:</label>
                 <input
                 class="form-control form-control-sm"
                 placeholder="Sensor Name" type="text"
                 id="s_name"
-                [(ngModel)]="sensorDetailsData.sensorName"
                 name="sensorName" #sensorName="ngModel"
+                [(ngModel)]="sensorDetailsData.sensorName"
                 [disabled]="pageType==='View'"
                 />
               </div>
             </div>
             <div class="col-12 col-md-6 col-lg-4 col-xl-3">
               <div class="form-group">
-                <label for="s_no">Serial Number</label>
+                <label for="s_no">Serial Number:</label>
                 <input
                 class="form-control form-control-sm"
                 placeholder="Serial Number"
@@ -36,13 +45,13 @@
                 [(ngModel)]="sensorDetailsData.serialNumber"
                 name="serialNumber"
                 #serialNumber="ngModel"
-                [disabled]="pageType==='View'"
+                disabled
                  />
               </div>
             </div>
             <div class="col-12 col-md-6 col-lg-4 col-xl-3">
               <div class="form-group">
-                <label for="s_des">Description</label>
+                <label for="s_des">Description:</label>
                 <input class="form-control form-control-sm"
                 placeholder="Description" type="text"
                 id="s_des" [(ngModel)]="sensorDetailsData.description"
@@ -53,20 +62,20 @@
             </div>
             <div class="col-12 col-md-6 col-lg-4 col-xl-3">
               <div class="form-group">
-                <label for="s_type">Sensor Type</label>
+                <label for="s_type">Sensor Type:</label>
                 <input
                 class="form-control form-control-sm"
                 placeholder="Sensor type"
                 type="text" id="s_type"
                 [(ngModel)]="sensorDetailsData.sensorType"
                 name="sensorTypeName" #sensorTypeName="ngModel"
-                [disabled]="pageType==='View'"
+                disabled
                 />
               </div>
             </div>
             <div class="col-12 col-md-6 col-lg-4 col-xl-3">
               <div class="form-group">
-                <label for="s_mo_nu">Model Number</label>
+                <label for="s_mo_nu">Model Number:</label>
                 <input
                 class="form-control form-control-sm"
                 placeholder="Model Number" type="text"
@@ -76,20 +85,20 @@
                 />
               </div>
             </div>
-            <div class="col-6 col-md-4 col-lg-4 col-xl-3">
+            <div class="col-6 col-md-6 col-lg-4 col-xl-3">
               <div class="form-group">
-                <label for="s_se_st">Sensor State</label>
+                <label for="s_se_st">Sensor State:</label>
                 <input class="form-control form-control-sm"
                 placeholder="Sensor State" type="text" id="s_se_st"
                 [(ngModel)]="sensorDetailsData.sensorStatusName"
                 name="sensorStatusName" #sensorStatusName="ngModel"
-                [disabled]="pageType==='View'"
+                disabled
                 />
               </div>
             </div>
-            <div class="col-6 col-md-4 col-lg-4 col-xl-3">
+            <div class="col-6 col-md-6 col-lg-4 col-xl-3">
               <div class="form-group">
-                <label for="b_bt_le">Battery Level</label>
+                <label for="b_bt_le">Battery Level:</label>
                 <div class="input-group input-group-sm">
                   <div class="input-group-prepend">
                     <span class="input-group-text">
@@ -98,14 +107,15 @@
                   </div>
                   <input class="form-control form-control-sm"
                   placeholder="Battery Level" type="text" id="s_bt_le"
+                  name="batteryValue" #batteryValue="ngModel"
                   [(ngModel)]="sensorDetailsData.batteryValue"
-                  [disabled]="pageType==='View'"/>
+                  disabled/>
                 </div>
               </div>
             </div>
-            <div class="col-6 col-md-4 col-lg-4 col-xl-3">
+            <div class="col-6 col-md-6 col-lg-4 col-xl-3">
               <div class="form-group">
-                <label for="s_bt_le">Signal Stregth</label>
+                <label for="s_bt_le">Signal Stregth:</label>
                 <div class="input-group input-group-sm">
                   <div class="input-group-prepend">
                     <span class="input-group-text">
@@ -114,73 +124,62 @@
                   </div>
                   <input class="form-control form-control-sm"
                   placeholder="Signal Stregth" type="text" id="s_bt_le"
+                  name="signalStrength" #signalStrength="ngModel"
                   [(ngModel)]="sensorDetailsData.signalStrength"
-                  [disabled]="pageType==='View'"/>
+                  disabled/>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <div class="col-md-6 col-lg-6 col-xl-6">
+        <div class="col-md-6 col-lg-4 col-xl-4">
           <div class="row">
-            <div class="col-12 col-md-6 col-lg-4 col-xl-3">
+            <div class="col-12 col-md-6 col-lg-12 col-xl-6">
               <div class="form-group">
-                <label for="s_ow_organization">Owning Organization</label>
+                <label for="s_ow_organization">Owning Organization:</label>
                 <input
                 class="form-control form-control-sm"
                 placeholder="Owning Organization" type="text"
                 id="s_ow_organization"
+                name="parentOrganizationName" #parentOrganizationName="ngModel"
                 [(ngModel)] = "sensorDetailsData.parentOrganizationName"
-                [disabled]="pageType==='View'"/>
+                disabled/>
               </div>
             </div>
-            <div class="col-12 col-md-6 col-lg-4 col-xl-3">
+            <div class="col-12 col-md-6 col-lg-12 col-xl-6">
               <div class="form-group">
-                <label for="s_ins_loc">Installed Location</label>
+                <label for="s_ins_loc">Installed Location:</label>
                 <ng-select class="custom" id="s_ins_loc"
-                name="s_ins_loc"
+                name="s_ins_loc" #s_ins_loc="ngModel"
                 [(ngModel)]="sensorDetailsData.parentLocationId"
                 #s_ins_loc="ngModel"
                 [disabled]="pageType==='View'">
                   <ng-option *ngFor="let loc of locationListForDropDown" [value]="loc.id">{{loc.name}}</ng-option>
                 </ng-select>
-                <!-- <input *ngIf="(parentLocId || locId); else elseLocationPart" for="parentLocname"
-                        class="form-control" type="text" name="parentLocName"
-                        [(ngModel)]="parentLocName" id="locDtlParentLoc" readonly disabled>
-
-                <ng-template #elseLocationPart>
-                  <ng-select [disabled]="pageType==='View'" class="custom" #parentLocation="ngModel"
-                    [ngStyle]="{'background-color':pageType==='View'?'#e9ecef':'#fff'}" [multiple]="false"
-                    [(ngModel)]="location.parentLocationId" id="parentLocation" name="installedLocation"
-                    placeholder="Choose Parent Location">
-                    <ng-option value="null" disabled selected>Parent Location</ng-option>
-                    <ng-option *ngFor="let loc of locationListForDropDown" [value]="loc.id">{{loc.name}}</ng-option>
-                  </ng-select>
-                </ng-template> -->
               </div>
             </div>
           </div>
           <fieldset>
-            <legend>Reporting Via Gateway</legend>
+            <legend>Reporting Via Gateway:</legend>
             <div class="row">
-              <div class="col-12 col-md-6 col-lg-4 col-xl-3">
+              <div class="col-12 col-md-6 col-lg-12 col-xl-6">
                 <div class="form-group">
                   <label for="s_gw_sn">GW Serial Number</label>
                   <input class="form-control form-control-sm"
                   placeholder="Gateway Serial Number" type="text"
-                  id="s_gw_sn"
+                  id="s_gw_sn" name="s_gw_sn" #s_gw_sn="ngModel"
                   [(ngModel)]="sensorDetailsData.gwSerialNumber"
-                  [disabled]="pageType==='View'"/>
+                  disabled/>
                 </div>
               </div>
-              <div class="col-12 col-md-6 col-lg-4 col-xl-3">
+              <div class="col-12 col-md-6 col-lg-12 col-xl-6">
                 <div class="form-group">
                   <label for="s_gw_lo">GW Location</label>
                   <input class="form-control form-control-sm"
                   placeholder="Gateway Location" type="text"
-                  id="s_gw_lo"
+                  id="s_gw_lo" name="s_gw_lo" #s_gw_lo="ngModel"
                   [(ngModel)]="sensorDetailsData.gwLocationName"
-                  [disabled]="pageType==='View'"/>
+                  disabled/>
                 </div>
               </div>
             </div>
@@ -249,8 +248,10 @@
             <thead class="thead-dark">
               <tr>
                 <th>Signal Name</th>
-                <th>Asset/Location Association</th>
-                <th>Association Name</th>
+                <!-- Display Associat location/Name Columns if sensr is linked - START -->
+                <th *ngIf="sensorDetailsData.isLink">Asset/Location Association</th>
+                <th *ngIf="sensorDetailsData.isLink">Association Name</th>
+                <!-- Display Associat location/Name Columns if sensr is linked - END -->
                 <th>Last Value</th>
                 <th>Report Time</th>
                 <th>Alarm State</th>
@@ -260,14 +261,16 @@
               <ng-container *ngFor="let signalsData of sensorDetailsData.node">
                 <tr *ngIf="checkRowDisplay(signalsData)">
                   <td><i class="demo-icon icon-sig-temperature"></i> {{signalsData.signalName}}</td>
-                  <td>
+                  <!-- Display Associat location/Name Columns if sensr is linked - START -->
+                  <td *ngIf="sensorDetailsData.isLink">
                     <i class="demo-icon mr-2" [ngClass]="{'icon-asset-robot' : signalsData.assetId, 'icon-location' : !signalsData.assetId}"></i>
                     <a [routerLink]="['/loc/view/', sensorDetailsData.parentOrganizationId, sensorDetailsData.parentOrganizationName, sensorDetailsData.parentLocationId]">
                     {{sensorDetailsData.parentLocationName}}
                     </a>
                     <a *ngIf="signalsData.assetId" [routerLink]="['/asset/view/', sensorDetailsData.parentOrganizationId, sensorDetailsData.parentOrganizationName, sensorDetailsData.parentLocationId, signalsData.assetId]"> > {{signalsData.assetName }}</a>
                   </td>
-                  <td>{{signalsData.associationName}}</td>
+                  <td *ngIf="sensorDetailsData.isLink">{{signalsData.associationName}}</td>
+                  <!-- Display Associat location/Name Columns if sensr is linked - END -->
                   <td>{{signalsData.signalValue}}</td>
                   <td>{{signalsData.modifiedOn}}</td>
                   <td><i class="demo-icon icon-warn text-danger mr-2"></i> {{signalsData.alarmState}}</td>
@@ -278,9 +281,10 @@
         </div>
       </div>
       <div class="ml-auto text-right" *ngIf="pageType !=='View'">
-        <button class="btn btn-secondary btn-sm mr-2" id="adminSensorCancel">Cancel</button>
+        <button class="btn btn-outline-secondary btn-sm mr-2" type="button" id="adminSensorCancel" (click)="onCancelClick($event)">Cancel</button>
         <button class="btn btn-info btn-sm" type="submit" id="adminSensorSave">Save</button>
       </div>
+    </form>
     </div>
   </div>
 </div>

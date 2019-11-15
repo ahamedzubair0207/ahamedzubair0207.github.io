@@ -158,6 +158,8 @@ export class VotmCloudAdminSensorHomeComponent implements OnInit {
               treeSensor.data.signalStrength = signal.signalValue;
           }
 
+          treeSensor.data.sensorStatusName = this.getSensorHealthStatus(treeSensor.data.batteryValue, treeSensor.data.signalStrength);
+
         });
       }
       treeSensors.push(treeSensor);
@@ -181,6 +183,20 @@ export class VotmCloudAdminSensorHomeComponent implements OnInit {
     }
 
     return false;
+  }
+
+  // Get sensor status based on Admin alert Sensor subscription
+  getSensorHealthStatus(batteryValue, signalValue) {
+    if (batteryValue <= '2.8' || signalValue <= '14') {
+      return 'Critical';
+    } else if (
+      (batteryValue > '2.8' && batteryValue <= '2.9') ||
+      (signalValue > '14' && signalValue <= '16')
+      ) {
+        return 'Warning';
+    } else {
+      return 'Good';
+    }
   }
 
   unlinkSensor(sensorId) {

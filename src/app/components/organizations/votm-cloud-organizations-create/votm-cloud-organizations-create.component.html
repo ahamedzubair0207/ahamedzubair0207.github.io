@@ -130,24 +130,22 @@
 
 
         <!-- <div class="col-11"> -->
-
+        
         <div class="tab-content w-100">
-
+          
           <div class="tab-pane fade show" [ngClass]="{ 'active':activeTab==='org-details'}"
             *ngIf="(!orgId && pageLabels) || (orgId && pageLabels && organization)" id="org-details" role="tabpanle"
             area-labelledby="org-details-tab">
 
             <form #organizationForm="ngForm" class="create-org-container needs-validation"
               (ngSubmit)="onOrganizationSubmit()" novalidate>
-
-              <div class="lock-tab border border-bottom-0">
-
-                <i class="icon-lock edit-view-lock" id="view-lock" name="lockTogglebutton"
-                  *ngIf="pageType.toLowerCase() === 'view'" (click)="onLockClick()"></i>
-                <i class="icon-lock-open edit-view-lock" id="edit-lock" name="unlockTogglebutton"
-                  *ngIf="pageType.toLowerCase() === 'edit'" (click)="onLockClick()"></i>
-
-
+              <div class="position-relative">
+                <div class="lock-tab border border-bottom-0">
+                  <i class="icon-lock edit-view-lock" id="view-lock" name="lockTogglebutton" *ngIf="pageType.toLowerCase() === 'view'"
+                    (click)="onLockClick()"></i>
+                  <i class="icon-lock-open edit-view-lock" id="edit-lock" name="unlockTogglebutton"
+                    *ngIf="pageType.toLowerCase() === 'edit'" (click)="onLockClick()"></i>
+                </div>
               </div>
               <div class="row padding-l-4 padding-r-4">
                 <div class="col-12 col-md-6 col-lg-3 col-xl-3">
