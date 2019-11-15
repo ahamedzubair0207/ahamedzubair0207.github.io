@@ -103,7 +103,7 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
   };
   assetRemoveMessage: string;
   isChildAssetAssociation = false;
-  imgSize: {width: number, height: number};
+  imgSize: { width: number, height: number };
   @ViewChild('assetPosititonImage', { static: false }) elAssetPositionImg: ElementRef;
   imgOffsetLeft = null;
   imgOffsetTop = null;
@@ -132,6 +132,7 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
   locationLoader: boolean;
   screenLabelsLoader: boolean;
   appInfoLoader: boolean;
+  disableParentOrgaAndLoc: boolean;
   // Dashboard-david end
 
   constructor(
@@ -197,6 +198,16 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
     });
     this.pageType = this.activatedRoute.snapshot.data['type'];
     this.pageTitle = `${this.pageType} Asset`;
+    this.activatedRoute.fragment.subscribe(
+      (fragment) => {
+        if (fragment && fragment === 'subasset' && this.activatedRoute.snapshot.data['type'] === 'Create') {
+          this.disableParentOrgaAndLoc = true;
+        } else {
+          this.disableParentOrgaAndLoc = false;
+        }
+
+      }
+    );
     this.templateWarningMessage = 'This is message';
     this.getAllAssets();
     this.getAllOrganization();
@@ -251,7 +262,7 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
           this.imgURL = '../../../../assets/images/default-image-svg.svg';
         }
       }
-    );
+      );
   }
 
   getLocationById(locationId) {
@@ -265,7 +276,7 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
           this.imgURL = '../../../../assets/images/default-image-svg.svg';
         }
       }
-    );
+      );
   }
 
   onStart(event: any) {
@@ -790,6 +801,8 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
   }
 
   onLocationChange(locationId: string) {
+    this.filterAssets();
+    this.asset.parentAssetId = null;
     this.locationList.forEach(loc => {
       if (locationId === loc.locationId) {
         this.getParentImage(loc.logo, 'location')

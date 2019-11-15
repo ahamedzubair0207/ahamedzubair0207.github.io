@@ -136,11 +136,11 @@ import { AmModule } from "@acaisoft/angular-azure-maps";
 import { VotmCloudAdminSensorAlertComponent } from './components/admin/votm-cloud-admin-sensor-alert/votm-cloud-admin-sensor-alert.component';
 import { VotmImageOverlayComponent } from './components/shared/charts/votm-image-overlay/votm-image-overlay.component';
 import { VotmMapOverlayComponent } from './components/shared/charts/votm-map-overlay/votm-map-overlay.component';
-import { QcdDashboardComponent } from './dashboards/qcd-dashboard/qcd-dashboard.component';
 import { ParkerQcdDashboardComponent } from './components/dashboards/parker-qcd-dashboard/parker-qcd-dashboard.component';
 import { VotmCloudAssetsDashboardComponent } from './components/assets/votm-cloud-assets-dashboard/votm-cloud-assets-dashboard.component';
 import { VotmCloudSpinnerComponent } from './components/shared/votm-cloud-spinner/votm-cloud-spinner.component';
 import { DashboardDirective } from './components/dashboards/dashboard.directive';
+import { VotmDataTableComponent } from './components/shared/charts/votm-data-table/votm-data-table.component';
 
 const oktaConfig = Object.assign({
   onAuthRequired: ({ oktaAuth, router }) => {
@@ -221,12 +221,12 @@ const oktaConfig = Object.assign({
     VotmCloudAdminSensorAlertComponent,
     VotmImageOverlayComponent,
     VotmMapOverlayComponent,
-    QcdDashboardComponent,
     ParkerQcdDashboardComponent,
     VotmCloudAssociationComponent,
     VotmCloudAssetsDashboardComponent,
     VotmCloudSpinnerComponent,
-    DashboardDirective
+    DashboardDirective,
+    VotmDataTableComponent
   ],
 
 
@@ -267,6 +267,6 @@ const oktaConfig = Object.assign({
     }
   ],
   bootstrap: [AppComponent],
-  entryComponents: [BasicDashboardComponent, ScoutStyleDashboardComponent, QcdDashboardComponent, ParkerQcdDashboardComponent]
+  entryComponents: [BasicDashboardComponent, ScoutStyleDashboardComponent, ParkerQcdDashboardComponent]
 })
 export class AppModule { }

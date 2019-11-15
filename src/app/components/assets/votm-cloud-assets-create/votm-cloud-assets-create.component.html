@@ -123,7 +123,7 @@
                                     </option>
                                   </select> -->
                   <div class="">
-                    <ng-select [disabled]="pageType==='View'" class="custom" #organizationName="ngModel"
+                    <ng-select [disabled]="pageType==='View' || disableParentOrgaAndLoc" class="custom" #organizationName="ngModel"
                       [ngStyle]="{'background-color':pageType==='View'?'#e9ecef':'#fff'}" [multiple]="false"
                       [(ngModel)]="asset.organizationId" id="organizationName" name="organizationName"
                       placeholder="Choose Owning Organization" (change)="onParentOrgChange($event)" required>
@@ -188,7 +188,7 @@
 
                   <!-- Location Image  -->
                   <div class="">
-                    <ng-select [disabled]="pageType==='View'" class="custom" #installedLocation="ngModel"
+                    <ng-select [disabled]="pageType==='View' || disableParentOrgaAndLoc" class="custom" #installedLocation="ngModel"
                       [ngStyle]="{'background-color':pageType==='View'?'#e9ecef':'#fff'}" [multiple]="false"
                       [(ngModel)]="asset.locationId" id="installedLocation" name="installedLocation"
                       placeholder="Choose Installed Location" (change)="onLocationChange($event)" required>

@@ -159,7 +159,7 @@
                           </option>
                         </select> -->
                         <div class="">
-                          <ng-select *ngIf="!parentLocId" [disabled]="pageType==='View'"
+                          <ng-select *ngIf="!parentLocId" [disabled]="pageType==='View' || disableParentOrganization"
                             (change)="onParentOrgChange($event)" class="custom" #organizationId="ngModel"
                             [ngStyle]="{'background-color':pageType==='View'?'#e9ecef':'#fff'}" [multiple]="false"
                             [(ngModel)]="location.organizationId" id="organizationId" name="organizationId">

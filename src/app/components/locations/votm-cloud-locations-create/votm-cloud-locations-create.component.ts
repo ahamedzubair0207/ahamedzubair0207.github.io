@@ -115,6 +115,7 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
   dbShortName: string = '';
   dbLastIdNum: number = 0;
   newTabId: string = '';
+  disableParentOrganization: boolean;
   // Dashboard-david end
 
   constructor(
@@ -165,6 +166,7 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
       this.parentLocId = params.get('parentLocId');
       this.parentLocName = params.get('parentLocName');
       this.locId = params.get('locId');
+
       if (!this.parentLocId && !this.locId) {
         this.getAllOrganizations();
         this.getAllLocationByOrganization(this.curOrgId);
@@ -205,6 +207,16 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
 
     this.pageType = this.activatedRoute.snapshot.data['type'];
     this.pageTitle = `${this.pageType} Location`;
+    this.activatedRoute.fragment.subscribe(
+      (fragment) => {
+        if (fragment && fragment === 'sublocation' && this.activatedRoute.snapshot.data['type'] === 'Create') {
+          this.disableParentOrganization = true;
+        } else {
+          this.disableParentOrganization = false;
+        }
+
+      }
+    );
 
 
     this.parentOrganizationInfo = {
@@ -250,8 +262,8 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
     }
   }
 
-  onParentOrgChange(event) {
-    this.getAllLocationByOrganization(event.target.value);
+  onParentOrgChange(value) {
+    this.getAllLocationByOrganization(value);
   }
 
   getAllOrganizations() {
@@ -469,7 +481,7 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
   }
 
   creteAsset(event) {
-    this.route.navigate([`asset/create/${this.curOrgId}/${this.curOrgName}/${this.location.locationId}/${this.location.locationName}`]);
+    this.route.navigate([`asset/create/${this.curOrgId}/${this.curOrgName}/${this.location.locationId}/${this.location.locationName}`],{fragment:'subasset'});
   }
   locationObject() {
     this.location.address = [new Address()];
