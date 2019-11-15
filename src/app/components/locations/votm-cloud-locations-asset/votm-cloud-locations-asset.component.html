@@ -1,5 +1,8 @@
-<div class="lock-tab border border-bottom-0 cursor-point" >
-    <a (click)="toggleDisable()"><i [ngClass]="disable ? 'icon-lock edit-view-lock' : 'icon-lock-open edit-view-lock'"></i></a>
+<div class="position-relative">
+  <div class="lock-tab border border-bottom-0 cursor-point">
+    <a (click)="toggleDisable()"><i
+        [ngClass]="disable ? 'icon-lock edit-view-lock' : 'icon-lock-open edit-view-lock'"></i></a>
+  </div>
 </div>
 <div  class="position-relative" *ngIf="imgURL">
   <div class="row">

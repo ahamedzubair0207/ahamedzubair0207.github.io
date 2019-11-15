@@ -51,7 +51,7 @@ span {
 
 #sidebar {
     min-width: 200px;
-    max-width: 200px;
+    max-width: 220px;
     background: #78C8D2;
 	/* background: -moz-linear-gradient(top, rgba(120,200,210,1) 0%, rgba(0,162,174,1) 100%);
 	background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(120,200,210,1)), color-stop(100%, rgba(0,162,174,1)));
@@ -565,6 +565,7 @@ a.article:hover {
                 padding: 0.5rem 0.5rem;
                 display: flex;
                 transition: all 0.25s;
+                text-transform: capitalize;
                 span{            
                     text-overflow: ellipsis;
                     white-space: nowrap;

@@ -31,19 +31,21 @@
 
                   <div class="signal-list">
                     <ng-container *ngFor="let signal of sensor.node; let j = index">
-                      <div
-                        attr.sensorIx="{{ i }}"
-                        attr.signalIx="{{ j }}"
-                        class="signal-item {{ signal.icon }}"
-                        *ngIf="showSignal(signal)"
-                        [ngClass]="{ assoc: signal.associated, locked: disable }"
-                        [dndDraggable]="signal"
-                        [dndDisableIf]="signal.associated"
-                        [dndEffectAllowed]="'move'"
-                        (dndStart)="onStart($event, i, j)"
-                      >
-                        {{ signal.signalName }}
-                      </div>
+                      <ng-container *ngIf="signal.signalId !== batterySignalId && signal.signalId !== signalSignalId" >
+                        <div
+                          attr.sensorIx="{{ i }}"
+                          attr.signalIx="{{ j }}"
+                          class="signal-item {{ signal.icon }}"
+                          *ngIf="showSignal(signal)"
+                          [ngClass]="{ assoc: signal.associated, locked: disable }"
+                          [dndDraggable]="signal"
+                          [dndDisableIf]="signal.associated"
+                          [dndEffectAllowed]="'move'"
+                          (dndStart)="onStart($event, i, j)"
+                        >
+                          {{ signal.signalName }}
+                        </div>
+                      </ng-container>
                     </ng-container>
                   </div>
                 </div>

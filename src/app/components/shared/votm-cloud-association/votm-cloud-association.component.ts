@@ -68,6 +68,9 @@ export class VotmCloudAssociationComponent implements OnInit {
   @Output() reload: EventEmitter<any> = new EventEmitter<any>();
   @Output() saveAlarmAssociation: EventEmitter<any> = new EventEmitter<any>();
   @Output() resetPage: EventEmitter<any> = new EventEmitter<any>();
+  batterySignalId = 'e9326142-068b-494b-bff7-421a44fa0cae';
+  signalSignalId = 'fa7b422d-2018-4fdb-ba50-0b4be9bf2735';
+
   constructor(
     private activatedRoute: ActivatedRoute,
     private router: Router,
