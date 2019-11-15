@@ -249,8 +249,10 @@
             <thead class="thead-dark">
               <tr>
                 <th>Signal Name</th>
-                <th>Asset/Location Association</th>
-                <th>Association Name</th>
+                <!-- Display Associat location/Name Columns if sensr is linked - START -->
+                <th *ngIf="sensorDetailsData.isLink">Asset/Location Association</th>
+                <th *ngIf="sensorDetailsData.isLink">Association Name</th>
+                <!-- Display Associat location/Name Columns if sensr is linked - END -->
                 <th>Last Value</th>
                 <th>Report Time</th>
                 <th>Alarm State</th>
@@ -260,14 +262,16 @@
               <ng-container *ngFor="let signalsData of sensorDetailsData.node">
                 <tr *ngIf="checkRowDisplay(signalsData)">
                   <td><i class="demo-icon icon-sig-temperature"></i> {{signalsData.signalName}}</td>
-                  <td>
+                  <!-- Display Associat location/Name Columns if sensr is linked - START -->
+                  <td *ngIf="sensorDetailsData.isLink">
                     <i class="demo-icon mr-2" [ngClass]="{'icon-asset-robot' : signalsData.assetId, 'icon-location' : !signalsData.assetId}"></i>
                     <a [routerLink]="['/loc/view/', sensorDetailsData.parentOrganizationId, sensorDetailsData.parentOrganizationName, sensorDetailsData.parentLocationId]">
                     {{sensorDetailsData.parentLocationName}}
                     </a>
                     <a *ngIf="signalsData.assetId" [routerLink]="['/asset/view/', sensorDetailsData.parentOrganizationId, sensorDetailsData.parentOrganizationName, sensorDetailsData.parentLocationId, signalsData.assetId]"> > {{signalsData.assetName }}</a>
                   </td>
-                  <td>{{signalsData.associationName}}</td>
+                  <td *ngIf="sensorDetailsData.isLink">{{signalsData.associationName}}</td>
+                  <!-- Display Associat location/Name Columns if sensr is linked - END -->
                   <td>{{signalsData.signalValue}}</td>
                   <td>{{signalsData.modifiedOn}}</td>
                   <td><i class="demo-icon icon-warn text-danger mr-2"></i> {{signalsData.alarmState}}</td>

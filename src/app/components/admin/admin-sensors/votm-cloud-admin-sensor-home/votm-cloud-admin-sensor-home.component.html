@@ -70,10 +70,7 @@
           </tr>
         </ng-template>
         <ng-template pTemplate="body" let-rowNode let-rowData="rowData">
-          <tr [ttRow]="rowNode"
-          *ngIf="checkRowDisplay(rowData)"
-          [ngClass]="{'sensor-is-linked': rowData.isLink, 'sensor-is-unlinked': originList === 'organizationView' && !rowData.isLink}">
-              <!--  -->
+          <tr [ttRow]="rowNode" *ngIf="checkRowDisplay(rowData)">
             <td class="align-left">
               <span container="body" [ngbTooltip]="rowData.name">
                 <p-treeTableToggler [rowNode]="rowNode"></p-treeTableToggler>
@@ -105,9 +102,9 @@
               </ng-container>
             </td>
             <td class="align-center">
-              <i class="icon-critical" style="color: red;" *ngIf="rowData.sensorStatusName === 'High Critical'"></i>
-              <i class="icon-warn" style="color: #e6e60d;" *ngIf="rowData.sensorStatusName === 'High Warning'"></i>
-              <i class="icon-go" style="color: #28a745;" *ngIf="rowData.sensorStatusName === 'Baseline'"></i>
+              <i class="icon-critical" style="color: red;" *ngIf="rowData.sensorStatusName === 'Critical'"></i>
+              <i class="icon-warn" style="color: #e6e60d;" *ngIf="rowData.sensorStatusName === 'Warning'"></i>
+              <i class="icon-go" style="color: #28a745;" *ngIf="rowData.sensorStatusName === 'Good'"></i>
             </td>
             <td class="align-center sensor-actions" *ngIf="originList === 'organizationView'">
               <ng-container *ngIf="rowData.type === 'Sensor'">

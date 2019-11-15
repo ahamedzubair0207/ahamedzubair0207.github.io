@@ -37,15 +37,18 @@ export class VotmCloudAdminSensorDetailsComponent implements OnInit {
     this.sensorsService.getSensorDetailsByTypeAndId('sensor', this.sensorId)
     .subscribe(response => {
       this.sensorDetailsData = response[0];
-
-      // Get Battery & signal Value
+      let sensorBatteryValue = '';
+      let signalStrengthValue = '';
+      // Get Battery & signal Value from child node
       this.sensorDetailsData.node.forEach(sensorSignalData => {
+
         // Push Signal Battery Value from child battery signal
         if (sensorSignalData.signalName !== null &&
           // sensorSignalData.signalId === 'e9326142-068b-494b-bff7-421a44fa0cae' ||
           // sensorSignalData.signalName.toLowerCase() === 'battery'
           sensorSignalData.signalId === 'e9326142-068b-494b-bff7-421a44fa0cae'
           ) {
+            sensorBatteryValue = sensorSignalData.signalValue;
             this.sensorDetailsData.batteryValue = sensorSignalData.signalValue + '%';
         }
 
@@ -55,10 +58,11 @@ export class VotmCloudAdminSensorDetailsComponent implements OnInit {
           // sensorSignalData.signalName.toLowerCase() === 'signal'
           sensorSignalData.signalId === 'fa7b422d-2018-4fdb-ba50-0b4be9bf2735'
           ) {
+            signalStrengthValue = sensorSignalData.signalValue;
             this.sensorDetailsData.signalStrength = sensorSignalData.signalValue + '%';
         }
       });
-
+      this.sensorDetailsData.sensorStatusName = this.getSensorHealthStatus(sensorBatteryValue, signalStrengthValue);
       console.log('update sensorDetailsData===', this.sensorDetailsData);
       // Get all home org location
       this.getAllLocationByOrganization(this.sensorDetailsData.parentOrganizationId);
@@ -72,6 +76,22 @@ export class VotmCloudAdminSensorDetailsComponent implements OnInit {
     //     console.log('sensordatadetails===', this.sensorDetailsData);
 
     //   });
+  }
+
+  // Get sensor status based on Admin alert Sensor subscription
+  getSensorHealthStatus(batteryValue, signalValue) {
+    // console.log('sensor health', batteryValue, signalValue);
+
+    if (batteryValue <= '2.8' || signalValue <= '14') {
+      return 'Critical';
+    } else if (
+      (batteryValue > '2.8' && batteryValue <= '2.9') ||
+      (signalValue > '14' && signalValue <= '16')
+      ) {
+        return 'Warning';
+    } else {
+      return 'Good';
+    }
   }
 
   getAllLocationByOrganization(orgId: string) {
