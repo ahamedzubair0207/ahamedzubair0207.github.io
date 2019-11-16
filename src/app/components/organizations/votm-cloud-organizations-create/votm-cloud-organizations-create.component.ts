@@ -27,6 +27,7 @@ import { NgbDateMomentParserFormatter } from '../../shared/votm-ngbdatepickerfor
 import { DashboardService } from '../../../services/dasboards/dashboard.service';
 import { DbTplItem } from 'src/app/models/db-tpl-item';
 import { DbItem } from 'src/app/models/db-item';
+import { DashBoard } from 'src/app/models/dashboard.model';
 // Dashboard-david end
 declare var jQuery: any;
 
@@ -123,6 +124,9 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
   // Flag to pass originList to sensor list common selector - app-votm-cloud-admin-sensor-home
   originListView: string = 'organizationView';
   actionType: string;
+
+  dashboardTabs: Array<DashBoard> = [];
+  dashboardTab: DashBoard = new DashBoard();
 
   constructor(
     private assetService: AssetsService,
@@ -223,6 +227,11 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
 
       if (this.orgId) {
         this.getOrganizationInfo();
+        this.dbService.getAllDashboards(this.orgId, 'organization')
+          .subscribe(response => {
+            console.log('get All Dashboard ', response);
+            this.dashboardTabs = response;
+          });
       } else {
         this.placeholder = VotmCommon.dateFormat;
         this.parentOrganizationInfo = {
@@ -468,7 +477,7 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
   createNestedLocation(event) {
     // let parentLocId = '19d7e5e5-fda7-4778-b943-62e36078087a';
     // let parentLocName = 'Mineapolis';
-    this.route.navigate([`loc/create/${this.organization.organizationId}/${this.organization.name}`],{fragment:'sublocation'});
+    this.route.navigate([`loc/create/${this.organization.organizationId}/${this.organization.name}`], { fragment: 'sublocation' });
   }
 
   openConfirmDialog() {
@@ -929,12 +938,28 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
     //   dashboardName: this.dashboardDataById.dashboardName
     // };
     // this.dashboardData.push(this.addDashboardArray);
+    if (!this.dashboardTabs) {
+      this.dashboardTabs = []
+    }
+
+    this.dashboardTab.organizationId = this.orgId;
+    this.dashboardTab.published = true;
+    this.dashboardTab.active = true;
+
     this.dbLastIdNum++;
     this.newTabId = "dbtab-" + this.dbLastIdNum;
     this.dbItems.push(new DbItem(this.newTabId, this.dbLongName, this.dbShortName, this.selTemplate,
       this.dbTemplates.find(({ name }) => name === this.selTemplate).component, ''));
-    // console.log('this.dbItems---added', this.dbItems);
-    this.closeAddDashboardModal(true);
+    // console.log('this.dbItems---added', this.dbItems, this.dashboardTabs);
+
+    this.dbService.saveDashboard(this.dashboardTab)
+      .subscribe(response => {
+        this.dashboardTabs.push(this.dashboardTab);
+        this.dashboardTab = new DashBoard();
+
+        this.closeAddDashboardModal(true);
+      })
+
   }
 
   closeAddDashboardModal(event: any) {
