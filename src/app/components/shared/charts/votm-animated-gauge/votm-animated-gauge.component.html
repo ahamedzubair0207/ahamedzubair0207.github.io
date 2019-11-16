@@ -1,1 +1,121 @@
-<div id="{{ 'chartdiv-animated-' + id }}" style="width: 100%; height: 280px"></div>
+<!-- <div id="{{ 'chartdiv-animated-' + id }}" style="width: 100%; height: 280px"></div> -->
+<div class="border h-100 w-100 position-relative">
+  <div id="{{ wId }}" class="h-100 w-100">
+    <img *ngIf="!isGuageconfigured" style="width:100%; height:100%; object-fit: cover;" src="../../../../assets/images/gaugePlaceholder.svg" />
+  </div>
+
+  <div class="chart-actions">
+    <div ngbDropdown placement="bottom-right">
+      <a id="export" ngbDropdownToggle><i class="icon-export"></i></a>
+      <div ngbDropdownMenu aria-labelledby="export">
+        <button ngbDropdownItem>PNG</button>
+        <button ngbDropdownItem>SVG</button>
+        <button ngbDropdownItem>PDF</button>
+        <div class="dropdown-divider"></div>
+        <button ngbDropdownItem>Print</button>
+      </div>
+    </div>
+    <a (click)="onClickOfCustomizeGaugeChart()"><i class="icon-cog"></i></a>
+  </div>
+</div>
+
+
+<!-- Modal Gauge Configuration -->
+<div id="configure-gauge-modal-{{wId}}" class="modal">
+  <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Configure Gauge</h5>
+          <button type="button" class="close" (click)="onClickOfCustomizeGaugeChartModalClose()">
+            <span>&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group form-row">
+            <label for="signalSelect" class="col-4 col-form-label mandatory">Signal</label>
+            <div class="col-8">
+              <ng-select #tplSelect autofocus labelForId="signalSelect" class="custom" [(ngModel)]="selSignal">
+                <ng-option *ngFor="let signal of signals" [value]="signal.name"> {{ signal.name }}</ng-option>
+              </ng-select>
+            </div>
+          </div>
+          <div class="form-group form-row">
+            <label for="title" class="col-4 col-form-label">Title (optional)</label>
+            <div class="col-8">
+              <input type="text" class="form-control" id="title" [(ngModel)]="gaugeTitle" />
+            </div>
+          </div>
+          <div class="form-group form-row">
+            <div class="col-8 offset-4">
+              <div class="custom-control custom-switch">
+                <input type="checkbox" class="custom-control-input" id="showThresholds" [checked]="showThresholds" (change)="toggleShowThresholds()" />
+                <label class="custom-control-label" for="showThresholds">Show thresholds</label>
+              </div>
+            </div>
+          </div>
+          <div class="form-group row pt-1 mb-0">
+            <div class="col"></div>
+            <div class="col-auto pr-0">
+              <button type="button" class="btn btn-secondary" (click)="onClickOfCustomizeGaugeChartModalClose()">
+                Cancel
+              </button>
+            </div>
+            <div class="col-auto">
+              <button type="button" class="btn btn-primary" (click)="saveGaugeChartConfiguration()">
+                Save
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>
+</div>
+<!-- Modal Gauge Configuration -->
+
+
+
+<ng-template #config let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title">Configure Gauge</h5>
+    <button type="button" class="close" (click)="modal.dismiss()">
+      <span>&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="form-group form-row">
+      <label for="signalSelect" class="col-4 col-form-label mandatory">Signal</label>
+      <div class="col-8">
+        <ng-select #tplSelect autofocus labelForId="signalSelect" class="custom" [(ngModel)]="selSignal">
+          <ng-option *ngFor="let signal of signals" [value]="signal.name"> {{ signal.name }}</ng-option>
+        </ng-select>
+      </div>
+    </div>
+    <div class="form-group form-row">
+      <label for="title" class="col-4 col-form-label">Title (optional)</label>
+      <div class="col-8">
+        <input type="text" class="form-control" id="title" [(ngModel)]="gaugeTitle" />
+      </div>
+    </div>
+    <div class="form-group form-row">
+      <div class="col-8 offset-4">
+        <div class="custom-control custom-switch">
+          <input type="checkbox" class="custom-control-input" id="showThresholds" [checked]="showThresholds" (change)="toggleShowThresholds()" />
+          <label class="custom-control-label" for="showThresholds">Show thresholds</label>
+        </div>
+      </div>
+    </div>
+    <div class="form-group row pt-1 mb-0">
+      <div class="col"></div>
+      <div class="col-auto pr-0">
+        <button type="button" class="btn btn-secondary" (click)="modal.dismiss()">
+          Cancel
+        </button>
+      </div>
+      <div class="col-auto">
+        <button type="button" class="btn btn-primary" (click)="modal.close('save')">
+          Save
+        </button>
+      </div>
+    </div>
+  </div>
+</ng-template>
