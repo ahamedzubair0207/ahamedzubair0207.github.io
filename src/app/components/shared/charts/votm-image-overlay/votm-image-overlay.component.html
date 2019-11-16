@@ -5,8 +5,7 @@
         <img class="img-fluid img-fluid-custom" src="../../../../assets/images/configure_image_overlay_widget.jpg">
     </div>
     <div *ngIf="isImageOverlayConfigured" id="{{ 'image-overlay' + wId }}" class="con-wid-preview">
-        <div class="h-100 assoc-pane">
-            <!-- <img src="../../../../assets/images/AssemblyLayout2.jpg" class="assoc-img" /> -->
+        <!-- <div class="h-100 assoc-pane">
             <img *ngIf="widgetimgURL" [src]="widgetimgURL" class="assoc-img img-fluid img-fluid-custom" />
 
             <div id="sig_{{i}}" *ngFor="let item of associatedSignals; let i = index;" [ngClass]="item.icon"
@@ -22,7 +21,22 @@
                 </div>
             </div>
 
-        </div>
+        </div> -->
+
+        <div class="border h-100 assoc-pane" (window:resize)="onResize($event)">
+            <!--  [src]="imgURL" -->
+            <img #overlayImage [src]="widgetimgURL" class="assoc-img" (load)="onLoadLocImg()"  />
+            <div
+              id="sig_{{i}}"
+              *ngFor="let item of associatedSignals; let i = index;"
+              style="position: absolute;"
+              class="signal-item {{ item.icon }} active"
+              [style.left.px]="imgOffsetLeft + item.imageCordinates[item.associationName].x * imgOffsetWidth - 16"
+              [style.top.px]="imgOffsetTop + item.imageCordinates[item.associationName].y * imgOffsetHeight - 16"
+            >
+              {{item.associationName}} - {{item.latestValue}}
+            </div>
+          </div>
     </div>
 </div>
 

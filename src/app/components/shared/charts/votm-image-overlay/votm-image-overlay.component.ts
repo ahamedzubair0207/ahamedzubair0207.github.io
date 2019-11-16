@@ -1,7 +1,8 @@
+import { SignalRService } from './../../../../services/signalR/signal-r.service';
 import { DbItem } from './../../../../models/db-item';
 import { AssetSignalService } from 'src/app/services/assetSignal/asset-signal.service';
 import { LocationSignalService } from './../../../../services/locationSignal/location-signal.service';
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy, ElementRef, ViewChild } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { Toaster } from '../../votm-cloud-toaster/votm-cloud-toaster';
 import { ActivatedRoute, ParamMap } from '@angular/router';
@@ -15,7 +16,7 @@ import { AssetsService } from 'src/app/services/assets/assets.service';
   templateUrl: './votm-image-overlay.component.html',
   styleUrls: ['./votm-image-overlay.component.scss']
 })
-export class VotmImageOverlayComponent implements OnInit {
+export class VotmImageOverlayComponent implements OnInit, OnDestroy {
 
   @Input() data: DbItem;
   @Input() id: string;
@@ -38,6 +39,17 @@ export class VotmImageOverlayComponent implements OnInit {
   parentOrgId: string;
   assetId: string;
   widgetImageOverlaySource: any;
+  @ViewChild('overlayImage', { static: false }) eloverlayImg: ElementRef;
+  imgOffsetLeft = null;
+  imgOffsetTop = null;
+  imgParentWidth = null;
+  imgParentHeight = null;
+  imgSourceHeight = null;
+  imgSourceWidth = null;
+  imgOffsetWidth = null;
+  imgOffsetHeight = null;
+  batterySignalId = 'e9326142-068b-494b-bff7-421a44fa0cae';
+  signalSignalId = 'fa7b422d-2018-4fdb-ba50-0b4be9bf2735';
   constructor(
     private toastr: ToastrService,
     private locationSignalService: LocationSignalService,
@@ -46,6 +58,7 @@ export class VotmImageOverlayComponent implements OnInit {
     private locationService: LocationService,
     private assetService: AssetsService,
     private domSanitizer: DomSanitizer,
+    private signalRService: SignalRService
   ) {
 
   }
@@ -58,7 +71,7 @@ export class VotmImageOverlayComponent implements OnInit {
     this.route.paramMap.subscribe((params: ParamMap) => {
       this.curLocId = params.get('locId');
       // this.curLocName = params.get('locName');
-      this.parentOrgId = params.get('orgId');
+      this.parentOrgId = params.get('curOrgId');
       // this.parentOrgName = params.get('orgName');
       this.assetId = params.get('assetId');
       console.log('m y this.curLocId parentOrgId', this.curLocId, this.parentOrgId);
@@ -239,14 +252,8 @@ export class VotmImageOverlayComponent implements OnInit {
 
             for (let i = 0; i < response.length; i++) {
               const signal = response[i];
-              signal.imageCordinates = signal.imageCordinates[signal.associationName];
-              signal.pos = {};
-              signal.pos['left'] = signal.imageCordinates.x;
-              signal.pos['top'] = signal.imageCordinates.y;
-              signal.isClicked = false;
               signal.icon = 'icon-sig-humidity ' + this.iconSize;
-              signal.associated = true;
-              signal.id = i;
+              signal.latestValue = 0;
             }
             this.associatedSignals = [...response];
           },
@@ -262,14 +269,7 @@ export class VotmImageOverlayComponent implements OnInit {
 
             for (let i = 0; i < response.length; i++) {
               const signal = response[i];
-              signal.imageCordinates = signal.imageCordinates[signal.associationName];
-              signal.pos = {};
-              signal.pos['left'] = signal.imageCordinates.x;
-              signal.pos['top'] = signal.imageCordinates.y;
-              signal.isClicked = false;
               signal.icon = 'icon-sig-humidity ' + this.iconSize;
-              signal.associated = true;
-              signal.id = i;
             }
             this.associatedSignals = [...response];
           },
@@ -346,7 +346,53 @@ export class VotmImageOverlayComponent implements OnInit {
     // if (this.overLaySource === 'asset') {
     //   this.getImageOverlayConfiguration(this.widgetlocImageID);
     // }
+    // signal R code
+    const connString = this.parentOrgId + '*' + (this.widgetlocImageID ? this.widgetlocImageID : this.widgetassetimageID);
+    console.log(connString);
+    this.signalRService.getSignalRConnection(connString);
+    this.signalRService.signalData.subscribe(data => {
+      console.log(typeof data);
 
+      const jsonData = JSON.parse(JSON.stringify(data));
+      console.log('componnet', jsonData.SignalName, '===', jsonData);
+        const index = this.associatedSignals.findIndex(assSig => assSig.signalMappingId === jsonData.SignalAssociationId );
+        this.associatedSignals[index].latestValue = jsonData.SignalValue;
+
+    });
+  }
+
+  ngOnDestroy() {
+    console.log('on destroy');
+    this.signalRService.closeSignalRConnection();
+  }
+
+  // image overlay iocn positioning code
+  onResize(event) {
+    if (this.eloverlayImg) {
+      this.imgOffsetTop = this.eloverlayImg.nativeElement.offsetTop;
+      this.imgOffsetLeft = this.eloverlayImg.nativeElement.offsetLeft;
+      this.imgOffsetWidth = this.eloverlayImg.nativeElement.offsetWidth;
+      this.imgOffsetHeight = this.eloverlayImg.nativeElement.offsetHeight;
+    }
+  }
+
+  onLoadLocImg() {
+    const el = this.eloverlayImg.nativeElement;
+    const imgType = el.currentSrc.split(/\#|\?/)[0].split('.').pop().trim();
+    this.imgOffsetLeft = el.offsetLeft;
+    this.imgOffsetTop = el.offsetTop;
+    this.imgOffsetWidth = el.offsetWidth;
+    this.imgOffsetHeight = el.offsetHeight;
+    this.imgParentHeight = el.offsetParent.clientHeight;
+    this.imgParentWidth = el.offsetParent.clientWidth;
+
+    if (imgType !== 'svg') {
+      this.imgSourceHeight = el.naturalHeight;
+      this.imgSourceWidth = el.naturalWidth;
+    } else {
+      this.imgSourceWidth = 5000;
+      this.imgSourceHeight = (5000.0 * parseFloat(el.naturalHeight) / parseFloat(el.naturalWidth)).toFixed(0);
+    }
   }
 
 }

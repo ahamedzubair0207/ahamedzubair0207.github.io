@@ -105,11 +105,6 @@
     position: absolute;
 
   }
-  .assoc-pane > div:hover {
-    padding-right: calc(#{$font-size-base} / 2 + #{$input-btn-padding-x}) !important;
-    padding-left: calc(2 * #{$font-size-base} + 2px + #{$input-btn-padding-x});
-    width: auto !important;
-  }
 
   .assoc-pane > div.active {
     padding-right: calc(#{$font-size-base} / 2 + #{$input-btn-padding-x}) !important;
@@ -292,3 +287,83 @@
 .signal-data-wrapper p {
   margin: 0px;
 }
+
+.assoc-img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  outline: 1px dashed $gray-300;
+  background-color: $white;
+}
+
+.assoc-pane {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  background-color: $gray-100;
+  > .signal-item {
+    border-top-right-radius: calc(#{$font-size-base} + 1px) !important;
+    border-bottom-right-radius: calc(#{$font-size-base} + 1px) !important;
+    display: inline-block !important;
+    width: 0;
+    padding-right: 0;
+    padding-left: calc(2 * #{$font-size-base} + 2px);
+    position: absolute;
+    border-color: $primary;
+    &:before {
+      color: $white;
+      background-color: $primary;
+      border-color: $primary;
+    }
+    &.unbound {
+      border-style: dashed;
+      &:before {
+        color: $primary;
+        background-color: $white;
+        border-style: dashed;
+      }
+    }
+    &.locked {
+      cursor: default;
+    }
+    > i {
+      cursor: pointer;
+    }
+  }
+}
+
+.signal-item {
+  position: relative;
+  line-height: calc(2 * #{$font-size-base} + 2px);
+  text-shadow: none;
+  font-weight: normal;
+  padding-left: calc(2 * #{$font-size-base} + 2px + #{$input-btn-padding-x});
+  background-color: #fff;
+  border: 1px solid $gray-300;
+  text-align: left;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  display: block;
+  width: 100%;
+  border-radius: calc(#{$font-size-base} + 1px);
+  border-top-right-radius: $border-radius;
+  border-bottom-right-radius: $border-radius;
+  padding-right: 0;
+  user-select: none;
+  cursor: move;
+  &:before {
+    position: absolute;
+    left: -1px;
+    top: -1px;
+    width: calc(2 * #{$font-size-base} + 4px);
+    line-height: calc(2 * #{$font-size-base} + 2px);
+    background-color: $gray-300;
+    border: 1px solid $gray-300;
+    border-radius: calc(#{$font-size-base} + 1px);
+    margin: 0;
+  }
+}
+
