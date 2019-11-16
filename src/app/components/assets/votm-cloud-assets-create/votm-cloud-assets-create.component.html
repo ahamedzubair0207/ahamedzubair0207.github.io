@@ -61,19 +61,16 @@
         <div class="tab-content w-100">
           <div class="tab-pane fade show active" *ngIf="(!assetId && pageLabels) || (assetId && pageLabels && asset)"
             id="asset-details" role="tabpanel" area-labelledby="asset-details-tab">
-            <form #assetForm="ngForm" class="asset-create-font create-asset-container needs-validation"
-              (ngSubmit)="onAssetSubmit()" novalidate>
-
-
+            <div class="position-relative">
               <div class="lock-tab border border-bottom-0">
-
                 <i class="icon-lock edit-view-lock" name="assetlockbutton" *ngIf="pageType.toLowerCase() === 'view'"
                   (click)="onLockClick()"></i>
-                <i class="icon-lock-open edit-view-lock" name="assetunlockbutton"
-                  *ngIf="pageType.toLowerCase() === 'edit'" (click)="onLockClick()"></i>
-
+                <i class="icon-lock-open edit-view-lock" name="assetunlockbutton" *ngIf="pageType.toLowerCase() === 'edit'"
+                  (click)="onLockClick()"></i>
               </div>
-
+            </div>
+            <form #assetForm="ngForm" class="asset-create-font create-asset-container needs-validation"
+              (ngSubmit)="onAssetSubmit()" novalidate>
               <div class="row">
 
                 <div class="col-12 col-md-6 col-lg-4 col-xl-4">
