@@ -241,7 +241,7 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
             response => {
               for (const item of response) {
                 const signal = item;
-                signal.icon = 'icon-sig-humidity ' + this.iconSize;
+                signal.icon = 'icon-sig-' + signal.signalType + ' ' + this.iconSize;
                 signal.latestValue = 0;
               }
               this.associatedSignals = [...response];
@@ -269,7 +269,7 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
             response => {
               for (const item of response) {
                 const signal = item;
-                signal.icon = 'icon-sig-humidity ' + this.iconSize;
+                signal.icon = 'icon-sig-' + signal.signalType + ' ' + this.iconSize;
                 signal.latestValue = 0;
               }
               this.associatedSignals = [...response];

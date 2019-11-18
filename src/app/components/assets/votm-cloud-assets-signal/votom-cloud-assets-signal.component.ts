@@ -106,7 +106,7 @@ export class VotomCloudAssetsSignalComponent implements OnInit {
             x: 0,
             y: 0
           };
-          signal.icon = 'icon-sig-humidity';
+          signal.icon = 'icon-sig-' + signal.signalType;
           for (const associateSignal of this.associatedSignals) {
             if (associateSignal.signalId === signal.signalId &&
               associateSignal.sensorId === signal.sensorId) {
@@ -139,7 +139,7 @@ export class VotomCloudAssetsSignalComponent implements OnInit {
             signal.pctPos['left'] = signal.imageCordinates.x;
             signal.pctPos['top'] = signal.imageCordinates.y;
             signal.isClicked = false;
-            signal.icon = 'icon-sig-humidity';
+            signal.icon = 'icon-sig-' + signal.signalType;
             signal.associated = true;
             signal.did = i;
             signal.bound = true;
