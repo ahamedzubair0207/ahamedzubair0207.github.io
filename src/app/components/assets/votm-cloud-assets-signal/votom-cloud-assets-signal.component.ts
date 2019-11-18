@@ -112,6 +112,7 @@ export class VotomCloudAssetsSignalComponent implements OnInit {
               associateSignal.sensorId === signal.sensorId) {
               signal.associated = true;
               associateSignal.bound = sensor.isLink;
+              signal.associationName = associateSignal.associationName;
               console.log(associateSignal.bound);
             }
           }

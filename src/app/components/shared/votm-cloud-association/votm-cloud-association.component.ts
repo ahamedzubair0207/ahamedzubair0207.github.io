@@ -336,6 +336,15 @@ export class VotmCloudAssociationComponent implements OnInit {
       signal.sensorId === this.selectedSignal.sensorId
     );
     this.droppedList.splice(index, 1, this.selectedSignal);
+    this.dragList.forEach(dragItem => {
+      dragItem.node.forEach(dragNode => {
+        if (dragNode.signalId === this.selectedSignal.signalId &&
+          dragNode.sensorId === this.selectedSignal.sensorId) {
+            dragNode.associationName = this.selectedSignal.associationName;
+        }
+
+      });
+    });
     console.log(this.droppedList);
     this.closeEditOpanel();
   }
@@ -372,6 +381,7 @@ export class VotmCloudAssociationComponent implements OnInit {
             if (signal.signalId === this.droppedList[index].signalId &&
             signal.sensorId === this.droppedList[index].sensorId) {
               signal.associated = false;
+              signal.associationName = signal.signalName;
             }
           }
         }

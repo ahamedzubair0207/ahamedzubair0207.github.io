@@ -122,6 +122,7 @@ export class VotmCloudLocationsSignalComponent implements OnInit {
               if (associateSignal.signalId === signal.signalId &&
                 associateSignal.sensorId === signal.sensorId) {
                 signal.associated = true;
+                signal.associationName = associateSignal.associationName;
                 associateSignal.bound = sensor.isLink;
               }
             }
