@@ -137,7 +137,7 @@
             *ngIf="(!orgId && pageLabels) || (orgId && pageLabels && organization)" id="org-details" role="tabpanle"
             area-labelledby="org-details-tab">
 
-            <form #organizationForm="ngForm" class="create-org-container needs-validation"
+            <form #organizationForm="ngForm" class="needs-validation"
               (ngSubmit)="onOrganizationSubmit()" novalidate>
               <div class="position-relative">
                 <div class="lock-tab border border-bottom-0">
