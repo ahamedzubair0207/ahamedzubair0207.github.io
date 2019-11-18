@@ -42,8 +42,10 @@ export class SignalRService {
   }
 
   closeSignalRConnection() {
-    this.hubConnection.stop()
-    .then(success => console.log('disconnected successfully'))
-        .catch(error => console.error(error));
+    if (this.hubConnection) {
+      this.hubConnection.stop()
+      .then(success => console.log('disconnected successfully'))
+          .catch(error => console.error(error));
+    }
   }
 }

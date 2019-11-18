@@ -205,6 +205,7 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
         modal.style.display = 'none';
       }
     };
+    this.signalRService.closeSignalRConnection();
   }
 
   onClickOfCustomizeImageOverlayModalClose() {
@@ -354,7 +355,7 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
       console.log(typeof data);
 
       const jsonData = JSON.parse(JSON.stringify(data));
-      console.log('componnet', jsonData.SignalName, '===', jsonData);
+      console.log('componnet', jsonData.SignalName, '===', jsonData.SignalValue);
         const index = this.associatedSignals.findIndex(assSig => assSig.signalMappingId === jsonData.SignalAssociationId );
         this.associatedSignals[index].latestValue = jsonData.SignalValue;
 
