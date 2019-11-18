@@ -54,7 +54,7 @@
         id="dashboard{{dbItem.dashboardId}}-tab" data-toggle="tab" href="#DashboardID_{{dbItem.dashboardId}}" role="tab"
         aria-controls="loc" aria-selected="false" title="{{ dbItem.dashboardName}}"><i
           class="mr-2  icon-dashboard"></i>{{dbItem.shortName}}<i class="fa fa-pencil ml-2"
-          (click)="openAddDashboardModal('editDashboard', dbItem.dashboardId,  dbItem.dashboardName, dbItem.shortName);"
+          (click)="openAddDashboardModal('editDashboard',dbItem);"
           title="Configure Dashboard"></i>&nbsp;
         <i class="icon-trash"
           (click)="openDashboardConfirmDialog(dbItem.dashboardId, dbItem.shortName)"

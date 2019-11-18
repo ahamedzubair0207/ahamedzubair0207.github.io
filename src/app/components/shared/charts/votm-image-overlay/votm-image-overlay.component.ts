@@ -196,7 +196,8 @@ export class VotmImageOverlayComponent implements OnInit {
 
   onClickOfCustomizeImageOverlayModalClose() {
     // Close modal popup
-    this.customizeImageOverlay.style.display = 'none';
+    if(this.customizeImageOverlay){
+    this.customizeImageOverlay.style.display = 'none';}
   }
 
   onChangeOverlaySource(event) {

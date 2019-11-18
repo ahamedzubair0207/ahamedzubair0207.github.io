@@ -21,6 +21,7 @@ import { VotmCommon } from '../../shared/votm-common';
 import { DashboardService } from '../../../services/dasboards/dashboard.service';
 import { DbTplItem } from 'src/app/models/db-tpl-item';
 import { DbItem } from 'src/app/models/db-item';
+import { DashBoard } from 'src/app/models/dashboard.model';
 // Dashboard-david end
 declare var $: any;
 @Component({
@@ -32,9 +33,9 @@ declare var $: any;
 })
 export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
   public imagePath;
-  imgURL: any = '../../../../assets/images/default-image-svg.svg';
+  imgURL: any = '../../../../assets/images/assetPlaceholder.svg';
   locationImageURL: any = '../../../../assets/images/default-image-svg.svg';
-  parentAssetImageURL: any = '../../../../assets/images/default-image.png';
+  parentAssetImageURL: any = '../../../../assets/images/assetPlaceholder.svg';
   parentAssetImageSize: { width: number, height: number };
   public message: string;
   closeResult: string;
@@ -123,7 +124,13 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
   dbLastIdNum: number = 0;
   newTabId: string = '';
   activeTab: string;
+  dashboardTabs: Array<DashBoard> = [];
+  dashboardTab: DashBoard = new DashBoard();
+  dashboardData: any;
+  dashboardTemplates: {};
+  addDashboardArray: any;
   addDashboardmodal: HTMLElement;
+  userdashboardData: { id: string; templateName: string; dashboardName: string; dashboardHTML: any; }[];
   dashboardDataById: { act: string; title: string; dashboardName: string; dashboardHTML: string; };
   grabOffset: any = null;
   loader: boolean;
@@ -214,10 +221,67 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
     this.getAllLocations();
     this.getScreenLabels();
     this.getAllAppInfo();
+
+     // dashboard data
+     this.dashboardData = this.getDashboards();
+     this.getDashboardsTemplates();
     // this.asset.active = true;
     this.assetTypes = [{ value: 'assetType1', text: 'assetType1' }, { value: 'assetType2', text: 'assetType2' }]
   }
   selAssetIcon = "robot";
+
+  getDashboards() {
+    // service to get all dashboards by userid
+    this.userdashboardData = [
+      // {
+      //   id: '1',
+      //   templateName: 'Standard Organization Dashboard',
+      //   dashboardName: 'Organization Dashboard',
+      //   dashboardHTML: ''
+      // },
+      {
+        id: '2',
+        templateName: 'Standard Location Dashboard',
+        dashboardName: 'Location Dashboard',
+        dashboardHTML: ''
+      },
+      {
+        id: '3',
+        templateName: 'Standard Asset Dashboard',
+        dashboardName: 'Asset Dashboard',
+        dashboardHTML: ''
+      }
+    ];
+    return this.userdashboardData;
+  }
+  getDashboardsTemplates() {
+    this.dashboardTemplates = [
+      // {
+      //   id: '1',
+      //   templateName: 'Standard Organization Dashboard'
+      // },
+      {
+        id: '2',
+        templateName: 'Standard Location Dashboard'
+      },
+      {
+        id: '3',
+        templateName: 'Standard Asset Dashboard'
+      }
+    ];
+  }
+  async getDashboardHTML(formName: string, index) {
+    console.log(formName, '--getDashboardHTML functiona called');
+
+    // await this.organizationService.getDashboardHTML(formName)
+    //   .subscribe(response => {
+    //     console.log('return response---', response);
+    //     this.userdashboardData[index].dashboardHTML = this.sanitizer.bypassSecurityTrustHtml(response);
+    //     setTimeout(() => {
+    //       // setData('Hello');
+    //     }, 300);
+    //   });
+  }
 
   getAssetById() {
     this.assetService.getAssetById(this.assetId)
@@ -1234,12 +1298,28 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
   }
 
   onDashboardFormSubmit() {
+    if (!this.dashboardTabs) {
+      this.dashboardTabs = []
+    }
+
+    this.dashboardTab.assetId = this.assetId;
+    this.dashboardTab.published = true;
+    this.dashboardTab.active = true;
+
     this.dbLastIdNum++;
     this.newTabId = "dbtab-" + this.dbLastIdNum;
     this.dbItems.push(new DbItem(this.newTabId, this.dbLongName, this.dbShortName, this.selTemplate,
       this.dbTemplates.find(({ name }) => name === this.selTemplate).component, ''));
     // console.log('this.dbItems---added', this.dbItems);
-    this.closeAddDashboardModal(true);
+
+    this.dbService.saveDashboard(this.dashboardTab)
+      .subscribe(response => {
+        this.dashboardTabs.push(this.dashboardTab);
+        this.dashboardTab = new DashBoard();
+        this.toaster.onSuccess('Successfully Created Dashboard', 'Created');
+        this.closeAddDashboardModal(true);
+      })
+   
   }
 
   closeAddDashboardModal(event: any) {
@@ -1250,6 +1330,22 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
     // } else if (event === 'create') {
     //
     // }
+  }
+
+  deleteAssetDashboardById(event) {
+    // console.log('deleteOrganizationDashboardById===', event);
+    if (event) {
+    // delete dashboard service goes here
+    this.dbService.deleteDashboard(this.dashboardTab.dashboardId)
+        .subscribe(response => {
+          this.toaster.onSuccess(`You have deleted ${this.dashboardTab.dashboardName} successfully`, 'Delete Success!');
+          // this.route.navigate([`org/home/${this.curOrgId}/${this.curOrgName}`]);
+          this.routerLocation.back();
+        }, error => {
+          this.toaster.onFailure('Something went wrong on server. Please try after sometiime.', 'Delete Fail!');
+        });
+    }
+    
   }
 
   onLoadLocImg() {
