@@ -123,12 +123,13 @@
     line-height: calc(2 * #{$font-size-sm} + 0px);
     border-radius: calc(#{$font-size-sm} + 1px) !important;
     transition: all 0.3s ease;
+    font-size:80%;
     &:hover{
       background-color: $white;
     }
     &:before {
-      width: calc(2 * #{$font-size-sm} + 0px);
-      line-height: calc(2 * #{$font-size-sm} + 2px);
+      width: calc(2 * #{$font-size-sm} + 2px);
+      line-height: calc(2 * #{$font-size-sm} + 0px);
       border-radius: calc(#{$font-size-sm} + 0px);
       background-color: $green;
       color: $white;
@@ -141,16 +142,14 @@
 
   // small icon
   .assoc-pane > div.widget-icon-small{
-    padding-left:calc(2 * #{$h4-font-size} + 0px);
+    padding-left:calc(2 * #{$h4-font-size} + 5px);
     line-height: calc(2 * #{$h4-font-size} + 0px);
     border-radius: calc(#{$h4-font-size} + 1px) !important;
-    background: transparent;
+    background: rgba(255, 255, 255, 0.90);
     transition: all 0.3s ease;
+    border-color:rgba(220, 53, 69, 0.7);
     &:hover{
-      background-color: $danger;
       border: 1px solid $danger;
-      padding-right: 0px !important;
-      line-height: 1.5;
     }
     &:before {
       width: calc(2 * #{$h4-font-size} + 0px);
@@ -160,7 +159,7 @@
       color: $white;
       border-color: $danger;
       position: absolute;
-      left: -5px;
+      left: 0px;
       top: 0px;
       font-size: 1.5rem;
     }
@@ -168,11 +167,12 @@
 
   // Medium icon
   .assoc-pane > div.widget-icon-medium{
-    padding-left:calc(2 * 3rem + 0px);
+    padding-left:calc(2 * 3rem + 5px);
     line-height: calc(2 * 3rem + 0px);
     border-radius: calc(3rem + 1px) !important;
-    background: transparent;
+    background: rgba(255, 255, 255, 0.90);
     transition: all 0.3s ease;
+    border-color:rgba(255, 193, 7, 0.7);
     &:hover{
       background-color: $white;
     }
@@ -184,17 +184,18 @@
       color: $white;
       border-color: $warning;
       position: absolute;
-      left: -10px;
+      left: 0px;
       top: 0px;
       font-size: 3rem;
     }
   }
   // large icon
   .assoc-pane > div.widget-icon-large{
-    padding-left:calc(2 * 6rem + 0px);
+    padding-left:calc(2 * 6rem + 5px);
     line-height: calc(2 * 6rem + 0px);
     border-radius: calc(6rem + 1px) !important;
-    background: transparent;
+    border-color:rgba(255, 193, 7, 0.7);
+    background: rgba(255, 255, 255, 0.90);
     transition: all 0.3s ease;
     &:hover{
       background-color: $white;
@@ -207,17 +208,18 @@
       color: $white;
       border-color: $warning;
       position: absolute;
-      left: -20px;
+      left: 0px;
       top: 0px;
       font-size: 6rem;
     }
   }
   //extra large icon
   .assoc-pane > div.widget-icon-extra-large{
-    padding-left:calc(2 * 10rem + 0px);
+    padding-left:calc(2 * 10rem + 5px);
     line-height: calc(2 * 10rem + 0px);
     border-radius: calc(10rem + 1px) !important;
-    background: transparent;
+    background: rgba(255, 255, 255, 0.90);
+    border-color: rgba(255, 193, 7, 0.7);
     transition: all 0.3s ease;
     &:hover{
       background-color: $white;
@@ -230,7 +232,7 @@
       color: $white;
       border-color: $warning;
       position: absolute;
-      left: -10px;
+      left: 0px;
       top: 0px;
       font-size: 10rem;
     }
@@ -238,11 +240,12 @@
 
 // Extgra Extra large icon
 .assoc-pane > div.widget-icon-extra-extra-large{
-  padding-left:calc(2 * 15rem + 0px);
+  padding-left:calc(2 * 15rem + 5px);
   line-height: calc(2 * 15rem + 0px);
   border-radius: calc(15rem + 1px) !important;
-  background: transparent;
+  background: rgba(255, 255, 255, 0.90);
   transition: all 0.3s ease;
+  border-color:rgba(255, 193, 7, 0.7);
   &:hover{
     background-color: $white;
   }
@@ -254,7 +257,7 @@
     color: $white;
     border-color: $warning;
     position: absolute;
-    left: -10px;
+    left: 0px;
     top: 0px;
     font-size: 15rem;
   }
