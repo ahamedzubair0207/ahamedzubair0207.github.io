@@ -19,27 +19,30 @@ import { AssetsService } from 'src/app/services/assets/assets.service';
 export class VotmImageOverlayComponent implements OnInit, OnDestroy {
 
   @Input() data: DbItem;
-  @Input() locked: boolean;
   @Input() id: string;
+  @Input() locked: boolean;
   customizeImageOverlay: any;
   isImageOverlayConfigured: boolean;
   toaster: Toaster = new Toaster(this.toastr);
-  associatedSignals: any[];
+  associatedSignals: any[] = [];
+  associatedAssets: any[] = [];
   curLocId: string;
   locationsList: Array<TreeNode> = [];
   LocationSourceChild: any[];
   widgetlocImageID: any;
   widgetImageData: any;
   widgetimgURL: any = '../../../../assets/images/default-image-svg.svg';
-  iconSize: any;
+  iconSize = 'widget-icon-extra-small';
   assetsList: Array<TreeNode> = [];
   assetsSourceChild: any[];
   widgetassetimageID: any;
-  overLaySource: any;
+  overLaySource = 'location';
   wId: string;
   parentOrgId: string;
   assetId: string;
   widgetImageOverlaySource: any;
+  signalsCheckboxChecked = true;
+  assetsCheckboxChecked = true;
   @ViewChild('overlayImage', { static: false }) eloverlayImg: ElementRef;
   imgOffsetLeft = null;
   imgOffsetTop = null;
@@ -214,19 +217,6 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
     this.customizeImageOverlay.style.display = 'none';
   }
 
-  onChangeOverlaySource(event) {
-    if (event === 'location') {
-      $('#overlaySourceLocation-' + this.wId).removeClass('d-none');
-      $('#locationsList-' + this.wId).removeClass('d-none');
-      $('#overlaySourceAsset-' + this.wId).addClass('d-none');
-      $('#assetsList-' + this.wId).addClass('d-none');
-    } else if (event === 'asset') {
-      $('#overlaySourceAsset-' + this.wId).removeClass('d-none');
-      $('#assetsList-' + this.wId).removeClass('d-none');
-      $('#overlaySourceLocation-' + this.wId).addClass('d-none');
-      $('#locationsList-' + this.wId).addClass('d-none');
-    }
-  }
 
   getImageOverlayConfiguration(overlaySource) {
 
@@ -239,46 +229,62 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
     //   }
     // );
     this.isImageOverlayConfigured = true;
-    if (!this.iconSize) {
-      this.iconSize = 'widget-icon-small';
-    }
     if (overlaySource === 'location') {
-      if (!this.widgetlocImageID) {
-        this.widgetlocImageID = this.curLocId;
-      }
+
       console.log('locationID======', this.widgetlocImageID);
       this.getLocationById(this.widgetlocImageID); // get location Image data
-      this.locationSignalService.getSignalAssociation(this.widgetlocImageID)
-        .subscribe(
-          response => {
-
-            for (let i = 0; i < response.length; i++) {
-              const signal = response[i];
-              signal.icon = 'icon-sig-humidity ' + this.iconSize;
-              signal.latestValue = 0;
+      if (this.signalsCheckboxChecked) {
+        this.locationSignalService.getSignalAssociation(this.widgetlocImageID)
+          .subscribe(
+            response => {
+              for (const item of response) {
+                const signal = item;
+                signal.icon = 'icon-sig-humidity ' + this.iconSize;
+                signal.latestValue = 0;
+              }
+              this.associatedSignals = [...response];
             }
-            this.associatedSignals = [...response];
-          },
-          error => {
-
-          }
         );
+      }
+      if (this.assetsCheckboxChecked) {
+        this.locationService.getAssetAssociation(this.widgetlocImageID)
+          .subscribe(
+            response => {
+              for (const item of response) {
+                const signal = item;
+                signal.icon = 'icon-asset-robot ' + this.iconSize;
+              }
+              this.associatedAssets = [...response];
+            }
+        );
+      }
       } else if (overlaySource === 'asset') {
+
         this.getAssetById(this.widgetassetimageID); // get asset Image data
-        this.assetSignalService.getAssetSignalAssociation(this.widgetassetimageID)
-        .subscribe(
-          response => {
-
-            for (let i = 0; i < response.length; i++) {
-              const signal = response[i];
-              signal.icon = 'icon-sig-humidity ' + this.iconSize;
+        if (this.signalsCheckboxChecked) {
+          this.assetSignalService.getAssetSignalAssociation(this.widgetassetimageID)
+          .subscribe(
+            response => {
+              for (const item of response) {
+                const signal = item;
+                signal.icon = 'icon-sig-humidity ' + this.iconSize;
+              }
+              this.associatedSignals = [...response];
             }
-            this.associatedSignals = [...response];
-          },
-          error => {
-
-          }
-        );
+          );
+        }
+        if (this.assetsCheckboxChecked) {
+          this.assetService.getParentChildAssetAssociation(this.widgetassetimageID)
+            .subscribe(
+              response => {
+                for (const item of response) {
+                  const asset = item;
+                  asset.icon = 'icon-asset-robot ' + this.iconSize;
+                }
+                this.associatedAssets = [...response];
+              }
+          );
+        }
       }
   }
 
@@ -301,7 +307,8 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
         if (this.widgetImageData.logo && this.widgetImageData.logo.imageName) {
           const fileExtension = this.widgetImageData.logo.imageName.slice(
             (Math.max(0, this.widgetImageData.logo.imageName.lastIndexOf('.')) || Infinity) + 1);
-          this.widgetimgURL = this.domSanitizer.bypassSecurityTrustUrl(`data:image/${fileExtension};base64,${this.widgetImageData.logo.image}`);
+          this.widgetimgURL = this.domSanitizer.bypassSecurityTrustUrl
+          (`data:image/${fileExtension};base64,${this.widgetImageData.logo.image}`);
         }
       });
   }
@@ -313,15 +320,23 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
         if (this.widgetImageData.logo && this.widgetImageData.logo.imageName) {
           const fileExtension = this.widgetImageData.logo.imageName.slice(
             (Math.max(0, this.widgetImageData.logo.imageName.lastIndexOf('.')) || Infinity) + 1);
-          this.widgetimgURL = this.domSanitizer.bypassSecurityTrustUrl(`data:image/${fileExtension};base64,${this.widgetImageData.logo.image}`);
+          this.widgetimgURL = this.domSanitizer.bypassSecurityTrustUrl
+          (`data:image/${fileExtension};base64,${this.widgetImageData.logo.image}`);
         }
       });
   }
 
   saveImageOverlayConfiguration() {
+    if (!this.widgetlocImageID) {
+      this.toaster.onFailure('Please select location for overlay', 'Image Overlay');
+      return;
+    }
+    if (!this.widgetassetimageID) {
+      this.toaster.onFailure('Please select asset for overlay', 'Image Overlay');
+      return;
+    }
     this.customizeImageOverlay.style.display = 'none';
     this.toaster.onSuccess('Chart Configured Successfully', 'Success');
-
     console.log('widgetlocImage', this.widgetlocImageID);
     console.log('widgetassetimageID', this.widgetassetimageID, this.overLaySource);
 
