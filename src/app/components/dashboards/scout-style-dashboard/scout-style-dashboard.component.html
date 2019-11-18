@@ -6,7 +6,7 @@
       </div>
     </div> -->
     <!-- widget-image-overlay -->
-    <app-votm-image-overlay [id]="'wio1'" [data]="dbItem"></app-votm-image-overlay>
+    <app-votm-image-overlay [id]="'wio1'" [data]="dbItem" [locked]="locked"></app-votm-image-overlay>
   </div>
   <div class="col-12 col-md-6 pl-md-2 pt-3 pt-md-0">
     <!-- div class="embed-responsive embed-responsive-4by3 border">
@@ -21,7 +21,7 @@
     <div class="">
       <div class="">
         <!-- <widget-trend [id]="'wt1'" [data]="dbItem"></widget-trend> -->
-        <app-votm-line-graph></app-votm-line-graph>
+        <app-votm-line-graph [id]="'wg1'" [data]="dbItem" [locked]="locked"></app-votm-line-graph>
         <!-- <app-votm-line-graph [id]="'wt1'" [data]="dbItem"></app-votm-line-graph> -->
       </div>
     </div>

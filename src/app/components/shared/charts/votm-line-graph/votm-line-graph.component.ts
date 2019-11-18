@@ -16,13 +16,15 @@ export class VotmLineGraphComponent implements OnInit {
 
 
   private chart: am4charts.XYChart;
-  id: any;
+  // id: any;
   isTrendChartConfigured: boolean;
   customizeTrendChart: any;
   toaster: Toaster = new Toaster(this.toastr);
   "hideCredits": true;
 
-  
+  @Input() data: DbItem;
+  @Input() id: any;
+  @Input() locked: boolean;
 
 
   constructor(

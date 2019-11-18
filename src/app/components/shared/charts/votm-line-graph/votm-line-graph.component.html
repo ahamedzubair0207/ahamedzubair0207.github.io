@@ -1,5 +1,5 @@
-<div class="p-2 border">
-    <div class="text-right chartConfigureIcon"><i class="icon-cog font-15" (click)="onClickOfCustomizeTrendChart()"></i></div>
+<div class="border h-100 w-100 position-relative">
+    <div class="text-right chart-actions" [class.d-none]="locked"><i class="icon-cog" (click)="onClickOfCustomizeTrendChart()"></i></div>
     <div class="text-center con-wid-preview" *ngIf="!isTrendChartConfigured">
         <img class="img-fluid img-fluid-custom" src="../../../../../assets/images/configure_trend_chart_widget.jpg">
     </div>

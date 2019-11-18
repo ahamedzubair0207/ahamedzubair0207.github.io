@@ -19,6 +19,7 @@ import { AssetsService } from 'src/app/services/assets/assets.service';
 export class VotmImageOverlayComponent implements OnInit, OnDestroy {
 
   @Input() data: DbItem;
+  @Input() locked: boolean;
   @Input() id: string;
   customizeImageOverlay: any;
   isImageOverlayConfigured: boolean;

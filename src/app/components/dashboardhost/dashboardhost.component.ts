@@ -11,6 +11,7 @@ import { DashboardDirective } from '../dashboards/dashboard.directive';
 export class DashboardhostComponent implements OnInit {
 
   @Input() dbItem: DbItem;
+  @Input() locked: boolean;
 
   @ViewChild(DashboardDirective, { static: true }) dashboardHost: DashboardDirective;
 componentRef;
@@ -23,15 +24,16 @@ componentRef;
 
     this.componentRef = viewContainerRef.createComponent(componentFactory);
     (<DbTemplate>this.componentRef.instance).dbItem = this.dbItem;
+    (<DbTemplate>this.componentRef.instance).locked = this.locked;
   }
 
-  
+
   ngOnChanges(changes: SimpleChanges) {
     const locked: SimpleChange = changes.locked;
     // console.log('prev value: ', locked.previousValue);
     // console.log('got name: ', locked.currentValue);
     if (this.componentRef) {
-      // (<DbTemplate>this.componentRef.instance).locked = this.locked;
+      (<DbTemplate>this.componentRef.instance).locked = this.locked;
     }
   }
 

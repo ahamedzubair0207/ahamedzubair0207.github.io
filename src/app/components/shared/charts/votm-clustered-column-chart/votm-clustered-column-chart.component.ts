@@ -1,4 +1,4 @@
-import { Component, OnInit, NgZone, AfterViewInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, NgZone, AfterViewInit, OnDestroy, Input } from '@angular/core';
 import * as am4core from '@amcharts/amcharts4/core';
 import * as am4charts from '@amcharts/amcharts4/charts';
 import am4themes_animated from '@amcharts/amcharts4/themes/animated';
@@ -18,6 +18,7 @@ export class VotmClusteredColumnChartComponent implements OnInit {
   isColumnChartConfigured: boolean;
   customizeColumnChart: any;
   toaster: Toaster = new Toaster(this.toastr);
+  @Input() locked: boolean;
 
   constructor(
     private zone: NgZone,

@@ -7,12 +7,16 @@ import { DbItem } from 'src/app/models/db-item';
   styleUrls: ['./votm-cloud-locations-dashboard.component.scss']
 })
 export class VotmCloudLocationsDashboardComponent implements OnInit {
-
+  locked: boolean = true;
   @Input() dbItem: DbItem;
 
   constructor() { }
 
   ngOnInit() {
+  }
+
+  toggleLock() {
+    this.locked = !this.locked;
   }
 
 }
