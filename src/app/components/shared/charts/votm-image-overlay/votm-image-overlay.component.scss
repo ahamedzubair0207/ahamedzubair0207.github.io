@@ -105,11 +105,6 @@
     position: absolute;
 
   }
-  .assoc-pane > div:hover {
-    padding-right: calc(#{$font-size-base} / 2 + #{$input-btn-padding-x}) !important;
-    padding-left: calc(2 * #{$font-size-base} + 2px + #{$input-btn-padding-x});
-    width: auto !important;
-  }
 
   .assoc-pane > div.active {
     padding-right: calc(#{$font-size-base} / 2 + #{$input-btn-padding-x}) !important;
@@ -128,12 +123,13 @@
     line-height: calc(2 * #{$font-size-sm} + 0px);
     border-radius: calc(#{$font-size-sm} + 1px) !important;
     transition: all 0.3s ease;
+    font-size:80%;
     &:hover{
       background-color: $white;
     }
     &:before {
-      width: calc(2 * #{$font-size-sm} + 0px);
-      line-height: calc(2 * #{$font-size-sm} + 2px);
+      width: calc(2 * #{$font-size-sm} + 2px);
+      line-height: calc(2 * #{$font-size-sm} + 0px);
       border-radius: calc(#{$font-size-sm} + 0px);
       background-color: $green;
       color: $white;
@@ -146,16 +142,14 @@
 
   // small icon
   .assoc-pane > div.widget-icon-small{
-    padding-left:calc(2 * #{$h4-font-size} + 0px);
+    padding-left:calc(2 * #{$h4-font-size} + 5px);
     line-height: calc(2 * #{$h4-font-size} + 0px);
     border-radius: calc(#{$h4-font-size} + 1px) !important;
-    background: transparent;
+    background: rgba(255, 255, 255, 0.90);
     transition: all 0.3s ease;
+    border-color:rgba(220, 53, 69, 0.7);
     &:hover{
-      background-color: $danger;
       border: 1px solid $danger;
-      padding-right: 0px !important;
-      line-height: 1.5;
     }
     &:before {
       width: calc(2 * #{$h4-font-size} + 0px);
@@ -165,7 +159,7 @@
       color: $white;
       border-color: $danger;
       position: absolute;
-      left: -5px;
+      left: 0px;
       top: 0px;
       font-size: 1.5rem;
     }
@@ -173,11 +167,12 @@
 
   // Medium icon
   .assoc-pane > div.widget-icon-medium{
-    padding-left:calc(2 * 3rem + 0px);
+    padding-left:calc(2 * 3rem + 5px);
     line-height: calc(2 * 3rem + 0px);
     border-radius: calc(3rem + 1px) !important;
-    background: transparent;
+    background: rgba(255, 255, 255, 0.90);
     transition: all 0.3s ease;
+    border-color:rgba(255, 193, 7, 0.7);
     &:hover{
       background-color: $white;
     }
@@ -189,17 +184,18 @@
       color: $white;
       border-color: $warning;
       position: absolute;
-      left: -10px;
+      left: 0px;
       top: 0px;
       font-size: 3rem;
     }
   }
   // large icon
   .assoc-pane > div.widget-icon-large{
-    padding-left:calc(2 * 6rem + 0px);
+    padding-left:calc(2 * 6rem + 5px);
     line-height: calc(2 * 6rem + 0px);
     border-radius: calc(6rem + 1px) !important;
-    background: transparent;
+    border-color:rgba(255, 193, 7, 0.7);
+    background: rgba(255, 255, 255, 0.90);
     transition: all 0.3s ease;
     &:hover{
       background-color: $white;
@@ -212,17 +208,18 @@
       color: $white;
       border-color: $warning;
       position: absolute;
-      left: -20px;
+      left: 0px;
       top: 0px;
       font-size: 6rem;
     }
   }
   //extra large icon
   .assoc-pane > div.widget-icon-extra-large{
-    padding-left:calc(2 * 10rem + 0px);
+    padding-left:calc(2 * 10rem + 5px);
     line-height: calc(2 * 10rem + 0px);
     border-radius: calc(10rem + 1px) !important;
-    background: transparent;
+    background: rgba(255, 255, 255, 0.90);
+    border-color: rgba(255, 193, 7, 0.7);
     transition: all 0.3s ease;
     &:hover{
       background-color: $white;
@@ -235,7 +232,7 @@
       color: $white;
       border-color: $warning;
       position: absolute;
-      left: -10px;
+      left: 0px;
       top: 0px;
       font-size: 10rem;
     }
@@ -243,11 +240,12 @@
 
 // Extgra Extra large icon
 .assoc-pane > div.widget-icon-extra-extra-large{
-  padding-left:calc(2 * 15rem + 0px);
+  padding-left:calc(2 * 15rem + 5px);
   line-height: calc(2 * 15rem + 0px);
   border-radius: calc(15rem + 1px) !important;
-  background: transparent;
+  background: rgba(255, 255, 255, 0.90);
   transition: all 0.3s ease;
+  border-color:rgba(255, 193, 7, 0.7);
   &:hover{
     background-color: $white;
   }
@@ -259,7 +257,7 @@
     color: $white;
     border-color: $warning;
     position: absolute;
-    left: -10px;
+    left: 0px;
     top: 0px;
     font-size: 15rem;
   }
@@ -292,3 +290,85 @@
 .signal-data-wrapper p {
   margin: 0px;
 }
+
+
+// new css added by urvisha.
+.assoc-img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  outline: 1px dashed $gray-300;
+  background-color: $white;
+}
+
+.assoc-pane {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  background-color: $gray-100;
+  > .signal-item {
+    border-top-right-radius: calc(#{$font-size-base} + 1px) !important;
+    border-bottom-right-radius: calc(#{$font-size-base} + 1px) !important;
+    display: inline-block !important;
+    width: 0;
+    padding-right: 0;
+    padding-left: calc(2 * #{$font-size-base} + 2px);
+    position: absolute;
+    border-color: $primary;
+    &:before {
+      color: $white;
+      background-color: $primary;
+      border-color: $primary;
+    }
+    &.unbound {
+      border-style: dashed;
+      &:before {
+        color: $primary;
+        background-color: $white;
+        border-style: dashed;
+      }
+    }
+    &.locked {
+      cursor: default;
+    }
+    > i {
+      cursor: pointer;
+    }
+  }
+}
+
+.signal-item {
+  position: relative;
+  line-height: calc(2 * #{$font-size-base} + 2px);
+  text-shadow: none;
+  font-weight: normal;
+  padding-left: calc(2 * #{$font-size-base} + 2px + #{$input-btn-padding-x});
+  background-color: #fff;
+  border: 1px solid $gray-300;
+  text-align: left;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  display: block;
+  width: 100%;
+  border-radius: calc(#{$font-size-base} + 1px);
+  border-top-right-radius: $border-radius;
+  border-bottom-right-radius: $border-radius;
+  padding-right: 0;
+  user-select: none;
+  cursor: move;
+  &:before {
+    position: absolute;
+    left: -1px;
+    top: -1px;
+    width: calc(2 * #{$font-size-base} + 4px);
+    line-height: calc(2 * #{$font-size-base} + 2px);
+    background-color: $gray-300;
+    border: 1px solid $gray-300;
+    border-radius: calc(#{$font-size-base} + 1px);
+    margin: 0;
+  }
+}
+

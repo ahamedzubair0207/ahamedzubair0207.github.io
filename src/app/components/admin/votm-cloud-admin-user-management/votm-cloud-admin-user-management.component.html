@@ -9,6 +9,7 @@
           id="role_search"
           class="form-control"
           placeholder="Search"
+          [(ngModel)]="searchedText"
         />
         <div class="input-group-append">
           <!-- <span class="input-group-text"><i class="icon-search"></i></span> -->
@@ -16,7 +17,8 @@
             ><button
               class="btn btn-sm btn-search"
               id="searchButton"
-              type="submit"
+              type="button"
+              (click)="onUserSearch()"
             >
               <i class="icon-search"></i></button
           ></span>
@@ -54,41 +56,7 @@
   </div>
 </div>
 
-
-    <!-- <table class="table table-bordered table-sm table-hover mb-3" id="myFavTable">
-      <thead class="thead-dark">
-        <tr>
-          <th class="text-center">Order</th>
-          <th>Favorite Name</th>
-          <th class="text-center">Action</th>
-        </tr>
-      </thead>
-      <tbody >
-        <tr *ngIf="userprofile.userFavorites === null || userprofile.userFavorites === 0">
-          <td colspan="2"> No Favorites data found.</td>
-        </tr>
-        <tr *ngFor="let userFav of userprofile.userFavorites; let i = index"
-          id="{{userFav.favoriteOrder}}">
-          <td class="index text-center">{{userFav.favoriteOrder}}
-          </td>
-          <td>
-            <input type="text" class="form-control form-control-sm" [disabled]="!userFav.disabled"
-              name="favName{{userFav.favoriteOrder}}" [(ngModel)]="userFav.favoriteName" required>
-
-            <input type="hidden" class="favoriteOrderId" value="{{userFav.userFavoriteId}}"
-              #favOrder="ngModel" name="{{userFav.userFavoriteId}}" [(ngModel)]="userFav.userFavoriteId">
-          </td>
-          <td class="text-center"><a class="action-icon" title="Edit Favorite" style="cursor: pointer;">
-              <i class="icon-edit" (click)="onEditFavorite(i)"></i>
-            </a>
-            <a class="action-icon" title="Delete Favorite"
-              (click)="onClickOfConfirmDeleteUserFavorite(userFav)" style="cursor: pointer;">
-              <i class="icon-trash"></i></a>
-          </td>
-        </tr>
-      </tbody>
-    </table> -->
-
+<!--
     <div class="tableFixHead">
       <table class="table table-bordered table-sm table-hover mb-3" id="user_table">
               <thead class="">
@@ -150,7 +118,7 @@
                 </tr>
               </tbody>
             </table>
-    </div>
+    </div> -->
 <!-- <p-table
   [globalFilterFields]="['name']"
   [resizableColumns]="true"
@@ -293,7 +261,7 @@
 
 <div class="mt-3">
 <ngx-datatable
-class="bootstrap expandable"
+class="bootstrap"
 style="height: 400px;"
 [rows]="users"
 columnMode="force"
@@ -301,18 +269,40 @@ columnMode="force"
 [footerHeight]="0"
 [rowHeight]="50"
 [scrollbarV]="true"
+[loadingIndicator]="isGetUsersAPILoading"
 >
-<ngx-datatable-column name="Name" [width]="300">
-  <ng-template let-value="value" ngx-datatable-cell-template>
-    {{ value }}
+<ngx-datatable-column name="Name" [sortable]="true">
+  <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
+      <a class="cursor-point" (click)="onClickOfUserDetails($event, row)">{{row.firstName}}&nbsp;{{row.lastName}}</a>
   </ng-template>
 </ngx-datatable-column>
-<ngx-datatable-column name="Organization Name" prop="organizationName"></ngx-datatable-column>
-<ngx-datatable-column name="Role Name" prop="roleName"></ngx-datatable-column>
-<ngx-datatable-column name="Email" prop="emailId"></ngx-datatable-column>
-<ngx-datatable-column name="Phone" prop="phoneNumber"></ngx-datatable-column>
-<ngx-datatable-column name="Permissions" ></ngx-datatable-column>
-<ngx-datatable-column name="Access"></ngx-datatable-column>
+<ngx-datatable-column name="Organization Name" [sortable]="true" prop="organizationName"></ngx-datatable-column>
+<ngx-datatable-column name="Role Name" [sortable]="true" prop="roleName"></ngx-datatable-column>
+<ngx-datatable-column name="Email" [sortable]="true" prop="emailId"></ngx-datatable-column>
+<ngx-datatable-column name="Phone" [sortable]="true" prop="phoneNumber"></ngx-datatable-column>
+<ngx-datatable-column name="Permissions" [sortable]="true">
+    <ng-template ngx-datatable-cell-template>
+        Home
+      </ng-template>
+</ngx-datatable-column>
+<ngx-datatable-column name="Access" [sortable]="true">
+    <ng-template ngx-datatable-cell-template>
+       Role
+      </ng-template>
+</ngx-datatable-column>
+<ngx-datatable-column name="Action">
+    <ng-template let-value="value" let-row="row" let-rowIndex="rowIndex" ngx-datatable-cell-template>
+    <a id="user_check_{{rowIndex}}" class="mr-2" [title]="row.active ? 'Active' : 'Deactive'" (click)="onClickOfConfirmUserStatus($event, row)">
+        <i [ngClass]="row.active ? 'fa fa-check-circle' : 'fa fa-ban'" ></i>
+      </a>
+      <a id="user_edit_{{rowIndex}}" title="Edit" class="mr-2"  (click)="onClickOfEditUser($event, row, 'edit')">
+        <i class="icon-edit"></i>
+      </a>
+      <a id="user_delete_{{rowIndex}}" title="Delete" (click)="onClickOfConfirmDeleteUser($event, row)" class="mr-2" >
+        <i class="icon-trash"></i>
+      </a>
+      </ng-template>
+</ngx-datatable-column>
 </ngx-datatable>
 </div>
 

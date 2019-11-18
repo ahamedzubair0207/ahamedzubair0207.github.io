@@ -1,10 +1,9 @@
 a,
 a:hover,
 a:focus {
-    color: #333;
+    color: #212529;
     text-decoration: none;
     transition: all 0.3s;
-    font-weight: 500;
 }
 
 .navbar {
@@ -148,9 +147,9 @@ span {
     display: block;
 }
 
-#sidebar ul li a {
-    text-align: left;
-}
+// #sidebar ul li a {
+//     text-align: left;
+// }
 
 #sidebar.active ul li a {
     padding: 10px 0px;
@@ -202,6 +201,7 @@ span {
     font-size: 1.1em;
     display: block;
     color:#333;
+    cursor:pointer;
 }
 
 #sidebar ul li a:hover {
@@ -578,4 +578,10 @@ a.article:hover {
 			}
 		}
 	}
+}
+
+.tooltip {
+    .arrow{
+        display:none;
+    }
 }

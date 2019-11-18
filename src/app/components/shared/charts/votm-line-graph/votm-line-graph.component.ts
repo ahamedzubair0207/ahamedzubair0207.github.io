@@ -66,6 +66,15 @@ export class VotmLineGraphComponent implements OnInit {
     this.wId = this.data.dashboardId + "-" + this.id;
     this.wConfig = (this.data.widgetConf) ? this.data.widgetConf : { yMin: [null, null], yMax: [null, null] };}
   }
+  // id: any;
+  // isTrendChartConfigured: boolean;
+  // customizeTrendChart: any;
+  // toaster: Toaster = new Toaster(this.toastr);
+  "hideCredits": true;
+
+  // @Input() data: DbItem;
+  // @Input() id: any;
+  // @Input() locked: boolean;
 
   ngAfterViewInit() {
 

@@ -57,6 +57,7 @@ export class VotmCloudAdminUserManagementComponent implements OnInit, OnDestroy 
 
   getUsers() {
     this.isGetUsersAPILoading = true;
+    this.users = [];
     this.userService.getAllUsers().subscribe(
       response => {
         response.forEach(user => user.name = user.firstName + ' ' + user.lastName);
@@ -70,6 +71,8 @@ export class VotmCloudAdminUserManagementComponent implements OnInit, OnDestroy 
 
   onUserSearch() {
     this.isGetUsersAPILoading = true;
+    this.users = [];
+    console.log('jherrrrrrrrrrrrrr');
     if (this.searchedText) {
       this.userService.searchUsers(this.searchedText).subscribe(
         response => {
@@ -143,8 +146,9 @@ export class VotmCloudAdminUserManagementComponent implements OnInit, OnDestroy 
     };
   }
 
-  onClickOfUserDetails(user) {
-    this.onClickOfEditUser(user, 'view');
+  onClickOfUserDetails(event, user) {
+    event.target.closest('datatable-body-cell').blur();
+    this.onClickOfEditUser(event, user, 'view');
   }
 
   onClickOfCloseAddUserModal() {
@@ -245,7 +249,8 @@ export class VotmCloudAdminUserManagementComponent implements OnInit, OnDestroy 
     this.customizePermissionsModal.style.display = 'none';
   }
 
-  onClickOfEditUser(user, type) {
+  onClickOfEditUser(event, user, type) {
+    event.target.closest('datatable-body-cell').blur();
     this.pageType = type;
     this.userService.getUserDetail(user.userId).subscribe(
       response => {
@@ -284,7 +289,8 @@ export class VotmCloudAdminUserManagementComponent implements OnInit, OnDestroy 
     // ermaining API call
   }
 
-  onClickOfConfirmDeleteUser(user) {
+  onClickOfConfirmDeleteUser(event, user) {
+    event.target.closest('datatable-body-cell').blur();
     this.selectedUserForDelete = user;
     this.confirmDelUserMessage = 'Are you sure, you want to delete this ' +
       this.sharedService.toTitleCase(user.firstName) + ' ' +
@@ -307,7 +313,9 @@ export class VotmCloudAdminUserManagementComponent implements OnInit, OnDestroy 
     }
   }
 
-  onClickOfConfirmUserStatus(user) {
+  onClickOfConfirmUserStatus(event, user) {
+    event.target.closest('datatable-body-cell').blur();
+    console.log(user);
     this.selectedUserForEdit = user;
     this.confirmUserStatusMessage = 'Are you sure, you want to ' +
       (user.active ? 'Deactivate' : 'Activate') + ' this ' +

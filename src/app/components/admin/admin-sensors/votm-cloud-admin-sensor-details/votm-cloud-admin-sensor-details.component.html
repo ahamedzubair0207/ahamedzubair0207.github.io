@@ -244,7 +244,7 @@
       </fieldset> -->
       <div class="row mt-3" *ngIf="sensorDetailsData">
         <div class="col-12">
-          <table class="table table-sm table-bordered table-hover org-table-fonts">
+          <table class="table table-sm table-bordered table-hover sensor-details-data-table">
             <thead class="thead-dark">
               <tr>
                 <th>Signal Name</th>
@@ -263,7 +263,7 @@
                   <td><i class="demo-icon icon-sig-temperature"></i> {{signalsData.signalName}}</td>
                   <!-- Display Associat location/Name Columns if sensr is linked - START -->
                   <td *ngIf="sensorDetailsData.isLink">
-                    <i class="demo-icon mr-2" [ngClass]="{'icon-asset-robot' : signalsData.assetId, 'icon-location' : !signalsData.assetId}"></i>
+                    <i class="demo-icon" [ngClass]="{'icon-asset-robot' : signalsData.assetId, 'icon-location' : !signalsData.assetId}"></i>
                     <a [routerLink]="['/loc/view/', sensorDetailsData.parentOrganizationId, sensorDetailsData.parentOrganizationName, sensorDetailsData.parentLocationId]">
                     {{sensorDetailsData.parentLocationName}}
                     </a>
@@ -273,7 +273,7 @@
                   <!-- Display Associat location/Name Columns if sensr is linked - END -->
                   <td>{{signalsData.signalValue}}</td>
                   <td>{{signalsData.modifiedOn}}</td>
-                  <td><i class="demo-icon icon-warn text-danger mr-2"></i> {{signalsData.alarmState}}</td>
+                  <td><i class="demo-icon icon-warn text-danger"></i> {{signalsData.alarmState}}</td>
                 </tr>
               </ng-container>
             </tbody>

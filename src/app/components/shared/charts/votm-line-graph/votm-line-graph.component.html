@@ -1,7 +1,10 @@
 <div class="border p-2 h-100 w-100 position-relative">
   <div id="{{ wId }}" class="w-100 h-100"></div>
-
-  <div class="range-actions">
+  <div class="text-right chart-actions" [class.d-none]="locked"><i class="icon-cog" (click)="open(config)"></i></div>
+  <div class="text-center con-wid-preview" *ngIf="!configured">
+    <img class="img-fluid img-fluid-custom" src="../../../../../assets/images/configure_trend_chart_widget.jpg">
+</div>
+  <div class="text-right range-actions">
     <div *ngIf="configured" class="btn-group btn-group-toggle" ngbRadioGroup name="radioBasic" [(ngModel)]="selDynDateRng">
       <label ngbButtonLabel class="btn-outline-secondary btn-sm"> <input ngbButton type="radio" value="Min" />1m</label>
       <label ngbButtonLabel class="btn-outline-secondary btn-sm"> <input ngbButton type="radio" value="Hour" />1h</label>
@@ -16,7 +19,7 @@
     </div>
   </div>
 
-  <div class="chart-actions">
+  <div class="text-right chart-actions">
     <div *ngIf="configured" ngbDropdown placement="bottom-right">
       <a id="export" ngbDropdownToggle><i class="icon-export"></i></a>
       <div ngbDropdownMenu aria-labelledby="export">
@@ -49,7 +52,7 @@
       </div>
     </div>
     <!-- <a (click)="open(config)" [class.d-none]="locked"><i class="icon-cog"></i></a> -->
-    <a (click)="open(config)"  [class.d-none]="locked"><i class="icon-cog"></i></a>
+    <!-- <a (click)="open(config)"  [class.d-none]="locked"><i class="icon-cog"></i></a> -->
   </div>
 </div>
 
@@ -241,6 +244,8 @@
 
 <!-- <div class="p-2 border">
     <div class="text-right chartConfigureIcon"><i class="icon-cog font-15" (click)="onClickOfCustomizeTrendChart()"></i></div>
+<div class="border h-100 w-100 position-relative">
+    <div class="text-right chart-actions" [class.d-none]="locked"><i class="icon-cog" (click)="onClickOfCustomizeTrendChart()"></i></div>
     <div class="text-center con-wid-preview" *ngIf="!isTrendChartConfigured">
         <img class="img-fluid img-fluid-custom" src="../../../../../assets/images/configure_trend_chart_widget.jpg">
     </div>
@@ -422,3 +427,5 @@
         </div>
     </div>
 </div> -->
+<!-- </div> -->
+<!-- Modal Add User -->

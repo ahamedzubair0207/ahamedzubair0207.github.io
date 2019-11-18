@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { ColumnMode } from '../../../../../assets/projects/swimlane/ngx-datatable/src/public-api';
 import { ToastrService } from 'ngx-toastr';
 import { Toaster } from '../../votm-cloud-toaster/votm-cloud-toaster';
+import { DbItem } from 'src/app/models/db-item';
 
 @Component({
   selector: 'app-votm-data-table',
@@ -15,6 +16,8 @@ export class VotmDataTableComponent implements OnInit {
   isDataTableConfigured: boolean;
   customizeDataTable: any;
   toaster: Toaster = new Toaster(this.toastr);
+  @Input() locked: boolean;
+  @Input() data: DbItem;
 
   columns = [
     { prop: 'signalName', summaryFunc: () => null },
