@@ -43,8 +43,8 @@
               [style.left.px]="imgOffsetLeft + item.imageCoordinates[overLaySource === 'location' ? item.assetId : item.childAssetId].x * imgOffsetWidth - 16"
               [style.top.px]="imgOffsetTop + item.imageCoordinates[overLaySource === 'location' ? item.assetId : item.childAssetId].y * imgOffsetHeight - 16"
             >
-              <!-- {{overLaySource === 'location' ? item.assetId : item.childAssetId}} -->
-             Asset-{{i}}
+              {{overLaySource === 'location' ? item.assetName : item.childAssetName}}
+
             </div>
           </div>
     </div>
