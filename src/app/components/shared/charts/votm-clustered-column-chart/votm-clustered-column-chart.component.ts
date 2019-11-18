@@ -1,3 +1,4 @@
+import { DbItem } from 'src/app/models/db-item';
 import { Component, OnInit, NgZone, AfterViewInit, OnDestroy, Input } from '@angular/core';
 import * as am4core from '@amcharts/amcharts4/core';
 import * as am4charts from '@amcharts/amcharts4/charts';
@@ -19,6 +20,7 @@ export class VotmClusteredColumnChartComponent implements OnInit {
   customizeColumnChart: any;
   toaster: Toaster = new Toaster(this.toastr);
   @Input() locked: boolean;
+  @Input() data: DbItem;
 
   constructor(
     private zone: NgZone,

@@ -117,7 +117,8 @@
         </ng-template>
         <ng-template pTemplate="emptymessage">
           <tr>
-            <td [attr.colspan]="7">No data found.</td>
+            <td [attr.colspan]="7" *ngIf="originList !== 'organizationView'">No data found.</td>
+            <td [attr.colspan]="8" *ngIf="originList === 'organizationView'">No data found.</td>
           </tr>
         </ng-template>
       </p-treeTable>

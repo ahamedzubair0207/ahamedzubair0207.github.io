@@ -1,5 +1,5 @@
-<div class="p-2 border">
-    <div class="text-right chartConfigureIcon"><i class="icon-cog font-15" (click)="onClickOfCustomizeColumnChart()"></i></div>
+<div class="border">
+    <div class="text-right chart-actions" [class.d-none]="locked"><i class="icon-cog" (click)="onClickOfCustomizeColumnChart()"></i></div>
     <div class="text-center con-wid-preview" *ngIf="!isColumnChartConfigured">
         <img class="img-fluid img-fluid-custom" src="../../../../assets/images/configure_data_table.jpg">
     </div>

@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { ColumnMode } from '../../../../../assets/projects/swimlane/ngx-datatable/src/public-api';
+import { DbItem } from 'src/app/models/db-item';
 
 @Component({
   selector: 'app-votm-data-table',
@@ -10,6 +11,8 @@ export class VotmDataTableComponent implements OnInit {
   rows = [];
   loadingIndicator = true;
   reorderable = true;
+  @Input() locked: boolean;
+  @Input() data: DbItem;
 
   columns = [
     { prop: 'signalName', summaryFunc: () => null },
@@ -20,7 +23,7 @@ export class VotmDataTableComponent implements OnInit {
 
   ColumnMode = ColumnMode;
 
-  constructor() { 
+  constructor() {
     this.fetch(data => {
       this.rows = data;
       setTimeout(() => {
