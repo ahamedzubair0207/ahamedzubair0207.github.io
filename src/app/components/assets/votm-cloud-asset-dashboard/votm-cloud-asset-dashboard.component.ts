@@ -15,10 +15,16 @@ export class VotmCloudAssetDashboardComponent implements OnInit {
   kioskMode: any;
 
   @Input() dbItem: DbItem;
+  locked: boolean = true; // For Dashboard
 
   constructor() { }
 
   ngOnInit() {
+  }
+
+  // Dashboard lock toggle
+  toggleLock() {
+    this.locked = !this.locked;
   }
 
 }

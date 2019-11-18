@@ -5,5 +5,14 @@
 }
 // lock tab
 .lock-tab {
-    top: calc(-2.3125rem - 0.875rem - (-1px));
-}  
+    // top: calc(-2.3125rem - 0.875rem - (-1px));
+}
+
+.sensor-details-data-table td {
+  & a:link{
+    color: #212529;
+  }
+  & a:visited{
+    color: #212529;
+  }
+}

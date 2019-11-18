@@ -9,6 +9,7 @@ import { DbTemplate } from 'src/app/models/db-template';
 export class ScoutStyleDashboardComponent implements DbTemplate {
 
   @Input() dbItem: any;
+  @Input() locked: boolean;
 
   constructor() { }
 

@@ -1,7 +1,8 @@
-import { Component, OnInit, NgZone } from '@angular/core';
+import { Component, OnInit, NgZone, Input } from '@angular/core';
 import * as am4core from "@amcharts/amcharts4/core";
 import * as am4charts from "@amcharts/amcharts4/charts";
 import am4themes_animated from "@amcharts/amcharts4/themes/animated";
+import { DbItem } from 'src/app/models/db-item';
 
 am4core.useTheme(am4themes_animated);
 @Component({
@@ -13,6 +14,8 @@ export class VotmSimpleGaugeComponent implements OnInit {
 
   private chart: am4charts.XYChart;
   id: any;
+  @Input() locked: boolean;
+  @Input() data: DbItem;
 
   constructor(private zone: NgZone) {
     this.id = Math.floor((Math.random() * 100) + 1);
@@ -133,7 +136,7 @@ export class VotmSimpleGaugeComponent implements OnInit {
         to: value
       }, 1000, am4core.ease.cubicOut).start();
     }, 2000);
-   
+
     // let chart = am4core.create("chartdiv-simple-"+this.id, am4charts.GaugeChart);
 
     // chart.paddingRight = 20;
@@ -179,7 +182,7 @@ export class VotmSimpleGaugeComponent implements OnInit {
     //     hand.showValue(Math.random() * 100, 1000, am4core.ease.cubicOut);
     //     chart.setTimeout(randomValue, 2000);
     // }
-  
+
   }
 
   ngOnDestroy() {

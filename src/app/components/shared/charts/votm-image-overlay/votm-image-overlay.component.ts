@@ -1,7 +1,8 @@
+import { SignalRService } from './../../../../services/signalR/signal-r.service';
 import { DbItem } from './../../../../models/db-item';
 import { AssetSignalService } from 'src/app/services/assetSignal/asset-signal.service';
 import { LocationSignalService } from './../../../../services/locationSignal/location-signal.service';
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy, ElementRef, ViewChild } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { Toaster } from '../../votm-cloud-toaster/votm-cloud-toaster';
 import { ActivatedRoute, ParamMap } from '@angular/router';
@@ -15,29 +16,44 @@ import { AssetsService } from 'src/app/services/assets/assets.service';
   templateUrl: './votm-image-overlay.component.html',
   styleUrls: ['./votm-image-overlay.component.scss']
 })
-export class VotmImageOverlayComponent implements OnInit {
+export class VotmImageOverlayComponent implements OnInit, OnDestroy {
 
   @Input() data: DbItem;
   @Input() id: string;
+  @Input() locked: boolean;
   customizeImageOverlay: any;
   isImageOverlayConfigured: boolean;
   toaster: Toaster = new Toaster(this.toastr);
-  associatedSignals: any[];
+  associatedSignals: any[] = [];
+  associatedAssets: any[] = [];
   curLocId: string;
   locationsList: Array<TreeNode> = [];
   LocationSourceChild: any[];
   widgetlocImageID: any;
   widgetImageData: any;
   widgetimgURL: any = '../../../../assets/images/default-image-svg.svg';
-  iconSize: any;
+  iconSize = 'widget-icon-extra-small';
   assetsList: Array<TreeNode> = [];
   assetsSourceChild: any[];
   widgetassetimageID: any;
-  overLaySource: any;
+  overLaySource = 'location';
   wId: string;
   parentOrgId: string;
   assetId: string;
   widgetImageOverlaySource: any;
+  signalsCheckboxChecked = true;
+  assetsCheckboxChecked = true;
+  @ViewChild('overlayImage', { static: false }) eloverlayImg: ElementRef;
+  imgOffsetLeft = null;
+  imgOffsetTop = null;
+  imgParentWidth = null;
+  imgParentHeight = null;
+  imgSourceHeight = null;
+  imgSourceWidth = null;
+  imgOffsetWidth = null;
+  imgOffsetHeight = null;
+  batterySignalId = 'e9326142-068b-494b-bff7-421a44fa0cae';
+  signalSignalId = 'fa7b422d-2018-4fdb-ba50-0b4be9bf2735';
   constructor(
     private toastr: ToastrService,
     private locationSignalService: LocationSignalService,
@@ -46,6 +62,7 @@ export class VotmImageOverlayComponent implements OnInit {
     private locationService: LocationService,
     private assetService: AssetsService,
     private domSanitizer: DomSanitizer,
+    private signalRService: SignalRService
   ) {
 
   }
@@ -58,7 +75,7 @@ export class VotmImageOverlayComponent implements OnInit {
     this.route.paramMap.subscribe((params: ParamMap) => {
       this.curLocId = params.get('locId');
       // this.curLocName = params.get('locName');
-      this.parentOrgId = params.get('orgId');
+      this.parentOrgId = params.get('curOrgId');
       // this.parentOrgName = params.get('orgName');
       this.assetId = params.get('assetId');
       console.log('m y this.curLocId parentOrgId', this.curLocId, this.parentOrgId);
@@ -192,26 +209,15 @@ export class VotmImageOverlayComponent implements OnInit {
         modal.style.display = 'none';
       }
     };
+    this.signalRService.closeSignalRConnection();
   }
 
   onClickOfCustomizeImageOverlayModalClose() {
     // Close modal popup
-    this.customizeImageOverlay.style.display = 'none';
+    if(this.customizeImageOverlay){
+    this.customizeImageOverlay.style.display = 'none';}
   }
 
-  onChangeOverlaySource(event) {
-    if (event === 'location') {
-      $('#overlaySourceLocation-' + this.wId).removeClass('d-none');
-      $('#locationsList-' + this.wId).removeClass('d-none');
-      $('#overlaySourceAsset-' + this.wId).addClass('d-none');
-      $('#assetsList-' + this.wId).addClass('d-none');
-    } else if (event === 'asset') {
-      $('#overlaySourceAsset-' + this.wId).removeClass('d-none');
-      $('#assetsList-' + this.wId).removeClass('d-none');
-      $('#overlaySourceLocation-' + this.wId).addClass('d-none');
-      $('#locationsList-' + this.wId).addClass('d-none');
-    }
-  }
 
   getImageOverlayConfiguration(overlaySource) {
 
@@ -224,59 +230,65 @@ export class VotmImageOverlayComponent implements OnInit {
     //   }
     // );
     this.isImageOverlayConfigured = true;
-    if (!this.iconSize) {
-      this.iconSize = 'widget-icon-small';
-    }
+    this.associatedSignals = [];
+    this.associatedAssets = [];
     if (overlaySource === 'location') {
-      if (!this.widgetlocImageID) {
-        this.widgetlocImageID = this.curLocId;
-      }
+
       console.log('locationID======', this.widgetlocImageID);
       this.getLocationById(this.widgetlocImageID); // get location Image data
-      this.locationSignalService.getSignalAssociation(this.widgetlocImageID)
-        .subscribe(
-          response => {
-
-            for (let i = 0; i < response.length; i++) {
-              const signal = response[i];
-              signal.imageCordinates = signal.imageCordinates[signal.associationName];
-              signal.pos = {};
-              signal.pos['left'] = signal.imageCordinates.x;
-              signal.pos['top'] = signal.imageCordinates.y;
-              signal.isClicked = false;
-              signal.icon = 'icon-sig-humidity ' + this.iconSize;
-              signal.associated = true;
-              signal.id = i;
+      if (this.signalsCheckboxChecked) {
+        this.locationSignalService.getSignalAssociation(this.widgetlocImageID)
+          .subscribe(
+            response => {
+              for (const item of response) {
+                const signal = item;
+                signal.icon = 'icon-sig-' + signal.signalType + ' ' + this.iconSize;
+                signal.latestValue = 0;
+              }
+              this.associatedSignals = [...response];
             }
-            this.associatedSignals = [...response];
-          },
-          error => {
-
-          }
         );
+      }
+      if (this.assetsCheckboxChecked) {
+        this.locationService.getAssetAssociation(this.widgetlocImageID)
+          .subscribe(
+            response => {
+              for (const item of response) {
+                const signal = item;
+                signal.icon = 'icon-asset-robot ' + this.iconSize;
+              }
+              this.associatedAssets = [...response];
+            }
+        );
+      }
       } else if (overlaySource === 'asset') {
+
         this.getAssetById(this.widgetassetimageID); // get asset Image data
-        this.assetSignalService.getAssetSignalAssociation(this.widgetassetimageID)
-        .subscribe(
-          response => {
-
-            for (let i = 0; i < response.length; i++) {
-              const signal = response[i];
-              signal.imageCordinates = signal.imageCordinates[signal.associationName];
-              signal.pos = {};
-              signal.pos['left'] = signal.imageCordinates.x;
-              signal.pos['top'] = signal.imageCordinates.y;
-              signal.isClicked = false;
-              signal.icon = 'icon-sig-humidity ' + this.iconSize;
-              signal.associated = true;
-              signal.id = i;
+        if (this.signalsCheckboxChecked) {
+          this.assetSignalService.getAssetSignalAssociation(this.widgetassetimageID)
+          .subscribe(
+            response => {
+              for (const item of response) {
+                const signal = item;
+                signal.icon = 'icon-sig-' + signal.signalType + ' ' + this.iconSize;
+                signal.latestValue = 0;
+              }
+              this.associatedSignals = [...response];
             }
-            this.associatedSignals = [...response];
-          },
-          error => {
-
-          }
-        );
+          );
+        }
+        if (this.assetsCheckboxChecked) {
+          this.assetService.getParentChildAssetAssociation(this.widgetassetimageID)
+            .subscribe(
+              response => {
+                for (const item of response) {
+                  const asset = item;
+                  asset.icon = 'icon-asset-robot ' + this.iconSize;
+                }
+                this.associatedAssets = [...response];
+              }
+          );
+        }
       }
   }
 
@@ -299,7 +311,8 @@ export class VotmImageOverlayComponent implements OnInit {
         if (this.widgetImageData.logo && this.widgetImageData.logo.imageName) {
           const fileExtension = this.widgetImageData.logo.imageName.slice(
             (Math.max(0, this.widgetImageData.logo.imageName.lastIndexOf('.')) || Infinity) + 1);
-          this.widgetimgURL = this.domSanitizer.bypassSecurityTrustUrl(`data:image/${fileExtension};base64,${this.widgetImageData.logo.image}`);
+          this.widgetimgURL = this.domSanitizer.bypassSecurityTrustUrl
+          (`data:image/${fileExtension};base64,${this.widgetImageData.logo.image}`);
         }
       });
   }
@@ -311,15 +324,23 @@ export class VotmImageOverlayComponent implements OnInit {
         if (this.widgetImageData.logo && this.widgetImageData.logo.imageName) {
           const fileExtension = this.widgetImageData.logo.imageName.slice(
             (Math.max(0, this.widgetImageData.logo.imageName.lastIndexOf('.')) || Infinity) + 1);
-          this.widgetimgURL = this.domSanitizer.bypassSecurityTrustUrl(`data:image/${fileExtension};base64,${this.widgetImageData.logo.image}`);
+          this.widgetimgURL = this.domSanitizer.bypassSecurityTrustUrl
+          (`data:image/${fileExtension};base64,${this.widgetImageData.logo.image}`);
         }
       });
   }
 
   saveImageOverlayConfiguration() {
+    if (this.overLaySource === 'location' && !this.widgetlocImageID) {
+      this.toaster.onFailure('Please select location for overlay', 'Image Overlay');
+      return;
+    }
+    if (this.overLaySource === 'asset' && !this.widgetassetimageID) {
+      this.toaster.onFailure('Please select asset for overlay', 'Image Overlay');
+      return;
+    }
     this.customizeImageOverlay.style.display = 'none';
     this.toaster.onSuccess('Chart Configured Successfully', 'Success');
-
     console.log('widgetlocImage', this.widgetlocImageID);
     console.log('widgetassetimageID', this.widgetassetimageID, this.overLaySource);
 
@@ -346,7 +367,53 @@ export class VotmImageOverlayComponent implements OnInit {
     // if (this.overLaySource === 'asset') {
     //   this.getImageOverlayConfiguration(this.widgetlocImageID);
     // }
+    // signal R code
+    const connString = this.parentOrgId + '*' + (this.widgetlocImageID ? this.widgetlocImageID : this.widgetassetimageID);
+    console.log(connString);
+    this.signalRService.getSignalRConnection(connString);
+    this.signalRService.signalData.subscribe(data => {
+      console.log(typeof data);
 
+      const jsonData = JSON.parse(JSON.stringify(data));
+      console.log('componnet', jsonData.SignalName, '===', jsonData.SignalValue);
+        const index = this.associatedSignals.findIndex(assSig => assSig.signalMappingId === jsonData.SignalAssociationId );
+        this.associatedSignals[index].latestValue = jsonData.SignalValue;
+
+    });
+  }
+
+  ngOnDestroy() {
+    console.log('on destroy');
+    this.signalRService.closeSignalRConnection();
+  }
+
+  // image overlay iocn positioning code
+  onResize(event) {
+    if (this.eloverlayImg) {
+      this.imgOffsetTop = this.eloverlayImg.nativeElement.offsetTop;
+      this.imgOffsetLeft = this.eloverlayImg.nativeElement.offsetLeft;
+      this.imgOffsetWidth = this.eloverlayImg.nativeElement.offsetWidth;
+      this.imgOffsetHeight = this.eloverlayImg.nativeElement.offsetHeight;
+    }
+  }
+
+  onLoadLocImg() {
+    const el = this.eloverlayImg.nativeElement;
+    const imgType = el.currentSrc.split(/\#|\?/)[0].split('.').pop().trim();
+    this.imgOffsetLeft = el.offsetLeft;
+    this.imgOffsetTop = el.offsetTop;
+    this.imgOffsetWidth = el.offsetWidth;
+    this.imgOffsetHeight = el.offsetHeight;
+    this.imgParentHeight = el.offsetParent.clientHeight;
+    this.imgParentWidth = el.offsetParent.clientWidth;
+
+    if (imgType !== 'svg') {
+      this.imgSourceHeight = el.naturalHeight;
+      this.imgSourceWidth = el.naturalWidth;
+    } else {
+      this.imgSourceWidth = 5000;
+      this.imgSourceHeight = (5000.0 * parseFloat(el.naturalHeight) / parseFloat(el.naturalWidth)).toFixed(0);
+    }
   }
 
 }

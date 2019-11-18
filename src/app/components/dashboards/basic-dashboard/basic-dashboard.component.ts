@@ -9,6 +9,7 @@ import { DbTemplate } from './../../../models/db-template';
 export class BasicDashboardComponent implements DbTemplate {
 
   @Input() dbItem: any;
+  @Input() locked: boolean;
 
   constructor() { }
 

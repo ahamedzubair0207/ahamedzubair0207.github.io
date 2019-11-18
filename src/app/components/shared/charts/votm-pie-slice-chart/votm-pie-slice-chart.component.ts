@@ -1,7 +1,8 @@
-import { Component, OnInit, NgZone } from '@angular/core';
+import { Component, OnInit, NgZone, Input } from '@angular/core';
 import * as am4core from "@amcharts/amcharts4/core";
 import * as am4charts from "@amcharts/amcharts4/charts";
 import am4themes_animated from "@amcharts/amcharts4/themes/animated";
+import { DbItem } from 'src/app/models/db-item';
 
 am4core.useTheme(am4themes_animated);
 @Component({
@@ -13,6 +14,8 @@ export class VotmPieSliceChartComponent implements OnInit {
 
   private chart: am4charts.PieChart;
   id: any;
+  @Input() locked: boolean;
+  @Input() data: DbItem;
 
   constructor(private zone: NgZone) {
     this.id = Math.floor((Math.random() * 100) + 1);
@@ -99,7 +102,7 @@ export class VotmPieSliceChartComponent implements OnInit {
       }
       chart.data = generateChartData();
     });
-  
+
   }
 
   ngOnDestroy() {

@@ -2,9 +2,9 @@
   <div class="lock-tab border border-bottom-0 mt-3 mr-3">
     <i class="icon-television pr-2"></i>
     <i class="icon-resize-full-alt pr-2"></i>
-    <i class="icon-lock-open"></i>
+    <i class="" [ngClass]="locked ? 'icon-lock' : 'icon-lock-open'" (click)="toggleLock()"></i>
   </div>
-  <app-dashboardhost [dbItem]="dbItem"></app-dashboardhost>
+  <app-dashboardhost [dbItem]="dbItem" [locked]="locked"></app-dashboardhost>
 </div>
 
 <!-- <ul class="nav nav-tabs" id="dashboardTab" role="tablist">
@@ -35,7 +35,7 @@
       </div>
     </div>
 
-      
+
   </div>
 
   <div class="tab-pane fade" id="locDashboard" role="tabpanel" aria-labelledby="loc-tab">
@@ -53,7 +53,7 @@
                 <app-votm-live-order-book-depth-chart></app-votm-live-order-book-depth-chart>
             </div>
           </div>
-       
+
   </div>
 
   <div class="tab-pane fade" id="assetDashboard" role="tabpanel" aria-labelledby="asset-tab">

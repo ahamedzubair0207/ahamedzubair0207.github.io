@@ -1,13 +1,20 @@
-<p>
-  basic-dashboard works!
-</p>
 <div class="row">
   <div class="col-6">
     <div class="embed-responsive embed-responsive-21by9">
       <div class="embed-responsive-item">
-        <!-- <widget-trend [id]="'wt1'" [data]="dbItem"></widget-trend> -->
-        <app-votm-pie-slice-chart></app-votm-pie-slice-chart>
+        <app-votm-animated-gauge [id]="'wg1'" [data]="dbItem" [locked]="locked"></app-votm-animated-gauge>
       </div>
     </div>
   </div>
 </div>
+<!-- <div class="vert-fill form-row">
+  <div class="col-4 h-50 pb-2">
+    <app-votm-animated-gauge [id]="'wg1'" [data]="dbItem" [locked]="locked"></app-votm-animated-gauge>
+  </div>
+  <div class="col-4 offset-4 h-50 pb-2">
+    <app-votm-animated-gauge [id]="'wg2'" [data]="dbItem" [locked]="locked"></app-votm-animated-gauge>
+  </div>
+  <div class="col-4 offset-4 h-50 pt-2">
+    <app-votm-animated-gauge [id]="'wg3'" [data]="dbItem" [locked]="locked"></app-votm-animated-gauge>
+  </div>
+</div> -->

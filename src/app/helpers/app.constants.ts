@@ -20,7 +20,9 @@ export class AppConstants {
     public static GET_ASSOCIATE_LOCATION_ASSET = 'Asset';
 
     public static CREATE_DASHBOARD = '/Dashboard';
+    public static EDIT_DASHBOARD = '/Dashboard';
     public static GET_ALL_DASHBOARD = '/Dashboard';
+    public static DEL_DASHBOARD = '/Dashboard';
 
     public static GET_FAVORITES = '/UserManagement/UserFavorites';
     public static POST_FAVORITES = '/UserManagement/UserFavorites';

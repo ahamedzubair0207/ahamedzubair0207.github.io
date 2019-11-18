@@ -9,6 +9,7 @@ import { DbTemplate } from './../../../models/db-template';
 export class ParkerQcdDashboardComponent implements DbTemplate {
 
   @Input() dbItem: any;
+  @Input() locked: boolean;
 
   constructor() { }
 

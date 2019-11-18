@@ -46,7 +46,7 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
 
 
   public imagePath;
-  imgURL: any = '../../../../assets/images/default-image-svg.svg';
+  imgURL: any = '../../../../assets/images/orgLogoPlaceholder.svg';
   public message: string;
   closeResult: string;
   modal: any;
@@ -889,7 +889,7 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
     }
   }
 
-  openAddDashboardModal(dashboardAct: string, dashboardId: any, dashboardLongName: string, dashboardSortName: string) {
+  openAddDashboardModal(dashboardAct: string, dashboardItem: DashBoard) {
     // this.dashBoardDataByID = getDashboardById(dashboardId)
     // console.log(dashboardLongName);
     if (dashboardAct === 'editDashboard') {
@@ -899,9 +899,10 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
         dashboardName: '',
         dashboardHTML: ''
       };
-      this.dbLongName = dashboardLongName;
-      this.dbShortName = dashboardSortName;
-      this.selTemplate = this.dbTemplates[0].name;
+      this.dashboardTab = dashboardItem;
+      // this.dbLongName = dashboardLongName;
+      // this.dbShortName = dashboardSortName;
+      // this.selTemplate = this.dbTemplates[0].name;
     } else if (dashboardAct === 'addDashboard') {
       this.dashboardDataById = {
         act: 'create',
@@ -948,18 +949,24 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
 
     this.dbLastIdNum++;
     this.newTabId = "dbtab-" + this.dbLastIdNum;
-    this.dbItems.push(new DbItem(this.newTabId, this.dbLongName, this.dbShortName, this.selTemplate,
-      this.dbTemplates.find(({ name }) => name === this.selTemplate).component, ''));
-    // console.log('this.dbItems---added', this.dbItems, this.dashboardTabs);
 
-    this.dbService.saveDashboard(this.dashboardTab)
-      .subscribe(response => {
-        this.dashboardTabs.push(this.dashboardTab);
-        this.dashboardTab = new DashBoard();
-
-        this.closeAddDashboardModal(true);
-      })
-
+    if (this.dashboardTab.dashboardId) {
+      this.dbService.editDashboard(this.dashboardTab)
+        .subscribe(response => {
+          let index = this.dashboardTabs.findIndex(x => x.dashboardId === this.dashboardTab.dashboardId);
+          this.dashboardTabs[index] = this.dashboardTab;
+          this.dashboardTab = new DashBoard();
+          this.toaster.onSuccess('Successfully Updated Dashboard', 'Updated');
+        });
+    } else {
+      this.dbService.saveDashboard(this.dashboardTab)
+        .subscribe(response => {
+          this.dashboardTabs.push(this.dashboardTab);
+          this.dashboardTab = new DashBoard();
+          this.toaster.onSuccess('Successfully Created Dashboard', 'Created');
+        });
+    }
+    this.closeAddDashboardModal(true);
   }
 
   closeAddDashboardModal(event: any) {
@@ -972,8 +979,8 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
     // }
   }
 
-  openDashboardConfirmDialog(delDashboardId, dashboardName) {
-    this.delDashboardId = delDashboardId;
+  openDashboardConfirmDialog(dashboardId, dashboardName) {
+    this.dashboardData = dashboardId;
     this.message = `Do you want to delete the "${dashboardName}" Dashboard?`;
     this.confirmBoxDash.open();
   }
@@ -981,8 +988,17 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
   deleteOrganizationDashboardById(event) {
     // console.log('deleteOrganizationDashboardById===', event);
     if (event) {
-      // delete dashboard service goes here
+      //   // delete dashboard service goes here
+      this.dbService.deleteDashboard(this.dashboardTab.dashboardId)
+        .subscribe(response => {
+          this.toaster.onSuccess(`You have deleted ${this.dashboardTab.dashboardName} successfully`, 'Delete Success!');
+          this.route.navigate([`org/home/${this.curOrgId}/${this.curOrgName}`]);
+        }, error => {
+          this.toaster.onFailure('Something went wrong on server. Please try after sometiime.', 'Delete Fail!');
+        });
     }
+
+
   }
 
   getDashboardById(dashboardId: any) {

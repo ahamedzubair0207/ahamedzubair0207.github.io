@@ -31,8 +31,23 @@ export class DashboardService {
       );
   }
 
+  editDashboard(body: DashBoard) {
+    return this.http.patch(`${AppConstants.EDIT_DASHBOARD}/${body.dashboardId}`, body)
+      .pipe(
+        map(response => response)
+      );
+  }
+
   getAllDashboards(parentId: string, parentType) {
     return this.http.get(`${AppConstants.GET_ALL_DASHBOARD}/${parentType}/type/${parentId}`)
+      .pipe(
+        map(response => response)
+      );
+  }
+
+
+  deleteDashboard(dashboardId: string) {
+    return this.http.delete(AppConstants.DEL_DASHBOARD + '/' + dashboardId, dashboardId)
       .pipe(
         map(response => response)
       );

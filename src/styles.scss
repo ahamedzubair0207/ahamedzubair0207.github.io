@@ -16,6 +16,7 @@
 // @import "~font-awesome/css/font-awesome.css";
 // @import "assets/fontello/css/fontello.css";
 @import 'assets/pcm-font/css/pcm.css';
+@import "styles/dashboard.scss";
 @import "~@ng-select/ng-select/themes/default.theme.css";
 // @import '~ngx-toastr/toastr';
 @import '~ngx-toastr/toastr-bs4-alert';
@@ -100,3 +101,6 @@ ul.nav-tabs-left, .nav-tabs .nav-link {
   cursor: pointer;
 }
 
+body a{
+  color:#212529;
+}

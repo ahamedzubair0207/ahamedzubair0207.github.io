@@ -1,0 +1,81 @@
+@import "~@ng-select/ng-select/themes/default.theme.css";
+
+.ng-select.custom {
+  .ng-select-container {
+    min-height: 0;
+    width: 100%;
+    height: $input-height;
+    padding: $input-padding-y $input-padding-x;
+    font-size: $input-font-size;
+    font-weight: $input-font-weight;
+    line-height: $input-line-height;
+    color: $input-color !important;
+    background-color: $input-bg;
+    background-clip: padding-box;
+    border: $input-border-width solid $input-border-color;
+    border-radius: $input-border-radius;
+    transition: $input-transition;
+    &:hover {
+      box-shadow: none;
+    }
+    @at-root .ng-select-focused:not(.ng-select-opened)#{&} {
+      background-color: $input-bg;
+      border-color: $input-focus-border-color;
+      outline: 0;
+      box-shadow: $input-focus-box-shadow;
+    }
+    @at-root .ng-select-disabled#{&} {
+      background-color: $input-disabled-bg;
+      .ng-value {
+        background-color: $input-disabled-bg !important;
+        border-color: $input-border-color !important;
+      }
+    }
+    @at-root .ng-select-multiple#{&} {
+      height: auto;
+      padding-top: calc(#{$input-padding-y} - 2px);
+      padding-bottom: calc(#{$input-padding-y} - 2px);
+      .ng-value-container {
+        padding-top: 2px;
+        .ng-placeholder {
+          padding-left: 0;
+          top: 4px;
+          color: $input-placeholder-color;
+        }
+        .ng-value {
+          margin-bottom: 2px;
+          background-color: lighten($primary, 57%);
+          .ng-value-icon {
+            &:hover {
+              background-color: lighten($primary, 50%);
+            }
+            &.left {
+              border-right: 1px solid lighten($primary, 35%);
+            }
+          }
+        }
+        .ng-input {
+          padding-bottom: 2px;
+        }
+      }
+    }
+    .ng-value-container {
+      padding-left: initial;
+    }
+    .ng-input > input {
+      color: inherit;
+      padding: 0;
+    }
+  }
+  .ng-arrow-wrapper {
+    width: initial;
+    padding-right: initial;
+  }
+  .ng-dropdown-panel .ng-dropdown-panel-items .ng-option {
+    padding: $input-padding-y $input-padding-x;
+    &.ng-option-selected,
+    &.ng-option-selected.ng-option-marked {
+      background-color: rgba(theme-color("primary"), 0.25) !important;
+    }
+  }
+}

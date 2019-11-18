@@ -29,6 +29,7 @@ export class VotmCloudOrganizationDashboardComponent implements OnInit {
   http: any;
 
   @Input() dbItem: DbItem;
+  locked: boolean = true; // For Dashboard
 
   constructor(
     private modalService: NgbModal,
@@ -77,6 +78,12 @@ export class VotmCloudOrganizationDashboardComponent implements OnInit {
     $('#dashboardIconContainer-' + dbId).addClass('position-relative');
     $('#actualDashboardId-' + dbId).hide();
     $('#resizeDashboardId-' + dbId).show();
+  }
+
+  
+
+  toggleLock() {
+    this.locked = !this.locked;
   }
 
 
@@ -215,5 +222,10 @@ export class VotmCloudOrganizationDashboardComponent implements OnInit {
     this.dashboardData = this.getDashboards();
     // return this.dashboardById = this.dashboardData.id;
   }*/
+
+  // Dashboard lock toggle
+  // toggleLock() {
+  //   this.locked = !this.locked;
+  // }
 
 }

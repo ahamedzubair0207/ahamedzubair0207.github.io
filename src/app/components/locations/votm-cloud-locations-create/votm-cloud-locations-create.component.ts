@@ -1,5 +1,3 @@
-declare const google: any;
-
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { LocationService } from 'src/app/services/locations/location.service';
@@ -29,7 +27,11 @@ import { SortArrays } from '../../shared/votm-sort';
 import { DashboardService } from '../../../services/dasboards/dashboard.service';
 import { DbTplItem } from 'src/app/models/db-tpl-item';
 import { DbItem } from 'src/app/models/db-item';
+import { DashBoard } from 'src/app/models/dashboard.model';
 // Dashboard-david end
+
+declare const google: any;
+
 
 @Component({
   selector: 'app-votm-cloud-locations-create',
@@ -115,8 +117,13 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
   dbShortName: string = '';
   dbLastIdNum: number = 0;
   newTabId: string = '';
+  activeTab: string;
   disableParentOrganization: boolean;
   // Dashboard-david end
+
+
+  dashboardTabs: Array<DashBoard> = [];
+  dashboardTab: DashBoard = new DashBoard();
 
   constructor(
     private modalService: NgbModal,
@@ -131,7 +138,11 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
     private organizationService: OrganizationService,
     private dbService: DashboardService, // Dashboard-david
   ) {
-    this.UOM = 'SI';
+
+
+
+
+    this.UOM = 'Imperial';
     this.subscriptions = route.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         if (this.previousUrl) {
@@ -176,6 +187,11 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
         this.setDefaultParentOrganizationOptions();
       } else {
         this.getLocationById();
+        this.dbService.getAllDashboards(this.locId, 'location')
+          .subscribe(response => {
+            console.log('get All Dashboard ', response);
+            this.dashboardTabs = response;
+          });
       }
     });
 
@@ -938,19 +954,35 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
   }
 
   onDashboardFormSubmit() {
-    console.log('onDashboardFormSubmit', this.dashboardDataById);
+    // console.log('onDashboardFormSubmit', this.dashboardDataById);
     // this.addDashboardArray = {
     //   id: '4',
     //   templateName: 'Standard Asset Dashboard',
     //   dashboardName: this.dashboardDataById.dashboardName
     // };
     // this.dashboardData.push(this.addDashboardArray);
+
+    if (!this.dashboardTabs) {
+      this.dashboardTabs = []
+    }
+
+    this.dashboardTab.locationId = this.locId;
+    this.dashboardTab.published = true;
+    this.dashboardTab.active = true;
+
     this.dbLastIdNum++;
     this.newTabId = "dbtab-" + this.dbLastIdNum;
     this.dbItems.push(new DbItem(this.newTabId, this.dbLongName, this.dbShortName, this.selTemplate,
       this.dbTemplates.find(({ name }) => name === this.selTemplate).component, ''));
-    console.log('this.dbItems---added', this.dbItems);
-    this.closeAddDashboardModal(true);
+    // console.log('this.dbItems---added', this.dbItems);
+    this.dbService.saveDashboard(this.dashboardTab)
+      .subscribe(response => {
+        this.dashboardTabs.push(this.dashboardTab);
+        this.dashboardTab = new DashBoard();
+        this.toaster.onSuccess('Successfully Created Dashboard', 'Created');
+        this.closeAddDashboardModal(true);
+      })
+    
   }
 
   closeAddDashboardModal(event: any) {
@@ -969,11 +1001,19 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
     this.confirmBoxDash.open();
   }
 
-  deleteOrganizationDashboardById(event) {
+  deleteLocationDashboardById(event) {
     console.log('deleteOrganizationDashboardById===', event);
     if (event) {
-      // delete dashboard service goes here
-    }
+       // delete dashboard service goes here
+      this.dbService.deleteDashboard(this.dashboardTab.dashboardId)
+          .subscribe(response => {
+            this.toaster.onSuccess(`You have deleted ${this.dashboardTab.dashboardName} successfully`, 'Delete Success!');
+            // this.route.navigate([`loc/home/${this.curOrgId}/${this.curOrgName}`]);
+            this.routerLocation.back();
+          }, error => {
+            this.toaster.onFailure('Something went wrong on server. Please try after sometiime.', 'Delete Fail!');
+          });
+      }
   }
 
   getDashboardById(dashboardId: any) {
