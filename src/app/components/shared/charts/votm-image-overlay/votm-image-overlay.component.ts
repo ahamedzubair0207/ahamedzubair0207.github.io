@@ -229,6 +229,8 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
     //   }
     // );
     this.isImageOverlayConfigured = true;
+    this.associatedSignals = [];
+    this.associatedAssets = [];
     if (overlaySource === 'location') {
 
       console.log('locationID======', this.widgetlocImageID);
@@ -268,6 +270,7 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
               for (const item of response) {
                 const signal = item;
                 signal.icon = 'icon-sig-humidity ' + this.iconSize;
+                signal.latestValue = 0;
               }
               this.associatedSignals = [...response];
             }
