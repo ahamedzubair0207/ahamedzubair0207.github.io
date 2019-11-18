@@ -327,11 +327,11 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
   }
 
   saveImageOverlayConfiguration() {
-    if (!this.widgetlocImageID) {
+    if (this.overLaySource === 'location' && !this.widgetlocImageID) {
       this.toaster.onFailure('Please select location for overlay', 'Image Overlay');
       return;
     }
-    if (!this.widgetassetimageID) {
+    if (this.overLaySource === 'asset' && !this.widgetassetimageID) {
       this.toaster.onFailure('Please select asset for overlay', 'Image Overlay');
       return;
     }
