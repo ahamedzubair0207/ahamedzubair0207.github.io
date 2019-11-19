@@ -390,10 +390,12 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
   private gateGateways() {
     this.gatewayList = [
       { id: 'E9004BB5-67CD-466A-9014-034808A4DA4B', text: '4G- PVSG-IQAN' },
-      { id: 'A34D9041-180C-4D26-8328-44395B1238E4', text: 'Gateway 2' },
-      { id: 'ED60CA1E-ACC3-45DE-A71B-4E9AF1FB88D6', text: 'Gateway 3' },
-      { id: 'E880B856-183A-46BA-B6E5-CECDE9440066', text: 'Gateway 4' },
-      { id: 'AAFDAB0F-E043-4087-851C-3F5D0B79ECFB', text: 'Gateway 5' }
+      { id: '00000000-0000-0000-0000-000000000000', text: 'LBG4JOXC' },
+      { id: 'A34D9041-180C-4D26-8328-44395B1238E4', text: 'QCD-Prod-LBG4JOAD2' },
+      { id: 'ED60CA1E-ACC3-45DE-A71B-4E9AF1FB88D6', text: 'QCD-Lab-LBQEWOXC3' },
+      { id: 'E880B856-183A-46BA-B6E5-CECDE9440066', text: 'QCD-Demo-LBGQRTOXC4' },
+      { id: 'AAFDAB0F-E043-4087-851C-3F5D0B79ECFB', text: 'QCD-GV-LASF4JOXC5' }
+      
     ];
   }
 

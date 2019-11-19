@@ -1,0 +1,28 @@
+.table-fixed {
+  overflow-y: auto;
+  overflow-x: hidden;
+  // max-height: calc(((#{$line-height-base} * #{$font-size-base}) + (2 * #{$table-cell-padding-sm}) + 1px) * 7 + 2px);
+  border: 1px solid $gray-300;
+  > table {
+    border-collapse: collapse;
+    width: calc(100% + 2px);
+    margin-left: -1px;
+    margin-top: -1px;
+  }
+  th {
+    position: sticky;
+    top: -1px;
+    background: $gray-200;
+    z-index: 1;
+    &:after {
+      content: "";
+      display: block;
+      position: absolute;
+      right: 0;
+      bottom: -1px;
+      left: 0;
+      height: 1px;
+      background-color: $gray-300;
+    }
+  }
+}
