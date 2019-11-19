@@ -1,4 +1,4 @@
-import { Component, NgZone, Input, OnInit } from '@angular/core';
+import { Component, NgZone, Input, OnInit, ViewChild } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import * as am4core from "@amcharts/amcharts4/core";
 import * as am4charts from "@amcharts/amcharts4/charts";
@@ -6,6 +6,7 @@ import am4themes_animated from "@amcharts/amcharts4/themes/animated";
 import { DbItem } from 'src/app/models/db-item';
 import { DashBoard } from 'src/app/models/dashboard.model';
 import { timeseries } from 'src/assets/data/time-series';
+import { TimeSeriesService } from 'src/app/services/timeSeries/time-series.service';
 
 am4core.useTheme(am4themes_animated);
 
@@ -19,6 +20,11 @@ export class VotmLineGraphComponent implements OnInit {
   @Input() id: string;
   @Input() locked: boolean;
 
+  // @ViewChild('config', null) configModal: any;
+  signalCheckBoxes = [];
+
+  signalAssociatedWithTimeSeries: any = {};
+  orgId: string;
   private wConfig;
   private configured: boolean = false;
   private chart: am4charts.XYChart;
@@ -43,28 +49,33 @@ export class VotmLineGraphComponent implements OnInit {
   yAxisType: string[] = ["", ""];
   yAxisSignals: number[] = [0, 0];
 
-  signals: any = [
-    { "type": "temperature", "name": "GV ❯ Prod ❯ Ambient Temperature", "selY": [false, false] },
-    { "type": "temperature", "name": "GV ❯ Prod ❯ EAP1 ❯ Exhaust", "selY": [false, false] },
-    { "type": "temperature", "name": "GV ❯ Prod ❯ EAP2 ❯ Exhaust", "selY": [false, false] },
-    { "type": "pressure", "name": "GV ❯ Lab ❯ IB ❯ Main Pump", "selY": [false, false] },
-    { "type": "pressure", "name": "GV ❯ Lab ❯ IB ❯ Drain Pan Suction", "selY": [false, false] },
-    { "type": "temperature", "name": "GV ❯ Lab ❯ IB ❯ Oil Cooler", "selY": [false, false] },
-    { "type": "temperature", "name": "GV ❯ Lab ❯ IB ❯ Oil Reservoir", "selY": [false, false] },
-    { "type": "pressure", "name": "GV ❯ Lab ❯ IB ❯ Impulse #2 Pilot Pressure", "selY": [false, false] },
-    { "type": "pressure", "name": "GV ❯ Lab ❯ IB ❯ Accumulator", "selY": [false, false] },
-    { "type": "pressure", "name": "GV ❯ Lab ❯ IB ❯ Main Pump Suction", "selY": [false, false] },
-    { "type": "humidity", "name": "GB ❯ Furness Supply Humidity", "selY": [false, false] },
-    { "type": "humidity", "name": "GB ❯ Cleanroom Supply Humidity", "selY": [false, false] }
-  ];
+  signals: any = [];
+  //   [{ "type": "temperature", "name": "GV ❯ Prod ❯ Ambient Temperature", "selY": [false, false] },
+  //   { "type": "temperature", "name": "GV ❯ Prod ❯ EAP1 ❯ Exhaust", "selY": [false, false] },
+  //   { "type": "temperature", "name": "GV ❯ Prod ❯ EAP2 ❯ Exhaust", "selY": [false, false] },
+  //   { "type": "pressure", "name": "GV ❯ Lab ❯ IB ❯ Main Pump", "selY": [false, false] },
+  //   { "type": "pressure", "name": "GV ❯ Lab ❯ IB ❯ Drain Pan Suction", "selY": [false, false] },
+  //   { "type": "temperature", "name": "GV ❯ Lab ❯ IB ❯ Oil Cooler", "selY": [false, false] },
+  //   { "type": "temperature", "name": "GV ❯ Lab ❯ IB ❯ Oil Reservoir", "selY": [false, false] },
+  //   { "type": "pressure", "name": "GV ❯ Lab ❯ IB ❯ Impulse #2 Pilot Pressure", "selY": [false, false] },
+  //   { "type": "pressure", "name": "GV ❯ Lab ❯ IB ❯ Accumulator", "selY": [false, false] },
+  //   { "type": "pressure", "name": "GV ❯ Lab ❯ IB ❯ Main Pump Suction", "selY": [false, false] },
+  //   { "type": "humidity", "name": "GB ❯ Furness Supply Humidity", "selY": [false, false] },
+  //   { "type": "humidity", "name": "GB ❯ Cleanroom Supply Humidity", "selY": [false, false] }
+  // ];
 
-  constructor(private modalService: NgbModal, private zone: NgZone) { }
+  constructor(private modalService: NgbModal, private zone: NgZone, private timeSeries: TimeSeriesService) { }
 
   ngOnInit() {
     console.log('this.data ', this.data)
-    if(this.data){
-    this.wId = this.data.dashboardId + "-" + this.id;
-    this.wConfig = (this.data.widgetConf) ? this.data.widgetConf : { yMin: [null, null], yMax: [null, null] };}
+    if (this.data) {
+      if (this.data.organizationId) {
+        this.getSignalsAssociatedAssetByOrgId(this.data.organizationId);
+      }
+      this.wId = this.data.dashboardId + "-" + this.id;
+      this.wConfig = (this.data.widgetConf) ? this.data.widgetConf : { yMin: [null, null], yMax: [null, null] };
+    }
+
   }
   // id: any;
   // isTrendChartConfigured: boolean;
@@ -88,12 +99,60 @@ export class VotmLineGraphComponent implements OnInit {
     });
   }
 
+  // closeModal(){
+  //   this.configModal.close()
+  // }
+
+  saveResult() {
+    console.log("Save Result");
+    let body = {
+      "accountCode": "PCM",
+      "propertyName": "SignalId",
+      "propertyValue": "cb69d6e2-596a-4399-bd5a-36b29c008cb8, fa7b422d-2018-4fdb-ba50-0b4be9bf2735",
+      "measuredValue": "SignalValue",
+      "fromDateTime": "2018-11-18T20:16:43.863Z",
+      "toDateTime": "2019-11-18T20:16:43.863Z",
+      "environmentFqdn": "41075d1a-97a6-4f2d-9abb-a1c08be5b6c4.env.timeseries.azure.com",
+      "bucketSize": "1h"
+    };
+
+    let selectedValues = [];
+    console.log(' this.signalCheckBoxes ',  this.signalCheckBoxes)
+    this.signalCheckBoxes.forEach(selectedSignal => {
+      console.log('selectd signal ', selectedSignal)
+      if (selectedSignal) {
+        selectedValues.push(selectedSignal);
+      }
+    });
+    if (selectedValues.length > 0) {
+      console.log('selected Vlaue ', selectedValues);
+      var keyNames = Object.keys(selectedValues);
+      console.log(keyNames); // Outputs ["a","b","c"]
+    }
+  }
+
   open(config) {
     console.log('Config ', config)
     this.modalService.open(config, { size: 'lg' }).result.then((result) => {
       if (result === 'save') {
+
+        // console.log('save Ahamed', this.signalCheckBoxes);
+        // let selectedValues = [];
+        // this.signalCheckBoxes.forEach(selectedSignal => {
+        //   console.log('selectd signal ', selectedSignal)
+        //   if (selectedSignal) {
+        //     selectedValues.push(selectedSignal);
+        //   }
+        // });
+        // if (selectedValues.length > 0) {
+        //   console.log('selected Vlaue ', selectedValues);
+        //   var keyNames = Object.keys(selectedValues);
+        //   console.log(keyNames); // Outputs ["a","b","c"]
+        // }
+        this.saveResult();
         if (this.chart) {
           this.chart.dispose();
+          this.rangeSeriesSet = false;
         }
 
         this.configured = true;
@@ -140,7 +199,7 @@ export class VotmLineGraphComponent implements OnInit {
           chart.cursor = new am4charts.XYCursor();
 
           // var that = this;
-          chart.events.on("ready", (ev)=> {
+          chart.events.on("ready", (ev) => {
             for (let i = 0; i < 2; i++) {
               if (this.selYAxisRange[i] === "rngMinMax") {
                 this.rangeYAxisMin[i] = (<am4charts.ValueAxis>this.chart.yAxes.getIndex(i)).minZoomed;
@@ -214,13 +273,13 @@ export class VotmLineGraphComponent implements OnInit {
   // Create series
   createAxisAndSeries(chart, signal, idx, color) {
     let series = chart.series.push(new am4charts.LineSeries());
-    let valueAxis = (<am4charts.ValueAxis>chart.yAxes.getIndex((signal.selY[0]) ? 0 : 1));
+    let valueAxis = (<am4charts.ValueAxis>chart.yAxes.getIndex((signal.selY[0]) ? 0 : (this.yAxisSignals[0]) ? 1 : 0));
     let uom = this.signalTypes.find(({ type }) => type === signal.type).uom;
-    series.dataFields.dateX = "date";
-    series.dataFields.valueY = "sigAvg" + idx;
+    series.dataFields.dateX = "Date";
+    series.dataFields.valueY = "SigAvg" + idx;
     series.yAxis = valueAxis;
     series.name = signal.name;
-    series.tooltipText = "[bold]{name}: [bold #000]{valueY} " + uom + "[/][#000] [[{sigMin" + idx + "} - {sigMax" + idx + "}]][/]";
+    series.tooltipText = "[bold]{name}: [bold #000]{valueY} " + uom + "[/][#000] [[{SigMin" + idx + "} - {SigMax" + idx + "}]][/]";
     series.stroke = color;
     series.fill = color;
     series.showOnInit = false;
@@ -233,9 +292,9 @@ export class VotmLineGraphComponent implements OnInit {
     series.tooltip.label.fill = color;
 
     let series2 = chart.series.push(new am4charts.LineSeries());
-    series2.dataFields.dateX = "date";
-    series2.dataFields.openValueY = "sigMin" + idx;
-    series2.dataFields.valueY = "sigMax" + idx;
+    series2.dataFields.dateX = "Date";
+    series2.dataFields.openValueY = "SigMin" + idx;
+    series2.dataFields.valueY = "SigMax" + idx;
     series2.sequencedInterpolation = true;
     series2.fillOpacity = 0.3;
     series2.strokeWidth = 0;
@@ -290,9 +349,9 @@ export class VotmLineGraphComponent implements OnInit {
           minVal = avgVal + Math.round(Math.random() * -3 * variance);
           maxVal = avgVal + Math.round(Math.random() * 3 * variance);
 
-          chartData[i]["sigAvg" + index] = avgVal;
-          chartData[i]["sigMin" + index] = minVal;
-          chartData[i]["sigMax" + index] = maxVal;
+          chartData[i]["SigAvg" + index] = avgVal;
+          chartData[i]["SigMin" + index] = minVal;
+          chartData[i]["SigMax" + index] = maxVal;
         }
       }
     });
@@ -386,6 +445,44 @@ export class VotmLineGraphComponent implements OnInit {
 
   yAxisUoM(axis) {
     return this.signalTypes.find(({ type }) => type === this.yAxisType[axis]).uom;
+  }
+
+  getSignalsAssociatedAssetByOrgId(orgId: string) {
+    this.timeSeries.getSignalsAssociatedAssetByOrgId(orgId)
+      .subscribe(response => {
+        console.log('Time Series Signal', response);
+        let tempArray = [];
+        if (response) {
+          // Location
+          if (response.locations && response.locations.length > 0) {
+            response.locations.forEach(location => {
+              // Direct Signal
+              if (location.signals && location.signals.length > 0) {
+                location.signals.forEach(signal => {
+                  tempArray.push({ "id": signal.signalId, "type": "temperature", "name": `Organization > ${location.locationName} > ${signal.signalName}`, "selY": [false, false] })
+                  this.signalCheckBoxes[signal.signalId] = false;
+                });
+              }
+
+              // Asset
+              if (location.assets && location.assets.length > 0) {
+                location.assets.forEach(asset => {
+                  if (asset.signals && asset.signals.length > 0) {
+                    asset.signals.forEach(signal => {
+                      tempArray.push({ "id": signal.signalId, "type": "temperature", "name": `Organization > ${location.locationName} > ${asset.assetName} > ${signal.signalName}`, "selY": [false, false] })
+                      this.signalCheckBoxes[signal.signalId] = false;
+                    });
+                  }
+                })
+              }
+            })
+          }
+        }
+        this.signals = tempArray;
+        console.log('tempArray ', tempArray);
+
+      });
+
   }
 }
 
