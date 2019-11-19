@@ -355,13 +355,6 @@
     padding-left: calc(2 * #{$font-size-base} + 2px);
     position: absolute;
     border-color: $success;
-    &:hover {
-      padding-right: calc(#{$font-size-base} / 2 + #{$input-btn-padding-x});
-      padding-left: calc(2 * #{$font-size-base} + 2px + #{$input-btn-padding-x});
-      width: auto;
-      z-index: 1;
-    }
-
     &:before {
       color: $white;
       background-color: $success;
