@@ -105,6 +105,8 @@ export class VotmClusteredColumnChartComponent implements OnInit {
   }
 
   getAMColumnChart() {
+    am4core.options.commercialLicense = true;
+    hideCredits: true;
     let chart = am4core.create('chartdiv-clust-col-' + this.id, am4charts.XYChart);
     chart.data = [{
       year: '2003',
