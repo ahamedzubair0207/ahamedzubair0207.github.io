@@ -83,7 +83,7 @@
                     <a [routerLink]="['/admin/networkmanagement/sensorDetails/view', rowData.id]"><i class="icon-sensonode"></i>{{rowData.name}}</a>
                 </ng-container>
                 <ng-container *ngIf="rowData.type === 'Signal'">
-                    <i class="icon-signal"></i>{{rowData.name}}
+                    <i class="{{rowData.iconFile}}"></i>{{rowData.name}}
                 </ng-container>
               </span>
             </td>
@@ -92,14 +92,12 @@
             <td class="align-left" *ngIf="originList !== 'organizationView'">{{rowData.gwLocationName}}</td>
             <td class="align-left" *ngIf="originList === 'organizationView'">{{rowData.locationName}}</td>
             <td class="align-left">
-              <ng-container *ngIf="rowData.batteryValue && rowData.type === 'Sensor'">
-                  <i class="icon-battery-75"></i> {{rowData.batteryValue}} %
-              </ng-container>
+              <i class="{{rowData.batteryIcon}}"></i>
+              <ng-container *ngIf="rowData.batteryValue && rowData.type === 'Sensor'"> {{rowData.batteryValue}} %</ng-container>
             </td>
             <td class="align-left">
-              <ng-container *ngIf="rowData.signalStrength && rowData.type === 'Sensor'">
-                  <i class="icon-signal-75"></i> {{rowData.signalStrength}} %
-              </ng-container>
+              <i class="{{rowData.signalStrengthIcon}}"></i>
+              <ng-container *ngIf="rowData.signalStrength && rowData.type === 'Sensor'"> {{rowData.signalStrength}} %</ng-container>
             </td>
             <td class="align-center">
               <i class="icon-critical" style="color: red;" *ngIf="rowData.sensorStatusName === 'Critical'"></i>

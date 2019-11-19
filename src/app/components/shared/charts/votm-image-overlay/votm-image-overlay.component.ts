@@ -31,7 +31,7 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
   LocationSourceChild: any[];
   widgetlocImageID: any;
   widgetImageData: any;
-  widgetimgURL: any = '../../../../assets/images/default-image-svg.svg';
+  widgetimgURL: any;
   iconSize = 'widget-icon-extra-small';
   assetsList: Array<TreeNode> = [];
   assetsSourceChild: any[];
@@ -270,7 +270,7 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
             response => {
               for (const item of response) {
                 const signal = item;
-                signal.icon = 'icon-sig-' + signal.signalType + ' ' + this.iconSize;
+                signal.icon = signal.iconFile;
                 signal.latestValue = 0;
               }
               this.associatedSignals = [...response];
@@ -283,7 +283,7 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
               response => {
                 for (const item of response) {
                   const asset = item;
-                  asset.icon = 'icon-asset-robot ' + this.iconSize;
+                  asset.icon = item.iconFile;
                 }
                 this.associatedAssets = [...response];
               }
@@ -313,6 +313,8 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
             (Math.max(0, this.widgetImageData.logo.imageName.lastIndexOf('.')) || Infinity) + 1);
           this.widgetimgURL = this.domSanitizer.bypassSecurityTrustUrl
           (`data:image/${fileExtension};base64,${this.widgetImageData.logo.image}`);
+        } else {
+          this.widgetimgURL = '../../../../assets/images/default-image-svg.svg';
         }
       });
   }
@@ -326,6 +328,8 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
             (Math.max(0, this.widgetImageData.logo.imageName.lastIndexOf('.')) || Infinity) + 1);
           this.widgetimgURL = this.domSanitizer.bypassSecurityTrustUrl
           (`data:image/${fileExtension};base64,${this.widgetImageData.logo.image}`);
+        } else {
+          this.widgetimgURL = '../../../../assets/images/default-image-svg.svg';
         }
       });
   }
@@ -368,16 +372,23 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
     //   this.getImageOverlayConfiguration(this.widgetlocImageID);
     // }
     // signal R code
-    const connString = this.parentOrgId + '*' + (this.widgetlocImageID ? this.widgetlocImageID : this.widgetassetimageID);
+    let connString = this.parentOrgId + '*' + (this.widgetlocImageID ? this.widgetlocImageID : this.widgetassetimageID);
     console.log(connString);
+    // connString = '7a59bdd8-6e1d-48f9-a961-aa60b2918dde*1387c6d3-cabc-41cf-a733-8ea9c9169831';
     this.signalRService.getSignalRConnection(connString);
     this.signalRService.signalData.subscribe(data => {
       console.log(typeof data);
 
       const jsonData = JSON.parse(JSON.stringify(data));
-      console.log('componnet', jsonData.SignalName, '===', jsonData.SignalValue);
-        const index = this.associatedSignals.findIndex(assSig => assSig.signalMappingId === jsonData.SignalAssociationId );
+      console.log('componnet', jsonData.SignalName, '===', jsonData.SignalValue, '=====', jsonData.SensorId);
+      const index = this.associatedSignals.findIndex(assSig => {
+        console.log(assSig.parkerDeviceId, '===', jsonData.SensorId);
+        console.log(assSig.signalId, '===', jsonData.SignalId);
+        return assSig.parkerDeviceId === jsonData.SensorId && assSig.signalId === jsonData.SignalId;
+      });
+      if (index !== -1) {
         this.associatedSignals[index].latestValue = jsonData.SignalValue;
+      }
 
     });
   }

@@ -215,7 +215,7 @@ span.loc-extent {
   cursor: pointer!important;
 }
 
-.cursor-default {
+.cursordefault {
   cursor: default!important;
 }
 
@@ -289,4 +289,8 @@ body .ui-overlaypanel .ui-overlaypanel-content {
 .btn-search{
   padding: 0.15rem 0.5rem;
   z-index: 0;
+}
+
+.transparent {
+  background-color: transparent!important;
 }

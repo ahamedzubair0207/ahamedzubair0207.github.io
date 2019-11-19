@@ -213,7 +213,7 @@ export class VotmCloudAssociationComponent implements OnInit {
       signal.associated = true;
       signal.did = this.droppedList.length;
       signal.isClicked = false;
-      signal.bound = true;
+      signal.bound = this.dragList[this.draggingSensorIx].isLink;
       signal.sourceSensor = this.dragList[this.draggingSensorIx].sensorId;
       signal.sourceSignal = this.dragList[this.draggingSensorIx].node[this.draggingSignalIx].type;
       this.droppedList.push(signal);
