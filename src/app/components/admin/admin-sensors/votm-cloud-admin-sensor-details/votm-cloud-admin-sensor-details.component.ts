@@ -63,7 +63,10 @@ export class VotmCloudAdminSensorDetailsComponent implements OnInit {
           sensorSignalData.signalId === 'e9326142-068b-494b-bff7-421a44fa0cae'
           ) {
             sensorBatteryValue = sensorSignalData.signalValue;
-            this.sensorDetailsData.batteryValue = sensorSignalData.signalValue + '%';
+            this.sensorDetailsData.batteryValue = '0%';
+            if (sensorSignalData.signalValue) {
+              this.sensorDetailsData.batteryValue = sensorSignalData.signalValue + '%';
+            }
         }
 
         // Push sensorSignalData Battery Value from child battery signal
@@ -73,7 +76,11 @@ export class VotmCloudAdminSensorDetailsComponent implements OnInit {
           sensorSignalData.signalId === 'fa7b422d-2018-4fdb-ba50-0b4be9bf2735'
           ) {
             signalStrengthValue = sensorSignalData.signalValue;
-            this.sensorDetailsData.signalStrength = sensorSignalData.signalValue + '%';
+            this.sensorDetailsData.signalStrength = '0%';
+            if (sensorSignalData.signalValue) {
+              this.sensorDetailsData.signalStrength = sensorSignalData.signalValue + '%';
+            }
+
         }
 
         console.log('sensorSignalData.modifiedOn===index===', this.sensorDetailsData.node[index], index);
@@ -119,6 +126,34 @@ export class VotmCloudAdminSensorDetailsComponent implements OnInit {
     } else {
       return 'Good';
     }
+  }
+
+  getBatterySignalTypeIconValue(signalType, signalValue) {
+    if (signalType === 'battery') {
+      if (signalValue > '0' && signalValue <= '2.8') {
+        return 'icon-battery-25';
+      } else if (signalValue > '2.8' && signalValue <= '2.9') {
+        return 'icon-battery-50';
+      } else if (signalValue > '2.9' && signalValue <= '3.4') {
+        return 'icon-battery-75';
+      } else if (signalValue > '3.4') {
+        return 'icon-battery-100';
+      } else {
+        return 'icon-battery-0';
+      }
+    } // Bettery
+
+    if (signalType === 'signalStrength') {
+      if (signalValue <= '14') {
+        return 'icon-signal-25';
+      } else if (signalValue > '14' && signalValue <= '16') {
+        return 'icon-signal-50';
+      } else if (signalValue > '16' && signalValue <= '45') {
+        return 'icon-signal-75';
+      } else if (signalValue > '45') {
+        return 'icon-signal-100';
+      }
+    } // Signal Strength
   }
 
   getAllLocationByOrganization(orgId: string) {

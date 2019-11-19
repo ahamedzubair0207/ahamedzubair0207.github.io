@@ -260,7 +260,7 @@
             <tbody>
               <ng-container *ngFor="let signalsData of sensorDetailsData.node">
                 <tr *ngIf="checkRowDisplay(signalsData)">
-                  <td><i class="demo-icon icon-sig-temperature"></i> {{signalsData.signalName}}</td>
+                  <td><i class="demo-icon {{signalsData.iconFile}}"></i> {{signalsData.signalName}}</td>
                   <!-- Display Associat location/Name Columns if sensr is linked - START -->
                   <td *ngIf="sensorDetailsData.isLink">
                     <i class="demo-icon" [ngClass]="{'icon-asset-robot' : signalsData.assetId, 'icon-location' : !signalsData.assetId}"></i>

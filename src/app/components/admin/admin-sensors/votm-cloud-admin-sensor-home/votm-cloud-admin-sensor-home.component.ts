@@ -135,7 +135,22 @@ export class VotmCloudAdminSensorHomeComponent implements OnInit {
               id: signal.signalId,
               name: signal.signalName,
               isLink: sensor.isLink,
-              type: 'Signal'
+              type: 'Signal',
+              signalValue: signal.signalValue,
+              signalType: signal.signalType,
+              iconFile: signal.iconFile
+              // signalId: 4064c563-fc11-4cf8-a7b7-94ce998117ef,
+              // signalName: Gauge Pressure,
+              // signalValue: null,
+              // signalType: pressure,
+              // iconFile: icon-sig-pressure,
+              // assetId: null,
+              // assetName: null,
+              // locationId: 1387c6d3-cabc-41cf-a733-8ea9c9169831,
+              // locationName: VOTM Headquarters,
+              // associationName: Gauge Pressure,
+              // modifiedOn: null,
+              // alarmState: null
             },
             children: []
           });
@@ -147,6 +162,8 @@ export class VotmCloudAdminSensorHomeComponent implements OnInit {
             signal.signalId === 'e9326142-068b-494b-bff7-421a44fa0cae'
             ) {
               treeSensor.data.batteryValue = signal.signalValue;
+              // Get bettry icon basedon type and value
+              treeSensor.data.batteryIcon = this.getBatterySignalTypeIconValue('battery', signal.signalValue);
           }
 
           // Push Signal Battery Value from child battery signal
@@ -156,6 +173,8 @@ export class VotmCloudAdminSensorHomeComponent implements OnInit {
             signal.signalId === 'fa7b422d-2018-4fdb-ba50-0b4be9bf2735'
             ) {
               treeSensor.data.signalStrength = signal.signalValue;
+              // Get signal srength icon basedon type and value
+              treeSensor.data.signalStrengthIcon = this.getBatterySignalTypeIconValue('signalStrength', signal.signalValue);
           }
 
           treeSensor.data.sensorStatusName = this.getSensorHealthStatus(treeSensor.data.batteryValue, treeSensor.data.signalStrength);
@@ -183,6 +202,37 @@ export class VotmCloudAdminSensorHomeComponent implements OnInit {
     }
 
     return false;
+  }
+
+  getBatterySignalTypeIconValue(signalType, signalValue) {
+
+    if (signalType === 'battery') {
+      if (signalValue > '0' && signalValue <= '2.8') {
+        return 'icon-battery-25';
+      } else if (signalValue > '2.8' && signalValue <= '2.9') {
+        return 'icon-battery-50';
+      } else if (signalValue > '2.9' && signalValue <= '3.4') {
+        return 'icon-battery-75';
+      } else if (signalValue > '3.4') {
+        return 'icon-battery-100';
+      } else {
+        return 'icon-battery-0';
+      }
+    } // Bettery
+
+    if (signalType === 'signalStrength') {
+      if (signalValue <= '14') {
+        return 'icon-signal-25';
+      } else if (signalValue > '14' && signalValue <= '16') {
+        return 'icon-signal-50';
+      } else if (signalValue > '16' && signalValue <= '45') {
+        return 'icon-signal-75';
+      } else if (signalValue > '45') {
+        return 'icon-signal-100';
+      }
+    } // Signal Strength
+
+
   }
 
   // Get sensor status based on Admin alert Sensor subscription
