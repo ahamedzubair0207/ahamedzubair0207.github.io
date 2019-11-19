@@ -22,7 +22,7 @@ export class VotmLineGraphComponent implements OnInit {
 
   // @ViewChild('config', null) configModal: any;
   signalCheckBoxes = [];
-
+  "hideCredits": true;
   signalAssociatedWithTimeSeries: any = {};
   orgId: string;
   private wConfig;
@@ -81,7 +81,7 @@ export class VotmLineGraphComponent implements OnInit {
   // isTrendChartConfigured: boolean;
   // customizeTrendChart: any;
   // toaster: Toaster = new Toaster(this.toastr);
-  "hideCredits": true;
+  
 
   // @Input() data: DbItem;
   // @Input() id: any;
@@ -150,7 +150,8 @@ export class VotmLineGraphComponent implements OnInit {
           this.rangeYAxisMax[i] = parseFloat(this.wConfig.yMax[i]);
           this.autoScaleY[i] = (this.selYAxisRange[i] === "auto");
         }
-
+        am4core.options.commercialLicense = true;
+        hideCredits: true;
         // this.zone.runOutsideAngular(() => {
         let chart = am4core.create(this.wId, am4charts.XYChart);
         chart.paddingRight = 20;

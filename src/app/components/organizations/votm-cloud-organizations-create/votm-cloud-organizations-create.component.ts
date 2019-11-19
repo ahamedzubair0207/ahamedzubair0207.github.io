@@ -980,7 +980,7 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
   }
 
   openDashboardConfirmDialog(dashboardId, dashboardName) {
-    this.dashboardData = dashboardId;
+    this.dashboardData = this.dashboardTab.dashboardId;
     this.message = `Do you want to delete the "${dashboardName}" Dashboard?`;
     this.confirmBoxDash.open();
   }

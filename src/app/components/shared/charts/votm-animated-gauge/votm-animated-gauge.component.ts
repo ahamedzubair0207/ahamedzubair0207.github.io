@@ -157,7 +157,8 @@ export class VotmAnimatedGaugeComponent implements OnInit {
     this.isGuageconfigured = true;
 
     am4core.options.autoSetClassName = true;
-
+    am4core.options.commercialLicense = true;
+    hideCredits: true;
     // create chart
     const chart = am4core.create(this.wId, am4charts.GaugeChart);
     chart.innerRadius = am4core.percent(82);

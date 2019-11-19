@@ -22,7 +22,8 @@ export class VotmMultiGaugeComponent implements OnInit {
   }
 
   ngAfterViewInit() {
-   
+    am4core.options.commercialLicense = true;
+    hideCredits: true;
     let chart = am4core.create("chartdiv-multi-"+this.id, am4charts.GaugeChart);
 
     chart.paddingRight = 20;

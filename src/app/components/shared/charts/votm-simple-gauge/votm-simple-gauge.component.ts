@@ -27,7 +27,8 @@ export class VotmSimpleGaugeComponent implements OnInit {
   ngAfterViewInit() {
 
     am4core.options.autoSetClassName = true;
-
+    am4core.options.commercialLicense = true;
+    hideCredits: true;
     // create chart
     let chart = am4core.create("chartdiv-simple-"+this.id, am4charts.GaugeChart);
     chart.innerRadius = am4core.percent(82);

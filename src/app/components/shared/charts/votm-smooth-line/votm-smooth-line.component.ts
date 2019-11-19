@@ -27,6 +27,8 @@ export class VotmSmoothLineComponent implements OnInit {
   }
 
   ngAfterViewInit() {
+      am4core.options.commercialLicense = true;
+      hideCredits: true;
       // Create chart instance
       let chart = am4core.create("chartdiv-line-"+this.id, am4charts.XYChart);
       chart.paddingRight = 20;

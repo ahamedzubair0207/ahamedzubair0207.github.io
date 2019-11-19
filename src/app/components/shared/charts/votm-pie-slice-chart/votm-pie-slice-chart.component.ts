@@ -25,7 +25,8 @@ export class VotmPieSliceChartComponent implements OnInit {
   }
 
   ngAfterViewInit() {
-
+    am4core.options.commercialLicense = true;
+    hideCredits: true;
     let chart = am4core.create("chartdiv-pie-sliced-"+this.id, am4charts.PieChart);
     // Set data
     var selected;

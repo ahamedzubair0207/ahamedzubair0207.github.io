@@ -26,7 +26,8 @@ export class VotmLiveDataComponent implements OnInit {
   }
 
   ngOnInit() {
-
+    am4core.options.commercialLicense = true;
+    hideCredits: true;
     let container = am4core.create("chartdiv", am4core.Container);
     container.width = am4core.percent(100);
     container.height = am4core.percent(100);
