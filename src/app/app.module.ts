@@ -141,7 +141,7 @@ import { VotmCloudAssetsDashboardComponent } from './components/assets/votm-clou
 import { VotmCloudSpinnerComponent } from './components/shared/votm-cloud-spinner/votm-cloud-spinner.component';
 import { DashboardDirective } from './components/dashboards/dashboard.directive';
 import { VotmDataTableComponent } from './components/shared/charts/votm-data-table/votm-data-table.component';
-
+import { FloFullscreenModule } from '@flosportsinc/ng-fullscreen';
 const oktaConfig = Object.assign({
   onAuthRequired: ({ oktaAuth, router }) => {
     // Redirect the user to your custom login page
@@ -252,7 +252,8 @@ const oktaConfig = Object.assign({
     TableModule,
     AmModule,
     DndModule,
-    NgxDatatableModule
+    NgxDatatableModule,
+    FloFullscreenModule
   ],
   providers: [
     // LoadMapService,

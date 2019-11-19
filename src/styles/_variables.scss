@@ -40,7 +40,7 @@ $purple:  #6f42c1 !default;
 $pink:    #e83e8c !default;
 $red:     #dc3545 !default;
 $orange:  #fd7e14 !default;
-$yellow:  #ffc107 !default;
+$yellow:  hsl(45, 100%, 51%) !default;
 $green:   #28a745 !default;
 $teal:    #20c997 !default;
 $cyan:    #17a2b8 !default;
@@ -1125,3 +1125,6 @@ $print-body-min-width:              map-get($grid-breakpoints, "lg") !default;
 
 // RGBA color background for icons
 $danger-icon : rgba(220, 53, 69, 0.7);
+$warning-icon: rgb(255, 193, 7, 0.7);
+$info-icon: rgba(0, 158, 170, 0.7);
+$success-icon: rgba(40, 167, 69, 0.7);
