@@ -108,7 +108,7 @@ export class VotmLineGraphComponent implements OnInit {
     let body = {
       "accountCode": "PCM",
       "propertyName": "SignalId",
-      "propertyValue": "cb69d6e2-596a-4399-bd5a-36b29c008cb8, fa7b422d-2018-4fdb-ba50-0b4be9bf2735",
+      "propertyValue": '',
       "measuredValue": "SignalValue",
       "fromDateTime": "2018-11-18T20:16:43.863Z",
       "toDateTime": "2019-11-18T20:16:43.863Z",
@@ -117,39 +117,26 @@ export class VotmLineGraphComponent implements OnInit {
     };
 
     let selectedValues = [];
-    console.log(' this.signalCheckBoxes ',  this.signalCheckBoxes)
-    this.signalCheckBoxes.forEach(selectedSignal => {
-      console.log('selectd signal ', selectedSignal)
-      if (selectedSignal) {
-        selectedValues.push(selectedSignal);
+    console.log(' this.signalCheckBoxes ', this.signalCheckBoxes)
+    for (var key in this.signalCheckBoxes) {
+      if (this.signalCheckBoxes[key]) {
+        selectedValues.push(key);
       }
-    });
-    if (selectedValues.length > 0) {
-      console.log('selected Vlaue ', selectedValues);
-      var keyNames = Object.keys(selectedValues);
-      console.log(keyNames); // Outputs ["a","b","c"]
     }
-  }
+    let selectedSignals = [];
+    this.signals.forEach(signal => {
+      if (selectedValues.indexOf(signal.id) >= 0) {
+        selectedSignals.push(signal);
+      }
+    })
 
-  open(config) {
-    console.log('Config ', config)
-    this.modalService.open(config, { size: 'lg' }).result.then((result) => {
-      if (result === 'save') {
+    console.log('selected Vlaue ', selectedValues);
+    if (selectedValues && selectedValues.length > 0) {
+      body.propertyValue = selectedValues.join(',');
+    }
 
-        // console.log('save Ahamed', this.signalCheckBoxes);
-        // let selectedValues = [];
-        // this.signalCheckBoxes.forEach(selectedSignal => {
-        //   console.log('selectd signal ', selectedSignal)
-        //   if (selectedSignal) {
-        //     selectedValues.push(selectedSignal);
-        //   }
-        // });
-        // if (selectedValues.length > 0) {
-        //   console.log('selected Vlaue ', selectedValues);
-        //   var keyNames = Object.keys(selectedValues);
-        //   console.log(keyNames); // Outputs ["a","b","c"]
-        // }
-        this.saveResult();
+    this.timeSeries.getTimeSeriesAggregateMultipleDevices(body)
+      .subscribe(response => {
         if (this.chart) {
           this.chart.dispose();
           this.rangeSeriesSet = false;
@@ -164,57 +151,72 @@ export class VotmLineGraphComponent implements OnInit {
           this.autoScaleY[i] = (this.selYAxisRange[i] === "auto");
         }
 
-        this.zone.runOutsideAngular(() => {
-          let chart = am4core.create(this.wId, am4charts.XYChart);
-          chart.paddingRight = 20;
-          chart.data = timeseries;// this.generateChartData();
+        // this.zone.runOutsideAngular(() => {
+        let chart = am4core.create(this.wId, am4charts.XYChart);
+        chart.paddingRight = 20;
+        chart.data = response; // timeseries;// this.generateChartData();
 
-          let title = chart.titles.create();
-          title.text = (this.wConfig.title) ? this.wConfig.title : null;
-          title.fontSize = 25;
-          title.marginBottom = 30;
+        let title = chart.titles.create();
+        title.text = (this.wConfig.title) ? this.wConfig.title : null;
+        title.fontSize = 25;
+        title.marginBottom = 30;
 
-          let dateAxis = chart.xAxes.push(new am4charts.DateAxis());
-          dateAxis.renderer.line.strokeOpacity = 1;
-          dateAxis.renderer.line.stroke = am4core.color("gray");
-          dateAxis.tooltipDateFormat = "MM/dd/yyyy hh:mm:ss";
+        let dateAxis = chart.xAxes.push(new am4charts.DateAxis());
+        dateAxis.renderer.line.strokeOpacity = 1;
+        dateAxis.renderer.line.stroke = am4core.color("gray");
+        dateAxis.tooltipDateFormat = "MM/dd/yyyy hh:mm:ss";
 
-          if (this.yAxisSignals[0]) this.createValueAxis(chart, 0);
-          if (this.yAxisSignals[1]) this.createValueAxis(chart, 1);
+        if (this.yAxisSignals[0]) this.createValueAxis(chart, 0);
+        if (this.yAxisSignals[1]) this.createValueAxis(chart, 1);
 
-          let colorSet = new am4core.ColorSet();
-          colorSet.step = 2;
-          this.signals.forEach((signal, index) => {
-            if (signal.selY[0] || signal.selY[1]) this.createAxisAndSeries(chart, signal, index, colorSet.next());
-          });
+        let colorSet = new am4core.ColorSet();
+        colorSet.step = 2;
 
-
-          chart.legend = new am4charts.Legend();
-          chart.legend.position = "right";
-          chart.legend.valign = "top";
-          chart.legend.itemContainers.template.tooltipText = "{name}";
-          this.legendWidth = chart.legend.width;
-          if (!this.showLegend) chart.legend.width = 0;
-
-          chart.cursor = new am4charts.XYCursor();
-
-          // var that = this;
-          chart.events.on("ready", (ev) => {
-            for (let i = 0; i < 2; i++) {
-              if (this.selYAxisRange[i] === "rngMinMax") {
-                this.rangeYAxisMin[i] = (<am4charts.ValueAxis>this.chart.yAxes.getIndex(i)).minZoomed;
-                this.rangeYAxisMax[i] = (<am4charts.ValueAxis>this.chart.yAxes.getIndex(i)).maxZoomed;
-              }
-              if (this.selYAxisRange[i] !== "auto") {
-                (<am4charts.ValueAxis>this.chart.yAxes.getIndex(i)).min = this.rangeYAxisMin[i];
-                (<am4charts.ValueAxis>this.chart.yAxes.getIndex(i)).max = this.rangeYAxisMax[i];
-              }
-            }
-          });
-
-          this.chart = chart;
-
+        selectedSignals.forEach((signal, index) => {
+          if (signal.selY[0] || signal.selY[1]) this.createAxisAndSeries(chart, signal, index, colorSet.next());
         });
+
+
+        chart.legend = new am4charts.Legend();
+        chart.legend.position = "right";
+        chart.legend.valign = "top";
+        chart.legend.itemContainers.template.tooltipText = "{name}";
+        this.legendWidth = chart.legend.width;
+        if (!this.showLegend) chart.legend.width = 0;
+
+        chart.cursor = new am4charts.XYCursor();
+
+        // var that = this;
+        chart.events.on("ready", (ev) => {
+          for (let i = 0; i < 2; i++) {
+            if (this.selYAxisRange[i] === "rngMinMax") {
+              this.rangeYAxisMin[i] = (<am4charts.ValueAxis>this.chart.yAxes.getIndex(i)).minZoomed;
+              this.rangeYAxisMax[i] = (<am4charts.ValueAxis>this.chart.yAxes.getIndex(i)).maxZoomed;
+            }
+            if (this.selYAxisRange[i] !== "auto") {
+              (<am4charts.ValueAxis>this.chart.yAxes.getIndex(i)).min = this.rangeYAxisMin[i];
+              (<am4charts.ValueAxis>this.chart.yAxes.getIndex(i)).max = this.rangeYAxisMax[i];
+            }
+          }
+        });
+
+        this.chart = chart;
+        console.log('this.chart ', this.chart)
+
+        // });
+
+
+        // console.log('response ', response);
+        // this.chart.data = response;
+        // console.log('this.chart ', this.chart)
+      })
+  }
+
+  open(config) {
+    console.log('Config ', config)
+    this.modalService.open(config, { size: 'lg' }).result.then((result) => {
+      if (result === 'save') {
+        this.saveResult();
       }
     });
   }
