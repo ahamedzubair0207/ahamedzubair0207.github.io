@@ -33,7 +33,7 @@
                 id="sig_{{i}}"
                 *ngIf="item.sensorLinkStatus"
                 style="position: absolute;"
-                class="signal-item {{ item.icon }} active"
+                class="signal-item {{ item.icon }}"
                 [style.left.px]="imgOffsetLeft + item.imageCordinates[item.associationName].x * imgOffsetWidth - 16"
                 [style.top.px]="imgOffsetTop + item.imageCordinates[item.associationName].y * imgOffsetHeight - 16"
               >
