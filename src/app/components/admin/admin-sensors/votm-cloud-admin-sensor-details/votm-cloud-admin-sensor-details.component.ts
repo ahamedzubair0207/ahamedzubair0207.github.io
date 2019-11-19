@@ -67,6 +67,7 @@ export class VotmCloudAdminSensorDetailsComponent implements OnInit {
             if (sensorSignalData.signalValue) {
               this.sensorDetailsData.batteryValue = sensorSignalData.signalValue + '%';
             }
+            this.sensorDetailsData.batteryIcon = this.getBatterySignalTypeIconValue('battery', sensorSignalData.signalValue);
         }
 
         // Push sensorSignalData Battery Value from child battery signal
@@ -80,7 +81,7 @@ export class VotmCloudAdminSensorDetailsComponent implements OnInit {
             if (sensorSignalData.signalValue) {
               this.sensorDetailsData.signalStrength = sensorSignalData.signalValue + '%';
             }
-
+            this.sensorDetailsData.signalStrengthIcon = this.getBatterySignalTypeIconValue('signalStrength', sensorSignalData.signalValue);
         }
 
         console.log('sensorSignalData.modifiedOn===index===', this.sensorDetailsData.node[index], index);

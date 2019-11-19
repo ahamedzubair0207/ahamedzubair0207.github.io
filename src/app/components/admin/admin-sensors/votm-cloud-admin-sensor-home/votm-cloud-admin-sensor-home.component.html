@@ -92,14 +92,12 @@
             <td class="align-left" *ngIf="originList !== 'organizationView'">{{rowData.gwLocationName}}</td>
             <td class="align-left" *ngIf="originList === 'organizationView'">{{rowData.locationName}}</td>
             <td class="align-left">
-              <ng-container *ngIf="rowData.batteryValue && rowData.type === 'Sensor'">
-                  <i class="{{rowData.batteryIcon}}"></i> {{rowData.batteryValue}} %
-              </ng-container>
+              <i class="{{rowData.batteryIcon}}"></i>
+              <ng-container *ngIf="rowData.batteryValue && rowData.type === 'Sensor'"> {{rowData.batteryValue}} %</ng-container>
             </td>
             <td class="align-left">
-              <ng-container *ngIf="rowData.signalStrength && rowData.type === 'Sensor'">
-                  <i class="{{rowData.signalStrengthIcon}}"></i> {{rowData.signalStrength}} %
-              </ng-container>
+              <i class="{{rowData.signalStrengthIcon}}"></i>
+              <ng-container *ngIf="rowData.signalStrength && rowData.type === 'Sensor'"> {{rowData.signalStrength}} %</ng-container>
             </td>
             <td class="align-center">
               <i class="icon-critical" style="color: red;" *ngIf="rowData.sensorStatusName === 'Critical'"></i>
