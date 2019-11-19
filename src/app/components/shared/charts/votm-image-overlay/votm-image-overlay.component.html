@@ -28,21 +28,30 @@
         <div class=" h-100 assoc-pane" (window:resize)="onResize($event)">
             <!--  [src]="imgURL" -->
             <img #overlayImage [src]="widgetimgURL" class="assoc-img" (load)="onLoadLocImg()"  />
-            <div
-              id="sig_{{i}}"
-              *ngFor="let item of associatedSignals; let i = index;"
-              style="position: absolute;"
-              class="signal-item {{ item.icon }} active"
-              [style.left.px]="imgOffsetLeft + item.imageCordinates[item.associationName].x * imgOffsetWidth - 16"
-              [style.top.px]="imgOffsetTop + item.imageCordinates[item.associationName].y * imgOffsetHeight - 16"
-            >
-              {{item.associationName}} - {{item.latestValue}}
-            </div>
+            <ng-container *ngFor="let item of associatedSignals; let i = index;">
+              <div
+                id="sig_{{i}}"
+                *ngIf="item.sensorLinkStatus"
+                style="position: absolute;"
+                class="signal-item {{ item.icon }} active"
+                [style.left.px]="imgOffsetLeft + item.imageCordinates[item.associationName].x * imgOffsetWidth - 16"
+                [style.top.px]="imgOffsetTop + item.imageCordinates[item.associationName].y * imgOffsetHeight - 16"
+              >
+              {{item.associationName}} : {{item.latestValue}}
+                  <!-- <p><b>QCD > {{item.locationName}}</b></p>
+                  <p>09/13/2019 11:45PM</p>
+                  <p><b>Critical alarm on asset</b></p>
+                  <hr class="mt-1 mb-1">
+                  <p><b>{{item.associationName}}</b></p>
+                  <p>{{item.associationName}} : {{item.latestValue}}</p>
+                  <p>Above critical threshold of 95&deg; F</p> -->
+              </div>
+            </ng-container>
             <div
               id="asset_{{i}}"
               *ngFor="let item of associatedAssets; let i = index;"
               style="position: absolute;"
-              class="signal-item {{ item.icon }} active"
+              class="signal-item {{ item.icon }}"
               [style.left.px]="imgOffsetLeft + item.imageCoordinates[overLaySource === 'location' ? item.assetId : item.childAssetId].x * imgOffsetWidth - 16"
               [style.top.px]="imgOffsetTop + item.imageCoordinates[overLaySource === 'location' ? item.assetId : item.childAssetId].y * imgOffsetHeight - 16"
             >
