@@ -80,6 +80,12 @@ export class VotmCloudOrganizationDashboardComponent implements OnInit {
     $('#resizeDashboardId-' + dbId).show();
   }
 
+  
+
+  toggleLock() {
+    this.locked = !this.locked;
+  }
+
 
   onClickOfKiosk() {
     // Open Chart configuration modal popup
@@ -218,8 +224,8 @@ export class VotmCloudOrganizationDashboardComponent implements OnInit {
   }*/
 
   // Dashboard lock toggle
-  toggleLock() {
-    this.locked = !this.locked;
-  }
+  // toggleLock() {
+  //   this.locked = !this.locked;
+  // }
 
 }

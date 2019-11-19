@@ -20,7 +20,9 @@ export class AppConstants {
     public static GET_ASSOCIATE_LOCATION_ASSET = 'Asset';
 
     public static CREATE_DASHBOARD = '/Dashboard';
+    public static EDIT_DASHBOARD = '/Dashboard';
     public static GET_ALL_DASHBOARD = '/Dashboard';
+    public static DEL_DASHBOARD = '/Dashboard';
 
     public static GET_FAVORITES = '/UserManagement/UserFavorites';
     public static POST_FAVORITES = '/UserManagement/UserFavorites';
@@ -87,9 +89,13 @@ export class AppConstants {
     public static GET_ALERT_METRICS = '/AlertRules/MetricType';
     public static GET_ALERT_UOMNAMEFORMETRICTYPE = '/AlertRules/UserUnitofMeasurement';
     public static GET_ALERT_USERGROUPROLE = '/AlertRules/UserGroupRoles';
-    public static EDIT_ALERT = '/AlertRule'; // Ahamed Code
-    public static DEL_ALERT = '/AlertRule'; // Ahamed Code
+    public static EDIT_ALERT = '/AlertRule'; 
+    public static DEL_ALERT = '/AlertRule'; 
     public static GET_ALERT_ACCESSSCOPE = '/BreadcrumbNavigation/GetChildOrganization';
+
+    
+    public static GET_TIMESERIES_SIGNAL = '/SignalAssociatedwithAssetLocationByOrganization';
+    public static POST_GETTIMESERIESAGGREGATEMULTIPLEDEVICES = '/TimeSeries/GetTimeSeriesAggregateMultipleDevices';
 
     public static NAVIGATION_URL = '/BreadcrumbNavigation';
 

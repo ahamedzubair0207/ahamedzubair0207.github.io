@@ -1,9 +1,12 @@
-<div class="border position-relative">
-    <div class="text-right chart-actions" [class.d-none]="locked"><i class="icon-cog" (click)="onClickOfCustomizeImageOverlay()"></i></div>
+<div class="border position-relative p-2 h-100 w-100">
+    <div class="text-right chart-actions">
+        <!-- <i class="icon-cog" (click)="onClickOfCustomizeImageOverlay()"></i> -->
+        <a (click)="onClickOfCustomizeImageOverlay()" [class.d-none]="locked"><i class="icon-cog"></i></a>
+    </div>
     <div class="text-center con-wid-preview" *ngIf="!isImageOverlayConfigured">
         <img class="img-fluid img-fluid-custom" src="../../../../assets/images/configure_image_overlay_widget.jpg">
     </div>
-    <div *ngIf="isImageOverlayConfigured" id="{{ 'image-overlay' + wId }}">
+    <div *ngIf="isImageOverlayConfigured" id="{{ 'image-overlay' + wId }}" class="h-100 w-100">
         <!-- <div class="h-100 assoc-pane">
             <img *ngIf="widgetimgURL" [src]="widgetimgURL" class="assoc-img img-fluid img-fluid-custom" />
 
@@ -47,6 +50,7 @@
 
             </div>
           </div>
+
     </div>
 </div>
 

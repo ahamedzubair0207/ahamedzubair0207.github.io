@@ -1,19 +1,263 @@
 
-<div class="p-2 border">
-  <h4>Data Table</h4>
-  <ngx-datatable
-    class="bootstrap"
-    [rows]="rows"
-    [loadingIndicator]="loadingIndicator"
-    [columns]="columns"
-    [columnMode]="ColumnMode.force"
-    [headerHeight]="40"
-    [summaryRow]="true"
-    [summaryPosition]="'bottom'"
-    [footerHeight]="40"
-    [limit]="6"
-    rowHeight="auto"
-    [reorderable]="reorderable"
-  >
-  </ngx-datatable>
+<div class="border p-2 h-100 w-100 position-relative">
+  <div id="{{ wId }}" class="h-100 w-100">
+    <img *ngIf="!configured" style="object-fit: cover;" src="../../../../assets/images/configure_data_table.jpg" />
+    <ng-container *ngIf="configured">
+      <div *ngIf="wConfig.title" class="row">
+        <div class="col-12">
+          <h3>{{ wConfig.title }}</h3>
+        </div>
+      </div>
+      <div class="row dt-div" [class.dt-titlespace]="wConfig.title != ''">
+        <div class="col-12 h-100">
+          <div class="table-fixed">
+            <table class="table table-sm table-bordered">
+              <thead>
+                <tr>
+                  <th scope="col" class="" [style.width]="wConfig.showSensor || wConfig.showStatus ? '45%' : '50%'">Signal</th>
+                  <th scope="col" class="text-right">Value</th>
+                  <th scope="col" class="">Time</th>
+                  <th *ngIf="wConfig.showSensor" scope="col" class="text-center" style="width:6em">Sensor</th>
+                  <th *ngIf="wConfig.showStatus" scope="col" class="text-center" style="width:4.5em">Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <ng-container *ngFor="let signal of signals; index as i">
+                  <tr *ngIf="signal.sel">
+                    <td scope="col" class="" title="{{ selPathName(signal) }}"><i class="pr-1 icon-sig-{{ signal.type }}"></i>{{ selPathName(signal) }}</td>
+                    <td scope="col" class="text-right" title="{{ signal.value }} {{ getUoM(signal) }}">{{ signal.value }} {{ getUoM(signal) }}</td>
+                    <td scope="col" class="" title="{{ timestamp }}">{{ timestamp }}</td>
+                    <td *ngIf="wConfig.showSensor" scope="col" class="text-center">{{ signal.sensor }}</td>
+                    <td *ngIf="wConfig.showStatus" scope="col" class="text-center align-middle">
+                      <i class="{{ getBattery(signal) }}"></i><i class="{{ getRSSI(signal) }}"></i>
+                    </td>
+                  </tr>
+                </ng-container>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+
+  <div class="chart-actions">
+    <div *ngIf="configured" ngbDropdown placement="bottom-right">
+      <a id="export" ngbDropdownToggle><i class="icon-export"></i></a>
+      <div ngbDropdownMenu aria-labelledby="export">
+        <button ngbDropdownItem>CSV</button>
+        <button ngbDropdownItem>XLSX</button>
+        <button ngbDropdownItem>PDF</button>
+        <div class="dropdown-divider"></div>
+        <button ngbDropdownItem>Print</button>
+      </div>
+    </div>
+    <a (click)="open(config)" [class.d-none]="locked"><i class="icon-cog"></i></a>
+  </div>
 </div>
+
+<ng-template #config let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title">Configure Data Table</h5>
+    <button type="button" class="close" (click)="modal.dismiss()">
+      <span>&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="form-group form-row">
+      <label class="col-3 col-form-label mandatory">Signals</label>
+      <div class="col-9">
+        <div class="search">
+          <div class="form-group has-search">
+            <span class="icon-search form-control-feedback"></span>
+            <input type="text" class="form-control" placeholder="Filter Signals" />
+          </div>
+        </div>
+        <div class="table-fixed">
+          <table class="table table-sm table-bordered">
+            <thead>
+              <tr>
+                <th scope="col" class="">Signal Name</th>
+                <th scope="col" class="">Signal Type</th>
+                <th scope="col" class="text-center">
+                  <div class="custom-control custom-checkbox">
+                    <input type="checkbox" id="sel-all" class="custom-control-input" [checked]="selAll" (change)="selectSignal(-1)" />
+                    <label class="custom-control-label mr-n2" for="sel-all"></label>
+                  </div>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let signal of signals; index as i">
+                <td><i class="pr-1 icon-sig-{{ signal.type }}"></i>{{ pathName(signal) }}</td>
+                <td>{{ signal.type }}</td>
+                <td class="text-center">
+                  <div class="custom-control custom-checkbox">
+                    <input type="checkbox" id="sel-{{ i }}" class="custom-control-input" [checked]="signal.sel" (change)="selectSignal(i)" />
+                    <label class="custom-control-label mr-n2" for="sel-{{ i }}"></label>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="form-group form-row">
+      <label for="title" class="col-3 col-form-label">Title:</label>
+      <div class="col-9">
+        <input type="text" class="form-control" id="title" [(ngModel)]="title" />
+      </div>
+    </div>
+    <div class="form-group form-row">
+      <label class="col-3 col-form-label mandatory">Display:</label>
+
+      <div class="col-3">
+        <div class="custom-control custom-switch" style="padding-top: calc(.25rem + 1px);">
+          <input type="checkbox" class="custom-control-input" id="showOrg" [checked]="showOrg" (change)="toggleShowOrg()" />
+          <label class="custom-control-label" for="showOrg">Organization</label>
+        </div>
+      </div>
+      <div class="col-3">
+        <div class="custom-control custom-switch" style="padding-top: calc(.25rem + 1px);">
+          <input type="checkbox" class="custom-control-input" id="showLoc" [checked]="showLoc" (change)="toggleShowLoc()" />
+          <label class="custom-control-label" for="showLoc">Location</label>
+        </div>
+      </div>
+      <div class="col-3">
+        <div class="custom-control custom-switch" style="padding-top: calc(.25rem + 1px);">
+          <input type="checkbox" class="custom-control-input" id="showAsset" [checked]="showAsset" (change)="toggleShowAsset()" />
+          <label class="custom-control-label" for="showAsset">Asset</label>
+        </div>
+      </div>
+      <div class="col-3 offset-3">
+        <div class="custom-control custom-switch" style="padding-top: calc(.25rem + 1px);">
+          <input type="checkbox" class="custom-control-input" id="showSensor" [checked]="showSensor" (change)="showSensor = !showSensor" />
+          <label class="custom-control-label" for="showSensor">Source Sensor</label>
+        </div>
+      </div>
+      <div class="col-3">
+        <div class="custom-control custom-switch" style="padding-top: calc(.25rem + 1px);">
+          <input type="checkbox" class="custom-control-input" id="showStatus" [checked]="showStatus" (change)="showStatus = !showStatus" />
+          <label class="custom-control-label" for="showStatus">Status</label>
+        </div>
+      </div>
+    </div>
+    <div class="form-group row pt-1 mb-0">
+      <div class="col"></div>
+      <div class="col-auto pr-0">
+        <button type="button" class="btn btn-secondary" (click)="modal.dismiss()">
+          Cancel
+        </button>
+      </div>
+      <div class="col-auto">
+        <button type="button" class="btn btn-primary" (click)="modal.close('save')">
+          Save
+        </button>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+
+
+
+<!-- <div class="p-2 border">
+  <div class="text-right chartConfigureIcon"><i class="icon-cog font-15" (click)="onClickOfCustomizeDataTable()"></i></div>
+  <div class="text-center con-wid-preview" *ngIf="!isDataTableConfigured">
+      <img class="img-fluid img-fluid-custom" src="../../../../../assets/images/configure_data_table.jpg">
+  </div>
+  <div *ngIf="isDataTableConfigured" style="width: 100%; height: 350px" >
+    <div class="p-2 border">
+      <h4>Data Table</h4>
+      <ngx-datatable
+        class="bootstrap"
+        [rows]="rows"
+        [loadingIndicator]="loadingIndicator"
+        [columns]="columns"
+        [columnMode]="ColumnMode.force"
+        [headerHeight]="40"
+        [summaryRow]="true"
+        [summaryPosition]="'bottom'"
+        [footerHeight]="40"
+        [limit]="6"
+        rowHeight="auto"
+        [reorderable]="reorderable"
+      >
+      </ngx-datatable>
+    </div>
+  </div>
+</div> -->
+
+
+<!-- Modal Data Table Configuration -->
+<!-- <div id="configure-data-table-modal" class="modal">
+  <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title">Configure Data Table</h5>
+              <button type="button" class="close" (click)="onClickOfCustomizeDataTableModalClose()">&times;</button>
+          </div>
+          <div class="modal-body">
+              <div class="row">
+                <div class="col">
+                  <div class="form-group">
+                    <label class="temp" id="title-name">Title (Optional):</label>
+                    <input type="text" maxlength="10"
+                      class="form-control" id="title" placeholder="Title" name="name">
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-6">
+                  <div style="text-align: left;"> -->
+                    <!-- <div class="form-group"> -->
+                    <!-- <label for="typeahead-config" id="org-filter" class="mr-2">Type to filter events:</label> -->
+                    <!-- <div class="input-group input-group-sm">
+                      <input name="organizationsearch"  class="form-control" id="searchBox"
+                        type="search" placeholder="Search" aria-label="Search">
+                      <div class="input-group-append">
+                        <span class="input-group-text p-0">
+                          <button  class="btn btn-sm btn-search" id="searchButton"
+                             type="submit"><i class="icon-search"></i></button>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="custom-control custom-checkbox custom-control-inline">
+                    <input type="checkbox" id="sigSelected" class="custom-control-input" />
+                    <label class="custom-control-label" for="sigSelected">Selected</label>
+                  </div>
+                  <div class="custom-control custom-checkbox custom-control-inline">
+                    <input type="checkbox" id="sigUnSelected" class="custom-control-input"/>
+                    <label class="custom-control-label" for="sigUnSelected">Unselected</label>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <ngx-datatable
+        class="bootstrap"
+        [loadingIndicator]="loadingIndicator"
+        [headerHeight]="40"
+        [summaryRow]="true"
+        [summaryPosition]="'bottom'"
+        [footerHeight]="40"
+        [limit]="6"
+        rowHeight="auto"
+        [reorderable]="reorderable"
+      >
+      </ngx-datatable>
+              </div>
+          </div>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-secondary btn-sm" id="grant_user_btncancel"
+                  (click)="onClickOfCustomizeDataTableModalClose()">Cancel</button>
+              <button type="button" class="btn btn-info btn-sm" id="" (click)="saveDataTableConfiguration()">
+                  Save
+              </button>
+          </div>
+      </div>
+  </div>
+</div> -->

@@ -1,3 +1,5 @@
+import { Type } from '@angular/core';
+
 export class DashBoard{
     
         dashboardId: string;
@@ -14,5 +16,6 @@ export class DashBoard{
         createdBy: string;
         modifiedOn: string;
         modifiedBy: string;
-      
+        component?: Type<any>;
+        widgetConf?: any;
 }

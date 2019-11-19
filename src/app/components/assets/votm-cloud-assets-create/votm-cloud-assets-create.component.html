@@ -12,13 +12,13 @@
           class="icon-warn mr-1"></i>Event Log</a>
     </li>
     <!-- Dashboard-david -->
-    <li *ngFor="let dbItem of dbItems">
-      <a class="nav-link tab-icon" id="dashboard{{dbItem.id}}-tab" data-toggle="tab" href="#DashboardID_{{dbItem.id}}"
-        role="tab" aria-controls="loc" aria-selected="false" title="{{ dbItem.lName}}"><i
-          class="mr-2  icon-dashboard"></i>{{dbItem.sName}}<i class="fa fa-pencil ml-2"
-          (click)="openAddDashboardModal('editDashboard', dbItem.id,  dbItem.lName, dbItem.sName);"
+    <li *ngFor="let dbItem of dashboardTabs">
+      <a class="nav-link tab-icon" id="dashboard{{dbItem.dashboardId}}-tab" data-toggle="tab" href="#DashboardID_{{dbItem.dashboardId}}"
+        role="tab" aria-controls="loc" aria-selected="false" title="{{ dbItem.dashboardName}}"><i
+          class="mr-2  icon-dashboard"></i>{{dbItem.shortName}}<i class="fa fa-pencil ml-2"
+          (click)="openAddDashboardModal('editDashboard', dbItem.dashboardId,  dbItem.dashboardName, dbItem.shortName);"
           title="Configure Dashboard"></i>&nbsp;
-        <i class="icon-trash" (click)="openDashboardConfirmDialog(dbItem.id, dbItem.sName)"
+        <i class="icon-trash" (click)="openDashboardConfirmDialog(dbItem.dashboardId, dbItem.shortName)"
           title="Delete Dashboard"></i>
       </a>
     </li>
@@ -416,8 +416,8 @@
   </div>
 
   <!-- Dashboard-david -->
-  <div class="tab-pane fade border border-top-0 mb-3 flex-grow-1" *ngFor="let dbItem of dbItems"
-    id="DashboardID_{{dbItem.id}}" role="tabpanel">
+  <div class="tab-pane fade border border-top-0 mb-3 flex-grow-1" *ngFor="let dbItem of dashboardTabs"
+    id="DashboardID_{{dbItem.dashboardId}}" role="tabpanel">
     <app-votm-cloud-asset-dashboard [dbItem]="dbItem"></app-votm-cloud-asset-dashboard>
   </div>
 </div>
@@ -569,21 +569,21 @@
                 <label for="dbLongNameOrgLbl" class="">Dashboard Name</label>
                 <div class="">
                   <input ngbAutoFocus type="text" class="form-control form-control-sm" id="dbLongName"
-                    name="dbLongNameOrg" [(ngModel)]="dbLongName" />
+                    name="dbLongNameOrg" [(ngModel)]="dashboardTab.dashboardName" />
                 </div>
               </div>
               <div class="form-group col-6">
                 <label for="dbShortNameOrgLbl" class="">Short Name</label>
                 <div class="">
                   <input ngbAutoFocus type="text" class="form-control form-control-sm" id="dbShortName"
-                    name="dbShortNameOrgLbl" maxlength="8" [(ngModel)]="dbShortName" />
+                    name="dbShortNameOrgLbl" maxlength="8" [(ngModel)]="dashboardTab.shortName" />
                 </div>
               </div>
             </div>
             <div class="form-group">
               <label for="tplSelectOrg" class="">Template Name</label>
               <div class="">
-                <ng-select #tplSelect labelForId="tplSelect" class="custom" [(ngModel)]="selTemplate"
+                <ng-select #tplSelect labelForId="tplSelect" class="custom" [(ngModel)]="dashboardTab.templateName"
                   name="dbTemplateName" [disabled]="dashboardDataById.act==='edit'">
                   <ng-option *ngFor="let dbTemplate of dbTemplates" [value]="dbTemplate.name">{{ dbTemplate.name }}
                   </ng-option>

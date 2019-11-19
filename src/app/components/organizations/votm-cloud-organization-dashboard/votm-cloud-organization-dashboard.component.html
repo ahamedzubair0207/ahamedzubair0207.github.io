@@ -1,13 +1,21 @@
-<div id="dashboardIconContainer-{{dbItem.id}}" class="border-top-0 p-3 mb-3 position-relative">
-  <div class="lock-tab border border-bottom-0 mt-3 mr-3" id="resizeDashboardId-{{dbItem.id}}">
+<div id="dashboardIconContainer-{{dbItem.dashboardId}}" class="border-top-0 p-3 mb-3 position-relative">
+  <!-- <div class="lock-tab border border-bottom-0 mt-3 mr-3" id="resizeDashboardId-{{dbItem.id}}">
     <i class="icon-television pr-2" (click)="onClickOfKiosk()"></i>
     <i class="icon-resize-full-alt pr-2" title="Resize Full Screen"></i>
     <i class="icon-lock-open"></i>
-  </div>
+  </div> -->
   <!-- <div class="m-3 text-right actualDashboardClass" id="actualDashboardId-{{dbItem.id}}">
     <i class="icon-resize-small border p-1 icon-resize-small-class" (click)="actualDashboard(dbItem.id)" title="Resize"></i>
   </div> -->
-  <app-dashboardhost [dbItem]="dbItem" [locked]="locked"></app-dashboardhost>
+  <div class="border border-top-0 p-3 mb-3 shadow position-relative"  id="resizeDashboardId-{{dbItem.dashboardId}}">
+    <div class="lock-tab border border-bottom-0 mt-3 mr-3">
+      <i class="icon-television pr-2"></i>
+      <i class="icon-resize-full-alt pr-2"></i>
+      <i [ngClass]="locked ? 'icon-lock' : 'icon-lock-open'" (click)="toggleLock()"></i>
+    </div>
+    <app-dashboardhost [dbItem]="dbItem" [locked]="locked"></app-dashboardhost>
+  </div>
+  <!-- <app-dashboardhost [dbItem]="dbItem"></app-dashboardhost> -->
 </div>
 
 <!-- Modal Kiosk Mode -->
