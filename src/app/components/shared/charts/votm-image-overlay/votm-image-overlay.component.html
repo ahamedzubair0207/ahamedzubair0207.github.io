@@ -43,13 +43,9 @@
                   {{item.latestValue}}
                 </ng-container>
                 <ng-template #hoveredContent>
-                  <p><b>QCD > {{item.locationName}}</b></p>
-                  <p>09/13/2019 11:45PM</p>
-                  <p><b>Critical alarm on asset</b></p>
-                  <hr class="mt-1 mb-1">
-                  <p><b>{{item.associationName}}</b></p>
-                  <p>{{item.associationName}} : {{item.latestValue}}</p>
-                  <p>Above critical threshold of 95&deg; F</p>
+                  <p><b>QCD > {{item.sensorName}}</b><br/>
+                  09/13/2019 11:45PM<br/>
+                  <b>{{item.associationName}}:  {{item.latestValue}}</b></p>
                 </ng-template>
               </div>
             </ng-container>
@@ -58,10 +54,23 @@
               *ngFor="let item of associatedAssets; let i = index;"
               style="position: absolute;"
               class="signal-item {{ item.icon }}"
+              (mouseenter)="displaySignalHoverContent['a-'+i] = true"
+              (mouseleave)="displaySignalHoverContent['a-'+i] = false"
               [style.left.px]="imgOffsetLeft + item.imageCoordinates[overLaySource === 'location' ? item.assetId : item.childAssetId].x * imgOffsetWidth - 16"
               [style.top.px]="imgOffsetTop + item.imageCoordinates[overLaySource === 'location' ? item.assetId : item.childAssetId].y * imgOffsetHeight - 16"
             >
-              {{overLaySource === 'location' ? item.assetName : item.childAssetName}}
+            <ng-container *ngIf="!displaySignalHoverContent['a-' + i]; else hoveredAssetContent" >
+                {{overLaySource === 'location' ? item.assetName : item.childAssetName}}
+            </ng-container>
+            <ng-template #hoveredAssetContent>
+              <p><b>QCD > {{item.locationName}} >  {{overLaySource === 'location' ? item.assetName : item.childAssetName}}</b><br/>
+              09/13/2019 11:45PM<br/>
+              <b>Critical alarm on asset</b></p>
+              <hr class="mt-1 mb-1">
+              <p><b>Critical: Control Cabinet Temperature</b><br/>
+              Temperature: 142&deg; F<br/>
+              Above critical threshold of 95&deg; F</p>
+            </ng-template>
 
             </div>
           </div>

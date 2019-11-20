@@ -119,7 +119,7 @@
 
 // extra small icon
   .assoc-pane > div.widget-icon-extra-small{
-    padding-left:calc(2 * #{$font-size-sm} + 6px);
+    padding-left:calc(2 * #{$font-size-sm} + 5px);
     line-height: calc(2 * #{$font-size-sm} + 0px);
     border-radius: calc(#{$font-size-sm} + 1px) !important;
     transition: all 0.3s ease;
@@ -146,7 +146,7 @@
 
   // small icon
   .assoc-pane > div.widget-icon-small{
-    padding-left:calc(2 * #{$h4-font-size} + 0px);
+    padding-left:calc(2 * #{$h4-font-size} + 5px);
     line-height: calc(2 * #{$h4-font-size} + 0px);
     border-radius: calc(#{$h4-font-size} + 1px) !important;
     background: rgba(255, 255, 255, 0.90);
@@ -171,7 +171,7 @@
 
   // Medium icon
   .assoc-pane > div.widget-icon-medium{
-    padding-left:calc(2 * 3rem + 0px);
+    padding-left:calc(2 * 3rem + 5px);
     line-height: calc(2 * 3rem + 0px);
     border-radius: calc(3rem + 1px) !important;
     background: rgba(255, 255, 255, 0.90);
@@ -195,7 +195,7 @@
   }
   // large icon
   .assoc-pane > div.widget-icon-large{
-    padding-left:calc(2 * 6rem + 0px);
+    padding-left:calc(2 * 6rem + 5px);
     line-height: calc(2 * 6rem + 0px);
     border-radius: calc(6rem + 1px) !important;
     border-color:rgba(255, 193, 7, 0.7);
@@ -219,7 +219,7 @@
   }
   //extra large icon
   .assoc-pane > div.widget-icon-extra-large{
-    padding-left:calc(2 * 10rem + 0px);
+    padding-left:calc(2 * 10rem + 5px);
     line-height: calc(2 * 10rem + 0px);
     border-radius: calc(10rem + 1px) !important;
     background: rgba(255, 255, 255, 0.90);
@@ -352,14 +352,19 @@
     display: inline-block !important;
     width: auto!important;
     // padding-right: 0;
-    padding-right: 1rem;
+    padding-right: 0.5rem;
     position: absolute;
     border-color: $success;
     &:hover {
-      padding-right: calc(#{$font-size-base} / 2 + #{$input-btn-padding-x});
-      padding-left: calc(2 * #{$font-size-base} + 2px + #{$input-btn-padding-x});
+      // padding-right: calc(#{$font-size-base} / 2 + #{$input-btn-padding-x});
+      padding-left: calc(2 * #{$font-size-base} + 2px);
       width: auto;
       z-index: 1;
+      p {
+        line-height: 1rem;
+        padding:0;
+        margin:0;
+      }
     }
     &:before {
       color: $white;
