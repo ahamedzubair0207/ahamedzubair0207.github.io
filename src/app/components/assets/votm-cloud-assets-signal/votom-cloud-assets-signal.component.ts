@@ -27,8 +27,7 @@ export class VotomCloudAssetsSignalComponent implements OnInit {
   isGetAssociatedSignalsAPILoading = false; // flag for loader for get associated signals api
   isCreateSignalAssociationAPILoading = false; // flag for loader for create signals association api
   imgURL: any; // to store the base64 of location image.
-  curOrganizationId: string;
-  curOrganizationName: string;
+  organizationName: string;
   sensors = [];
   derivedSignals: any = [];
   alertRules: any[] = [];
@@ -56,9 +55,10 @@ export class VotomCloudAssetsSignalComponent implements OnInit {
     this.assetId = this.activatedRoute.snapshot.params.assetId;
     this.activatedRoute.paramMap.subscribe(params => {
       this.organizationId = params.get('parentOrgId');
+      this.organizationName = params.get('parentOrgName');
       this.locationId = params.get('parentLocId');
       this.assetId = params.get('assetId');
-      console.log(this.curOrganizationId, '====', this.curOrganizationName, '====', this.organizationId);
+      console.log('====', this.organizationId);
       this.getAssetById();
       this.getAssetSignalAssociation();
       this.getAlertRulesList();
@@ -221,6 +221,14 @@ export class VotomCloudAssetsSignalComponent implements OnInit {
   onReset() {
     this.getAssetSignalAssociation();
     this.toggleDisable();
+  }
+
+  onReturnToList() {
+    if (this.locationId) {
+      this.route.navigate(['asset', 'home', this.organizationId, this.organizationName, this.locationId]);
+      return;
+    }
+    this.route.navigate(['asset', 'home', this.organizationId, this.organizationName]);
   }
 
 }

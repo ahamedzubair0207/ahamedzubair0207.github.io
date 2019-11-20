@@ -4,7 +4,7 @@
 <div class="pt-2 pb-2 mb-3">
   <ul class="nav nav-tabs" id="main-tabs" role="tablist">
     <li class="nav-item">
-      <a class="nav-link active tab-icon" id="loc-tab" href="#loc-details-tab" data-toggle="tab" role="tab"
+      <a class="nav-link active tab-icon" id="loc-tab" href="#loc-details-tab" (click)="onClickOfNavTab('location')" data-toggle="tab" role="tab"
         aria-controls="loc-info" aria-selected="true"><i class="icon-loc-pin-map mr-1"></i>Location</a>
     </li>
     <li class="nav-item">
@@ -36,7 +36,7 @@
     <!-- chirag dynamic dashboard  can go here-->
     <!-- Dashboard-david -->
     <li *ngFor="let dbItem of dashboardTabs">
-      <a class="nav-link tab-icon" id="dashboard{{dbItem.dashboardId}}-tab" data-toggle="tab" href="#DashboardID_{{dbItem.dashboardId}}"
+      <a class="nav-link tab-icon" id="dashboard{{dbItem.dashboardId}}-tab" (click)="onClickOfNavTab('dashboard')" data-toggle="tab" href="#DashboardID_{{dbItem.dashboardId}}"
         role="tab" aria-controls="loc" aria-selected="false" title="{{ dbItem.dashboardName}}"><i
           class="mr-2  icon-dashboard"></i>{{dbItem.shortName}}
         <i class="fa fa-pencil ml-2"
@@ -69,7 +69,7 @@
       <div class="d-flex flex-row">
         <ul class="nav nav-tabs nav-tabs-vertical nav-tabs-left pt-3" aria-orientation="vertical">
           <li class="nav-item" placement="top" ngbTooltip="Deatils of Location">
-            <a class="nav-link active tab-icon" id="loc-details-tab" (click)="onClickOfNavTab('location_details')"
+            <a class="nav-link active tab-icon" (click)="onClickOfNavTab('location_details')"
               name="loc-view-edit" href="#loc-details" data-toggle="tab" role="tab" aria-controls="loc-details"
               aria-selected="true"><i class="icon-details"></i></a>
           </li>
@@ -88,8 +88,9 @@
 
         <!-- Location Details  -->
         <div class="tab-content w-100">
-          <div class="tab-pane fade show active" *ngIf="(!locId && pageLabels) || (locId && pageLabels && location)"
-            id="loc-details" role="tabpanle" area-labelledby="loc-details-tab">
+  
+          <div class="tab-pane fade show active" 
+            id="loc-details" role="tabpanle" area-labelledby="loc-details" *ngIf="(!locId && pageLabels) || (locId && pageLabels && location)" >
             <div class="position-relative">
               <div class="lock-tab border border-bottom-0">
                 <i class="icon-lock edit-view-lock" name="loclockbutton" *ngIf="pageType.toLowerCase() === 'view'"
@@ -100,7 +101,7 @@
             </div>
             <form #locationForm="ngForm" class="create-loc-container needs-validation" (ngSubmit)="onLocationSubmit()"
               novalidate>
-              
+
               <div class="row">
                 <div class="col-12 col-md-6 col-lg-3 col-xl-3">
                   <div class="form-group">

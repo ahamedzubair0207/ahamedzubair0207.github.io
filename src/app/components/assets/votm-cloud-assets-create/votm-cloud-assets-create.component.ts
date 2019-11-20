@@ -1248,7 +1248,10 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
   onClickOfNavTab(type) {
     this.isSignalAssociationClicked = false;
     this.isChildAssetAssociation = false;
-    if (type === 'signal_association') {
+    if (type === 'asset') {
+      $('.nav-tabs a[href="#asset-details"]').tab('show');
+      this.onClickOfNavTab('asset-details');
+    } else if (type === 'signal_association') {
       this.isSignalAssociationClicked = true;
     } else if (type === 'child_asset') {
       this.isChildAssetAssociation = true;

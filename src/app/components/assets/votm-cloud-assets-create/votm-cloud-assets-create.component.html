@@ -2,7 +2,7 @@
   <!-- Top Level Nav -->
   <ul class="nav nav-tabs" id="main-tabs" role="tablist">
     <li class="nav-item">
-      <a class="nav-link active tab-icon" (click)="onClickOfNavTab('asset')" id="asset-tab" href="#asset-details-tab"
+      <a class="nav-link active tab-icon" (click)="onClickOfNavTab('asset')" id="asset-tab" (click)="onClickOfNavTab('asset')" href="#asset-details-tab"
         data-toggle="tab" role="tab" aria-controls="asset-info" aria-selected="true"><i class="icon-asset-robot"></i>
         Asset</a>
     </li>
@@ -41,7 +41,7 @@
       <div class="d-flex flex-row">
         <ul class="nav nav-tabs nav-tabs-vertical nav-tabs-left pt-3" aria-orientation="vertical">
           <li class="nav-item" placement="top" ngbTooltip="Asset Details">
-            <a class="nav-link tab-icon active" (click)="onClickOfNavTab('asset_details')" id="asset-details-tab"
+            <a class="nav-link tab-icon active" (click)="onClickOfNavTab('asset_details')"
               name="asset-view-edit" href="#asset-details" data-toggle="tab" role="tab" aria-controls="asset-details"
               aria-selected="true"><i class="icon-details"></i></a>
           </li>

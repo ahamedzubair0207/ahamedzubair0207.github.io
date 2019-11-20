@@ -856,6 +856,11 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
   onClickOfNavTab(type) {
     this.isSignalAssociationClicked = false;
     this.isAssetAssociationClicked = false;
+    if (type === 'location') {
+      $('.nav-tabs a[href="#loc-details"]').tab('show');
+
+      this.onClickOfNavTab('location_details');
+    }
     if (type === 'signal_association') {
       this.isSignalAssociationClicked = true;
     } else if (type === 'asset_association') {
