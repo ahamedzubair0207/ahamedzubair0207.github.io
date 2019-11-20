@@ -76,10 +76,9 @@
                 <div class="signal-list">
                   <ng-container *ngFor="let item of dragList; let j = index">
                     <div
-                      class="signal-item {{ item.icon }} border-0 transparent"
-                      [ngClass]="{ assoc: item.associated}"
+                      class="signal-item {{ item.icon }} border-0 transparent "
+                      [ngClass]="{ assoc: item.associated, cursorpoint: !disable, cursordefault: disable}"
                       (click)="!disable ? onClickOfAssetName(item) : ''"
-                      [ngClass]="!disable ? 'cursor-point' : 'cursordefault'"
                     >
                       {{ item.name }}
                     </div>
@@ -113,9 +112,9 @@
               [dndDisableIf]="disable || !item.bound"
             >
               {{item.associationName}}
-              <a id="sig_edit_{{i}}" *ngIf="showEditIcon"  [class.d-none]="disable || !item.bound" (click)="onClickOfEditIcon(i, $event)"><i class="icon-edit cursor-point"></i></a>
-              <a id="sig_alert_{{i}}" *ngIf="showAlertIcon" [class.d-none]="disable || !item.bound" (click)="onClickOfAlertIcon(i, $event)"><i class="icon-warn cursor-point"></i></a>
-              <a id="sig_unlink_{{i}}" *ngIf="showDetachIcon"  [class.d-none]="disable || !item.bound" (click)="onDetachSignalFromAsset(i)"><i class="icon-unlink cursor-point"></i></a>
+              <a id="sig_edit_{{i}}" *ngIf="showEditIcon"  [class.d-none]="disable || !item.bound" (click)="onClickOfEditIcon(i, $event)"><i class="icon-edit cursorpoint"></i></a>
+              <a id="sig_alert_{{i}}" *ngIf="showAlertIcon" [class.d-none]="disable || !item.bound" (click)="onClickOfAlertIcon(i, $event)"><i class="icon-warn cursorpoint"></i></a>
+              <a id="sig_unlink_{{i}}" *ngIf="showDetachIcon"  [class.d-none]="disable || !item.bound" (click)="onDetachSignalFromAsset(i)"><i class="icon-unlink cursorpoint"></i></a>
             </div>
           </div>
         </div>

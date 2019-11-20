@@ -126,4 +126,11 @@ export class LocationService {
   getAssetAssociation(locationId: string) {
     return this.http.get(AppConstants.GET_ASSOCIATE_LOCATION_ASSET + '/' + locationId + '/Association');
   }
+
+  getAllLocationsTreeByOrganizationID(orgId: string): Observable<any> {
+    return this.http.get(`${AppConstants.GET_ALL_LOCATIONS_BY_ORGID}/${orgId}`)
+      .pipe(
+        map(response => response)
+      );
+  }
 }

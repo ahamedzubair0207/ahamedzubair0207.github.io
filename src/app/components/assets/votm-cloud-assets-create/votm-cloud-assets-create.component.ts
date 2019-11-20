@@ -293,12 +293,14 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
           console.log(this.asset);
           if (this.asset.parentAssetId) {
             this.getParentAssetById(this.asset.parentAssetId);
+            this.parentAssetImageURL = '../../../../assets/images/assetPlaceholder.png';
           } else {
             this.getLocationById(this.asset.locationId);
+            this.parentAssetImageURL = '../../../../assets/images/default-image-svg.svg';
           }
           this.asset.parentAssetName = this.parentAssetName;
           if (this.asset.logo && this.asset.logo.imageName) {
-            this.fileExtension = this.asset.logo.imageName.slice((Math.max(0, this.asset.logo.imageName.lastIndexOf(".")) || Infinity) + 1);
+            this.fileExtension = this.asset.logo.imageName.slice((Math.max(0, this.asset.logo.imageName.lastIndexOf('.')) || Infinity) + 1);
             const base64Img = `data:image/${this.fileExtension};base64,${this.asset.logo.image}`;
             this.imgURL = this.domSanitizer.bypassSecurityTrustUrl(base64Img);
             const img = new Image();
@@ -319,11 +321,9 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
     this.assetService.getAssetById(parentAssetId)
       .subscribe(response => {
         if (response.logo && response.logo.imageName) {
-          const fileExtension = response.logo.imageName.slice((Math.max(0, response.logo.imageName.lastIndexOf(".")) || Infinity) + 1);
+          const fileExtension = response.logo.imageName.slice((Math.max(0, response.logo.imageName.lastIndexOf('.')) || Infinity) + 1);
           const base64Img = `data:image/${fileExtension};base64,${response.logo.image}`;
           this.parentAssetImageURL = this.domSanitizer.bypassSecurityTrustUrl(base64Img);
-        } else {
-          this.imgURL = '../../../../assets/images/default-image-svg.svg';
         }
       }
       );
@@ -336,8 +336,6 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
           const fileExtension = response.logo.imageName.slice((Math.max(0, response.logo.imageName.lastIndexOf(".")) || Infinity) + 1);
           const base64Img = `data:image/${fileExtension};base64,${response.logo.image}`;
           this.parentAssetImageURL = this.domSanitizer.bypassSecurityTrustUrl(base64Img);
-        } else {
-          this.imgURL = '../../../../assets/images/default-image-svg.svg';
         }
       }
       );
@@ -1084,6 +1082,12 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
       if (!this.asset.fileStore) {
         this.asset.fileStore = null;
       }
+      if (!this.asset.imageCoordinates) {
+        this.asset.imageCoordinates = {
+          x: 0,
+          y: 0
+        };
+      }
     }
 
     if (this.assetForm && this.assetForm.invalid) {
@@ -1244,7 +1248,10 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
   onClickOfNavTab(type) {
     this.isSignalAssociationClicked = false;
     this.isChildAssetAssociation = false;
-    if (type === 'signal_association') {
+    if (type === 'asset') {
+      $('.nav-tabs a[href="#asset-details"]').tab('show');
+      this.onClickOfNavTab('asset-details');
+    } else if (type === 'signal_association') {
       this.isSignalAssociationClicked = true;
     } else if (type === 'child_asset') {
       this.isChildAssetAssociation = true;
@@ -1319,7 +1326,7 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
         this.toaster.onSuccess('Successfully Created Dashboard', 'Created');
         this.closeAddDashboardModal(true);
       })
-   
+
   }
 
   closeAddDashboardModal(event: any) {
@@ -1345,7 +1352,7 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
           this.toaster.onFailure('Something went wrong on server. Please try after sometiime.', 'Delete Fail!');
         });
     }
-    
+
   }
 
   onLoadLocImg() {

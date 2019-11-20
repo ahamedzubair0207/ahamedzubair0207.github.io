@@ -107,7 +107,7 @@
             <td class="align-center sensor-actions" *ngIf="originList === 'organizationView'">
               <ng-container *ngIf="rowData.type === 'Sensor'">
                 <a [routerLink]="['/admin/networkmanagement/sensorDetails/edit', rowData.id]"><i class="icon-edit" title="Edit Sensor"></i></a>
-                <i class="icon-unlink" title="Unlink Sensor" (click)="openSensorUnlinkConfirmDialog(rowData.id, rowData.name)" *ngIf="rowData.isLink"></i>
+                <i class="icon-unlink" title="Unbind Sensor" (click)="openSensorUnlinkConfirmDialog(rowData.id, rowData.name)" *ngIf="rowData.isLink"></i>
                 <!-- <i class="icon-unlink" *ngIf="!rowData.isLink"></i> -->
               </ng-container>
             </td>
@@ -239,5 +239,5 @@
 
 <!-- Delete Organization Dashboard Start-->
 <app-votm-cloud-confim-dialog (onClose)="unlinkSensorConfirmation($event)" #confirmBoxSensor [message]="unlinkSensorMessage"
-  headerMessage="Warning"></app-votm-cloud-confim-dialog>
+  headerMessage="Warning - The following connections will be unbound."></app-votm-cloud-confim-dialog>
 <!-- Delete Organization Dashboard End-->

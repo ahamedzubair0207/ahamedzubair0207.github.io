@@ -5,7 +5,7 @@ import { OverlayPanel } from 'primeng/overlaypanel';
 import { Alert } from 'src/app/models/alert.model';
 import { Asset } from 'src/app/models/asset.model';
 import { Location } from 'src/app/models/location.model';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AssetsService } from 'src/app/services/assets/assets.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ToastrService } from 'ngx-toastr';
@@ -52,6 +52,7 @@ export class VotmCloudLocationsAssetComponent implements OnInit {
   pageType: string;
   constructor(
     private activatedRoute: ActivatedRoute,
+    private route: Router,
     private routerLocation: RouterLocation,
     private locationService: LocationService,
     private assetService: AssetsService,
@@ -205,6 +206,10 @@ export class VotmCloudLocationsAssetComponent implements OnInit {
   onReset() {
     this.getAssets();
     this.toggleDisable();
+  }
+
+  onReturnToList() {
+    this.route.navigate(['loc', 'home', this.curOrganizationId, this.curOrganizationName]);
   }
 
 }

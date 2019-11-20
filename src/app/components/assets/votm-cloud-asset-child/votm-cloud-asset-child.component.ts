@@ -222,4 +222,12 @@ export class VotmCloudAssetChildComponent implements OnInit {
     this.toggleDisable();
   }
 
+  onReturnToList() {
+    if (this.parentLocationId) {
+      this.route.navigate(['asset', 'home', this.curOrganizationId, this.curOrganizationName, this.parentLocationId]);
+      return;
+    }
+    this.route.navigate(['asset', 'home', this.curOrganizationId, this.curOrganizationName]);
+  }
+
 }

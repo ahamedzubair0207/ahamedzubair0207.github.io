@@ -4,7 +4,7 @@
         [ngClass]="disable ? 'icon-lock edit-view-lock' : 'icon-lock-open edit-view-lock'"></i></a>
   </div>
 </div>
-<div  class="position-relative" >
+<div  class="position-relative" *ngIf="imgURL" >
 
   <div class="row">
     <div class="col-12 col-md-3">
@@ -61,7 +61,8 @@
     (saveAssociation)="onSaveSignalAssociation($event)"
     (saveAlarmAssociation)="onClickOfAlarmRuleAssociation($event)"
     (resetPage)="onReset($event)"
-    *ngIf="imgURL && model === 'Signal'"
+    (returnToList)="onReturnToList()"
+    *ngIf="model === 'Signal'"
   >
   </app-votm-cloud-association>
 </div>
