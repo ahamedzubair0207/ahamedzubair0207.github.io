@@ -76,7 +76,7 @@ export class VotomCloudAssetsSignalComponent implements OnInit {
           'data:image/' + fileExtension + ';base64,' + this.asset.logo.image
         );
       } else {
-        this.imgURL = '../../../../assets/images/default-image-svg.svg';
+        this.imgURL = '../../../../assets/images/assetPlaceholder.svg';
       }
       console.log(this.imgURL);
     });

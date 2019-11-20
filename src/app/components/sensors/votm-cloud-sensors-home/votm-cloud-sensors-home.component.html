@@ -92,7 +92,7 @@
 </ng-template> -->
 
 <div class="row ml-1 mr-1">
-  <p-treeTable [scrollable]="true" #tt scrollHeight="600px" [globalFilterFields]="['name']" [resizableColumns]="true"
+  <p-treeTable [scrollable]="true" #tt scrollHeight="680px" [globalFilterFields]="['name']" [resizableColumns]="true"
     [value]="sensorList" [autoLayout]="true" id="sensorsTbl">
     <ng-template pTemplate="caption">
       <div style="text-align: left;">
@@ -131,7 +131,7 @@
       <tr [ttRow]="rowNode">
 
         <td class="align-left">
-          <span container="body" [ngbTooltip]="rowData.name">
+          <span container="body" [ngbTooltip]="rowData.name" class="underline-on-hover">
             <p-treeTableToggler [rowNode]="rowNode"></p-treeTableToggler>
             <i class="icon-sensonode2"></i>{{rowData.name}}
           </span>

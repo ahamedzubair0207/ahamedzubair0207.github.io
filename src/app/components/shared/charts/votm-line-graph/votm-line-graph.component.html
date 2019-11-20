@@ -4,20 +4,20 @@
       <img class="img-fluid img-fluid-custom" src="../../../../../assets/images/configure_trend_chart_widget.jpg">
   </div>
   </div>
-  <!-- <div class="text-right" [class.d-none]="locked" (click)="open(config)"><i class="icon-cog" ></i></div> -->
+  <!-- <div class="text-right" [class.d-none]="locked" (click)="open(config)"><i class="icon-cog" ></i></div>  , 1h, , , ,   -->
   
   <div class="text-right range-actions mr-2">
-    <div *ngIf="configured" class="btn-group btn-group-toggle" ngbRadioGroup name="radioBasic" [(ngModel)]="selDynDateRng">
-      <label ngbButtonLabel class="btn-outline-secondary btn-sm"> <input ngbButton type="radio" value="Min" />1m</label>
-      <label ngbButtonLabel class="btn-outline-secondary btn-sm"> <input ngbButton type="radio" value="Hour" />1h</label>
-      <label ngbButtonLabel class="btn-outline-secondary btn-sm"> <input ngbButton type="radio" value="Day" />1d</label>
-      <label ngbButtonLabel class="btn-outline-secondary btn-sm"> <input ngbButton type="radio" value="Week" />1W</label>
-      <label ngbButtonLabel class="btn-outline-secondary btn-sm"> <input ngbButton type="radio" value="Month" />1M</label>
-      <label ngbButtonLabel class="btn-outline-secondary btn-sm"> <input ngbButton type="radio" value="3Month" />3M</label>
-      <label ngbButtonLabel class="btn-outline-secondary btn-sm"> <input ngbButton type="radio" value="6Month" />6M</label>
-      <label ngbButtonLabel class="btn-outline-secondary btn-sm"> <input ngbButton type="radio" value="YTD" />Ytd</label>
-      <label ngbButtonLabel class="btn-outline-secondary btn-sm"> <input ngbButton type="radio" value="Year" />1Y</label>
-      <label ngbButtonLabel class="btn-outline-secondary btn-sm"> <input ngbButton type="radio" value="All" />all</label>
+    <div *ngIf="configured" class="btn-group btn-group-toggle" ngbRadioGroup name="radioBasic" [(ngModel)]="selDateRange" (change)="onRadioGroupChange()">
+      <label ngbButtonLabel class="btn-outline-secondary btn-sm"> <input ngbButton type="radio" value="5m" />5m</label>
+      <label ngbButtonLabel class="btn-outline-secondary btn-sm"> <input ngbButton type="radio" value="10m" />10m</label>
+      <label ngbButtonLabel class="btn-outline-secondary btn-sm"> <input ngbButton type="radio" value="20m" />20m</label>
+      <label ngbButtonLabel class="btn-outline-secondary btn-sm"> <input ngbButton type="radio" value="30m" />30m</label>
+      <label ngbButtonLabel class="btn-outline-secondary btn-sm"> <input ngbButton type="radio" value="1h" />1H</label>
+      <!-- <label ngbButtonLabel class="btn-outline-secondary btn-sm"> <input ngbButton type="radio" value="3Month" />5H</label> -->
+      <label ngbButtonLabel class="btn-outline-secondary btn-sm"> <input ngbButton type="radio" value="10h" />10H</label>
+      <!-- <label ngbButtonLabel class="btn-outline-secondary btn-sm"> <input ngbButton type="radio" value="YTD" />20H</label> -->
+      <label ngbButtonLabel class="btn-outline-secondary btn-sm"> <input ngbButton type="radio" value="1d" />1D</label>
+      <!-- <label ngbButtonLabel class="btn-outline-secondary btn-sm"> <input ngbButton type="radio" value="All" />all</label> -->
     </div>
   </div>
 
@@ -121,7 +121,8 @@
       <label for="axisDateRngSelect" class="col-3 col-form-label mandatory">Date Range</label>
       <div class="col-3">
         <ng-select autofocus labelForId="axisDateRngSelect" class="custom" [(ngModel)]="selDateRange">
-          <ng-option value="Min">One Minute</ng-option>
+         <ng-option *ngFor="let dr of dateRange" [value]="dr.value">{{dr.name}}</ng-option>
+          <!-- <ng-option value="Min">One Minute</ng-option>
           <ng-option value="Hour">One Hour</ng-option>
           <ng-option value="Day">One Day</ng-option>
           <ng-option value="Week">One Week</ng-option>
@@ -130,7 +131,7 @@
           <ng-option value="6Month">Six Months</ng-option>
           <ng-option value="YTD">Year to Date</ng-option>
           <ng-option value="Year">One Year</ng-option>
-          <ng-option value="All">All Available Data</ng-option>
+          <ng-option value="All">All Available Data</ng-option> -->
         </ng-select>
       </div>
     </div>

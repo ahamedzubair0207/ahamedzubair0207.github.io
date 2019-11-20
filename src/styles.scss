@@ -49,6 +49,11 @@ label {
 a:hover, .btn:hover{
   transition: 0.4s;
 }
+
+.underline-on-hover:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
 // .input-group-text{
 //   padding: .365rem .75rem !important;
 // }

@@ -127,6 +127,7 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
 
   dashboardTabs: Array<DashBoard> = [];
   dashboardTab: DashBoard = new DashBoard();
+  deleteDashboardId: any;
 
   constructor(
     private assetService: AssetsService,
@@ -227,11 +228,7 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
 
       if (this.orgId) {
         this.getOrganizationInfo();
-        this.dbService.getAllDashboards(this.orgId, 'organization')
-          .subscribe(response => {
-            console.log('get All Dashboard ', response);
-            this.dashboardTabs = response;
-          });
+        this.getAllDashboards();
       } else {
         this.placeholder = VotmCommon.dateFormat;
         this.parentOrganizationInfo = {
@@ -298,6 +295,14 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
   }
 
   selOrgIcon = "company";
+  private getAllDashboards() {
+    this.dbService.getAllDashboards(this.orgId, 'organization')
+      .subscribe(response => {
+        console.log('get All Dashboard ', response);
+        this.dashboardTabs = response;
+      });
+  }
+
   ngAfterViewInit(): void {
     //  jQuery('.selectpicker').selectpicker();
     this.showImageLogo();
@@ -952,16 +957,18 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
 
     if (this.dashboardTab.dashboardId) {
       this.dbService.editDashboard(this.dashboardTab)
-        .subscribe(response => {
-          let index = this.dashboardTabs.findIndex(x => x.dashboardId === this.dashboardTab.dashboardId);
-          this.dashboardTabs[index] = this.dashboardTab;
+        .subscribe(response => {          
+          this.getAllDashboards();
+          // let index = this.dashboardTabs.findIndex(x => x.dashboardId === this.dashboardTab.dashboardId);
+          // this.dashboardTabs[index] = this.dashboardTab;
           this.dashboardTab = new DashBoard();
           this.toaster.onSuccess('Successfully Updated Dashboard', 'Updated');
         });
     } else {
       this.dbService.saveDashboard(this.dashboardTab)
         .subscribe(response => {
-          this.dashboardTabs.push(this.dashboardTab);
+          // this.dashboardTabs.push(this.dashboardTab);
+          this.getAllDashboards();
           this.dashboardTab = new DashBoard();
           this.toaster.onSuccess('Successfully Created Dashboard', 'Created');
         });
@@ -980,7 +987,8 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
   }
 
   openDashboardConfirmDialog(dashboardId, dashboardName) {
-    this.dashboardData = dashboardId;
+    this.deleteDashboardId = dashboardId;
+    // this.dashboardData = this.dashboardTab.dashboardId;
     this.message = `Do you want to delete the "${dashboardName}" Dashboard?`;
     this.confirmBoxDash.open();
   }
@@ -989,10 +997,10 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
     // console.log('deleteOrganizationDashboardById===', event);
     if (event) {
       //   // delete dashboard service goes here
-      this.dbService.deleteDashboard(this.dashboardTab.dashboardId)
+      this.dbService.deleteDashboard(this.deleteDashboardId)
         .subscribe(response => {
           this.toaster.onSuccess(`You have deleted ${this.dashboardTab.dashboardName} successfully`, 'Delete Success!');
-          this.route.navigate([`org/home/${this.curOrgId}/${this.curOrgName}`]);
+          this.getAllDashboards();
         }, error => {
           this.toaster.onFailure('Something went wrong on server. Please try after sometiime.', 'Delete Fail!');
         });
@@ -1003,7 +1011,6 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
 
   getDashboardById(dashboardId: any) {
     this.dashboardData = this.getDashboards();
-    // return this.dashboardById = this.dashboardData.id;
   }
 
   onLocaleChange() {
