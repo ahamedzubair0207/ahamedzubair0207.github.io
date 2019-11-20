@@ -120,7 +120,7 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
   activeTab: string;
   disableParentOrganization: boolean;
   // Dashboard-david end
-
+  locked: boolean = true; // For Dashboard
 
   dashboardTabs: Array<DashBoard> = [];
   dashboardTab: DashBoard = new DashBoard();

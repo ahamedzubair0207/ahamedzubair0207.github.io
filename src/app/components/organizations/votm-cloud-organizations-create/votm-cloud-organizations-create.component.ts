@@ -120,6 +120,7 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
   newTabId: string = '';
   activeTab: string;
   // Dashboard-david end
+  locked: boolean = true; // For Dashboard
 
   // Flag to pass originList to sensor list common selector - app-votm-cloud-admin-sensor-home
   originListView: string = 'organizationView';
@@ -957,7 +958,7 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
 
     if (this.dashboardTab.dashboardId) {
       this.dbService.editDashboard(this.dashboardTab)
-        .subscribe(response => {          
+        .subscribe(response => {
           this.getAllDashboards();
           // let index = this.dashboardTabs.findIndex(x => x.dashboardId === this.dashboardTab.dashboardId);
           // this.dashboardTabs[index] = this.dashboardTab;

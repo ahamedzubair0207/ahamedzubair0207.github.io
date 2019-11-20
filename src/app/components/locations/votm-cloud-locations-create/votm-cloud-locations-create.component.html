@@ -36,13 +36,14 @@
     <!-- chirag dynamic dashboard  can go here-->
     <!-- Dashboard-david -->
     <li *ngFor="let dbItem of dashboardTabs">
-      <a class="nav-link tab-icon" id="dashboard{{dbItem.dashboardId}}-tab" (click)="onClickOfNavTab('dashboard')" data-toggle="tab" href="#DashboardID_{{dbItem.dashboardId}}"
-        role="tab" aria-controls="loc" aria-selected="false" title="{{ dbItem.dashboardName}}"><i
-          class="mr-2  icon-dashboard"></i>{{dbItem.shortName}}
-        <i class="fa fa-pencil ml-2"
-          (click)="openAddDashboardModal('editDashboard', dbItem.dashboardId,  dbItem.dashboardName, dbItem.shortName);"
-          title="Configure Dashboard"></i>&nbsp;
-        <i class="icon-trash" (click)="openDashboardConfirmDialog(dbItem.dashboardId, dbItem.shortName)"
+      <a class="nav-link tab-icon" id="dashboard{{dbItem.dashboardId}}-tab" (click)="onClickOfNavTab('dashboard')"  data-toggle="tab" href="#DashboardID_{{dbItem.dashboardId}}"
+        role="tab" aria-controls="loc" aria-selected="false" title="{{ dbItem.dashboardName}}">
+        <i class="mr-2 icon-dashboard"></i>{{dbItem.shortName}}
+        <i class="dashboard-configure-icon icon-pencil ml-2" [ngClass]="{'d-none': locked}"
+        (click)="openAddDashboardModal('editDashboard', dbItem.dashboardId,  dbItem.dashboardName, dbItem.shortName);"
+          title="Configure Dashboard"></i>
+        <i class="dashboard-configure-icon icon-trash" [ngClass]="{'d-none': locked}"
+        (click)="openDashboardConfirmDialog(dbItem.dashboardId, dbItem.shortName)"
           title="Delete Dashboard"></i>
       </a>
     </li>
@@ -88,8 +89,8 @@
 
         <!-- Location Details  -->
         <div class="tab-content w-100">
-  
-          <div class="tab-pane fade show active" 
+
+          <div class="tab-pane fade show active"
             id="loc-details" role="tabpanle" area-labelledby="loc-details" *ngIf="(!locId && pageLabels) || (locId && pageLabels && location)" >
             <div class="position-relative">
               <div class="lock-tab border border-bottom-0">

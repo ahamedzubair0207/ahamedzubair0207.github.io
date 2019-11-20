@@ -2,7 +2,7 @@
   <div class="lock-tab border border-bottom-0 mt-3 mr-3">
     <i class="icon-television pr-2"></i>
     <i [floClickToEnterFullscreen]="takeMeFullscreen" class="icon-resize-full-alt pr-2"></i>
-    <i class="" [ngClass]="locked ? 'icon-lock' : 'icon-lock-open'" (click)="toggleLock()"></i>
+    <i class="" [ngClass]="locked ? 'icon-lock' : 'icon-lock-open'" (click)="toggleLock(dbItem)"></i>
   </div>
   <app-dashboardhost [dbItem]="dbItem" [locked]="locked"></app-dashboardhost>
 </div>

@@ -53,10 +53,11 @@
       <a class="nav-link tab-icon"
         id="dashboard{{dbItem.dashboardId}}-tab" data-toggle="tab" href="#DashboardID_{{dbItem.dashboardId}}" role="tab"
         aria-controls="loc" aria-selected="false" title="{{ dbItem.dashboardName}}"><i
-          class="mr-2  icon-dashboard"></i>{{dbItem.shortName}}<i class="fa fa-pencil ml-2"
+          class="mr-2 icon-dashboard"></i>{{dbItem.shortName}}
+        <i class="dashboard-configure-icon icon-pencil ml-2" [ngClass]="{'d-none': locked}"
           (click)="openAddDashboardModal('editDashboard',dbItem);"
-          title="Configure Dashboard"></i>&nbsp;
-        <i class="icon-trash"
+          title="Configure Dashboard"></i>
+        <i class="dashboard-configure-icon icon-trash" [ngClass]="{'d-none': locked}"
           (click)="openDashboardConfirmDialog(dbItem.dashboardId, dbItem.shortName)"
           title="Delete Dashboard"></i>
       </a>
@@ -130,9 +131,9 @@
 
 
         <!-- <div class="col-11"> -->
-        
+
         <div class="tab-content w-100">
-          
+
           <div class="tab-pane fade show" [ngClass]="{ 'active':activeTab==='org-details'}"
             *ngIf="(!orgId && pageLabels) || (orgId && pageLabels && organization)" id="org-details" role="tabpanle"
             area-labelledby="org-details-tab">

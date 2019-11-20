@@ -80,10 +80,17 @@ export class VotmCloudOrganizationDashboardComponent implements OnInit {
     $('#resizeDashboardId-' + dbId).show();
   }
 
-  
-
-  toggleLock() {
+  // Dashboard lock toggle
+  toggleLock(dbItem) {
     this.locked = !this.locked;
+    if (this.locked) {
+      // Hide Dashboards Edit & delete button
+      $('#dashboard' + dbItem.dashboardId + '-tab > .dashboard-configure-icon').hide();
+    } else {
+      // Show Dashboards Edit & delete button
+      $('#dashboard' + dbItem.dashboardId + '-tab > .dashboard-configure-icon').removeClass('d-none').show();
+    }
+    // this.parentLocked.emit(this.locked);
   }
 
 
