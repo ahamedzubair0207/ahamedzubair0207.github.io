@@ -43,6 +43,7 @@ export class VotmLineGraphComponent implements OnInit {
   private signalTypes: any[] = [
     { "type": "pressure", "uom": "psi", "nominal": 1500, "var": 5 },
     { "type": "temperature", "uom": "°F", "nominal": 100, "var": 2 },
+    { "type": "Elec_Current", "uom": "kV", "nominal": 80, "var": 3 },
     { "type": "humidity", "uom": "%RH", "nominal": 50, "var": 1 }
   ]
 
@@ -126,11 +127,11 @@ export class VotmLineGraphComponent implements OnInit {
       "propertyName": "SignalId",
       "propertyValue": '',
       "measuredValue": "SignalValue",
-      "fromDateTime": "2018-11-18T20:16:43.863Z",//new Date(`${new Date().getMonth()}/${new Date().getDate()}/${new Date().getFullYear()-2}`),//
-      "toDateTime":  new Date(),//"2019-11-20T20:23:43.863Z",
+      "fromDateTime": "2019-10-19T20:16:43.863Z",//new Date(`${new Date().getMonth()}/${new Date().getDate()}/${new Date().getFullYear()-2}`),//
+      "toDateTime":  "2019-11-20T20:23:43.863Z",//new Date(),//"2019-11-20T20:23:43.863Z",
       "environmentFqdn": "41075d1a-97a6-4f2d-9abb-a1c08be5b6c4.env.timeseries.azure.com",
       "bucketSize": this.selDateRange
-      // bucket Size: make it 5m , 10m, 20m, 30m, 1h, 5h, 10h, 20h, 1d, 5 
+      // bucket Size: make it 5m , 10m, 20m, 30m, 1h, 5h, 10h, 20h, 1d, 5 158d8bd3-b890-4f97-9ff0-3fdd0e6a5aba
     };
    
 
