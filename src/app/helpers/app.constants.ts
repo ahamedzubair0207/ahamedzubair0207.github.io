@@ -10,6 +10,7 @@ export class AppConstants {
     public static GET_LOC_TREE = '/LocationTree/type/location';
     public static GET_LOCTREE = '/LocationTree';
     public static GET_LOC_TREE_BY_ORGID = '/type/Organization';
+    public static GET_ALL_LOCATIONS_BY_ORGID = '/LocationTreeByOrganizationId';
     public static GET_LOC = '/Location';
     public static EDIT_LOC = '/Location';
     public static CREATE_LOC = '/Location';

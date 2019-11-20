@@ -264,7 +264,8 @@ export class VotmCloudAdminSensorHomeComponent implements OnInit {
 
   openSensorUnlinkConfirmDialog(sensorId, sensorName) {
     this.unlinkSensorId = sensorId;
-    this.unlinkSensorMessage = `Do you want to Unlink the "${sensorName}" Sensor?`;
+    //this.unlinkSensorMessage = `Do you want to Unlink the "${sensorName}" Sensor?`;
+    this.unlinkSensorMessage = `Alert Rules will unassociated the signal, but the rules will remain. Signal Associations will unassociate, but the signal history will remain with the Asset/Location.`;
     this.confirmBoxSensor.open();
   }
 

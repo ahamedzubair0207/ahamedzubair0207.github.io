@@ -19,9 +19,9 @@ declare var $: any;
 })
 export class VotmCloudLocationsSignalComponent implements OnInit {
 
-
   locationId: string; // to store selected location's id.
   organizationId: string; // to store selected organization's id
+  organizationName: string; // to store selected organization's name
   associatedSignals: any[] = [];
   selectedSignal; // selected signal to display overlay panel.
   toaster: Toaster = new Toaster(this.toastr);
@@ -60,7 +60,7 @@ export class VotmCloudLocationsSignalComponent implements OnInit {
     this.activatedRoute.paramMap.subscribe(params => {
       this.curOrganizationId = params.get('curOrgId');
       this.curOrganizationName = params.get('curOrgName');
-      this.organizationId = params.get('orgId');
+
       this.locationId = params.get('locId');
       console.log(this.curOrganizationId, '====', this.curOrganizationName, '====', this.organizationId);
       this.getLocationById();
@@ -226,6 +226,10 @@ export class VotmCloudLocationsSignalComponent implements OnInit {
           this.toaster.onFailure('Error while saving signal assocition', 'Error');
         }
       );
+  }
+
+  onReturnToList() {
+    this.route.navigate(['loc', 'home', this.curOrganizationId, this.curOrganizationName]);
   }
 
   onReset() {

@@ -54,6 +54,8 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
   imgOffsetHeight = null;
   batterySignalId = 'e9326142-068b-494b-bff7-421a44fa0cae';
   signalSignalId = 'fa7b422d-2018-4fdb-ba50-0b4be9bf2735';
+  displaySignalHoverContent: any = {};
+  orgId: string;
   constructor(
     private toastr: ToastrService,
     private locationSignalService: LocationSignalService,
@@ -77,15 +79,22 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
       // this.curLocName = params.get('locName');
       this.parentOrgId = params.get('curOrgId');
       // this.parentOrgName = params.get('orgName');
+      this.orgId = params.get('orgId');
       this.assetId = params.get('assetId');
-      console.log('m y this.curLocId parentOrgId', this.curLocId, this.parentOrgId);
+      console.log('m y this.curLocId parentOrgId this.orgId', this.curLocId, this.parentOrgId, this.orgId);
 
-      if (this.parentOrgId) {
+      if ((this.parentOrgId || this.orgId) && !this.curLocId) {
         // Organization dashboard
-        // fetch all location & assets by org id
-        this.fetchlocationTreeByOrganizationId();
+        // fetch all location org id
+        if (this.orgId) {
+          this.fetchlocationTreeByOrganizationId(this.orgId);
+        } else {
+          this.fetchlocationTreeByOrganizationId(this.parentOrgId);
+        }
         // Fetch all asset tree by orgid
         this.fetchAssetsTreeByOrganizationId();
+        console.log('Organization dashboard');
+
       } else if (this.curLocId) {
         // Location dashbaord
         // fetch all child location & it selft
@@ -105,13 +114,16 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
 
   }
 
-  fetchlocationTreeByOrganizationId() {
-    this.locationService.getAllLocationTree(this.parentOrgId).subscribe(response => {
+  fetchlocationTreeByOrganizationId(organizationID) {
+    console.log('organizationID===', organizationID);
+
+    this.locationService.getAllLocationsTreeByOrganizationID(organizationID).subscribe(response => {
       this.locationsList = [];
       if (response && response.length > 0) {
         this.LocationSourceChild = this.fillLocationData(response);
+        console.log('location response this.LocationSourceChild by Org id ', response, this.LocationSourceChild);
       }
-      console.log('location by Org id ', this.locationsList);
+      // console.log('location by Org id ', this.locationsList);
       // this.LocationSourceChild = this.locationsList[0].children;
     });
   }
@@ -123,7 +135,7 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
         if (response && response.length > 0) {
           this.assetsList = this.fillAssetData(response);
         }
-        console.log('location by Org id ', this.assetsList);
+        console.log('assets by Org id ', this.assetsList);
         this.assetsSourceChild = this.assetsList;
       });
   }
@@ -164,6 +176,7 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
       const tempLoc: TreeNode = { data: org };
       tempLoc.children = [];
       if (org.node && org.node.length > 0) {
+        console.log('org.node====', org.node);
         tempLoc.children = this.fillLocationData(org.node);
       } else {
         tempLoc.children = [];
@@ -240,10 +253,11 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
         this.locationSignalService.getSignalAssociation(this.widgetlocImageID)
           .subscribe(
             response => {
-              for (const item of response) {
-                const signal = item;
-                signal.icon = 'icon-sig-' + signal.signalType + ' ' + this.iconSize;
+              for (let i = 0; i < response.length; i++) {
+                const signal = response[i];
+                signal.icon = signal.iconFile + ' ' + this.iconSize;
                 signal.latestValue = 0;
+                this.displaySignalHoverContent['s-' + i] = false;
               }
               this.associatedSignals = [...response];
             }
@@ -253,9 +267,10 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
         this.locationService.getAssetAssociation(this.widgetlocImageID)
           .subscribe(
             response => {
-              for (const item of response) {
-                const signal = item;
+              for (let i = 0; i < response.length; i++) {
+                const signal = response[i];
                 signal.icon = 'icon-asset-robot ' + this.iconSize;
+                this.displaySignalHoverContent['a-' + i] = false;
               }
               this.associatedAssets = [...response];
             }
@@ -268,10 +283,11 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
           this.assetSignalService.getAssetSignalAssociation(this.widgetassetimageID)
           .subscribe(
             response => {
-              for (const item of response) {
-                const signal = item;
-                signal.icon = signal.iconFile;
+              for (let i = 0; i < response.length; i++) {
+                const signal = response[i];
+                signal.icon = signal.iconFile + ' ' + this.iconSize;
                 signal.latestValue = 0;
+                this.displaySignalHoverContent['s-' + i] = false;
               }
               this.associatedSignals = [...response];
             }
@@ -281,9 +297,10 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
           this.assetService.getParentChildAssetAssociation(this.widgetassetimageID)
             .subscribe(
               response => {
-                for (const item of response) {
-                  const asset = item;
-                  asset.icon = item.iconFile;
+                for (let i = 0; i < response.length; i++) {
+                  const asset = response[i];
+                  asset.icon = asset.iconFile  + ' ' + this.iconSize;
+                  this.displaySignalHoverContent['a-' + i] = false;
                 }
                 this.associatedAssets = [...response];
               }

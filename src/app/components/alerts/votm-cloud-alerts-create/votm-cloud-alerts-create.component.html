@@ -23,7 +23,7 @@
                 </div>
             </div>
             <div class="col-12 col-md-3 col-xl-2">
-                <label id="metricTypeLbl" class="">Metric Type:</label>
+                <label id="metricTypeLbl" class="">Signal Type:</label>
                 <div class="">
                     <!-- <select name="metricType" id="metricTypeDropDown" [(ngModel)]="alert.UomTypeId"
                         class="form-control form-control-sm" [disabled]="pageType === 'View'">
@@ -62,7 +62,9 @@
                 </div>
             </div>
             <div class="col-12 col-md-2 col-xl-2">
-                <label id="minimumSustainTimeLbl" class="">Minimum Sustain Time</label>
+                <label id="minimumSustainTimeLbl" class="">Minimum Sustain Time: <i class="icon-info"
+                  ngbPopover="The alert will not trigger unless a threshold is breached and sustained for the given period."
+                  triggers="mouseenter:mouseleave" popoverTitle="Information"></i></label>
                 <div class="">
                     <div class="input-group">
                         <input name="minimumSustainTime" id="minimumSustainTimeInput" [(ngModel)]="alert.sustainTime"
@@ -75,7 +77,9 @@
                 </div>
             </div>
             <div class="col-12 col-md-2 col-xl-2">
-                <label id="excalateAfterLbl" class="">Escalate After:</label>
+                <label id="excalateAfterLbl" class="">Escalate After: <i class="icon-info"
+                  ngbPopover="The alert is triggered and not closed after the given period the Secondary Users/Groups will be notified."
+                  triggers="mouseenter:mouseleave" popoverTitle="Information"></i></label>
                 <div class="">
                     <div class="input-group">
                         <input type="text" id="excalateAfterInput" name="escalateTimeInput" [(ngModel)]="alert.escalateTime"
@@ -113,8 +117,8 @@
             </div>
         </div>
         <!-- <div class="form-group row">
-           
-        
+
+
         </div> -->
         <div class="form-group" *ngIf="absoluteThresholds">
             <fieldset [disabled]="pageType === 'View'">
@@ -610,6 +614,6 @@
 <app-votm-cloud-confim-dialog (onClose)="deleteAlertById($event)" #confirmBox
     message="Are you sure you want to delete the Alert Rule?" headerMessage="Warning"></app-votm-cloud-confim-dialog>
 
-    
+
 <app-votm-cloud-confim-dialog (onClose)="changeMetricType($event)" #MetricTypeConfirmBox [message]="metricChangeMessage"
 headerMessage="Warning"></app-votm-cloud-confim-dialog>
