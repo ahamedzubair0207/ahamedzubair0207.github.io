@@ -11,7 +11,7 @@
 
 </form> -->
 
-<p-treeTable [scrollable]="true" #tt scrollHeight="400px" [globalFilterFields]="['name']" [resizableColumns]="true"
+<p-treeTable [scrollable]="true" #tt scrollHeight="680px" [globalFilterFields]="['name']" [resizableColumns]="true"
   [value]="assetsList" [autoLayout]="true" id="assetTbl">
   <ng-template pTemplate="caption">
     <div class="row">
@@ -85,7 +85,7 @@
     <tr [ttRow]="rowNode">
 
       <td class="align-left underline-on-hover">
-        <span container="body" [ngbTooltip]="rowData.name">
+        <span container="body" [ngbTooltip]="rowData.name" class="underline-on-hover">
           <p-treeTableToggler [rowNode]="rowNode"></p-treeTableToggler>
           <i class="icon-asset-robot"></i>
           <a style="color: #212529;" 

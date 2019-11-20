@@ -76,7 +76,7 @@ export class VotomCloudAssetsSignalComponent implements OnInit {
           'data:image/' + fileExtension + ';base64,' + this.asset.logo.image
         );
       } else {
-        this.imgURL = '../../../../assets/images/default-image-svg.svg';
+        this.imgURL = '../../../../assets/images/assetPlaceholder.svg';
       }
       console.log(this.imgURL);
     });
@@ -106,12 +106,11 @@ export class VotomCloudAssetsSignalComponent implements OnInit {
             x: 0,
             y: 0
           };
-          signal.icon = 'icon-sig-' + signal.signalType;
+          signal.icon = signal.iconFile;
           for (const associateSignal of this.associatedSignals) {
             if (associateSignal.signalId === signal.signalId &&
               associateSignal.sensorId === signal.sensorId) {
               signal.associated = true;
-              associateSignal.bound = sensor.isLink;
               signal.associationName = associateSignal.associationName;
               console.log(associateSignal.bound);
             }
@@ -139,10 +138,10 @@ export class VotomCloudAssetsSignalComponent implements OnInit {
             signal.pctPos['left'] = signal.imageCordinates.x;
             signal.pctPos['top'] = signal.imageCordinates.y;
             signal.isClicked = false;
-            signal.icon = 'icon-sig-' + signal.signalType;
+            signal.icon = signal.iconFile;
             signal.associated = true;
             signal.did = i;
-            signal.bound = true;
+            signal.bound = signal.sensorLinkStatus;
           }
           this.associatedSignals = [...response];
         },

@@ -20,7 +20,7 @@ export class TimeSeriesService {
       );
   }
 
-  GetTimeSeriesAggregateMultipleDevices(body: any) {
+  getTimeSeriesAggregateMultipleDevices(body: any) {
     return this.http.post(AppConstants.POST_GETTIMESERIESAGGREGATEMULTIPLEDEVICES, body)
       .pipe(
         map(response => response)

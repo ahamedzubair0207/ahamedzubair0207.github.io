@@ -72,7 +72,7 @@
         <ng-template pTemplate="body" let-rowNode let-rowData="rowData">
           <tr [ttRow]="rowNode" *ngIf="checkRowDisplay(rowData)">
             <td class="align-left">
-              <span container="body" [ngbTooltip]="rowData.name">
+              <span container="body" [ngbTooltip]="rowData.name" class="underline-on-hover">
                 <p-treeTableToggler [rowNode]="rowNode"></p-treeTableToggler>
                 <!-- Display In EDIT mode If Admin View and Type Sensor -->
                 <ng-container *ngIf="originList !== 'organizationView' && rowData.type === 'Sensor'">

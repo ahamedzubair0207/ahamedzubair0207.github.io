@@ -22,7 +22,8 @@ export class VotmTwoAxesGaugeComponent implements OnInit {
   }
 
   ngAfterViewInit() {
-   
+    am4core.options.commercialLicense = true;
+    hideCredits: true;
     let chart = am4core.create("chartdiv-two-axes-"+this.id, am4charts.GaugeChart);
 
     chart.paddingRight = 20;

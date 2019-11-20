@@ -117,13 +117,13 @@ export class VotmCloudLocationsSignalComponent implements OnInit {
               x: 0,
               y: 0
             };
-            signal.icon = 'icon-sig-' + signal.signalType
+            signal.icon = signal.iconFile;
             for (const associateSignal of this.associatedSignals) {
               if (associateSignal.signalId === signal.signalId &&
-                associateSignal.sensorId === signal.sensorId) {
+                associateSignal.sensorId === signal.sensorId && sensor.isLink) {
                 signal.associated = true;
                 signal.associationName = associateSignal.associationName;
-                associateSignal.bound = sensor.isLink;
+
               }
             }
           }
@@ -140,7 +140,6 @@ export class VotmCloudLocationsSignalComponent implements OnInit {
     this.locationSignalService.getSignalAssociation(this.locationId)
       .subscribe(
         response => {
-
           this.getAllAvailableSignals();
           this.isGetAssociatedSignalsAPILoading = false;
           for (let i = 0; i < response.length; i++) {
@@ -150,10 +149,10 @@ export class VotmCloudLocationsSignalComponent implements OnInit {
             signal.pctPos['left'] = signal.imageCordinates.x;
             signal.pctPos['top'] = signal.imageCordinates.y;
             signal.isClicked = false;
-            signal.icon = 'icon-sig-' + signal.signalType;
+            signal.icon = signal.iconFile;
             signal.associated = true;
             signal.did = i;
-            signal.bound = true;
+            signal.bound = signal.sensorLinkStatus;
           }
           this.associatedSignals = [...response];
         },

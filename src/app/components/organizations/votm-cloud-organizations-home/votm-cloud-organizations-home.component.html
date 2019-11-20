@@ -35,7 +35,7 @@
 </header>
 
 <!-- <div class="pre-scrollable"> -->
-<p-treeTable [scrollable]="true" #tt scrollHeight="400px" [globalFilterFields]="['name']" [resizableColumns]="true"
+<p-treeTable [scrollable]="true" #tt scrollHeight="680px" [globalFilterFields]="['name']" [resizableColumns]="true"
   [value]="organizationsList" [autoLayout]="true" id="orgTbl">
   <ng-template pTemplate="caption">
 
@@ -80,8 +80,8 @@
   <ng-template pTemplate="colgroup">
     <colgroup>
       <col>
-      <col>
-      <col>
+      <col [style.width.px]="130">
+      <col [style.width.px]="130">
       <col>
       <col>
       <col>
@@ -119,7 +119,7 @@
     <tr [ttRow]="rowNode">
 
       <td class="align-left">
-        <span container="body" [ngbTooltip]="rowData.name">
+        <span container="body" [ngbTooltip]="rowData.name" class="underline-on-hover">
           <p-treeTableToggler [rowNode]="rowNode"></p-treeTableToggler>
           <a style="color: #212529;" [routerLink]="['/org/view', curOrgId, curOrgName, rowData.id]">
             <i class="icon-org-company"></i>{{rowData.name}}
@@ -157,11 +157,11 @@
       </ng-container>
     </ng-container>
     <tr *ngIf="organizationsList.length === 0">
-      <td colspan="8"> No Organizations data found.</td>
+      <td colspan="8"><i class="fa fa-spinner fa-spin fa-2x fa-fw"></i></td>
     </tr>
   </tbody>
   <tbody *ngIf="isGetOrganizationsApiLoading">
-    <i class="fa fa-spinner fa-spin fa-2x fa-fw"></i>
+    <i class="fa fa-spinner fa-spin fa-2x fa-fw"> No Organizations data found.</i>
   </tbody>
   <!-- <ng-template pTemplate="emptymessage">
     <tr>
