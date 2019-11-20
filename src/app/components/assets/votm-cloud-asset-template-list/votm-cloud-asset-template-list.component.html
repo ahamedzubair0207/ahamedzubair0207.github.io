@@ -35,12 +35,12 @@
   </thead>
   <tbody>
     <tr *ngFor="let item of templateList">
-      <th>
+      <td class="underline-on-hover" scope="row">
         <a style="color: #212529;" [routerLink]="['/template/view',item.templateId]">
           <i class="icon-asset-robot"></i>
           {{item.templateName}}
         </a>
-      </th>
+      </td>
       <td class="">{{item.assetType}}</td>
       <td class=""></td>
       <td class=""></td>

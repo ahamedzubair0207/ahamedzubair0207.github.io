@@ -107,7 +107,7 @@
     <tr [ttRow]="rowNode">
 
       <td class="align-left">
-        <span container="body" [ngbTooltip]="rowData.name">
+        <span container="body" [ngbTooltip]="rowData.name" class="underline-on-hover">
           <p-treeTableToggler [rowNode]="rowNode"></p-treeTableToggler>
           <a style="color: #212529;"
             [routerLink]="['/loc/view',rowData.parentOrgId, rowData.parentOrgName, rowData.id]">

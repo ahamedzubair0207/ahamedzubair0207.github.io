@@ -67,9 +67,9 @@
           </tr>
         </thead>
         <tr *ngFor="let item of alertList">
-          <th scope="row">
+          <td scope="row" class="underline-on-hover">
             <a style="color: #212529;" [routerLink]="['alertRule/view', item.alertRuleId]"> {{item.alertRuleName}}</a>
-          </th>
+          </td>
           <td class="align-left"><i class="icon-sig-vibration mr-1"></i>{{item.alertTypeName}}</td>
           <td class="align-left">{{item.ruleType}}</td>
           <td class="align-left">{{item.organizationScopeName}}</td>
