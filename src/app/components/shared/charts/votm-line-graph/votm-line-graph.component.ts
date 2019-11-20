@@ -47,14 +47,14 @@ export class VotmLineGraphComponent implements OnInit {
   ]
 
   private dateRange: any[] = [
-    {"value": "5m", "name": "five Minute"},
-    {"value": "10m", "name": "ten Minute"},
-    {"value": "20m", "name": "twenty Minute"},
-    {"value": "30m", "name": "thirty Minute"},
+    {"value": "5m", "name": "Five Minute"},
+    {"value": "10m", "name": "Ten Minute"},
+    {"value": "20m", "name": "Twenty Minute"},
+    {"value": "30m", "name": "Thirty Minute"},
     {"value": "1h", "name": "One hour"},
-    {"value": "5h", "name": "five hour"},
-    {"value": "10h", "name": "ten hour"},
-    {"value": "1d", "name": "one day"}
+    {"value": "5h", "name": "Five hour"},
+    {"value": "10h", "name": "Ten hour"},
+    {"value": "1d", "name": "One day"}
     // 5m , 10m, 20m, 30m, 1h, 5h, 10h, 20h, 1d
   ]
 
@@ -273,7 +273,7 @@ export class VotmLineGraphComponent implements OnInit {
     }
     if (thresholds.lowWarn) {
       var rangeLW = valueAxis.axisRanges.create();
-      rangeLW.value = (thresholds.lowCritical) ? thresholds.lowCritical : 1000000;
+      rangeLW.value = (thresholds.lowCritical) ? thresholds.lowCritical : 800000;
       rangeLW.endValue = thresholds.lowWarn;
       rangeLW.axisFill.fill = am4core.color("#ffc107");
       rangeLW.axisFill.fillOpacity = (this.showThresh[idx]) ? 0.2 : 0;
@@ -282,7 +282,7 @@ export class VotmLineGraphComponent implements OnInit {
     if (thresholds.highWarn) {
       var rangeHW = valueAxis.axisRanges.create();
       rangeHW.value = thresholds.highWarn;
-      rangeHW.endValue = (thresholds.highCritical) ? thresholds.highCritical : 2000000;
+      rangeHW.endValue = (thresholds.highCritical) ? thresholds.highCritical : 800000;
       rangeHW.axisFill.fill = am4core.color("#ffc107");
       rangeHW.axisFill.fillOpacity = (this.showThresh[idx]) ? 0.2 : 0;
       rangeHW.grid.strokeOpacity = 0;
@@ -487,7 +487,7 @@ export class VotmLineGraphComponent implements OnInit {
               // Direct Signal
               if (location.signals && location.signals.length > 0) {
                 location.signals.forEach(signal => {
-                  tempArray.push({ "id": signal.signalId, "type": signal.signalType, "name": `Organization > ${location.locationName} > ${signal.signalName}`, "selY": [false, false] })
+                  tempArray.push({ "id": signal.signalId, "type": signal.signalType, "name": `Quick Coupling Division > ${location.locationName} > ${signal.signalName}`, "selY": [false, false] })
                   this.signalCheckBoxes[signal.signalId] = false;
                 });
               }
@@ -497,7 +497,7 @@ export class VotmLineGraphComponent implements OnInit {
                 location.assets.forEach(asset => {
                   if (asset.signals && asset.signals.length > 0) {
                     asset.signals.forEach(signal => {
-                      tempArray.push({ "id": signal.signalId, "type": signal.signalType, "name": `Organization > ${location.locationName} > ${asset.assetName} > ${signal.signalName}`, "selY": [false, false] })
+                      tempArray.push({ "id": signal.signalId, "type": signal.signalType, "name": `Quick Coupling Division > ${location.locationName} > ${asset.assetName} > ${signal.signalName}`, "selY": [false, false] })
                       this.signalCheckBoxes[signal.signalId] = false;
                     });
                   }
