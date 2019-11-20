@@ -34,17 +34,23 @@
                 *ngIf="item.sensorLinkStatus"
                 style="position: absolute;"
                 class="signal-item {{ item.icon }}"
+                (mouseenter)="displaySignalHoverContent['s-'+i] = true"
+                (mouseleave)="displaySignalHoverContent['s-'+i] = false"
                 [style.left.px]="imgOffsetLeft + item.imageCordinates[item.associationName].x * imgOffsetWidth - 16"
                 [style.top.px]="imgOffsetTop + item.imageCordinates[item.associationName].y * imgOffsetHeight - 16"
               >
-              {{item.associationName}} : {{item.latestValue}}
-                  <!-- <p><b>QCD > {{item.locationName}}</b></p>
+                <ng-container *ngIf="!displaySignalHoverContent['s-' + i]; else hoveredContent" >
+                  {{item.latestValue}}
+                </ng-container>
+                <ng-template #hoveredContent>
+                  <p><b>QCD > {{item.locationName}}</b></p>
                   <p>09/13/2019 11:45PM</p>
                   <p><b>Critical alarm on asset</b></p>
                   <hr class="mt-1 mb-1">
                   <p><b>{{item.associationName}}</b></p>
                   <p>{{item.associationName}} : {{item.latestValue}}</p>
-                  <p>Above critical threshold of 95&deg; F</p> -->
+                  <p>Above critical threshold of 95&deg; F</p>
+                </ng-template>
               </div>
             </ng-container>
             <div
@@ -90,7 +96,7 @@
                                 <div class="">
                                     <ng-select id="imageSource" name="imageSource" labelForId="imageSource"
                                         class="custom" [multiple]="false" [(ngModel)]="overLaySource" placeholder="Choose Source"
-                                        (change)="signalsCheckboxChecked = true; assetsCheckboxChecked = true;associatedAssets = []; associatedSignals=[]">
+                                        (change)="signalsCheckboxChecked = true; assetsCheckboxChecked = true;associatedAssets = []; associatedSignals=[]; displaySignalHoverContent={};">
                                         <ng-option value="location">Location</ng-option>
                                         <ng-option value="asset">Asset</ng-option>
                                         <ng-option value="custom">Custom</ng-option>

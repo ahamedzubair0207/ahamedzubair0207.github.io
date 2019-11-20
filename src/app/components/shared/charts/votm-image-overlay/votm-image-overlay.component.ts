@@ -54,6 +54,7 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
   imgOffsetHeight = null;
   batterySignalId = 'e9326142-068b-494b-bff7-421a44fa0cae';
   signalSignalId = 'fa7b422d-2018-4fdb-ba50-0b4be9bf2735';
+  displaySignalHoverContent: any = {};
   constructor(
     private toastr: ToastrService,
     private locationSignalService: LocationSignalService,
@@ -240,10 +241,11 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
         this.locationSignalService.getSignalAssociation(this.widgetlocImageID)
           .subscribe(
             response => {
-              for (const item of response) {
-                const signal = item;
-                signal.icon = 'icon-sig-' + signal.signalType + ' ' + this.iconSize;
+              for (let i = 0; i < response.length; i++) {
+                const signal = response[i];
+                signal.icon = signal.iconFile + ' ' + this.iconSize;
                 signal.latestValue = 0;
+                this.displaySignalHoverContent['s-' + i] = false;
               }
               this.associatedSignals = [...response];
             }
@@ -253,9 +255,10 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
         this.locationService.getAssetAssociation(this.widgetlocImageID)
           .subscribe(
             response => {
-              for (const item of response) {
-                const signal = item;
+              for (let i = 0; i < response.length; i++) {
+                const signal = response[i];
                 signal.icon = 'icon-asset-robot ' + this.iconSize;
+                this.displaySignalHoverContent['a-' + i] = false;
               }
               this.associatedAssets = [...response];
             }
@@ -268,10 +271,11 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
           this.assetSignalService.getAssetSignalAssociation(this.widgetassetimageID)
           .subscribe(
             response => {
-              for (const item of response) {
-                const signal = item;
-                signal.icon = signal.iconFile;
+              for (let i = 0; i < response.length; i++) {
+                const signal = response[i];
+                signal.icon = signal.iconFile + ' ' + this.iconSize;
                 signal.latestValue = 0;
+                this.displaySignalHoverContent['s-' + i] = false;
               }
               this.associatedSignals = [...response];
             }
@@ -281,9 +285,10 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
           this.assetService.getParentChildAssetAssociation(this.widgetassetimageID)
             .subscribe(
               response => {
-                for (const item of response) {
-                  const asset = item;
-                  asset.icon = item.iconFile;
+                for (let i = 0; i < response.length; i++) {
+                  const asset = response[i];
+                  asset.icon = asset.iconFile  + ' ' + this.iconSize;
+                  this.displaySignalHoverContent['a-' + i] = false;
                 }
                 this.associatedAssets = [...response];
               }

@@ -315,11 +315,25 @@
 
                 <div class="col-md-4">
                   <fieldset class="position-relative asset-btm-same">
-                    <legend id="asset-loc-image-lbl">Asset Position:</legend>
+                    <legend id="asset-loc-image-lbl">Asset Position</legend>
 
                     <!-- Image preview -->
-
-                    <div class="form-group border assoc-pane" (window:resize)="onResize($event)"
+                    <div class="row" *ngIf="parentAssetImageURL">
+                        <div class="col-md-6">
+                          <label for="assetImage" id="asset-image-lbl">X: </label>
+                          <input type="number" id="asset-image-x-pixels" disabled
+                            [defaultValue]="asset.imageCoordinates ? asset.imageCoordinates[asset.assetId].x * 100 : 0"
+                            name="x-pixels" class="form-control form-control-sm" />
+                        </div>
+                        <div class="col-md-6">
+                          <label for="assetImage" id="asset-image-lbl">Y: </label>
+                          <input type="number" id="asset-image-y-pixels" disabled
+                            [defaultValue]="asset.imageCoordinates ? asset.imageCoordinates[asset.assetId].y * 100 : 0"
+                            name="y-pixels" class="form-control form-control-sm" />
+                        </div>
+                      </div>
+                      <label>{{asset.parentAssetId ? 'Parent Asset Image Preview' : 'Parent Location Image Preview'}}</label>
+                    <div class="form-group border assoc-pane mt-1" (window:resize)="onResize($event)"
                       *ngIf="parentAssetImageURL; else noLocationTemplate">
                       <img #assetPosititonImage [src]="parentAssetImageURL" class="assoc-img" (load)="onLoadLocImg()"
                         dndDropzone (dndDrop)="onDrop($event)" />
@@ -329,30 +343,17 @@
                         [{{ imgSourceWidth }},{{ imgSourceHeight }}]
                       </span>
                       <div id="asset_position_icon" style="position: absolute;" class="signal-item icon-asset-robot"
-                        [style.left.px]="asset.imageCoordinates ? imgOffsetLeft + asset.imageCoordinates[asset.assetId].x * imgOffsetWidth - 16 : 0"
-                        [style.top.px]="asset.imageCoordinates ? imgOffsetTop + asset.imageCoordinates[asset.assetId].y * imgOffsetHeight - 16 : 0"
+                        [style.left.px]="asset.imageCoordinates ? imgOffsetLeft + asset.imageCoordinates[asset.assetId].x * imgOffsetWidth - 16 : imgOffsetLeft + 0 * imgOffsetWidth - 16"
+                        [style.top.px]="asset.imageCoordinates ? imgOffsetTop + asset.imageCoordinates[asset.assetId].y * imgOffsetHeight - 16 : imgOffsetTop + 0 * imgOffsetHeight - 16"
                         [dndDraggable]="asset" [dndEffectAllowed]="'move'" (dndStart)="onStart($event)"
                         [dndDisableIf]="pageType==='View'">&nbsp;
                       </div>
 
                     </div>
 
-                    <div class="row" *ngIf="parentAssetImageURL">
-                      <div class="col-md-6">
-                        <label for="assetImage" id="asset-image-lbl">X: </label>
-                        <input type="number" id="asset-image-x-pixels" disabled
-                          [defaultValue]="asset.imageCoordinates ? asset.imageCoordinates[asset.assetId].x * 100 : 0"
-                          name="x-pixels" class="form-control form-control-sm" />
-                      </div>
-                      <div class="col-md-6">
-                        <label for="assetImage" id="asset-image-lbl">Y: </label>
-                        <input type="number" id="asset-image-y-pixels" disabled
-                          [defaultValue]="asset.imageCoordinates ? asset.imageCoordinates[asset.assetId].y * 100 : 0"
-                          name="y-pixels" class="form-control form-control-sm" />
-                      </div>
-                    </div>
+
                     <ng-template #noLocationTemplate><br />
-                      <div *ngIf="asset.locationId; else noLocationSelectedTemplate">No Image in the selected Location.
+                      <div *ngIf="asset.locationId; else noLocationSelectedTemplate">No Image in the {{asset.parentAssetId ? 'parent asset' : 'parent location'}}.
                       </div>
                       <ng-template #noLocationSelectedTemplate>
                         No location/Asset Selected.
