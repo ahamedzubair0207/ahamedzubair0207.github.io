@@ -208,6 +208,7 @@ export class VotmSmoothLineComponent implements OnInit {
       let scrollbarX = new am4charts.XYChartScrollbar();
       scrollbarX.series.push(series);
       chart.scrollbarX = scrollbarX;
+      chart.scrollbarX.parent = chart.bottomAxesContainer;
 
       chart.cursor = new am4charts.XYCursor();
  

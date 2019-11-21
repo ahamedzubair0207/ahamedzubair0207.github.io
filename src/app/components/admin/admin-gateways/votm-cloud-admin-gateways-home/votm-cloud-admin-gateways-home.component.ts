@@ -1,8 +1,11 @@
+import { GatewaysService } from './../../../../services/gateways/gateways.service';
+import { ActivatedRoute, ParamMap } from '@angular/router';
+import { SharedService } from 'src/app/services/shared.service';
 import { Organization } from './../../../../models/organization.model';
-import { Component, OnInit, NgZone } from '@angular/core';
-import * as am4core from "@amcharts/amcharts4/core";
-import * as am4charts from "@amcharts/amcharts4/charts";
-import am4themes_animated from "@amcharts/amcharts4/themes/animated";
+import { Component, OnInit, NgZone, Input } from '@angular/core';
+import * as am4core from '@amcharts/amcharts4/core';
+import * as am4charts from '@amcharts/amcharts4/charts';
+import am4themes_animated from '@amcharts/amcharts4/themes/animated';
 
 @Component({
   selector: 'app-votm-cloud-admin-gateways-home',
@@ -12,10 +15,62 @@ import am4themes_animated from "@amcharts/amcharts4/themes/animated";
 export class VotmCloudAdminGatewaysHomeComponent implements OnInit {
   allGetways: {};
   private chart: am4charts.PieChart;
-  constructor(private zone: NgZone) { }
+  loggedInUserData: any;
+  curOrgId: string;
+  OrgId: string;
+  // Flag to check gateway list is from Organization or from n/w mangement
+  // app-votm-cloud-admin-gateways-home == selector called in Org create component with originList="originListView"
+  @Input() originList: any;
+  gatewayList: any[];
+
+  constructor(
+    private zone: NgZone,
+    private sharedService: SharedService,
+    private route: ActivatedRoute,
+    private gatewayService: GatewaysService
+  ) { }
 
   ngOnInit() {
-    this.getAllGateways();
+    // this.getAllGateways();
+    // Get LoggedInUser Data
+    this.loggedInUserData = this.sharedService.getLoggedInUser();
+    this.route.paramMap.subscribe((params: ParamMap) => {
+
+      this.curOrgId = params.get('curOrgId');
+      this.OrgId = params.get('orgId');
+      console.log('gateway originList==========', this.originList);
+      console.log('gateway curOrgId==========', this.curOrgId);
+      console.log('gateway OrgId==========', this.OrgId);
+
+      if (this.OrgId && this.OrgId !== '') {
+        // Fetch gateways of Organization
+        this.getGatewaysByTypeAndId('organization', this.OrgId);
+        console.log('org gateway list');
+
+      } else  {
+        // Fetch all gateways
+        // this.getgatewayTree();
+
+        // get logged in admin user home organization
+        // currently taking static - VOTM - 7a59bdd8-6e1d-48f9-a961-aa60b2918dde
+        this.getGatewaysByTypeAndId('organization', this.loggedInUserData.organizationId);
+      }
+
+    });
+  }
+
+  getGatewaysByTypeAndId(type, typeId) {
+
+    this.gatewayService.getGatewayDetailsByOrganizationId(typeId)
+      .subscribe(response => {
+        this.gatewayList = [];
+        if (response && response.length > 0) {
+          this.gatewayList = response;
+          console.log('org gateway list ==', this.gatewayList);
+
+        }
+      });
+
   }
 
   getAllGateways() {
@@ -62,6 +117,7 @@ export class VotmCloudAdminGatewaysHomeComponent implements OnInit {
   ngAfterViewInit() {
     this.gatewayStatusPieChartGraph();
     this.networkUsageChart();
+    this.celularUsageChart();
   }
 
   ngOnDestroy() {
@@ -73,6 +129,8 @@ export class VotmCloudAdminGatewaysHomeComponent implements OnInit {
   }
 
   gatewayStatusPieChartGraph() {
+    am4core.options.commercialLicense = true;
+    hideCredits: true;
     let chart = am4core.create('getways-status-chartdiv-pie-sliced', am4charts.PieChart);
     // Set data
     var selected;
@@ -137,32 +195,34 @@ export class VotmCloudAdminGatewaysHomeComponent implements OnInit {
   }
 
   networkUsageChart(){
+      am4core.options.commercialLicense = true;
+      hideCredits: true;
      // Create chart instance
-     let chart = am4core.create("network-usage-chart", am4charts.XYChart);
+     let chart = am4core.create('network-usage-chart', am4charts.XYChart);
      chart.paddingRight = 20;
 
      // Add data
      chart.data = [{
-       "year": "1950",
-       "value": -0.307
+       'year': '1950',
+       'value': -0.307
      },  {
-       "year": "1959",
-       "value": -0.074
+       'year': '1959',
+       'value': -0.074
      }, {
-       "year": "2005",
-       "value": 0.47
+       'year': '2005',
+       'value': 0.47
      }];
 
      // Create axes
      let categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
-     categoryAxis.dataFields.category = "year";
+     categoryAxis.dataFields.category = 'year';
      categoryAxis.renderer.minGridDistance = 50;
      categoryAxis.renderer.grid.template.location = 0.5;
      categoryAxis.startLocation = 0.5;
      categoryAxis.endLocation = 0.5;
 
      // Pre zoom
-     chart.events.on("datavalidated", function () {
+     chart.events.on('datavalidated', function () {
        categoryAxis.zoomToIndexes(Math.round(chart.data.length * 0.4), Math.round(chart.data.length * 0.55));
      });
 
@@ -172,22 +232,113 @@ export class VotmCloudAdminGatewaysHomeComponent implements OnInit {
 
      // Create series
      let series = chart.series.push(new am4charts.LineSeries());
-     series.dataFields.valueY = "value";
-     series.dataFields.categoryX = "year";
+     series.dataFields.valueY = 'value';
+     series.dataFields.categoryX = 'year';
      series.strokeWidth = 2;
      series.tensionX = 0.77;
 
      let range = valueAxis.createSeriesRange(series);
      range.value = 0;
      range.endValue = 1000;
-     range.contents.stroke = am4core.color("#FF0000");
+     range.contents.stroke = am4core.color('#FF0000');
      range.contents.fill = range.contents.stroke;
 
      // Add scrollbar
-     let scrollbarX = new am4charts.XYChartScrollbar();
-     scrollbarX.series.push(series);
-     chart.scrollbarX = scrollbarX;
+    //  let scrollbarX = new am4charts.XYChartScrollbar();
+    //  scrollbarX.series.push(series);
+    //  chart.scrollbarX = scrollbarX;
+    //  chart.scrollbarX.parent = chart.bottomAxesContainer;
 
      chart.cursor = new am4charts.XYCursor();
   }
+  celularUsageChart(){
+    am4core.options.commercialLicense = true;
+    hideCredits: true;
+   // Create chart instance
+   let chart = am4core.create("cellular-data-chart", am4charts.XYChart);
+   chart.paddingRight = 20;
+
+   // Add data
+   chart.data = [{
+     "year": "2017",
+     "value1": -0.307,
+     "value2": 2.307
+   },  {
+     "year": "2018",
+     "value1": -0.074,
+     "value2": 3.074
+     
+   }, {
+     "year": "2019",
+     "value1": 0.47,
+     "value2": -0.074
+   },
+   {
+    "year": "2020",
+    "value1": 0.074,
+    "value2": 0.074
+  },
+  {
+    "year": "2021",
+    "value1": 1.074,
+    "value2": 0.074
+  },
+  {
+    "year": "2022",
+    "value1": -0.074,
+    "value2": 1
+  }];
+
+   // Create axes
+   let categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
+   categoryAxis.dataFields.category = "year";
+   categoryAxis.renderer.minGridDistance = 50;
+   categoryAxis.renderer.grid.template.location = 0.5;
+   categoryAxis.startLocation = 0.5;
+   categoryAxis.endLocation = 0.5;
+
+   // Pre zoom
+  //  chart.events.on("datavalidated", function () {
+  //    categoryAxis.zoomToIndexes(Math.round(chart.data.length * 0.4), Math.round(chart.data.length * 0.55));
+  //  });
+
+   // Create value axis
+   let valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+   valueAxis.baseValue = 0;
+
+   // Create series
+   let series1 = chart.series.push(new am4charts.LineSeries());
+   series1.dataFields.valueY = "value1";
+  //  series1.dataFields.valueY = "value2";
+   series1.dataFields.categoryX = "year";
+   series1.strokeWidth = 2;
+   series1.tensionX = 0.77;
+
+   let series2 = chart.series.push(new am4charts.LineSeries());
+  //  series2.dataFields.valueY = "value1";
+   series2.dataFields.valueY = "value2";
+   series2.dataFields.categoryX = "year";
+   series2.strokeWidth = 2;
+   series2.tensionX = 0.77;
+
+   let range1 = valueAxis.createSeriesRange(series1);
+   range1.value = 0;
+   range1.endValue = 1000;
+   range1.contents.stroke = am4core.color("#FF0000");
+   range1.contents.fill = range1.contents.stroke;
+
+   let range2 = valueAxis.createSeriesRange(series2);
+   range2.value = 0;
+   range2.endValue = 1000;
+   range2.contents.stroke = am4core.color("#FF0000");
+   range2.contents.fill = range2.contents.stroke;
+
+   // Add scrollbar
+  //  let scrollbarX = new am4charts.XYChartScrollbar();
+  //  scrollbarX.series.push(series);
+  //  chart.scrollbarX = scrollbarX;
+  //  chart.scrollbarX.parent = chart.bottomAxesContainer;
+
+   chart.cursor = new am4charts.XYCursor();
+}
 }

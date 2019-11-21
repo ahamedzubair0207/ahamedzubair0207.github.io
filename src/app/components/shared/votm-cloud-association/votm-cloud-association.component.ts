@@ -17,7 +17,7 @@ declare var $: any;
   templateUrl: './votm-cloud-association.component.html',
   styleUrls: ['./votm-cloud-association.component.scss']
 })
-export class VotmCloudAssociationComponent implements OnInit {
+export class VotmCloudAssociationComponent {
 
   derivedSignalModal: any;
   organizationId: string; // to store selected organization's id
@@ -26,8 +26,6 @@ export class VotmCloudAssociationComponent implements OnInit {
   isGetAvailableSignalsAPILoading = false; // flag for loader for get available signals api
   isGetdroppedListAPILoading = false; // flag for loader for get associated signals api
   isCreateSignalAssociationAPILoading = false; // flag for loader for create signals association api
-  curOrganizationId: string;
-  curOrganizationName: string;
   @ViewChild('editOP', null) editOPanel: OverlayPanel; // signal association edit modal refference
   @ViewChild('alertOP', null) alertOPanel: OverlayPanel; // signal association alert modal refference
   isAlarmRuleAssociationAPILoading = false;
@@ -69,38 +67,19 @@ export class VotmCloudAssociationComponent implements OnInit {
   @Output() saveAlarmAssociation: EventEmitter<any> = new EventEmitter<any>();
   @Output() resetPage: EventEmitter<any> = new EventEmitter<any>();
   @Output() returnToList: EventEmitter<any> = new EventEmitter<any>();
+  @Output() createAssociateRule: EventEmitter<any> = new EventEmitter<any>();
   batterySignalId = 'e9326142-068b-494b-bff7-421a44fa0cae';
   signalSignalId = 'fa7b422d-2018-4fdb-ba50-0b4be9bf2735';
 
   constructor(
-    private activatedRoute: ActivatedRoute,
     private router: Router,
-    private routerLocation: RouterLocation,
     private toastr: ToastrService,
     private eleRef: ElementRef
   ) { }
 
-  ngOnInit() {
-    console.log(this.elLocImg);
-    this.activatedRoute.paramMap.subscribe(params => {
-      console.log(params);
-      this.curOrganizationId = params.get('curOrgId');
-      this.curOrganizationName = params.get('curOrgName');
-      this.organizationId = params.get('orgId');
-      console.log(this.curOrganizationId, '====', this.curOrganizationName, '====', this.organizationId);
-    });
-  }
-
-  // ngAfterContentInit() {
-  //   console.log('in view init');
-  //   this.onLoadLocImg();
-  // }
-
   getLocationSignalAssociation() {
     this.reload.next();
   }
-
-
 
   toggleDisable() {
     console.log(this.dragList);
@@ -411,8 +390,7 @@ export class VotmCloudAssociationComponent implements OnInit {
   }
 
   onClickOfCreateAssociateRule() {
-    this.router.navigate(['org', 'view', this.curOrganizationId, this.curOrganizationName,
-      this.organizationId ? this.organizationId : this.curOrganizationId, 'alertRule', 'create']);
+    this.createAssociateRule.emit();
   }
 
   onSaveSignalAssociation() {

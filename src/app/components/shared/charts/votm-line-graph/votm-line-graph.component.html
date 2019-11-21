@@ -92,9 +92,9 @@
                       class="custom-control-input"
                       [checked]="signal.selY[0]"
                       [disabled]="disableSignalAxis(i, 0)"
-                      (change)="selectSignal(i, 0)"
-                      [(ngModel)] = "signalCheckBoxes[signal.id]"
+                      (change)="selectSignal(i, 0, signal.id)"
                     />
+                    <!-- [(ngModel)] = "signalCheckBoxes[signal.id]" -->
                     <label class="custom-control-label mr-n2" for="y1-{{ i }}"></label>
                   </div>
                 </td>
@@ -106,7 +106,7 @@
                       class="custom-control-input"
                       [checked]="signal.selY[1]"
                       [disabled]="disableSignalAxis(i, 1)"
-                      (change)="selectSignal(i, 1)"
+                      (change)="selectSignal(i, 1, signal.id)"
                     />
                     <label class="custom-control-label mr-n2" for="y2-{{ i }}"></label>
                   </div>
