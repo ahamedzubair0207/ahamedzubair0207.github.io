@@ -90,11 +90,10 @@ export class AppConstants {
     public static GET_ALERT_METRICS = '/AlertRules/MetricType';
     public static GET_ALERT_UOMNAMEFORMETRICTYPE = '/AlertRules/UserUnitofMeasurement';
     public static GET_ALERT_USERGROUPROLE = '/AlertRules/UserGroupRoles';
-    public static EDIT_ALERT = '/AlertRule'; 
-    public static DEL_ALERT = '/AlertRule'; 
+    public static EDIT_ALERT = '/AlertRule';
+    public static DEL_ALERT = '/AlertRule';
     public static GET_ALERT_ACCESSSCOPE = '/BreadcrumbNavigation/GetChildOrganization';
 
-    
     public static GET_TIMESERIES_SIGNAL = '/SignalAssociatedwithAssetLocationByOrganization';
     public static POST_GETTIMESERIESAGGREGATEMULTIPLEDEVICES = '/TimeSeries/GetTimeSeriesAggregateMultipleDevices';
 
@@ -103,6 +102,9 @@ export class AppConstants {
     public static APP_INFO = 'ConfigSettings/Application';
 
     public static GET_SIBLINGS = '/BreadcrumbNavigation';
+
+    public static GET_GATEWAY_DETAIL_BY_TYPE_AND_ID = '/GatewayByOrganizationId';
+    public static GET_GATEWAY_BY_ORG_ID = '/GatewayByOrganizationId';
 
     // Need to change to configurable strings once DB is in good shape
     public static ORG_LBL = 'ConfigSettings/fd027a29-f9b7-474d-a4f4-0462d027c535/ScreenLabel/95200C8D-9910-42F2-B26D-56E4BAC697B1';

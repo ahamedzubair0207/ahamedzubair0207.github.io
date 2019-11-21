@@ -218,6 +218,11 @@ export class VotomCloudAssetsSignalComponent implements OnInit {
       );
   }
 
+  onCreateAssociateRule() {
+    this.route.navigate(['org', 'view', this.organizationId, this.organizationName,
+      'null', 'alertRule', 'create']);
+  }
+
   onReset() {
     this.getAssetSignalAssociation();
     this.toggleDisable();

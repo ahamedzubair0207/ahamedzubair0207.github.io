@@ -780,7 +780,8 @@
 
           <div class="create-org-container tab-pane fade" [ngClass]="{ 'active show':activeTab==='org-gateways'}" id="org-gateways" data-toggle="tab" role="tabpanle"
             area-labelledby="org-gateways-tab">
-            <app-votm-cloud-gateways-home></app-votm-cloud-gateways-home>
+            <!-- <app-votm-cloud-gateways-home></app-votm-cloud-gateways-home> -->
+            <app-votm-cloud-admin-gateways-home [originList]="originListView"></app-votm-cloud-admin-gateways-home>
           </div>
 
 
