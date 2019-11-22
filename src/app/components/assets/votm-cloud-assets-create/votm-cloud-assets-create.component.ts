@@ -35,7 +35,7 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
   public imagePath;
   imgURL: any = '../../../../assets/images/assetPlaceholder.svg';
   locationImageURL: any = '../../../../assets/images/default-image-svg.svg';
-  parentAssetImageURL: any = '../../../../assets/images/assetPlaceholder.svg';
+  parentAssetImageURL: any;
   parentAssetImageSize: { width: number, height: number };
   public message: string;
   closeResult: string;
@@ -293,7 +293,7 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
           console.log(this.asset);
           if (this.asset.parentAssetId) {
             this.getParentAssetById(this.asset.parentAssetId);
-            this.parentAssetImageURL = '../../../../assets/images/assetPlaceholder.png';
+            this.parentAssetImageURL = '../../../../assets/images/assetPlaceholder.svg';
           } else {
             this.getLocationById(this.asset.locationId);
             this.parentAssetImageURL = '../../../../assets/images/default-image-svg.svg';
@@ -666,107 +666,6 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
 
   ngAfterViewInit() {
     this.changeDetectorRef.detectChanges();
-    const self = this;
-    $.fn.drags = function (opt) {
-
-      opt = $.extend({
-        handle: '',
-        cursor: 'move',
-        draggableClass: 'draggable',
-        activeHandleClass: 'active-handle'
-      }, opt);
-
-      let $selected = null;
-      const $elements = (opt.handle === '') ? this : this.find(opt.handle);
-
-      $elements.css('cursor', opt.cursor).on('mousedown', function (e) {
-        if (e.target !== this) {
-          return;
-        }
-        if (opt.handle === '') {
-          $selected = $(this);
-          $selected.addClass(opt.draggableClass);
-        } else {
-          $selected = $(this).parent();
-          $selected.addClass(opt.draggableClass).find(opt.handle).addClass(opt.activeHandleClass);
-        }
-        const drg_h = $selected.outerHeight();
-        const drg_w = $selected.outerWidth();
-        const pos_y = $selected.offset().top + drg_h - e.pageY;
-        const pos_x = $selected.offset().left + drg_w - e.pageX;
-        $(document).on('mousemove', (e) => {
-          $selected.offset({
-            top: e.pageY + pos_y - drg_h,
-            left: e.pageX + pos_x - drg_w
-          });
-        }).on('mouseup', function (e) {
-          $(this).off('mousemove'); // Unbind events from document
-          if ($selected !== null) {
-            $selected.removeClass(opt.draggableClass);
-            const x = $selected.css('left');
-            const y = $selected.css('top');
-            const xpercent = parseInt($selected.css('left'), 10) / ($selected.parent().width() / 100);
-            const ypercent = parseInt($selected.css('top'), 10) / ($selected.parent().height() / 100);
-            if (xpercent < 0 || xpercent > 100 || ypercent < 0 || ypercent > 100) {
-              self.assetImageCoordinates.x = 0;
-              self.assetImageCoordinates.x = 0;
-              $selected.css('left', '1%');
-              $selected.css('top', '6%');
-            } else {
-              self.assetImageCoordinates.x = parseFloat(x.replace('px', ''));
-              self.assetImageCoordinates.y = parseFloat(y.replace('px', ''));
-            }
-            // $selected.css('left', parseInt($selected.css('left'), 10) / ($selected.parent().width() / 100) + '%');
-            // $selected.css('top', parseInt($selected.css('top'), 10) / ($selected.parent().height() / 100) + '%');
-            // console.log('herer', );
-            // if (self.dropSensor) { self.dropSensor($selected.css('left'), $selected.css('top')); }
-            $selected = null;
-            // $selected.addClass('pad-18');
-          }
-        });
-        e.preventDefault();
-        e.stopPropagation();
-        e.cancelBubble = true;
-        return false;
-      }).on('mouseup', function (e) {
-        if (e.target !== this) {
-          return;
-        }
-        if (opt.handle === '') {
-          $selected.removeClass(opt.draggableClass);
-        } else {
-          $selected.removeClass(opt.draggableClass)
-            .find(opt.handle).removeClass(opt.activeHandleClass);
-        }
-        console.log($selected.css('left'), $selected.css('top'));
-        const x = $selected.css('left');
-        const y = $selected.css('top');
-        const xpercent = parseInt($selected.css('left'), 10) / ($selected.parent().width() / 100);
-        const ypercent = parseInt($selected.css('top'), 10) / ($selected.parent().height() / 100);
-        console.log(xpercent, '=============', ypercent);
-        if (xpercent < 0 || xpercent > 100 || ypercent < 0 || ypercent > 100) {
-          self.assetImageCoordinates.x = 0;
-          self.assetImageCoordinates.x = 0;
-          $selected.css('left', '1%');
-          $selected.css('top', '6%');
-        } else {
-          self.assetImageCoordinates.x = parseFloat(x.replace('px', ''));
-          self.assetImageCoordinates.y = parseFloat(y.replace('px', ''));
-        }
-        // $selected.css('left', parseInt($selected.css('left'), 10) / ($selected.parent().width() / 100) + '%');
-        // $selected.css('top', parseInt($selected.css('top'), 10) / ($selected.parent().height() / 100) + '%');
-        // console.log(self.dropSensor);
-        // if (self.dropSensor) {
-        //   self.dropSensor($selected.css('left'), $selected.css('top'));
-        // }
-        // $selected.addClass('pad-18');
-
-        $selected = null;
-      });
-
-      return this;
-
-    };
   }
 
   onTemplateChangeAccept(event) {
@@ -1083,10 +982,11 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
         this.asset.fileStore = null;
       }
       if (!this.asset.imageCoordinates) {
-        this.asset.imageCoordinates = {
-          x: 0,
-          y: 0
-        };
+        this.asset.imageCoordinates = {};
+        this.asset.imageCoordinates[this.asset.assetName] = {
+            x: 0,
+            y: 0
+          };
       }
     }
 

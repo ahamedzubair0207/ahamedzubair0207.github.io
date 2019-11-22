@@ -1,6 +1,8 @@
 import { Component, OnInit, ElementRef, ViewEncapsulation } from '@angular/core';
 import { SharedService } from '../../../services/shared.service';
 import { MenuService } from '../../../services/menu/menu.service';
+import { filter } from 'rxjs/operators';
+import { NavigationEnd, Router } from '@angular/router';
 
 @Component({
   selector: 'app-votm-cloud-side-menu',
@@ -13,11 +15,15 @@ export class VotmCloudSideMenuComponent implements OnInit {
   menuOpen: boolean;
   menuItems: Array<{ id: string, enabled: boolean, url: string, icon: string, name: string, childs?: any[] }>;
   activeItem: string;
-
+  orgFlag = false;
+  locFlag = false;
+  assetFlag = false;
+  adminFlag = false;
   constructor(
     private menuService: MenuService,
     private sharedService: SharedService,
-    private elemRef: ElementRef
+    private elemRef: ElementRef,
+    private router: Router
   ) {
     this.sharedService.getMenuOpen().subscribe(newVal => this.menuOpen = newVal);
   }
@@ -25,6 +31,39 @@ export class VotmCloudSideMenuComponent implements OnInit {
   ngOnInit() {
     this.getMenu();
     this.activeItem = this.sharedService.getActiveMenu();
+    this.router.events.pipe(
+      filter(e => e instanceof NavigationEnd)
+    ).subscribe(
+      () => {
+      const url = this.router.url;
+      this.orgFlag = false;
+      this.locFlag = false;
+      this.assetFlag = false;
+      this.adminFlag = false;
+      if (url.includes('/org/')) {
+        this.orgFlag = true;
+      } else if (url.includes('/loc/')) {
+        this.locFlag = true;
+      } else if (url.includes('/asset/')) {
+        this.assetFlag = true;
+      } else if (url.includes('admin')) {
+        this.adminFlag = true;
+      }
+      
+    });
+  }
+
+  setActiveClass(item) {
+    if (this.orgFlag && item.id === 'organizations') {
+      return 'active';
+    } else if (this.locFlag && item.id === 'locations') {
+      return 'active';
+    } else if (this.assetFlag && item.id === 'assets') {
+      return 'active';
+    } else if (item.id === 'admin') {
+      return 'active';
+    }
+    return '';
   }
 
   getMenu(): void {

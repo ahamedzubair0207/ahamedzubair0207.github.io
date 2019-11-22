@@ -389,7 +389,7 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
     //   this.getImageOverlayConfiguration(this.widgetlocImageID);
     // }
     // signal R code
-    let connString = this.parentOrgId + '*' + (this.widgetlocImageID ? this.widgetlocImageID : this.widgetassetimageID);
+    let connString = 'Sensor' + this.parentOrgId + '*' + (this.widgetlocImageID ? this.widgetlocImageID : this.widgetassetimageID);
     console.log(connString);
     // connString = '7a59bdd8-6e1d-48f9-a961-aa60b2918dde*1387c6d3-cabc-41cf-a733-8ea9c9169831';
     this.signalRService.getSignalRConnection(connString);
