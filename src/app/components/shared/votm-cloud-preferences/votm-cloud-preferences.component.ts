@@ -56,6 +56,7 @@ export class VotmCloudPreferencesComponent implements OnInit, AfterViewInit {
   confirmDelUserFavoriteMessage: string;
   userUOMData: any[] = [];
   selectedUserUOMData: any[] = [];
+  loggedInUserData: { 'userId': string; 'organizationId': string; };
 
   constructor(
     private modalService: NgbModal,
@@ -95,7 +96,9 @@ export class VotmCloudPreferencesComponent implements OnInit, AfterViewInit {
       noti_info_web: new FormControl(null, [Validators.required])
     });
 
-    this.userId = '03c7fb47-58ee-4c41-a9d6-2ad0bd43392a';
+    // Get Logged in User data
+    this.loggedInUserData = this.sharedService.getLoggedInUser();
+    this.userId = this.loggedInUserData.userId;
     this.getAllAppInfo();
     this.tempMeasurement = 'Imperial';
     this.getAllAlertsByUserId();
