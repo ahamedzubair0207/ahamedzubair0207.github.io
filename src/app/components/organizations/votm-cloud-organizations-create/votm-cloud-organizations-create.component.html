@@ -296,7 +296,7 @@
                     </label>
                     <div class=""><input type="text" id="primaryDistributorName" [disabled]="pageType==='View'"
                         name="primaryDistributorName" [(ngModel)]="organization.primaryDistributorName"
-                        class="form-control" placeholder="Primary Distributor Name"
+                        class="form-control" placeholder="Distributor Name"
                         #primaryDistributorName="ngModel" maxlength="50" required>
                       <div *ngIf="primaryDistributorName.dirty && primaryDistributorName.invalid">
                         <app-votm-cloud-validator message="Distributor Name is required">
@@ -317,7 +317,7 @@
                       <input type="email" id="primaryDistributorEmail" [disabled]="pageType==='View'"
                         name="primaryDistributorEmail" [(ngModel)]="organization.primaryDistributorEmailAddress"
                         #primaryDistributorEmail="ngModel" class="form-control" email
-                        placeholder="Primary Distributor Email" maxlength="100" required>
+                        placeholder="Distributor Email" maxlength="100" required>
                       <div class="input-group-append">
                         <span class="input-group-text"><i class="icon-mail"></i></span>
                       </div>

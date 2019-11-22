@@ -21,7 +21,6 @@ export class VotmLineGraphComponent implements OnInit {
   @Input() locked: boolean;
 
   // @ViewChild('config', null) configModal: any;
-  signalCheckBoxes = [];
   "hideCredits": true;
   signalAssociatedWithTimeSeries: any = {};
   orgId: string;
@@ -42,20 +41,20 @@ export class VotmLineGraphComponent implements OnInit {
   private rangeSeriesSet: boolean = false;
   private signalTypes: any[] = [
     { "type": "pressure", "uom": "psi", "nominal": 1500, "var": 5 },
-    { "type": "temperature", "uom": "°F", "nominal": 100, "var": 2 },
+    { "type": "temperature", "uom": "kV", "nominal": 100, "var": 2 },
     { "type": "Elec_Current", "uom": "kV", "nominal": 80, "var": 3 },
     { "type": "humidity", "uom": "%RH", "nominal": 50, "var": 1 }
   ]
 
   private dateRange: any[] = [
-    {"value": "5m", "name": "Five Minute"},
-    {"value": "10m", "name": "Ten Minute"},
-    {"value": "20m", "name": "Twenty Minute"},
-    {"value": "30m", "name": "Thirty Minute"},
-    {"value": "1h", "name": "One hour"},
-    {"value": "5h", "name": "Five hour"},
-    {"value": "10h", "name": "Ten hour"},
-    {"value": "1d", "name": "One day"}
+    { "value": "5m", "name": "Five Minute" },
+    { "value": "10m", "name": "Ten Minute" },
+    { "value": "20m", "name": "Twenty Minute" },
+    { "value": "30m", "name": "Thirty Minute" },
+    { "value": "1h", "name": "One hour" },
+    { "value": "5h", "name": "Five hour" },
+    { "value": "10h", "name": "Ten hour" },
+    { "value": "1d", "name": "One day" }
     // 5m , 10m, 20m, 30m, 1h, 5h, 10h, 20h, 1d
   ]
 
@@ -63,6 +62,7 @@ export class VotmLineGraphComponent implements OnInit {
   yAxisSignals: number[] = [0, 0];
 
   signals: any = [];
+  selectedCheckboxes: any[] = [];
   //   [{ "type": "temperature", "name": "GV ❯ Prod ❯ Ambient Temperature", "selY": [false, false] },
   //   { "type": "temperature", "name": "GV ❯ Prod ❯ EAP1 ❯ Exhaust", "selY": [false, false] },
   //   { "type": "temperature", "name": "GV ❯ Prod ❯ EAP2 ❯ Exhaust", "selY": [false, false] },
@@ -94,7 +94,7 @@ export class VotmLineGraphComponent implements OnInit {
   // isTrendChartConfigured: boolean;
   // customizeTrendChart: any;
   // toaster: Toaster = new Toaster(this.toastr);
-  
+
 
   // @Input() data: DbItem;
   // @Input() id: any;
@@ -112,7 +112,7 @@ export class VotmLineGraphComponent implements OnInit {
     });
   }
 
-  onRadioGroupChange(){
+  onRadioGroupChange() {
     this.saveResult();
   }
 
@@ -121,38 +121,32 @@ export class VotmLineGraphComponent implements OnInit {
   // }
 
   saveResult() {
-    console.log("Save Result");
     let body = {
       "accountCode": "PCM",
       "propertyName": "SignalId",
       "propertyValue": '',
       "measuredValue": "SignalValue",
-      "fromDateTime": "2019-10-19T20:16:43.863Z",//new Date(`${new Date().getMonth()}/${new Date().getDate()}/${new Date().getFullYear()-2}`),//
-      "toDateTime":  "2019-11-20T20:23:43.863Z",//new Date(),//"2019-11-20T20:23:43.863Z",
+      "fromDateTime": "2019-11-18T20:16:43.863Z",//new Date(`${new Date().getMonth()}/${new Date().getDate()}/${new Date().getFullYear()-2}`),//
+      "toDateTime": "2020-11-20T20:23:43.863Z",//new Date(),//"2019-11-20T20:23:43.863Z",
       "environmentFqdn": "41075d1a-97a6-4f2d-9abb-a1c08be5b6c4.env.timeseries.azure.com",
       "bucketSize": this.selDateRange
-      // bucket Size: make it 5m , 10m, 20m, 30m, 1h, 5h, 10h, 20h, 1d, 5 158d8bd3-b890-4f97-9ff0-3fdd0e6a5aba
+      // bucket Size: make it 5m , 10m, 20m, 30m, 1h, 5h, 10h, 20h, 1d, 5 71fe01ae-141c-463f-8e5c-5c40ee02e533
     };
-   
 
-    let selectedValues = [];
-    console.log(' this.signalCheckBoxes ', this.signalCheckBoxes)
-    for (var key in this.signalCheckBoxes) {
-      if (this.signalCheckBoxes[key]) {
-        selectedValues.push(key);
-      }
-    }
+
+   
     let selectedSignals = [];
     this.signals.forEach(signal => {
-      if (selectedValues.indexOf(signal.id) >= 0) {
+      if (this.selectedCheckboxes.indexOf(signal.id) >= 0) {
         selectedSignals.push(signal);
       }
     })
 
-    console.log('selected Vlaue ', selectedValues);
-    if (selectedValues && selectedValues.length > 0) {
-      body.propertyValue = selectedValues.join(',');
+    if (this.selectedCheckboxes) {
+      body.propertyValue = this.selectedCheckboxes.join(',');
     }
+
+    console.log('body.propertyValue ', this.signals, this.selectedCheckboxes, body.propertyValue)
 
     this.timeSeries.getTimeSeriesAggregateMultipleDevices(body)
       .subscribe(response => {
@@ -210,7 +204,12 @@ export class VotmLineGraphComponent implements OnInit {
         this.legendWidth = chart.legend.width;
         if (!this.showLegend) chart.legend.width = 0;
 
+
+        // Add cursor
         chart.cursor = new am4charts.XYCursor();
+        chart.cursor.xAxis = dateAxis;
+        // chart.cursor.snapToSeries = series;
+        // chart.cursor = new am4charts.XYCursor();
 
         // var that = this;
         chart.events.on("ready", (ev) => {
@@ -266,7 +265,7 @@ export class VotmLineGraphComponent implements OnInit {
     let thresholds = { lowCritical: nominal * .75, lowWarn: nominal * .9, highWarn: nominal * 1.1, highCritical: nominal * 1.25 };
     if (thresholds.lowCritical) {
       var rangeLC = valueAxis.axisRanges.create();
-      rangeLC.value =  1000000; //-99999;
+      rangeLC.value = 1000000; //-99999;
       rangeLC.endValue = thresholds.lowCritical;
       rangeLC.axisFill.fill = am4core.color("#dc3545");
       rangeLC.axisFill.fillOpacity = (this.showThresh[idx]) ? 0.2 : 0;
@@ -291,7 +290,7 @@ export class VotmLineGraphComponent implements OnInit {
     if (thresholds.highCritical) {
       var rangeHC = valueAxis.axisRanges.create();
       rangeHC.value = thresholds.highCritical;
-      rangeHW.endValue =  1200000;
+      rangeHW.endValue = 1200000;
       // rangeHC.endValue = 99999;
       rangeHC.axisFill.fill = am4core.color("#dc3545");
       rangeHC.axisFill.fillOpacity = (this.showThresh[idx]) ? 0.2 : 0;
@@ -353,40 +352,41 @@ export class VotmLineGraphComponent implements OnInit {
     }
   }
 
-  // generate some random data, quite different range
-  generateChartData() {
-    let chartData = [];
-    let firstDate = new Date();
-    firstDate.setDate(firstDate.getDate() - 100);
-    firstDate.setHours(0, 0, 0, 0);
+  // // generate some random data, quite different range
+  // generateChartData() {
+  //   let chartData = [];
+  //   let firstDate = new Date();
+  //   firstDate.setDate(firstDate.getDate() - 100);
+  //   firstDate.setHours(0, 0, 0, 0);
 
-    for (var i = 0; i < 1000; i++) {
-      let newDate = new Date(firstDate);
-      newDate.setDate(newDate.getDate() + i);
-      chartData.push({ date: newDate });
-    }
+  //   for (var i = 0; i < 1000; i++) {
+  //     let newDate = new Date(firstDate);
+  //     newDate.setDate(newDate.getDate() + i);
+  //     chartData.push({ date: newDate });
+  //   }
 
-    this.signals.forEach((signal, index) => {
-      if (signal.selY[0] || signal.selY[1]) {
-        let avgVal = this.signalTypes.find(({ type }) => type === signal.type).nominal;
-        let variance = this.signalTypes.find(({ type }) => type === signal.type).var;
-        let minVal;
-        let maxVal;
+  //   this.signals.forEach((signal, index) => {
+  //     if (signal.selY[0] || signal.selY[1]) {
+  //       let avgVal = this.signalTypes.find(({ type }) => type === signal.type).nominal;
+  //       let variance = this.signalTypes.find(({ type }) => type === signal.type).var;
+  //       let minVal;
+  //       let maxVal;
 
-        for (var i = 0; i < 1000; i++) {
-          avgVal += Math.round((Math.random() < 0.5 ? 1 : -1) * Math.random() * variance);
-          minVal = avgVal + Math.round(Math.random() * -3 * variance);
-          maxVal = avgVal + Math.round(Math.random() * 3 * variance);
+  //       for (var i = 0; i < 1000; i++) {
+  //         avgVal += Math.round((Math.random() < 0.5 ? 1 : -1) * Math.random() * variance);
+  //         minVal = avgVal + Math.round(Math.random() * -3 * variance);
+  //         maxVal = avgVal + Math.round(Math.random() * 3 * variance);
 
-          chartData[i]["SigAvg" + index] = avgVal;
-          chartData[i]["SigMin" + index] = minVal;
-          chartData[i]["SigMax" + index] = maxVal;
-        }
-      }
-    });
+  //         chartData[i]["SigAvg" + index] = avgVal;
+  //         chartData[i]["SigMin" + index] = minVal;
+  //         chartData[i]["SigMax" + index] = maxVal;
+  //       }
+  //     }
+  //   });
 
-    return chartData;
-  }
+  //   return chartData;
+
+  // }
 
   toggleMinMax() {
     this.showMinMax = !this.showMinMax;
@@ -447,7 +447,16 @@ export class VotmLineGraphComponent implements OnInit {
     }
   }
 
-  selectSignal(idx, axis) {
+  selectSignal(idx, axis, signalId) {
+    
+    if (this.selectedCheckboxes.indexOf(signalId) >= 0) {
+      this.selectedCheckboxes.splice(this.selectedCheckboxes.indexOf(signalId), 1);
+    } else {
+      this.selectedCheckboxes.push(signalId);
+    }
+
+    console.log('selectSignal ', this.selectedCheckboxes)
+
     let opposite: number = (axis + 1) % 2;
 
     this.signals[idx].selY[axis] = !this.signals[idx].selY[axis];
@@ -489,7 +498,6 @@ export class VotmLineGraphComponent implements OnInit {
               if (location.signals && location.signals.length > 0) {
                 location.signals.forEach(signal => {
                   tempArray.push({ "id": signal.signalId, "type": signal.signalType, "name": `Quick Coupling Division > ${location.locationName} > ${signal.signalName}`, "selY": [false, false] })
-                  this.signalCheckBoxes[signal.signalId] = false;
                 });
               }
 
@@ -499,7 +507,6 @@ export class VotmLineGraphComponent implements OnInit {
                   if (asset.signals && asset.signals.length > 0) {
                     asset.signals.forEach(signal => {
                       tempArray.push({ "id": signal.signalId, "type": signal.signalType, "name": `Quick Coupling Division > ${location.locationName} > ${asset.assetName} > ${signal.signalName}`, "selY": [false, false] })
-                      this.signalCheckBoxes[signal.signalId] = false;
                     });
                   }
                 })
@@ -507,9 +514,7 @@ export class VotmLineGraphComponent implements OnInit {
             })
           }
         }
-        this.signals = tempArray;
-        console.log('tempArray ', tempArray);
-
+        this.signals = tempArray.reduce((acc, cur) => acc.some(x => (x.id === cur.id)) ? acc : acc.concat(cur), [])
       });
 
   }
