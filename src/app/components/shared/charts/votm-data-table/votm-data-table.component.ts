@@ -1,9 +1,10 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { ColumnMode } from '../../../../../assets/projects/swimlane/ngx-datatable/src/public-api';
 import { ToastrService } from 'ngx-toastr';
 import { Toaster } from '../../votm-cloud-toaster/votm-cloud-toaster';
 import { DbItem } from 'src/app/models/db-item';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { DashBoard } from 'src/app/models/dashboard.model';
+import { TimeSeriesService } from 'src/app/services/timeSeries/time-series.service';
 
 @Component({
   selector: 'app-votm-data-table',
@@ -11,7 +12,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./votm-data-table.component.scss']
 })
 export class VotmDataTableComponent implements OnInit {
-  @Input() data: DbItem;
+  @Input() data: DashBoard;
   @Input() id: string;
   @Input() locked: boolean;
 
@@ -32,7 +33,8 @@ export class VotmDataTableComponent implements OnInit {
     { "type": "temperature", "uom": "°F", "nominal": 100, "var": 2 },
     { "type": "humidity", "uom": "%", "nominal": 50, "var": 1 }
   ]
-  private signals: any = [
+  signals: any = 
+  [
     { "type": "temperature", "org": "", "loc": "GV ❯ Prod", "asset": "", "name": "Ambient Temperature", "sel": false, "value": 105.5, "bat": 3.0, "rssi": .17, "sensor": "E5000001" },
     { "type": "temperature", "org": "", "loc": "GV ❯ Prod", "asset": "EAP1", "name": "Exhaust", "sel": false, "value": 94.1, "bat": 2.9, "rssi": .31, "sensor": "E5000001" },
     { "type": "temperature", "org": "", "loc": "GV ❯ Prod", "asset": "EAP2", "name": "Exhaust", "sel": false, "value": 101.4, "bat": 2.85, "rssi": .20, "sensor": "E5000001" },
@@ -47,11 +49,17 @@ export class VotmDataTableComponent implements OnInit {
     { "type": "humidity", "org": "", "loc": "GB", "asset": "", "name": "Cleanroom Supply Humidity", "sel": false, "value": 53.0, "bat": 2.9, "rssi": .19, "sensor": "E7000001" }
   ];
 
-  constructor(private modalService: NgbModal) { }
+  constructor(private modalService: NgbModal, private timeSeries: TimeSeriesService) { }
 
   ngOnInit() {
-    this.wId = this.data.id + "-" + this.id;
-    this.wConfig = (this.data.widgetConf) ? this.data.widgetConf : { "title": "", "showSensor": false, "showOrg": false, "showLoc": false, "showAsset": true, "showStatus": true };
+    if (this.data) {
+      if (this.data.organizationId) {
+        this.getSignalsAssociatedAssetByOrgId(this.data.organizationId);
+      }
+      this.wId = this.data.dashboardId + "-" + this.id;
+      this.wConfig = (this.data.widgetConf) ? this.data.widgetConf : { "title": "", "showSensor": false, "showOrg": false, "showLoc": false, "showAsset": true, "showStatus": true };
+    }
+    
   }
 
   ngAfterViewInit() {
@@ -133,6 +141,40 @@ export class VotmDataTableComponent implements OnInit {
 
   getUoM(signal) {
     return this.signalTypes.find(({ type }) => type === signal.type).uom;
+  }
+
+  getSignalsAssociatedAssetByOrgId(orgId: string) {
+    this.timeSeries.getSignalsAssociatedAssetByOrgId(orgId)
+      .subscribe(response => {
+        console.log('Time Series Signal', response);
+        let tempArray = [];
+        if (response) {
+          // Location
+          if (response.locations && response.locations.length > 0) {
+            response.locations.forEach(location => {
+              // Direct Signal
+              if (location.signals && location.signals.length > 0) {
+                location.signals.forEach(signal => {
+                  tempArray.push({ "id": signal.signalId, "type": signal.signalType, "name": `QCD > ${location.locationName} > ${signal.signalName}` })
+                });
+              }
+
+              // Asset
+              if (location.assets && location.assets.length > 0) {
+                location.assets.forEach(asset => {
+                  if (asset.signals && asset.signals.length > 0) {
+                    asset.signals.forEach(signal => {
+                      tempArray.push({ "id": signal.signalId, "type": signal.signalType, "name": `QCD > ${location.locationName} > ${asset.assetName} > ${signal.signalName}` })
+                    });
+                  }
+                })
+              }
+            })
+          }
+        }
+        this.signals = tempArray.reduce((acc, cur) => acc.some(x => (x.id === cur.id)) ? acc : acc.concat(cur), [])
+      });
+
   }
 }
 

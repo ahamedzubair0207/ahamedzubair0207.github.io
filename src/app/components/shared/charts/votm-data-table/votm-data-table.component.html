@@ -24,7 +24,8 @@
               <tbody>
                 <ng-container *ngFor="let signal of signals; index as i">
                   <tr *ngIf="signal.sel">
-                    <td scope="col" class="" title="{{ selPathName(signal) }}"><i class="pr-1 icon-sig-{{ signal.type }}"></i>{{ selPathName(signal) }}</td>
+                      <td scope="col" class="" title="{{ selPathName(signal) }}"><i class="pr-1 icon-sig-{{ signal.type }}"></i>{{ signal.name }}</td>
+                    <!-- <td scope="col" class="" title="{{ selPathName(signal) }}"><i class="pr-1 icon-sig-{{ signal.type }}"></i>{{ selPathName(signal) }}</td> -->
                     <td scope="col" class="text-right" title="{{ signal.value }} {{ getUoM(signal) }}">{{ signal.value }} {{ getUoM(signal) }}</td>
                     <td scope="col" class="" title="{{ timestamp }}">{{ timestamp }}</td>
                     <td *ngIf="wConfig.showSensor" scope="col" class="text-center">{{ signal.sensor }}</td>
@@ -89,7 +90,8 @@
             </thead>
             <tbody>
               <tr *ngFor="let signal of signals; index as i">
-                <td><i class="pr-1 icon-sig-{{ signal.type }}"></i>{{ pathName(signal) }}</td>
+                  <td><i class="pr-1 icon-sig-{{ signal.type }}"></i>{{ signal.name }}</td>
+                <!-- <td><i class="pr-1 icon-sig-{{ signal.type }}"></i>{{ pathName(signal) }}</td> -->
                 <td>{{ signal.type }}</td>
                 <td class="text-center">
                   <div class="custom-control custom-checkbox">

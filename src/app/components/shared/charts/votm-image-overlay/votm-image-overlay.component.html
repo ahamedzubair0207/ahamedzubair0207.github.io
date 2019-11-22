@@ -37,11 +37,8 @@
                 (mouseenter)="displaySignalHoverContent['s-'+i] = true"
                 (mouseleave)="displaySignalHoverContent['s-'+i] = false"
                 [style.left.px]="imgOffsetLeft + item.imageCordinates[item.associationName].x * imgOffsetWidth - 16"
-                [style.top.px]="imgOffsetTop + item.imageCordinates[item.associationName].y * imgOffsetHeight - 16"
-              >
-                <ng-container *ngIf="!displaySignalHoverContent['s-' + i]; else hoveredContent" >
-                  {{item.latestValue}}
-                </ng-container>
+                [style.top.px]="imgOffsetTop + item.imageCordinates[item.associationName].y * imgOffsetHeight - 16">
+                <ng-container *ngIf="!displaySignalHoverContent['s-' + i]; else hoveredContent" >{{item.latestValue}}</ng-container>
                 <ng-template #hoveredContent>
                   <p><b>{{item.sensorName}}</b><br/>
                   09/13/2019 11:45PM<br/>

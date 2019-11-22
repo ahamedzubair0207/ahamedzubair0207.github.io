@@ -56,12 +56,38 @@ export class VotmLineGraphComponent implements OnInit {
     { "value": "10h", "name": "Ten hour" },
     { "value": "1d", "name": "One day" }
     // 5m , 10m, 20m, 30m, 1h, 5h, 10h, 20h, 1d
+    /* 
+    * { "value":"1m", "name":"One Minute"},
+    * { "value":"1h", "name":"One Hour"},
+    * { "value":"1d", "name":"One Day"},
+    * { "value":"1w", "name":"One Week"},
+    * { "value":"Month", "name":"One Month"},
+    * { "value":"3Month", "name":"Three Months"},
+    * { "value":"6Month", "name":"Six Months"},
+    * { "value":"YTD", "name":"Year to Date"},
+    * { "value":"Year", "name":"One Year"},
+    * { "value":"All", "name":"All Available Data"} 
+    */
   ]
 
   yAxisType: string[] = ["", ""];
   yAxisSignals: number[] = [0, 0];
 
-  signals: any = [];
+  signals: any =
+    [{ "type": "temperature", "name": "GV ❯ Prod ❯ Ambient Temperature", "selY": [false, false] },
+    { "type": "temperature", "name": "GV ❯ Prod ❯ EAP1 ❯ Exhaust", "selY": [false, false] },
+    { "type": "temperature", "name": "GV ❯ Prod ❯ EAP2 ❯ Exhaust", "selY": [false, false] },
+    { "type": "pressure", "name": "GV ❯ Lab ❯ IB ❯ Main Pump", "selY": [false, false] },
+    { "type": "pressure", "name": "GV ❯ Lab ❯ IB ❯ Drain Pan Suction", "selY": [false, false] },
+    { "type": "temperature", "name": "GV ❯ Lab ❯ IB ❯ Oil Cooler", "selY": [false, false] },
+    { "type": "temperature", "name": "GV ❯ Lab ❯ IB ❯ Oil Reservoir", "selY": [false, false] },
+    { "type": "pressure", "name": "GV ❯ Lab ❯ IB ❯ Impulse #2 Pilot Pressure", "selY": [false, false] },
+    { "type": "pressure", "name": "GV ❯ Lab ❯ IB ❯ Accumulator", "selY": [false, false] },
+    { "type": "pressure", "name": "GV ❯ Lab ❯ IB ❯ Main Pump Suction", "selY": [false, false] },
+    { "type": "humidity", "name": "GB ❯ Furness Supply Humidity", "selY": [false, false] },
+    { "type": "humidity", "name": "GB ❯ Cleanroom Supply Humidity", "selY": [false, false] }
+    ];
+  //[];
   selectedCheckboxes: any[] = [];
   //   [{ "type": "temperature", "name": "GV ❯ Prod ❯ Ambient Temperature", "selY": [false, false] },
   //   { "type": "temperature", "name": "GV ❯ Prod ❯ EAP1 ❯ Exhaust", "selY": [false, false] },
@@ -83,7 +109,7 @@ export class VotmLineGraphComponent implements OnInit {
     console.log('this.data ', this.data)
     if (this.data) {
       if (this.data.organizationId) {
-        this.getSignalsAssociatedAssetByOrgId(this.data.organizationId);
+        // this.getSignalsAssociatedAssetByOrgId(this.data.organizationId);
       }
       this.wId = this.data.dashboardId + "-" + this.id;
       this.wConfig = (this.data.widgetConf) ? this.data.widgetConf : { yMin: [null, null], yMax: [null, null] };
@@ -126,15 +152,20 @@ export class VotmLineGraphComponent implements OnInit {
       "propertyName": "SignalId",
       "propertyValue": '',
       "measuredValue": "SignalValue",
-      "fromDateTime": "2019-11-18T20:16:43.863Z",//new Date(`${new Date().getMonth()}/${new Date().getDate()}/${new Date().getFullYear()-2}`),//
-      "toDateTime": "2020-11-20T20:23:43.863Z",//new Date(),//"2019-11-20T20:23:43.863Z",
+      "fromDateTime": "2019-11-18T20:16:43.863Z",//new Date(`${new Date().getMonth()}/${new Date().getDate()}/${new Date().getFullYear()-2}`),
+      //fromDateTime: One Minute One Hour, One Day, One Week, One Month Three Months, Six Months, Year to Date, One Year All Available Data 
+      "toDateTime": new Date(),//"2019-11-20T20:23:43.863Z",
       "environmentFqdn": "41075d1a-97a6-4f2d-9abb-a1c08be5b6c4.env.timeseries.azure.com",
-      "bucketSize": this.selDateRange
+      "bucketSize": "1m"//this.selDateRange
       // bucket Size: make it 5m , 10m, 20m, 30m, 1h, 5h, 10h, 20h, 1d, 5 71fe01ae-141c-463f-8e5c-5c40ee02e533
     };
 
 
-   
+    if(this.selDateRange){
+      body.bucketSize = this.selDateRange;
+    }
+    console.log( body.bucketSize);
+
     let selectedSignals = [];
     this.signals.forEach(signal => {
       if (this.selectedCheckboxes.indexOf(signal.id) >= 0) {
@@ -145,6 +176,10 @@ export class VotmLineGraphComponent implements OnInit {
     if (this.selectedCheckboxes) {
       body.propertyValue = this.selectedCheckboxes.join(',');
     }
+
+    // code to remove start
+    body.propertyValue = '71fe01ae-141c-463f-8e5c-5c40ee02e533';
+    // end
 
     console.log('body.propertyValue ', this.signals, this.selectedCheckboxes, body.propertyValue)
 
@@ -181,10 +216,18 @@ export class VotmLineGraphComponent implements OnInit {
         title.fontSize = 25;
         title.marginBottom = 30;
 
-        let dateAxis = chart.xAxes.push(new am4charts.DateAxis());
+        let tempdateaxis = new am4charts.DateAxis();
+        // tempdateaxis.title = 'AHAMED';
+        // tempdateaxis.title = new am4core.Label();
+        // tempdateaxis.title.text = 'AHAMED';
+        // tempdateaxis.datest
+        // tempdateaxis.tooltipText ='AHAMED'
+
+        let dateAxis = chart.xAxes.push(tempdateaxis);
         dateAxis.renderer.line.strokeOpacity = 1;
         dateAxis.renderer.line.stroke = am4core.color("gray");
         dateAxis.tooltipDateFormat = "MM/dd/yyyy hh:mm:ss";
+
 
         if (this.yAxisSignals[0]) this.createValueAxis(chart, 0);
         if (this.yAxisSignals[1]) this.createValueAxis(chart, 1);
@@ -235,6 +278,11 @@ export class VotmLineGraphComponent implements OnInit {
         // this.chart.data = response;
         // console.log('this.chart ', this.chart)
       })
+
+      // setTimeout(() => {
+      //   //Chart Code
+
+      // }, 1000*60);
   }
 
   open(config) {
@@ -448,7 +496,7 @@ export class VotmLineGraphComponent implements OnInit {
   }
 
   selectSignal(idx, axis, signalId) {
-    
+
     if (this.selectedCheckboxes.indexOf(signalId) >= 0) {
       this.selectedCheckboxes.splice(this.selectedCheckboxes.indexOf(signalId), 1);
     } else {
