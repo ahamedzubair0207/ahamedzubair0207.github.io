@@ -115,9 +115,11 @@ export class VotmCloudAdminGatewaysHomeComponent implements OnInit {
   } // get allGetWays fun end
 
   ngAfterViewInit() {
-    this.gatewayStatusPieChartGraph();
-    this.networkUsageChart();
-    this.celularUsageChart();
+    if (this.originList !== 'organizationView') {
+      this.gatewayStatusPieChartGraph();
+      this.networkUsageChart();
+      this.celularUsageChart();
+    }
   }
 
   ngOnDestroy() {
@@ -267,7 +269,7 @@ export class VotmCloudAdminGatewaysHomeComponent implements OnInit {
      "year": "2018",
      "value1": -0.074,
      "value2": 3.074
-     
+
    }, {
      "year": "2019",
      "value1": 0.47,

@@ -82,7 +82,7 @@ export class VotmCloudLocationsSignalComponent implements OnInit {
             (Math.max(0, this.location.logo.imageName.lastIndexOf('.')) || Infinity) + 1);
           this.imgURL = this.domSanitizer.bypassSecurityTrustUrl(`data:image/${fileExtension};base64,${this.location.logo.image}`);
         } else {
-          this.imgURL = '../../../../assets/images/location-backdrop-dflt.png';
+          this.imgURL = '../../../../assets/images/default-image-svg.svg';
         }
       });
   }

@@ -16,19 +16,12 @@
   </div>
 
   <div class="row">
-    <div class="col-12 col-md-6 col-lg-8 col-xl-9 ipad-pro-lg-12">
-      <div class="table-responsive">
+    <div [ngClass]="{'col-12 col-md-6 col-lg-8 col-xl-9' : originList !== 'organizationView', 'col-12 col-md-12 col-lg-12 col-xl-12' : originList === 'organizationView'}">
+        <!-- <div class="col-12 col-md-12 col-lg-12 col-xl-12"> -->
+      <!-- <div class="table-responsive">
         <table class="table table-bordered table-sm table-stripped table-hover" id="gateway_table">
           <thead class="thead-dark">
             <tr>
-              <!-- <th class="">Gateway Name</th>
-              <th class="">Eth0 MAC</th>
-              <th class="">Loc</th>
-              <th class="">Org</th>
-              <th class="text-center">Signal</th>
-              <th class="">Last Report Time</th>
-              <th class="text-center">State</th> -->
-
               <th>Gateway Name</th>
               <th>Serial Number</th>
               <th>Type</th>
@@ -50,14 +43,46 @@
               <td class="text-center"><i class="icon-signal-100"></i></td>
               <td>{{ allgetways.lastreporttime * 1000| date: 'MM-dd-yy'}} @
                 {{ allgetways.lastreporttime * 1000| date: 'hh:mm a'}}</td>
-              <!-- <td>{{ allgetways.lastreporttime * 1000| date: 'MM-dd-yy'}} @ {{ allgetways.lastreporttime * 1000| date: 'HH:mm'}}</td> -->
-              <td class="text-center"><i class="icon-warn"></i></td>
             </tr>
           </tbody>
         </table>
-      </div>
+      </div> -->
+      <ngx-datatable
+      class="bootstrap"
+      style="height: 600px;"
+      [rows]="gatewayList"
+      columnMode="force"
+      [headerHeight]="50"
+      [footerHeight]="0"
+      [rowHeight]="50"
+      [scrollbarV]="true"
+      >
+        <ngx-datatable-column name="Gateway Name" [sortable]="true">
+          <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
+              <a class="cursor-point" [routerLink]="['/admin/networkmanagement/GatewayDetails', 1]">{{row.gatewayName}}</a>
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Serial Number" [sortable]="true" prop="gatewayName"></ngx-datatable-column>
+        <ngx-datatable-column name="Type" [sortable]="true" prop="productName"></ngx-datatable-column>
+        <ngx-datatable-column name="Location" [sortable]="true" prop="gatewayLocationMapping.0.locationName"></ngx-datatable-column>
+        <ngx-datatable-column name="On-line Time" [sortable]="true"></ngx-datatable-column>
+        <ngx-datatable-column name="Data Transfer" [sortable]="true"></ngx-datatable-column>
+        <ngx-datatable-column name="Action">
+            <!-- <ng-template let-value="value" let-row="row" let-rowIndex="rowIndex" ngx-datatable-cell-template>
+            <a id="user_check_{{rowIndex}}" class="mr-2" [title]="row.active ? 'Active' : 'Deactive'" >
+                <i [ngClass]="row.active ? 'fa fa-check-circle' : 'fa fa-ban'" ></i>
+              </a>
+              <a id="user_edit_{{rowIndex}}" title="Edit" class="mr-2"  (click)="onClickOfEditUser($event, row, 'edit')">
+                <i class="icon-edit"></i>
+              </a>
+              <a id="user_delete_{{rowIndex}}" title="Delete" (click)="onClickOfConfirmDeleteUser($event, row)" class="mr-2" >
+                <i class="icon-trash"></i>
+              </a>
+              </ng-template> -->
+        </ngx-datatable-column>
+      </ngx-datatable>
     </div>
-    <div class="col-12 col-md-6 col-lg-4 col-xl-3 ipad-pro-lg-12">
+    <div class="col-12 col-md-6 col-lg-4 col-xl-3 ipad-pro-lg-12" *ngIf="originList !== 'organizationView'">
       <!--gatewaystatus start-->
       <fieldset>
         <legend>Gateway Status</legend>
