@@ -47,27 +47,27 @@ export class VotmLineGraphComponent implements OnInit {
   ]
 
   private dateRange: any[] = [
-    { "value": "5m", "name": "Five Minute" },
-    { "value": "10m", "name": "Ten Minute" },
-    { "value": "20m", "name": "Twenty Minute" },
-    { "value": "30m", "name": "Thirty Minute" },
-    { "value": "1h", "name": "One hour" },
-    { "value": "5h", "name": "Five hour" },
-    { "value": "10h", "name": "Ten hour" },
-    { "value": "1d", "name": "One day" }
+    // { "value": "5m", "name": "Five Minute" },
+    // { "value": "10m", "name": "Ten Minute" },
+    // { "value": "20m", "name": "Twenty Minute" },
+    // { "value": "30m", "name": "Thirty Minute" },
+    // { "value": "1h", "name": "One hour" },
+    // { "value": "5h", "name": "Five hour" },
+    // { "value": "10h", "name": "Ten hour" },
+    // { "value": "1d", "name": "One day" }
     // 5m , 10m, 20m, 30m, 1h, 5h, 10h, 20h, 1d
-    /* 
-    * { "value":"1m", "name":"One Minute"},
-    * { "value":"1h", "name":"One Hour"},
-    * { "value":"1d", "name":"One Day"},
-    * { "value":"1w", "name":"One Week"},
-    * { "value":"Month", "name":"One Month"},
-    * { "value":"3Month", "name":"Three Months"},
-    * { "value":"6Month", "name":"Six Months"},
-    * { "value":"YTD", "name":"Year to Date"},
-    * { "value":"Year", "name":"One Year"},
-    * { "value":"All", "name":"All Available Data"} 
-    */
+    
+     { "value":"1m", "name":"One Minute"},
+     { "value":"1h", "name":"One Hour"},
+     { "value":"1d", "name":"One Day"},
+     { "value":"1w", "name":"One Week"},
+     { "value":"1m", "name":"One Month"},
+     { "value":"3m", "name":"Three Months"},
+     { "value":"6m", "name":"Six Months"},
+     { "value":"YTD", "name":"Year to Date"},
+     { "value":"Year", "name":"One Year"},
+     { "value":"All", "name":"All Available Data"} 
+    
   ]
 
   yAxisType: string[] = ["", ""];
@@ -156,7 +156,7 @@ export class VotmLineGraphComponent implements OnInit {
       //fromDateTime: One Minute One Hour, One Day, One Week, One Month Three Months, Six Months, Year to Date, One Year All Available Data 
       "toDateTime": new Date(),//"2019-11-20T20:23:43.863Z",
       "environmentFqdn": "41075d1a-97a6-4f2d-9abb-a1c08be5b6c4.env.timeseries.azure.com",
-      "bucketSize": "1m"//this.selDateRange
+      "bucketSize": "1d"//this.selDateRange
       // bucket Size: make it 5m , 10m, 20m, 30m, 1h, 5h, 10h, 20h, 1d, 5 71fe01ae-141c-463f-8e5c-5c40ee02e533
     };
 
