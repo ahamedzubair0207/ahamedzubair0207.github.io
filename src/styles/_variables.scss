@@ -45,6 +45,16 @@ $green:   #28a745 !default;
 $teal:    #20c997 !default;
 $cyan:    #17a2b8 !default;
 
+$qcd-success: #6aa84f;
+$qcd-warning: #f1c232;
+$qcd-danger:  #e06666;
+
+$qcd-success-brd: #4a8332;
+$qcd-warning-brd: #c09101;
+$qcd-danger-brd:  #9d0909;
+
+$qcd-white-90:  rgba(255, 255, 255, 0.9);
+
 $colors: () !default;
 // stylelint-disable-next-line scss/dollar-variable-default
 $colors: map-merge(
@@ -278,6 +288,7 @@ $font-family-base:            $font-family-sans-serif !default;
 $font-size-base:              .875rem !default; // Assumes the browser default, typically `16px` -- was 1
 $font-size-lg:                $font-size-base * 1.25 !default;
 $font-size-sm:                $font-size-base * .875 !default;
+$font-size-xs:                $font-size-base * .625 !default;
 
 $font-weight-lighter:         lighter !default;
 $font-weight-light:           300 !default;
