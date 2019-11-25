@@ -12,8 +12,15 @@
   <div class="sidebar-header"></div>
   <ul class="list-unstyled components left-menu-margin">
     <ng-container *ngFor="let eachItem of menuItems">
-      <li *ngIf="eachItem.enabled && (eachItem.id !== 'favorites')" routerLinkActive="active"
-        [ngClass]="{ 'super-admin' : eachItem.id == 'super' }">
+      <li *ngIf="eachItem.enabled && (eachItem.id !== 'favorites')" [ngClass]="
+        (orgFlag && eachItem.id === 'organizations') ? 'active' : (
+          (locFlag && eachItem.id === 'locations') ? 'active' : (
+            (assetFlag && eachItem.id === 'assets') ? 'active' : (
+              (adminFlag && eachItem.id === 'admin') ? 'active' : ''
+            )
+          )
+        )"
+       >
         <a *ngIf="eachItem.enabled && (eachItem.id !== 'admin' && eachItem.id !== 'favorites')"
           routerLink="{{eachItem.url}}" (click)="setActiveItem(eachItem.id)" data-toggle="collapse"
           aria-expanded="false" data-toggle="tooltip" data-placement="right" title="{{eachItem.name}}">

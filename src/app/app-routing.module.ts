@@ -122,7 +122,7 @@ const routes: Routes = [
     component: VotmCloudOrganizationsCreateComponent,
     // canActivate: [ OktaAuthGuard ],
     data: { type: 'Create' }
-  },  
+  },
   {
     path: 'org/create-suborg/:curOrgId/:curOrgName',
     component: VotmCloudOrganizationsCreateComponent,
@@ -166,6 +166,16 @@ const routes: Routes = [
   {
     path: 'org/edit/:curOrgId/:curOrgName/:orgId/alertRule/view/:alertId',
     component: VotmCloudAlertsCreateComponent, data: { type: 'View' }
+  },
+  {
+    path: 'org/sensorDetails/view/:sensorId',
+    component: VotmCloudAdminSensorDetailsComponent,
+    data: { type: 'View' }
+  },
+  {
+    path: 'org/sensorDetails/edit/:sensorId',
+    component: VotmCloudAdminSensorDetailsComponent,
+    data: { type: 'Edit' }
   },
   // { path: 'loc/home', component: VotmCloudLocationsHomeComponent },
   {
@@ -266,7 +276,7 @@ const routes: Routes = [
     path: 'template/view/:templateId', component: VotmCloudAssetTemplateDetailsComponent, data: { type: 'View' }
   },
   {
-    path: 'template/create', component: VotmCloudAssetTemplateDetailsComponent, data: { type: 'Create' }
+    path: 'org/template/create', component: VotmCloudAssetTemplateDetailsComponent, data: { type: 'Create' }
   },
   // { path: 'template/list', component: VotmCloudAssetTemplateListComponent },
   {

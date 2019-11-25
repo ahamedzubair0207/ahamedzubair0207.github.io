@@ -35,7 +35,7 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
   public imagePath;
   imgURL: any = '../../../../assets/images/assetPlaceholder.svg';
   locationImageURL: any = '../../../../assets/images/default-image-svg.svg';
-  parentAssetImageURL: any = '../../../../assets/images/assetPlaceholder.svg';
+  parentAssetImageURL: any;
   parentAssetImageSize: { width: number, height: number };
   public message: string;
   closeResult: string;
@@ -222,9 +222,9 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
     this.getScreenLabels();
     this.getAllAppInfo();
 
-     // dashboard data
-     this.dashboardData = this.getDashboards();
-     this.getDashboardsTemplates();
+    // dashboard data
+    this.dashboardData = this.getDashboards();
+    this.getDashboardsTemplates();
     // this.asset.active = true;
     this.assetTypes = [{ value: 'assetType1', text: 'assetType1' }, { value: 'assetType2', text: 'assetType2' }]
   }
@@ -284,6 +284,7 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
   }
 
   getAssetById() {
+    this.loader = true;
     this.assetService.getAssetById(this.assetId)
       .subscribe(response => {
         this.asset = response;
@@ -293,7 +294,7 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
           console.log(this.asset);
           if (this.asset.parentAssetId) {
             this.getParentAssetById(this.asset.parentAssetId);
-            this.parentAssetImageURL = '../../../../assets/images/assetPlaceholder.png';
+            this.parentAssetImageURL = '../../../../assets/images/assetPlaceholder.svg';
           } else {
             this.getLocationById(this.asset.locationId);
             this.parentAssetImageURL = '../../../../assets/images/default-image-svg.svg';
@@ -314,6 +315,8 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
             this.asset.logo.imageType = this.fileExtension;
           }
         }
+
+        this.loader = false;
       });
   }
 
@@ -332,7 +335,7 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
   getLocationById(locationId) {
     this.locService.getLocationById(locationId)
       .subscribe(response => {
-        if (response.logo && response.logo.imageName) {
+        if (response && response.logo && response.logo.imageName) {
           const fileExtension = response.logo.imageName.slice((Math.max(0, response.logo.imageName.lastIndexOf(".")) || Infinity) + 1);
           const base64Img = `data:image/${fileExtension};base64,${response.logo.image}`;
           this.parentAssetImageURL = this.domSanitizer.bypassSecurityTrustUrl(base64Img);
@@ -666,107 +669,6 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
 
   ngAfterViewInit() {
     this.changeDetectorRef.detectChanges();
-    const self = this;
-    $.fn.drags = function (opt) {
-
-      opt = $.extend({
-        handle: '',
-        cursor: 'move',
-        draggableClass: 'draggable',
-        activeHandleClass: 'active-handle'
-      }, opt);
-
-      let $selected = null;
-      const $elements = (opt.handle === '') ? this : this.find(opt.handle);
-
-      $elements.css('cursor', opt.cursor).on('mousedown', function (e) {
-        if (e.target !== this) {
-          return;
-        }
-        if (opt.handle === '') {
-          $selected = $(this);
-          $selected.addClass(opt.draggableClass);
-        } else {
-          $selected = $(this).parent();
-          $selected.addClass(opt.draggableClass).find(opt.handle).addClass(opt.activeHandleClass);
-        }
-        const drg_h = $selected.outerHeight();
-        const drg_w = $selected.outerWidth();
-        const pos_y = $selected.offset().top + drg_h - e.pageY;
-        const pos_x = $selected.offset().left + drg_w - e.pageX;
-        $(document).on('mousemove', (e) => {
-          $selected.offset({
-            top: e.pageY + pos_y - drg_h,
-            left: e.pageX + pos_x - drg_w
-          });
-        }).on('mouseup', function (e) {
-          $(this).off('mousemove'); // Unbind events from document
-          if ($selected !== null) {
-            $selected.removeClass(opt.draggableClass);
-            const x = $selected.css('left');
-            const y = $selected.css('top');
-            const xpercent = parseInt($selected.css('left'), 10) / ($selected.parent().width() / 100);
-            const ypercent = parseInt($selected.css('top'), 10) / ($selected.parent().height() / 100);
-            if (xpercent < 0 || xpercent > 100 || ypercent < 0 || ypercent > 100) {
-              self.assetImageCoordinates.x = 0;
-              self.assetImageCoordinates.x = 0;
-              $selected.css('left', '1%');
-              $selected.css('top', '6%');
-            } else {
-              self.assetImageCoordinates.x = parseFloat(x.replace('px', ''));
-              self.assetImageCoordinates.y = parseFloat(y.replace('px', ''));
-            }
-            // $selected.css('left', parseInt($selected.css('left'), 10) / ($selected.parent().width() / 100) + '%');
-            // $selected.css('top', parseInt($selected.css('top'), 10) / ($selected.parent().height() / 100) + '%');
-            // console.log('herer', );
-            // if (self.dropSensor) { self.dropSensor($selected.css('left'), $selected.css('top')); }
-            $selected = null;
-            // $selected.addClass('pad-18');
-          }
-        });
-        e.preventDefault();
-        e.stopPropagation();
-        e.cancelBubble = true;
-        return false;
-      }).on('mouseup', function (e) {
-        if (e.target !== this) {
-          return;
-        }
-        if (opt.handle === '') {
-          $selected.removeClass(opt.draggableClass);
-        } else {
-          $selected.removeClass(opt.draggableClass)
-            .find(opt.handle).removeClass(opt.activeHandleClass);
-        }
-        console.log($selected.css('left'), $selected.css('top'));
-        const x = $selected.css('left');
-        const y = $selected.css('top');
-        const xpercent = parseInt($selected.css('left'), 10) / ($selected.parent().width() / 100);
-        const ypercent = parseInt($selected.css('top'), 10) / ($selected.parent().height() / 100);
-        console.log(xpercent, '=============', ypercent);
-        if (xpercent < 0 || xpercent > 100 || ypercent < 0 || ypercent > 100) {
-          self.assetImageCoordinates.x = 0;
-          self.assetImageCoordinates.x = 0;
-          $selected.css('left', '1%');
-          $selected.css('top', '6%');
-        } else {
-          self.assetImageCoordinates.x = parseFloat(x.replace('px', ''));
-          self.assetImageCoordinates.y = parseFloat(y.replace('px', ''));
-        }
-        // $selected.css('left', parseInt($selected.css('left'), 10) / ($selected.parent().width() / 100) + '%');
-        // $selected.css('top', parseInt($selected.css('top'), 10) / ($selected.parent().height() / 100) + '%');
-        // console.log(self.dropSensor);
-        // if (self.dropSensor) {
-        //   self.dropSensor($selected.css('left'), $selected.css('top'));
-        // }
-        // $selected.addClass('pad-18');
-
-        $selected = null;
-      });
-
-      return this;
-
-    };
   }
 
   onTemplateChangeAccept(event) {
@@ -1083,7 +985,8 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
         this.asset.fileStore = null;
       }
       if (!this.asset.imageCoordinates) {
-        this.asset.imageCoordinates = {
+        this.asset.imageCoordinates = {};
+        this.asset.imageCoordinates[this.asset.assetName] = {
           x: 0,
           y: 0
         };
@@ -1342,8 +1245,8 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
   deleteAssetDashboardById(event) {
     // console.log('deleteOrganizationDashboardById===', event);
     if (event) {
-    // delete dashboard service goes here
-    this.dbService.deleteDashboard(this.dashboardTab.dashboardId)
+      // delete dashboard service goes here
+      this.dbService.deleteDashboard(this.dashboardTab.dashboardId)
         .subscribe(response => {
           this.toaster.onSuccess(`You have deleted ${this.dashboardTab.dashboardName} successfully`, 'Delete Success!');
           // this.route.navigate([`org/home/${this.curOrgId}/${this.curOrgName}`]);

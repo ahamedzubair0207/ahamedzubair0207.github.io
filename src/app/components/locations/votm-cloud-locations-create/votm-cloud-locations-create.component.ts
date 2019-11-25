@@ -1,3 +1,4 @@
+import { location } from './../../../../assets/projects/swimlane/ngx-datatable/src/lib/utils/facade/browser';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { LocationService } from 'src/app/services/locations/location.service';
@@ -47,7 +48,7 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
   public message: string;
   closeResult: string;
   modal: any;
-  UOM: any;
+  locMeasurementType: any;
   pageLabels: any;
   locationTypes: Array<any>;
   states: Array<any> = [];
@@ -124,6 +125,7 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
 
   dashboardTabs: Array<DashBoard> = [];
   dashboardTab: DashBoard = new DashBoard();
+  loader: boolean;
 
   constructor(
     private modalService: NgbModal,
@@ -142,7 +144,7 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
 
 
 
-    this.UOM = 'Imperial';
+    this.locMeasurementType = 'Imperial';
     this.subscriptions = route.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         if (this.previousUrl) {
@@ -186,7 +188,7 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
         this.locationObject();
         this.setDefaultParentOrganizationOptions();
       } else {
-        this.getLocationById();
+
         this.dbService.getAllDashboards(this.locId, 'location')
           .subscribe(response => {
             console.log('get All Dashboard ', response);
@@ -245,7 +247,7 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
     this.location.parentLocationId = this.parentLocId;
     this.tempMeasurement = 'Imperial';
     this.location.active = true;
-    this.UOM = 'Imperial';
+    this.locMeasurementType = 'Imperial';
     this.locationTypes = [{ value: 'locationType1', text: 'locationType1' }, { value: 'locationType2', text: 'locationType2' }];
     // this.locationService.getLocationInfoFromAzureMap(null)
     //   .subscribe(response => {
@@ -301,6 +303,7 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
   }
 
   getLocationById() {
+    this.loader = true;
     this.locationService.getLocationById(this.locId)
       .subscribe(response => {
         this.location = response;
@@ -311,6 +314,32 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
           this.location.address[0].addressType = 'Billing';
         }
         this.fetchStates();
+        const uom = this.applicationConfiguration.unitOfMeassurement;
+        if (!this.location.measurementType) {
+          this.locMeasurementType = 'Imperial';
+          this.fillUoM(uom, 'imperialDefault');
+        } else {
+          this.uomModels = {};
+          this.locMeasurementType = this.location.measurementType;
+          if (this.location.uoMId) {
+            for (let i = 0; i < uom.length; i++) {
+              this.uomModels[uom[i].uomTypeId] = {};
+              for (const uomOption of uom[i].uoMView) {
+                for (const orgUOMId of this.location.uoMId) {
+                  if (uomOption.uoMId === orgUOMId) {
+                    this.uomModels[uom[i].uomTypeId] = uomOption;
+                  }
+                }
+              }
+            }
+            const keys = Object.keys(this.uomModels);
+            keys.forEach(key => {
+              if (Object.keys(this.uomModels[key]).length === 0) {
+                delete this.uomModels[key];
+              }
+            });
+          }
+        }
         this.selectedGateways = [];
         if (this.location.gateways) {
           this.selectedGateways = [...this.location.gateways];
@@ -350,6 +379,9 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
         // this.location.localeId = this.location.locale;
         // this.location.timeZoneId = this.location.timeZone;
         // this.location.uoMId = this.location.uoM;
+
+
+        this.loader = false;
       });
   }
 
@@ -395,7 +427,7 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
       { id: 'ED60CA1E-ACC3-45DE-A71B-4E9AF1FB88D6', text: 'QCD-Lab-LBQEWOXC3' },
       { id: 'E880B856-183A-46BA-B6E5-CECDE9440066', text: 'QCD-Demo-LBGQRTOXC4' },
       { id: 'AAFDAB0F-E043-4087-851C-3F5D0B79ECFB', text: 'QCD-GV-LASF4JOXC5' }
-      
+
     ];
   }
 
@@ -499,7 +531,7 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
   }
 
   creteAsset(event) {
-    this.route.navigate([`asset/create/${this.curOrgId}/${this.curOrgName}/${this.location.locationId}/${this.location.locationName}`],{fragment:'subasset'});
+    this.route.navigate([`asset/create/${this.curOrgId}/${this.curOrgName}/${this.location.locationId}/${this.location.locationName}`], { fragment: 'subasset' });
   }
   locationObject() {
     this.location.address = [new Address()];
@@ -521,12 +553,9 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
     this.configSettingsService.getApplicationInfo()
       .subscribe((response: any) => {
         this.applicationConfiguration = response;
-        let uom = this.applicationConfiguration.unitOfMeassurement;
-        this.uomModels = {};
-        for (let i = 0; i < uom.length; i++) {
-          this.uomModels[uom[i].uomTypeName] = '';
+        if (this.locId) {
+          this.getLocationById();
         }
-        this.fillUoM();
       });
   }
 
@@ -654,52 +683,7 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
   }
   closemodal(event: string) {
     this.modal.style.display = 'none';
-    if (event === 'save') {
-      this.UOM = this.tempMeasurement;
-      this.location.uoMId = [];
-      this.location.uoM = [];
-      let uom = this.applicationConfiguration.unitOfMeassurement;
-      if (uom && uom.length > 0) {
-        for (let i = 0; i < uom.length; i++) {
-          if (this.uomModels[uom[i].uomTypeName]) {
-            this.location.uoM.push(this.uomModels[uom[i].uomTypeName]);
-            this.location.uoMId.push(this.uomModels[uom[i].uomTypeName]);
-          }
-        }
-
-      }
-    } else {
-      this.fillUoM();
-    }
   }
-
-  onUnitChange(value) {
-    this.tempMeasurement = value.target.value;
-  }
-  onUoMDropdownChange(event, uomName: string) {
-    let isFound: boolean = false;
-    for (let i = 0; i < this.uomArray.length; i++) {
-      if (this.uomArray[i].uoMTypeId === uomName) {
-        this.uomArray[i].uoMId = event.target.value;
-        isFound = true;
-      }
-    }
-
-    if (!isFound) {
-      this.uomArray.push({ uoMTypeId: uomName, uoMId: event.target.value });
-    }
-  }
-
-  onUoMValueSelect(uomType, uomMeasureId) {
-  }
-
-  // onSuccess(message: string, header: string) {
-  //   this.toastr.success(message, header);
-  // }
-
-  // onFailure(message: string, header: string) {
-  //   this.toastr.error(message, header);
-  // }
 
   onGeoUnitChange() {
     this.location.geoRadius = null;
@@ -800,24 +784,79 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
   //   console.log('this.radiusUnit ', this.radiusUnit)
   // }
 
-  fillUoM() {
-    let uom = this.applicationConfiguration.unitOfMeassurement;
-
+  fillUoM(uom, type) {
+    console.log(uom);
+    this.uomModels = {};
     for (let i = 0; i < uom.length; i++) {
-      this.uomModels[uom[i].uomTypeName] = '';
-    }
-
-    if (uom && uom.length > 0 && this.location && this.location.uoMId) {
-      for (let i = 0; i < uom.length; i++) {
-        for (let j = 0; j < this.location.uoMId.length; j++) {
-          for (let k = 0; k < uom[i].uoMView.length; k++) {
-            if (this.location.uoMId[j] === uom[i].uoMView[k].uoMId) {
-              this.uomModels[uom[i].uomTypeName] = uom[i].uoMView[k].uoMId;
-            }
-          }
+      this.uomModels[uom[i].uomTypeId] = {};
+      for (const uomOption of uom[i].uoMView) {
+        if (uomOption[type]) {
+          this.uomModels[uom[i].uomTypeId] = uomOption;
         }
       }
     }
+    const keys = Object.keys(this.uomModels);
+    keys.forEach(key => {
+      if (Object.keys(this.uomModels[key]).length === 0) {
+        delete this.uomModels[key];
+      }
+    });
+    // this.setUOMMeasurement();
+  }
+
+  onUnitChange(value) {
+    // // // console.log(value);
+    const uom = this.applicationConfiguration.unitOfMeassurement;
+    this.locMeasurementType = value.target.value;
+    if (this.locMeasurementType === 'Imperial') {
+      this.fillUoM(uom, 'imperialDefault');
+    } else if (this.locMeasurementType === 'Metric') {
+      this.fillUoM(uom, 'metricDefault');
+    }
+  }
+
+  onUoMDropdownChange(uomTypeId, uom) {
+    this.uomModels[uomTypeId] = uom;
+    this.setUOMMeasurement();
+  }
+
+  setUOMMeasurement() {
+    let imperialCount = 0;
+    let metricCount = 0;
+    let customCount = 0;
+    const keys = Object.keys(this.uomModels);
+    keys.forEach(key => {
+      let flag = true;
+      if (this.uomModels[key].imperialDefault) {
+        flag = false;
+        imperialCount += 1;
+      }
+      if (this.uomModels[key].metricDefault) {
+        flag = false;
+        metricCount += 1;
+      }
+      if (flag) {
+        customCount += 1;
+      }
+    });
+    console.log(imperialCount, '====', metricCount, '=======', customCount, '===', keys.length);
+    if (imperialCount === keys.length) {
+      this.locMeasurementType = 'Imperial';
+    } else if (metricCount === keys.length) {
+      this.locMeasurementType = 'Metric';
+    } else {
+      this.locMeasurementType = 'Custom';
+    }
+  }
+
+  saveLocUOM() {
+    this.location.measurementType = this.locMeasurementType;
+    const keys = Object.keys(this.uomModels);
+    this.location.uoMId = [];
+    keys.forEach(key => {
+      this.location.uoMId.push(this.uomModels[key].uoMId);
+    });
+    this.closemodal('save');
   }
 
   onLockClick(type) {
@@ -989,7 +1028,7 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
         this.toaster.onSuccess('Successfully Created Dashboard', 'Created');
         this.closeAddDashboardModal(true);
       })
-    
+
   }
 
   closeAddDashboardModal(event: any) {
@@ -1011,16 +1050,16 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
   deleteLocationDashboardById(event) {
     console.log('deleteOrganizationDashboardById===', event);
     if (event) {
-       // delete dashboard service goes here
+      // delete dashboard service goes here
       this.dbService.deleteDashboard(this.dashboardTab.dashboardId)
-          .subscribe(response => {
-            this.toaster.onSuccess(`You have deleted ${this.dashboardTab.dashboardName} successfully`, 'Delete Success!');
-            // this.route.navigate([`loc/home/${this.curOrgId}/${this.curOrgName}`]);
-            this.routerLocation.back();
-          }, error => {
-            this.toaster.onFailure('Something went wrong on server. Please try after sometiime.', 'Delete Fail!');
-          });
-      }
+        .subscribe(response => {
+          this.toaster.onSuccess(`You have deleted ${this.dashboardTab.dashboardName} successfully`, 'Delete Success!');
+          // this.route.navigate([`loc/home/${this.curOrgId}/${this.curOrgName}`]);
+          this.routerLocation.back();
+        }, error => {
+          this.toaster.onFailure('Something went wrong on server. Please try after sometiime.', 'Delete Fail!');
+        });
+    }
   }
 
   getDashboardById(dashboardId: any) {

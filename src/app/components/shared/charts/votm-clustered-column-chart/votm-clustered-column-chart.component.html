@@ -1,9 +1,9 @@
-<div class="border position-relative">
+<div class="border p-2 h-100 w-100 position-relative">
     <div class="text-right chart-actions" [class.d-none]="locked"><i class="icon-cog" (click)="onClickOfCustomizeColumnChart()"></i></div>
     <div class="text-center con-wid-preview" *ngIf="!isColumnChartConfigured">
         <img class="img-fluid img-fluid-custom" src="../../../../assets/images/configure_data_table.jpg">
     </div>
-    <div *ngIf="isColumnChartConfigured" id="{{ 'chartdiv-clust-col-' + id }}" class="con-wid-preview"></div>
+    <div *ngIf="isColumnChartConfigured" id="{{ 'chartdiv-clust-col-' + id }}" class="w-100 h-100"></div>
 </div>
 
 <!-- Modal Column Chart -->

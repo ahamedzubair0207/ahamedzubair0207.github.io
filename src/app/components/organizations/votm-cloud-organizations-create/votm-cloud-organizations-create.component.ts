@@ -28,6 +28,7 @@ import { DashboardService } from '../../../services/dasboards/dashboard.service'
 import { DbTplItem } from 'src/app/models/db-tpl-item';
 import { DbItem } from 'src/app/models/db-item';
 import { DashBoard } from 'src/app/models/dashboard.model';
+import { object } from '@amcharts/amcharts4/core';
 // Dashboard-david end
 declare var jQuery: any;
 
@@ -56,7 +57,7 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
   states: Array<any> = [];
   countries: Array<any> = [];
   tempUoM: UnitOfMeassurement;
-  tempMeasurement: string;
+  orgMeasurementType: string;
   parentOrganizationInfo: any;
   templateList: any[] = [];
   placeholder: string;
@@ -129,6 +130,10 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
   dashboardTabs: Array<DashBoard> = [];
   dashboardTab: DashBoard = new DashBoard();
   deleteDashboardId: any;
+  loader: boolean;
+  loaderForOptions: boolean;
+  prntOrgLoader: boolean;
+  loaderAppInfo: boolean;
 
   constructor(
     private assetService: AssetsService,
@@ -184,6 +189,8 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
     this.organization.cellularBlocks = null;
     this.organization.sensorBlocks = null;
     // this.organization.timeZone = null;
+    this.getScreenLabels();
+    this.getAllAppInfo();
 
     this.organization.modifiedOn = null; //TimeConcise
     // this.organization.locale = null;
@@ -209,17 +216,6 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
           }
         }
       );
-
-      // this.organizationService.getCountries()
-      // .subscribe(response => {
-      //   if (response) {
-      //     this.countryObject = response;
-      //     this.countries = [];
-      //     response.forEach(country => {
-      //       this.countries.push({ value: country.countryName, text: country.countryName })
-      //     });
-      //   }
-      // });
       this.countries = countyList;
 
       this.getOptionsListData('Sensor Blocks');
@@ -228,7 +224,7 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
       this.getAllOrganizations();
 
       if (this.orgId) {
-        this.getOrganizationInfo();
+
         this.getAllDashboards();
       } else {
         this.placeholder = VotmCommon.dateFormat;
@@ -248,21 +244,16 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
         this.organization.address[0].addressType = 'Billing';
         this.organization.address[0].country = null;
         this.organization.address[0].state = null;
-
-
         this.organization.modifiedOn = null; //TimeConcise
-
       }
     });
 
     this.pageType = this.activeroute.snapshot.data['type'];
     this.actionType = this.activeroute.snapshot.data['action'];
     this.pageTitle = `${this.pageType} Organization`;
-    this.tempMeasurement = 'SI';
+    this.orgMeasurementType = 'Imperial';
 
 
-    this.getScreenLabels();
-    this.getAllAppInfo();
 
     this.organizationTypes = [
       { value: 'organizationType1', text: 'organizationType1' },
@@ -294,8 +285,6 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
 
     jQuery('.nav-item').tooltip();
   }
-
-  selOrgIcon = "company";
   private getAllDashboards() {
     this.dbService.getAllDashboards(this.orgId, 'organization')
       .subscribe(response => {
@@ -362,11 +351,6 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
     this.compareDate();
   }
 
-  checkForUOM() {
-    if (!this.organization.uoMId || this.organization.uoMId.length === 0) {
-      this.organizationForm.form.controls['startDate'].setErrors({ 'invalidDate': true });
-    }
-  }
 
   compareDate() {
     if (this.tempContractStartDate && this.tempContractEndDate) {
@@ -393,6 +377,7 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
 
 
   getOrganizationInfo() {
+    this.loader = true;
     this.organizationService.getOrganizationById(this.orgId)
       .subscribe(response => {
         this.organization = response;
@@ -401,10 +386,36 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
           this.modifiedDate = moment(this.organization.modifiedOn).format(VotmCommon.dateFormat) + ' ' + moment(this.organization.modifiedOn).format(VotmCommon.timeFormat);
         }
 
-        this.fillUoM();
+      //  this.fillUoM();
         // this.organization.timeZoneId = this.organization.timeZone;
         // this.organization.localeId = this.organization.locale;
         // this.organization.uoMId = this.organization.uoM;
+        const uom = this.applicationConfiguration.unitOfMeassurement;
+        if (!this.organization.measurementType) {
+          this.orgMeasurementType = 'Imperial';
+          this.fillUoM(uom, 'imperialDefault');
+        } else {
+          this.uomModels = {};
+          this.orgMeasurementType = this.organization.measurementType;
+          if (this.organization.uoMId) {
+            for (let i = 0; i < uom.length; i++) {
+              this.uomModels[uom[i].uomTypeId] = {};
+              for (const uomOption of uom[i].uoMView) {
+                for (const orgUOMId of this.organization.uoMId) {
+                  if (uomOption.uoMId === orgUOMId) {
+                    this.uomModels[uom[i].uomTypeId] = uomOption;
+                  }
+                }
+              }
+            }
+            const keys = Object.keys(this.uomModels);
+            keys.forEach(key => {
+              if (Object.keys(this.uomModels[key]).length === 0) {
+                delete this.uomModels[key];
+              }
+            });
+          }
+        }
         if (this.organization.contractStartDate) {
           let startDate = new Date(this.organization.contractStartDate);
           this.tempContractStartDate = { year: startDate.getFullYear(), month: startDate.getMonth(), day: startDate.getDate() };
@@ -429,6 +440,7 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
           }
         });
         this.setDefaultParentOrganizationOptions();
+        this.loader = false;
       });
   }
 
@@ -447,6 +459,7 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
   }
 
   getOptionsListData(listData: string) {
+    this.loaderForOptions = true;
     this.organizationService.getOptionsListData(listData)
       .subscribe(response => {
         if (listData === 'Service Levels') {
@@ -461,6 +474,8 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
           this.cellularBlocks = [];
           this.cellularBlocks = response;
         }
+
+        this.loaderForOptions = false;
       });
   }
 
@@ -493,40 +508,94 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
   }
 
   getAllAppInfo() {
+    this.loaderAppInfo = true;
     this.configSettingsService.getApplicationInfo()
       .subscribe((response: any) => {
         this.applicationConfiguration = response;
-        let uom = this.applicationConfiguration.unitOfMeassurement;
-        this.uomModels = {};
-        for (let i = 0; i < uom.length; i++) {
-          this.uomModels[uom[i].uomTypeName] = '';
+        console.log(response);
+        if (this.orgId) {
+          this.getOrganizationInfo();
         }
-        this.fillUoM();
         this.onLocaleChange();
+
+        this.loaderAppInfo = false;
         // this.uomArray = new Array[this.applicationConfiguration.unitOfMeassurement.length];
       });
   }
 
-  fillUoM() {
-    let uom = this.applicationConfiguration.unitOfMeassurement;
-
-    if (uom) {
-      for (let i = 0; i < uom.length; i++) {
-        this.uomModels[uom[i].uomTypeName] = '';
-      }
+  onUnitChange(value) {
+    // // // console.log(value);
+    const uom = this.applicationConfiguration.unitOfMeassurement;
+    this.orgMeasurementType = value.target.value;
+    if (this.orgMeasurementType === 'Imperial') {
+      this.fillUoM(uom, 'imperialDefault');
+    } else if (this.orgMeasurementType === 'Metric') {
+      this.fillUoM(uom, 'metricDefault');
     }
+  }
 
-    if (uom && uom.length > 0 && this.organization && this.organization.uoMId) {
-      for (let i = 0; i < uom.length; i++) {
-        for (let j = 0; j < this.organization.uoMId.length; j++) {
-          for (let k = 0; k < uom[i].uoMView.length; k++) {
-            if (this.organization.uoMId[j] === uom[i].uoMView[k].uoMId) {
-              this.uomModels[uom[i].uomTypeName] = uom[i].uoMView[k].uoMId;
-            }
-          }
+  fillUoM(uom, type) {
+    console.log(uom);
+    this.uomModels = {};
+    for (let i = 0; i < uom.length; i++) {
+      this.uomModels[uom[i].uomTypeId] = {};
+      for (const uomOption of uom[i].uoMView) {
+        if (uomOption[type]) {
+          this.uomModels[uom[i].uomTypeId] = uomOption;
         }
       }
     }
+    const keys = Object.keys(this.uomModels);
+    keys.forEach(key => {
+      if (Object.keys(this.uomModels[key]).length === 0) {
+        delete this.uomModels[key];
+      }
+    });
+    // this.setUOMMeasurement();
+  }
+
+  onUoMDropdownChange(uomTypeId, uom) {
+    this.uomModels[uomTypeId] = uom;
+    this.setUOMMeasurement();
+  }
+
+  setUOMMeasurement() {
+    let imperialCount = 0;
+    let metricCount = 0;
+    let customCount = 0;
+    const keys = Object.keys(this.uomModels);
+    keys.forEach(key => {
+      let flag = true;
+      if (this.uomModels[key].imperialDefault) {
+        flag = false;
+        imperialCount += 1;
+      }
+      if (this.uomModels[key].metricDefault) {
+        flag = false;
+        metricCount += 1;
+      }
+      if (flag) {
+        customCount += 1;
+      }
+    });
+    console.log(imperialCount, '====', metricCount, '=======', customCount, '===', keys.length);
+    if (imperialCount === keys.length) {
+      this.orgMeasurementType = 'Imperial';
+    } else if (metricCount === keys.length) {
+      this.orgMeasurementType = 'Metric';
+    } else {
+      this.orgMeasurementType = 'Custom';
+    }
+  }
+
+  saveOrgUOM() {
+    this.organization.measurementType = this.orgMeasurementType;
+    const keys = Object.keys(this.uomModels);
+    this.organization.uoMId = [];
+    keys.forEach(key => {
+      this.organization.uoMId.push(this.uomModels[key].uoMId);
+    });
+    this.closemodal('save');
   }
 
   preview(files) {
@@ -663,27 +732,8 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
   }
   closemodal(event: string) {
     this.modal.style.display = 'none';
-    if (event === 'save') {
-      this.UOM = this.tempMeasurement;
-      this.organization.uoMId = [];
-      // this.organization.uoM = [];
-      let uom = this.applicationConfiguration.unitOfMeassurement;
-      if (uom && uom.length > 0) {
-        for (let i = 0; i < uom.length; i++) {
-          if (this.uomModels[uom[i].uomTypeName]) {
-            // this.organization.uoM.push(this.uomModels[uom[i].uomTypeName]);
-            this.organization.uoMId.push(this.uomModels[uom[i].uomTypeName]);
-          }
-        }
-      }
-    } else {
-      this.fillUoM();
-    }
   }
-  onUnitChange(value) {
-    // // // console.log(value);
-    this.tempMeasurement = value.target.value;
-  }
+
 
   validateName(event, prop: string) {
     let abc = new RegExp(/^([A-Za-z])+$/);
@@ -692,20 +742,7 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
     }
   }
 
-  onUoMDropdownChange(event, uomName: string) {
-    // // console.log('ahamed ', uomName, event.target.value);
-    // let isFound: boolean = false;
-    // for (let i = 0; i < this.uomArray.length; i++) {
-    //   if (this.uomArray[i].uoMTypeId === uomName) {
-    //     this.uomArray[i].uoMId = event.target.value;
-    //     isFound = true;
-    //   }
-    // }
 
-    // if (!isFound) {
-    //   this.uomArray.push({ uoMTypeId: uomName, uoMId: event.target.value });
-    // }
-  }
 
   onUoMValueSelect(uomType, uomMeasureId) {
     // // console.log('UOM  ID ', uomType, uomMeasureId)
@@ -759,6 +796,7 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
   }
 
   getAllOrganizations() {
+    this.prntOrgLoader = true;
     this.organizationService.getAllOrganizationsList()
       .subscribe(response => {
 
@@ -775,6 +813,8 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
         this.organizationList.sort(SortArrays.compareValues('name'));
         VotmCommon.getUniqueValues(this.organizationList);
         // this.organization.parentOrganizationId = JSON.parse(JSON.stringify(this.organization.parentOrganizationId));
+
+        this.prntOrgLoader = false;
       });
   }
 

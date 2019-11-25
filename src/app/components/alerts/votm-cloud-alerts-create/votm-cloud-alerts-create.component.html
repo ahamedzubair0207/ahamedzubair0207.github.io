@@ -76,20 +76,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-12 col-md-2 col-xl-2">
-                <label id="excalateAfterLbl" class="">Escalate After: <i class="icon-info"
-                  ngbPopover="The alert is triggered and not closed after the given period the Secondary Users/Groups will be notified."
-                  triggers="mouseenter:mouseleave" popoverTitle="Information"></i></label>
-                <div class="">
-                    <div class="input-group">
-                        <input type="text" id="excalateAfterInput" name="escalateTimeInput" [(ngModel)]="alert.escalateTime"
-                            class="form-control form-control-sm" placeholder="0" [disabled]="pageType === 'View'">
-                        <div class="input-group-append">
-                            <span class="input-group-text form-control-sm" id="minutesLblAlert">Minutes</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
+
             <div class="col-12 col-md-2 pl-4 pt-2 col-xl-1">
                 <div class="custom-control custom-switch input-group">
                     <input type="checkbox" class="custom-control-input mr-2" id="closureCheckBox" name="closure" [(ngModel)]="alert.closureRequired">
@@ -101,6 +88,20 @@
                     <label class="mt-2">Closure Required</label>
                 </div> -->
             </div>
+            <div class="col-12 col-md-2 col-xl-2" *ngIf="alert.closureRequired" >
+              <label id="excalateAfterLbl" class="">Escalate After: <i class="icon-info"
+                ngbPopover="The alert is triggered and not closed after the given period the Secondary Users/Groups will be notified."
+                triggers="mouseenter:mouseleave" popoverTitle="Information"></i></label>
+              <div class="">
+                  <div class="input-group">
+                      <input type="number" id="excalateAfterInput" name="escalateTimeInput" [(ngModel)]="alert.escalateTime"
+                          class="form-control form-control-sm" placeholder="0" [disabled]="pageType === 'View'">
+                      <div class="input-group-append">
+                          <span class="input-group-text form-control-sm" id="minutesLblAlert">Minutes</span>
+                      </div>
+                  </div>
+              </div>
+          </div>
             <div class="col-12 col-md-3 col-xl-2">
                 <div class="">
                     <label id="accessTypeLbl" class="">Rule Owner:</label>
@@ -460,20 +461,24 @@
                                                     [(ngModel)]="userResponsibities[userGroupSubscriber.userGroupId]"
                                                     (change)="onResponsibityChangeForUserGroup($event, userGroupSubscriber)"
                                                     [name]="userGroupSubscriber.userGroupId" id="userResDropDown">
-                                                    <option *ngFor="let role of userRoles"
-                                                        [value]="role.alertUserGroupRoleId">
-                                                        {{role.roleName}}
-                                                    </option>
+                                                    <ng-container *ngFor="let role of userRoles" >
+                                                      <option
+                                                          [value]="role.alertUserGroupRoleId">
+                                                          {{role.roleName}}
+                                                      </option>
+                                                    </ng-container>
                                                 </select>
                                             </div>
                                             <ng-template #userTemplate>
                                                 <select [(ngModel)]="userResponsibities[userGroupSubscriber.userId]"
                                                     (change)="onResponsibityChangeForUserId($event, userGroupSubscriber)"
                                                     [name]="userGroupSubscriber.userId" id="userResDropDown">
-                                                    <option *ngFor="let role of userRoles"
-                                                        [value]="role.alertUserGroupRoleId">
-                                                        {{role.roleName}}
-                                                    </option>
+                                                    <ng-container *ngFor="let role of userRoles" >
+                                                      <option
+                                                          [value]="role.alertUserGroupRoleId">
+                                                          {{role.roleName}}
+                                                      </option>
+                                                    </ng-container>
                                                 </select>
                                             </ng-template>
                                         </td>

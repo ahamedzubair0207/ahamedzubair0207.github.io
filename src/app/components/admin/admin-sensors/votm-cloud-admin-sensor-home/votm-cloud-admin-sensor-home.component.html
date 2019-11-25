@@ -80,7 +80,7 @@
                 </ng-container>
                 <!-- Display In View Mode If organizaton View and Type Sensor -->
                 <ng-container *ngIf="originList === 'organizationView' && rowData.type === 'Sensor'">
-                    <a [routerLink]="['/admin/networkmanagement/sensorDetails/view', rowData.id]"><i class="icon-sensonode"></i>{{rowData.name}}</a>
+                    <a [routerLink]="['/org/sensorDetails/view', rowData.id]"><i class="icon-sensonode"></i>{{rowData.name}}</a>
                 </ng-container>
                 <ng-container *ngIf="rowData.type === 'Signal'">
                     <i class="{{rowData.iconFile}}"></i>{{rowData.name}}
@@ -106,7 +106,8 @@
             </td>
             <td class="align-center sensor-actions" *ngIf="originList === 'organizationView'">
               <ng-container *ngIf="rowData.type === 'Sensor'">
-                <a [routerLink]="['/admin/networkmanagement/sensorDetails/edit', rowData.id]"><i class="icon-edit" title="Edit Sensor"></i></a>
+                <a *ngIf="originList !== 'organizationView'" [routerLink]="['/admin/networkmanagement/sensorDetails/edit', rowData.id]"><i class="icon-edit" title="Edit Sensor"></i></a>
+                <a *ngIf="originList === 'organizationView'" [routerLink]="['/org/sensorDetails/edit', rowData.id]"><i class="icon-edit" title="Edit Sensor"></i></a>
                 <i class="icon-unlink" title="Unbind Sensor" (click)="openSensorUnlinkConfirmDialog(rowData.id, rowData.name)" *ngIf="rowData.isLink"></i>
                 <!-- <i class="icon-unlink" *ngIf="!rowData.isLink"></i> -->
               </ng-container>
