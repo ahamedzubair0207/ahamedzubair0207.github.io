@@ -469,6 +469,8 @@
                         </div>
                       </div>
                     </div>
+
+                    <div class="row">
                     <!-- UOM  -->
                     <!-- <div class="col-12 col-md-6 col-lg-6 col-xl-6">
                                     <label class="" id="unitsOfMeasure" votmrequired>
@@ -497,8 +499,6 @@
                         </div>
                       </div>
                     </div>
-              
-              
               
                     <div class="col-12 col-md-6 col-lg-6 col-xl-6">
                       <!-- Claimed Gateway -->
@@ -547,42 +547,43 @@
                       </div>
                     </div>
                   </div>
-                </div>
-                <div class="col-md-6">
-                  <!-- Logo -->
-                  <div class="form-group">
-                    <label for="locImage">{{pageLabels.LogoFile.labelName}}:</label>
-                    <div class="custom-file">
-                      <span style="color:rgb(106,96,85);" *ngIf="message">{{message}}</span>
-                      <input class="custom-file-input ng-pristine ng-invalid" id="locDtlLocImg" type="file"
-                        [disabled]="pageType==='View'" #file type="file" accept='image/*' (change)="preview(file.files)">
-                      <label class="custom-file-label" for="customFile">Choose file</label>
-                      <span style="font-weight: bold" class="custom-file-label"
-                        *ngIf="location && location.logo">{{location.logo.imageName}}</span>
-              
+                  </div>
+                  <div class="col-md-6">
+                    <!-- Logo -->
+                    <div class="form-group">
+                      <label for="locImage">{{pageLabels.LogoFile.labelName}}:</label>
+                      <div class="custom-file">
+                        <span style="color:rgb(106,96,85);" *ngIf="message">{{message}}</span>
+                        <input class="custom-file-input ng-pristine ng-invalid" id="locDtlLocImg" type="file"
+                          [disabled]="pageType==='View'" #file type="file" accept='image/*' (change)="preview(file.files)">
+                        <label class="custom-file-label" for="customFile">Choose file</label>
+                        <span style="font-weight: bold" class="custom-file-label"
+                          *ngIf="location && location.logo">{{location.logo.imageName}}</span>
+                
+                      </div>
+                      <!-- <div class="custom-file">
+                                      <span style="color:rgb(106,96,85);" *ngIf="message">{{message}}</span>
+                                      <input *ngIf="pageType!=='View'" #file type="file" accept='image/*' (change)="preview(file.files)"
+                                        class="form-control custom-file-input" id="locDtlLocImg" />
+                                      <label style="font-weight: bold" class="custom-file-label"
+                                        *ngIf="location && location.logo">{{location.logo.imageName}}</label>
+                                      <img [src]="imgURL" *ngIf="imgURL" style="max-width:511px; max-height:479px;">
+                                    </div> -->
                     </div>
-                    <!-- <div class="custom-file">
-                                    <span style="color:rgb(106,96,85);" *ngIf="message">{{message}}</span>
-                                    <input *ngIf="pageType!=='View'" #file type="file" accept='image/*' (change)="preview(file.files)"
-                                      class="form-control custom-file-input" id="locDtlLocImg" />
-                                    <label style="font-weight: bold" class="custom-file-label"
-                                      *ngIf="location && location.logo">{{location.logo.imageName}}</label>
-                                    <img [src]="imgURL" *ngIf="imgURL" style="max-width:511px; max-height:479px;">
-                                  </div> -->
+                    <!-- logo preview -->
+                    <div class="form-group">
+                      <label for="logopreview">Image Preview:
+                        <i *ngIf="imgSize">(Width: {{imgSize.width}}px, Height: {{imgSize.height}}px)</i>
+                      </label>
+                      <span class="form-control logo-preview">
+                        <img [src]="imgURL" class="img-fluid img-fluid-custom" *ngIf="imgURL">
+                      </span>
+                    </div>
+                
+                
                   </div>
-                  <!-- logo preview -->
-                  <div class="form-group">
-                    <label for="logopreview">Image Preview:
-                      <i *ngIf="imgSize">(Width: {{imgSize.width}}px, Height: {{imgSize.height}}px)</i>
-                    </label>
-                    <span class="form-control logo-preview">
-                      <img [src]="imgURL" class="img-fluid img-fluid-custom" *ngIf="imgURL">
-                    </span>
-                  </div>
-              
-              
                 </div>
-              
+                
                 <!-- </div>
               
                             <div class="row mt-2"> -->
