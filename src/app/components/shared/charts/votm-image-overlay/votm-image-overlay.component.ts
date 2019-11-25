@@ -56,6 +56,8 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
   signalSignalId = 'fa7b422d-2018-4fdb-ba50-0b4be9bf2735';
   displaySignalHoverContent: any = {};
   orgId: string;
+  message: string;
+  widgetCustomImgURL: any;
   constructor(
     private toastr: ToastrService,
     private locationSignalService: LocationSignalService,
@@ -443,5 +445,73 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
       this.imgSourceHeight = (5000.0 * parseFloat(el.naturalHeight) / parseFloat(el.naturalWidth)).toFixed(0);
     }
   }
+
+
+  preview(files) {
+    this.message = '';
+    if (files.length === 0) {
+      return;
+    }
+
+    var mimeType = files[0].type;
+    if (mimeType.match(/image\/*/) == null) {
+      this.message = 'Only images are supported.';
+      return;
+    }
+    this.handleFileSelect(files);
+    var readerToPreview = new FileReader();
+    // this.imagePath = files;
+    readerToPreview.readAsDataURL(files[0]);
+    readerToPreview.onload = (_event) => {
+      this.widgetCustomImgURL = this.domSanitizer.bypassSecurityTrustUrl(readerToPreview.result.toString()); //readerToPreview.result;
+    };
+  }
+
+  handleFileSelect(files) {
+    var file = files[0];
+    if (files && file) {
+      var reader: any = new FileReader();
+      // reader.onload = this._handleReaderLoaded.bind(this);
+      reader.onload = (e) => {
+        // ADDED CODE
+        let data;
+        if (!e) {
+          data = reader.content;
+        } else {
+          data = e.target.result;
+        }
+        let base64textString = btoa(data);
+        // this.userprofile.logo.image = base64textString;
+      };
+
+      // this.userprofile.logo = new Logo();
+      // this.userprofile.logo.imageName = file.name;
+      // this.userprofile.logo.imageType = file.type;
+      reader.readAsBinaryString(file);
+    }
+  }
+
+  _handleReaderLoaded(readerEvt) {
+    let base64textString;
+    var binaryString = readerEvt.target.result;
+
+
+    // SVG Code
+    // let parser = new DOMParser();
+    // let xmlDoc: XMLDocument = parser.parseFromString(binaryString.toString(), 'image/svg+xml');
+    // // console.log('XMLDocument ', xmlDoc, xmlDoc.getElementsByTagName('svg'))
+    // const xml = (new XMLSerializer()).serializeToString(xmlDoc);
+    // const svg64 = btoa(xml);
+    // const b64Start = 'data:image/svg+xml;base64,';
+    // const image64 = b64Start + svg64;
+    // this.location.logo.image = image64;
+    // // console.log('this.location.logo.image ', this.location.logo.image)
+
+    // Other Images
+    base64textString = btoa(binaryString);
+    // this.userprofile.logo.image = base64textString;
+
+  }
+
 
 }

@@ -136,6 +136,19 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="col-3" *ngIf="overLaySource === 'custom'" >
+                            <div class="form-group">
+                                <label for="">Overlay Image</label>
+                                <div class="custom-file">
+
+                                    <input class="custom-file-input ng-pristine ng-invalid" id="customWidgetImg" type="file"
+                                      #file type="file" accept='image/*' (change)="preview(file.files)">
+                                    <label class="custom-file-label" for="">Choose file</label>
+                                    <span class="custom-file-label truncate-string"
+                                      ></span>
+                                  </div>
+                            </div>
+                        </div>
                         <div class="col-3">
                             <div class="form-group">
                                 <label for="">Icon Display Size</label>
@@ -186,6 +199,26 @@
                                 <label class="custom-control-label" for="childassetLocAssociated"
                                     id="childassetLocAssociatedLbl">Show Child Assets?</label>
                             </div>
+                        </div>
+                    </div>
+                    <div class="row" *ngIf="overLaySource === 'custom'" >
+                        <div class="col-12">
+                            <label for="">Entity & Signal Layout</label>
+                        </div>
+                        <div class="col-12">
+                          <div class="row">
+                            <div class="col-4">
+                                <div class="custom-control custom-switch">
+                                </div>
+                            </div>
+                            <div class="col-8">
+                                <div class="custom-control custom-switch">
+                                    <div class="form-control logo-preview">
+                                      <img [src]="widgetCustomImgURL" class="img-fluid img-fluid-custom" *ngIf="widgetCustomImgURL">
+                                    </div>
+                                </div>
+                            </div>
+                          </div>
                         </div>
                     </div>
                 </div>
