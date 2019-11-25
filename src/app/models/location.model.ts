@@ -33,4 +33,5 @@ export class Location {
     uoMId?: Array<string>;
     localeId?: string;
     timeZoneId?: string;
+    measurementType?: string;
 }

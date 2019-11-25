@@ -31,4 +31,5 @@ export class Organization {
   timeZoneId?: string;
   localeId?: string;
   uoMId?: Array<string>;
+  measurementType?: string;
 }

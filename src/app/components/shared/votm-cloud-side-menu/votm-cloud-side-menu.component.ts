@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewEncapsulation, AfterViewInit } from '@angular/core';
 import { SharedService } from '../../../services/shared.service';
 import { MenuService } from '../../../services/menu/menu.service';
 import { filter } from 'rxjs/operators';
@@ -36,6 +36,7 @@ export class VotmCloudSideMenuComponent implements OnInit {
     ).subscribe(
       () => {
       const url = this.router.url;
+      console.log(url.includes('/org/'));
       this.orgFlag = false;
       this.locFlag = false;
       this.assetFlag = false;
@@ -49,9 +50,9 @@ export class VotmCloudSideMenuComponent implements OnInit {
       } else if (url.includes('admin')) {
         this.adminFlag = true;
       }
-      
     });
   }
+
 
   setActiveClass(item) {
     if (this.orgFlag && item.id === 'organizations') {

@@ -34,6 +34,7 @@ export class VotmCloudAssetTemplateDetailsComponent implements OnInit {
   imagePath: any;
   docFile: Blob;
   templateDeletemessage: string;
+  fileExtension: any;
 
   constructor(
     private routerLocation: RouterLocation,
@@ -66,6 +67,12 @@ export class VotmCloudAssetTemplateDetailsComponent implements OnInit {
       .subscribe(response => {
         if (response && response.length > 0) {
           this.template = response[0];
+
+          if (this.template.logo && this.template.logo.imageName) {
+            this.fileExtension = this.template.logo.imageName.slice((Math.max(0, this.template.logo.imageName.lastIndexOf('.')) || Infinity) + 1);
+            this.imgURL = this.domSanitizer.bypassSecurityTrustUrl(`data:image/${this.fileExtension};base64,${this.template.logo.image}`);
+            // this.userprofile.logo.imageType = this.fileExtension;
+          }
         }
       });
   }
