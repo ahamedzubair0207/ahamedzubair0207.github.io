@@ -71,23 +71,23 @@
 
 <ng-template #config let-modal>
   <div class="modal-header">
-    <h5 class="modal-title">Configure Trend Chart</h5>
+    <h5 class="modal-title">{{pageLabels.ConfigureTrendChart.labelName}}</h5>
     <button type="button" class="close" (click)="modal.dismiss()">
       <span>&times;</span>
     </button>
   </div>
   <div class="modal-body">
     <div class="form-group form-row">
-      <label class="col-3 col-form-label mandatory">Signals</label>
+      <label class="col-3 col-form-label mandatory">{{pageLabels.Signals.labelName}}</label>
       <div class="col-9">
         <div class="table-fixed">
           <table class="table table-sm table-bordered">
             <thead>
               <tr>
-                <th scope="col" class="">Signal Name</th>
-                <th scope="col" class="">Signal Type</th>
-                <th scope="col" class="text-center">Y1</th>
-                <th scope="col" class="text-center">Y2</th>
+                <th scope="col" class="">{{pageLabels.SignalName.labelName}}</th>
+                <th scope="col" class="">{{pageLabels.SignalType.labelName}}</th>
+                <th scope="col" class="text-center">{{pageLabels.Y1.labelName}}</th>
+                <th scope="col" class="text-center">{{pageLabels.Y2.labelName}}</th>
               </tr>
             </thead>
             <tbody>
@@ -128,7 +128,7 @@
       </div>
     </div>
     <div class="form-group form-row">
-      <label for="axisDateRngSelect" class="col-3 col-form-label mandatory">Date Range</label>
+      <label for="axisDateRngSelect" class="col-3 col-form-label mandatory">{{pageLabels.DateRange.labelName}}</label>
       <div class="col-3">
         <ng-select autofocus labelForId="axisDateRngSelect" class="custom" [(ngModel)]="selDateRange">
          <ng-option *ngFor="let dr of dateRange" [value]="dr.value">{{dr.name}}</ng-option>
@@ -147,7 +147,7 @@
     </div>
     <!-- <div *ngIf="yAxisSignals[0] > 0" class="form-group form-row"> -->
         <div *ngIf="yAxisSignals[0] > 0" class="form-group form-row">
-      <label for="LeftAxis" class="col-3 col-form-label mandatory">Left Axis Range (Y1)</label>
+      <label for="LeftAxis" class="col-3 col-form-label mandatory">{{pageLabels.LeftAxisRange.labelName}}</label>
       <div class="col-3">
         <ng-select autofocus labelForId="axisY1RngSelect" class="custom" [(ngModel)]="selYAxisRange[0]">
           <ng-option value="auto">Auto</ng-option>
@@ -177,7 +177,7 @@
       </div>
     </div>
     <div *ngIf="yAxisSignals[1] > 0" class="form-group form-row">
-      <label for="RightAxis" class="col-3 col-form-label mandatory">Right Axis Range (Y2)</label>
+      <label for="RightAxis" class="col-3 col-form-label mandatory">{{pageLabels.RightAxisRange.labelName}}</label>
       <div class="col-3">
         <ng-select #axisY2RngSelect labelForId="axisY2RngSelect" class="custom" [(ngModel)]="selYAxisRange[1]">
           <ng-option value="auto">Auto</ng-option>
@@ -207,46 +207,46 @@
       </div>
     </div>
     <div class="form-group form-row">
-      <label for="title" class="col-3 col-form-label">Chart Title</label>
+      <label for="title" class="col-3 col-form-label">{{pageLabels.ChartTitle.labelName}}</label>
       <div class="col-9">
         <input type="text" class="form-control" id="title" [(ngModel)]="wConfig['title']" />
       </div>
     </div>
     <div class="form-group form-row">
-      <label for="showThresholds" class="col-3 col-form-label mandatory">Display thresholds</label>
+      <label for="showThresholds" class="col-3 col-form-label mandatory">{{pageLabels.DisplayThresholds.labelName}}</label>
       <div class="col-9">
         <div class="custom-control custom-radio custom-control-inline" style="padding-top: calc(.25rem + 1px);">
           <input type="radio" checked id="noThresholds" name="showThresholds" class="custom-control-input" />
-          <label class="custom-control-label" for="noThresholds">None</label>
+          <label class="custom-control-label" for="noThresholds">{{pageLabels.None.labelName}}</label>
         </div>
         <div class="custom-control custom-radio custom-control-inline" style="padding-top: calc(.25rem + 1px);">
           <input type="radio" id="y1Thresholds" name="showThresholds" class="custom-control-input" />
-          <label class="custom-control-label" for="y1Thresholds">Left Axis</label>
+          <label class="custom-control-label" for="y1Thresholds">{{pageLabels.LeftAxis.labelName}}</label>
         </div>
         <div class="custom-control custom-radio custom-control-inline" style="padding-top: calc(.25rem + 1px);">
           <input type="radio" id="y2Thresholds" name="showThresholds" class="custom-control-input" />
-          <label class="custom-control-label" for="y2Thresholds">Right Axis</label>
+          <label class="custom-control-label" for="y2Thresholds">{{pageLabels.RightAxis.labelName}}</label>
         </div>
       </div>
     </div>
     <div class="form-group form-row">
-      <label for="showEvents" class="col-3 col-form-label mandatory">Display defaults</label>
+      <label for="showEvents" class="col-3 col-form-label mandatory">{{pageLabels.DisplayDefaults.labelName}}</label>
       <div class="col-3">
         <div class="custom-control custom-switch" style="padding-top: calc(.25rem + 1px);">
           <input type="checkbox" class="custom-control-input" id="showEvents" [checked]="showEvents" (change)="toggleShowThresholds()" />
-          <label class="custom-control-label" for="showEvents">Event Flags</label>
+          <label class="custom-control-label" for="showEvents">{{pageLabels.RightAxis.labelName}}</label>
         </div>
       </div>
       <div class="col-3">
         <div class="custom-control custom-switch" style="padding-top: calc(.25rem + 1px);">
           <input type="checkbox" class="custom-control-input" id="showLegend" [checked]="showLegend" (change)="showLegend = !showLegend" />
-          <label class="custom-control-label" for="showLegend">Legends</label>
+          <label class="custom-control-label" for="showLegend">{{pageLabels.Legends.labelName}}</label>
         </div>
       </div>
       <div class="col-3">
         <div class="custom-control custom-switch" style="padding-top: calc(.25rem + 1px);">
           <input type="checkbox" class="custom-control-input" id="showMinMax" [checked]="showMinMax" (change)="showMinMax = !showMinMax" />
-          <label class="custom-control-label" for="showMinMax">Min/Max</label>
+          <label class="custom-control-label" for="showMinMax">{{pageLabels.MinMax.labelName}}</label>
         </div>
       </div>
     </div>

@@ -125,6 +125,9 @@ export class VotmLineGraphComponent implements OnInit {
       this.wConfig = (this.data.widgetConf) ? this.data.widgetConf : { yMin: [null, null], yMax: [null, null] };
     }
 
+    this.getScreenLabels();
+    
+
   }
   // id: any;
   // isTrendChartConfigured: boolean;
@@ -152,6 +155,7 @@ export class VotmLineGraphComponent implements OnInit {
     this.configSettingsService.getTrendChartConfigScreenLabels()
       .subscribe(response => {
         this.pageLabels = response;
+        console.log('Screens Labels', this.pageLabels);
       });
   }
 
