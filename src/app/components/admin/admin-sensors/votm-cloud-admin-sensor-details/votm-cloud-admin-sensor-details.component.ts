@@ -39,6 +39,7 @@ export class VotmCloudAdminSensorDetailsComponent implements OnInit {
       this.sensorId = params.get('sensorId');
       this.getSensorDetailsById();
     });
+
     this.pageType = this.activatedRoute.snapshot.data['type'];
     console.log('pageType===', this.pageType);
 
@@ -209,9 +210,17 @@ export class VotmCloudAdminSensorDetailsComponent implements OnInit {
 
   onLockClick() {
     if (this.pageType.toLowerCase() === 'view') {
-      this.router.navigate([`admin/networkmanagement/sensorDetails/edit/${this.sensorId}`]);
+      if (this.router.url.includes('org')) {
+        this.router.navigate([`org/sensorDetails/edit/${this.sensorId}`]);
+      } else {
+        this.router.navigate([`admin/networkmanagement/sensorDetails/edit/${this.sensorId}`]);
+      }
     } else {
-      this.router.navigate([`admin/networkmanagement/sensorDetails/view/${this.sensorId}`]);
+      if (this.router.url.includes('org')) {
+        this.router.navigate([`org/sensorDetails/view/${this.sensorId}`]);
+      } else {
+        this.router.navigate([`admin/networkmanagement/sensorDetails/view/${this.sensorId}`]);
+      }
     }
   }
 
