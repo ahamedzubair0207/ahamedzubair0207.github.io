@@ -109,7 +109,7 @@
                 </div>
                 <div class="">
                   <fieldset>
-                    <legend>Preferences</legend>
+                    <legend>Preferences:</legend>
                     <div class="row">
                       <div class="col-12 col-md-6 col-lg-4 ipad-pro-lg-6">
                         <div class="form-group">
@@ -166,7 +166,7 @@
                           <div class="input-group input-group-sm">
                             <div class="input-group-prepend">
                               <span class="input-group-text pt-0 pb-0" name="uom-logo"
-                                id="unitsOfMeasureSelected">{{tempMeasurement}}</span>
+                                id="unitsOfMeasureSelected">{{uomMeasurement}}</span>
                               <div class="">
                                 <button type="button" class="btn btn-sm btn-secondary"
                                 id="noti_pre_custom"
@@ -183,7 +183,7 @@
             </div>
             <div class="col-12 col-md-6 p-3">
               <fieldset>
-                <legend>Favorites <i class="icon-info"
+                <legend>Favorites: <i class="icon-info"
                     ngbPopover="To change the order of the favorites, drag the favorite order to a desired position."
                     triggers="mouseenter:mouseleave" popoverTitle="Information"></i></legend>
                 <div class="tableFixHead">
@@ -223,7 +223,7 @@
                 </div>
               </fieldset>
               <fieldset class="mt-3">
-                <legend>Organization Access</legend>
+                <legend>Organization Access:</legend>
                 <div class="form-group row">
                   <div class="col-12 col-md-12 col-lg-4 ipad-pro-lg-12 mb-3">
                     <label for="org_ha" class="">Home Access</label>
@@ -266,7 +266,7 @@
       <div class="tab-pane fade p-3" id="notification">
         <form [formGroup]="userNotificationForm">
           <fieldset class="">
-            <legend>Notification Delivery Methods</legend>
+            <legend>Notification Delivery Methods:</legend>
             <div class="row mb-3" *ngIf="userprofile">
               <div class="col-12 col-md-8 col-lg-8 ipad-pro-lg-12">
                 <div class="row mb-3">
@@ -627,7 +627,7 @@
           </div>
         </div>
         <fieldset class="mt-3">
-          <legend>Alarm Subscriptions</legend>
+          <legend>Alarm Subscriptions:</legend>
           <div class="row">
             <div class="col-md-6 mb-2">
 
@@ -741,7 +741,7 @@
 
 <!-- UOM Modal -->
 <div id="uomModal" class="modal">
-  <div class="modal-dialog modal-lg modal-dialog-scrollable modal-dialog-centered">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
     <!-- Modal content -->
     <div class="modal-content">
       <div class="modal-header">
@@ -753,21 +753,21 @@
           </div> -->
         <div class="form-check form-check-inline">
           <input [disabled]="pageType==='View'" class="form-check-input" type="radio" value="Imperial" name="UOM"
-            (change)="onUnitChange($event)" id="f-imperial">
+            (change)="onUnitChange($event)" id="f-imperial" [(ngModel)]="uomMeasurement">
           <label class="form-check-label" for="f-imperial">Imperial</label>
         </div>
         <div class="form-check form-check-inline">
           <input [disabled]="pageType==='View'" class="form-check-input" type="radio" value="Metric" name="UOM"
-            (change)="onUnitChange($event)" id="f-metric">
+            (change)="onUnitChange($event)" id="f-metric"  [(ngModel)]="uomMeasurement">
           <label class="form-check-label" for="f-metric">Metric</label>
         </div>
         <div class="form-check form-check-inline">
           <input [disabled]="pageType==='View'" class="form-check-input" type="radio" value="Custom" name="UOM"
-            (change)="onUnitChange($event)" id="f-custom">
+            (change)="onUnitChange($event)" id="f-custom"  [(ngModel)]="uomMeasurement" disabled>
           <label class="form-check-label" for="f-custom">Custom</label>
         </div>
       </div>
-      <div class="modal-body org-create-font">
+      <div class="modal-body org-create-font" *ngIf="uomModels" >
 
         <div *ngFor="let uom of applicationConfiguration.unitOfMeassurement; let i = index" [attr.data-index]="i"
           class="container-fluid">
@@ -780,8 +780,8 @@
                   <ng-select [(ngModel)]="uomModels[uom.uomTypeId]"
                     (change)="onUoMDropdownChange(uom.uomTypeId, uomModels[uom.uomTypeId])" name="uom.uomTypeName"
                     class="custom">
-                    <ng-option></ng-option>
-                    <ng-option *ngFor="let view of uom.uoMView" [value]="view.uoMId">
+
+                    <ng-option *ngFor="let view of uom.uoMView" [value]="view" >
                       {{view.uoMName}}
                     </ng-option>
                   </ng-select>
@@ -798,9 +798,9 @@
                   (change)="onUoMDropdownChange(applicationConfiguration.unitOfMeassurement[i+1].uomTypeId, uomModels[applicationConfiguration.unitOfMeassurement[i+1].uomTypeId])"
                     name="applicationConfiguration.unitOfMeassurement[i+1].uomTypeName"
                     class="custom">
-                    <ng-option></ng-option>
+
                     <ng-option *ngFor="let view of applicationConfiguration.unitOfMeassurement[i+1].uoMView"
-                      [value]="view.uoMId">
+                      [value]="view">
                       {{view.uoMName}}
                     </ng-option>
                   </ng-select>
@@ -818,9 +818,9 @@
                   (change)="onUoMDropdownChange(applicationConfiguration.unitOfMeassurement[i+2].uomTypeId, uomModels[applicationConfiguration.unitOfMeassurement[i+2].uomTypeId])"
                     name="applicationConfiguration.unitOfMeassurement[i+2].uomTypeName"
                     class="custom">
-                    <ng-option></ng-option>
+
                     <ng-option *ngFor="let view of applicationConfiguration.unitOfMeassurement[i+2].uoMView"
-                      [value]="view.uoMId">
+                      [value]="view">
                       {{view.uoMName}}
                     </ng-option>
                   </ng-select>

@@ -26,7 +26,7 @@ export class VotmCloudPreferencesComponent implements OnInit, AfterViewInit {
   modal: any;
   UOM: any;
   tempUoM: UnitOfMeassurement;
-  tempMeasurement: string;
+  uomMeasurement: string;
   uomModels: {};
   uomArray: any[];
   previousUOM: any;
@@ -56,7 +56,6 @@ export class VotmCloudPreferencesComponent implements OnInit, AfterViewInit {
   confirmDelUserFavoriteMessage: string;
   userUOMData: any[] = [];
   selectedUserUOMData: any[] = [];
-  loggedInUserData: { 'userId': string; 'organizationId': string; };
 
   constructor(
     private modalService: NgbModal,
@@ -96,15 +95,13 @@ export class VotmCloudPreferencesComponent implements OnInit, AfterViewInit {
       noti_info_web: new FormControl(null, [Validators.required])
     });
 
-    // Get Logged in User data
-    this.loggedInUserData = this.sharedService.getLoggedInUser();
-    this.userId = this.loggedInUserData.userId;
+    this.userId = '03c7fb47-58ee-4c41-a9d6-2ad0bd43392a';
     this.getAllAppInfo();
-    this.tempMeasurement = 'Imperial';
+    this.uomMeasurement = 'Imperial';
     this.getAllAlertsByUserId();
     // get loggedIn User Detail
 
-    this.getUserDetailInfo();
+
   }
 
   onEditViewClick(alert, action) {
@@ -130,65 +127,127 @@ export class VotmCloudPreferencesComponent implements OnInit, AfterViewInit {
     this.userService.getUserDetail(this.userId)
       .subscribe(response => {
         this.userprofile = response;
-        // console.log('getUserDetailInfo user details---' + this.userId + JSON.stringify(this.userprofile));
-
-        // this.userprofile.userNotification.push(
-        //   {
-        //     userNotificationId: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-        //     userId: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-        //     criticalAlarm: 'SMS,Email',
-        //     warningAlarm: 'SMS,Web Only',
-        //     infoMessage: 'Web Only',
-        //     active: true,
-        //     createdOn: '2019-10-22T10:32:07.135Z',
-        //     createdBy: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-        //     modifiedOn: 'string',
-        //     modifiedBy: '3fa85f64-5717-4562-b3fc-2c963f66afa6'
-        //   }
-        // );
-
         if (this.userprofile.logo && this.userprofile.logo.imageName) {
-          this.fileExtension = this.userprofile.logo.imageName.slice((Math.max(0, this.userprofile.logo.imageName.lastIndexOf('.')) || Infinity) + 1);
-          this.userImgURL = this.domSanitizer.bypassSecurityTrustUrl(`data:image/${this.fileExtension};base64,${this.userprofile.logo.image}`);
+          this.fileExtension = this.userprofile.logo.imageName.slice
+            ((Math.max(0, this.userprofile.logo.imageName.lastIndexOf('.')) || Infinity) + 1);
+          this.userImgURL = this.domSanitizer.bypassSecurityTrustUrl
+            (`data:image/${this.fileExtension};base64,${this.userprofile.logo.image}`);
           // this.userprofile.logo.imageType = this.fileExtension;
+        }
+        // if (this.userprofile.userUnitofMeasurement) {
+        //   this.userUOMData = this.userprofile.userUnitofMeasurement;
+        //   for (const userUOM of this.userUOMData) {
+        //     console.log(userUOM);
+        //     this.uomModels[userUOM.uomtypeId] = userUOM;
+        //   }
+        // }
+        const uom = this.applicationConfiguration.unitOfMeassurement;
+        if (!this.userprofile.userConfigSettings) {
+          this.userprofile.userConfigSettings = [];
+          this.uomMeasurement = 'Imperial';
+          this.fillUoM(uom, 'imperialDefault');
+        } else {
+          this.uomModels = {};
+          this.uomMeasurement = this.userprofile.userConfigSettings[0].measurementType;
+          if (this.userprofile.userUnitofMeasurement) {
+            for (let i = 0; i < uom.length; i++) {
+              this.uomModels[uom[i].uomTypeId] = {};
+              for (const uomOption of uom[i].uoMView) {
+                for (const userUOM of this.userprofile.userUnitofMeasurement) {
+                  if (uomOption.uoMId === userUOM.uomid) {
+                    this.uomModels[uom[i].uomTypeId] = uomOption;
+                    this.uomModels[uom[i].uomTypeId].userUomId = userUOM.userUomId;
+                   // this.uomModels[userUOM.uomtypeId] = userUOM;
+                   // userUOM.type = this.uomMeasurement;
+                  }
+                }
+              }
+            }
+            const keys = Object.keys(this.uomModels);
+            keys.forEach(key => {
+              if (Object.keys(this.uomModels[key]).length === 0) {
+                delete this.uomModels[key];
+              }
+            });
+          }
         }
         this.getFavoriteDraggbleRow(this.userprofile);
       });
   }
 
 
-  getUOMDetailByUserId() {
-    this.userService.getUserUOMDetail(this.userId).subscribe(
-      response => {
-        this.userUOMData = response;
-        for (const userUOM of this.userUOMData) {
-          console.log(userUOM);
-          this.uomModels[userUOM.uomtypeId] = userUOM.uomid;
-        }
-      }
-    );
+  getAllAppInfo() {
+    this.configSettingsService.getApplicationInfo()
+      .subscribe((response: any) => {
+        this.applicationConfiguration = response;
+        this.getUserDetailInfo();
+        // this.uomArray = new Array[this.applicationConfiguration.unitOfMeassurement.length];
+      });
   }
 
-  onUoMDropdownChange(uomTypeId, uomId) {
-    console.log(uomTypeId);
-    console.log(uomId);
-    const obj = {
-      uomtypeId: uomTypeId,
-      uomid: uomId,
-      userId: this.userId,
-      active: true
-    };
-    if (this.userUOMData.length === 0) {
-      this.userUOMData.push(obj);
-    } else {
-      const index = this.userUOMData.findIndex(uom => uom.uomtypeId === uomTypeId);
-      if (index !== -1) {
-        this.userUOMData[index].uomid = uomId;
-      } else {
-        this.userUOMData.push(obj);
+  onUnitChange(value) {
+    // // console.log(value);
+    const uom = this.applicationConfiguration.unitOfMeassurement;
+    this.uomMeasurement = value.target.value;
+    if (this.uomMeasurement === 'Imperial') {
+      this.fillUoM(uom, 'imperialDefault');
+    } else if (this.uomMeasurement === 'Metric') {
+      this.fillUoM(uom, 'metricDefault');
+    }
+  }
+
+  fillUoM(uom, type) {
+    this.userUOMData = [];
+    this.uomModels = {};
+    for (let i = 0; i < uom.length; i++) {
+      this.uomModels[uom[i].uomTypeId] = {};
+      for (const uomOption of uom[i].uoMView) {
+        if (uomOption[type]) {
+          this.uomModels[uom[i].uomTypeId] = uomOption;
+        }
       }
     }
-    console.log(this.userUOMData);
+    const keys = Object.keys(this.uomModels);
+    keys.forEach(key => {
+      if (Object.keys(this.uomModels[key]).length === 0) {
+        delete this.uomModels[key];
+      }
+    });
+    console.log(JSON.stringify(this.uomModels));
+  }
+
+  onUoMDropdownChange(uomTypeId, uom) {
+    this.uomModels[uomTypeId] = uom;
+    this.setUOMMeasurement();
+  }
+
+  setUOMMeasurement() {
+    let imperialCount = 0;
+    let metricCount = 0;
+    let customCount = 0;
+    const keys = Object.keys(this.uomModels);
+    keys.forEach(key => {
+      let flag = true;
+      if (this.uomModels[key].imperialDefault) {
+        flag = false;
+        imperialCount += 1;
+      }
+      if (this.uomModels[key].metricDefault) {
+        flag = false;
+        metricCount += 1;
+      }
+      if (flag) {
+        customCount += 1;
+      }
+    });
+    console.log(imperialCount, '====', metricCount, '=======', customCount, '===', keys.length);
+    if (imperialCount === keys.length) {
+      this.uomMeasurement = 'Imperial';
+    } else if (metricCount === keys.length) {
+      this.uomMeasurement = 'Metric';
+    } else {
+      this.uomMeasurement = 'Custom';
+    }
   }
 
   getUOMSelected(uomTypeId) {
@@ -200,28 +259,24 @@ export class VotmCloudPreferencesComponent implements OnInit, AfterViewInit {
   }
 
   onSaveUOMDetails() {
-    const deletedUOM = [];
-    const savedUOM = [];
-    for (const uom of this.userUOMData) {
-      if (uom && uom.uomid.length === 0) {
-        deletedUOM.push({
-          userUomId: uom.userUomId
-        });
-      } else {
-        savedUOM.push(uom);
-      }
+
+    this.closemodal('save');
+    if (!this.userprofile.userConfigSettings) {
+      this.userprofile.userConfigSettings = [];
     }
-    this.userService.addUserUOMDetail(savedUOM).subscribe(
-      response => {
-        this.toaster.onSuccess('User UOM details added successfully.', 'Added');
-        this.getUOMDetailByUserId();
-        this.closemodal('save');
-      },
-      error => {
-        this.toaster.onFailure('Error in adding User UOM details.', 'Added');
-      }
-    );
-    this.userService.deleteUserUOMDetail(deletedUOM).subscribe();
+    const keys = Object.keys(this.uomModels);
+    this.userprofile.userUnitofMeasurement = [];
+    keys.forEach(key => {
+      this.userprofile.userUnitofMeasurement.push( {
+        uomid: this.uomModels[key].uoMId,
+        uomtypeId: key,
+        userUomId: this.uomModels[key].userUomId ? this.uomModels[key].userUomId : undefined,
+        userId: this.userId,
+        active: true
+      });
+    });
+    this.userprofile.userConfigSettings[0].measurementType = this.uomMeasurement;
+
   }
 
   getFavoriteDraggbleRow(userprofile) {
@@ -290,7 +345,7 @@ export class VotmCloudPreferencesComponent implements OnInit, AfterViewInit {
       .subscribe(response => {
         this.toaster.onSuccess('User Successfully updated', 'Updated');
         this.sharedService.getFavorites(); // get latest favorites for side bar menu if edited
-
+        this.getUserDetailInfo();
         // Disabled All edit favorites input on preference save
         for (const userfavorites of this.userprofile.userFavorites) {
           userfavorites.disabled = false;
@@ -302,19 +357,7 @@ export class VotmCloudPreferencesComponent implements OnInit, AfterViewInit {
 
   }
 
-  getAllAppInfo() {
-    this.configSettingsService.getApplicationInfo()
-      .subscribe((response: any) => {
-        this.applicationConfiguration = response;
-        const uom = this.applicationConfiguration.unitOfMeassurement;
-        this.uomModels = {};
-        for (let i = 0; i < uom.length; i++) {
-          this.uomModels[uom[i].uomTypeId] = '';
-        }
-        this.getUOMDetailByUserId();
-        // this.uomArray = new Array[this.applicationConfiguration.unitOfMeassurement.length];
-      });
-  }
+
 
   onEditFavorite(favId: any) {
     // for toggle disabled
@@ -390,27 +433,6 @@ export class VotmCloudPreferencesComponent implements OnInit, AfterViewInit {
 
   }
 
-  fillUoM() {
-    const uom = this.applicationConfiguration.unitOfMeassurement;
-
-    if (uom) {
-      for (let i = 0; i < uom.length; i++) {
-        this.uomModels[uom[i].uomTypeName] = '';
-      }
-    }
-
-    if (uom && uom.length > 0 && this.userprofile && this.userprofile.uoM) {
-      for (let i = 0; i < uom.length; i++) {
-        for (let j = 0; j < this.userprofile.uoM.length; j++) {
-          for (let k = 0; k < uom[i].uoMView.length; k++) {
-            if (this.userprofile.uoM[j] === uom[i].uoMView[k].uoMId) {
-              this.uomModels[uom[i].uomTypeName] = uom[i].uoMView[k].uoMId;
-            }
-          }
-        }
-      }
-    }
-  }
 
   open(content) {
     this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then((result) => {
@@ -424,6 +446,7 @@ export class VotmCloudPreferencesComponent implements OnInit, AfterViewInit {
     if (reason === ModalDismissReasons.ESC) {
       return 'by pressing ESC';
     } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+
       return 'by clicking on a backdrop';
     } else {
       return `with: ${reason}`;
@@ -455,10 +478,8 @@ export class VotmCloudPreferencesComponent implements OnInit, AfterViewInit {
     document.getElementById('uomModal').style.display = 'none';
     // this.modal.style.display = "none";
   }
-  onUnitChange(value) {
-    // // console.log(value);
-    this.tempMeasurement = value.target.value;
-  }
+
+
 
   onCancelClick(event) {
     this.routerLocation.back();

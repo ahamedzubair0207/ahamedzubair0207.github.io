@@ -29,6 +29,7 @@ export class UserProfile {
     userGuestOrganization: UserGuestOrganization[];
     userFavorites: any[];
     userNotification: UserNotification[];
+    userUnitofMeasurement?: any[]
 }
 
 class UserConfigSettings {
@@ -46,6 +47,7 @@ class UserConfigSettings {
     createdOn: string;
     modifiedBy: string;
     modifiedOn: string;
+    measurementType?: string;
 }
 
 export class UserGuestOrganization {

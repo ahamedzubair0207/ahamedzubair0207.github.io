@@ -660,7 +660,7 @@
                         <label class="" name="uom-change-lbl" votmrequired id="unitsOfMeasureLbl">Default UOM:</label>
                         <div class="input-group input-group-sm">
                           <div class="input-group-prepend">
-                            <span class="input-group-text" name="uom-logo" id="unitsOfMeasureSelected">{{UOM}}</span>
+                            <span class="input-group-text" name="uom-logo" id="unitsOfMeasureSelected">{{orgMeasurementType}}</span>
                           </div>
                           <!-- <input type="text" class="form-control" placeholder=""> -->
                           <div class="input-group-append">
@@ -878,7 +878,7 @@
 
 <!-- UOM Modal -->
 <div id="myModal" class="modal">
-  <div class="modal-dialog modal-lg modal-dialog-scrollable modal-dialog-centered">
+  <div class="modal-dialog modal-lg  modal-dialog-centered">
     <!-- Modal content -->
     <div class="modal-content">
       <div class="modal-header">
@@ -890,21 +890,21 @@
         </div> -->
         <div class="custom-control custom-radio custom-control-inline">
           <input [disabled]="pageType==='View'" class="custom-control-input" type="radio" value="Imperial" name="UOM"
-            (change)="onUnitChange($event)" id="f-imperial" checked="checked">
+            (change)="onUnitChange($event)" id="f-imperial"  [(ngModel)]="orgMeasurementType">
           <label class="custom-control-label" for="f-imperial">Imperial</label>
         </div>
         <div class="custom-control custom-radio custom-control-inline">
           <input [disabled]="pageType==='View'" class="custom-control-input" type="radio" value="Metric" name="UOM"
-            (change)="onUnitChange($event)" id="f-metric">
+            (change)="onUnitChange($event)" id="f-metric" [(ngModel)]="orgMeasurementType">
           <label class="custom-control-label" for="f-metric">Metric</label>
         </div>
         <div class="custom-control custom-radio custom-control-inline">
-          <input [disabled]="pageType==='View'" class="custom-control-input" type="radio" value="Custom" name="UOM"
-            (change)="onUnitChange($event)" id="f-custom">
+          <input class="custom-control-input" type="radio" value="Custom" name="UOM"
+            (change)="onUnitChange($event)" id="f-custom" disabled [(ngModel)]="orgMeasurementType">
           <label class="custom-control-label" for="f-custom">Custom</label>
         </div>
       </div>
-      <div class="modal-body">
+      <div class="modal-body" *ngIf="uomModels" >
 
         <div *ngFor="let uom of applicationConfiguration.unitOfMeassurement; let i = index" [attr.data-index]="i"
           class="">
@@ -914,11 +914,11 @@
               <div class="form-group">
                 <label class="" for="uom.uomTypeName">{{uom.uomTypeName}}:</label>
                 <div class="">
-                  <ng-select [(ngModel)]="uomModels[uom.uomTypeName]"
-                    (change)="onUoMDropdownChange($event,uom.uomTypeName)" name="uom.uomTypeName"
+                  <ng-select [(ngModel)]="uomModels[uom.uomTypeId]"
+                    (change)="onUoMDropdownChange(uom.uomTypeId,uomModels[uom.uomTypeId])" name="uom.uomTypeName"
                     class="custom">
                     <ng-option></ng-option>
-                    <ng-option *ngFor="let view of uom.uoMView" [value]="view.uoMId">
+                    <ng-option *ngFor="let view of uom.uoMView" [value]="view">
                       {{view.uoMName}}
                     </ng-option>
                   </ng-select>
@@ -947,13 +947,13 @@
                 <label class=""
                   for="applicationConfiguration.unitOfMeassurement[i+1].uomTypeName">{{applicationConfiguration.unitOfMeassurement[i+1].uomTypeName}}:</label>
                 <div class="">
-                  <ng-select [(ngModel)]="uomModels[applicationConfiguration.unitOfMeassurement[i+1].uomTypeName]"
-                    (change)="onUoMDropdownChange($event, applicationConfiguration.unitOfMeassurement[i+1].uomTypeName)"
+                  <ng-select [(ngModel)]="uomModels[applicationConfiguration.unitOfMeassurement[i+1].uomTypeId]"
+                    (change)="onUoMDropdownChange(applicationConfiguration.unitOfMeassurement[i+1].uomTypeId, uomModels[applicationConfiguration.unitOfMeassurement[i+1].uomTypeId])"
                     name="applicationConfiguration.unitOfMeassurement[i+1].uomTypeName"
                     class="custom">
                     <ng-option></ng-option>
                     <ng-option *ngFor="let view of applicationConfiguration.unitOfMeassurement[i+1].uoMView"
-                      [value]="view.uoMId">
+                      [value]="view">
                       {{view.uoMName}}
                     </ng-option>
                   </ng-select>
@@ -965,13 +965,13 @@
                   <label class=""
                     for="applicationConfiguration.unitOfMeassurement[i+2].uomTypeName">{{applicationConfiguration.unitOfMeassurement[i+2].uomTypeName}}:</label>
                   <div class="">
-                    <ng-select [(ngModel)]="uomModels[applicationConfiguration.unitOfMeassurement[i+2].uomTypeName]"
-                      (change)="onUoMDropdownChange($event, applicationConfiguration.unitOfMeassurement[i+2].uomTypeName)"
+                    <ng-select [(ngModel)]="uomModels[applicationConfiguration.unitOfMeassurement[i+2].uomTypeId]"
+                      (change)="onUoMDropdownChange(applicationConfiguration.unitOfMeassurement[i+2].uomTypeId, uomModels[applicationConfiguration.unitOfMeassurement[i+2].uomTypeId])"
                       name="applicationConfiguration.unitOfMeassurement[i+2].uomTypeName"
                       class="custom">
                       <ng-option></ng-option>
                       <ng-option *ngFor="let view of applicationConfiguration.unitOfMeassurement[i+2].uoMView"
-                        [value]="view.uoMId">
+                        [value]="view">
                         {{view.uoMName}}
                       </ng-option>
                     </ng-select>
@@ -986,7 +986,7 @@
           (click)="closemodal('cancel')">Cancel
         </button>
         <button id="org-uom-save" type="button" class="btn btn-info btn-sm"
-          (click)="closemodal('save')">Save</button>
+          (click)="saveOrgUOM()">Save</button>
       </div>
 
     </div>
