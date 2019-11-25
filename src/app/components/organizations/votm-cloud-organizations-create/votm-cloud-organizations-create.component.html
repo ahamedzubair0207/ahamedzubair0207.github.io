@@ -920,10 +920,10 @@
 
               <div class="col-4">
                 <div class="form-group">
-                  <label class="" for="uom.uomTypeName">{{uom.uomTypeName}}:</label>
+                  <label class="" for="uom.pcmuomtypeName">{{uom.pcmuomtypeName}}:</label>
                   <div class="">
                     <ng-select [(ngModel)]="uomModels[uom.uomTypeId]"
-                      (change)="onUoMDropdownChange(uom.uomTypeId,uomModels[uom.uomTypeId])" name="uom.uomTypeName"
+                      (change)="onUoMDropdownChange(uom.uomTypeId,uomModels[uom.uomTypeId])" name="uom.pcmuomtypeName"
                       class="custom">
                       <ng-option></ng-option>
                       <ng-option *ngFor="let view of uom.uoMView" [value]="view">
@@ -936,10 +936,10 @@
 
               <!-- <div class="col-4">
               <div class="row form-group">
-                <label class="col-sm-4 col-form-label" for="uom.uomTypeName">{{uom.uomTypeName}}:</label>
+                <label class="col-sm-4 col-form-label" for="uom.pcmuomtypeName">{{uom.pcmuomtypeName}}:</label>
                 <div class="col-sm-8">
-                  <select [(ngModel)]="uomModels[uom.uomTypeName]"
-                    (change)="onUoMDropdownChange($event,uom.uomTypeName)" name="uom.uomTypeName"
+                  <select [(ngModel)]="uomModels[uom.pcmuomtypeName]"
+                    (change)="onUoMDropdownChange($event,uom.pcmuomtypeName)" name="uom.pcmuomtypeName"
                     class="form-control">
                     <option></option>
                     <option *ngFor="let view of uom.uoMView" [value]="view.uoMId">
@@ -953,11 +953,11 @@
               <div class="col-4" *ngIf="applicationConfiguration.unitOfMeassurement[i+1]">
                 <div class="form-group">
                   <label class=""
-                    for="applicationConfiguration.unitOfMeassurement[i+1].uomTypeName">{{applicationConfiguration.unitOfMeassurement[i+1].uomTypeName}}:</label>
+                    for="applicationConfiguration.unitOfMeassurement[i+1].pcmuomtypeName">{{applicationConfiguration.unitOfMeassurement[i+1].pcmuomtypeName}}:</label>
                   <div class="">
                     <ng-select [(ngModel)]="uomModels[applicationConfiguration.unitOfMeassurement[i+1].uomTypeId]"
                       (change)="onUoMDropdownChange(applicationConfiguration.unitOfMeassurement[i+1].uomTypeId, uomModels[applicationConfiguration.unitOfMeassurement[i+1].uomTypeId])"
-                      name="applicationConfiguration.unitOfMeassurement[i+1].uomTypeName" class="custom">
+                      name="applicationConfiguration.unitOfMeassurement[i+1].pcmuomtypeName" class="custom">
                       <ng-option></ng-option>
                       <ng-option *ngFor="let view of applicationConfiguration.unitOfMeassurement[i+1].uoMView"
                         [value]="view">
@@ -970,11 +970,11 @@
               <div class="col-4" *ngIf="applicationConfiguration.unitOfMeassurement[i+2]">
                 <div class="form-group">
                   <label class=""
-                    for="applicationConfiguration.unitOfMeassurement[i+2].uomTypeName">{{applicationConfiguration.unitOfMeassurement[i+2].uomTypeName}}:</label>
+                    for="applicationConfiguration.unitOfMeassurement[i+2].pcmuomtypeName">{{applicationConfiguration.unitOfMeassurement[i+2].pcmuomtypeName}}:</label>
                   <div class="">
                     <ng-select [(ngModel)]="uomModels[applicationConfiguration.unitOfMeassurement[i+2].uomTypeId]"
                       (change)="onUoMDropdownChange(applicationConfiguration.unitOfMeassurement[i+2].uomTypeId, uomModels[applicationConfiguration.unitOfMeassurement[i+2].uomTypeId])"
-                      name="applicationConfiguration.unitOfMeassurement[i+2].uomTypeName" class="custom">
+                      name="applicationConfiguration.unitOfMeassurement[i+2].pcmuomtypeName" class="custom">
                       <ng-option></ng-option>
                       <ng-option *ngFor="let view of applicationConfiguration.unitOfMeassurement[i+2].uoMView"
                         [value]="view">
@@ -987,11 +987,11 @@
             </div>
           </div>
         </div>
-      </div>
-      <div class="modal-footer">
-        <button id="org-uom-cancle" type="button" class="btn btn-sm btn-secondary" (click)="closemodal('cancel')">Cancel
-        </button>
-        <button id="org-uom-save" type="button" class="btn btn-info btn-sm" (click)="saveOrgUOM()">Save</button>
+        <div class="modal-footer">
+          <button id="org-uom-cancle" type="button" class="btn btn-sm btn-secondary" (click)="closemodal('cancel')">Cancel
+          </button>
+          <button id="org-uom-save" type="button" class="btn btn-info btn-sm" (click)="saveOrgUOM()">Save</button>
+        </div>
       </div>
     </div>
 

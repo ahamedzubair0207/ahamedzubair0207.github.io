@@ -602,6 +602,8 @@
               
                 </div>
               
+              
+              
                 <div class="row-flex mr-auto text-right">
                   <button id="nest-asset-create" type="button" *ngIf="location.locationId"
                     class="btn btn-sm btn-outline-info mr-2 add-sub-btn" (click)="creteAsset($event)"><i
@@ -629,7 +631,7 @@
               
               </form>
           </div>
-          
+          </div>
 
           <!-- Location Signal & Gateways  -->
           <div class="tab-pane fade" id="loc-signal" role="tabpanle" area-labelledby="loc-signal-tab">
@@ -642,7 +644,7 @@
           <div class="tab-pane fade" id="loc-asset" role="tabpanle" area-labelledby="loc-asset-tab">
             <app-votm-cloud-locations-asset *ngIf="isAssetAssociationClicked"></app-votm-cloud-locations-asset>
           </div>
-        </div>
+
 
         </div>
       </div>
@@ -707,7 +709,7 @@
 
               <div class="col-4">
                 <div class="form-group">
-                  <label class="" for="uom.uomTypeId">{{uom.uomTypeName}}:</label>
+                  <label class="" for="uom.uomTypeId">{{uom.pcmuomtypeName}}:</label>
                   <div class="">
                     <ng-select [(ngModel)]="uomModels[uom.uomTypeId]"
                       (change)="onUoMDropdownChange(uom.uomTypeId, uomModels[uom.uomTypeId])" name="uom.uomTypeId"
@@ -723,7 +725,7 @@
               <div class="col-4" *ngIf="applicationConfiguration.unitOfMeassurement[i+1]">
                 <div class="form-group">
                   <label class=""
-                    for="applicationConfiguration.unitOfMeassurement[i+1].uomTypeId">{{applicationConfiguration.unitOfMeassurement[i+1].uomTypeName}}:</label>
+                    for="applicationConfiguration.unitOfMeassurement[i+1].uomTypeId">{{applicationConfiguration.unitOfMeassurement[i+1].pcmuomtypeName}}:</label>
                   <div class="">
                     <ng-select [(ngModel)]="uomModels[applicationConfiguration.unitOfMeassurement[i+1].uomTypeId]"
                       (change)="onUoMDropdownChange(applicationConfiguration.unitOfMeassurement[i+1].uomTypeId, uomModels[applicationConfiguration.unitOfMeassurement[i+1].uomTypeId])"
@@ -740,7 +742,7 @@
               <div class="col-4" *ngIf="applicationConfiguration.unitOfMeassurement[i+2]">
                 <div class="form-group">
                   <label class=""
-                    for="applicationConfiguration.unitOfMeassurement[i+2].uomTypeId">{{applicationConfiguration.unitOfMeassurement[i+2].uomTypeName}}:</label>
+                    for="applicationConfiguration.unitOfMeassurement[i+2].uomTypeId">{{applicationConfiguration.unitOfMeassurement[i+2].pcmuomtypeName}}:</label>
                   <div class="">
                     <ng-select [(ngModel)]="uomModels[applicationConfiguration.unitOfMeassurement[i+2].uomTypeId]"
                       (change)="onUoMDropdownChange(applicationConfiguration.unitOfMeassurement[i+2].uomTypeId, uomModels[applicationConfiguration.unitOfMeassurement[i+2].uomTypeId])"
@@ -757,11 +759,11 @@
             </div>
           </div>
         </div>
-      </div>
-      <div class="modal-footer">
-        <button id="loc-uom-cancle" type="button" class="btn btn-sm btn-secondary" (click)="closemodal('cancel')">Cancel
-        </button>
-        <button id="loc-uom-save" type="button" class="btn btn-info btn-sm" (click)="saveLocUOM()">Save</button>
+        <div class="modal-footer">
+          <button id="loc-uom-cancle" type="button" class="btn btn-sm btn-secondary" (click)="closemodal('cancel')">Cancel
+          </button>
+          <button id="loc-uom-save" type="button" class="btn btn-info btn-sm" (click)="saveLocUOM()">Save</button>
+        </div>
       </div>
     </div>
 
