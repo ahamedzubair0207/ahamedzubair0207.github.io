@@ -602,9 +602,6 @@
               
                 </div>
               
-              
-              
-              
                 <div class="row-flex mr-auto text-right">
                   <button id="nest-asset-create" type="button" *ngIf="location.locationId"
                     class="btn btn-sm btn-outline-info mr-2 add-sub-btn" (click)="creteAsset($event)"><i
@@ -632,7 +629,7 @@
               
               </form>
           </div>
-          </div>
+          
 
           <!-- Location Signal & Gateways  -->
           <div class="tab-pane fade" id="loc-signal" role="tabpanle" area-labelledby="loc-signal-tab">
@@ -645,7 +642,7 @@
           <div class="tab-pane fade" id="loc-asset" role="tabpanle" area-labelledby="loc-asset-tab">
             <app-votm-cloud-locations-asset *ngIf="isAssetAssociationClicked"></app-votm-cloud-locations-asset>
           </div>
-
+        </div>
 
         </div>
       </div>
