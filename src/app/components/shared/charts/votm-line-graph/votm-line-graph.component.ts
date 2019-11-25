@@ -4,9 +4,10 @@ import * as am4core from "@amcharts/amcharts4/core";
 import * as am4charts from "@amcharts/amcharts4/charts";
 import am4themes_animated from "@amcharts/amcharts4/themes/animated";
 // import am4themes_kelly from "@amcharts/amcharts4/themes/animated";
-import { DbItem } from 'src/app/models/db-item';
+// import { DbItem } from 'src/app/models/db-item';
 import { DashBoard } from 'src/app/models/dashboard.model';
-import { timeseries } from 'src/assets/data/time-series';
+// import { timeseries } from 'src/assets/data/time-series';
+import { ConfigSettingsService } from 'src/app/services/configSettings/configSettings.service';
 import { TimeSeriesService } from 'src/app/services/timeSeries/time-series.service';
 import * as moment from 'moment';
 
@@ -22,6 +23,8 @@ export class VotmLineGraphComponent implements OnInit {
   @Input() data: DashBoard;
   @Input() id: string;
   @Input() locked: boolean;
+
+  pageLabels: any;
 
   // @ViewChild('config', null) configModal: any;
   "hideCredits": true;
@@ -110,7 +113,7 @@ export class VotmLineGraphComponent implements OnInit {
 
   @ViewChild('graphDiv', null) graphDiv: ElementRef;
 
-  constructor(private modalService: NgbModal, private zone: NgZone, private timeSeries: TimeSeriesService) { }
+  constructor(private modalService: NgbModal, private zone: NgZone, private timeSeries: TimeSeriesService, private configSettingsService: ConfigSettingsService,) { }
 
   ngOnInit() {
     console.log('this.data ', this.data)
@@ -143,6 +146,13 @@ export class VotmLineGraphComponent implements OnInit {
         this.chart.dispose();
       }
     });
+  }
+
+  getScreenLabels() {
+    this.configSettingsService.getTrendChartConfigScreenLabels()
+      .subscribe(response => {
+        this.pageLabels = response;
+      });
   }
 
   onRadioGroupChange() {
