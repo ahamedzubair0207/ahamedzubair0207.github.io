@@ -222,9 +222,9 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
     this.getScreenLabels();
     this.getAllAppInfo();
 
-     // dashboard data
-     this.dashboardData = this.getDashboards();
-     this.getDashboardsTemplates();
+    // dashboard data
+    this.dashboardData = this.getDashboards();
+    this.getDashboardsTemplates();
     // this.asset.active = true;
     this.assetTypes = [{ value: 'assetType1', text: 'assetType1' }, { value: 'assetType2', text: 'assetType2' }]
   }
@@ -284,6 +284,7 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
   }
 
   getAssetById() {
+    this.loader = true;
     this.assetService.getAssetById(this.assetId)
       .subscribe(response => {
         this.asset = response;
@@ -314,6 +315,8 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
             this.asset.logo.imageType = this.fileExtension;
           }
         }
+
+        this.loader = false;
       });
   }
 
@@ -332,7 +335,7 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
   getLocationById(locationId) {
     this.locService.getLocationById(locationId)
       .subscribe(response => {
-        if (response.logo && response.logo.imageName) {
+        if (response && response.logo && response.logo.imageName) {
           const fileExtension = response.logo.imageName.slice((Math.max(0, response.logo.imageName.lastIndexOf(".")) || Infinity) + 1);
           const base64Img = `data:image/${fileExtension};base64,${response.logo.image}`;
           this.parentAssetImageURL = this.domSanitizer.bypassSecurityTrustUrl(base64Img);
@@ -984,9 +987,9 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
       if (!this.asset.imageCoordinates) {
         this.asset.imageCoordinates = {};
         this.asset.imageCoordinates[this.asset.assetName] = {
-            x: 0,
-            y: 0
-          };
+          x: 0,
+          y: 0
+        };
       }
     }
 
@@ -1242,8 +1245,8 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
   deleteAssetDashboardById(event) {
     // console.log('deleteOrganizationDashboardById===', event);
     if (event) {
-    // delete dashboard service goes here
-    this.dbService.deleteDashboard(this.dashboardTab.dashboardId)
+      // delete dashboard service goes here
+      this.dbService.deleteDashboard(this.dashboardTab.dashboardId)
         .subscribe(response => {
           this.toaster.onSuccess(`You have deleted ${this.dashboardTab.dashboardName} successfully`, 'Delete Success!');
           // this.route.navigate([`org/home/${this.curOrgId}/${this.curOrgName}`]);

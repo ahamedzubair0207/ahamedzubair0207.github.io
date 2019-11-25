@@ -27,6 +27,7 @@ export class VotmCloudLocationsHomeComponent implements OnInit {
   locNameToDelete: any;
   toaster: Toaster = new Toaster(this.toastr);
   searchedText: any;
+  loader: boolean;
 
   constructor(private locService: LocationService, private router: Router, private route: ActivatedRoute, private toastr: ToastrService) { }
 
@@ -46,11 +47,13 @@ export class VotmCloudLocationsHomeComponent implements OnInit {
   }
 
   private fetchlocationTreeById() {
+    this.loader = true;
     this.locService.getLocationTree(this.curLocId).subscribe(response => {
-      this.locationsList =[];
+      this.locationsList = [];
       if (response && response.length > 0) {
         this.locationsList = this.fillLocationData(response);
       }
+      this.loader = false;
     });
 
   }
@@ -79,12 +82,13 @@ export class VotmCloudLocationsHomeComponent implements OnInit {
   }
 
   private fetchlocationTree() {
+    this.loader = true;
     this.locService.getAllLocationTree(this.parentOrgId).subscribe(response => {
-      this.locationsList =[];
+      this.locationsList = [];
       if (response && response.length > 0) {
         this.locationsList = this.fillLocationData(response);
       }
-      
+      this.loader = false;
     });
   }
 

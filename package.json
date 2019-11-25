@@ -13,7 +13,7 @@
   "private": true,
   "dependencies": {
     "@acaisoft/angular-azure-maps": "^1.0.0",
-    "@amcharts/amcharts4": "^4.5.13",
+    "@amcharts/amcharts4": "^4.7.10",
     "@angular/animations": "^8.2.5",
     "@angular/cdk": "^8.2.3",
     "@angular/common": "~8.0.1",
