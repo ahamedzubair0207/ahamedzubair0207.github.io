@@ -11,9 +11,9 @@
   }
 
  .edit-view-lock{
-    // float: right; 
+    // float: right;
     // font-size: 28px;
-    // line-height: 0; 
+    // line-height: 0;
     // color:  #02b3bf;
     // margin-left: auto;
   }
@@ -32,7 +32,7 @@
     padding: 15px;
     background-color: white;
   }
- 
+
   .btn-color{
     background-color: rgb(0,185,195);
   }
@@ -43,7 +43,7 @@
     cursor: pointer;
     float: right;
   }
-  
+
   .button-left-mod{
     font-family: 'Roboto', sans-serif;
     font-size: 12px;
@@ -58,7 +58,7 @@
 .modal {
   display: none; /* Hidden by default */
   position: fixed; /* Stay in place */
-  z-index: 1; /* Sit on top */
+  z-index: 3; /* Sit on top */
   padding-top: 50px; /* Location of the box */
   left: 0;
   top: 0;
@@ -132,7 +132,7 @@ a:hover {
   color:white;
 }
 
-.nav-tabs-left .nav-link.active:hover, 
+.nav-tabs-left .nav-link.active:hover,
 .nav-tabs .nav-link.active:hover {
   background-color: #008f9a !important;
   border-color: #008f9a !important;

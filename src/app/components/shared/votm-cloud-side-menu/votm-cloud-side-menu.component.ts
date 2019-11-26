@@ -10,15 +10,12 @@ import { NavigationEnd, Router } from '@angular/router';
   styleUrls: ['./votm-cloud-side-menu.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class VotmCloudSideMenuComponent implements OnInit {
+export class VotmCloudSideMenuComponent implements OnInit, AfterViewInit {
 
   menuOpen: boolean;
   menuItems: Array<{ id: string, enabled: boolean, url: string, icon: string, name: string, childs?: any[] }>;
   activeItem: string;
-  orgFlag = false;
-  locFlag = false;
-  assetFlag = false;
-  adminFlag = false;
+  selectedTab = 'organizations';
   constructor(
     private menuService: MenuService,
     private sharedService: SharedService,
@@ -37,34 +34,29 @@ export class VotmCloudSideMenuComponent implements OnInit {
       () => {
       const url = this.router.url;
       console.log(url.includes('/org/'));
-      this.orgFlag = false;
-      this.locFlag = false;
-      this.assetFlag = false;
-      this.adminFlag = false;
       if (url.includes('/org/')) {
-        this.orgFlag = true;
+        this.selectedTab = 'organizations';
       } else if (url.includes('/loc/')) {
-        this.locFlag = true;
+        this.selectedTab = 'locations';
       } else if (url.includes('/asset/')) {
-        this.assetFlag = true;
+        this.selectedTab = 'assets';
       } else if (url.includes('admin')) {
-        this.adminFlag = true;
+        this.selectedTab = 'admin';
+      } else {
+        this.selectedTab = undefined;
       }
     });
+
+  }
+
+  ngAfterViewInit() {
+
   }
 
 
   setActiveClass(item) {
-    if (this.orgFlag && item.id === 'organizations') {
-      return 'active';
-    } else if (this.locFlag && item.id === 'locations') {
-      return 'active';
-    } else if (this.assetFlag && item.id === 'assets') {
-      return 'active';
-    } else if (item.id === 'admin') {
-      return 'active';
-    }
-    return '';
+    console.log('hereeeeeeeeeeeeee')
+
   }
 
   getMenu(): void {
@@ -97,6 +89,7 @@ export class VotmCloudSideMenuComponent implements OnInit {
   }
 
   setActiveItem(actItem: string) {
+
     // console.log(elem);
     if (actItem !== 'admin' && actItem !== 'favorites') {
       this.sharedService.setActiveMenu(actItem);

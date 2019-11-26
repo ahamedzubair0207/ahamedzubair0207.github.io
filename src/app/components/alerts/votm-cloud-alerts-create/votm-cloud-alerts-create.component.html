@@ -79,7 +79,7 @@
 
             <div class="col-12 col-md-2 pl-4 pt-2 col-xl-1">
                 <div class="custom-control custom-switch input-group">
-                    <input type="checkbox" class="custom-control-input mr-2" id="closureCheckBox" name="closure" [(ngModel)]="alert.closureRequired">
+                    <input type="checkbox" class="custom-control-input mr-2" id="closureCheckBox" name="closure" [(ngModel)]="alert.closureRequired" (change)="onChangeOfClosure(alert.closureRequired)">
                         <label class="custom-control-label mt-2" for="closureCheckBox">Closure Required</label>
                 </div>
                 <!-- <div class="custom-control custom-switch">
@@ -421,13 +421,13 @@
                 <fieldset style="height:380px;" [disabled]="pageType === 'View'">
                     <legend>Notified Parties</legend>
                     <div class="">
-                        <button class="btn btn-sm btn-secondary mr-2" id="notifyMeBtn"><i
-                                class="icon-star mr-2"></i>Notify
+                        <button class="btn btn-sm btn-secondary mr-2" id="notifyMeBtn" type="button"><i
+                                class="icon-star mr-2" ></i>Notify
                             Me</button>
                         <button type="button" class="btn btn-sm btn-secondary mr-2" data-toggle="modal"
-                            (click)="onAddNotifiedUsersClick()"  data-target="#notifiedUserModal" id="notifyUserBtn"><i
+                            (click)="onAddNotifiedUsersClick()"  type="button" data-target="#notifiedUserModal" id="notifyUserBtn"><i
                                 class="icon-user-add mr-2"></i>Add Notified User</button>
-                        <button type="button" class="btn btn-sm btn-secondary" data-toggle="modal"
+                        <button type="button"  type="button" class="btn btn-sm btn-secondary" data-toggle="modal"
                             data-target="#notifiedUserGroupModal" id="notifyUserGroupBtn"><i
                                 class="icon-users-add mr-2"></i>Add Notified Group</button>
 
@@ -462,7 +462,11 @@
                                                     (change)="onResponsibityChangeForUserGroup($event, userGroupSubscriber)"
                                                     [name]="userGroupSubscriber.userGroupId" id="userResDropDown">
                                                     <ng-container *ngFor="let role of userRoles" >
-                                                      <option
+                                                      <option *ngIf="role.roleName.toLowerCase() !== 'secondary'"
+                                                          [value]="role.alertUserGroupRoleId">
+                                                          {{role.roleName}}
+                                                      </option>
+                                                      <option *ngIf="role.roleName.toLowerCase() === 'secondary' && alert.escalateTime > 0"
                                                           [value]="role.alertUserGroupRoleId">
                                                           {{role.roleName}}
                                                       </option>
@@ -474,7 +478,11 @@
                                                     (change)="onResponsibityChangeForUserId($event, userGroupSubscriber)"
                                                     [name]="userGroupSubscriber.userId" id="userResDropDown">
                                                     <ng-container *ngFor="let role of userRoles" >
-                                                      <option
+                                                      <option *ngIf="role.roleName.toLowerCase() !== 'secondary'"
+                                                          [value]="role.alertUserGroupRoleId">
+                                                          {{role.roleName}}
+                                                      </option>
+                                                      <option *ngIf="role.roleName.toLowerCase() === 'secondary' && alert.escalateTime > 0"
                                                           [value]="role.alertUserGroupRoleId">
                                                           {{role.roleName}}
                                                       </option>
