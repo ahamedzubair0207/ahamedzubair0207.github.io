@@ -512,9 +512,15 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
     this.configSettingsService.getApplicationInfo()
       .subscribe((response: any) => {
         this.applicationConfiguration = response;
-        console.log(response);
+        this.applicationConfiguration.unitOfMeassurement = this.applicationConfiguration.unitOfMeassurement.filter(
+          uomObj => uomObj.isDisplay
+        );
         if (this.orgId) {
           this.getOrganizationInfo();
+        } else {
+          this.orgMeasurementType = 'Imperial';
+          const uom = this.applicationConfiguration.unitOfMeassurement;
+          this.fillUoM(uom, 'imperialDefault');
         }
         this.onLocaleChange();
 

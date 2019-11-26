@@ -105,7 +105,7 @@
                 </div>
               </div>
               <form #locationForm="ngForm" class="create-loc-container needs-validation" (ngSubmit)="onLocationSubmit()" novalidate>
-              
+
                 <div class="row">
                   <div class="col-12 col-md-6 col-lg-3 col-xl-3">
                     <div class="form-group">
@@ -121,7 +121,7 @@
                       </div>
                     </div>
                   </div>
-              
+
                   <div class="col-12 col-md-6 col-lg-2 col-xl-1">
                     <div class="form-group">
                       <label class="" id="LocShortNameLbl">Abbrev:</label>
@@ -140,7 +140,7 @@
                       </div>
                     </div>
                   </div>
-              
+
                   <div class="col-12 col-md-6 col-lg-3 col-xl-3">
                     <div class="form-group">
                       <label class="" for="parentorganization">{{pageLabels.ParentOrganization.labelName}}:</label>
@@ -172,7 +172,7 @@
                       </div>
                     </div>
                   </div>
-              
+
                   <div class="col-12 col-md-6 col-lg-4 col-xl-3">
                     <div class="form-group">
                       <label class="" for="locationType">{{pageLabels.LocationType.labelName}}:</label>
@@ -186,12 +186,12 @@
                       </div>
                     </div>
                   </div>
-              
+
                   <div class="col-12 col-md-6 col-lg-2 col-xl-2">
                     <div class="form-group">
                       <label class="" id="locationTypeIcon">Icon:</label>
                       <!-- <div class="selectpicker drop-down"> -->
-              
+
                       <ng-select id="iconDropDown" name="locLogo" labelForId="locIcon" class="custom" [searchable]="false"
                         [(ngModel)]="selLocIcon" [disabled]="pageType==='View'" [clearable]="false">
                         <ng-option value="company"><i class="icon-location"></i></ng-option>
@@ -202,15 +202,15 @@
                       </ng-select>
                     </div>
                   </div>
-              
+
                   <div class="col-12 col-md-6 col-lg-3 col-xl-3">
                     <div class="form-group">
                       <label class="" for="parentLoc">{{pageLabels.ParentLocation.labelName}}:</label>
                       <div class="">
-              
+
                         <input *ngIf="(parentLocId || locId); else elseLocationPart" for="parentLocname" class="form-control"
                           type="text" name="parentLocName" [(ngModel)]="parentLocName" id="locDtlParentLoc" readonly disabled>
-              
+
                         <ng-template #elseLocationPart>
                           <ng-select [disabled]="pageType==='View'" class="custom" #parentLocation="ngModel"
                             [ngStyle]="{'background-color':pageType==='View'?'#e9ecef':'#fff'}" [multiple]="false"
@@ -225,7 +225,7 @@
                       </div>
                     </div>
                   </div>
-              
+
                   <div class="col-12 col-md-6 col-lg-3 col-xl-3">
                     <div class="form-group">
                       <label class="" id="primaryContact" votmrequired>
@@ -246,7 +246,7 @@
                       </div>
                     </div>
                   </div>
-              
+
                   <div class="col-12 col-md-6 col-lg-4 col-xl-3">
                     <div class="form-group">
                       <label class="" votmrequired for="primarydistribute">
@@ -263,15 +263,15 @@
                       </div>
                     </div>
                   </div>
-              
+
                 </div>
-              
+
                 <div class="row" *ngIf="location && location.address && location.address.length>0">
                   <div class="col-md-6">
                     <!-- Street Address  -->
                     <fieldset class="mb-3">
                       <legend id="loc-street-add" votmrequired>{{pageLabels.BillingAddress.labelName}}</legend>
-              
+
                       <div class="row">
                         <div class="col-12 form-group">
                           <input [disabled]="pageType==='View'" type="text" [(ngModel)]="location.address[0].address1" for="address1"
@@ -281,15 +281,15 @@
                             <app-votm-cloud-validator message="Street Name is required"></app-votm-cloud-validator>
                           </div>
                         </div>
-              
+
                         <div class="col-12 form-group">
-              
+
                           <input [disabled]="pageType==='View'" type="text" [(ngModel)]="location.address[0].address2" for="address2"
                             class="form-control" placeholder="Apt/Suite Number" #address2="ngModel" name="address2"
                             id="locDtlAptNumber">
-              
+
                         </div>
-              
+
                         <div class="col-6 form-group">
                           <!-- <label for="city">* {{pageLabels.City.labelName}}:</label> -->
                           <input [disabled]="pageType==='View'" type="text" [(ngModel)]="location.address[0].city"
@@ -298,9 +298,9 @@
                             <app-votm-cloud-validator message="City is required"></app-votm-cloud-validator>
                           </div>
                         </div>
-              
+
                         <div class="col-6 form-group">
-              
+
                           <!-- <select [disabled]="pageType==='View' || !location.address[0].country" -->
                           <!-- <select [disabled]="pageType==='View'" [(ngModel)]="location.address[0].state" name="state"
                                         class="drop-down form-control" #state="ngModel" required
@@ -322,7 +322,7 @@
                             <app-votm-cloud-validator message="State is required"></app-votm-cloud-validator>
                           </div>
                         </div>
-              
+
                         <div class="col-6 form-group">
                           <!-- <label for="country">* {{pageLabels.Country.labelName}}:</label> -->
                           <!-- <select [disabled]="pageType==='View'" [(ngModel)]="location.address[0].country" name="country"
@@ -346,7 +346,7 @@
                             <app-votm-cloud-validator message="Country is required"></app-votm-cloud-validator>
                           </div>
                         </div>
-              
+
                         <div class="col-6">
                           <!-- <label for="zipcode">* {{pageLabels.Zipcode.labelName}}:</label> -->
                           <input [disabled]="pageType==='View'" type="text" [(ngModel)]="location.address[0].postalCode"
@@ -356,7 +356,7 @@
                             <app-votm-cloud-validator message="Zip Code is required"></app-votm-cloud-validator>
                           </div>
                         </div>
-              
+
                       </div>
                     </fieldset>
                     <div class="form-group">
@@ -453,7 +453,7 @@
                                                               {{locale.localeName}}
                                                             </option>
                                                           </select> -->
-              
+
                             <ng-select [disabled]="pageType==='View'" #defLanguage="ngModel" class="custom" required
                               [ngStyle]="{'background-color':pageType==='View'?'#e9ecef':'#fff'}" [multiple]="false"
                               [(ngModel)]="location.localeId" placeholder="Select Locale" id="locDtlGeoLang1" name="language">
@@ -465,7 +465,7 @@
                           <div *ngIf="defLanguage.dirty && defLanguage.invalid">
                             <app-votm-cloud-validator message="Locale is required"></app-votm-cloud-validator>
                           </div>
-              
+
                         </div>
                       </div>
                     </div>
@@ -481,7 +481,7 @@
                                         *ngIf="pageType !=='View'" (click)="openmodal()">Change</button>
                                     </div>
                                   </div> -->
-              
+
                     <div class="col-12 col-md-6 col-lg-6 col-xl-6">
                       <div class="form-group">
                         <label class="" name="uom-change-lbl" votmrequired id="unitsOfMeasureLbl">Default UOM:</label>
@@ -499,7 +499,7 @@
                         </div>
                       </div>
                     </div>
-              
+
                     <div class="col-12 col-md-6 col-lg-6 col-xl-6">
                       <!-- Claimed Gateway -->
                       <div class="form-group">
@@ -514,7 +514,7 @@
                         <!-- <select2 [disabled]="pageType === 'View'" [data]="gatewayList" [options]="options" width="100%" class=""
                                                           [value]="selectedGateways" (valueChanged)="onItemSelect($event)" id="locDtlGeoClaimedGateway">
                                                         </select2> -->
-              
+
                         <!-- <ng-select [disabled]="pageType === 'View'"
                                                         class="custom" name="GatewayList"
                                                         (valueChanged)="onItemSelect($event)" id="locDtlGeoClaimedGateway"
@@ -528,9 +528,9 @@
                         <!-- <ng-option value="null" disabled selected>Country</ng-option> -->
                         <!-- <button class="btn-save btn btn-primary btn-sm">Save</button> -->
                         <!-- </div> -->
-              
-              
-              
+
+
+
                         <ng-select [items]="gatewayList" [multiple]="true" [closeOnSelect]="false" [hideSelected]="true"
                           bindLabel="text" placeholder="Select gateways" name="gatewayslist" [(ngModel)]="selectedItems"
                           [disabled]="pageType==='View'" class="custom">
@@ -559,7 +559,7 @@
                         <label class="custom-file-label" for="customFile">Choose file</label>
                         <span style="font-weight: bold" class="custom-file-label"
                           *ngIf="location && location.logo">{{location.logo.imageName}}</span>
-                
+
                       </div>
                       <!-- <div class="custom-file">
                                       <span style="color:rgb(106,96,85);" *ngIf="message">{{message}}</span>
@@ -579,16 +579,16 @@
                         <img [src]="imgURL" class="img-fluid img-fluid-custom" *ngIf="imgURL">
                       </span>
                     </div>
-                
-                
+
+
                   </div>
                 </div>
-                
+
                 <!-- </div>
-              
+
                             <div class="row mt-2"> -->
                 <div class="row mt-2">
-              
+
                   <div class="col">
                     <div class="row form-group">
                       <label class="col-md-2 col-1 col-form-label" id="f-description">Description:</label>
@@ -597,13 +597,13 @@
                           name="locDescription" rows="3" id="f-description"></textarea>
                       </div>
                     </div>
-              
+
                   </div>
-              
+
                 </div>
-              
-              
-              
+
+
+
                 <div class="row-flex mr-auto text-right">
                   <button id="nest-asset-create" type="button" *ngIf="location.locationId"
                     class="btn btn-sm btn-outline-info mr-2 add-sub-btn" (click)="creteAsset($event)"><i
@@ -626,9 +626,9 @@
                           <textarea class="form-control" [disabled]="pageType==='View'"
                             [(ngModel)]="location.description" name="locDescription" rows="3" id="f-description"></textarea>
                         </div>
-              
+
                       </div> -->
-              
+
               </form>
           </div>
           </div>
@@ -650,7 +650,7 @@
       </div>
 
 
-    
+
 
     <!-- Location Events Log  -->
     <div class="tab-pane fade border border-top-0 p-3 mb-3 flex-grow-1" id="event-details-tab" role="tabpanle"

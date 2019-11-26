@@ -180,6 +180,9 @@ export class VotmCloudPreferencesComponent implements OnInit, AfterViewInit {
     this.configSettingsService.getApplicationInfo()
       .subscribe((response: any) => {
         this.applicationConfiguration = response;
+        this.applicationConfiguration.unitOfMeassurement = this.applicationConfiguration.unitOfMeassurement.filter(
+          uomObj => uomObj.isDisplay
+        );
         this.getUserDetailInfo();
         // this.uomArray = new Array[this.applicationConfiguration.unitOfMeassurement.length];
       });

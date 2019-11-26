@@ -540,6 +540,7 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
     this.location.address[0].country = null;
     this.location.timeZoneId = null;
     this.location.localeId = null;
+
   }
 
   getScreenLabels() {
@@ -553,8 +554,15 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
     this.configSettingsService.getApplicationInfo()
       .subscribe((response: any) => {
         this.applicationConfiguration = response;
+        this.applicationConfiguration.unitOfMeassurement = this.applicationConfiguration.unitOfMeassurement.filter(
+          uomObj => uomObj.isDisplay
+        );
         if (this.locId) {
           this.getLocationById();
+        } else {
+          this.locMeasurementType = 'Imperial';
+          const uom = this.applicationConfiguration.unitOfMeassurement;
+          this.fillUoM(uom, 'imperialDefault');
         }
       });
   }
@@ -801,6 +809,7 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
         delete this.uomModels[key];
       }
     });
+    console.log(this.uomModels);
     // this.setUOMMeasurement();
   }
 
