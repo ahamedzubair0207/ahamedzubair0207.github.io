@@ -1,4 +1,4 @@
-import { location } from './../../../../assets/projects/swimlane/ngx-datatable/src/lib/utils/facade/browser';
+// import { location } from './../../../../assets/projects/swimlane/ngx-datatable/src/lib/utils/facade/browser';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { LocationService } from 'src/app/services/locations/location.service';
