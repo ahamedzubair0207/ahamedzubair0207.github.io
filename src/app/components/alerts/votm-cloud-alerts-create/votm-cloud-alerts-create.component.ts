@@ -393,6 +393,12 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
     ];
   }
 
+  onChangeOfClosure(closureFlag) {
+    if (!closureFlag) {
+      this.alert.escalateTime = 0;
+    }
+  }
+
   getAlertRuleSignalAssociatedAssetByOrgId() {
     if (this.alert.uomTypeId) {
       this.alertsService.getAlertRuleSignalAssociatedAssetByOrgId(this.orgId, this.alertId, this.alert.uomTypeId)

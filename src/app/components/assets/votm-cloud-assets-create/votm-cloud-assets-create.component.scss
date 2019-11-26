@@ -81,7 +81,7 @@
 .modal {
   display: none; /* Hidden by default */
   position: fixed; /* Stay in place */
-  z-index: 1; /* Sit on top */
+  z-index: 3; /* Sit on top */
   padding-top: 50px; /* Location of the box */
   left: 0;
   top: 0;
@@ -334,7 +334,7 @@ span.loc-extent {
     justify-content: center;
     text-align: center;
     display: flex;
-    /* flex: 1 1 100%; 
+    /* flex: 1 1 100%;
     align-items: center*/
 }
 .asset-btm-same{

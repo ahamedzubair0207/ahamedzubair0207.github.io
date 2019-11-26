@@ -52,8 +52,6 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
   imgSourceWidth = null;
   imgOffsetWidth = null;
   imgOffsetHeight = null;
-  batterySignalId = 'e9326142-068b-494b-bff7-421a44fa0cae';
-  signalSignalId = 'fa7b422d-2018-4fdb-ba50-0b4be9bf2735';
   displaySignalHoverContent: any = {};
   orgId: string;
   message: string;
@@ -407,6 +405,7 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
       });
       if (index !== -1) {
         this.associatedSignals[index].latestValue = jsonData.SignalValue;
+        this.associatedSignals[index].modifiedOn = jsonData.RecievedDateTime;
       }
 
     });
