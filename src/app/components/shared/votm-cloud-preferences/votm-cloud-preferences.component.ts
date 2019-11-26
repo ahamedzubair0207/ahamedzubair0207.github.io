@@ -130,6 +130,10 @@ export class VotmCloudPreferencesComponent implements OnInit, AfterViewInit {
         if (this.userprofile.logo && this.userprofile.logo.imageName) {
           this.fileExtension = this.userprofile.logo.imageName.slice
             ((Math.max(0, this.userprofile.logo.imageName.lastIndexOf('.')) || Infinity) + 1);
+          // For svg type files use svg+xml as extention
+          if (this.fileExtension === 'svg') {
+            this.fileExtension = 'svg+xml';
+          }
           this.userImgURL = this.domSanitizer.bypassSecurityTrustUrl
             (`data:image/${this.fileExtension};base64,${this.userprofile.logo.image}`);
           // this.userprofile.logo.imageType = this.fileExtension;
