@@ -427,6 +427,10 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
         this.onLocaleChange();
         if (this.organization.logo && this.organization.logo.imageName) {
           this.fileExtension = this.organization.logo.imageName.slice((Math.max(0, this.organization.logo.imageName.lastIndexOf(".")) || Infinity) + 1);
+          // For svg type files use svg+xml as extention
+          if (this.fileExtension === 'svg') {
+            this.fileExtension = 'svg+xml';
+          }
           this.imgURL = this.domSanitizer.bypassSecurityTrustUrl(`data:image/${this.fileExtension};base64,${this.organization.logo.image}`);
           this.organization.logo.imageType = this.fileExtension;
         }

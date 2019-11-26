@@ -616,12 +616,13 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
         } else {
           data = e.target.result;
         }
-        let base64textString;
-        if (this.location.logo && this.location.logo.imageType === 'image/svg+xml') {
-          base64textString = data;
-        } else {
-          base64textString = btoa(data);
-        }
+        // let base64textString;
+        // if (this.location.logo && this.location.logo.imageType === 'image/svg+xml') {
+        //   base64textString = data;
+        // } else {
+        //   base64textString = btoa(data);
+        // }
+        const base64textString = btoa(data);
 
         // console.log('this.organization ', this.location, data);
         this.location.logo.image = base64textString;
