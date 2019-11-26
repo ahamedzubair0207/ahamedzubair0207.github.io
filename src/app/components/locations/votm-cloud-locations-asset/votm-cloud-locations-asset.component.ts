@@ -82,8 +82,12 @@ export class VotmCloudLocationsAssetComponent implements OnInit {
       response => {
         this.location = response;
         if (this.location.logo && this.location.logo.imageName) {
-          const fileExtension = this.location.logo.imageName.slice(
+          let fileExtension = this.location.logo.imageName.slice(
             (Math.max(0, this.location.logo.imageName.lastIndexOf('.')) || Infinity) + 1);
+          // For svg type files use svg+xml as extention
+          if (fileExtension === 'svg') {
+            fileExtension = 'svg+xml';
+          }
           this.imgURL = this.domSanitizer.bypassSecurityTrustUrl(`data:image/${fileExtension};base64,${this.location.logo.image}`);
         } else {
           this.imgURL = '../../../../assets/images/default-image-svg.svg';

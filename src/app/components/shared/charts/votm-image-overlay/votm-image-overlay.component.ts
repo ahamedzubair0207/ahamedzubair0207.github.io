@@ -326,8 +326,12 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
       .subscribe(response => {
         this.widgetImageData = response;
         if (this.widgetImageData.logo && this.widgetImageData.logo.imageName) {
-          const fileExtension = this.widgetImageData.logo.imageName.slice(
+          let fileExtension = this.widgetImageData.logo.imageName.slice(
             (Math.max(0, this.widgetImageData.logo.imageName.lastIndexOf('.')) || Infinity) + 1);
+          // For svg type files use svg+xml as extention
+          if (fileExtension === 'svg') {
+            fileExtension = 'svg+xml';
+          }
           this.widgetimgURL = this.domSanitizer.bypassSecurityTrustUrl
           (`data:image/${fileExtension};base64,${this.widgetImageData.logo.image}`);
         } else {
@@ -341,8 +345,12 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
       .subscribe(response => {
         this.widgetImageData = response;
         if (this.widgetImageData.logo && this.widgetImageData.logo.imageName) {
-          const fileExtension = this.widgetImageData.logo.imageName.slice(
+          let fileExtension = this.widgetImageData.logo.imageName.slice(
             (Math.max(0, this.widgetImageData.logo.imageName.lastIndexOf('.')) || Infinity) + 1);
+          // For svg type files use svg+xml as extention
+          if (fileExtension === 'svg') {
+            fileExtension = 'svg+xml';
+          }
           this.widgetimgURL = this.domSanitizer.bypassSecurityTrustUrl
           (`data:image/${fileExtension};base64,${this.widgetImageData.logo.image}`);
         } else {

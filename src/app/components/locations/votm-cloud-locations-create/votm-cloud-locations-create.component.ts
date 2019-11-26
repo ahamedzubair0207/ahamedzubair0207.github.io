@@ -346,6 +346,10 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
         }
         if (this.location.logo && this.location.logo.imageName) {
           this.fileExtension = this.location.logo.imageName.slice((Math.max(0, this.location.logo.imageName.lastIndexOf('.')) || Infinity) + 1);
+          // For svg type files use svg+xml as extention
+          if (this.fileExtension === 'svg') {
+            this.fileExtension = 'svg+xml';
+          }
           const base64Img = `data:image/${this.fileExtension};base64,${this.location.logo.image}`
           this.imgURL = this.domSanitizer.bypassSecurityTrustUrl(base64Img);
           const img = new Image();

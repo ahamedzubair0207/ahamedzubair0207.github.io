@@ -302,6 +302,10 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
           this.asset.parentAssetName = this.parentAssetName;
           if (this.asset.logo && this.asset.logo.imageName) {
             this.fileExtension = this.asset.logo.imageName.slice((Math.max(0, this.asset.logo.imageName.lastIndexOf('.')) || Infinity) + 1);
+            // For svg type files use svg+xml as extention
+            if (this.fileExtension === 'svg') {
+              this.fileExtension = 'svg+xml';
+            }
             const base64Img = `data:image/${this.fileExtension};base64,${this.asset.logo.image}`;
             this.imgURL = this.domSanitizer.bypassSecurityTrustUrl(base64Img);
             const img = new Image();
@@ -324,7 +328,11 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
     this.assetService.getAssetById(parentAssetId)
       .subscribe(response => {
         if (response.logo && response.logo.imageName) {
-          const fileExtension = response.logo.imageName.slice((Math.max(0, response.logo.imageName.lastIndexOf('.')) || Infinity) + 1);
+          let fileExtension = response.logo.imageName.slice((Math.max(0, response.logo.imageName.lastIndexOf('.')) || Infinity) + 1);
+          // For svg type files use svg+xml as extention
+          if (fileExtension === 'svg') {
+            fileExtension = 'svg+xml';
+          }
           const base64Img = `data:image/${fileExtension};base64,${response.logo.image}`;
           this.parentAssetImageURL = this.domSanitizer.bypassSecurityTrustUrl(base64Img);
         }
