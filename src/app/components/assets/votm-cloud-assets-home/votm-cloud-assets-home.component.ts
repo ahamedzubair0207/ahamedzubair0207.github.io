@@ -35,6 +35,7 @@ export class VotmCloudAssetsHomeComponent implements OnInit {
   subscriptions: Subscription[] = [];
   templateList: any[] = [];
   locationId: any;
+  loader: boolean;
 
 
   constructor(
@@ -94,12 +95,14 @@ export class VotmCloudAssetsHomeComponent implements OnInit {
   }
 
   fetchAssetsTreeById() {
+    this.loader = true;
     this.subscriptions.push(this.assetService.getAssetTreeByLocId(this.locationId)
       .subscribe(response => {
         this.assetsList =[];
         if (response && response.length > 0) {
           this.assetsList = this.fillAssetData(response);
         }
+        this.loader = false;
       }));
   }
 
@@ -108,12 +111,14 @@ export class VotmCloudAssetsHomeComponent implements OnInit {
   }
 
   fetchAllAssetsTree() {
+    this.loader = true;
     this.subscriptions.push(this.assetService.getAssetTreeByOrgId(this.parentOrgId)
       .subscribe(response => {
         this.assetsList =[];
         if (response && response.length > 0) {
           this.assetsList = this.fillAssetData(response);
         }
+        this.loader = false;
         // this.assetsList = response;
       }));
   }

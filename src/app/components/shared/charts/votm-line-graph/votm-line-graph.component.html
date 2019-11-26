@@ -1,5 +1,5 @@
 <div class="border p-2 h-100 w-100 position-relative">
-  <div id="{{ wId }}" class="w-100 h-100">
+  <div #graphDiv id="{{ wId }}" class="w-100 h-100">
     <div class="text-center con-wid-preview" *ngIf="!configured">
       <img class="img-fluid img-fluid-custom" src="../../../../../assets/images/configure_trend_chart_widget.jpg">
   </div>
@@ -8,16 +8,22 @@
   
   <div class="text-right range-actions mr-2">
     <div *ngIf="configured" class="btn-group btn-group-toggle" ngbRadioGroup name="radioBasic" [(ngModel)]="selDateRange" (change)="onRadioGroupChange()">
-      <label ngbButtonLabel class="btn-outline-secondary btn-sm"> <input ngbButton type="radio" value="5m" />5m</label>
-      <label ngbButtonLabel class="btn-outline-secondary btn-sm"> <input ngbButton type="radio" value="10m" />10m</label>
-      <label ngbButtonLabel class="btn-outline-secondary btn-sm"> <input ngbButton type="radio" value="20m" />20m</label>
-      <label ngbButtonLabel class="btn-outline-secondary btn-sm"> <input ngbButton type="radio" value="30m" />30m</label>
+      <!-- <label ngbButtonLabel class="btn-outline-secondary btn-sm"> <input ngbButton type="radio" value="5m" />5m</label> -->
+      <label ngbButtonLabel class="btn-outline-secondary btn-sm"> <input ngbButton type="radio" value="1m" />1M</label>
+      <!-- <label ngbButtonLabel class="btn-outline-secondary btn-sm"> <input ngbButton type="radio" value="10m" />10m</label> -->
       <label ngbButtonLabel class="btn-outline-secondary btn-sm"> <input ngbButton type="radio" value="1h" />1H</label>
-      <!-- <label ngbButtonLabel class="btn-outline-secondary btn-sm"> <input ngbButton type="radio" value="3Month" />5H</label> -->
-      <label ngbButtonLabel class="btn-outline-secondary btn-sm"> <input ngbButton type="radio" value="10h" />10H</label>
-      <!-- <label ngbButtonLabel class="btn-outline-secondary btn-sm"> <input ngbButton type="radio" value="YTD" />20H</label> -->
+      <!-- <label ngbButtonLabel class="btn-outline-secondary btn-sm"> <input ngbButton type="radio" value="20m" />20m</label> -->
       <label ngbButtonLabel class="btn-outline-secondary btn-sm"> <input ngbButton type="radio" value="1d" />1D</label>
-      <!-- <label ngbButtonLabel class="btn-outline-secondary btn-sm"> <input ngbButton type="radio" value="All" />all</label> -->
+      <!-- <label ngbButtonLabel class="btn-outline-secondary btn-sm"> <input ngbButton type="radio" value="30m" />30m</label> -->
+      <label ngbButtonLabel class="btn-outline-secondary btn-sm"> <input ngbButton type="radio" value="1w" />1W</label>
+      <!-- <label ngbButtonLabel class="btn-outline-secondary btn-sm"> <input ngbButton type="radio" value="1h" />1H</label> -->
+      <label ngbButtonLabel class="btn-outline-secondary btn-sm"> <input ngbButton type="radio" value="3mo" />3M</label>
+      <!-- <label ngbButtonLabel class="btn-outline-secondary btn-sm"> <input ngbButton type="radio" value="10h" />10H</label> -->
+      <label ngbButtonLabel class="btn-outline-secondary btn-sm"> <input ngbButton type="radio" value="6mo" />6M</label>
+      <!-- <label ngbButtonLabel class="btn-outline-secondary btn-sm"> <input ngbButton type="radio" value="1d" />1D</label> -->
+       <label ngbButtonLabel class="btn-outline-secondary btn-sm"> <input ngbButton type="radio" value="year" />1Y</label>
+       <label ngbButtonLabel class="btn-outline-secondary btn-sm"> <input ngbButton type="radio" value="ytd" />YTD</label>
+      <label ngbButtonLabel class="btn-outline-secondary btn-sm"> <input ngbButton type="radio" value="all" />All</label>
     </div>
   </div>
 
@@ -53,6 +59,10 @@
         </button>
       </div>
     </div>
+    <!-- <div *ngIf="configured">
+      <i class="icon-clock" (click)="onRefreshClick()"></i>
+    </div> -->
+    <a *ngIf="configured"><i class="icon-clock" (click)="onRefreshClick()"></i></a>
     <a (click)="open(config)" [class.d-none]="locked"><i class="icon-cog"></i></a>
     <!-- <a (click)="open(config)"  [class.d-none]="locked"><i class="icon-cog"></i></a> -->
   </div>
@@ -61,23 +71,23 @@
 
 <ng-template #config let-modal>
   <div class="modal-header">
-    <h5 class="modal-title">Configure Trend Chart</h5>
+    <h5 class="modal-title">{{pageLabels.ConfigureTrendChart.labelName}}</h5>
     <button type="button" class="close" (click)="modal.dismiss()">
       <span>&times;</span>
     </button>
   </div>
   <div class="modal-body">
     <div class="form-group form-row">
-      <label class="col-3 col-form-label mandatory">Signals</label>
+      <label class="col-3 col-form-label mandatory">{{pageLabels.Signals.labelName}}</label>
       <div class="col-9">
         <div class="table-fixed">
           <table class="table table-sm table-bordered">
             <thead>
               <tr>
-                <th scope="col" class="">Signal Name</th>
-                <th scope="col" class="">Signal Type</th>
-                <th scope="col" class="text-center">Y1</th>
-                <th scope="col" class="text-center">Y2</th>
+                <th scope="col" class="">{{pageLabels.SignalName.labelName}}</th>
+                <th scope="col" class="">{{pageLabels.SignalType.labelName}}</th>
+                <th scope="col" class="text-center">{{pageLabels.Y1.labelName}}</th>
+                <th scope="col" class="text-center">{{pageLabels.Y2.labelName}}</th>
               </tr>
             </thead>
             <tbody>
@@ -118,7 +128,7 @@
       </div>
     </div>
     <div class="form-group form-row">
-      <label for="axisDateRngSelect" class="col-3 col-form-label mandatory">Time Range</label>
+      <label for="axisDateRngSelect" class="col-3 col-form-label mandatory">{{pageLabels.DateRange.labelName}}</label>
       <div class="col-3">
         <ng-select autofocus labelForId="axisDateRngSelect" class="custom" [(ngModel)]="selDateRange">
          <ng-option *ngFor="let dr of dateRange" [value]="dr.value">{{dr.name}}</ng-option>
@@ -135,8 +145,9 @@
         </ng-select>
       </div>
     </div>
-    <div *ngIf="yAxisSignals[0] > 0" class="form-group form-row">
-      <label for="LeftAxis" class="col-3 col-form-label mandatory">Left Axis Range (Y1)</label>
+    <!-- <div *ngIf="yAxisSignals[0] > 0" class="form-group form-row"> -->
+        <div *ngIf="yAxisSignals[0] > 0" class="form-group form-row">
+      <label for="LeftAxis" class="col-3 col-form-label mandatory">{{pageLabels.LeftAxisRange.labelName}}</label>
       <div class="col-3">
         <ng-select autofocus labelForId="axisY1RngSelect" class="custom" [(ngModel)]="selYAxisRange[0]">
           <ng-option value="auto">Auto</ng-option>
@@ -166,7 +177,7 @@
       </div>
     </div>
     <div *ngIf="yAxisSignals[1] > 0" class="form-group form-row">
-      <label for="RightAxis" class="col-3 col-form-label mandatory">Right Axis Range (Y2)</label>
+      <label for="RightAxis" class="col-3 col-form-label mandatory">{{pageLabels.RightAxisRange.labelName}}</label>
       <div class="col-3">
         <ng-select #axisY2RngSelect labelForId="axisY2RngSelect" class="custom" [(ngModel)]="selYAxisRange[1]">
           <ng-option value="auto">Auto</ng-option>
@@ -196,46 +207,46 @@
       </div>
     </div>
     <div class="form-group form-row">
-      <label for="title" class="col-3 col-form-label">Chart Title</label>
+      <label for="title" class="col-3 col-form-label">{{pageLabels.ChartTitle.labelName}}</label>
       <div class="col-9">
         <input type="text" class="form-control" id="title" [(ngModel)]="wConfig['title']" />
       </div>
     </div>
     <div class="form-group form-row">
-      <label for="showThresholds" class="col-3 col-form-label mandatory">Display thresholds</label>
+      <label for="showThresholds" class="col-3 col-form-label mandatory">{{pageLabels.DisplayThresholds.labelName}}</label>
       <div class="col-9">
         <div class="custom-control custom-radio custom-control-inline" style="padding-top: calc(.25rem + 1px);">
           <input type="radio" checked id="noThresholds" name="showThresholds" class="custom-control-input" />
-          <label class="custom-control-label" for="noThresholds">None</label>
+          <label class="custom-control-label" for="noThresholds">{{pageLabels.None.labelName}}</label>
         </div>
         <div class="custom-control custom-radio custom-control-inline" style="padding-top: calc(.25rem + 1px);">
           <input type="radio" id="y1Thresholds" name="showThresholds" class="custom-control-input" />
-          <label class="custom-control-label" for="y1Thresholds">Left Axis</label>
+          <label class="custom-control-label" for="y1Thresholds">{{pageLabels.LeftAxis.labelName}}</label>
         </div>
         <div class="custom-control custom-radio custom-control-inline" style="padding-top: calc(.25rem + 1px);">
           <input type="radio" id="y2Thresholds" name="showThresholds" class="custom-control-input" />
-          <label class="custom-control-label" for="y2Thresholds">Right Axis</label>
+          <label class="custom-control-label" for="y2Thresholds">{{pageLabels.RightAxis.labelName}}</label>
         </div>
       </div>
     </div>
     <div class="form-group form-row">
-      <label for="showEvents" class="col-3 col-form-label mandatory">Display defaults</label>
+      <label for="showEvents" class="col-3 col-form-label mandatory">{{pageLabels.DisplayDefaults.labelName}}</label>
       <div class="col-3">
         <div class="custom-control custom-switch" style="padding-top: calc(.25rem + 1px);">
           <input type="checkbox" class="custom-control-input" id="showEvents" [checked]="showEvents" (change)="toggleShowThresholds()" />
-          <label class="custom-control-label" for="showEvents">Event Flags</label>
+          <label class="custom-control-label" for="showEvents">{{pageLabels.RightAxis.labelName}}</label>
         </div>
       </div>
       <div class="col-3">
         <div class="custom-control custom-switch" style="padding-top: calc(.25rem + 1px);">
           <input type="checkbox" class="custom-control-input" id="showLegend" [checked]="showLegend" (change)="showLegend = !showLegend" />
-          <label class="custom-control-label" for="showLegend">Legends</label>
+          <label class="custom-control-label" for="showLegend">{{pageLabels.Legends.labelName}}</label>
         </div>
       </div>
       <div class="col-3">
         <div class="custom-control custom-switch" style="padding-top: calc(.25rem + 1px);">
           <input type="checkbox" class="custom-control-input" id="showMinMax" [checked]="showMinMax" (change)="showMinMax = !showMinMax" />
-          <label class="custom-control-label" for="showMinMax">Min/Max</label>
+          <label class="custom-control-label" for="showMinMax">{{pageLabels.MinMax.labelName}}</label>
         </div>
       </div>
     </div>

@@ -125,6 +125,7 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
 
   dashboardTabs: Array<DashBoard> = [];
   dashboardTab: DashBoard = new DashBoard();
+  loader: boolean;
 
   constructor(
     private modalService: NgbModal,
@@ -302,6 +303,7 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
   }
 
   getLocationById() {
+    this.loader = true;
     this.locationService.getLocationById(this.locId)
       .subscribe(response => {
         this.location = response;
@@ -377,6 +379,9 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
         // this.location.localeId = this.location.locale;
         // this.location.timeZoneId = this.location.timeZone;
         // this.location.uoMId = this.location.uoM;
+
+
+        this.loader = false;
       });
   }
 
@@ -526,7 +531,7 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
   }
 
   creteAsset(event) {
-    this.route.navigate([`asset/create/${this.curOrgId}/${this.curOrgName}/${this.location.locationId}/${this.location.locationName}`],{fragment:'subasset'});
+    this.route.navigate([`asset/create/${this.curOrgId}/${this.curOrgName}/${this.location.locationId}/${this.location.locationName}`], { fragment: 'subasset' });
   }
   locationObject() {
     this.location.address = [new Address()];
@@ -1045,16 +1050,16 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
   deleteLocationDashboardById(event) {
     console.log('deleteOrganizationDashboardById===', event);
     if (event) {
-       // delete dashboard service goes here
+      // delete dashboard service goes here
       this.dbService.deleteDashboard(this.dashboardTab.dashboardId)
-          .subscribe(response => {
-            this.toaster.onSuccess(`You have deleted ${this.dashboardTab.dashboardName} successfully`, 'Delete Success!');
-            // this.route.navigate([`loc/home/${this.curOrgId}/${this.curOrgName}`]);
-            this.routerLocation.back();
-          }, error => {
-            this.toaster.onFailure('Something went wrong on server. Please try after sometiime.', 'Delete Fail!');
-          });
-      }
+        .subscribe(response => {
+          this.toaster.onSuccess(`You have deleted ${this.dashboardTab.dashboardName} successfully`, 'Delete Success!');
+          // this.route.navigate([`loc/home/${this.curOrgId}/${this.curOrgName}`]);
+          this.routerLocation.back();
+        }, error => {
+          this.toaster.onFailure('Something went wrong on server. Please try after sometiime.', 'Delete Fail!');
+        });
+    }
   }
 
   getDashboardById(dashboardId: any) {

@@ -130,6 +130,10 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
   dashboardTabs: Array<DashBoard> = [];
   dashboardTab: DashBoard = new DashBoard();
   deleteDashboardId: any;
+  loader: boolean;
+  loaderForOptions: boolean;
+  prntOrgLoader: boolean;
+  loaderAppInfo: boolean;
 
   constructor(
     private assetService: AssetsService,
@@ -373,6 +377,7 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
 
 
   getOrganizationInfo() {
+    this.loader = true;
     this.organizationService.getOrganizationById(this.orgId)
       .subscribe(response => {
         this.organization = response;
@@ -435,6 +440,7 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
           }
         });
         this.setDefaultParentOrganizationOptions();
+        this.loader = false;
       });
   }
 
@@ -453,6 +459,7 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
   }
 
   getOptionsListData(listData: string) {
+    this.loaderForOptions = true;
     this.organizationService.getOptionsListData(listData)
       .subscribe(response => {
         if (listData === 'Service Levels') {
@@ -467,6 +474,8 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
           this.cellularBlocks = [];
           this.cellularBlocks = response;
         }
+
+        this.loaderForOptions = false;
       });
   }
 
@@ -499,6 +508,7 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
   }
 
   getAllAppInfo() {
+    this.loaderAppInfo = true;
     this.configSettingsService.getApplicationInfo()
       .subscribe((response: any) => {
         this.applicationConfiguration = response;
@@ -507,6 +517,8 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
           this.getOrganizationInfo();
         }
         this.onLocaleChange();
+
+        this.loaderAppInfo = false;
         // this.uomArray = new Array[this.applicationConfiguration.unitOfMeassurement.length];
       });
   }
@@ -784,6 +796,7 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
   }
 
   getAllOrganizations() {
+    this.prntOrgLoader = true;
     this.organizationService.getAllOrganizationsList()
       .subscribe(response => {
 
@@ -800,6 +813,8 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
         this.organizationList.sort(SortArrays.compareValues('name'));
         VotmCommon.getUniqueValues(this.organizationList);
         // this.organization.parentOrganizationId = JSON.parse(JSON.stringify(this.organization.parentOrganizationId));
+
+        this.prntOrgLoader = false;
       });
   }
 

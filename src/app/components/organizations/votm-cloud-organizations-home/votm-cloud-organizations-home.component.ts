@@ -30,10 +30,12 @@ export class VotmCloudOrganizationsHomeComponent implements OnInit {
   orgNameToDelete: any;
   message: any;
   searchedText: any;
+  loader: boolean;
 
   constructor(private orgservice: OrganizationService, private organizationService: OrganizationService, private route: ActivatedRoute, private toastr: ToastrService, private router: Router, private breadcrumbs: BreadcrumbsService) { }
 
   ngOnInit() {
+    this.loader = true;
     this.route.paramMap.subscribe((params: ParamMap) => {
       this.curOrgId = params.get('orgId');
       this.curOrgName = params.get('orgName');
@@ -75,6 +77,7 @@ export class VotmCloudOrganizationsHomeComponent implements OnInit {
   }
 
   fetchOrgList() {
+    this.loader = true;
     this.isGetOrganizationsApiLoading = true;
     this.orgservice.getOrganizationTree(this.curOrgId).subscribe(
       response => {
@@ -83,8 +86,10 @@ export class VotmCloudOrganizationsHomeComponent implements OnInit {
           this.organizationsList = this.fillOrganizationData(response);
         }
         this.isGetOrganizationsApiLoading = false;
+        this.loader = false;
       }, error => {
         this.isGetOrganizationsApiLoading = false;
+        this.loader = false;
       }
     );
   }

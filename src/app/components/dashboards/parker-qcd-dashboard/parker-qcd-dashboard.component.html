@@ -1,32 +1,33 @@
 <div class="row">
   <div class="col-12 col-md-6 pr-md-2">
-    <!-- <div class="embed-responsive embed-responsive-4by3 border">
+    <div class="embed-responsive embed-responsive-4by3">
       <div class="embed-responsive-item">
-        <app-votm-simple-gauge [id]="'wg1'" [data]="dbItem" [locked]="locked"></app-votm-simple-gauge>
+        <!-- <app-votm-simple-gauge [data]="dbItem" [locked]="locked"></app-votm-simple-gauge> -->
+        <app-votm-animated-gauge [id]="'wg1'" [data]="dbItem" [locked]="locked"></app-votm-animated-gauge>
       </div>
-    </div> -->
+    </div>
     <!-- <widget-image-overlay [id]="'wio1'" [data]="dbItem" [locked]="locked"></widget-image-overlay> -->
-    <app-votm-simple-gauge [id]="'wg1'" [data]="dbItem" [locked]="locked"></app-votm-simple-gauge>
+    <!-- <app-votm-simple-gauge [id]="'wg1'" [data]="dbItem" [locked]="locked"></app-votm-simple-gauge> -->
   </div>
 
   <div class="col-12 col-md-6 pl-md-2 pt-3 pt-md-0">
-    <!-- <div class="embed-responsive embed-responsive-4by3 border">
+    <div class="embed-responsive embed-responsive-4by3">
       <div class="embed-responsive-item">
-        <app-votm-pie-slice-chart [id]="'wg2'" [data]="dbItem" [locked]="locked"></app-votm-pie-slice-chart>
+        <app-votm-pie-slice-chart></app-votm-pie-slice-chart>
       </div>
-    </div> -->
+    </div>
     <!-- <widget-data-table [id]="'wdt1'" [data]="dbItem" [locked]="locked"></widget-data-table> -->
-    <app-votm-pie-slice-chart [id]="'wg2'" [data]="dbItem" [locked]="locked"></app-votm-pie-slice-chart>
+    <!-- <app-votm-pie-slice-chart [id]="'wg2'" [data]="dbItem" [locked]="locked"></app-votm-pie-slice-chart> -->
   </div>
 
   <div class="col-12 mt-3">
-    <!-- <div class="embed-responsive embed-responsive-21by9 border">
+    <div class="embed-responsive embed-responsive-21by9">
       <div class="embed-responsive-item">
         <app-votm-clustered-column-chart [id]="'wg3'" [data]="dbItem" [locked]="locked"></app-votm-clustered-column-chart>
       </div>
-    </div> -->
+    </div>
     <!-- <widget-trend [id]="'wt1'" [data]="dbItem" [locked]="locked"></widget-trend> -->
-    <app-votm-clustered-column-chart [id]="'wg3'" [data]="dbItem" [locked]="locked"></app-votm-clustered-column-chart>
+    <!-- <app-votm-clustered-column-chart [id]="'wg3'" [data]="dbItem" [locked]="locked"></app-votm-clustered-column-chart> -->
   </div>
 
 </div>

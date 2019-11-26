@@ -3,6 +3,7 @@ import { CustomHttp } from '../custom_http/custom_http.service';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { AppConstants } from '../../helpers/app.constants';
+import { Responsive } from '@amcharts/amcharts4/core';
 
 @Injectable({
   providedIn: 'root',
@@ -24,6 +25,13 @@ export class ConfigSettingsService {
       .pipe(
         map(response => response)
       );
+  }
+
+  getTrendChartConfigScreenLabels(): Observable<any>{
+    return this.http.get(AppConstants.TRENDCHART_LBL)
+    .pipe(
+      map(response => response)
+    );
   }
 
   // Need to interpolate strings for IDs once DB is in good shape

@@ -1,6 +1,8 @@
-<header>
-  <h5 class="mb-2 mt-2">Organizations</h5>
-  <!-- <div class="row">
+<app-votm-cloud-spinner *ngIf="loader else loadTemplate"></app-votm-cloud-spinner>
+<ng-template #loadTemplate>
+  <header>
+    <h5 class="mb-2 mt-2">Organizations</h5>
+    <!-- <div class="row">
     <div class="col-12 col-md-6 col-lg-6 col-xl-6">
       <form class="">
         <div class="row">
@@ -32,259 +34,144 @@
     </div>
   </div> -->
 
-</header>
+  </header>
 
-<!-- <div class="pre-scrollable"> -->
-<p-treeTable [scrollable]="true" #tt scrollHeight="680px" [globalFilterFields]="['name']" [resizableColumns]="true"
-  [value]="organizationsList" [autoLayout]="true" id="orgTbl">
-  <ng-template pTemplate="caption">
+  <p-treeTable [scrollable]="true" #tt scrollHeight="680px" [globalFilterFields]="['name']" [resizableColumns]="true"
+    [value]="organizationsList" [autoLayout]="true" id="orgTbl">
+    <ng-template pTemplate="caption">
 
-    <!-- <div class="row"> -->
-    <!-- <div class="col-12 col-md-6 col-lg-6 col-xl-6"> -->
-    <!-- <form class=""> -->
-    <div class="row">
-      <div class="col-4">
-        <div style="text-align: left;">
-          <!-- <div class="form-group"> -->
-          <!-- <label for="typeahead-config" id="org-filter" class="mr-2">Type to filter events:</label> -->
-          <div class="input-group input-group-sm">
-            <input name="organizationsearch" [(ngModel)]="searchedText" class="form-control" id="searchBox"
-              type="search" placeholder="Search" aria-label="Search">
-            <div class="input-group-append">
-              <span class="input-group-text p-0">
-                <button [disabled]="!searchedText" class="btn btn-sm btn-search" id="searchButton"
-                  (click)="onOrganizationSearch()" type="submit"><i class="icon-search"></i></button>
-              </span>
+      <!-- <div class="row"> -->
+      <!-- <div class="col-12 col-md-6 col-lg-6 col-xl-6"> -->
+      <!-- <form class=""> -->
+      <div class="row">
+        <div class="col-4">
+          <div style="text-align: left;">
+            <!-- <div class="form-group"> -->
+            <!-- <label for="typeahead-config" id="org-filter" class="mr-2">Type to filter events:</label> -->
+            <div class="input-group input-group-sm">
+              <input name="organizationsearch" [(ngModel)]="searchedText" class="form-control" id="searchBox"
+                type="search" placeholder="Search" aria-label="Search">
+              <div class="input-group-append">
+                <span class="input-group-text p-0">
+                  <button [disabled]="!searchedText" class="btn btn-sm btn-search" id="searchButton"
+                    (click)="onOrganizationSearch()" type="submit"><i class="icon-search"></i></button>
+                </span>
+              </div>
             </div>
           </div>
+          <!-- </div> -->
         </div>
-        <!-- </div> -->
+        <div class="col-8">
+          <button id="org-create" [routerLink]="['/org/create', curOrgId, curOrgName]" type="button"
+            class="btn btn-sm btn-info btn-group-right ml-2">
+            <i class="pr-2 icon-organization-add"></i>Create Organization</button>
+          <button id="org-create-loc" [routerLink]="['/loc/create', curOrgId, curOrgName]" type="button"
+            class="btn btn-sm btn-info loc-table-fonts btn-group-right">
+            <i class="pr-2 icon-location-add"></i>Create Location</button>
+        </div>
       </div>
-      <div class="col-8">
-        <button id="org-create" [routerLink]="['/org/create', curOrgId, curOrgName]" type="button"
-          class="btn btn-sm btn-info btn-group-right ml-2">
-          <i class="pr-2 icon-organization-add"></i>Create Organization</button>
-        <button id="org-create-loc" [routerLink]="['/loc/create', curOrgId, curOrgName]" type="button"
-          class="btn btn-sm btn-info loc-table-fonts btn-group-right">
-          <i class="pr-2 icon-location-add"></i>Create Location</button>
-      </div>
-    </div>
-    <!-- </form> -->
-    <!-- </div> -->
-    <!-- </div> -->
-    <!-- <i class="icon-search" style="margin:4px 4px 0 0"></i>
+      <!-- </form> -->
+      <!-- </div> -->
+      <!-- </div> -->
+      <!-- <i class="icon-search" style="margin:4px 4px 0 0"></i>
       <input type="text" pInputText size="20" placeholder="Type to filter"
         (input)="tt.filterGlobal($event.target.value, 'contains')" style="width:auto" id="organizationFilter"> -->
 
-  </ng-template>
-  <ng-template pTemplate="colgroup">
-    <colgroup>
-      <col>
-      <col [style.width.px]="130">
-      <col [style.width.px]="130">
-      <col>
-      <col>
-      <col>
-      <col [style.width.px]="60">
-      <col [style.width.px]="130">
-      <!-- <col [style.width.px]="108"> -->
-    </colgroup>
-  </ng-template>
-  <ng-template pTemplate="header">
-    <tr style="background-color: #dee2e6;">
-      <th ttResizableColumn ttSortableColumn="name">Name
-        <p-treeTableSortIcon field="name"></p-treeTableSortIcon>
-      </th>
-      <th ttResizableColumn ttSortableColumn="type">Type
-        <p-treeTableSortIcon field="type"></p-treeTableSortIcon>
-      </th>
-      <th ttResizableColumn ttSortableColumn="customerNo">Customer #
-        <p-treeTableSortIcon field="customerNo"></p-treeTableSortIcon>
-      </th>
-      <th ttResizableColumn ttSortableColumn="contractStart">Contract Start
-        <p-treeTableSortIcon field="contractStart"></p-treeTableSortIcon>
-      </th>
-      <th ttResizableColumn ttSortableColumn="contractEnd">Contract End
-        <p-treeTableSortIcon field="contractEnd"></p-treeTableSortIcon>
-      </th>
-      <th ttResizableColumn ttSortableColumn="serviceLevel">Service Level
-        <p-treeTableSortIcon field="serviceLevel"></p-treeTableSortIcon>
-      </th>
-      <th ttResizableColumn>Status</th>
-      <th ttResizableColumn class="align-center">Actions</th>
-      <!-- <th class="text-center" ttResizableColumn>Associations</th> -->
-    </tr>
-  </ng-template>
-  <ng-template pTemplate="body" let-rowNode let-rowData="rowData">
-    <tr [ttRow]="rowNode">
-
-      <td class="align-left">
-        <span container="body" [ngbTooltip]="rowData.name" class="underline-on-hover">
-          <p-treeTableToggler [rowNode]="rowNode"></p-treeTableToggler>
-          <a style="color: #212529;" [routerLink]="['/org/view', curOrgId, curOrgName, rowData.id]">
-            <i class="icon-org-company"></i>{{rowData.name}}
-          </a>
-        </span>
-      </td>
-      <td class="align-left">{{rowData.type}}</td>
-      <td class="align-left">{{rowData.customerNo}}</td>
-      <td class="align-left">{{rowData.contractStart.split(" ")[0]}}</td>
-      <td class="align-left">{{rowData.contractEnd.split(" ")[0]}}</td>
-      <td class="align-left">{{rowData.serviceLevel}}</td>
-      <td class="align-center"><i class="icon-go" style="color: #28a745;"></i></td>
-      <td class="align-center">
-        <a class="action-icon" container="body" ngbTooltip="Location"
-          [routerLink]="['/loc/home', rowData.id, rowData.name]">
-          <i class="icon-location-list"></i>
-        </a>
-
-        <a class="action-icon" container="body" ngbTooltip="Edit"
-          [routerLink]="['/org/edit',curOrgId, curOrgName, rowData.id]">
-          <i class="icon-edit"></i>
-        </a>
-        <a class="action-icon" container="body" ngbTooltip="Delete"
-          *ngIf="rowData.id.toUpperCase() !== curOrgId.toUpperCase()"
-          (click)="openConfirmDialog(rowData.id, rowData.name)" title="Delete">
-          <i class="icon-trash"></i>
-        </a>
-      </td>
-    </tr>
-  </ng-template>
-
-  <tbody *ngIf="!isGetOrganizationsApiLoading">
-    <ng-container *ngIf="organizationsList.length > 0">
-      <ng-container *ngTemplateOutlet="recursiveTableList; context:{ orgList: organizationsList, level: 0 }">
-      </ng-container>
-    </ng-container>
-    <tr *ngIf="organizationsList.length === 0">
-      <td colspan="8"><i class="fa fa-spinner fa-spin fa-2x fa-fw"></i></td>
-    </tr>
-  </tbody>
-  <tbody *ngIf="isGetOrganizationsApiLoading">
-    <i class="fa fa-spinner fa-spin fa-2x fa-fw"> No Organizations data found.</i>
-  </tbody>
-  <!-- <ng-template pTemplate="emptymessage">
-    <tr>
-      <td [attr.colspan]="8">No data found.</td>
-    </tr>
-  </ng-template> -->
-</p-treeTable>
-<!-- </div> -->
-
-
-<!-- <ng-template #recursiveTableList let-list="orgList" let-lvl="level">
-  <ng-container *ngFor="let item of list">
-
-    <tr>
-      <th scope="row" (click)="item.opened = !item.opened" [ngStyle]="{'padding-left.px': 15*(lvl+1)}">
-        <i class="icon-org-company"></i>
-        <a style="color: #212529;" [routerLink]="['/org/view', curOrgId, curOrgName, item.id]"> {{item.name}}</a>&nbsp;
-        <i *ngIf="item.node && item.node.length > 0 "
-          [ngClass]="{'fa': true, 'fa-caret-right': !item.opened, 'fa-caret-down': item.opened}"
-          id="dropdownParentItem"></i>
-      </th>
-      <td class="align-left">{{item.type}}</td>
-      <td class="align-left">{{item.customerNo}}</td>
-      <td class="align-left">{{item.contractStart.split(" ")[0]}}</td>
-      <td class="align-left">{{item.contractEnd.split(" ")[0]}}</td>
-      <td class="align-left">{{item.serviceLevel}}</td>
-      <td class="align-center"><i class="icon-go" style="color: #28a745;"></i></td>
-      <td class="align-center">
-        <a class="action-icon" title="List" [routerLink]="['/loc/home', item.id, item.name]">
-          <i class="icon-location"></i>
-        </a>
-        <a class="action-icon" title="Edit" [routerLink]="['/org/edit',curOrgId, curOrgName, item.id]">
-          <i class="icon-edit"></i>
-        </a>
-        <a class="action-icon" *ngIf="item.id.toUpperCase() !== curOrgId.toUpperCase()"
-          (click)="openConfirmDialog(item.id, item.name)" title="Delete">
-          <i class="icon-trash"></i>
-        </a>
-      </td>
-    </tr>
-
-    <ng-container *ngFor="let subItem of item.node">
-
-      <tr *ngIf="item.opened && subItem.entityType == 'Organization'">
-        <th scope="row" (click)="subItem.opened = !subItem.opened" [ngStyle]="{'padding-left.px': 15*(lvl+2)}">
-          <i class="icon-org-company"></i>
-          <a style="color: #212529;" [routerLink]="['/org/view', curOrgId, curOrgName, subItem.id]">
-            {{subItem.name}}</a>&nbsp;<i *ngIf="subItem.node.length > 0 "
-            [ngClass]="{'fa': true, 'fa-caret-right': !subItem.opened, 'fa-caret-down': subItem.opened}"
-            id="dropdownSubItem"></i>
+    </ng-template>
+    <ng-template pTemplate="colgroup">
+      <colgroup>
+        <col>
+        <col [style.width.px]="130">
+        <col [style.width.px]="130">
+        <col>
+        <col>
+        <col>
+        <col [style.width.px]="60">
+        <col [style.width.px]="130">
+        <!-- <col [style.width.px]="108"> -->
+      </colgroup>
+    </ng-template>
+    <ng-template pTemplate="header">
+      <tr style="background-color: #dee2e6;">
+        <th ttResizableColumn ttSortableColumn="name">Name
+          <p-treeTableSortIcon field="name"></p-treeTableSortIcon>
         </th>
-        <td class="align-left">{{subItem.type}}</td>
-        <td class="align-left">{{subItem.customerNo}}</td>
-        <td class="align-left">{{subItem.contractStart.split(" ")[0]}}</td>
-        <td class="align-left">{{subItem.contractEnd.split(" ")[0]}}</td>
-        <td class="align-left">{{subItem.serviceLevel}}</td>
+        <th ttResizableColumn ttSortableColumn="type">Type
+          <p-treeTableSortIcon field="type"></p-treeTableSortIcon>
+        </th>
+        <th ttResizableColumn ttSortableColumn="customerNo">Customer #
+          <p-treeTableSortIcon field="customerNo"></p-treeTableSortIcon>
+        </th>
+        <th ttResizableColumn ttSortableColumn="contractStart">Contract Start
+          <p-treeTableSortIcon field="contractStart"></p-treeTableSortIcon>
+        </th>
+        <th ttResizableColumn ttSortableColumn="contractEnd">Contract End
+          <p-treeTableSortIcon field="contractEnd"></p-treeTableSortIcon>
+        </th>
+        <th ttResizableColumn ttSortableColumn="serviceLevel">Service Level
+          <p-treeTableSortIcon field="serviceLevel"></p-treeTableSortIcon>
+        </th>
+        <th ttResizableColumn>Status</th>
+        <th ttResizableColumn class="align-center">Actions</th>
+        <!-- <th class="text-center" ttResizableColumn>Associations</th> -->
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rowNode let-rowData="rowData">
+      <tr [ttRow]="rowNode">
+
+        <td class="align-left">
+          <span container="body" [ngbTooltip]="rowData.name" class="underline-on-hover">
+            <p-treeTableToggler [rowNode]="rowNode"></p-treeTableToggler>
+            <a style="color: #212529;" [routerLink]="['/org/view', curOrgId, curOrgName, rowData.id]">
+              <i class="icon-org-company"></i>{{rowData.name}}
+            </a>
+          </span>
+        </td>
+        <td class="align-left">{{rowData.type}}</td>
+        <td class="align-left">{{rowData.customerNo}}</td>
+        <td class="align-left">{{rowData.contractStart.split(" ")[0]}}</td>
+        <td class="align-left">{{rowData.contractEnd.split(" ")[0]}}</td>
+        <td class="align-left">{{rowData.serviceLevel}}</td>
         <td class="align-center"><i class="icon-go" style="color: #28a745;"></i></td>
         <td class="align-center">
-          <a class="action-icon" title="Location" [routerLink]="['/loc/home', subItem.id, subItem.name]">
-            <i class="icon-location"></i>
+          <a class="action-icon" container="body" ngbTooltip="Location"
+            [routerLink]="['/loc/home', rowData.id, rowData.name]">
+            <i class="icon-location-list"></i>
           </a>
-        
-          <a class="action-icon" title="Edit" [routerLink]="['/org/edit',curOrgId, curOrgName, subItem.id]">
+
+          <a class="action-icon" container="body" ngbTooltip="Edit"
+            [routerLink]="['/org/edit',curOrgId, curOrgName, rowData.id]">
             <i class="icon-edit"></i>
           </a>
-          <a class="action-icon" (click)="openConfirmDialog(subItem.id, subItem.name)" title="Delete">
+          <a class="action-icon" container="body" ngbTooltip="Delete"
+            *ngIf="rowData.id.toUpperCase() !== curOrgId.toUpperCase()"
+            (click)="openConfirmDialog(rowData.id, rowData.name)" title="Delete">
             <i class="icon-trash"></i>
           </a>
         </td>
       </tr>
+    </ng-template>
 
-      <ng-container *ngIf="subItem.opened">
-        <ng-container *ngTemplateOutlet="recursiveTableList; context:{ orgList: subItem.node, level: lvl+2 }">
-        </ng-container>
-
-      </ng-container>
-    </ng-container>
-  </ng-container>
-</ng-template>
-
-<div class="table-responsive">
-  <table class="table table-sm table-bordered table-hover org-table-fonts" id="orgTbl">
-    <thead class="thead-dark">
-      <tr>
-        <th scope="col" class="align-left table-col-name">Name</th>
-        <th scope="col" class="align-left">Type</th>
-        <th scope="col" class="align-left">Customer #</th>
-        <th scope="col" class="align-left table-col-small">Contract Start</th>
-        <th scope="col" class="align-left table-col-small">Contract End</th>
-        <th scope="col" class="align-left table-col-small">Service Level</th>
-        <th scope="col" class="align-center table-col-small">Status</th>
-        <th scope="col" class="align-center table-col-small">Actions</th>
-      </tr>
-    </thead>
     <tbody *ngIf="!isGetOrganizationsApiLoading">
       <ng-container *ngIf="organizationsList.length > 0">
         <ng-container *ngTemplateOutlet="recursiveTableList; context:{ orgList: organizationsList, level: 0 }">
         </ng-container>
       </ng-container>
       <tr *ngIf="organizationsList.length === 0">
-        <td colspan="8"> No Organizations data found.</td>
+        <td colspan="8"><i class="fa fa-spinner fa-spin fa-2x fa-fw"></i></td>
       </tr>
     </tbody>
     <tbody *ngIf="isGetOrganizationsApiLoading">
-      <i class="fa fa-spinner fa-spin fa-2x fa-fw"></i>
+      <i class="fa fa-spinner fa-spin fa-2x fa-fw"> No Organizations data found.</i>
     </tbody>
-  </table>
-</div>
+    <!-- <ng-template pTemplate="emptymessage">
+    <tr>
+      <td [attr.colspan]="8">No data found.</td>
+    </tr>
+  </ng-template> -->
+  </p-treeTable>
 
- -->
-
-
-<!-- <li class="dropright">
-  <a class="dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-    Dropright
-  </a>
-  <div class="dropdown-menu">
-    <a class="dropdown-item" href="#">Link 1</a>
-    <a class="dropdown-item" href="#">Link 2</a>
-    <a class="dropdown-item" href="#">Link 3</a>
-  </div>
-</li> -->
-
+</ng-template>
 
 
 
