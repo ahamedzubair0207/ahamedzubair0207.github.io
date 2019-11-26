@@ -38,10 +38,14 @@
                 (mouseleave)="displaySignalHoverContent['s-'+i] = false"
                 [style.left.px]="imgOffsetLeft + item.imageCordinates[item.associationName].x * imgOffsetWidth - 16"
                 [style.top.px]="imgOffsetTop + item.imageCordinates[item.associationName].y * imgOffsetHeight - 16">
-                <ng-container *ngIf="!displaySignalHoverContent['s-' + i]; else hoveredContent" >{{item.latestValue}}</ng-container>
+                <ng-container
+                  *ngIf="!displaySignalHoverContent['s-' + i]; else hoveredContent" >
+                  <!-- <ng-container *ngIf="iconSize.includes('small')">&nbsp;</ng-container> -->
+                  <ng-container >{{item.latestValue}}</ng-container>
+                </ng-container>
                 <ng-template #hoveredContent>
                   <p><b>{{item.sensorName}}</b><br/>
-                  09/13/2019 11:45PM<br/>
+                  {{item.modifiedOn}}<br/>
                   <b>{{item.associationName}}:  {{item.latestValue}}</b></p>
                 </ng-template>
               </div>
@@ -61,7 +65,7 @@
             </ng-container>
             <ng-template #hoveredAssetContent>
               <p><b>QCD > {{item.locationName}} >  {{overLaySource === 'location' ? item.assetName : item.childAssetName}}</b><br/>
-              09/13/2019 11:45PM<br/>
+                {{item.modifiedOn}}<br/>
               <b>Critical alarm on asset</b></p>
               <hr class="mt-1 mb-1">
               <p><b>Critical: Control Cabinet Temperature</b><br/>

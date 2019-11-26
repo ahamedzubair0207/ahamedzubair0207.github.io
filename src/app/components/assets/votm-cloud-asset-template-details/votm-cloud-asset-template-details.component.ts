@@ -70,6 +70,10 @@ export class VotmCloudAssetTemplateDetailsComponent implements OnInit {
 
           if (this.template.logo && this.template.logo.imageName) {
             this.fileExtension = this.template.logo.imageName.slice((Math.max(0, this.template.logo.imageName.lastIndexOf('.')) || Infinity) + 1);
+            // For svg type files use svg+xml as extention
+            if (this.fileExtension === 'svg') {
+              this.fileExtension = 'svg+xml';
+            }
             this.imgURL = this.domSanitizer.bypassSecurityTrustUrl(`data:image/${this.fileExtension};base64,${this.template.logo.image}`);
             // this.userprofile.logo.imageType = this.fileExtension;
           }

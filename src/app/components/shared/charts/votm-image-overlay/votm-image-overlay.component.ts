@@ -52,8 +52,6 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
   imgSourceWidth = null;
   imgOffsetWidth = null;
   imgOffsetHeight = null;
-  batterySignalId = 'e9326142-068b-494b-bff7-421a44fa0cae';
-  signalSignalId = 'fa7b422d-2018-4fdb-ba50-0b4be9bf2735';
   displaySignalHoverContent: any = {};
   orgId: string;
   message: string;
@@ -328,8 +326,12 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
       .subscribe(response => {
         this.widgetImageData = response;
         if (this.widgetImageData.logo && this.widgetImageData.logo.imageName) {
-          const fileExtension = this.widgetImageData.logo.imageName.slice(
+          let fileExtension = this.widgetImageData.logo.imageName.slice(
             (Math.max(0, this.widgetImageData.logo.imageName.lastIndexOf('.')) || Infinity) + 1);
+          // For svg type files use svg+xml as extention
+          if (fileExtension === 'svg') {
+            fileExtension = 'svg+xml';
+          }
           this.widgetimgURL = this.domSanitizer.bypassSecurityTrustUrl
           (`data:image/${fileExtension};base64,${this.widgetImageData.logo.image}`);
         } else {
@@ -343,8 +345,12 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
       .subscribe(response => {
         this.widgetImageData = response;
         if (this.widgetImageData.logo && this.widgetImageData.logo.imageName) {
-          const fileExtension = this.widgetImageData.logo.imageName.slice(
+          let fileExtension = this.widgetImageData.logo.imageName.slice(
             (Math.max(0, this.widgetImageData.logo.imageName.lastIndexOf('.')) || Infinity) + 1);
+          // For svg type files use svg+xml as extention
+          if (fileExtension === 'svg') {
+            fileExtension = 'svg+xml';
+          }
           this.widgetimgURL = this.domSanitizer.bypassSecurityTrustUrl
           (`data:image/${fileExtension};base64,${this.widgetImageData.logo.image}`);
         } else {
@@ -407,6 +413,7 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
       });
       if (index !== -1) {
         this.associatedSignals[index].latestValue = jsonData.SignalValue;
+        this.associatedSignals[index].modifiedOn = jsonData.RecievedDateTime;
       }
 
     });

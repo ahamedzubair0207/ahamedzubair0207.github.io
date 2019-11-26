@@ -1,4 +1,4 @@
-import { location } from './../../../../assets/projects/swimlane/ngx-datatable/src/lib/utils/facade/browser';
+// import { location } from './../../../../assets/projects/swimlane/ngx-datatable/src/lib/utils/facade/browser';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { LocationService } from 'src/app/services/locations/location.service';
@@ -346,6 +346,10 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
         }
         if (this.location.logo && this.location.logo.imageName) {
           this.fileExtension = this.location.logo.imageName.slice((Math.max(0, this.location.logo.imageName.lastIndexOf('.')) || Infinity) + 1);
+          // For svg type files use svg+xml as extention
+          if (this.fileExtension === 'svg') {
+            this.fileExtension = 'svg+xml';
+          }
           const base64Img = `data:image/${this.fileExtension};base64,${this.location.logo.image}`
           this.imgURL = this.domSanitizer.bypassSecurityTrustUrl(base64Img);
           const img = new Image();
@@ -540,6 +544,7 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
     this.location.address[0].country = null;
     this.location.timeZoneId = null;
     this.location.localeId = null;
+
   }
 
   getScreenLabels() {
@@ -553,8 +558,15 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
     this.configSettingsService.getApplicationInfo()
       .subscribe((response: any) => {
         this.applicationConfiguration = response;
+        this.applicationConfiguration.unitOfMeassurement = this.applicationConfiguration.unitOfMeassurement.filter(
+          uomObj => uomObj.isDisplay
+        );
         if (this.locId) {
           this.getLocationById();
+        } else {
+          this.locMeasurementType = 'Imperial';
+          const uom = this.applicationConfiguration.unitOfMeassurement;
+          this.fillUoM(uom, 'imperialDefault');
         }
       });
   }
@@ -604,12 +616,13 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
         } else {
           data = e.target.result;
         }
-        let base64textString;
-        if (this.location.logo && this.location.logo.imageType === 'image/svg+xml') {
-          base64textString = data;
-        } else {
-          base64textString = btoa(data);
-        }
+        // let base64textString;
+        // if (this.location.logo && this.location.logo.imageType === 'image/svg+xml') {
+        //   base64textString = data;
+        // } else {
+        //   base64textString = btoa(data);
+        // }
+        const base64textString = btoa(data);
 
         // console.log('this.organization ', this.location, data);
         this.location.logo.image = base64textString;
@@ -801,6 +814,7 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
         delete this.uomModels[key];
       }
     });
+    console.log(this.uomModels);
     // this.setUOMMeasurement();
   }
 

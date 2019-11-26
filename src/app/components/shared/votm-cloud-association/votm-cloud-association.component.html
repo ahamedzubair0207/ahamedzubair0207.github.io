@@ -31,7 +31,7 @@
 
                   <div class="signal-list">
                     <ng-container *ngFor="let signal of sensor.node; let j = index">
-                      <ng-container *ngIf="signal.signalId !== batterySignalId && signal.signalId !== signalSignalId" >
+                      <ng-container *ngIf="signal.signalType.toLowerCase() !== batterySignalType && signal.signalType.toLowerCase() !== signalSignalType" >
                         <div
                           attr.sensorIx="{{ i }}"
                           attr.signalIx="{{ j }}"

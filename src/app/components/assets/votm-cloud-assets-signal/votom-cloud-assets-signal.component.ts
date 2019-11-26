@@ -71,7 +71,11 @@ export class VotomCloudAssetsSignalComponent implements OnInit {
       console.log('response from get ', response);
       this.asset = response;
       if (this.asset.logo.imageName && this.asset.logo.image) {
-        const fileExtension = this.asset.logo.imageName.slice((Math.max(0, this.asset.logo.imageName.lastIndexOf('.')) || Infinity) + 1);
+        let fileExtension = this.asset.logo.imageName.slice((Math.max(0, this.asset.logo.imageName.lastIndexOf('.')) || Infinity) + 1);
+        // For svg type files use svg+xml as extention
+        if (fileExtension === 'svg') {
+          fileExtension = 'svg+xml';
+        }
         this.imgURL = this.domSanitizer.bypassSecurityTrustUrl(
           'data:image/' + fileExtension + ';base64,' + this.asset.logo.image
         );

@@ -154,19 +154,19 @@
     border-radius: calc(1 * #{$h4-font-size} / 2 + 0px) !important;
     background: $qcd-white-90;
     transition: all 0.3s ease;
-    border-color: transparent;
+    border-color: $qcd-success-brd;
     cursor: pointer;
     &:hover{
-      border: 1px solid transparent;
+      border: 1px solid $qcd-success-brd;
       padding-left:calc(1 * #{$h4-font-size} + 3px);
     }
     &:before {
       width: calc(1 * #{$h4-font-size} + 0px);
       line-height: calc(1 * #{$h4-font-size} + 0px);
       border-radius: calc(1 * #{$h4-font-size} + 0px);
-      background-color: transparent;
+      background-color: $qcd-success;
       color: $white;
-      border-color: transparent;
+      border-color: $qcd-success-brd;
       position: absolute;
       left: 0px;
       top: 0px;
@@ -181,19 +181,19 @@
     border-radius: calc(1 * 2rem / 2 + 0px) !important;
     background: $qcd-white-90;
     transition: all 0.3s ease;
-    border-color: transparent;
+    border-color: $qcd-success-brd;
     cursor: pointer;
     &:hover{
-      border: 1px solid transparent;
+      border: 1px solid qcd-success;
       padding-left:calc(1.1 * 2rem + 0px);
     }
     &:before {
       width: calc(1 * 2rem + 0px);
       line-height: calc(1 * 2rem + 0px);
       border-radius: calc(1 * 2rem + 0px);
-      background-color: transparent;
+      background-color: $qcd-success;
       color: $white;
-      border-color: transparent;
+      border-color: $qcd-success-brd;
       position: absolute;
       left: 0px;
       top: 0px;
@@ -207,19 +207,19 @@
     border-radius: calc(1 * 3rem / 2 + 0px) !important;
     background: $qcd-white-90;
     transition: all 0.3s ease;
-    border-color: transparent;
+    border-color: $qcd-success-brd;
     cursor: pointer;
     &:hover{
-      border: 1px solid transparent;
+      border: 1px solid $qcd-success-brd;
       padding-left:calc(1.1 * 3rem + 0px);
     }
     &:before {
       width: calc(1 * 3rem + 0px);
       line-height: calc(1 * 3rem + 0px);
       border-radius: calc(1 * 3rem + 0px);
-      background-color: transparent;
+      background-color: $qcd-success;
       color: $white;
-      border-color: transparent;
+      border-color: $qcd-success-brd;
       position: absolute;
       left: 0px;
       top: 0px;
@@ -233,13 +233,13 @@
     border-radius: calc(1 * 5.75rem / 2 + 0px) !important;
     background: $qcd-white-90;
     transition: all 0.3s ease;
-    border-color: transparent;
+    border-color: $qcd-success-brd;
     cursor: pointer;
     p{
       line-height: 1.99rem !important;
     }
     &:hover{
-      border: 1px solid transparent;
+      border: 1px solid $qcd-success-brd;
       padding-left:calc(1 * 5.75rem + 0px);
       line-height: calc(1 * 1.99rem + 0px) !important;
     }
@@ -247,9 +247,9 @@
       width: calc(1 * 5.75rem + 0px);
       line-height: calc(1 * 5.75rem + 0px);
       border-radius: calc(1 * 5.75rem + 0px);
-      background-color: transparent;
+      background-color: $qcd-success;
       color: $white;
-      border-color: transparent;
+      border-color: $qcd-success-brd;
       position: absolute;
       left: 0px;
       top: 0px;
@@ -264,19 +264,19 @@
     border-radius: calc(1 * 9rem / 2 + 0px) !important;
     background: $qcd-white-90;
     transition: all 0.3s ease;
-    border-color: transparent;
+    border-color: $qcd-success-brd;
     cursor: pointer;
     &:hover{
-      border: 1px solid transparent;
+      border: 1px solid $qcd-success-brd;
       padding-left:calc(1 * 9rem + 0px);
     }
     &:before {
       width: calc(1 * 6rem + 0px);
       line-height: calc(1 * 9rem + 0px);
       border-radius: calc(1 * 9rem + 0px);
-      background-color: transparent;
+      background-color: $qcd-success;
       color: $white;
-      border-color: transparent;
+      border-color: $qcd-success-brd;
       position: absolute;
       left: 0px;
       top: 0px;

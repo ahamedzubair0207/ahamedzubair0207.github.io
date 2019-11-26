@@ -92,8 +92,12 @@ export class VotmCloudAssetChildComponent implements OnInit {
       response => {
         this.asset = response;
         if (this.asset.logo && this.asset.logo.imageName) {
-          const fileExtension = this.asset.logo.imageName.slice(
+          let fileExtension = this.asset.logo.imageName.slice(
             (Math.max(0, this.asset.logo.imageName.lastIndexOf('.')) || Infinity) + 1);
+          // For svg type files use svg+xml as extention
+          if (fileExtension === 'svg') {
+            fileExtension = 'svg+xml';
+          }
           this.imgURL = this.domSanitizer.bypassSecurityTrustUrl(`data:image/${fileExtension};base64,${this.asset.logo.image}`);
         } else {
           this.imgURL = '../../../../assets/images/assetPlaceholder.svg';
