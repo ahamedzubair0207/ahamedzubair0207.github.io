@@ -41,7 +41,7 @@
                 <ng-container
                   *ngIf="!displaySignalHoverContent['s-' + i]; else hoveredContent" >
                   <!-- <ng-container *ngIf="iconSize.includes('small')">&nbsp;</ng-container> -->
-                  <ng-container >{{item.latestValue}}</ng-container>
+                  <!-- <ng-container >{{item.latestValue}}</ng-container> -->
                 </ng-container>
                 <ng-template #hoveredContent>
                   <p><b>{{item.sensorName}}</b><br/>
@@ -61,14 +61,14 @@
               [style.top.px]="imgOffsetTop + item.imageCoordinates[overLaySource === 'location' ? item.assetId : item.childAssetId].y * imgOffsetHeight - 16"
             >
             <ng-container *ngIf="!displaySignalHoverContent['a-' + i]; else hoveredAssetContent" >
-                {{overLaySource === 'location' ? item.assetName : item.childAssetName}}
+                <!-- {{overLaySource === 'location' ? item.assetName : item.childAssetName}} -->
             </ng-container>
             <ng-template #hoveredAssetContent>
-              <p><b>QCD > {{item.locationName}} >  {{overLaySource === 'location' ? item.assetName : item.childAssetName}}</b><br/>
-                {{item.modifiedOn}}<br/>
+              <p><b>QCD > {{item.locationName}} >  {{overLaySource === 'location' ? item.assetName : item.childAssetName}}</b>
+                {{item.modifiedOn}}
               <b>Critical alarm on asset</b></p>
               <hr class="mt-1 mb-1">
-              <p><b>Critical: Control Cabinet Temperature</b><br/>
+              <p><b>Critical: Control Cabinet Temperature</b>
               Temperature: 142&deg; F<br/>
               Above critical threshold of 95&deg; F</p>
             </ng-template>
