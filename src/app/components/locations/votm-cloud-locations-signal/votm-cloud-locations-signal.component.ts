@@ -1,3 +1,4 @@
+import { SharedService } from 'src/app/services/shared.service';
 import { Alert } from './../../../models/alert.model';
 import { AlertsService } from 'src/app/services/alerts/alerts.service';
 import { Component, OnInit, OnDestroy, ViewChild, AfterViewInit, ViewEncapsulation, ElementRef, Input } from '@angular/core';
@@ -43,8 +44,8 @@ export class VotmCloudLocationsSignalComponent implements OnInit {
   constructor(
     private activatedRoute: ActivatedRoute,
     private route: Router,
-    private routerLocation: RouterLocation,
     private locationSignalService: LocationSignalService,
+    private sharedService: SharedService,
     private locationService: LocationService,
     private alertsService: AlertsService,
     private domSanitizer: DomSanitizer,
@@ -106,10 +107,11 @@ export class VotmCloudLocationsSignalComponent implements OnInit {
   getAllAvailableSignals() {
     this.isGetAvailableSignalsAPILoading = true;
     this.locationSignalService.getSignalsByLocation('location', this.locationId)
-      .subscribe(response => {
+      .subscribe(async response => {
         console.log(response);
         this.sensors = response;
         for (const sensor of this.sensors) {
+          sensor.node = await this.sharedService.toSortListAlphabetically(sensor.node, 'signalName');
           for (const signal of sensor.node) {
             signal.sensorId = sensor.sensorId;
             signal.sensorName = sensor.sensorName;
@@ -211,7 +213,7 @@ export class VotmCloudLocationsSignalComponent implements OnInit {
         imageCordinates: {},
         name: signal.signalName,
         associationName: signal.associationName,
-        signalMappingId: signal.signalMappingId ? signal.signalMappingId : undefined
+        signalMappingId: signal.signalMappingId ? signal.signalMappingId : null
       };
       obj.imageCordinates[signal.associationName] = {
         x: signal.pctPos['left'],

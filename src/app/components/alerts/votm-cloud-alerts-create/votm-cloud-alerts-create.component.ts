@@ -37,8 +37,17 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
   responsibilities: any[] = [];
   userResponsibities = {};
   assetsChecked = {};
-  ruleTypes: any[] = [];
-  metricTypes: any[] = [];
+  ruleTypes: any[] = [
+    {
+      id: '3D97A28E-7D8E-4C7D-98CE-251909FED1A9',
+      name: 'Absolute'
+    },
+    {
+      id: 'B45A2094-C4D6-4D36-B26C-3A9F195C6D6F',
+      name: 'Relative'
+    }
+  ];
+  signalTypes: any[] = [];
 
   accessScopes: any[] = [];
   alertId: string;
@@ -63,7 +72,7 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
   uomTypeId: any;
   metricChangeMessage: string;
   previousMetricType: string = '';
-
+  userId = '03c7fb47-58ee-4c41-a9d6-2ad0bd43392a';
 
 
   constructor(
@@ -80,6 +89,7 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
 
   ngOnInit() {
     this.pageType = this.activeroute.snapshot.data['type'];
+    console.log('dataaaaaaaaaaaaaaaaaaaaaa          ', this.activeroute.snapshot.data);
     this.activeroute.paramMap.subscribe(params => {
       this.curOrgId = params.get('curOrgId');
       this.curOrgName = params.get('curOrgName');
@@ -112,7 +122,7 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
             }
 
             this.getUserGroupName();
-
+            this.getAlertRuleSignalAssociatedAssetByOrgId();
             if (this.alert.alertRuleConfigurationMapping && this.alert.alertRuleConfigurationMapping.length) {
               this.alert.alertRuleConfigurationMapping.forEach(configuration => {
                 this.absoluteThresholds.forEach(threshold => {
@@ -147,17 +157,6 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
     this.getMeticTypes();
     this.getUserGroupRoles();
     this.getAllUserGroups();
-
-    this.ruleTypes = [
-      {
-        id: '3D97A28E-7D8E-4C7D-98CE-251909FED1A9',
-        name: 'Absolute'
-      },
-      {
-        id: 'B45A2094-C4D6-4D36-B26C-3A9F195C6D6F',
-        name: 'Relative'
-      }
-    ];
     if (this.pageType.toUpperCase() === ' CREATE') {
       this.alert.alertRuleConfigurationMapping = [];
       // this.alert.alertRuleConfigurationMapping.push({})
@@ -182,8 +181,7 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
   }
 
   onUserSelection(user) {
-    // // console.log('Notified User ', user);
-    let found: boolean = false;
+    let found = false;
     if (!this.alert.alertRuleUserGroup) {
       this.alert.alertRuleUserGroup = [];
     }
@@ -194,7 +192,8 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
     });
     if (!found) {
       this.userResponsibities[user.userId] = '';
-      this.alert.alertRuleUserGroup.splice(0, 0, { alertUserGroupRoleId: '', name: user.firstName + ' ' + user.lastName, userId: user.userId, userEmail: user.emailId });
+      this.alert.alertRuleUserGroup.splice(0, 0,
+        { alertUserGroupRoleId: '', name: user.firstName + ' ' + user.lastName, userId: user.userId, userEmail: user.emailId });
     }
     // // console.log(' this.alert.alertRuleUserGroup ', this.alert.alertRuleUserGroup);
   }
@@ -230,49 +229,42 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
   }
 
   getMeticTypes() {
-    this.alertsService.getAllMetricTypes()
+    this.alertsService.getAllSignalTypes()
       .subscribe(response => {
         // console.log('getMeticTypes ', response);
-        this.metricTypes = [];
-        if (response && response.length > 0) {
-          response.forEach(item => {
-            this.metricTypes.push({ id: item.uomtypeId, name: item.uomtypeName });
-          });
-        }
+        this.signalTypes = response;
       });
   }
 
-  changeMetricType(event) {
+  changeSignalType(event) {
     console.log('changeMetricType ', event);
     if (event) {
-      this.previousMetricType = this.alert.uomTypeId;
-      console.log('changeMetricType inside if', event);
-      let userId = '03c7fb47-58ee-4c41-a9d6-2ad0bd43392a';
-
+      this.previousMetricType = this.alert.signalTypeId;
       this.alert.alertRuleSignalMapping = [];
       this.selectedSignals = [];
       this.treeSignalAssociationList = [];
       this.assetsChecked = {};
 
-      this.alertsService.getUomForSelectedMetricType(this.orgId, userId, this.uomTypeId)
+      this.alertsService.getUomForSelectedSignalType( this.alert.signalTypeId, this.userId)
         .subscribe(response => {
           this.unitToShow = response.uomName;
           this.alert.uomId = response.uomId;
           this.alert.uomName = response.uomName;
+          this.alert.uomTypeId = response.uomTypeId;
           this.getAlertRuleSignalAssociatedAssetByOrgId();
         });
     } else {
-      this.alert.uomTypeId = this.previousMetricType;
+      this.alert.signalTypeId = this.previousMetricType;
     }
   }
 
-  onMetricTypeChange(event) {
+  onSignalTypeChange(event) {
     this.uomTypeId = event;
     if (this.previousMetricType) {
       this.metricChangeMessage = `Do you want to change Metric Type? It will remove all selected associations.`;
       this.MetricTypeConfirmBox.open();
     } else {
-      this.changeMetricType(true);
+      this.changeSignalType(true);
     }
   }
   /*
@@ -352,9 +344,6 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
   getAbsoluteThreshold() {
     this.absoluteThresholds = [
       {
-        // For 3D97A28E-7D8E-4C7D-98CE-251909FED1A9    Absolute ---- Ahamed
-        // Common for Every Alert Type
-
         alertConfigurationId: '364F5CB4-B725-4BD9-8DAA-B3B365123454',
         alertConfigurationLabel: 'Low Critical',   // 364F5CB4-B725-4BD9-8DAA-B3B365123454    Low Critical
         alertConfigurationValue: '',
