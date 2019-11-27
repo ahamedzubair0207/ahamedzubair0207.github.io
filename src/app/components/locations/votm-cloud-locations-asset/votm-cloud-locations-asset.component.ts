@@ -186,7 +186,7 @@ export class VotmCloudLocationsAssetComponent implements OnInit {
         locationId: this.locationId,
         assetId: asset.assetMappingId ? asset.assetId : asset.id,
         imageCoordinates: {},
-        assetMappingId: asset.assetMappingId ? asset.assetMappingId : undefined
+        assetMappingId: asset.assetMappingId ? asset.assetMappingId : null
       };
       obj.imageCoordinates[asset.associationName] = {
         x: asset.pctPos['left'],

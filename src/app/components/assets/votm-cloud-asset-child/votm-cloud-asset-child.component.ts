@@ -198,7 +198,7 @@ export class VotmCloudAssetChildComponent implements OnInit {
         childAssetId: asset.assetMappingId ? asset.childAssetId : asset.id,
         imageCoordinates: {},
         name: asset.name,
-        assetMappingId: asset.assetMappingId ? asset.assetMappingId : undefined
+        assetMappingId: asset.assetMappingId ? asset.assetMappingId : null
       };
       obj.imageCoordinates[asset.associationName] = {
         x: asset.pctPos['left'],

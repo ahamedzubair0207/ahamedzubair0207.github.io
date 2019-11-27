@@ -203,7 +203,7 @@ export class VotomCloudAssetsSignalComponent implements OnInit {
         imageCordinates: {},
         name: signal.signalName,
         associationName: signal.associationName,
-        signalMappingId: signal.signalMappingId ? signal.signalMappingId : undefined
+        signalMappingId: signal.signalMappingId ? signal.signalMappingId : null
       };
       obj.imageCordinates[signal.associationName] = {
         x: signal.pctPos['left'],
