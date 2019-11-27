@@ -1,3 +1,4 @@
+import { SharedService } from 'src/app/services/shared.service';
 import { LocationService } from './../../../services/locations/location.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Toaster } from '../../shared/votm-cloud-toaster/votm-cloud-toaster';
@@ -53,7 +54,7 @@ export class VotmCloudLocationsAssetComponent implements OnInit {
   constructor(
     private activatedRoute: ActivatedRoute,
     private route: Router,
-    private routerLocation: RouterLocation,
+    private sharedService: SharedService,
     private locationService: LocationService,
     private assetService: AssetsService,
     private domSanitizer: DomSanitizer,
@@ -106,7 +107,7 @@ export class VotmCloudLocationsAssetComponent implements OnInit {
     this.isGetChildAssetsAPILoading = true;
     this.assetService.getAssetTreeByLocId(this.locationId)
       .subscribe(response => {
-        this.assetsList = response;
+        this.assetsList = this.sharedService.toSortListAlphabetically(response, 'name');
         for (const childAsset of this.assetsList) {
           childAsset.associated = false;
           childAsset.icon = 'icon-asset-robot';

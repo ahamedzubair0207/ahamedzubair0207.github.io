@@ -68,8 +68,8 @@ export class VotmCloudAssociationComponent {
   @Output() resetPage: EventEmitter<any> = new EventEmitter<any>();
   @Output() returnToList: EventEmitter<any> = new EventEmitter<any>();
   @Output() createAssociateRule: EventEmitter<any> = new EventEmitter<any>();
-  batterySignalType = 'elec_potential';
-  signalSignalType = 'signal_strength_percentage';
+  batterySignalType = 'battery';
+  signalSignalType = 'signal';
 
   constructor(
     private router: Router,

@@ -67,6 +67,14 @@ export class SharedService {
     );
   }
 
+  toSortListAlphabetically(list, key) {
+    return (list.sort((a, b) => {
+      if (a[key].toLowerCase() < b[key].toLowerCase()) { return -1; }
+      if (a[key].toLowerCase() > b[key].toLowerCase()) { return 1; }
+      return 0;
+    }));
+  }
+
   getLoggedInUser() {
 
     const loggedInUserData = {

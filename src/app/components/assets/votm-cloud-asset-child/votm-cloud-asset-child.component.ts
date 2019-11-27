@@ -1,3 +1,4 @@
+import { SharedService } from 'src/app/services/shared.service';
 import { AssetsService } from './../../../services/assets/assets.service';
 import { Alert } from './../../../models/alert.model';
 import { AlertsService } from 'src/app/services/alerts/alerts.service';
@@ -60,13 +61,11 @@ export class VotmCloudAssetChildComponent implements OnInit {
   constructor(
     private activatedRoute: ActivatedRoute,
     private route: Router,
-    private routerLocation: RouterLocation,
-    private locationSignalService: LocationSignalService,
+    private sharedService: SharedService,
     private assetService: AssetsService,
     private alertsService: AlertsService,
     private domSanitizer: DomSanitizer,
     private toastr: ToastrService,
-    private eleRef: ElementRef
   ) { }
 
   ngOnInit() {
@@ -117,7 +116,7 @@ export class VotmCloudAssetChildComponent implements OnInit {
     this.isGetChildAssetsAPILoading = true;
     this.assetService.getAssetTreeByAssetId(this.assetId)
       .subscribe(response => {
-        this.childAssets = response[0].node;
+        this.childAssets = this.sharedService.toSortListAlphabetically(response[0].node, 'name');
         for (const childAsset of this.childAssets) {
           childAsset.associated = false;
           childAsset.icon = 'icon-asset-robot';

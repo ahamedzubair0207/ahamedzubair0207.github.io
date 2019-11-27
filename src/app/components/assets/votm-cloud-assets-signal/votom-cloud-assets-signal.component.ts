@@ -1,3 +1,4 @@
+import { SharedService } from 'src/app/services/shared.service';
 import { AlertsService } from 'src/app/services/alerts/alerts.service';
 import { Component, OnInit, ElementRef, ViewChild, OnDestroy, Input } from '@angular/core';
 import { DatePipe, Location as RouterLocation } from '@angular/common';
@@ -40,7 +41,7 @@ export class VotomCloudAssetsSignalComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private route: Router,
     private toastr: ToastrService,
-    private routerLocation: RouterLocation,
+    private sharedService: SharedService,
     private alertsService: AlertsService,
     private assetSignalService: AssetSignalService,
     private assetService: AssetsService,
@@ -95,10 +96,11 @@ export class VotomCloudAssetsSignalComponent implements OnInit {
   }
 
   getAllAvailableSignals() {
-    this.assetSignalService.getAvailableSignalsForLocation('location', this.locationId).subscribe(response => {
+    this.assetSignalService.getAvailableSignalsForLocation('location', this.locationId).subscribe(async response => {
       console.log(response);
       this.sensors = response;
       for (const sensor of this.sensors) {
+        sensor.node = await this.sharedService.toSortListAlphabetically(sensor.node, 'signalName');
         for (const signal of sensor.node) {
           signal.sensorId = sensor.sensorId;
           signal.sensorName = sensor.sensorName;
