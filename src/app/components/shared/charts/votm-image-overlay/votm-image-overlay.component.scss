@@ -119,9 +119,11 @@
 
 // extra small icon
   .assoc-pane > div.widget-icon-extra-small{
-    padding-left:calc(1.0 * #{$font-size-xs} + 5px);
+    padding-left:calc(0.1 * #{$font-size-xs} + 0px);
+    padding-bottom: calc(1.0 * 0.546875rem + 0px);
     line-height: calc(1 * #{$font-size-xs} + 0px);
     border-radius: calc(#{$font-size-xs} / 2 + 1px) !important;
+    border: none;
     background: $qcd-white-90;
     transition: all 0.3s ease;
     font-size: $font-size-xs;
@@ -149,9 +151,11 @@
 
   // small icon
   .assoc-pane > div.widget-icon-small{
-    padding-left:calc(1 * #{$h4-font-size} + 3px);
+    padding-left:calc(0.6 * #{$h4-font-size} + 0px);
+    padding-bottom: calc(1 * #{$h4-font-size} + 1px);
     line-height: calc(1 * #{$h4-font-size} + 0px);
     border-radius: calc(1 * #{$h4-font-size} / 2 + 0px) !important;
+    border:none;
     background: $qcd-white-90;
     transition: all 0.3s ease;
     border-color: $qcd-success-brd;
@@ -159,6 +163,7 @@
     &:hover{
       border: 1px solid $qcd-success-brd;
       padding-left:calc(1 * #{$h4-font-size} + 3px);
+      padding-bottom: calc(0.0 * #{$h4-font-size} + 0px);
     }
     &:before {
       width: calc(1 * #{$h4-font-size} + 0px);
@@ -374,9 +379,10 @@
       padding-left: calc(2 * #{$font-size-base} + 2px);
       width: auto;
       z-index: 1;
+      border: 1px solid $qcd-success-brd;
       p {
-        line-height: 1rem;
-        padding:0;
+        line-height: 0.9rem;
+        padding:4px 0;
         margin:0;
       }
     }

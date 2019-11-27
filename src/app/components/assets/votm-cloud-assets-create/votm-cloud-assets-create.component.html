@@ -19,7 +19,7 @@
       </li>
       <!-- Dashboard-david -->
       <li *ngFor="let dbItem of dashboardTabs">
-        <a class="nav-link tab-icon" id="dashboard{{dbItem.dashboardId}}-tab" data-toggle="tab"
+        <a class="nav-link tab-icon" for="assetDashboard" id="dashboard{{dbItem.dashboardId}}-tab" data-toggle="tab"
           href="#DashboardID_{{dbItem.dashboardId}}" role="tab" aria-controls="loc" aria-selected="false"
           title="{{ dbItem.dashboardName}}"><i class="mr-2  icon-dashboard"></i>{{dbItem.shortName}}<i
             class="fa fa-pencil ml-2"
@@ -32,7 +32,7 @@
       <li class="nav-item">
         <div class="add-dashboard-btn-wrapper">
           <a class="nav-link tab-icon create-event-btn" (click)="openAddDashboardModal('addDashboard')"
-            id="createOrgDashboardButton" title="Add New Dashboard"><i class="fa fa-plus"></i></a>
+            id="createAssetDashboardButton" title="Add New Dashboard"><i class="fa fa-plus"></i></a>
         </div>
       </li>
       <!-- Dashboard-david -->
@@ -68,7 +68,7 @@
           <div class="tab-content w-100">
             <div class="tab-pane fade show active" *ngIf="(!assetId && pageLabels) || (assetId && pageLabels && asset)"
               id="asset-details" role="tabpanel" area-labelledby="asset-details-tab">
-              <div class="position-relative">
+              <div class="position-relative" *ngIf="pageType.toLowerCase() === 'view' || pageType.toLowerCase() === 'edit'">
                 <div class="lock-tab border border-bottom-0"
                   *ngIf="pageType.toLowerCase() === 'view' || pageType.toLowerCase() === 'edit'">
                   <i class="icon-lock edit-view-lock" name="assetlockbutton" *ngIf="pageType.toLowerCase() === 'view'"

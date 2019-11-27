@@ -53,7 +53,7 @@
       </a>
     </li> -->
       <li *ngFor="let dbItem of dashboardTabs">
-        <a class="nav-link tab-icon" id="dashboard{{dbItem.dashboardId}}-tab" data-toggle="tab"
+        <a class="nav-link tab-icon" for="orgDashboard" id="dashboard{{dbItem.dashboardId}}-tab" data-toggle="tab"
           href="#DashboardID_{{dbItem.dashboardId}}" role="tab" aria-controls="loc" aria-selected="false"
           title="{{ dbItem.dashboardName}}"><i class="mr-2 icon-dashboard"></i>{{dbItem.shortName}}
           <i class="dashboard-configure-icon icon-pencil ml-2" [ngClass]="{'d-none': locked}"

@@ -7,7 +7,7 @@
   <!-- <div class="text-right" [class.d-none]="locked" (click)="open(config)"><i class="icon-cog" ></i></div>  , 1h, , , ,   -->
   
   <div class="text-right range-actions mr-2">
-    <div *ngIf="configured" class="btn-group btn-group-toggle" ngbRadioGroup name="radioBasic" [(ngModel)]="selDateRange" (change)="onRadioGroupChange()">
+    <div *ngIf="configured" class="btn-group btn-group-toggle" ngbRadioGroup name="radioBasic" [(ngModel)]="trendChartWidget.dateRange" (change)="onRadioGroupChange()">
       <!-- <label ngbButtonLabel class="btn-outline-secondary btn-sm"> <input ngbButton type="radio" value="5m" />5m</label> -->
       <label ngbButtonLabel class="btn-outline-secondary btn-sm"> <input ngbButton type="radio" value="1m" />1M</label>
       <!-- <label ngbButtonLabel class="btn-outline-secondary btn-sm"> <input ngbButton type="radio" value="10m" />10m</label> -->
@@ -130,7 +130,7 @@
     <div class="form-group form-row">
       <label for="axisDateRngSelect" class="col-3 col-form-label mandatory">{{pageLabels.DateRange.labelName}}</label>
       <div class="col-3">
-        <ng-select autofocus labelForId="axisDateRngSelect" class="custom" [(ngModel)]="selDateRange">
+        <ng-select autofocus labelForId="axisDateRngSelect" class="custom" [(ngModel)]="trendChartWidget.dateRange">
          <ng-option *ngFor="let dr of dateRange" [value]="dr.value">{{dr.name}}</ng-option>
           <!-- <ng-option value="Min">One Minute</ng-option>
           <ng-option value="Hour">One Hour</ng-option>
@@ -216,15 +216,15 @@
       <label for="showThresholds" class="col-3 col-form-label mandatory">{{pageLabels.DisplayThresholds.labelName}}</label>
       <div class="col-9">
         <div class="custom-control custom-radio custom-control-inline" style="padding-top: calc(.25rem + 1px);">
-          <input type="radio" checked id="noThresholds" name="showThresholds" class="custom-control-input" />
+          <input type="radio" checked (change)="onDisplayThresholdsChange($event, 'none')" id="noThresholds" name="showThresholds" class="custom-control-input" />
           <label class="custom-control-label" for="noThresholds">{{pageLabels.None.labelName}}</label>
         </div>
         <div class="custom-control custom-radio custom-control-inline" style="padding-top: calc(.25rem + 1px);">
-          <input type="radio" id="y1Thresholds" name="showThresholds" class="custom-control-input" />
+          <input type="radio" id="y1Thresholds" (change)="onDisplayThresholdsChange($event, 'left axis')" name="showThresholds" class="custom-control-input" />
           <label class="custom-control-label" for="y1Thresholds">{{pageLabels.LeftAxis.labelName}}</label>
         </div>
         <div class="custom-control custom-radio custom-control-inline" style="padding-top: calc(.25rem + 1px);">
-          <input type="radio" id="y2Thresholds" name="showThresholds" class="custom-control-input" />
+          <input type="radio" id="y2Thresholds" (change)="onDisplayThresholdsChange($event, 'right axis')" name="showThresholds" class="custom-control-input" />
           <label class="custom-control-label" for="y2Thresholds">{{pageLabels.RightAxis.labelName}}</label>
         </div>
       </div>
@@ -233,19 +233,19 @@
       <label for="showEvents" class="col-3 col-form-label mandatory">{{pageLabels.DisplayDefaults.labelName}}</label>
       <div class="col-3">
         <div class="custom-control custom-switch" style="padding-top: calc(.25rem + 1px);">
-          <input type="checkbox" class="custom-control-input" id="showEvents" [checked]="showEvents" (change)="toggleShowThresholds()" />
+          <input type="checkbox" class="custom-control-input" [(ngModel)]="trendChartWidget.eventFlags" id="showEvents" [checked]="showEvents" (change)="toggleShowThresholds()" />
           <label class="custom-control-label" for="showEvents">{{pageLabels.EventFlags.labelName}}</label>
         </div>
       </div>
       <div class="col-3">
         <div class="custom-control custom-switch" style="padding-top: calc(.25rem + 1px);">
-          <input type="checkbox" class="custom-control-input" id="showLegend" [checked]="showLegend" (change)="showLegend = !showLegend" />
+          <input type="checkbox" class="custom-control-input" [(ngModel)]="trendChartWidget.legends" id="showLegend" [checked]="showLegend" (change)="showLegend = !showLegend" />
           <label class="custom-control-label" for="showLegend">{{pageLabels.Legends.labelName}}</label>
         </div>
       </div>
       <div class="col-3">
         <div class="custom-control custom-switch" style="padding-top: calc(.25rem + 1px);">
-          <input type="checkbox" class="custom-control-input" id="showMinMax" [checked]="showMinMax" (change)="showMinMax = !showMinMax" />
+          <input type="checkbox" class="custom-control-input" [(ngModel)]="trendChartWidget.minMax" id="showMinMax" [checked]="showMinMax" (change)="showMinMax = !showMinMax" />
           <label class="custom-control-label" for="showMinMax">{{pageLabels.MinMax.labelName}}</label>
         </div>
       </div>

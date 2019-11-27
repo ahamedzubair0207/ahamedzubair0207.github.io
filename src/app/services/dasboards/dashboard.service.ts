@@ -31,6 +31,13 @@ export class DashboardService {
       );
   }
 
+  saveDashboardWidget(body: any) {
+    return this.http.post(AppConstants.CREATE_DASHBOARD_WIDGET, body)
+      .pipe(
+        map(response => response)
+      );
+  }
+
   editDashboard(body: DashBoard) {
     return this.http.patch(`${AppConstants.EDIT_DASHBOARD}/${body.dashboardId}`, body)
       .pipe(
@@ -44,6 +51,8 @@ export class DashboardService {
         map(response => response)
       );
   }
+
+  
 
 
   deleteDashboard(dashboardId: string) {

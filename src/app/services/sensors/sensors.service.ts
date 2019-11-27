@@ -51,4 +51,5 @@ export class SensorsService {
     return this.http.patch(AppConstants.UPDATE_SENSOR_LINK_STATUS + '/' + sensorId, sensorObj);
   }
 
+
 }
