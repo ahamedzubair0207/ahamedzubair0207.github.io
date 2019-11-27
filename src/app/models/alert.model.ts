@@ -3,11 +3,12 @@ export class Alert {
     alertRuleName: string; //Alert Rule Name
     // UomTypeId: string;
     uomTypeId: string;
+    signalTypeId: string;
     uomId: string;
     uomName: string;
     // alertTypeId: string; // Drop Down for Metric Type
     alertRuleTypeId: string; // Rule Type
-    organizationScopeId: string; // Access Scope 
+    organizationScopeId: string; // Access Scope
     closureRequired: boolean;
     sustainTime: number; // Minimum Sustain
     escalateTime: number; //Escalate Time
@@ -26,7 +27,7 @@ export class Alert {
 export class AlertRuleUserGroup {
     userId?: string;
     userGroupId?: string;
-    alertUserGroupRoleId?: string; // GET: /v1/UserManagement/UserGroups 
+    alertUserGroupRoleId?: string; // GET: /v1/UserManagement/UserGroups
     active?: boolean;
     createdBy?: string;
     createdOn?: string;

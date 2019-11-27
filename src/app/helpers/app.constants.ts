@@ -101,6 +101,9 @@ export class AppConstants {
 
     public static APP_INFO = 'ConfigSettings/Application';
 
+    public static GET_SIGNAL_TYPE = 'Signals/SignalType';
+    public static GET_USER_UOM_BY_SIGNAL_TYPE = 'Signals/SignalTypeUOM';
+
     public static GET_SIBLINGS = '/BreadcrumbNavigation';
 
     public static GET_GATEWAY_DETAIL_BY_TYPE_AND_ID = '/GatewayByOrganizationId';

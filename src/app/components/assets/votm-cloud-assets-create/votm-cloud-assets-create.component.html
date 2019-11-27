@@ -68,7 +68,7 @@
           <div class="tab-content w-100">
             <div class="tab-pane fade show active" *ngIf="(!assetId && pageLabels) || (assetId && pageLabels && asset)"
               id="asset-details" role="tabpanel" area-labelledby="asset-details-tab">
-              <div class="position-relative">
+              <div class="position-relative" *ngIf="pageType.toLowerCase() === 'view' || pageType.toLowerCase() === 'edit'">
                 <div class="lock-tab border border-bottom-0"
                   *ngIf="pageType.toLowerCase() === 'view' || pageType.toLowerCase() === 'edit'">
                   <i class="icon-lock edit-view-lock" name="assetlockbutton" *ngIf="pageType.toLowerCase() === 'view'"

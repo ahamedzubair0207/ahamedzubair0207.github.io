@@ -3,6 +3,9 @@
         <!-- <i class="icon-cog" (click)="onClickOfCustomizeImageOverlay()"></i> -->
         <a (click)="onClickOfCustomizeImageOverlay()" [class.d-none]="locked"><i class="icon-cog"></i></a>
     </div>
+
+
+
     <div class="text-center con-wid-preview" *ngIf="!isImageOverlayConfigured">
         <img class="img-fluid img-fluid-custom" src="../../../../assets/images/configure_image_overlay_widget.jpg">
     </div>
@@ -26,6 +29,7 @@
         </div> -->
 
         <div class=" h-100 assoc-pane" (window:resize)="onResize($event)">
+
             <!--  [src]="imgURL" -->
             <img #overlayImage [src]="widgetimgURL" class="assoc-img" (load)="onLoadLocImg()"  />
             <ng-container *ngFor="let item of associatedSignals; let i = index;">
@@ -40,7 +44,7 @@
                 [style.top.px]="imgOffsetTop + item.imageCordinates[item.associationName].y * imgOffsetHeight - 16">
                 <ng-container
                   *ngIf="!displaySignalHoverContent['s-' + i]; else hoveredContent" >
-                  <!-- <ng-container *ngIf="iconSize.includes('small')">&nbsp;</ng-container> -->
+                  <ng-container *ngIf="!iconSize.includes('small')">{{item.latestValue}}</ng-container>
                   <!-- <ng-container >{{item.latestValue}}</ng-container> -->
                 </ng-container>
                 <ng-template #hoveredContent>
@@ -61,7 +65,7 @@
               [style.top.px]="imgOffsetTop + item.imageCoordinates[overLaySource === 'location' ? item.assetId : item.childAssetId].y * imgOffsetHeight - 16"
             >
             <ng-container *ngIf="!displaySignalHoverContent['a-' + i]; else hoveredAssetContent" >
-                <!-- {{overLaySource === 'location' ? item.assetName : item.childAssetName}} -->
+                <ng-container *ngIf="!iconSize.includes('small')">{{overLaySource === 'location' ? item.assetName : item.childAssetName}}</ng-container>
             </ng-container>
             <ng-template #hoveredAssetContent>
               <p><b>QCD > {{item.locationName}} >  {{overLaySource === 'location' ? item.assetName : item.childAssetName}}</b>

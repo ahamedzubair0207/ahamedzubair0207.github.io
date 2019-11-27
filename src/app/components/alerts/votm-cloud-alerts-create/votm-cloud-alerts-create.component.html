@@ -1,6 +1,6 @@
 <div class="shadow p-3 mb-5 bg-white rounded mt-5">
     <form #alertRuleForm="ngForm" (ngSubmit)="onAlertRuleSubmit()" class="form needs-validation" novalidate>
-        <div class="position-relative">
+        <div class="position-relative" *ngIf="pageType.toLowerCase() === 'view' || pageType.toLowerCase() === 'edit'" >
             <div class="lock-tab border border-bottom-0">
                 <i class="icon-lock edit-view-lock" id="view-lock" name="lockTogglebutton"
                     *ngIf="pageType.toLowerCase() === 'view'" (click)="onLockClick()"></i>
@@ -27,17 +27,16 @@
                 <div class="">
                     <!-- <select name="metricType" id="metricTypeDropDown" [(ngModel)]="alert.UomTypeId"
                         class="form-control form-control-sm" [disabled]="pageType === 'View'">
-                        <option *ngFor="let metricType of metricTypes" [value]="metricType.id">{{metricType.name}}
+                        <option *ngFor="let metricType of signalTypes" [value]="metricType.id">{{metricType.name}}
                         </option>
                     </select> -->
 
                     <div class="">
                         <ng-select id="metricTypeDropDown" class="custom" [disabled]="pageType==='View'"
                             [ngStyle]="{'background-color':pageType==='View'?'#e9ecef':'#fff'}" [multiple]="false"
-                            name="metricType" (change)="onMetricTypeChange($event)" [(ngModel)]="alert.uomTypeId"
+                            name="metricType" (change)="onSignalTypeChange($event)" [(ngModel)]="alert.signalTypeId"
                             placeholder="Choose Type">
-                            <ng-option value="null" disabled selected>Metric Type:</ng-option>
-                            <ng-option *ngFor="let metricType of metricTypes" [value]="metricType.id">{{metricType.name}}</ng-option>
+                            <ng-option *ngFor="let typeObj of signalTypes" [value]="typeObj.signalId">{{typeObj.signalName}}</ng-option>
                         </ng-select>
                     </div>
                 </div>
@@ -142,11 +141,14 @@
                                             name="{{threshold.alertConfigurationId}}"
                                             [(ngModel)]="threshold.alertConfigurationValue"
                                             class="form-control-sm mr-1 w-25" />
-                                        <span *ngIf="alert.alertRuleTypeId !== 'B45A2094-C4D6-4D36-B26C-3A9F195C6D6F'">
-                                            {{unitToShow? unitToShow:alert.uomName}}
+                                        <span *ngIf="alert.alertRuleTypeId === ruleTypes[0].id">
+                                            {{alert.uomName}}
                                         </span>
-                                        <span *ngIf="alert.alertRuleTypeId === 'B45A2094-C4D6-4D36-B26C-3A9F195C6D6F'">
-                                            %
+                                        <span *ngIf="alert.alertRuleTypeId === ruleTypes[1].id && threshold.alertConfigurationLabel === 'Baseline'">
+                                            {{alert.uomName}}
+                                        </span>
+                                        <span *ngIf="alert.alertRuleTypeId === ruleTypes[1].id && threshold.alertConfigurationLabel !== 'Baseline'">
+                                          %
                                         </span>
                                     </label>
                                 </div>
@@ -246,73 +248,6 @@
                                     </ng-template>
                                 </p-treeTable>
 
-
-                                <!-- <table class="table table-bordered table-sm">
-                                    <thead>
-                                        <tr>
-                                            <th>Name</th>
-                                            <th class="text-center">Associations</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <div *ngFor="let location of alertRuleSignalAssociatedAsset.locations">
-                                            <div *ngIf="location.signals && location.signals.length > 0">
-                                                <tr>
-                                                    <td>
-                                                        {{'Organization > '+location.locationName}}
-                                                    </td>
-                                                    <td class="text-center">
-                                                        <div class="checkbox">
-                                                            <label><input type="checkbox"
-                                                                    [(ngModel)]="assetsChecked[location.locationId]"
-                                                                    [name]="location.locationId"
-                                                                    [id]="location.locationId"
-                                                                    (change)="onAssetChecked($event, location)"></label>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                <div *ngFor="let signal of location.signals">
-                                                    <tr>
-                                                        <td>&nbsp;&nbsp;&nbsp;&nbsp;{{signal.signalName}}</td>
-                                                        <td class="text-center">
-                                                            <div class="checkbox">
-                                                                <label><input type="checkbox"
-                                                                        [checked]="selectedSignals.indexOf(signal.signalMappingId)>=0"
-                                                                        (change)="onSignalSelectionChange($event, signal.signalMappingId, location)"></label>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                </div>
-                                            </div>
-                                            <div *ngFor="let asset of location.assets">
-                                                <tr>
-                                                    <td>{{'Organization > '+location.locationName +' > '+asset.assetName}}
-                                                    </td>
-                                                    <td class="text-center">
-                                                        <div class="checkbox">
-                                                            <label><input type="checkbox"
-                                                                    (change)="onAssetChecked($event, asset)"
-                                                                    [(ngModel)]="assetsChecked[asset.assetId]"
-                                                                    [id]="asset.assetId" [name]="asset.assetId"></label>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                <div *ngFor="let signal of asset.signals">
-                                                    <tr>
-                                                        <td>&nbsp;&nbsp;&nbsp;&nbsp;{{signal.signalName}}</td>
-                                                        <td class="text-center">
-                                                            <div class="checkbox">
-                                                                <label><input type="checkbox"
-                                                                        [checked]="selectedSignals.indexOf(signal.signalMappingId)>=0"
-                                                                        (change)="onSignalSelectionChange($event, signal.signalMappingId, asset)"></label>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </tbody>
-                                </table> -->
                             </div>
                         </div>
                         <div class="tab-pane fade" id="Template">
@@ -628,5 +563,5 @@
     message="Are you sure you want to delete the Alert Rule?" headerMessage="Warning"></app-votm-cloud-confim-dialog>
 
 
-<app-votm-cloud-confim-dialog (onClose)="changeMetricType($event)" #MetricTypeConfirmBox [message]="metricChangeMessage"
+<app-votm-cloud-confim-dialog (onClose)="changeSignalType($event)" #MetricTypeConfirmBox [message]="metricChangeMessage"
 headerMessage="Warning"></app-votm-cloud-confim-dialog>

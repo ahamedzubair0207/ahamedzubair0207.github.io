@@ -35,11 +35,12 @@ export class AlertsService {
       );
   }
 
-  getUomForSelectedMetricType(organizationId: string, userId: string, uomTypeId: string): Observable<any> {
-    return this.http.get(`${AppConstants.GET_ALERT_UOMNAMEFORMETRICTYPE}/${organizationId}/${userId}/${uomTypeId}`)
-      .pipe(
-        map(response => response)
-      );
+  getAllSignalTypes(): Observable<any> {
+    return this.http.get(AppConstants.GET_SIGNAL_TYPE);
+  }
+
+  getUomForSelectedSignalType(signalId: string, userId: string): Observable<any> {
+    return this.http.get(AppConstants.GET_USER_UOM_BY_SIGNAL_TYPE + '?signalId=' + signalId + '&userId=' + userId);
   }
 
   getUserGroupRoles(): Observable<any> {
