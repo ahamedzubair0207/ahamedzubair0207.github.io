@@ -290,9 +290,9 @@ export class VotmLineGraphComponent implements OnInit {
       this.autoScaleY[i] = (this.selYAxisRange[i] === "auto");
     }
     // Add amCharts 4 license
-    // am4core.addLicense("CH192270209");
+    am4core.addLicense("CH192270209");
     // Add Maps license
-    // am4core.addLicense("MP192270209");
+    am4core.addLicense("MP192270209");
     am4core.options.commercialLicense = true;
     hideCredits: true;
     // this.zone.runOutsideAngular(() => {

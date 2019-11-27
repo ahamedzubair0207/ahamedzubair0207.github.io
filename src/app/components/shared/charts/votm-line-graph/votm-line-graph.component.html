@@ -150,9 +150,9 @@
       <label for="LeftAxis" class="col-3 col-form-label mandatory">{{pageLabels.LeftAxisRange.labelName}}</label>
       <div class="col-3">
         <ng-select autofocus labelForId="axisY1RngSelect" class="custom" [(ngModel)]="selYAxisRange[0]">
-          <ng-option value="auto">Auto</ng-option>
-          <ng-option value="rngMinMax">Range Min/Max</ng-option>
-          <ng-option value="fixed">Fixed</ng-option>
+          <ng-option value="auto">{{pageLabels.Auto.labelName}}</ng-option>
+          <ng-option value="rngMinMax">{{pageLabels.RangeMinMax.labelName}}</ng-option>
+          <ng-option value="fixed">{{pageLabels.Fixed.labelName}}</ng-option>
         </ng-select>
       </div>
       <div [ngClass]="{ 'd-none': !(selYAxisRange[0] == 'fixed') }" class="col-3">
@@ -180,9 +180,9 @@
       <label for="RightAxis" class="col-3 col-form-label mandatory">{{pageLabels.RightAxisRange.labelName}}</label>
       <div class="col-3">
         <ng-select #axisY2RngSelect labelForId="axisY2RngSelect" class="custom" [(ngModel)]="selYAxisRange[1]">
-          <ng-option value="auto">Auto</ng-option>
-          <ng-option value="rngMinMax">Range Min/Max</ng-option>
-          <ng-option value="fixed">Fixed</ng-option>
+          <ng-option value="auto">{{pageLabels.Auto.labelName}}</ng-option>
+          <ng-option value="rngMinMax">{{pageLabels.RangeMinMax.labelName}}</ng-option>
+          <ng-option value="fixed">{{pageLabels.Fixed.labelName}}</ng-option>
         </ng-select>
       </div>
       <div [ngClass]="{ 'd-none': !(selYAxisRange[1] == 'fixed') }" class="col-3">
@@ -234,7 +234,7 @@
       <div class="col-3">
         <div class="custom-control custom-switch" style="padding-top: calc(.25rem + 1px);">
           <input type="checkbox" class="custom-control-input" id="showEvents" [checked]="showEvents" (change)="toggleShowThresholds()" />
-          <label class="custom-control-label" for="showEvents">{{pageLabels.RightAxis.labelName}}</label>
+          <label class="custom-control-label" for="showEvents">{{pageLabels.EventFlags.labelName}}</label>
         </div>
       </div>
       <div class="col-3">
