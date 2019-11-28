@@ -28,7 +28,7 @@
 
   <div class="template-outside-border tab-pane fade show active border border-left-0 p-3" id="template-details" role="tabpanle"
     area-labelledby="template-details-tab">
-    <div class="position-relative">
+    <div class="position-relative" *ngIf="pageType.toLowerCase() === 'view' || pageType.toLowerCase() === 'edit'" >
       <div class="lock-tab border border-bottom-0">
         <i class="icon-lock edit-view-lock" name="templatetlockbutton" *ngIf="pageType && pageType.toLowerCase() === 'view'"
           (click)="onLockClick()"></i>

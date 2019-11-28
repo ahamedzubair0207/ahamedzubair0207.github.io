@@ -141,7 +141,7 @@
               area-labelledby="org-details-tab">
 
               <form #organizationForm="ngForm" class="needs-validation" (ngSubmit)="onOrganizationSubmit()" novalidate>
-                <div class="position-relative">
+                <div class="position-relative" *ngIf="pageType.toLowerCase() === 'view' || pageType.toLowerCase() === 'edit'" >
                   <div class="lock-tab border border-bottom-0">
                     <i class="icon-lock edit-view-lock" id="view-lock" name="lockTogglebutton"
                       *ngIf="pageType.toLowerCase() === 'view'" (click)="onLockClick()"></i>
@@ -996,7 +996,7 @@
     </div>
 
   </div>
- 
+
 
   <!-- Add/Edit Dashboard Model Start-->
   <div id="addDashboardModalWrapper" class="modal">
