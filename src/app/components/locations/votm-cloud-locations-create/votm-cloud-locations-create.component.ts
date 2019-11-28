@@ -126,6 +126,11 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
   dashboardTabs: Array<DashBoard> = [];
   dashboardTab: DashBoard = new DashBoard();
   loader: boolean;
+  organizationLoader: boolean;
+  locationByOrgIdLoader: boolean;
+  dahboardsLoader: boolean;
+  getAllAppInfoLoader: boolean;
+  screenLabelLoader: boolean;
 
   constructor(
     private modalService: NgbModal,
@@ -188,11 +193,12 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
         this.locationObject();
         this.setDefaultParentOrganizationOptions();
       } else {
-
+        this.dahboardsLoader = true;
         this.dbService.getAllDashboards(this.locId, 'location')
           .subscribe(response => {
             console.log('get All Dashboard ', response);
             this.dashboardTabs = response;
+            this.dahboardsLoader = false;
           });
       }
     });
@@ -265,11 +271,13 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
 
   selLocIcon = "company";
   getAllLocationByOrganization(orgId: string) {
+    this.locationByOrgIdLoader = true;
     this.locationService.getAllLocationTree(orgId)
       .subscribe(response => {
         this.location.parentLocationId = null;
         this.locationListForDropDown = response;
         this.locationListForDropDown.sort(SortArrays.compareValues('name'));
+        this.locationByOrgIdLoader = false;
       })
   }
 
@@ -285,6 +293,7 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
   }
 
   getAllOrganizations() {
+    this.organizationLoader = true;
     this.organizationService.getAllOrganizationsList()
       .subscribe(response => {
         this.organizationList = response;
@@ -299,10 +308,13 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
         }
         this.organizationList.sort(SortArrays.compareValues('name'));
         // this.organization.parentOrganizationId = JSON.parse(JSON.stringify(this.organization.parentOrganizationId));
+
+        this.organizationLoader = false;
       });
   }
 
   getLocationById() {
+    console.log(' 1st timewsdbgsdghsgdgghghghghgg');
     this.loader = true;
     this.locationService.getLocationById(this.locId)
       .subscribe(response => {
@@ -548,13 +560,17 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
   }
 
   getScreenLabels() {
+    this.screenLabelLoader = true;
     this.configSettingsService.getCreateLocScreenLabels()
       .subscribe(response => {
         this.pageLabels = response;
+
+        this.screenLabelLoader = false;
       });
   }
 
   getAllAppInfo() {
+    this.getAllAppInfoLoader = true;
     this.configSettingsService.getApplicationInfo()
       .subscribe((response: any) => {
         this.applicationConfiguration = response;
@@ -568,6 +584,7 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
           const uom = this.applicationConfiguration.unitOfMeassurement;
           this.fillUoM(uom, 'imperialDefault');
         }
+        this.getAllAppInfoLoader = false;
       });
   }
 

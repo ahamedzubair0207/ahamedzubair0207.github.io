@@ -1,4 +1,4 @@
-<app-votm-cloud-spinner *ngIf="loader else loadTemplate"></app-votm-cloud-spinner>
+<app-votm-cloud-spinner *ngIf="(loader || organizationLoader || dahboardsLoader || getAllAppInfoLoader || screenLabelLoader || locationByOrgIdLoader) else loadTemplate"></app-votm-cloud-spinner>
 <ng-template #loadTemplate>
 
   <!-- Top Level Nav -->

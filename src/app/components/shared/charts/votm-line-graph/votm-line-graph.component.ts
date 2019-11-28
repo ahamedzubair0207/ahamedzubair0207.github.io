@@ -12,6 +12,8 @@ import { TimeSeriesService } from 'src/app/services/timeSeries/time-series.servi
 import * as moment from 'moment';
 import { TrendChartWidget } from 'src/app/models/trend-chart-widget';
 import { DashboardService } from 'src/app/services/dasboards/dashboard.service';
+import { AppConstants } from 'src/app/helpers/app.constants';
+import { environment } from 'src/environments/environment';
 
 am4core.useTheme(am4themes_animated);
 // am4core.useTheme(am4themes_kelly);
@@ -300,7 +302,7 @@ export class VotmLineGraphComponent implements OnInit {
     }
 
     // code to remove start
-    body.propertyValue = '71fe01ae-141c-463f-8e5c-5c40ee02e533';
+    // body.propertyValue = '71fe01ae-141c-463f-8e5c-5c40ee02e533';
     // end
 
     // console.log('body.propertyValue ', this.signals, this.selectedCheckboxes, body.propertyValue)
@@ -309,7 +311,7 @@ export class VotmLineGraphComponent implements OnInit {
       .subscribe(response => {
         if (reload) {
           this.dataLoading = true;
-          this.loadLineChart(response, selectedSignals);
+          this.loadLineChart(response, selectedSignals, body);
         } else {
           // debugger
           // console.log('Load data');
@@ -324,7 +326,7 @@ export class VotmLineGraphComponent implements OnInit {
       });
   }
 
-  private loadLineChart(response: any, selectedSignals: any[]) {
+  private loadLineChart(response: any, selectedSignals: any[], requestedBody: any) {
     if (this.chart) {
       this.chart.dispose();
       this.rangeSeriesSet = false;
@@ -346,7 +348,9 @@ export class VotmLineGraphComponent implements OnInit {
     // this.zone.runOutsideAngular(() => {
     let chart = am4core.create(this.wId, am4charts.XYChart);
     chart.paddingRight = 20;
-    chart.data = response; // timeseries;// this.generateChartData();
+    chart.dataSource.url = `${environment.protocol}://${environment.server}/${environment.virtualName}/${AppConstants.GET_UPDATEDTIMESERIES_SIGNAL}?AccountCode=${requestedBody.accountCode}&PropertyName=${requestedBody.propertyName}&PropertyValue=${requestedBody.propertyValue}&MeasuredValue=${requestedBody.measuredValue}&FromDateTime=${requestedBody.fromDateTime.toISOString()}&ToDateTime=${requestedBody.toDateTime.toISOString()}&BucketSize=${requestedBody.bucketSize}`;
+    chart.dataSource.reloadFrequency = 60000;
+    // chart.data = response; // timeseries;// this.generateChartData();
     // chart.dataSource.reloadFrequency = 3000;
     let title = chart.titles.create();
     title.text = (this.wConfig.title) ? this.wConfig.title : 'Line-Chart';
