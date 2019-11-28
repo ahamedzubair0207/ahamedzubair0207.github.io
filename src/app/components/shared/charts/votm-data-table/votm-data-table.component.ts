@@ -33,28 +33,31 @@ export class VotmDataTableComponent implements OnInit {
     { "type": "temperature", "uom": "°F", "nominal": 100, "var": 2 },
     { "type": "humidity", "uom": "%", "nominal": 50, "var": 1 }
   ]
+  
   signals: any = 
   [
-    { "type": "temperature", "org": "", "loc": "GV ❯ Prod", "asset": "", "name": "Ambient Temperature", "sel": false, "value": 105.5, "bat": 3.0, "rssi": .17, "sensor": "E5000001" },
-    { "type": "temperature", "org": "", "loc": "GV ❯ Prod", "asset": "EAP1", "name": "Exhaust", "sel": false, "value": 94.1, "bat": 2.9, "rssi": .31, "sensor": "E5000001" },
-    { "type": "temperature", "org": "", "loc": "GV ❯ Prod", "asset": "EAP2", "name": "Exhaust", "sel": false, "value": 101.4, "bat": 2.85, "rssi": .20, "sensor": "E5000001" },
-    { "type": "pressure", "org": "", "loc": "GV ❯ Lab", "asset": "IB", "name": "Main Pump", "sel": false, "value": 1503.0, "bat": 3.0, "rssi": .22, "sensor": "E4000001" },
-    { "type": "pressure", "org": "", "loc": "GV ❯ Lab", "asset": "IB", "name": "Drain Pan Suction", "sel": false, "value": 1467.3, "bat": 2.76, "rssi": .29, "sensor": "E4000002" },
-    { "type": "temperature", "org": "", "loc": "GV ❯ Lab", "asset": "IB", "name": "Oil Cooler", "sel": false, "value": 74.5, "bat": 2.9, "rssi": .25, "sensor": "E5000001" },
-    { "type": "temperature", "org": "", "loc": "GV ❯ Lab", "asset": "IB", "name": "Oil Reservoir", "sel": false, "value": 80.1, "bat": 2.87, "rssi": .14, "sensor": "E5000001" },
-    { "type": "pressure", "org": "", "loc": "GV ❯ Lab", "asset": "IB", "name": "Impulse #2 Pilot Pressure", "sel": false, "value": 1356, "bat": 3.0, "rssi": .17, "sensor": "E4000001" },
-    { "type": "pressure", "org": "", "loc": "GV ❯ Lab", "asset": "IB", "name": "Accumulator", "sel": false, "value": 4320.3, "bat": 2.78, "rssi": .22, "sensor": "E4000001" },
-    { "type": "pressure", "org": "", "loc": "GV ❯ Lab", "asset": "IB", "name": "Main Pump Suction", "sel": false, "value": 10.3, "bat": 2.87, "rssi": .34, "sensor": "E2000001" },
-    { "type": "humidity", "org": "", "loc": "GB", "asset": "", "name": "Furness Supply Humidity", "sel": false, "value": 34.2, "bat": 3.02, "rssi": .12, "sensor": "E7000001" },
-    { "type": "humidity", "org": "", "loc": "GB", "asset": "", "name": "Cleanroom Supply Humidity", "sel": false, "value": 53.0, "bat": 2.9, "rssi": .19, "sensor": "E7000001" }
+    { "type": "temperature", "org": "QCD", "loc": "GV ❯ Prod", "asset": "", "name": "Ambient Temperature", "sel": false, "value": 105.5, "bat": 3.0, "rssi": .17, "sensor": "E5000001" },
+    { "type": "temperature", "org": "QCD", "loc": "GV ❯ Prod", "asset": "EAP1", "name": "Exhaust", "sel": false, "value": 94.1, "bat": 2.9, "rssi": .31, "sensor": "E5000001" },
+    { "type": "temperature", "org": "QCD", "loc": "GV ❯ Prod", "asset": "EAP2", "name": "Exhaust", "sel": false, "value": 101.4, "bat": 2.85, "rssi": .20, "sensor": "E5000001" },
+    { "type": "pressure", "org": "QCD", "loc": "GV ❯ Lab", "asset": "IB", "name": "Main Pump", "sel": false, "value": 1503.0, "bat": 3.0, "rssi": .22, "sensor": "E4000001" },
+    { "type": "pressure", "org": "QCD", "loc": "GV ❯ Lab", "asset": "IB", "name": "Drain Pan Suction", "sel": false, "value": 1467.3, "bat": 2.76, "rssi": .29, "sensor": "E4000002" },
+    { "type": "temperature", "org": "QCD", "loc": "GV ❯ Lab", "asset": "IB", "name": "Oil Cooler", "sel": false, "value": 74.5, "bat": 2.9, "rssi": .25, "sensor": "E5000001" },
+    { "type": "temperature", "org": "QCD", "loc": "GV ❯ Lab", "asset": "IB", "name": "Oil Reservoir", "sel": false, "value": 80.1, "bat": 2.87, "rssi": .14, "sensor": "E5000001" },
+    { "type": "pressure", "org": "QCD", "loc": "GV ❯ Lab", "asset": "IB", "name": "Impulse #2 Pilot Pressure", "sel": false, "value": 1356, "bat": 3.0, "rssi": .17, "sensor": "E4000001" },
+    { "type": "pressure", "org": "QCD", "loc": "GV ❯ Lab", "asset": "IB", "name": "Accumulator", "sel": false, "value": 4320.3, "bat": 2.78, "rssi": .22, "sensor": "E4000001" },
+    { "type": "pressure", "org": "QCD", "loc": "GV ❯ Lab", "asset": "IB", "name": "Main Pump Suction", "sel": false, "value": 10.3, "bat": 2.87, "rssi": .34, "sensor": "E2000001" },
+    { "type": "humidity", "org": "QCD", "loc": "GB", "asset": "", "name": "Furness Supply Humidity", "sel": false, "value": 34.2, "bat": 3.02, "rssi": .12, "sensor": "E7000001" },
+    { "type": "humidity", "org": "QCD", "loc": "GB", "asset": "", "name": "Cleanroom Supply Humidity", "sel": false, "value": 53.0, "bat": 2.9, "rssi": .19, "sensor": "E7000001" }
   ];
+
+  // [];
 
   constructor(private modalService: NgbModal, private timeSeries: TimeSeriesService) { }
 
   ngOnInit() {
     if (this.data) {
       if (this.data.organizationId) {
-        this.getSignalsAssociatedAssetByOrgId(this.data.organizationId);
+        // this.getSignalsAssociatedAssetByOrgId(this.data.organizationId);
       }
       this.wId = this.data.dashboardId + "-" + this.id;
       this.wConfig = (this.data.widgetConf) ? this.data.widgetConf : { "title": "", "showSensor": false, "showOrg": false, "showLoc": false, "showAsset": true, "showStatus": true };

@@ -1,4 +1,4 @@
-<app-votm-cloud-spinner *ngIf="loader else loadTemplate"></app-votm-cloud-spinner>
+<app-votm-cloud-spinner *ngIf="(loader || organizationLoader || dahboardsLoader || getAllAppInfoLoader || screenLabelLoader || locationByOrgIdLoader) else loadTemplate"></app-votm-cloud-spinner>
 <ng-template #loadTemplate>
 
   <!-- Top Level Nav -->
@@ -40,7 +40,7 @@
       <!-- chirag dynamic dashboard  can go here-->
       <!-- Dashboard-david -->
       <li *ngFor="let dbItem of dashboardTabs">
-        <a class="nav-link tab-icon" id="dashboard{{dbItem.dashboardId}}-tab" (click)="onClickOfNavTab('dashboard')"
+        <a class="nav-link tab-icon" for="locDashboard" id="dashboard{{dbItem.dashboardId}}-tab" (click)="onClickOfNavTab('dashboard')"
           data-toggle="tab" href="#DashboardID_{{dbItem.dashboardId}}" role="tab" aria-controls="loc"
           aria-selected="false" title="{{ dbItem.dashboardName}}">
           <i class="mr-2 icon-dashboard"></i>{{dbItem.shortName}}

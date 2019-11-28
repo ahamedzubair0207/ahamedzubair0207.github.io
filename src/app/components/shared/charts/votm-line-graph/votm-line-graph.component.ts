@@ -10,6 +10,10 @@ import { DashBoard } from 'src/app/models/dashboard.model';
 import { ConfigSettingsService } from 'src/app/services/configSettings/configSettings.service';
 import { TimeSeriesService } from 'src/app/services/timeSeries/time-series.service';
 import * as moment from 'moment';
+import { TrendChartWidget } from 'src/app/models/trend-chart-widget';
+import { DashboardService } from 'src/app/services/dasboards/dashboard.service';
+import { AppConstants } from 'src/app/helpers/app.constants';
+import { environment } from 'src/environments/environment';
 
 am4core.useTheme(am4themes_animated);
 // am4core.useTheme(am4themes_kelly);
@@ -25,6 +29,7 @@ export class VotmLineGraphComponent implements OnInit {
   @Input() locked: boolean;
 
   pageLabels: any;
+  updatedData: any;
 
   // @ViewChild('config', null) configModal: any;
   "hideCredits": true;
@@ -39,17 +44,29 @@ export class VotmLineGraphComponent implements OnInit {
   private showLegend: boolean = true;
   private autoScaleY: boolean[] = [true, true];
   private legendWidth;
-  private selDateRange: string = "1m";
-  private selDynDateRng: string = this.selDateRange;
+  // private selDateRange: string = "1m";
+  private selDynDateRng: string = '1m';
   private selYAxisRange: string[] = ["auto", "auto"];
   private rangeYAxisMin: number[] = [null, null];
   private rangeYAxisMax: number[] = [null, null];
   private rangeSeriesSet: boolean = false;
   private signalTypes: any[] = [
     { "type": "pressure", "uom": "psi", "nominal": 1500, "var": 5 },
-    { "type": "temperature", "uom": "kV", "nominal": 100, "var": 2 },
+    { "type": "Temperature", "uom": "°F", "nominal": 100, "var": 2 },
     { "type": "Elec_Current", "uom": "kV", "nominal": 80, "var": 3 },
-    { "type": "humidity", "uom": "%RH", "nominal": 50, "var": 1 }
+    { "type": "humidity", "uom": "%RH", "nominal": 50, "var": 1 },
+    { "type": "Battery", "uom": "V", "nominal": 50, "var": 4 },
+    { "type": "signal", "uom": "C", "nominal": 50, "var": 1 },
+    { "type": "Peak Current", "uom": "V", "nominal": 50, "var": 1 },
+    { "type": "Average Current", "uom": "V", "nominal": 50, "var": 1 },
+    { "type": "Y Peak Acceleration", "uom": "V", "nominal": 50, "var": 1 },
+    { "type": "mode", "uom": "%", "nominal": 50, "var": 1 },
+    { "type": "Gauge Pressure", "uom": "psi", "nominal": 50, "var": 1 },
+    { "type": "X Peak Acceleration", "uom": "%RH", "nominal": 50, "var": 1 },
+    { "type": "range", "uom": "%RH", "nominal": 50, "var": 1 },
+    { "type": "Polar Angle Peak Acceleration", "uom": "%RH", "nominal": 50, "var": 1 },
+    { "type": "Z Peak Acceleration", "uom": "%RH", "nominal": 50, "var": 1 },
+    { "type": "Absolute Pressure Count", "uom": "%RH", "nominal": 50, "var": 1 }
   ]
 
   private dateRange: any[] = [
@@ -80,20 +97,20 @@ export class VotmLineGraphComponent implements OnInit {
   yAxisSignals: number[] = [0, 0];
 
   signals: any =
-    [{ "type": "temperature", "name": "GV ❯ Prod ❯ Ambient Temperature", "selY": [false, false] },
-    { "type": "temperature", "name": "GV ❯ Prod ❯ EAP1 ❯ Exhaust", "selY": [false, false] },
-    { "type": "temperature", "name": "GV ❯ Prod ❯ EAP2 ❯ Exhaust", "selY": [false, false] },
-    { "type": "pressure", "name": "GV ❯ Lab ❯ IB ❯ Main Pump", "selY": [false, false] },
-    { "type": "pressure", "name": "GV ❯ Lab ❯ IB ❯ Drain Pan Suction", "selY": [false, false] },
-    { "type": "temperature", "name": "GV ❯ Lab ❯ IB ❯ Oil Cooler", "selY": [false, false] },
-    { "type": "temperature", "name": "GV ❯ Lab ❯ IB ❯ Oil Reservoir", "selY": [false, false] },
-    { "type": "pressure", "name": "GV ❯ Lab ❯ IB ❯ Impulse #2 Pilot Pressure", "selY": [false, false] },
-    { "type": "pressure", "name": "GV ❯ Lab ❯ IB ❯ Accumulator", "selY": [false, false] },
-    { "type": "pressure", "name": "GV ❯ Lab ❯ IB ❯ Main Pump Suction", "selY": [false, false] },
-    { "type": "humidity", "name": "GB ❯ Furness Supply Humidity", "selY": [false, false] },
-    { "type": "humidity", "name": "GB ❯ Cleanroom Supply Humidity", "selY": [false, false] }
-    ];
-  //[];
+    // [{ "type": "temperature", "name": "GV ❯ Prod ❯ Ambient Temperature", "selY": [false, false] },
+    // { "type": "temperature", "name": "GV ❯ Prod ❯ EAP1 ❯ Exhaust", "selY": [false, false] },
+    // { "type": "temperature", "name": "GV ❯ Prod ❯ EAP2 ❯ Exhaust", "selY": [false, false] },
+    // { "type": "pressure", "name": "GV ❯ Lab ❯ IB ❯ Main Pump", "selY": [false, false] },
+    // { "type": "pressure", "name": "GV ❯ Lab ❯ IB ❯ Drain Pan Suction", "selY": [false, false] },
+    // { "type": "temperature", "name": "GV ❯ Lab ❯ IB ❯ Oil Cooler", "selY": [false, false] },
+    // { "type": "temperature", "name": "GV ❯ Lab ❯ IB ❯ Oil Reservoir", "selY": [false, false] },
+    // { "type": "pressure", "name": "GV ❯ Lab ❯ IB ❯ Impulse #2 Pilot Pressure", "selY": [false, false] },
+    // { "type": "pressure", "name": "GV ❯ Lab ❯ IB ❯ Accumulator", "selY": [false, false] },
+    // { "type": "pressure", "name": "GV ❯ Lab ❯ IB ❯ Main Pump Suction", "selY": [false, false] },
+    // { "type": "humidity", "name": "GB ❯ Furness Supply Humidity", "selY": [false, false] },
+    // { "type": "humidity", "name": "GB ❯ Cleanroom Supply Humidity", "selY": [false, false] }
+    // ];
+    [];
   selectedCheckboxes: any[] = [];
   autoRefresh: boolean = false;
   dataLoading: boolean = false;
@@ -112,21 +129,27 @@ export class VotmLineGraphComponent implements OnInit {
   // ];
 
   @ViewChild('graphDiv', null) graphDiv: ElementRef;
+  trendChartWidget: TrendChartWidget = new TrendChartWidget();
 
-  constructor(private modalService: NgbModal, private zone: NgZone, private timeSeries: TimeSeriesService, private configSettingsService: ConfigSettingsService,) { }
+  constructor(private modalService: NgbModal, private zone: NgZone, private timeSeries: TimeSeriesService, private configSettingsService: ConfigSettingsService,
+    private dashboardService: DashboardService) { }
 
   ngOnInit() {
-    console.log('this.data ', this.data)
+    this.trendChartWidget.dateRange = '1m';
+    this.trendChartWidget.signalsY1 = [];
+    this.trendChartWidget.signalsY2 = [];
+    this.trendChartWidget.displayThrshold = 'none';
+    // console.log('this.data ', this.data)
     if (this.data) {
       if (this.data.organizationId) {
-        // this.getSignalsAssociatedAssetByOrgId(this.data.organizationId);
+        this.getSignalsAssociatedAssetByOrgId(this.data.organizationId);
       }
       this.wId = this.data.dashboardId + "-" + this.id;
       this.wConfig = (this.data.widgetConf) ? this.data.widgetConf : { yMin: [null, null], yMax: [null, null] };
     }
 
     this.getScreenLabels();
-    
+
 
   }
   // id: any;
@@ -155,12 +178,20 @@ export class VotmLineGraphComponent implements OnInit {
     this.configSettingsService.getTrendChartConfigScreenLabels()
       .subscribe(response => {
         this.pageLabels = response;
-        console.log('Screens Labels', this.pageLabels);
+        // console.log('Screens Labels', this.pageLabels);
       });
   }
 
   onRadioGroupChange() {
     this.saveResult();
+  }
+
+  getUpdatedTimeSeriesData() {
+    this.timeSeries.getUpdatedTimeSeriesAggregateMultipleDevices()
+      .subscribe(response => {
+        this.updatedData = response;
+        //console.log()
+      })
   }
 
   // closeModal(){
@@ -170,6 +201,25 @@ export class VotmLineGraphComponent implements OnInit {
     return moment().subtract(count, option).toDate();
   }
   saveResult(reload: boolean = true) {
+    this.trendChartWidget.leftAxisRangeY1 = this.selYAxisRange[0];
+    this.trendChartWidget.rightAxisRangeY2 = this.selYAxisRange[1];
+    this.trendChartWidget.chartTitle = this.wConfig.title;
+
+    let trendWidgetBody = {
+      "widgetName": "Trend Chart Widget",
+      "dashBoardId": this.data.dashboardId,
+      "widgetConfiguration": JSON.stringify(this.trendChartWidget),
+      "published": true,
+      "active": true
+    }
+    console.log('trendwidget body ', trendWidgetBody)
+
+    this.dashboardService.saveDashboardWidget(trendWidgetBody)
+      .subscribe(response => {
+        console.log('response ', response)
+      })
+
+    console.log('this.trendChartWidget ', this.trendChartWidget)
 
     let body = {
       "accountCode": "PCM",
@@ -184,47 +234,47 @@ export class VotmLineGraphComponent implements OnInit {
       // bucket Size: make it 5m , 10m, 20m, 30m, 1h, 5h, 10h, 20h, 1d, 5 71fe01ae-141c-463f-8e5c-5c40ee02e533
     };
     let numberOfSeconds = 0;
-    if (this.selDateRange) {
-      // body.bucketSize = this.selDateRange;
-      if (this.selDateRange === '1m') {
+    if (this.trendChartWidget.dateRange) {
+      // body.bucketSize = this.trendChartWidget.dateRange;
+      if (this.trendChartWidget.dateRange === '1m') {
         body['fromDateTime'] = this.setFromDate(1, 'minute');
         numberOfSeconds = 60;
       }
-      if (this.selDateRange === '1h') {
+      if (this.trendChartWidget.dateRange === '1h') {
         body['fromDateTime'] = this.setFromDate(1, 'hour');
         numberOfSeconds = 60 * 60;
       }
-      if (this.selDateRange === '1d') {
+      if (this.trendChartWidget.dateRange === '1d') {
         body['fromDateTime'] = this.setFromDate(1, 'day');
         numberOfSeconds = 24 * 60 * 60;
       }
-      if (this.selDateRange === '1w') {
+      if (this.trendChartWidget.dateRange === '1w') {
         body['fromDateTime'] = this.setFromDate(7, 'days');
         numberOfSeconds = 7 * 24 * 60 * 60;
       }
       // console.log('Body ', body)
-      if (this.selDateRange === '1mo') {
+      if (this.trendChartWidget.dateRange === '1mo') {
         body['fromDateTime'] = this.setFromDate(1, 'month');
         numberOfSeconds = 30 * 24 * 60 * 60;
       }
-      if (this.selDateRange === '3mo') {
+      if (this.trendChartWidget.dateRange === '3mo') {
         body['fromDateTime'] = this.setFromDate(3, 'months');
         numberOfSeconds = 3 * 30 * 24 * 60 * 60;
       }
-      if (this.selDateRange === '6mo') {
+      if (this.trendChartWidget.dateRange === '6mo') {
         body['fromDateTime'] = this.setFromDate(6, 'months');
         numberOfSeconds = 2 * 3 * 30 * 24 * 60 * 60;
       }
-      if (this.selDateRange === 'ytd') {
+      if (this.trendChartWidget.dateRange === 'ytd') {
         body['fromDateTime'] = moment().startOf('year').toDate();
         let days = moment().diff(moment().startOf('year'));
         numberOfSeconds = days * 24 * 60 * 60;
       }
-      if (this.selDateRange === 'year') {
+      if (this.trendChartWidget.dateRange === 'year') {
         body['fromDateTime'] = this.setFromDate(1, 'year');
         numberOfSeconds = 2 * 6 * 30 * 24 * 60 * 60;
       }
-      if (this.selDateRange === 'all') {
+      if (this.trendChartWidget.dateRange === 'all') {
         body['fromDateTime'] = this.setFromDate(400, 'days');
         numberOfSeconds = 400 * 24 * 60 * 60;
       }
@@ -233,12 +283,12 @@ export class VotmLineGraphComponent implements OnInit {
     if (this.graphDiv) {
       let offsetWidth = this.graphDiv.nativeElement.offsetWidth;
       // body.bucketSize = `${((numberOfSeconds * 2) / (60 * offsetWidth)).toFixed()}m`;
-      body.bucketSize = `${((numberOfSeconds * 2) /  offsetWidth).toFixed()}s`;
+      body.bucketSize = `${((numberOfSeconds * 2) / offsetWidth).toFixed()}s`;
 
-      console.log('bucketsize ', numberOfSeconds, offsetWidth, body.bucketSize)
+      // console.log('bucketsize ', numberOfSeconds, offsetWidth, body.bucketSize)
     }
 
-    console.log('body ', body);
+    // console.log('body ', body);
 
     let selectedSignals = [];
     this.signals.forEach(signal => {
@@ -252,19 +302,19 @@ export class VotmLineGraphComponent implements OnInit {
     }
 
     // code to remove start
-    body.propertyValue = '71fe01ae-141c-463f-8e5c-5c40ee02e533';
+    // body.propertyValue = '71fe01ae-141c-463f-8e5c-5c40ee02e533';
     // end
 
-    console.log('body.propertyValue ', this.signals, this.selectedCheckboxes, body.propertyValue)
+    // console.log('body.propertyValue ', this.signals, this.selectedCheckboxes, body.propertyValue)
 
     this.timeSeries.getTimeSeriesAggregateMultipleDevices(body)
       .subscribe(response => {
         if (reload) {
           this.dataLoading = true;
-          this.loadLineChart(response, selectedSignals);
+          this.loadLineChart(response, selectedSignals, body);
         } else {
           // debugger
-          console.log('Load data');
+          // console.log('Load data');
           // this.chart.data = [...response];
         }
         // });
@@ -276,14 +326,14 @@ export class VotmLineGraphComponent implements OnInit {
       });
   }
 
-  private loadLineChart(response: any, selectedSignals: any[]) {
+  private loadLineChart(response: any, selectedSignals: any[], requestedBody: any) {
     if (this.chart) {
       this.chart.dispose();
       this.rangeSeriesSet = false;
     }
     // this.chart.dataSource.
     this.configured = true;
-    this.selDynDateRng = this.selDateRange;
+    this.selDynDateRng = this.trendChartWidget.dateRange;
     for (let i = 0; i < 2; i++) {
       this.rangeYAxisMin[i] = parseFloat(this.wConfig.yMin[i]);
       this.rangeYAxisMax[i] = parseFloat(this.wConfig.yMax[i]);
@@ -298,7 +348,9 @@ export class VotmLineGraphComponent implements OnInit {
     // this.zone.runOutsideAngular(() => {
     let chart = am4core.create(this.wId, am4charts.XYChart);
     chart.paddingRight = 20;
-    chart.data = response; // timeseries;// this.generateChartData();
+    chart.dataSource.url = `${environment.protocol}://${environment.server}/${environment.virtualName}/${AppConstants.GET_UPDATEDTIMESERIES_SIGNAL}?AccountCode=${requestedBody.accountCode}&PropertyName=${requestedBody.propertyName}&PropertyValue=${requestedBody.propertyValue}&MeasuredValue=${requestedBody.measuredValue}&FromDateTime=${requestedBody.fromDateTime.toISOString()}&ToDateTime=${requestedBody.toDateTime.toISOString()}&BucketSize=${requestedBody.bucketSize}`;
+    chart.dataSource.reloadFrequency = 60000;
+    // chart.data = response; // timeseries;// this.generateChartData();
     // chart.dataSource.reloadFrequency = 3000;
     let title = chart.titles.create();
     title.text = (this.wConfig.title) ? this.wConfig.title : 'Line-Chart';
@@ -313,7 +365,10 @@ export class VotmLineGraphComponent implements OnInit {
     let dateAxis = chart.xAxes.push(tempdateaxis);
     dateAxis.renderer.line.strokeOpacity = 1;
     dateAxis.renderer.line.stroke = am4core.color("gray");
-    dateAxis.tooltipDateFormat = "MM/dd/yyyy hh:mm:ss";
+    dateAxis.tooltipDateFormat = "MM/dd/YYYY hh:mm:ss";
+    dateAxis.dateFormats.setKey("day", "MMM dd");
+    dateAxis.dateFormats.setKey("year", "yyyy");
+    dateAxis.dateFormats.setKey("second", "HH:mm:ss");
     //Added Code Start
     // dateAxis.start = 0.7;
     // dateAxis.keepSelection = true;
@@ -361,11 +416,11 @@ export class VotmLineGraphComponent implements OnInit {
     // setTimeout(() => {
     //   this.dataLoading = false;
     // }, 30000);
-    console.log('this.chart ', this.chart);
+    // console.log('this.chart ', this.chart);
   }
 
   open(config) {
-    console.log('Config ', config)
+    // console.log('Config ', config)
     this.modalService.open(config, { size: 'lg' }).result.then((result) => {
       if (result === 'save') {
         this.saveResult();
@@ -589,7 +644,11 @@ export class VotmLineGraphComponent implements OnInit {
       this.selectedCheckboxes.push(signalId);
     }
 
-    console.log('selectSignal ', this.selectedCheckboxes)
+    this.setSignalToTendWidgetModel(axis, signalId);
+
+
+
+    // console.log('selectSignal ', this.selectedCheckboxes)
 
     let opposite: number = (axis + 1) % 2;
 
@@ -602,6 +661,25 @@ export class VotmLineGraphComponent implements OnInit {
     } else {
       this.yAxisSignals[axis] -= 1;
       if (this.yAxisSignals[axis] == 0) this.yAxisType[axis] = "";
+    }
+  }
+
+  private setSignalToTendWidgetModel(axis: any, signalId: any) {
+    if (axis === 0) {
+      if (this.trendChartWidget.signalsY1.indexOf(signalId) >= 0) {
+        this.trendChartWidget.signalsY1.splice(this.trendChartWidget.signalsY1.indexOf(signalId), 1);
+      }
+      else {
+        this.trendChartWidget.signalsY1.push(signalId);
+      }
+    }
+    else {
+      if (this.trendChartWidget.signalsY2.indexOf(signalId) >= 0) {
+        this.trendChartWidget.signalsY2.splice(this.trendChartWidget.signalsY2.indexOf(signalId), 1);
+      }
+      else {
+        this.trendChartWidget.signalsY2.push(signalId);
+      }
     }
   }
 
@@ -622,7 +700,7 @@ export class VotmLineGraphComponent implements OnInit {
   getSignalsAssociatedAssetByOrgId(orgId: string) {
     this.timeSeries.getSignalsAssociatedAssetByOrgId(orgId)
       .subscribe(response => {
-        console.log('Time Series Signal', response);
+        // console.log('Time Series Signal', response);
         let tempArray = [];
         if (response) {
           // Location
@@ -654,324 +732,12 @@ export class VotmLineGraphComponent implements OnInit {
   }
 
   onRefreshClick() {
-    console.log('Refresh Click');
+    // console.log('Refresh Click');
     this.saveResult();
   }
+
+  onDisplayThresholdsChange(event, value) {
+    console.log('onRadioChange ', event);
+    this.trendChartWidget.displayThrshold = value;
+  }
 }
-
-
-
-
-// Previous code
-
-
-
-
-
-
-
-
-
-// import { Component, OnInit, NgZone, Input } from '@angular/core';
-// import * as am4core from "@amcharts/amcharts4/core";
-// import * as am4charts from "@amcharts/amcharts4/charts";
-// import am4themes_animated from "@amcharts/amcharts4/themes/animated";
-// import { ToastrService } from 'ngx-toastr';
-// import { Toaster } from '../../votm-cloud-toaster/votm-cloud-toaster';
-// import { DbItem } from '../../../../models/db-item';
-// import { timeseries } from 'src/assets/data/time-series';
-
-// am4core.useTheme(am4themes_animated);
-// @Component({
-//   selector: 'app-votm-line-graph',
-//   templateUrl: './votm-line-graph.component.html',
-//   styleUrls: ['./votm-line-graph.component.scss']
-// })
-// export class VotmLineGraphComponent implements OnInit {
-
-
-//   private chart: am4charts.XYChart;
-//   id: any;
-//   data: any;
-//   // @Input() data: DbItem;
-//   // @Input() id: string;
-//   isTrendChartConfigured: boolean;
-//   customizeTrendChart: any;
-//   toaster: Toaster = new Toaster(this.toastr);
-//   "hideCredits": true;
-//   private wConfig;
-//   private wId: string = '';
-//   private showMinMax: boolean = true;
-//   private showThresh: boolean[] = [false, false];
-//   private showLegend: boolean = true;
-//   private autoScaleY: boolean[] = [true, true];
-//   private legendWidth;
-//   private selDateRange: string = "Month";
-//   private selYAxisRange: string[] = ["auto", "auto"];
-//   private rangeYAxisMin: number[] = [null, null];
-//   private rangeYAxisMax: number[] = [null, null];
-//   private rangeSeriesSet: boolean = false;
-//   private signalTypes: any[] = [];
-
-//   yAxisType: string[] = ["", ""];
-//   yAxisSignals: number[] = [0, 0];
-
-//   signals: any = [];
-
-
-
-//   constructor(
-//     private zone: NgZone,
-//     private toastr: ToastrService
-//   ) {
-//     this.id = Math.floor((Math.random() * 100) + 1);
-//   }
-
-//   ngOnInit() {
-//     // Oninit check chart is configured or not
-//     this.isTrendChartConfigured = false;
-//     // this.wId = this.data.id + "-" + this.id;
-//     // this.wConfig = (this.data.widgetConf) ? this.data.widgetConf : { yMin: [null, null], yMax: [null, null] };
-//     // Oninit check chart is configured or not
-//     // this.getChartConfiguration();
-
-//     this.data = timeseries;
-//     console.log('Ahamed Dats', this.data);
-//   }
-
-
-//   getChartConfiguration() {
-
-//     // Call service to get configured chart data & to verify chart is configured or not
-//     // this.widgetService.getColumnChartConfiguration().subscribe(
-//     //   response => {
-//     //     this.isColumnChartConfigured = true;
-//     //   }, error => {
-//     //     this.isColumnChartConfigured = false;
-//     //   }
-//     // );
-//     this.isTrendChartConfigured = true;
-
-//   }
-
-
-//   onClickOfCustomizeTrendChart() {
-//     // Open Chart configuration modal popup
-//     const modal = document.getElementById('configure-trend-chart-modal');
-//     modal.style.display = 'block';
-//     this.customizeTrendChart = document.getElementById('configure-trend-chart-modal');
-//     window.onclick = (event) => {
-//       if (event.target === modal) {
-//         modal.style.display = 'none';
-//       }
-//     };
-//   }
-
-//   onClickOfCustomizeTrendChartModalClose() {
-//     // Close modal popup
-//     this.customizeTrendChart.style.display = 'none';
-//   }
-
-
-//   saveTrendChartConfiguration() {
-//     this.customizeTrendChart.style.display = 'none';
-//     this.toaster.onSuccess('Chart Configured Successfully', 'Success');
-//     // Call services to save chart configuration data
-//     // this.widgetService.addColumnChartConfiguration(columnChartConfigureObj).subscribe(
-//     //   response => {
-//     //     this.toaster.onSuccess('Chart Configured Successfully', 'Success');
-//     //     this.onClickOfCustomizeColumnChartModalClose();
-//     //     this.getChartConfiguration();
-//     //   }, error => {
-//     //     this.toaster.onFailure('Error in Chart Configuration', 'Failure');
-//     //     this.onClickOfCustomizeColumnChartModalClose();
-//     //   }
-//     // );
-//     this.getChartConfiguration();
-//     setTimeout(() => {
-//       this.getAMTrendChart();
-//     }, 500);
-
-//   }
-
-
-
-//   ngAfterViewInit() {
-
-
-//     if (this.isTrendChartConfigured) {
-//       this.getAMTrendChart();
-//     }
-
-//   }
-
-
-//   ngOnDestroy() {
-//     this.zone.runOutsideAngular(() => {
-//       if (this.chart) {
-//         this.chart.dispose();
-//       }
-//     });
-//   }
-
-
-//   // getAMTrendChart() {
-//   //   am4core.options.commercialLicense = true;
-//   //   hideCredits: true;
-//   //   // Create chart instance
-//   //   let chart = am4core.create('chartdiv-div-line-' + this.id, am4charts.XYChart);
-
-//   //   // Add data
-//   //   chart.data = this.data; // this.generateChartData(); //  this.data; // generateChartData();
-//   //   console.log('chart.data ', chart.data, this.generateChartData())
-//   //   // Create axes
-//   //   var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
-//   //   dateAxis.renderer.minGridDistance = 50;
-
-//   //   var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
-
-//   //   // Create series
-//   //   var series = chart.series.push(new am4charts.LineSeries());
-//   //   series.dataFields.valueY = "SigAvg0";
-//   //   series.dataFields.dateX = "Date";
-//   //   series.strokeWidth = 2;
-//   //   series.minBulletDistance = 10;
-//   //   series.tooltipText = "{valueY}";
-//   //   series.tooltip.pointerOrientation = "vertical";
-//   //   series.tooltip.background.cornerRadius = 20;
-//   //   series.tooltip.background.fillOpacity = 0.5;
-//   //   series.tooltip.label.padding(12, 12, 12, 12)
-
-//   //   // Add scrollbar
-//   //   let scrollbarX = new am4charts.XYChartScrollbar();
-//   //   scrollbarX.series.push(series);
-//   //   chart.scrollbarX = scrollbarX;
-//   //   chart.scrollbarX.parent = chart.bottomAxesContainer;
-//   //   // chart.scrollbarX = new am4charts.XYChartScrollbar();
-//   //   // chart.scrollbarX.series.push(series);
-
-
-//   //   // Add cursor
-//   //   chart.cursor = new am4charts.XYCursor();
-//   //   chart.cursor.xAxis = dateAxis;
-//   //   chart.cursor.snapToSeries = series;
-
-//   //   // Add legend
-//   //   chart.legend = new am4charts.Legend();
-
-
-//   // }
-
-//   // Create series
-
-
-//   getAMTrendChart() {
-//     // Create chart instance
-//     this.chart = am4core.create('chartdiv-div-line-' + this.id, am4charts.XYChart);
-
-//     // Increase contrast by taking evey second color
-//     this.chart.colors.step = 2;
-
-//     // Add data
-//     this.chart.data = this.data; //generateChartData();
-
-//     // Create axes
-//     let dateAxis = this.chart.xAxes.push(new am4charts.DateAxis());
-//     dateAxis.renderer.minGridDistance = 50;
-
-
-
-//     this.createAxisAndSeries("SigAvg0", "SigAvg0", false, "circle");
-//     this.createAxisAndSeries("SigMin1", "SigMin1", true, "triangle");
-//     this.createAxisAndSeries("SigMin3", "SigMin3", true, "rectangle");
-
-//     // Add legend
-//     this.chart.legend = new am4charts.Legend();
-
-//     // Add cursor
-//     this.chart.cursor = new am4charts.XYCursor();
-
-
-
-//   }
-
-//   createAxisAndSeries(field, name, opposite, bullet) {
-//     let valueAxis = this.chart.yAxes.push(new am4charts.ValueAxis());
-
-//     let series = this.chart.series.push(new am4charts.LineSeries());
-//     series.dataFields.valueY = field;
-//     series.dataFields.dateX = "Date";
-//     series.strokeWidth = 2;
-//     series.yAxis = valueAxis;
-//     series.name = name;
-//     series.tooltipText = "{name}: [bold]{valueY}[/]";
-//     series.tensionX = 0.8;
-
-//     let interfaceColors = new am4core.InterfaceColorSet();
-
-//     switch (bullet) {
-//       case "triangle":
-//         let tempbullet = series.bullets.push(new am4charts.Bullet());
-//         tempbullet.width = 12;
-//         tempbullet.height = 12;
-//         tempbullet.horizontalCenter = "middle";
-//         tempbullet.verticalCenter = "middle";
-
-//         let triangle = tempbullet.createChild(am4core.Triangle);
-//         triangle.stroke = interfaceColors.getFor("background");
-//         triangle.strokeWidth = 2;
-//         triangle.direction = "top";
-//         triangle.width = 12;
-//         triangle.height = 12;
-//         break;
-//       case "rectangle":
-//         let tempbullet1 = series.bullets.push(new am4charts.Bullet());
-//         tempbullet1.width = 10;
-//         tempbullet1.height = 10;
-//         tempbullet1.horizontalCenter = "middle";
-//         tempbullet1.verticalCenter = "middle";
-
-//         let rectangle = tempbullet1.createChild(am4core.Rectangle);
-//         rectangle.stroke = interfaceColors.getFor("background");
-//         rectangle.strokeWidth = 2;
-//         rectangle.width = 10;
-//         rectangle.height = 10;
-//         break;
-//       default:
-//         let bullet = series.bullets.push(new am4charts.CircleBullet());
-//         bullet.circle.stroke = interfaceColors.getFor("background");
-//         bullet.circle.strokeWidth = 2;
-//         break;
-//     }
-
-//     valueAxis.renderer.line.strokeOpacity = 1;
-//     valueAxis.renderer.line.strokeWidth = 2;
-//     valueAxis.renderer.line.stroke = series.stroke;
-//     valueAxis.renderer.labels.template.fill = series.stroke;
-//     valueAxis.renderer.opposite = opposite;
-//     valueAxis.renderer.grid.template.disabled = true;
-//   }
-
-
-//   generateChartData() {
-//     var chartData = [];
-//     var firstDate = new Date();
-//     firstDate.setDate(firstDate.getDate() - 1000);
-//     var visits = 1200;
-//     for (var i = 0; i < 500; i++) {
-//       // we create date objects here. In your data, you can have date strings
-//       // and then set format of your dates using chart.dataDateFormat property,
-//       // however when possible, use date objects, as this will speed up chart rendering.
-//       var newDate = new Date(firstDate);
-//       newDate.setDate(newDate.getDate() + i);
-
-//       visits += Math.round((Math.random() < 0.5 ? 1 : -1) * Math.random() * 10);
-
-//       chartData.push({
-//         date: newDate,
-//         visits: visits
-//       });
-//     }
-//     return chartData;
-//   }
-// }

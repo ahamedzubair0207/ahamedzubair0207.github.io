@@ -27,6 +27,13 @@ export class TimeSeriesService {
       );
   }
 
+
+  getUpdatedTimeSeriesAggregateMultipleDevices() {
+    return this.http.get(`${AppConstants.GET_UPDATEDTIMESERIES_SIGNAL}`)
+      .pipe(
+        map(response => response)
+      );
+  }
   // /v1/SignalAssociatedwithAssetLocationByOrganization/{organizationId}
 
 

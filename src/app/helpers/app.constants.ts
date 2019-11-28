@@ -25,6 +25,8 @@ export class AppConstants {
     public static GET_ALL_DASHBOARD = '/Dashboard';
     public static DEL_DASHBOARD = '/Dashboard';
 
+    public static CREATE_DASHBOARD_WIDGET = '/DashboardWidget';
+
     public static GET_FAVORITES = '/UserManagement/UserFavorites';
     public static POST_FAVORITES = '/UserManagement/UserFavorites';
     public static PATCH_FAVORITES = '/UserManagement/UserFavorites';
@@ -96,6 +98,7 @@ export class AppConstants {
 
     public static GET_TIMESERIES_SIGNAL = '/SignalAssociatedwithAssetLocationByOrganization';
     public static POST_GETTIMESERIESAGGREGATEMULTIPLEDEVICES = '/TimeSeries/GetTimeSeriesAggregateMultipleDevices';
+    public static GET_UPDATEDTIMESERIES_SIGNAL = '/TimeSeries/GetTimeSeriesMultipleSignals';
 
     public static NAVIGATION_URL = '/BreadcrumbNavigation';
 
