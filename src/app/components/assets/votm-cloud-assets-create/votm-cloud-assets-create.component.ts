@@ -141,6 +141,7 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
   appInfoLoader: boolean;
   disableParentOrgaAndLoc: boolean;
   // Dashboard-david end
+  templateDocuments: any[] = [];
 
   constructor(
     private modalService: NgbModal,
@@ -318,6 +319,9 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
             };
             this.asset.logo.imageType = this.fileExtension;
           }
+
+          this.templateDocuments = this.asset.fileStore;
+
         }
 
         this.loader = false;
@@ -406,7 +410,7 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
       var binaryData = [];
       binaryData.push(file);
 
-      this.docFile = new Blob(binaryData, { type: file.type })
+      this.docFile = new Blob(binaryData, { type: file.type });
 
       this.handleDocSelect(file);
       // let readerToPreview = new FileReader();
@@ -544,7 +548,9 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
     if (file) {
       var reader: any = new FileReader();
       // reader.onload = this._handleReaderLoaded.bind(this);
-      this.asset.fileStore = new VOTMFile();
+      // this.asset.fileStore = new VOTMFile();
+      // this.asset.fileStore = [];
+      const temp: any = {};
       reader.onload = (e) => {
         // ADDED CODE
         let data;
@@ -556,12 +562,22 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
         }
         const base64textString = btoa(data);
         // console.log('this.organization ', this.location, data)
-        this.asset.fileStore.file = base64textString;
+        // this.asset.fileStore.file = base64textString;
+        // this.asset.fileStore.fileName = file.name;
+        // this.asset.fileStore.fileType = file.type;
+        const tempFileStoreId = this.templateDocuments.length + 1;
+        temp.fileStoreId = ''; // for patch api
+        temp.file = base64textString;
+        temp.fileName = file.name;
+        temp.fileType = file.type;
+        temp.tempFileStoreId = tempFileStoreId;
+        // hack to load datatable if it is empty
+        // As Initial it takes blank memory reference
+        const templateDocumentsList = [...this.templateDocuments];
+        templateDocumentsList.push(temp);
+        this.templateDocuments = [...templateDocumentsList];
+
       };
-
-
-      this.asset.fileStore.fileName = file.name;
-      this.asset.fileStore.fileType = file.type;
       // debugger;
       reader.readAsBinaryString(file);
     }
@@ -1004,6 +1020,16 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
       if (!this.asset.fileStore) {
         this.asset.fileStore = null;
       }
+
+      console.log('1000 onAssetSubmit this.templateDocuments=====', this.templateDocuments);
+      // Multiple file upport
+      if (this.templateDocuments) {
+        this.asset.fileStore = this.templateDocuments;
+
+        console.log('this.asset=====', this.asset);
+        // return;
+      }
+
       if (!this.asset.imageCoordinates) {
         this.asset.imageCoordinates = {};
         this.asset.imageCoordinates[this.asset.assetName] = {
