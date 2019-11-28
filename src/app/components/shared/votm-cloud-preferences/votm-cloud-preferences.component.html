@@ -168,7 +168,7 @@
                               <span class="input-group-text pt-0 pb-0" name="uom-logo"
                                 id="unitsOfMeasureSelected">{{uomMeasurement}}</span>
                               <div class="">
-                                <button type="button" class="btn btn-sm btn-secondary"
+                                <button type="button" class="btn btn-sm btn-outline-secondary"
                                 id="noti_pre_custom"
                                   (click)="openModal()" style="z-index: 0;">Change</button>
                               </div>
@@ -258,7 +258,7 @@
           </div>
           <hr>
           <div class="text-right pt-2">
-            <button class="btn btn-sm btn-secondary mr-2" id="not_fav_cancel" type="button" (click)="onCancelClick($event)">Cancel</button>
+            <button class="btn btn-sm btn-outline-secondary mr-2" id="not_fav_cancel" type="button" (click)="onCancelClick($event)">Cancel</button>
             <button class="btn btn-sm btn-info" type="submit" id="noti_fav_save">Save</button>
           </div>
         </form>
@@ -831,7 +831,7 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button id="org-uom-cancle" type="button" class="btn btn-secondary btn-sm" (click)="closemodal('cancel')">Cancel
+        <button id="org-uom-cancle" type="button" class="btn btn-outline-secondary btn-sm" (click)="closemodal('cancel')">Cancel
         </button>
         <button id="org-uom-save" type="button" class="btn btn-info btn-sm" (click)="onSaveUOMDetails()">Save</button>
       </div>
