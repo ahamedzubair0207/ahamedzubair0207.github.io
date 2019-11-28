@@ -44,7 +44,7 @@ export class VotmCloudAssetTemplateListComponent implements OnInit {
   }
 
   onEditViewClick(template, action) {
-    this.router.navigate([`template/${action}/${template.templateId}`]);
+    this.router.navigate([`org/template/${action}/${template.templateId}`]);
   }
 
   openConfirmDialog(template) {

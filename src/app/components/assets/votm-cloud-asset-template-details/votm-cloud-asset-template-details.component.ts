@@ -252,9 +252,9 @@ export class VotmCloudAssetTemplateDetailsComponent implements OnInit {
 
   onLockClick() {
     if (this.pageType.toLowerCase() === 'view') {
-      this.router.navigate([`template/edit/${this.template.templateId}`]);
+      this.router.navigate([`org/template/edit/${this.template.templateId}`]);
     } else {
-      this.router.navigate([`template/view/${this.template.templateId}`]);
+      this.router.navigate([`org/template/view/${this.template.templateId}`]);
     }
   }
 
