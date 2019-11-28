@@ -227,8 +227,9 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
 
   onClickOfCustomizeImageOverlayModalClose() {
     // Close modal popup
-    if(this.customizeImageOverlay){
-    this.customizeImageOverlay.style.display = 'none';}
+    if (this.customizeImageOverlay) {
+    this.customizeImageOverlay.style.display = 'none';
+    }
   }
 
 
@@ -405,11 +406,12 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
       console.log(typeof data);
 
       const jsonData = JSON.parse(JSON.stringify(data));
-      console.log('componnet', jsonData.SignalName, '===', jsonData.SignalValue, '=====', jsonData.SensorId);
+      console.log('componnet', jsonData.SignalName, '===', jsonData.SignalValue, '=====', jsonData.ParkerDeviceId);
       const index = this.associatedSignals.findIndex(assSig => {
-        console.log(assSig.parkerDeviceId, '===', jsonData.SensorId);
+        console.log(jsonData);
+        console.log(assSig.parkerDeviceId, '===', jsonData.ParkerDeviceId);
         console.log(assSig.signalId, '===', jsonData.SignalId);
-        return assSig.parkerDeviceId === jsonData.SensorId && assSig.signalId === jsonData.SignalId;
+        return assSig.parkerDeviceId === jsonData.ParkerDeviceId && assSig.signalId === jsonData.SignalId;
       });
       if (index !== -1) {
         this.associatedSignals[index].latestValue = jsonData.SignalValue;
