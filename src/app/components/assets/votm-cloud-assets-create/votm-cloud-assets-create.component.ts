@@ -576,6 +576,7 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
         const templateDocumentsList = [...this.templateDocuments];
         templateDocumentsList.push(temp);
         this.templateDocuments = [...templateDocumentsList];
+        console.log('this.templateDocuments==', this.templateDocuments);
 
       };
       // debugger;
@@ -967,6 +968,15 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
           selectedTemplate.logo.imageType = this.fileExtension;
         }
 
+        if (selectedTemplate.fileStore && selectedTemplate.fileStore.length > 0) {
+          // Get template documents and add temporary index to remove from dom & array (on delete icon)
+          selectedTemplate.fileStore.forEach((templateDocument, index) => {
+            this.templateDocuments[index] = templateDocument;
+            this.templateDocuments[index].tempFileStoreId = index + 1;
+          });
+          console.log('this.templateDocuments==', this.templateDocuments);
+        }
+
         // Please Don't Touch the below code
 
         // if (selectedTemplate.fileStore && selectedTemplate.fileStore.fileName) {
@@ -1332,7 +1342,17 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
     }
   }
 
-  templateDocumentDelete() {
+  templateDocumentDelete(removedTempFileStoreId) {
+    const regenratedTemplatDocuments = [];
+    this.templateDocuments.forEach(eachTemplateDocument => {
+      console.log('eachTemplateDocument.tempFileStoreId === removedTempFileStoreId', eachTemplateDocument.tempFileStoreId + '===' + removedTempFileStoreId);
+      if (eachTemplateDocument.tempFileStoreId !== removedTempFileStoreId) {
+        regenratedTemplatDocuments.push(eachTemplateDocument);
+      }
+    });
+
+    this.templateDocuments = regenratedTemplatDocuments;
+    console.log('regenratedTemplatDocuments', this.templateDocuments);
 
   }
 

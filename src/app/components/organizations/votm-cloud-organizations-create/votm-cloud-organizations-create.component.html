@@ -776,7 +776,7 @@
 
             <div class="create-org-container tab-pane fade" [ngClass]="{ 'active show':activeTab==='asset-template'}"
               id="asset-template" data-toggle="tab" role="tabpanle" area-labelledby="asset-template-tab">
-              <app-votm-cloud-asset-template-list [templateList]="templateList"></app-votm-cloud-asset-template-list>
+              <app-votm-cloud-asset-template-list [templateList]="templateList" [orgId]="orgId" [orgName]="organization.name"></app-votm-cloud-asset-template-list>
             </div>
 
             <div class="create-org-container tab-pane fade" [ngClass]="{ 'active show':activeTab==='org-sensors'}"

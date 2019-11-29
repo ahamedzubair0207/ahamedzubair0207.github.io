@@ -276,7 +276,7 @@ const routes: Routes = [
     path: 'org/template/view/:templateId', component: VotmCloudAssetTemplateDetailsComponent, data: { type: 'View' }
   },
   {
-    path: 'org/template/create', component: VotmCloudAssetTemplateDetailsComponent, data: { type: 'Create' }
+    path: 'org/template/create/:orgId/:orgName', component: VotmCloudAssetTemplateDetailsComponent, data: { type: 'Create' }
   },
   // { path: 'template/list', component: VotmCloudAssetTemplateListComponent },
   {

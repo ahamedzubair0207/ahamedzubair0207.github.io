@@ -22,6 +22,8 @@ export class VotmCloudAssetTemplateListComponent implements OnInit {
   toaster: Toaster = new Toaster(this.toastr);
 
   @Input() templateList: any[];
+  @Input() orgId: string;
+  @Input() orgName: string;
   @ViewChild('confirmBox', null) confirmBox: VotmCloudConfimDialogComponent;
   parentOrgId: any;
   parentOrgName: string;
@@ -41,6 +43,12 @@ export class VotmCloudAssetTemplateListComponent implements OnInit {
     private breadcrumbs: BreadcrumbsService) { }
 
   ngOnInit() {
+    console.log('@Input() orgId: string;===', this.orgId);
+    console.log('@Input() orgName: string;===', this.orgName);
+  }
+
+  onCreateAssetTemplateClick() {
+    this.router.navigate([`org/template/create`], { relativeTo: this.route });
   }
 
   onEditViewClick(template, action) {
