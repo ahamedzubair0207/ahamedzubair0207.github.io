@@ -934,7 +934,7 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
           assetType: selectedTemplate.assetType,
           description: selectedTemplate.description,
           // documentationUrl: selectedTemplate.documentationUrl,
-          // fileStore: selectedTemplate.fileStore,
+          fileStore: selectedTemplate.fileStore,
           locationId: this.parentLocId,
           locationName: this.parentLocName,
           organizationId: this.curOrgId,
@@ -1330,6 +1330,10 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
       this.imgOffsetWidth = this.elAssetPositionImg.nativeElement.offsetWidth;
       this.imgOffsetHeight = this.elAssetPositionImg.nativeElement.offsetHeight;
     }
+  }
+
+  templateDocumentDelete() {
+
   }
 
 
