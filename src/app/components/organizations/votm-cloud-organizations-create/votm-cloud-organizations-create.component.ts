@@ -206,13 +206,15 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
             // this.activeTab = 'org-details';
             this.goToTab('org-details');
           } else {
-            console.log('Entererd in else ', fragment)
+            console.log('Entererd in else ', fragment);
             if (fragment) {
               this.activeTab = fragment;
             }
           }
           if (fragment === 'org-alert') {
             this.fetchLertRuleLost();
+          } else if (fragment === 'asset-template') {
+            this.onTemplateTabClick();
           }
         }
       );

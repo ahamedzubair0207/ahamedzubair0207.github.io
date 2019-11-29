@@ -39,7 +39,7 @@ export class VotmCloudLocationsSignalComponent implements OnInit {
   @Input() disable = true;
   showUnassoc = false;
   showAssoc = true;
-  model = 'Signal';
+  model = 'signal';
   pageType: string;
   constructor(
     private activatedRoute: ActivatedRoute,

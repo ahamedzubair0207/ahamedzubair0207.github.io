@@ -1,14 +1,49 @@
-<hr>
 
-<div class="row" style="padding: 30px;">
-  <div id="sensor-cont-2" class="col-md-2"></div>
-  <div class="col-md-10">
-      <div class="chart-cont embed-responsive embed-responsive-16by9" style="background-color: #efefef;">
-          <div class="embed-responsive-item" id="map-cont-2">
-              <img id="map-image" class="img-fluid" src="../../assets/images/floorplan.svg" />
-          </div>
+
+
+    <div class="row mt-2">
+
+
+      <div class="col-12 col-md-3 pl-md-2">
+        <div class="form-group has-search">
+          <span class="icon-search form-control-feedback"></span>
+          <input type="text" class="form-control" placeholder="Filter Gateways" />
+        </div>
       </div>
-      <br />
-      
-  </div>
-</div>
+      <div class="col-12 col-md-6 form-group py-1" [class.d-none]="disable">
+        Gateways to show:&nbsp;&nbsp;
+        <div class="custom-control custom-checkbox custom-control-inline"  >
+          <input type="checkbox" id="assocSignals" class="custom-control-input" [checked]="showClaimed" (change)="showClaimed = !showClaimed" />
+          <label class="custom-control-label" for="assocSignals">Claimed</label>
+        </div>
+        <div class="custom-control custom-checkbox custom-control-inline" >
+          <input type="checkbox" id="unassocSignals" class="custom-control-input" [checked]="showUnClaimed" (change)="showUnClaimed = !showUnClaimed" />
+          <label class="custom-control-label" for="unassocSignals">Unclaimed</label>
+        </div>
+
+      </div>
+    </div>
+
+    <app-votm-cloud-association
+      *ngIf="!isGetGatewayAPILoading"
+      [imageURL]="imageURL"
+      [dragList]="gateways"
+      [droppedList]="associatedGateways"
+      [showDerivedSignal]="false"
+      [showSensorsDetail]="false"
+      [showEditIcon]="true"
+      [showAlertIcon]="false"
+      [showDetachIcon]="false"
+      [isDragDropRequired]="true"
+      [model]="'gateway'"
+      [disable]="disable"
+      [showUnassoc]="showUnClaimed"
+      [showAssoc]="showClaimed"
+      (reload)="getAllGateways()"
+      (saveAssociation)="onSaveGatewayAssociation($event)"
+      (resetPage)="onReset($event)"
+      (returnToList)="onReturnToList()"
+    >
+
+    </app-votm-cloud-association>
+
