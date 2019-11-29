@@ -93,9 +93,7 @@ export class VotmCloudAssetTemplateDetailsComponent implements OnInit {
               this.templateDocuments[index] = templateDocument;
               this.templateDocuments[index].tempFileStoreId = index + 1;
             });
-
             console.log('fetchTemplateById==', this.templateDocuments);
-
           }
         }
       });
@@ -162,9 +160,8 @@ export class VotmCloudAssetTemplateDetailsComponent implements OnInit {
       // Multiple file upport
       if (this.templateDocuments) {
         this.template.fileStore = this.templateDocuments;
-
         console.log('this.template=====', this.template);
-        return;
+        // return;
       }
     }
     // this.template.assetName = null;
