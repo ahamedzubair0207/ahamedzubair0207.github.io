@@ -2,8 +2,8 @@
   font-family: 'pcm';
   src: url('../font/pcm.eot?81178102');
   src: url('../font/pcm.eot?81178102#iefix') format('embedded-opentype'),
-       url('../font/pcm.woff2?81178102') format('woff2'),
-       url('../font/pcm.woff?81178102') format('woff'),
+       url('../font/pcm.woff2') format('woff2'),
+       url('../font/pcm.woff') format('woff'),
        url('../font/pcm.ttf?81178102') format('truetype'),
        url('../font/pcm.svg?81178102#pcm') format('svg');
   font-weight: normal;
