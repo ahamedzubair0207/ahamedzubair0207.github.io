@@ -28,7 +28,7 @@
 
   <div class="template-outside-border tab-pane fade show active border border-left-0 p-3" id="template-details" role="tabpanle"
     area-labelledby="template-details-tab">
-    <div class="position-relative">
+    <div class="position-relative" *ngIf="pageType.toLowerCase() === 'view' || pageType.toLowerCase() === 'edit'" >
       <div class="lock-tab border border-bottom-0">
         <i class="icon-lock edit-view-lock" name="templatetlockbutton" *ngIf="pageType && pageType.toLowerCase() === 'view'"
           (click)="onLockClick()"></i>
@@ -93,8 +93,7 @@
             <div class="col-12 col-md-6 col-lg-3 col-xl-2">
               <div class="form-group">
                 <label class="" id="template-asset-label" for="assetName">Default Asset Name:</label>
-                <input type="text" id="template-asset-input" [(ngModel)]="template.assetName" disabled
-                  class="form-control form-control-sm" name="parentAsset">
+                <input type="text" id="template-asset-input" [(ngModel)]="template.assetName" class="form-control form-control-sm" name="parentAsset" [disabled]="pageType==='View'">
               </div>
               <!-- <div class="row form-group">
                               <label class="col-sm-5 col-form-label" for="parentLoc">* Asset Name:</label>
@@ -108,7 +107,8 @@
                 <label class="" id="template-asset-lbl-type" for="asset-Type">Asset Type:</label>
                 <input type="text" id="template-asset-type" [(ngModel)]="template.assetType"
                   placeholder="Enter Asset Type" [disabled]="pageType==='View'" #assetType="ngModel" name="assetType"
-                  (blur)="onAssetTypeChange()" maxlength="50" class="form-control form-control-sm">
+                   maxlength="50" class="form-control form-control-sm">
+                   <!-- (blur)="onAssetTypeChange()" -->
               </div>
             </div>
 
@@ -164,7 +164,7 @@
       </div>
 
       <div class="row asset-des">
-        <div class="col-12 col-md-6 col-lg-3 col-xl-2">
+        <!-- <div class="col-12 col-md-6 col-lg-3 col-xl-2">
           <label for="assetImage" id="template-image-lbl">Asset Image : </label>
 
           <div class="custom-file">
@@ -173,28 +173,117 @@
             <label class="custom-file-label" for="customFile">Choose file</label>
             <img [src]="imgURL" height="200" width="235" *ngIf="imgURL">
           </div>
+        </div> -->
+        <div class="col-md-4">
+          <fieldset class="asset-btm-same">
+            <legend id="asset-image-lbl">Asset Image</legend>
+            <div class="form-group">
+              <!-- <label for="assetImage" id="asset-image-lbl">Asset Image : </label> -->
 
-         <!-- <span style="color:rgb(106,96,85);" *ngIf="message">{{message}}</span>
-           <div class="custom-file">
-            <input #file type="file" accept='image/*' id="template-image-upload-btn" [disabled]="pageType==='View'"
-              class="form-control form-control-sm custom-file-input" (change)="onImageChangeClick()" />
-            <label style="font-weight: bold" id="template-image-upload" *ngIf="template && template.logo" class="custom-file-label"></label>
-            <img [src]="imgURL" height="200" width="235" *ngIf="imgURL">
-          </div> -->
+              <div class="custom-file">
+                <span style="color:rgb(106,96,85);" *ngIf="message">{{message}}</span>
+                <input class="custom-file-input ng-pristine ng-invalid" [disabled]="pageType==='View'" #file
+                  type="file" id="asset-image" accept='image/*' (change)="onImageChangeClick()" />
+                <label class="custom-file-label" for="customFile">Choose file</label>
+                <span id="imageLbl" style="font-weight: bold" *ngIf="template && template.logo"
+                  class="custom-file-label">{{template.logo.imageName}}</span>
+                <!-- <label style="font-weight: bold" *ngIf="asset && asset.logo" class="custom-file-label"
+                                                              for="customFile">{{asset.logo.imageName}}</label> -->
+              </div>
+            </div>
+            <!-- Image preview -->
+            <div class="form-group">
+              <label for="logopreview">Image Preview:
+                <i *ngIf="imgSize">(Width: {{imgSize.width}}px, Height: {{imgSize.height}}px)</i>
+              </label>
+              <span class="form-control logo-preview">
+                <img [src]="imgURL" class="img-fluid" *ngIf="imgURL">
+              </span>
+            </div>
+          </fieldset>
         </div>
-        <div class="col-12 col-md-6 col-lg-3 col-xl-2">
+        <!-- <div class="col-12 col-md-6 col-lg-3 col-xl-2">
           <label for="exampleFormControlFile1" id="template-Doc-upload-lbl">Documentation:</label>
           <div class="custom-file">
             <input class="custom-file-input form-control form-control-sm" type="file" id="documentUpload" [disabled]="pageType==='View'" name="documentUpload"
-            (change)="onDocChangeClick();">
+            (change)="onDocChangeClick();" #fileInput>
             <label class="custom-file-label" for="customFile">Choose file</label>
             <a *ngIf="template.fileStore" style="color:blue;"
             (click)="onFileOpen()"><u>{{template.fileStore.fileName}}</u></a>
           </div>
-          <!-- <input type="file" id="documentUpload" [disabled]="pageType==='View'" name="documentUpload"
-            (change)="onDocChangeClick();" class="form-control form-control-sm custom-file-input" #fileInput> -->
+          <div class="mt-2" *ngIf="templateDocuments.length > 0">
+            <ngx-datatable
+            class="bootstrap"
+            style="height: 370px;"
+            [rows]="templateDocuments"
+            columnMode="force"
+            [headerHeight]="50"
+            [footerHeight]="0"
+            [rowHeight]="50"
+            [scrollbarV]="true"
+            >
+              <ngx-datatable-column name="Document" [sortable]="true" prop="fileName">
+                <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
+                    <a class="cursor-point" (click)="onFileOpen()">{{row.fileName}}</a>
+                </ng-template>
+              </ngx-datatable-column>
 
+              <ngx-datatable-column name="Action">
+                <ng-template let-value="value" let-row="row" width="50" let-rowIndex="rowIndex" ngx-datatable-cell-template>
+                  <a id="asset_document_delete_{{rowIndex}}" title="Delete" class="mr-2" (click)="templateDocumentDelete(row.tempFileStoreId)" >
+                    <i class="icon-trash"></i>
+                  </a>
+                </ng-template>
+              </ngx-datatable-column>
+            </ngx-datatable>
+          </div>
+        </div> -->
+
+        <div class="col-md-4 form-group">
+          <fieldset class="asset-btm-same">
+            <legend id="fileList">Documentation</legend>
+            <!-- <label for="exampleFormControlFile1">Documentation:</label> -->
+            <div class="custom-file">
+              <input class="custom-file-input ng-pristine ng-invalid" type="file" id="documentUpload"
+                name="documentUpload" id="documentUpload" [disabled]="pageType==='View'"
+                (change)="onDocChangeClick();" #fileInput multiple>
+              <label class="custom-file-label" for="customFile">Choose file</label>
+              <!-- <a *ngIf="asset.fileStore" style="color:blue;"
+                (click)="onFileOpen()"><u>{{asset.fileStore.fileName}}</u></a> -->
+              <!-- <ng-container *ngIf="templateDocuments">
+                  <a *ngFor="let templateDocument of templateDocuments" style="color:blue;" (click)="onFileOpen()"><u><br>{{templateDocument.fileName}}1</u></a>
+              </ng-container> -->
+            </div>
+            <div class="mt-2" *ngIf="templateDocuments.length > 0">
+              <ngx-datatable
+              class="bootstrap"
+              style="height: 370px;"
+              [rows]="templateDocuments"
+              columnMode="force"
+              [headerHeight]="50"
+              [footerHeight]="0"
+              [rowHeight]="35"
+              [scrollbarV]="true"
+              >
+                <ngx-datatable-column name="Document" [sortable]="true" prop="fileName">
+                  <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
+                      <a class="cursor-point" (click)="onFileOpen()">{{row.fileName}}</a>
+                  </ng-template>
+                </ngx-datatable-column>
+
+                <ngx-datatable-column name="Action" *ngIf="pageType==='Edit'">
+                  <ng-template let-value="value" let-row="row" width="50" let-rowIndex="rowIndex" ngx-datatable-cell-template>
+                    <a id="asset_document_delete_{{rowIndex}}" title="Delete" class="mr-2" (click)="templateDocumentDelete(row.tempFileStoreId)" >
+                      <i class="icon-trash"></i>
+                    </a>
+                  </ng-template>
+                </ngx-datatable-column>
+              </ngx-datatable>
+            </div>
+          </fieldset>
         </div>
+
+
       </div>
       <div class="mb-0 text-right">
         <button id="template-cancel" id="template-cancel-btn" for="form-cancel" type="button"

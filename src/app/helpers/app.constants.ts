@@ -17,8 +17,13 @@ export class AppConstants {
     public static DEL_LOC = '/Location';
     public static GATEWAYS_LOC = 'Location/Gateways';
     public static GET_LOC_SEARCH = '/Location/Search';
+
     public static ASSOCIATE_LOCATION_ASSET = 'Asset/Association';
     public static GET_ASSOCIATE_LOCATION_ASSET = 'Asset';
+
+    public static ASSOCIATE_LOCATION_GATEWAY = 'Gateway/Association';
+    public static GET_ASSOCIATE_LOCATION_GATEWAY = 'Gateways';
+
 
     public static CREATE_DASHBOARD = '/Dashboard';
     public static EDIT_DASHBOARD = '/Dashboard';
@@ -90,13 +95,18 @@ export class AppConstants {
     public static UPDATE_ALERT = '/AlertRule';
     public static GET_ALERT_BYORGID = '/AlertRules';
     public static GET_ALERT_BYUSERID = '/AlertRulesByUserId';
-    public static GET_ALERT_RULESIGNALS_ASSOCIATION_ASSETS = '/AlertRuleSignalAssociatedwithAsset'; // AlertRuleSignalAssociatedwithAsset/{organizationId}/{alertRuleId}
+    public static GET_ALERT_RULESIGNALS_ASSOCIATION_ASSETS = '/AlertRuleSignalAssociatedwithAsset';
+    // AlertRuleSignalAssociatedwithAsset/{organizationId}/{alertRuleId}
     public static GET_ALERT_METRICS = '/AlertRules/MetricType';
     public static GET_ALERT_UOMNAMEFORMETRICTYPE = '/AlertRules/UserUnitofMeasurement';
     public static GET_ALERT_USERGROUPROLE = '/AlertRules/UserGroupRoles';
     public static EDIT_ALERT = '/AlertRule';
     public static DEL_ALERT = '/AlertRule';
     public static GET_ALERT_ACCESSSCOPE = '/BreadcrumbNavigation/GetChildOrganization';
+
+    public static GET_ALERT_EVENT_LOG = 'AlertRules/EventLogs';
+    public static UPDATE_ALERT_EVENT_LOG = 'AlertRules/EventLogs';
+
 
     public static GET_TIMESERIES_SIGNAL = '/SignalAssociatedwithAssetLocationByOrganization';
     public static POST_GETTIMESERIESAGGREGATEMULTIPLEDEVICES = '/TimeSeries/GetTimeSeriesAggregateMultipleDevices';

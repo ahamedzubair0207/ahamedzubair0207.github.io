@@ -341,3 +341,22 @@ span.loc-extent {
   // height: 40vh;
   // max-height: 45vh;
 }
+
+
+:host ::ng-deep .datatable-header-cell {
+  background-color: #dee2e6 !important;
+  border-bottom: 1px solid #c8c8c8;
+  border-right: 1px solid #c8c8c8;
+}
+
+:host ::ng-deep .datatable-body-cell {
+  border: 1px solid #c8c8c8;
+  border-right: none;
+
+}
+
+:host ::ng-deep .datatable-header {
+  background-color: #dee2e6 !important;
+  border: 1px solid #c8c8c8;
+
+}

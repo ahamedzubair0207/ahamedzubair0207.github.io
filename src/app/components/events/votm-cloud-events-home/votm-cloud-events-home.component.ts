@@ -1,9 +1,14 @@
+import { SharedService } from './../../../services/shared.service';
+import { EventLogsService } from './../../../services/eventlogs/event-logs.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
 import { Params } from '@angular/router';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { Eventlog } from 'src/app/models/eventlog.model';
+import { Toaster } from '../../shared/votm-cloud-toaster/votm-cloud-toaster';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-votm-cloud-events-home',
@@ -13,29 +18,87 @@ import { Subscription } from 'rxjs';
 export class VotmCloudEventsHomeComponent implements OnInit {
 
   subscriptions: Subscription[] = [];
-  eventsLogs: [];
+  eventsLogs: Eventlog [];
   addEventmodal: any;
+  loggedInUser: any;
+  currentDate = (new Date()).toUTCString();
+  selectedAcknowledgement = 1;
+  closureActivity: string;
+  closureNote: string;
+  @Input() organizationId: string;
+  @Input() locationId: string;
+  @Input() assetId: string;
+  closedBy: string;
+  closedOn: string;
+  @ViewChild('eventLogTable', { static: false }) eventLogTable: any;
+  toaster: Toaster = new Toaster(this.toastr);
+
 
   // constructor() { }
   constructor(
-    // private eventService: EventsService,
-    // private route: ActivatedRoute,
-    // private router: Router
-    private modalService: NgbModal
+    private eventLogsService: EventLogsService,
+    private sharedService: SharedService,
+    private toastr: ToastrService
   ) { }
 
   ngOnInit() {
-    // this.subscriptions.push(this.route.params.subscribe(
-    //   (params: Params) => {
-    //     this.fetchAllEventsLog();
-    //   }));
+    this.loggedInUser = this.sharedService.getLoggedInUser();
+    this.getEventLogs();
   }
 
-  fetchAllEventsLog() {
-    // this.subscriptions.push(this.eventService.getEventsLog()
-    //   .subscribe(response => {
-    //     this.eventsLogs = response;
-    //   }));
+  getEventLogs() {
+    this.eventLogsService.getEventLogs(this.organizationId, this.locationId, this.assetId)
+      .subscribe(response => {
+        this.eventsLogs = response;
+      });
+  }
+
+  toggleExpandRow(row) {
+    this.selectedAcknowledgement = row.clousureTypeId;
+    this.closureActivity = row.eventActivtiyId;
+    this.closureNote = row.description;
+    this.closedBy = !row.active ? row.closedBy : this.loggedInUser.userName;
+    this.closedOn = !row.active ? row.closedOn : this.currentDate;
+    console.log('Toggled Expand Row!', row);
+    this.eventLogTable.rowDetail.collapseAllRows();
+    this.eventLogTable.rowDetail.toggleExpandRow(row);
+  }
+
+  onDetailToggle(event) {
+    console.log('Detail Toggled', event);
+  }
+
+  getRowClass(event) {
+    let className = '';
+    if (event.alarmStatus.toLowerCase().includes('critical')) {
+      className = 'event-danger';
+    } else if (event.alarmStatus.toLowerCase().includes('warning')) {
+      className = 'event-warning';
+    } else if (event.alarmStatus.toLowerCase().includes('baseline')) {
+      className = 'event-success';
+    }
+    return className;
+  }
+
+  updateEventLog(logObj: Eventlog) {
+    const obj = {
+      eventLogId: logObj.eventLogId,
+      clousureType: this.selectedAcknowledgement,
+      eventActivtiyId: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
+      description: null
+    };
+    if (this.selectedAcknowledgement === 2) {
+      obj['eventActivtiyId'] = '3fa85f64-5717-4562-b3fc-2c963f66afa6';
+      obj['description'] = this.closureNote;
+    }
+    this.eventLogsService.updateEventLog(obj).subscribe(
+      response => {
+        this.toaster.onSuccess('Event Log successfully updated', 'Updated');
+        this.getEventLogs();
+      }, error => {
+        this.toaster.onFailure('Error in Event Log updated', 'Updated');
+      }
+    );
   }
 
   openAddEventModal() {

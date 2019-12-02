@@ -104,7 +104,7 @@ export class AssetsService {
 
   updateTemplate(body: any) {
 
-    return this.http.patch(AppConstants.EDIT_TEMPLATE, body)
+    return this.http.patch(AppConstants.EDIT_TEMPLATE + '?templateId=' + body.templateId, body)
       .pipe(
         map(response => response)
       );

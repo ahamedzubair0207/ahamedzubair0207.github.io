@@ -18,7 +18,8 @@ export class Asset {
     description: string;
     // documentationUrl: string;
     // documentation?: File;
-    fileStore?: VOTMFile;
+    // fileStore?: VOTMFile;
+    fileStore: any;
     // template?: string;
     templateId: string;
     templateName: string;

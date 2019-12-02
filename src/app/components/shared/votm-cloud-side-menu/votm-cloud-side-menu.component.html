@@ -27,7 +27,7 @@
           <span class="icon-text">{{eachItem.name}}</span>
           <i class="fa fa-caret-down float-right" id="adminDropDown" style="margin-top:4px;"></i>
         </a>
-        <ul style="overflow:hidden; overflow-y:scroll;"
+        <ul
           class="dropdown-container display-none list-unstyled components left-menu-margin" [id]="eachItem.id"
           *ngIf="eachItem.childs.length > 0">
           <li *ngFor="let childItem of eachItem.childs" routerLinkActive="active"

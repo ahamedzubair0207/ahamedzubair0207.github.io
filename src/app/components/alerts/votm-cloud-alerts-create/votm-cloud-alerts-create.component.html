@@ -356,13 +356,13 @@
                 <fieldset style="height:380px;" [disabled]="pageType === 'View'">
                     <legend>Notified Parties</legend>
                     <div class="">
-                        <button class="btn btn-sm btn-secondary mr-2" id="notifyMeBtn" type="button"><i
+                        <button class="btn btn-sm btn-secondary mr-2" id="notifyMeBtn" type="button" [disabled]="pageType === 'View'"><i
                                 class="icon-star mr-2" ></i>Notify
                             Me</button>
-                        <button type="button" class="btn btn-sm btn-secondary mr-2" data-toggle="modal"
+                        <button type="button" class="btn btn-sm btn-secondary mr-2" data-toggle="modal" [disabled]="pageType === 'View'"
                             (click)="onAddNotifiedUsersClick()"  type="button" data-target="#notifiedUserModal" id="notifyUserBtn"><i
                                 class="icon-user-add mr-2"></i>Add Notified User</button>
-                        <button type="button"  type="button" class="btn btn-sm btn-secondary" data-toggle="modal"
+                        <button type="button"  type="button" class="btn btn-sm btn-secondary" data-toggle="modal" [disabled]="pageType === 'View'"
                             data-target="#notifiedUserGroupModal" id="notifyUserGroupBtn"><i
                                 class="icon-users-add mr-2"></i>Add Notified Group</button>
 
@@ -380,7 +380,7 @@
                                         <th>User Email<i class="icon-info ml-2" ngbPopover="Only for Identification"
                                                 triggers="mouseenter:mouseleave" popoverTitle="Information"></i></th>
                                         <th>Responsibility</th>
-                                        <th class="text-center">Action</th>
+                                        <th class="text-center"  *ngIf="pageType !== 'View'">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -434,9 +434,9 @@
                                             </option>
                                         </select>
                                     </td> -->
-                                        <td class="text-center"><a style="cursor: pointer;"
+                                        <td class="text-center" *ngIf="pageType !== 'View'" ><a style="cursor: pointer;"
                                                 (click)="onUserGroupDelete(userGroupSubscriber)" id="removeUsers"
-                                                ng-disabled='true'><i class="icon-trash"></i></a></td>
+                                                ><i class="icon-trash"></i></a></td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -450,7 +450,9 @@
             <div class="col-md-12 text-right">
                 <button class="btn btn-secondary btn-sm mr-2" type="button" (click)="onCancelClick($event)"
                     id="alertRuleCancelBtn"><i class="icon-entity-list"></i>Return to List</button>
-                <button type="submit" class="btn btn-info btn-sm mr-2" id="alertRuleSaveBtn"><i class="icon-warn"></i>Save</button>
+                <button class="btn btn-secondary btn-sm mr-2" type="button" (click)="openConfirmDialog()" *ngIf="pageType !== 'View'"
+                  id="alertRuleDeleteBtn"><i class="icon-trash"></i>Delete</button>
+                <button type="submit" class="btn btn-info btn-sm mr-2" *ngIf="pageType !== 'View'" id="alertRuleSaveBtn"><i class="icon-warn"></i>Save Alert Rule</button>
             </div>
         </div>
     </form>
@@ -490,10 +492,13 @@
                             <td>{{notifyUser.firstName}}</td>
                             <td>{{notifyUser.lastName}}</td>
                             <td>{{notifyUser.emailId}}</td>
-                            <td><a [ngStyle]="{'cursor':(checkForUserGroupSelected(notifyUser.userId, 'User')?'auto':'pointer')}"
-                                    (click)="onUserSelection(notifyUser)">
-                                    <i [ngStyle]="{'color':(checkForUserGroupSelected(notifyUser.userId, 'User')?'#29a7a1':'black')}"
-                                        class="icon-user-add"></i></a></td>
+                            <td>
+                              <a [ngStyle]="{'cursor':(checkForUserGroupSelected(notifyUser.userId, 'User')?'auto':'pointer')}"
+                                (click)="onUserSelection(notifyUser)">
+                                <i [ngStyle]="{'color':(checkForUserGroupSelected(notifyUser.userId, 'User')?'#29a7a1':'black')}"
+                                    class="icon-user-add"></i>
+                              </a>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
@@ -559,8 +564,8 @@
 
 
 <!-- Delete Confirmation -->
-<app-votm-cloud-confim-dialog (onClose)="deleteAlertById($event)" #confirmBox
-    message="Are you sure you want to delete the Alert Rule?" headerMessage="Warning"></app-votm-cloud-confim-dialog>
+<app-votm-cloud-confim-dialog (onClose)="deleteAlert($event)" #confirmBox
+    [message]="message" headerMessage="Warning"></app-votm-cloud-confim-dialog>
 
 
 <app-votm-cloud-confim-dialog (onClose)="changeSignalType($event)" #MetricTypeConfirmBox [message]="metricChangeMessage"

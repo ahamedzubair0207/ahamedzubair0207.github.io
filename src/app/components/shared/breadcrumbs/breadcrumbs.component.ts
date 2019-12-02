@@ -11,7 +11,7 @@ import { VotmCommon } from '../votm-common';
   styleUrls: ['./breadcrumbs.component.scss']
 })
 
-export class BreadcrumbsComponent {
+export class BreadcrumbsComponent implements OnInit {
   pageType: any;
   orgId: string;
   currentUrl: string;
@@ -24,15 +24,22 @@ export class BreadcrumbsComponent {
   locMinimizedBreadcrumbs: any = {};
   assetMinimizedBreadcrumbs: any = {};
   locId: string;
-  isDotLoaded: boolean = false;
+  isDotLoaded = false;
   assetId: string; // Asset Bread Crumbs
   orgName: string;
   parentOrgId: string;
   mainOrganizationId: string;
   mainOrganizationName: string;
-  count: number = 0;
-  constructor(private router: Router, private activeroute: ActivatedRoute, private navigationService: NavigationService) {
-    router.events.pipe(
+  count = 0;
+  constructor(
+    private router: Router,
+    private activeroute: ActivatedRoute,
+    private navigationService: NavigationService
+    ) {
+  }
+
+  ngOnInit() {
+    this.router.events.pipe(
       filter(e => e instanceof RouterEvent)
     ).subscribe((e: any) => {
       if (this.currentUrl !== e.url) {
@@ -45,6 +52,14 @@ export class BreadcrumbsComponent {
   getData() {
     this.mainOrganizationId = '7a59bdd8-6e1d-48f9-a961-aa60b2918dde';
     this.mainOrganizationName = 'VOTM';
+    this.breadcrumbs = [];
+    this.finalBreadcrumbs = [];
+    this.locBreadcrumbs = [];
+    this.assetBreadcrumbs = [];
+    this.minimizedBreadcrumbs = {};
+    this.orgMinimizedBreadcrumbs = {};
+    this.locMinimizedBreadcrumbs = {};
+    this.assetMinimizedBreadcrumbs = {};
     // if (this.currentUrl.startsWith(`/org/home`)) {
     //   let parts = this.currentUrl.split('/');
     //   this.orgId = parts[3];
@@ -54,12 +69,12 @@ export class BreadcrumbsComponent {
     //   // this.loadOrganizations(this.orgId);
     // } else
     if (this.currentUrl.startsWith(`/org/edit`) || this.currentUrl.startsWith(`/org/view`)) {
-      let parts = this.currentUrl.split('/');
+      const parts = this.currentUrl.split('/');
       this.orgId = parts[5].indexOf('#') >= 0 ? parts[5].split('#')[0] : parts[5];
       // this.orgName = parts[4];
       this.pageType = 'Organization';
       this.parentOrgId = parts[3];
-      this.breadcrumbs = [];
+
       console.log('OrgId ', this.orgId);
       // if (this.orgId.toLowerCase() === this.parentOrgId.toLowerCase()) {
       //   this.breadcrumbs.push({ name: parts[4], nodes: [] });
@@ -162,15 +177,17 @@ export class BreadcrumbsComponent {
               } else {
                 // this.breadcrumbs.push({ name: this.orgName, nodes: response });
                 this.breadcrumbs.reverse();
-
                 // this.checkForVisibility();
                 if (this.pageType === 'Location' || this.pageType === 'Asset' || this.pageType === 'Asset Home' || this.pageType === 'Create Sub Location'
                   || this.pageType === 'Create Parent Asset' || this.pageType === 'Create Sub Asset') {
                   this.locBreadcrumbs = [];
                   if (this.locId) {
                     this.loadLocations(this.locId);
+                  } else {
+                    this.checkForVisibility();
                   }
                 } else {
+
                   this.checkForVisibility();
                   if (this.finalBreadcrumbs && this.finalBreadcrumbs.length > 0) {
                     // this.navigationService.lastOrganization = this.finalBreadcrumbs[this.finalBreadcrumbs.length - 1].name
@@ -201,6 +218,8 @@ export class BreadcrumbsComponent {
                   this.assetBreadcrumbs = [];
                   if (this.assetId) {
                     this.loadAssets(this.assetId);
+                  } else {
+                    this.checkForVisibility();
                   }
                 } else {
                   this.checkForVisibility();
@@ -352,7 +371,7 @@ export class BreadcrumbsComponent {
     // }
     this.finalBreadcrumbs = [];
     this.finalBreadcrumbs = [...this.breadcrumbs];
-    // le.log('BREADCRUMBS ', this.finalBreadcrumbs);
+    console.log('BREADCRUMBS ', this.finalBreadcrumbs);
 
   }
 

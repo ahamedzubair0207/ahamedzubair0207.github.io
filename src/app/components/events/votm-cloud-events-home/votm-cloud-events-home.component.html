@@ -43,7 +43,137 @@
 
 
 <div class="table-responsive">
-  <table class="table table-sm table-bordered org-table-fonts" id="orgEventLogTb">
+
+    <ngx-datatable
+    #eventLogTable
+    class="bootstrap expandable"
+    [columnMode]="'force'"
+    [headerHeight]="50"
+    style="height: 600px;"
+    [footerHeight]="0"
+    [rowHeight]="35"
+    [scrollbarV]="true"
+    [rows]="eventsLogs"
+    [rowClass]="getRowClass"
+  >
+  <ngx-datatable-row-detail rowHeight="180" #myDetailRow (toggle)="onDetailToggle($event)" >
+      <ng-template let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>
+        <div class="col-md-12 row-detail" [ngClass]="getRowClass(row)" >
+          <div class="row p-2">
+              <div class="col-md-3">
+                <div class="form-group pt-1">
+                  <label class="form-check-label">
+                    <input type="radio" id="event-ack-close" name="alert_acknowledge" [value]="1" [(ngModel)]="selectedAcknowledgement" > Acknowledge & close alert
+                  </label>
+                </div>
+              </div>
+              <div class="col-md-8 pr-0">
+                <div class="input-group row mb-3">
+                  <label for="closeby" class="col-sm-2 col-form-label">Close on</label>
+                  <div class="col-sm-4">
+                    <div class="input-group input-group-sm">
+                      <input type="text" id="event-ack-close-ondate" class="form-control" disabled [defaultValue]="currentDate" placeholder="dd/mm/yyy mm:hh">
+                      <div class="input-group-append">
+                        <span class="input-group-text"><i class="icon-calendar"></i></span>
+                      </div>
+                    </div>
+                  </div>
+                  <label for="closeby" class="col-sm-2 col-form-label">Close by</label>
+                  <div class="col-sm-4 pr-0">
+                    <input type="text" class="form-control form-control-sm" id="event-ack-close-by" disabled [defaultValue]="loggedInUser.userName" placeholder="Close By">
+                  </div>
+                </div>
+
+              </div>
+            </div>
+            <div class="row p-2">
+              <div class="col-md-3">
+                  <div class="form-group pt-1">
+                    <label class="form-check-label">
+                      <input type="radio" id="evnLogcloseActEvnt" name="alert_acknowledge" [value]="2" [(ngModel)]="selectedAcknowledgement" > Close alert with activity event
+                    </label>
+                  </div>
+              </div>
+              <div class="col-md-8" >
+                  <div class="form-group row">
+                    <label for="" class="col-sm-4 col-form-label">Closure Activity Event</label>
+                    <div class="col-sm-8">
+                      <select class="form-control form-control-sm" id="evnLogClosureActEvent" [(ngModel)]="closureActivity"
+                      [disabled]="selectedAcknowledgement === 1 || selectedAcknowledgement === 3">
+                        <option>Asset Maintainance</option>
+                      </select>
+                    </div>
+                  </div>
+              </div>
+            </div>
+            <div class="row p-2">
+              <div class="col-md-3">
+                <div class="form-group pt-1">
+                  <label class="form-check-label">
+                    <input type="radio" id="evnLogforcealtescalation" name="alert_acknowledge" [value]="3" [(ngModel)]="selectedAcknowledgement"> Force alert escalation
+                  </label>
+                </div>
+              </div>
+              <div class="col-md-8">
+                <div class="form-group row">
+                  <label for="" class="col-sm-4 col-form-label">Closure Notes</label>
+                  <div class="col-sm-8">
+                    <textarea class="form-control form-control-sm" rows="2" id="evnLogClosureNotes"  [(ngModel)]="closureNote"
+                    [disabled]="selectedAcknowledgement === 1 || selectedAcknowledgement === 3"></textarea>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row p-3 row-detail-buttons">
+              <button id="close-row-detail" type="button" class="btn btn-outline-secondary btn-sm mr-2" (click)="toggleExpandRow(row)" id="addEvntCancle">Close
+              </button>
+              <button id="save-row-detail" type="button" class="btn btn-info btn-sm" (click)="updateEventLog(row)" id="updateLog">Save</button>
+            </div>
+          </div>
+      </ng-template>
+    </ngx-datatable-row-detail>
+    <ngx-datatable-column
+          [width]="30"
+          [resizeable]="false"
+          [sortable]="false"
+          [draggable]="false"
+          [canAutoResize]="false"
+        >
+          <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
+            <a
+              href="javascript:void(0)"
+              [class.datatable-icon-right]="!expanded"
+              [class.datatable-icon-down]="expanded"
+              title="Expand/Collapse Row"
+              (click)="toggleExpandRow(row)"
+            >
+            </a>
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Sev" width="30">
+          <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+              <i [ngClass]="row.alarmStatus.toLowerCase().includes('critical') ? 'icon-critical' :
+              row.alarmStatus.toLowerCase().includes('warning') ? 'icon-warn' :
+              row.alarmStatus.toLowerCase().includes('baseline') ? 'icon-info' : ''" ></i>
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Event Name" width="100" prop="alertName"></ngx-datatable-column>
+        <ngx-datatable-column name="Event Time" width="100" prop="tresholdMetTime"></ngx-datatable-column>
+        <ngx-datatable-column name="Asset/Loacation" width="100">
+          <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+              {{row.assetName ? row.assetName : row.locationName}}
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Signal" prop="singalName" width="100"></ngx-datatable-column>
+        <ngx-datatable-column name="Value" prop="signalValue" width="50"></ngx-datatable-column>
+        <ngx-datatable-column name="Note" prop="description" width="100"></ngx-datatable-column>
+        <ngx-datatable-column name="State" width="50">
+          <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+              {{row.active ? 'Open' : 'Closed'}}
+          </ng-template>
+        </ngx-datatable-column>
+  </ngx-datatable>
+  <!-- <table class="table table-sm table-bordered org-table-fonts" id="orgEventLogTb">
     <thead class="thead-dark">
       <tr>
         <th scope="col" class="align-left table-col-name">Sev</th>
@@ -57,45 +187,24 @@
       </tr>
     </thead>
     <tbody>
-      <!-- <ng-container *ngTemplateOutlet="recursiveTableList; context:{ eventList: eventList, level: 0 }">
-        </ng-container> -->
-      <tr class="event-information">
+
+      <tr *ngFor="let log of eventsLogs;let i = index;"
+      [ngClass]="log.alarmStatus.toLowerCase().includes('critical') ? 'alert-danger' :
+        log.alarmStatus.toLowerCase().includes('warning') ? 'alert-warning' :
+        log.alarmStatus.toLowerCase().includes('baseline') ? 'alert-success' : ''
+      ">
         <td class="align-center">
           <i class="icon-info"></i>
         </td>
-        <td class="align-left">Asset maintainance</td>
-        <td class="align-left">08/31/19</td>
-        <td class="align-left">Compressor 1</td>
-        <td class="align-left"></td>
-        <td class="align-left"></td>
-        <td class="align-left">Replaced Filter</td>
-        <td class="align-left"></td>
+        <td class="align-left">{{log.alertName}}</td>
+        <td class="align-left">{{log.tresholdMetTime}}</td>
+        <td class="align-left">{{log.assetName ? log.assetName : log.locationName}}</td>
+        <td class="align-left">{{log.singalName}}</td>
+        <td class="align-left">{{log.signalValue}}</td>
+        <td class="align-left">{{log.description}}</td>
+        <td class="align-left">{{log.active ? 'Open' : 'Closed'}}</td>
       </tr>
-      <tr class="event-warning">
-        <td class="align-center">
-          <i class="fa fa-warning"></i>
-        </td>
-        <td class="align-left">Pump Motor Temprature</td>
-        <td class="align-left">08/31/19</td>
-        <td class="align-left">Pulp pump 1</td>
-        <td class="align-left">
-          <i class="fa fa-thermometer"></i>
-          Moter Bearing
-        </td>
-        <td class="align-left">227.3</td>
-        <td class="align-left">Exceeds 200.0</td>
-        <td class="align-left">Open</td>
-      </tr>
-      <tr class="event-stop">
-        <td class="align-center" rowspan="5"><i class="fa fa-warning"></i></td>
-        <td class="align-left">Compressor Over Pressure</td>
-        <td class="align-left">08/31/19</td>
-        <td class="align-left">Compressor 1</td>
-        <td class="align-left"><i class="fa fa-thermometer"></i> Inlet Pressure</td>
-        <td class="align-left">152psi</td>
-        <td class="align-left">Exceeds 150</td>
-        <td class="align-left">Closed</td>
-      </tr>
+
       <tr class="event-stop">
         <td colspan="7">
           <div class="row m-0">
@@ -172,7 +281,7 @@
         </td>
       </tr>
     </tbody>
-  </table>
+  </table> -->
 </div>
 
 
@@ -208,7 +317,7 @@
                 <div class="">
                   <input type="text" class="form-control form-control-sm" id="evntcretBy" placeholder="" value="Sean Healy">
                 </div>
-                
+
               </div>
               <div class="form-group">
                 <label for="" class="">On:</label>
@@ -220,7 +329,7 @@
                 </div>
               </div>
 
-              
+
             </div>
             <div class="col-6">
               <div class="form-group">
@@ -237,10 +346,10 @@
               </div>
             </div>
           </div>
-          
-          
-         
-          
+
+
+
+
           <fieldset class="form-group">
             <legend>Alarm Blackout:</legend>
 

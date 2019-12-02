@@ -141,7 +141,7 @@
               area-labelledby="org-details-tab">
 
               <form #organizationForm="ngForm" class="needs-validation" (ngSubmit)="onOrganizationSubmit()" novalidate>
-                <div class="position-relative">
+                <div class="position-relative" *ngIf="pageType.toLowerCase() === 'view' || pageType.toLowerCase() === 'edit'" >
                   <div class="lock-tab border border-bottom-0">
                     <i class="icon-lock edit-view-lock" id="view-lock" name="lockTogglebutton"
                       *ngIf="pageType.toLowerCase() === 'view'" (click)="onLockClick()"></i>
@@ -776,7 +776,7 @@
 
             <div class="create-org-container tab-pane fade" [ngClass]="{ 'active show':activeTab==='asset-template'}"
               id="asset-template" data-toggle="tab" role="tabpanle" area-labelledby="asset-template-tab">
-              <app-votm-cloud-asset-template-list [templateList]="templateList"></app-votm-cloud-asset-template-list>
+              <app-votm-cloud-asset-template-list [templateList]="templateList" [orgId]="orgId" [orgName]="organization.name"></app-votm-cloud-asset-template-list>
             </div>
 
             <div class="create-org-container tab-pane fade" [ngClass]="{ 'active show':activeTab==='org-sensors'}"
@@ -803,75 +803,9 @@
       <!-- Event Details Tab  -->
       <div class="tab-pane fade border border-top-0 p-3 mb-3 flex-grow-1" id="event-details-tab" role="tabpanle"
         area-labelledby="event-details-tab">
-        <app-votm-cloud-events-home></app-votm-cloud-events-home>
+        <app-votm-cloud-events-home [organizationId]="orgId"></app-votm-cloud-events-home>
       </div>
 
-
-      <!-- <div class="tab-pane fade" id="dashboard1-details-tab" role="tabpanle" area-labelledby="dashboard1-details-tab">
-    <app-votm-cloud-organization-dashboard></app-votm-cloud-organization-dashboard>
-  </div> -->
-      <!-- Chirag Dynamic dashboard container start-->
-      <!-- <div class="tab-pane fade border border-top-0 p-3 mb-3 flex-grow-1"
-      *ngFor="let dashboardDataUser of dashboardData; let ij = index" id="Dashboard_{{ij}}" role="tabpanel">
-      <div class="row" *ngIf="dashboardDataUser.dashboardHTML" [innerHTML]="dashboardDataUser.dashboardHTML"></div>
-      <div class="row" *ngIf="ij==3 || ij==6">
-        <div class="col-6 dashboard-gear-icon-wrapper">
-          <div class="dashboard-gear-icon"><i class="fa fa-gear" (click)="op3.toggle($event)"></i></div>
-          <app-votm-animated-gauge></app-votm-animated-gauge>
-        </div>
-        <div class="col-6 dashboard-gear-icon-wrapper">
-          <div class="dashboard-gear-icon"><i class="fa fa-gear" (click)="op3.toggle($event)"></i></div>
-          <app-votm-simple-gauge></app-votm-simple-gauge>
-        </div>
-      </div>
-
-      <div class="row" *ngIf="ij==3 || ij==6">
-        <div class="col-12 dashboard-gear-icon-wrapper">
-          <div class="dashboard-gear-icon"><i class="fa fa-gear" (click)="op3.toggle($event)"></i></div>
-          <app-votm-live-order-book-depth-chart></app-votm-live-order-book-depth-chart>
-        </div>
-      </div>
-
-      <div class="row" *ngIf="ij==1 || ij==4 || ij==7">
-        <div class="col-6 dashboard-gear-icon-wrapper">
-          <div class="dashboard-gear-icon"><i class="fa fa-gear" (click)="op3.toggle($event)"></i></div>
-          <app-votm-pie-slice-chart></app-votm-pie-slice-chart>
-        </div>
-        <div class="col-6 dashboard-gear-icon-wrapper">
-          <div class="dashboard-gear-icon"><i class="fa fa-gear" (click)="op3.toggle($event)"></i></div>
-          <app-votm-cylinder-gauge></app-votm-cylinder-gauge>
-        </div>
-      </div>
-
-      <div class="row" *ngIf="ij==2 || ij==5 || ij==7">
-        <div class="col-12 dashboard-gear-icon-wrapper">
-          <div class="dashboard-gear-icon"><i class="fa fa-gear" (click)="op3.toggle($event)"></i></div>
-          <app-votm-line-graph></app-votm-line-graph>
-        </div>
-      </div>
-    </div> -->
-      <!-- Chirag Dynamic dashboard container end-->
-
-      <!-- <p-overlayPanel #op3 [appendTo]="'body'" [dismissable]="true" [showCloseIcon]="false">
-    <div class="row">
-      <div class="col-md-12">
-        <div class="card">
-          <div class="card-header overlay-title">Type of Data</div>
-          <div class="card-body">
-              <select class="form-control" id="dashboard-data-type">
-                <option>Pressure</option>
-                <option>Temprature</option>
-                <option>Humidity</option>
-                <option>Battery</option>
-              </select>
-          </div>
-          <div class="card-footer">
-            <button class="btn btn-primary pull-right">Save</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </p-overlayPanel> -->
       <!-- Dashboard-david -->
       <div class="tab-pane fade border border-top-0 mb-3 flex-grow-1" *ngFor="let dbItem of dashboardTabs"
         id="DashboardID_{{dbItem.dashboardId}}" role="tabpanel">
@@ -996,7 +930,7 @@
     </div>
 
   </div>
- 
+
 
   <!-- Add/Edit Dashboard Model Start-->
   <div id="addDashboardModalWrapper" class="modal">

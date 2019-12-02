@@ -24,7 +24,7 @@ export class VotmCloudAssetTemplateDetailsComponent implements OnInit {
   parentAssetsList: any[] = [];
   parentAssetListForDropDown: any[] = [];
   asset: any;
-  imgURL: any;
+  imgURL: any = '../../../../assets/images/assetPlaceholder.svg';
   toaster: Toaster = new Toaster(this.toastr);
   @ViewChild('confirmBox', null) confirmBox: VotmCloudConfimDialogComponent;
   @ViewChild('templateForm', null) templateForm: NgForm;
@@ -35,6 +35,10 @@ export class VotmCloudAssetTemplateDetailsComponent implements OnInit {
   docFile: Blob;
   templateDeletemessage: string;
   fileExtension: any;
+  imgSize: { width: number, height: number };
+  templateDocuments: any[] = [];
+  orgId: any;
+  orgName: any;
 
   constructor(
     private routerLocation: RouterLocation,
@@ -49,6 +53,10 @@ export class VotmCloudAssetTemplateDetailsComponent implements OnInit {
     this.route.params.subscribe(
       (params: Params) => {
         this.templateId = params.templateId;
+        this.orgId = params.orgId;
+        this.orgName = params.orgName;
+        this.template.organizationId = this.orgId;
+        this.template.organizationName = this.orgName;
         if (this.templateId) {
           this.fetchTemplateById();
         }
@@ -75,7 +83,16 @@ export class VotmCloudAssetTemplateDetailsComponent implements OnInit {
               this.fileExtension = 'svg+xml';
             }
             this.imgURL = this.domSanitizer.bypassSecurityTrustUrl(`data:image/${this.fileExtension};base64,${this.template.logo.image}`);
-            // this.userprofile.logo.imageType = this.fileExtension;
+            this.template.logo.imageType = this.fileExtension;
+          }
+
+          // Get template documents and add temporary index to remove from dom & array (on delete icon)
+          if (this.template.fileStore && this.template.fileStore.length > 0) {
+            this.template.fileStore.forEach((templateDocument, index) => {
+              this.templateDocuments[index] = templateDocument;
+              this.templateDocuments[index].tempFileStoreId = index + 1;
+            });
+            console.log('fetchTemplateById==', this.templateDocuments);
           }
         }
       });
@@ -111,7 +128,7 @@ export class VotmCloudAssetTemplateDetailsComponent implements OnInit {
         this.parentAssetsList = response;
         this.parentAssetsList.sort(SortArrays.compareValues('assetName'));
         this.filterAssets();
-      })
+      });
   }
 
   filterAssets() {
@@ -137,6 +154,13 @@ export class VotmCloudAssetTemplateDetailsComponent implements OnInit {
       }
       if (!this.template.fileStore) {
         this.template.fileStore = null;
+      }
+
+      // Multiple file upport
+      if (this.templateDocuments) {
+        this.template.fileStore = this.templateDocuments;
+        console.log('this.template=====', this.template);
+        // return;
       }
     }
     // this.template.assetName = null;
@@ -199,8 +223,20 @@ export class VotmCloudAssetTemplateDetailsComponent implements OnInit {
     var readerToPreview = new FileReader();
     this.imagePath = file;
     readerToPreview.readAsDataURL(file);
+    // readerToPreview.onload = (_event) => {
+    //   this.imgURL = this.domSanitizer.bypassSecurityTrustUrl(readerToPreview.result.toString()); //readerToPreview.result;
+    // };
     readerToPreview.onload = (_event) => {
       this.imgURL = this.domSanitizer.bypassSecurityTrustUrl(readerToPreview.result.toString()); //readerToPreview.result;
+      const img = new Image();
+      img.src = readerToPreview.result.toString();
+      img.onload = () => {
+        console.log(img.width, '=====', img.height);
+        this.imgSize = {
+          width: img.width,
+          height: img.height
+        };
+      };
     };
   }
 
@@ -252,9 +288,9 @@ export class VotmCloudAssetTemplateDetailsComponent implements OnInit {
 
   onLockClick() {
     if (this.pageType.toLowerCase() === 'view') {
-      this.router.navigate([`template/edit/${this.template.templateId}`]);
+      this.router.navigate([`org/template/edit/${this.template.templateId}`]);
     } else {
-      this.router.navigate([`template/view/${this.template.templateId}`]);
+      this.router.navigate([`org/template/view/${this.template.templateId}`]);
     }
   }
 
@@ -262,7 +298,8 @@ export class VotmCloudAssetTemplateDetailsComponent implements OnInit {
     if (file) {
       var reader: any = new FileReader();
       // reader.onload = this._handleReaderLoaded.bind(this);
-      this.template.fileStore = new VOTMFile();
+      // this.template.fileStore = new VOTMFile();
+      const temp: any = {};
       reader.onload = (e) => {
         // ADDED CODE
         let data;
@@ -271,13 +308,25 @@ export class VotmCloudAssetTemplateDetailsComponent implements OnInit {
         } else {
           data = e.target.result;
         }
-        let base64textString = btoa(data);
-        this.template.fileStore.file = base64textString;
+        const base64textString = btoa(data);
+        // this.template.fileStore.file = base64textString;
+        // this.template.fileStore.fileName = file.name;
+        // this.template.fileStore.fileType = file.type;
+
+        const tempFileStoreId = this.templateDocuments.length + 1;
+        temp.fileStoreId = ''; // for patch api
+        temp.file = base64textString;
+        temp.fileName = file.name;
+        temp.fileType = file.type;
+        temp.tempFileStoreId = tempFileStoreId;
+        // hack to load datatable if it is empty
+        // As Initial it takes blank memory reference
+        const templateDocumentsList = [...this.templateDocuments];
+        templateDocumentsList.push(temp);
+        this.templateDocuments = [...templateDocumentsList];
+        console.log('this.templateDocuments==', this.templateDocuments);
       };
 
-
-      this.template.fileStore.fileName = file.name;
-      this.template.fileStore.fileType = file.type;
       // debugger;
       reader.readAsBinaryString(file);
     }
@@ -304,5 +353,19 @@ export class VotmCloudAssetTemplateDetailsComponent implements OnInit {
           this.toaster.onFailure('Something went wrong on server. Please try after sometiime.', 'Delete Fail!');
         });
     }
+  }
+
+  templateDocumentDelete(removedTempFileStoreId) {
+    const regenratedTemplatDocuments = [];
+    this.templateDocuments.forEach(eachTemplateDocument => {
+      console.log('eachTemplateDocument.tempFileStoreId === removedTempFileStoreId', eachTemplateDocument.tempFileStoreId + '===' + removedTempFileStoreId);
+      if (eachTemplateDocument.tempFileStoreId !== removedTempFileStoreId) {
+        regenratedTemplatDocuments.push(eachTemplateDocument);
+      }
+    });
+
+    this.templateDocuments = regenratedTemplatDocuments;
+    console.log('regenratedTemplatDocuments', this.templateDocuments);
+
   }
 }

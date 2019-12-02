@@ -181,7 +181,7 @@
 
   // Medium icon
   .assoc-pane > div.widget-icon-medium{
-    padding-left:calc(1.1 * 2rem + 0px);
+    padding-left:calc(1 * 2rem + 0px);
     line-height: calc(1 * 2rem + 0px);
     border-radius: calc(1 * 2rem / 2 + 0px) !important;
     background: $qcd-white-90;
@@ -190,7 +190,7 @@
     cursor: pointer;
     &:hover{
       border: 1px solid qcd-success;
-      padding-left:calc(1.1 * 2rem + 0px);
+      padding-left:calc(1 * 2rem + 0px);
     }
     &:before {
       width: calc(1 * 2rem + 0px);
@@ -201,13 +201,13 @@
       border-color: $qcd-success-brd;
       position: absolute;
       left: 0px;
-      top: 0px;
+      top: -1px;
       font-size: 1rem;
     }
   }
   // large icon
   .assoc-pane > div.widget-icon-large{
-    padding-left:calc(1.1 * 3rem + 0px);
+    padding-left:calc(1 * 3rem + 0px);
     line-height: calc(1 * 3rem + 0px);
     border-radius: calc(1 * 3rem / 2 + 0px) !important;
     background: $qcd-white-90;
@@ -227,7 +227,7 @@
       border-color: $qcd-success-brd;
       position: absolute;
       left: 0px;
-      top: 0px;
+      top: -1px;
       font-size: 1.5rem;
     }
   }
@@ -257,7 +257,7 @@
       border-color: $qcd-success-brd;
       position: absolute;
       left: 0px;
-      top: 0px;
+      top: -1px;
       font-size: 3rem;
     }
   }
@@ -276,7 +276,7 @@
       padding-left:calc(1 * 9rem + 0px);
     }
     &:before {
-      width: calc(1 * 6rem + 0px);
+      width: calc(1 * 9rem + 0px);
       line-height: calc(1 * 9rem + 0px);
       border-radius: calc(1 * 9rem + 0px);
       background-color: $qcd-success;
@@ -284,7 +284,7 @@
       border-color: $qcd-success-brd;
       position: absolute;
       left: 0px;
-      top: 0px;
+      top: -1px;
       font-size: 3rem;
     }
 }
@@ -297,6 +297,7 @@
   }
   &:before{
     background-color:$qcd-danger-brd !important;
+    border-color: $qcd-danger-brd !important;
   }
 }
 .icon-state-warning{
@@ -306,6 +307,7 @@
   }
   &:before{
     background-color:$qcd-warning !important;
+    border-color: $qcd-warning-brd !important;
   }
 }
 .icon-state-success{
@@ -315,6 +317,7 @@
   }
   &:before{
     background-color:$qcd-success !important;
+    border-color: $qcd-success-brd !important;
   }
 }
 

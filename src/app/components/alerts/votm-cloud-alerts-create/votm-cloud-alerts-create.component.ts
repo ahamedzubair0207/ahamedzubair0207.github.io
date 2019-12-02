@@ -247,11 +247,13 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
 
       this.alertsService.getUomForSelectedSignalType( this.alert.signalTypeId, this.userId)
         .subscribe(response => {
+          if (response) {
           this.unitToShow = response.uomName;
           this.alert.uomId = response.uomId;
           this.alert.uomName = response.uomName;
           this.alert.uomTypeId = response.uomTypeId;
           this.getAlertRuleSignalAssociatedAssetByOrgId();
+          }
         });
     } else {
       this.alert.signalTypeId = this.previousMetricType;
@@ -727,20 +729,6 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
   }
 
 
-  // Ahamed Code
-  deleteAlertById(event) {
-    if (event) {
-      this.alertsService.deleteAlert(this.alert.alertRuleId)
-        .subscribe(response => {
-          this.toaster.onSuccess(`You have deleted ${this.alert.alertRuleName} successfully.`, 'Delete Success!');
-          // this.route.navigate([`loc/home/${this.parentLocId}/${this.parentLocName}`])
-          this.routerLocation.back();
-        }, error => {
-          this.toaster.onFailure('Something went wrong on server. Please try after sometiime.', 'Delete Fail!');
-        });
-    }
-  }
-
   onUserGroupDelete(userGroupSubscriber) {
     // console.log(userGroupSubscriber, this.alert.alertRuleUserGroup);
     let found: boolean;
@@ -769,5 +757,23 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
       }
     }
     // console.log(userGroupSubscriber, this.alert.alertRuleUserGroup);
+  }
+
+  openConfirmDialog() {
+    this.message = 'Do you want to delete the ' + this.alert.alertRuleName + ' Alert Rule?';
+    this.confirmBox.open();
+  }
+
+  deleteAlert(event) {
+    if (event) {
+      console.log('whdasdsdf');
+      this.alertsService.deleteAlert(this.alert.alertRuleId)
+        .subscribe(response => {
+          this.toaster.onSuccess(`You have deleted ` + this.alert.alertRuleName + ` successfully.`, 'Delete Success!');
+          this.route.navigate(['org', 'view', this.curOrgId, this.curOrgName, this.orgId]);
+        }, error => {
+          this.toaster.onFailure('Something went wrong on server. Please try after sometiime.', 'Delete Fail!');
+        });
+    }
   }
 }

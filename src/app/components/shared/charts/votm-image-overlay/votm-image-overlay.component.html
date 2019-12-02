@@ -10,24 +10,6 @@
         <img class="img-fluid img-fluid-custom" src="../../../../assets/images/configure_image_overlay_widget.jpg">
     </div>
     <div *ngIf="isImageOverlayConfigured" id="{{ 'image-overlay' + wId }}" class="h-100 w-100">
-        <!-- <div class="h-100 assoc-pane">
-            <img *ngIf="widgetimgURL" [src]="widgetimgURL" class="assoc-img img-fluid img-fluid-custom" />
-
-            <div id="sig_{{i}}" *ngFor="let item of associatedSignals; let i = index;" [ngClass]="item.icon"
-                [ngStyle]="getPositionStyle(item)">
-                <div class="signal-data-wrapper">
-                  <p><b>QCD > Chetak > NoCam 5122</b></p>
-                  <p>09/13/2019 11:45PM</p>
-                  <p><b>Critical alarm on asset</b></p>
-                  <hr class="mt-1 mb-1">
-                  <p><b>{{item.associationName}}</b></p>
-                  <p>Temprature : 142&deg; F</p>
-                  <p>Above critical threshold of 95&deg; F</p>
-                </div>
-            </div>
-
-        </div> -->
-
         <div class=" h-100 assoc-pane" (window:resize)="onResize($event)">
 
             <!--  [src]="imgURL" -->
@@ -38,6 +20,7 @@
                 *ngIf="item.sensorLinkStatus"
                 style="position: absolute;"
                 class="signal-item {{ item.icon }}"
+                [ngClass]="getAlarmStatusclass(item.alarmStatus)"
                 (mouseenter)="displaySignalHoverContent['s-'+i] = true"
                 (mouseleave)="displaySignalHoverContent['s-'+i] = false"
                 [style.left.px]="imgOffsetLeft + item.imageCordinates[item.associationName].x * imgOffsetWidth - 16"
@@ -59,6 +42,7 @@
               *ngFor="let item of associatedAssets; let i = index;"
               style="position: absolute;"
               class="signal-item {{ item.icon }}"
+              [ngClass]="getAlarmStatusclass(item.alarmStatus)"
               (mouseenter)="displaySignalHoverContent['a-'+i] = true"
               (mouseleave)="displaySignalHoverContent['a-'+i] = false"
               [style.left.px]="imgOffsetLeft + item.imageCoordinates[overLaySource === 'location' ? item.assetId : item.childAssetId].x * imgOffsetWidth - 16"

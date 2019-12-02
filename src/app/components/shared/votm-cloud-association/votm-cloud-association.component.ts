@@ -310,19 +310,21 @@ export class VotmCloudAssociationComponent {
       left: this.selectedSignal.imageCordinates.x / 100,
       top: this.selectedSignal.imageCordinates.y / 100
     };
-    const index = this.droppedList.findIndex(
-      signal => signal.signalId === this.selectedSignal.signalId &&
-      signal.sensorId === this.selectedSignal.sensorId
-    );
+    console.log(JSON.stringify(this.droppedList));
+    const index = this.droppedList.findIndex(signalObj => signalObj.did === this.selectedSignal.did);
+    console.log(index);
     this.droppedList.splice(index, 1, this.selectedSignal);
     this.dragList.forEach(dragItem => {
-      dragItem.node.forEach(dragNode => {
-        if (dragNode.signalId === this.selectedSignal.signalId &&
-          dragNode.sensorId === this.selectedSignal.sensorId) {
-            dragNode.associationName = this.selectedSignal.associationName;
-        }
-
-      });
+      if (dragItem.node) {
+        dragItem.node.forEach(dragNode => {
+          if (dragNode.signalId === this.selectedSignal.signalId &&
+            dragNode.sensorId === this.selectedSignal.sensorId) {
+              dragNode.associationName = this.selectedSignal.associationName;
+          }
+        });
+      } else {
+        dragItem.associationName = this.selectedSignal.associationName;
+      }
     });
     console.log(this.droppedList);
     this.closeEditOpanel();
