@@ -262,7 +262,7 @@
               columnMode="force"
               [headerHeight]="50"
               [footerHeight]="0"
-              [rowHeight]="50"
+              [rowHeight]="35"
               [scrollbarV]="true"
               >
                 <ngx-datatable-column name="Document" [sortable]="true" prop="fileName">
@@ -271,7 +271,7 @@
                   </ng-template>
                 </ngx-datatable-column>
 
-                <ngx-datatable-column name="Action">
+                <ngx-datatable-column name="Action" *ngIf="pageType==='Edit'">
                   <ng-template let-value="value" let-row="row" width="50" let-rowIndex="rowIndex" ngx-datatable-cell-template>
                     <a id="asset_document_delete_{{rowIndex}}" title="Delete" class="mr-2" (click)="templateDocumentDelete(row.tempFileStoreId)" >
                       <i class="icon-trash"></i>
