@@ -80,7 +80,7 @@
                         <ng-container  *ngFor="let signal of dragList; let i = index">
 
                             <div
-                              attr.sensorIx="{{ i }}"
+                              attr.signalIx="{{ i }}"
                               class="signal-item {{ signal.icon }}"
                               *ngIf="showSignal(signal)"
                               [ngClass]="{ assoc: signal.associated, locked: disable }"
@@ -104,6 +104,7 @@
                 <div class="signal-list">
                   <ng-container *ngFor="let item of dragList; let j = index">
                     <div
+                      attr.signalIx="{{ j }}"
                       class="signal-item {{ item.icon }} border-0 transparent "
                       [ngClass]="{ assoc: item.associated, cursorpoint: !disable, cursordefault: disable}"
                       (click)="!disable ? onClickOfAssetName(item) : ''"

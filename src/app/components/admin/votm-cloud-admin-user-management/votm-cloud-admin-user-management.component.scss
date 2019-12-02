@@ -23,52 +23,6 @@
   cursor: pointer;
 }
 
-:host ::ng-deep .datatable-header-cell {
-  background-color: #dee2e6 !important;
-  border-bottom: 1px solid #c8c8c8;
-  border-right: 1px solid #c8c8c8;
-}
-
-:host ::ng-deep .datatable-body-cell {
-  border: 1px solid #c8c8c8;
-  border-right: none;
-
-}
-
-:host ::ng-deep .datatable-header {
-  background-color: #dee2e6 !important;
-  border: 1px solid #c8c8c8;
-
-}
-
-:host ::ng-deep .ngx-datatable.bootstrap .datatable-header .datatable-header-cell {
-  padding: 0.15rem!important;
-}
-
-:host ::ng-deep .ngx-datatable.bootstrap .datatable-body .datatable-body-row .datatable-body-cell {
-  padding: 0.35rem!important;
-}
-
-::ng-deep .ngx-datatable{
-  .sortable .sort-btn:before {
-      font-family: data-table;
-      content: "c";
-  }
-  .sortable .sort-btn.datatable-icon-down:before {
-      content: "f";
-  }
-  .sortable .sort-btn.datatable-icon-up:before {
-      content: "e";
-  }
-}
-
-:host ::ng-deep .ngx-datatable.fixed-row .datatable-scroll .datatable-body-row  {
-  border-top: none!important;
-}
-
-:host ::ng-deep .ngx-datatable .datatable-header {
-  border-bottom: none!important;
-}
 
 
 

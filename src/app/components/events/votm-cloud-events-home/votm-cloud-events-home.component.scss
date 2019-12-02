@@ -1,11 +1,11 @@
-.event-warning{
-    background-color: #ffffcc;
+:host ::ng-deep .event-warning {
+    background-color: #fff3cd!important;
 }
-.event-stop{
-    background-color: #ffb3b3;
+:host ::ng-deep .event-danger {
+    background-color: #f8d7da!important;
 }
-.event-information{
-    background-color: #b3e6ff;
+:host ::ng-deep .event-success {
+    background-color: #d4edda!important;
 }
 .event-header{
     width: 100%;
@@ -55,3 +55,14 @@
   background-color: rgb(0,0,0); /* Fallback color */
   background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
   }
+
+  .row-detail {
+    border: 1px solid #c8c8c8;
+  }
+
+  .row-detail-buttons {
+    margin-top: -4rem;
+    float: right;
+  }
+
+

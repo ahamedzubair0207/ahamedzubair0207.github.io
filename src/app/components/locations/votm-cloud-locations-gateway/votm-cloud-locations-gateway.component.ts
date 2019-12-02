@@ -110,7 +110,7 @@ export class VotmCloudLocationsGatewayComponent implements OnInit {
             gateway.isClicked = false;
             gateway.icon = 'icon-gateway';
             gateway.associated = true;
-            gateway.did = i;
+            gateway.did = this.associatedGateways.length;
 
             this.associatedGateways.push(gateway);
           }
