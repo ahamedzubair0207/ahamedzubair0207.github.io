@@ -522,5 +522,13 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
 
   }
 
-
+  getAlarmStatusclass(alarmStatus) {
+    if (alarmStatus === 'High Critical' || alarmStatus === 'HighCritical') {
+      return 'icon-state-danger';
+    } else if (alarmStatus === 'High Warning' || alarmStatus === 'HighWarning') {
+      return 'icon-state-warning';
+    } else {
+      return 'icon-state-success';
+    }
+  }
 }
