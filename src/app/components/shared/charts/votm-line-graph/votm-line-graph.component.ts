@@ -408,7 +408,12 @@ export class VotmLineGraphComponent implements OnInit {
     // this.zone.runOutsideAngular(() => {
     let chart = am4core.create(this.wId, am4charts.XYChart);
     chart.paddingRight = 20;
-    chart.dataSource.url = `${environment.protocol}://${environment.server}/${environment.virtualName}/${AppConstants.GET_UPDATEDTIMESERIES_SIGNAL}?AccountCode=${requestedBody.accountCode}&PropertyName=${requestedBody.propertyName}&PropertyValue=${requestedBody.propertyValue}&MeasuredValue=${requestedBody.measuredValue}&FromDateTime=${typeof (requestedBody.fromDateTime) === 'string' ? requestedBody.fromDateTime : requestedBody.fromDateTime.toISOString()}&ToDateTime=${typeof (requestedBody.toDateTime) ? requestedBody.fromDateTime : requestedBody.toDateTime.toISOString()}&BucketSize=${requestedBody.bucketSize}`;
+    chart.dataSource.url = `${environment.protocol}://${environment.server}/${environment.virtualName}/${AppConstants.GET_UPDATEDTIMESERIES_SIGNAL}?AccountCode=${requestedBody.accountCode}&PropertyName=${requestedBody.propertyName}&PropertyValue=${requestedBody.propertyValue}&MeasuredValue=${requestedBody.measuredValue}&FromDateTime=${typeof (requestedBody.fromDateTime) === 'string' ? requestedBody.fromDateTime : requestedBody.fromDateTime.toISOString()}&ToDateTime=${typeof (requestedBody.toDateTime) ==='string' ? requestedBody.fromDateTime : requestedBody.toDateTime.toISOString()}&BucketSize=${requestedBody.bucketSize}`;
+    chart.dataSource.parser = new am4core.JSONParser();
+    // xAxis.dateFormatter = new am4core.DateFormatter();
+    // xAxis.dateFormatter.dateFormat = "MM-dd";
+    chart.dataSource.parser.options.dateFormat = 'MM/dd/yyyy hh:mm:ss a';
+    // chart.dataSource.dateFormat = 'M/d/y h:m:s a';
     chart.dataSource.reloadFrequency = 60000;
     // chart.data = response; // timeseries;// this.generateChartData();
     // chart.dataSource.reloadFrequency = 3000;
