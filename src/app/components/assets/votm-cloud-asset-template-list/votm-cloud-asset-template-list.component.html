@@ -15,7 +15,8 @@
     </div>
   </div>
   <div class="btn-group-right">
-    <button [routerLink]="['/org/template/create']" id="templateCreate" type="button" class="btn btn-info btn-sm">Create Template</button>
+    <button [routerLink]="['/org/template/create', orgId, orgName]" id="templateCreate" type="button" class="btn btn-info btn-sm">Create Template</button>
+    <!-- <button (click)="onCreateAssetTemplateClick()" id="templateCreate" type="button" class="btn btn-info btn-sm">Create Template</button> -->
   </div>
 </form>
 
@@ -36,7 +37,7 @@
   <tbody>
     <tr *ngFor="let item of templateList">
       <td class="underline-on-hover" scope="row">
-        <a style="color: #212529;" [routerLink]="['/template/view',item.templateId]">
+        <a style="color: #212529;" [routerLink]="['/org/template/view',item.templateId]">
           <i class="icon-asset-robot"></i>
           {{item.templateName}}
         </a>

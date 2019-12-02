@@ -34,8 +34,8 @@ export class SharedService {
   }
 
   getFavorites() {
-    let userId = '03c7fb47-58ee-4c41-a9d6-2ad0bd43392a';
-    let type = 'user';
+    const userId = '03c7fb47-58ee-4c41-a9d6-2ad0bd43392a';
+    const type = 'user';
     this.http.get(AppConstants.GET_FAVORITES + '/' + userId + '/' + type)
       .pipe(
         map(response => response)
@@ -78,8 +78,9 @@ export class SharedService {
   getLoggedInUser() {
 
     const loggedInUserData = {
-      'userId': '03c7fb47-58ee-4c41-a9d6-2ad0bd43392a',
-      'organizationId' : '7a59bdd8-6e1d-48f9-a961-aa60b2918dde'
+      userId: '03c7fb47-58ee-4c41-a9d6-2ad0bd43392a',
+      organizationId : '7a59bdd8-6e1d-48f9-a961-aa60b2918dde',
+      userName: 'Sean Haley'
     };
     return loggedInUserData;
   }

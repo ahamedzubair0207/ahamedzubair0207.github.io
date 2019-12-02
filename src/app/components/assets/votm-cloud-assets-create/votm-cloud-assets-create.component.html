@@ -311,15 +311,44 @@
                   <!-- (change)="(!asset.templateId||(asset.templateId && isConfirmToChangeImage==='change'))?onFileChange($event):null" -->
                   <div class="col-md-4 form-group">
                     <fieldset class="asset-btm-same">
-                      <legend id="fileList">Reference Documentation:</legend>
+                      <legend id="fileList">Reference Documentation</legend>
                       <!-- <label for="exampleFormControlFile1">Documentation:</label> -->
                       <div class="custom-file">
                         <input class="custom-file-input ng-pristine ng-invalid" type="file" id="documentUpload"
                           name="documentUpload" id="documentUpload" [disabled]="pageType==='View'"
                           (change)="onDocChangeClick();" #fileInput multiple>
                         <label class="custom-file-label" for="customFile">Choose file</label>
-                        <a *ngIf="asset.fileStore" style="color:blue;"
-                          (click)="onFileOpen()"><u>{{asset.fileStore.fileName}}</u></a>
+                        <!-- <a *ngIf="asset.fileStore" style="color:blue;"
+                          (click)="onFileOpen()"><u>{{asset.fileStore.fileName}}</u></a> -->
+                        <!-- <ng-container *ngIf="templateDocuments">
+                            <a *ngFor="let templateDocument of templateDocuments" style="color:blue;" (click)="onFileOpen()"><u><br>{{templateDocument.fileName}}1</u></a>
+                        </ng-container> -->
+                      </div>
+                      <div class="mt-2" *ngIf="templateDocuments.length > 0">
+                        <ngx-datatable
+                        class="bootstrap"
+                        style="height: 370px;"
+                        [rows]="templateDocuments"
+                        columnMode="force"
+                        [headerHeight]="50"
+                        [footerHeight]="0"
+                        [rowHeight]="35"
+                        [scrollbarV]="true"
+                        >
+                          <ngx-datatable-column name="Document" [sortable]="true" prop="fileName">
+                            <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
+                                <a class="cursor-point" (click)="onFileOpen()">{{row.fileName}}</a>
+                            </ng-template>
+                          </ngx-datatable-column>
+
+                          <ngx-datatable-column name="Action" *ngIf="pageType==='Edit'">
+                            <ng-template let-value="value" let-row="row" let-rowIndex="rowIndex" ngx-datatable-cell-template>
+                              <a id="asset_document_delete_{{rowIndex}}" title="Delete" class="mr-2" (click)="templateDocumentDelete(row.tempFileStoreId)" >
+                                <i class="icon-trash"></i>
+                              </a>
+                            </ng-template>
+                          </ngx-datatable-column>
+                        </ngx-datatable>
                       </div>
                     </fieldset>
                   </div>
@@ -426,7 +455,7 @@
 
       <div class="tab-pane fade border border-top-0 p-3 mb-3 flex-grow-1" id="event-details-tab" role="tabpanel"
         area-labelledby="event-details-tab">
-        <app-votm-cloud-events-asset></app-votm-cloud-events-asset>
+        <app-votm-cloud-events-home [organizationId]="asset.organizationId" [locationId]="asset.locationId" [assetId]="assetId"></app-votm-cloud-events-home>
       </div>
 
       <!-- Dashboard-david -->

@@ -4,7 +4,7 @@
     <div class="embed-responsive-item">
       <div class="drag-root d-flex h-100">
         <div class="col-12 col-md-3 pl-md-0 h-100"  >
-          <div class="sensor-list h-100" *ngIf="isDragDropRequired">
+          <div class="sensor-list h-100" *ngIf="model === 'signal'">
             <div *ngIf="(showSensor(derivedSignals) || showUnassoc)" class="derived">
               <span class="icon-sig-function">Calculated Signals</span
               ><button type="button" class="btn btn-sm" (click)="openmodal('derivedSignalModal')" ><i class="icon-plus"></i></button>
@@ -70,12 +70,41 @@
                 </div>
             </ng-template> -->
           </div>
+          <div class="sensor-list h-100" *ngIf="model === 'gateway'">
+              <ng-container>
+
+                    <div class="sensor-item icon-gateway">
+                     Gateways
+
+                      <div class="signal-list">
+                        <ng-container  *ngFor="let signal of dragList; let i = index">
+
+                            <div
+                              attr.signalIx="{{ i }}"
+                              class="signal-item {{ signal.icon }}"
+                              *ngIf="showSignal(signal)"
+                              [ngClass]="{ assoc: signal.associated, locked: disable }"
+                              [dndDraggable]="signal"
+                              [dndDisableIf]="signal.associated"
+                              [dndEffectAllowed]="'move'"
+                              (dndStart)="onStart($event, i)"
+                            >
+                              {{ signal.associationName }}
+                            </div>
+
+                        </ng-container>
+                      </div>
+                    </div>
+
+                </ng-container>
+          </div>
           <div class="sensor-list h-100" *ngIf="!isDragDropRequired" >
               <div class="sensor-item icon-asset-robot">
                   Assets
                 <div class="signal-list">
                   <ng-container *ngFor="let item of dragList; let j = index">
                     <div
+                      attr.signalIx="{{ j }}"
                       class="signal-item {{ item.icon }} border-0 transparent "
                       [ngClass]="{ assoc: item.associated, cursorpoint: !disable, cursordefault: disable}"
                       (click)="!disable ? onClickOfAssetName(item) : ''"
@@ -121,7 +150,7 @@
       </div>
     </div>
   </div>
-  <div class="ml-auto mr-3 mt-3 pull-right" [class.d-none]="disable" *ngIf="model === 'Signal'">
+  <div class="ml-auto mr-3 mt-3 pull-right" [class.d-none]="disable" *ngIf="model === 'Signal' || model === 'gateway'">
     <button id="loc-sig-cancel" for="form-cancel" type="button" (click)="onCancelClick($event)"
       class="btn btn-outline-secondary btn-sm mr-2">Return to List</button>
     <button id="loc-sig-reset" for="form-reset" type="button" (click)="onClickOfReset()"
@@ -172,12 +201,12 @@
                 </div>
                 <div class="row-flex" *ngIf="isDragDropRequired" >
                   <div class="col-sm-12">
-                  <i> Source Signal Type:  {{selectedSignal.signalType}}</i>
+                  <i> {{model === 'signal' ? 'Source Signal Type: ' + selectedSignal.signalType : 'Gateway Type: '}}</i>
                   </div>
                 </div>
                 <div class="row-flex" *ngIf="isDragDropRequired">
                   <div class="col-sm-12">
-                  <i> Source Sensor:  {{selectedSignal.sensorName}}</i>
+                  <i> {{model === 'signal' ? 'Source Sensor: ' + selectedSignal.sensorName : model === 'gateway' ? 'Gateway ID: ' + selectedSignal.gatewayId : ''}}</i>
                   </div>
                 </div>
 

@@ -38,6 +38,14 @@ export class DashboardService {
       );
   }
 
+  updateDashboardWidget(body: any) {
+    return this.http.patch(`${AppConstants.UPDATE_DASHBOARD_WIDGET}/${body.dashboardWidgetId}`, body)
+      .pipe(
+        map(response => response)
+      );
+  }
+
+
   editDashboard(body: DashBoard) {
     return this.http.patch(`${AppConstants.EDIT_DASHBOARD}/${body.dashboardId}`, body)
       .pipe(
@@ -51,8 +59,14 @@ export class DashboardService {
         map(response => response)
       );
   }
+  getDashboardWidgets(dashboardId: string) {
+    return this.http.get(`${AppConstants.GET_DASHBOARD_WIDGETS}/${dashboardId}`)
+      .pipe(
+        map(response => response)
+      );
+  }
 
-  
+
 
 
   deleteDashboard(dashboardId: string) {

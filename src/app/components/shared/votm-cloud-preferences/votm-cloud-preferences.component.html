@@ -109,7 +109,7 @@
                 </div>
                 <div class="">
                   <fieldset>
-                    <legend>Preferences:</legend>
+                    <legend>Preferences</legend>
                     <div class="row">
                       <div class="col-12 col-md-6 col-lg-4 ipad-pro-lg-6">
                         <div class="form-group">
@@ -168,7 +168,7 @@
                               <span class="input-group-text pt-0 pb-0" name="uom-logo"
                                 id="unitsOfMeasureSelected">{{uomMeasurement}}</span>
                               <div class="">
-                                <button type="button" class="btn btn-sm btn-secondary"
+                                <button type="button" class="btn btn-sm btn-outline-secondary"
                                 id="noti_pre_custom"
                                   (click)="openModal()" style="z-index: 0;">Change</button>
                               </div>
@@ -183,7 +183,7 @@
             </div>
             <div class="col-12 col-md-6 p-3">
               <fieldset>
-                <legend>Favorites: <i class="icon-info"
+                <legend>Favorites <i class="icon-info"
                     ngbPopover="To change the order of the favorites, drag the favorite order to a desired position."
                     triggers="mouseenter:mouseleave" popoverTitle="Information"></i></legend>
                 <div class="tableFixHead">
@@ -223,7 +223,7 @@
                 </div>
               </fieldset>
               <fieldset class="mt-3">
-                <legend>Organization Access:</legend>
+                <legend>Organization Access</legend>
                 <div class="form-group row">
                   <div class="col-12 col-md-12 col-lg-4 ipad-pro-lg-12 mb-3">
                     <label for="org_ha" class="">Home Access</label>
@@ -258,7 +258,7 @@
           </div>
           <hr>
           <div class="text-right pt-2">
-            <button class="btn btn-sm btn-secondary mr-2" id="not_fav_cancel" type="button" (click)="onCancelClick($event)">Cancel</button>
+            <button class="btn btn-sm btn-outline-secondary mr-2" id="not_fav_cancel" type="button" (click)="onCancelClick($event)">Cancel</button>
             <button class="btn btn-sm btn-info" type="submit" id="noti_fav_save">Save</button>
           </div>
         </form>
@@ -266,7 +266,7 @@
       <div class="tab-pane fade p-3" id="notification">
         <form [formGroup]="userNotificationForm">
           <fieldset class="">
-            <legend>Notification Delivery Methods:</legend>
+            <legend>Notification Delivery Methods</legend>
             <div class="row mb-3" *ngIf="userprofile">
               <div class="col-12 col-md-8 col-lg-8 ipad-pro-lg-12">
                 <div class="row mb-3">
@@ -627,7 +627,7 @@
           </div>
         </div>
         <fieldset class="mt-3">
-          <legend>Alarm Subscriptions:</legend>
+          <legend>Alarm Subscriptions</legend>
           <div class="row">
             <div class="col-md-6 mb-2">
 
@@ -831,7 +831,7 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button id="org-uom-cancle" type="button" class="btn btn-secondary btn-sm" (click)="closemodal('cancel')">Cancel
+        <button id="org-uom-cancle" type="button" class="btn btn-outline-secondary btn-sm" (click)="closemodal('cancel')">Cancel
         </button>
         <button id="org-uom-save" type="button" class="btn btn-info btn-sm" (click)="onSaveUOMDetails()">Save</button>
       </div>

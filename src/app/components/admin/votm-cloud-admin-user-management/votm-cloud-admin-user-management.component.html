@@ -267,30 +267,30 @@ style="height: 600px;"
 columnMode="force"
 [headerHeight]="50"
 [footerHeight]="0"
-[rowHeight]="50"
+[rowHeight]="35"
 [scrollbarV]="true"
 [loadingIndicator]="isGetUsersAPILoading"
 >
-<ngx-datatable-column name="Name" [sortable]="true">
+<ngx-datatable-column name="Name" [width]="150" [sortable]="true">
   <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
       <a class="cursor-point" (click)="onClickOfUserDetails($event, row)">{{row.firstName}}&nbsp;{{row.lastName}}</a>
   </ng-template>
 </ngx-datatable-column>
-<ngx-datatable-column name="Organization Name" [sortable]="true" prop="organizationName"></ngx-datatable-column>
+<ngx-datatable-column name="Organization Name" [width]="100" [sortable]="true" prop="organizationName"></ngx-datatable-column>
 <ngx-datatable-column name="Role Name" [sortable]="true" prop="roleName"></ngx-datatable-column>
-<ngx-datatable-column name="Email" [sortable]="true" prop="emailId"></ngx-datatable-column>
-<ngx-datatable-column name="Phone" [sortable]="true" prop="phoneNumber"></ngx-datatable-column>
-<ngx-datatable-column name="Permissions" [sortable]="true">
+<ngx-datatable-column name="Email" [width]="230" [sortable]="true" prop="emailId"></ngx-datatable-column>
+<ngx-datatable-column name="Phone" [width]="150" [sortable]="true" prop="phoneNumber"></ngx-datatable-column>
+<ngx-datatable-column name="Permissions" [width]="100" [sortable]="true">
     <ng-template ngx-datatable-cell-template>
         Home
       </ng-template>
 </ngx-datatable-column>
-<ngx-datatable-column name="Access" [sortable]="true">
+<ngx-datatable-column name="Access" [width]="100" [sortable]="true">
     <ng-template ngx-datatable-cell-template>
        Role
       </ng-template>
 </ngx-datatable-column>
-<ngx-datatable-column name="Action">
+<ngx-datatable-column name="Action" [width]="100">
     <ng-template let-value="value" let-row="row" let-rowIndex="rowIndex" ngx-datatable-cell-template>
     <a id="user_check_{{rowIndex}}" class="mr-2" [title]="row.active ? 'Active' : 'Deactive'" (click)="onClickOfConfirmUserStatus($event, row)">
         <i [ngClass]="row.active ? 'fa fa-check-circle' : 'fa fa-ban'" ></i>

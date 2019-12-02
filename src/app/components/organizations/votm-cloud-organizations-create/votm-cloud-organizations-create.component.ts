@@ -206,13 +206,15 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
             // this.activeTab = 'org-details';
             this.goToTab('org-details');
           } else {
-            console.log('Entererd in else ', fragment)
+            console.log('Entererd in else ', fragment);
             if (fragment) {
               this.activeTab = fragment;
             }
           }
           if (fragment === 'org-alert') {
             this.fetchLertRuleLost();
+          } else if (fragment === 'asset-template') {
+            this.onTemplateTabClick();
           }
         }
       );
@@ -386,7 +388,7 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
           this.modifiedDate = moment(this.organization.modifiedOn).format(VotmCommon.dateFormat) + ' ' + moment(this.organization.modifiedOn).format(VotmCommon.timeFormat);
         }
 
-      //  this.fillUoM();
+        //  this.fillUoM();
         // this.organization.timeZoneId = this.organization.timeZone;
         // this.organization.localeId = this.organization.locale;
         // this.organization.uoMId = this.organization.uoM;
@@ -479,6 +481,8 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
           this.cellularBlocks = response;
         }
 
+        this.loaderForOptions = false;
+      }, error => {
         this.loaderForOptions = false;
       });
   }

@@ -1,0 +1,16 @@
+.nav-tabs .nav-link {
+  transition: border-color .125s ease-in;
+  white-space: nowrap;
+  color: #495057;
+  background-color: #f3f4f6;
+}
+.nav-tabs .nav-link {
+  border-top-left-radius: 0.25rem;
+  border-top-right-radius: 0.25rem;
+  border-color: #dee2e6 #dee2e6 #dee2e6 #dee2e6;
+}
+.nav-tabs .nav-link.active {
+  border-color: #00A2AE !important;
+  background-color: #00A2AE !important;
+  color: white;
+}

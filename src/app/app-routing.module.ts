@@ -270,13 +270,13 @@ const routes: Routes = [
     data: { type: 'View' }
   },
   {
-    path: 'template/edit/:templateId', component: VotmCloudAssetTemplateDetailsComponent, data: { type: 'Edit' }
+    path: 'org/template/edit/:templateId', component: VotmCloudAssetTemplateDetailsComponent, data: { type: 'Edit' }
   },
   {
-    path: 'template/view/:templateId', component: VotmCloudAssetTemplateDetailsComponent, data: { type: 'View' }
+    path: 'org/template/view/:templateId', component: VotmCloudAssetTemplateDetailsComponent, data: { type: 'View' }
   },
   {
-    path: 'org/template/create', component: VotmCloudAssetTemplateDetailsComponent, data: { type: 'Create' }
+    path: 'org/template/create/:orgId/:orgName', component: VotmCloudAssetTemplateDetailsComponent, data: { type: 'Create' }
   },
   // { path: 'template/list', component: VotmCloudAssetTemplateListComponent },
   {

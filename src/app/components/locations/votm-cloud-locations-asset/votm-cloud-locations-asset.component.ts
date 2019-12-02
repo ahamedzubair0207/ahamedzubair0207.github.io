@@ -1,3 +1,4 @@
+import { async } from '@angular/core/testing';
 import { SharedService } from 'src/app/services/shared.service';
 import { LocationService } from './../../../services/locations/location.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
@@ -106,14 +107,17 @@ export class VotmCloudLocationsAssetComponent implements OnInit {
   getAssets() {
     this.isGetChildAssetsAPILoading = true;
     this.assetService.getAssetTreeByLocId(this.locationId)
-      .subscribe(response => {
+      .subscribe(async response => {
+        // const list = [];
+        // for (const childAsset of this.assetsList) {
+        //   childAsset.associated = false;
+        //   childAsset.icon = 'icon-asset-robot';
+        //   childAsset.associationName = childAsset.name;
+        //   childAsset.associated = false;
+        // }
+        response = await this.getAssetChildNode(response, []);
         this.assetsList = this.sharedService.toSortListAlphabetically(response, 'name');
-        for (const childAsset of this.assetsList) {
-          childAsset.associated = false;
-          childAsset.icon = 'icon-asset-robot';
-          childAsset.associationName = childAsset.name;
-          childAsset.associated = false;
-        }
+        console.log('aftererrrrrrrrrrrrrrr ', this.assetsList.length);
         this.getAssetAssociation();
         this.isGetChildAssetsAPILoading = false;
       },
@@ -122,6 +126,19 @@ export class VotmCloudLocationsAssetComponent implements OnInit {
         });
   }
 
+  getAssetChildNode(assets, actualAssets) {
+    for (const item of assets) {
+      item.associated = false;
+      item.icon = 'icon-asset-robot';
+      item.associationName = item.name;
+      item.associated = false;
+      actualAssets.push(item);
+      if (item.node.length > 0) {
+        this.getAssetChildNode(item.node, actualAssets);
+      }
+    }
+    return actualAssets;
+  }
 
   getAssetAssociation() {
     this.isGetassociatedAssetsAPILoading = true;
@@ -160,12 +177,12 @@ export class VotmCloudLocationsAssetComponent implements OnInit {
               childAsset.isClicked = false;
               childAsset.icon = 'icon-asset-robot';
               childAsset.associated = true;
-              childAsset.did = i;
+              childAsset.did = this.associatedAssets.length;
               childAsset.bound = true;
               this.associatedAssets.push(childAsset);
             }
           }
-          console.log(JSON.stringify(this.associatedAssets));
+          console.log('aftererrrrrrrrrrrrr    ', this.associatedAssets.length);
 
         },
         () => {

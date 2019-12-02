@@ -115,20 +115,29 @@ export class VotmCloudAssetChildComponent implements OnInit {
     console.log(this.assetId);
     this.isGetChildAssetsAPILoading = true;
     this.assetService.getAssetTreeByAssetId(this.assetId)
-      .subscribe(response => {
-        this.childAssets = this.sharedService.toSortListAlphabetically(response[0].node, 'name');
-        for (const childAsset of this.childAssets) {
-          childAsset.associated = false;
-          childAsset.icon = 'icon-asset-robot';
-          childAsset.associationName = childAsset.name;
-          childAsset.associated = false;
-        }
+      .subscribe(async response => {
+        response = await this.getAssetChildNode(response[0].node, []);
+        this.childAssets = this.sharedService.toSortListAlphabetically(response, 'name');
         this.getChildAssetAssociation();
         this.isGetChildAssetsAPILoading = false;
       },
         error => {
           this.isGetChildAssetsAPILoading = false;
         });
+  }
+
+  getAssetChildNode(assets, actualAssets) {
+    for (const item of assets) {
+      item.associated = false;
+      item.icon = 'icon-asset-robot';
+      item.associationName = item.name;
+      item.associated = false;
+      actualAssets.push(item);
+      if (item.node.length > 0) {
+        this.getAssetChildNode(item.node, actualAssets);
+      }
+    }
+    return actualAssets;
   }
 
 
@@ -170,7 +179,7 @@ export class VotmCloudAssetChildComponent implements OnInit {
               childAsset.isClicked = false;
               childAsset.icon = 'icon-asset-robot';
               childAsset.associated = true;
-              childAsset.did = i;
+              childAsset.did = this.associatedChildAssets.length;
               childAsset.bound = true;
               this.associatedChildAssets.push(childAsset);
             }
