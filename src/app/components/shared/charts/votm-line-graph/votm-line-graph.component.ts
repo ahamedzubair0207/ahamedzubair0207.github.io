@@ -310,7 +310,7 @@ export class VotmLineGraphComponent implements OnInit {
       let offsetWidth = this.graphDiv.nativeElement.offsetWidth;
       // body.bucketSize = `${((numberOfSeconds * 2) / (60 * offsetWidth)).toFixed()}m`;
       body.bucketSize = `${((numberOfSeconds * 2) / offsetWidth).toFixed()}s`;
-      // console.log('bucketsize ', numberOfSeconds, offsetWidth, body.bucketSize)
+      console.log('bucketsize ', numberOfSeconds, offsetWidth, body.bucketSize)
     }
 
     // console.log('body ', body);
@@ -412,7 +412,7 @@ export class VotmLineGraphComponent implements OnInit {
     chart.dataSource.parser = new am4core.JSONParser();
     // xAxis.dateFormatter = new am4core.DateFormatter();
     // xAxis.dateFormatter.dateFormat = "MM-dd";
-    chart.dataSource.parser.options.dateFormat = 'MM/dd/yyyy hh:mm:ss a';
+    chart.dataSource.parser.options.dateFormat = 'MM/d/yyyy h:mm:ss a';
     // chart.dataSource.dateFormat = 'M/d/y h:m:s a';
     chart.dataSource.reloadFrequency = 60000;
     // chart.data = response; // timeseries;// this.generateChartData();
@@ -430,10 +430,10 @@ export class VotmLineGraphComponent implements OnInit {
     let dateAxis = chart.xAxes.push(tempdateaxis);
     dateAxis.renderer.line.strokeOpacity = 1;
     dateAxis.renderer.line.stroke = am4core.color("gray");
-    dateAxis.tooltipDateFormat = "MM/dd/YYYY hh:mm:ss";
-    dateAxis.dateFormats.setKey("day", "MMM dd");
-    dateAxis.dateFormats.setKey("year", "yyyy");
-    dateAxis.dateFormats.setKey("second", "HH:mm:ss");
+    dateAxis.tooltipDateFormat = "MM/dd/YYYY h:mm:ss a";
+    // dateAxis.dateFormats.setKey("day", "MMM dd");
+    // dateAxis.dateFormats.setKey("year", "yyyy");
+    // dateAxis.dateFormats.setKey("second", "HH:mm:ss");
     //Added Code Start
     // dateAxis.start = 0.7;
     // dateAxis.keepSelection = true;
