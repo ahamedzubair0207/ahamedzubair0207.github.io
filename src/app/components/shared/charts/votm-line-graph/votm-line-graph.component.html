@@ -100,7 +100,7 @@
                       type="checkbox"
                       id="y1-{{ i }}"
                       class="custom-control-input"
-                      [checked]="signal.selY[0]"
+                      [checked]="trendChartWidget.signalsY1.indexOf(signal.id)>=0"
                       [disabled]="disableSignalAxis(i, 0)"
                       (change)="selectSignal(i, 0, signal.id)"
                     />
@@ -114,7 +114,7 @@
                       type="checkbox"
                       id="y2-{{ i }}"
                       class="custom-control-input"
-                      [checked]="signal.selY[1]"
+                      [checked]="trendChartWidget.signalsY2.indexOf(signal.id)>=0"
                       [disabled]="disableSignalAxis(i, 1)"
                       (change)="selectSignal(i, 1, signal.id)"
                     />
@@ -149,7 +149,7 @@
         <div *ngIf="yAxisSignals[0] > 0" class="form-group form-row">
       <label for="LeftAxis" class="col-3 col-form-label mandatory">{{pageLabels.LeftAxisRange.labelName}}</label>
       <div class="col-3">
-        <ng-select autofocus labelForId="axisY1RngSelect" class="custom" [(ngModel)]="selYAxisRange[0]">
+        <ng-select labelForId="axisY1RngSelect" class="custom" [(ngModel)]="selYAxisRange[0]">
           <ng-option value="auto">{{pageLabels.Auto.labelName}}</ng-option>
           <ng-option value="rngMinMax">{{pageLabels.RangeMinMax.labelName}}</ng-option>
           <ng-option value="fixed">{{pageLabels.Fixed.labelName}}</ng-option>
@@ -216,15 +216,15 @@
       <label for="showThresholds" class="col-3 col-form-label mandatory">{{pageLabels.DisplayThresholds.labelName}}</label>
       <div class="col-9">
         <div class="custom-control custom-radio custom-control-inline" style="padding-top: calc(.25rem + 1px);">
-          <input type="radio" checked (change)="onDisplayThresholdsChange($event, 'none')" id="noThresholds" name="showThresholds" class="custom-control-input" />
+          <input type="radio" [checked]="trendChartWidget.displayThrshold.indexOf('none')>=0" (change)="onDisplayThresholdsChange($event, 'none')" id="noThresholds" name="showThresholds" class="custom-control-input" />
           <label class="custom-control-label" for="noThresholds">{{pageLabels.None.labelName}}</label>
         </div>
         <div class="custom-control custom-radio custom-control-inline" style="padding-top: calc(.25rem + 1px);">
-          <input type="radio" id="y1Thresholds" (change)="onDisplayThresholdsChange($event, 'left axis')" name="showThresholds" class="custom-control-input" />
+          <input type="radio"  [checked]="trendChartWidget.displayThrshold.indexOf('left axis')>=0" id="y1Thresholds" (change)="onDisplayThresholdsChange($event, 'left axis')" name="showThresholds" class="custom-control-input" />
           <label class="custom-control-label" for="y1Thresholds">{{pageLabels.LeftAxis.labelName}}</label>
         </div>
         <div class="custom-control custom-radio custom-control-inline" style="padding-top: calc(.25rem + 1px);">
-          <input type="radio" id="y2Thresholds" (change)="onDisplayThresholdsChange($event, 'right axis')" name="showThresholds" class="custom-control-input" />
+          <input type="radio" id="y2Thresholds"  [checked]="trendChartWidget.displayThrshold.indexOf('right axis')>=0" (change)="onDisplayThresholdsChange($event, 'right axis')" name="showThresholds" class="custom-control-input" />
           <label class="custom-control-label" for="y2Thresholds">{{pageLabels.RightAxis.labelName}}</label>
         </div>
       </div>
@@ -265,377 +265,3 @@
     </div>
   </div>
 </ng-template>
-
-<!-- <ng-template #config let-modal>
-  <div class="modal-header">
-    <h5 class="modal-title">Configure Trend Chart</h5>
-    <button type="button" class="close" (click)="modal.dismiss()">
-      <span>&times;</span>
-    </button>
-  </div>
-  <div class="modal-body">
-    <div class="form-group form-row">
-      <label class="col-3 col-form-label mandatory">Signals</label>
-      <div class="col-9">
-        <div class="table-fixed">
-          <table class="table table-sm table-bordered">
-            <thead>
-              <tr>
-                <th scope="col" class="">Signal Name</th>
-                <th scope="col" class="">Signal Type</th>
-                <th scope="col" class="text-center">Y1</th>
-                <th scope="col" class="text-center">Y2</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let signal of signals; index as i">
-                <td><i class="pr-1 icon-sig-{{ signal.type }}"></i>{{ signal.name }}</td>
-                <td>{{ signal.type }}</td>
-                <td class="text-center">
-                  <div class="custom-control custom-checkbox">
-                    <input
-                      type="checkbox"
-                      id="y1-{{ i }}"
-                      class="custom-control-input"
-                      [checked]="signal.selY[0]"
-                      [disabled]="disableSignalAxis(i, 0)"
-                      (change)="selectSignal(i, 0)"
-                    />
-                    <label class="custom-control-label mr-n2" for="y1-{{ i }}"></label>
-                  </div>
-                </td>
-                <td class="text-center">
-                  <div class="custom-control custom-checkbox ">
-                    <input
-                      type="checkbox"
-                      id="y2-{{ i }}"
-                      class="custom-control-input"
-                      [checked]="signal.selY[1]"
-                      [disabled]="disableSignalAxis(i, 1)"
-                      (change)="selectSignal(i, 1)"
-                    />
-                    <label class="custom-control-label mr-n2" for="y2-{{ i }}"></label>
-                  </div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-    <div class="form-group form-row">
-      <label for="axisDateRngSelect" class="col-3 col-form-label mandatory">Date Range</label>
-      <div class="col-3">
-        <ng-select autofocus labelForId="axisDateRngSelect" class="custom" [(ngModel)]="selDateRange">
-          <ng-option value="Min">One Minute</ng-option>
-          <ng-option value="Hour">One Hour</ng-option>
-          <ng-option value="Day">One Day</ng-option>
-          <ng-option value="Week">One Week</ng-option>
-          <ng-option value="Month">One Month</ng-option>
-          <ng-option value="3Month">Three Months</ng-option>
-          <ng-option value="6Month">Six Months</ng-option>
-          <ng-option value="YTD">Year to Date</ng-option>
-          <ng-option value="Year">One Year</ng-option>
-          <ng-option value="All">All Available Data</ng-option>
-        </ng-select>
-      </div>
-    </div>
-    <div *ngIf="yAxisSignals[0] > 0" class="form-group form-row">
-      <label for="LeftAxis" class="col-3 col-form-label mandatory">Left Axis Range</label>
-      <div class="col-3">
-        <ng-select autofocus labelForId="axisY1RngSelect" class="custom" [(ngModel)]="selYAxisRange[0]">
-          <ng-option value="auto">Auto</ng-option>
-          <ng-option value="rngMinMax">Range Min/Max</ng-option>
-          <ng-option value="fixed">Fixed</ng-option>
-        </ng-select>
-      </div>
-      <div [ngClass]="{ 'd-none': !(selYAxisRange[0] == 'fixed') }" class="col-3">
-        <div class="form-row">
-          <div class="col-9">
-            <input type="text" class="form-control" id="y1Min" [(ngModel)]="wConfig.yMin[0]" placeholder="Y1 Min" />
-          </div>
-          <div class="col-3" style="padding-top: calc(.25rem + 1px);">
-            {{ yAxisUoM(0) }}
-          </div>
-        </div>
-      </div>
-      <div [ngClass]="{ 'd-none': !(selYAxisRange[0] == 'fixed') }" class="col-3">
-        <div class="form-row">
-          <div class="col-9">
-            <input type="text" class="form-control" id="y1Max" [(ngModel)]="wConfig.yMax[0]" placeholder="Y1 Max" />
-          </div>
-          <div class="col-3" style="padding-top: calc(.25rem + 1px);">
-            {{ yAxisUoM(0) }}
-          </div>
-        </div>
-      </div>
-    </div>
-    <div *ngIf="yAxisSignals[1] > 0" class="form-group form-row">
-      <label for="RightAxis" class="col-3 col-form-label mandatory">Right Axis Range</label>
-      <div class="col-3">
-        <ng-select #axisY2RngSelect labelForId="axisY2RngSelect" class="custom" [(ngModel)]="selYAxisRange[1]">
-          <ng-option value="auto">Auto</ng-option>
-          <ng-option value="rngMinMax">Range Min/Max</ng-option>
-          <ng-option value="fixed">Fixed</ng-option>
-        </ng-select>
-      </div>
-      <div [ngClass]="{ 'd-none': !(selYAxisRange[1] == 'fixed') }" class="col-3">
-        <div class="form-row">
-          <div class="col-9">
-            <input type="text" class="form-control" id="y2Min" [(ngModel)]="wConfig.yMin[1]" placeholder="Y2 Min" />
-          </div>
-          <div class="col-3" style="padding-top: calc(.25rem + 1px);">
-            {{ yAxisUoM(1) }}
-          </div>
-        </div>
-      </div>
-      <div [ngClass]="{ 'd-none': !(selYAxisRange[1] == 'fixed') }" class="col-3">
-        <div class="form-row">
-          <div class="col-9">
-            <input type="text" class="form-control" id="y2Max" [(ngModel)]="wConfig.yMax[1]" placeholder="Y2 Max" />
-          </div>
-          <div class="col-3" style="padding-top: calc(.25rem + 1px);">
-            {{ yAxisUoM(1) }}
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="form-group form-row">
-      <label for="title" class="col-3 col-form-label">Chart Title</label>
-      <div class="col-9">
-        <input type="text" class="form-control" id="title" [(ngModel)]="wConfig['title']" />
-      </div>
-    </div>
-    <div class="form-group form-row">
-      <label for="showThresholds" class="col-3 col-form-label mandatory">Display thresholds</label>
-      <div class="col-9">
-        <div class="custom-control custom-radio custom-control-inline" style="padding-top: calc(.25rem + 1px);">
-          <input type="radio" checked id="noThresholds" name="showThresholds" class="custom-control-input" />
-          <label class="custom-control-label" for="noThresholds">None</label>
-        </div>
-        <div class="custom-control custom-radio custom-control-inline" style="padding-top: calc(.25rem + 1px);">
-          <input type="radio" id="y1Thresholds" name="showThresholds" class="custom-control-input" />
-          <label class="custom-control-label" for="y1Thresholds">Left Axis</label>
-        </div>
-        <div class="custom-control custom-radio custom-control-inline" style="padding-top: calc(.25rem + 1px);">
-          <input type="radio" id="y2Thresholds" name="showThresholds" class="custom-control-input" />
-          <label class="custom-control-label" for="y2Thresholds">Right Axis</label>
-        </div>
-      </div>
-    </div>
-    <div class="form-group form-row">
-      <label for="showEvents" class="col-3 col-form-label mandatory">Display event flags</label>
-      <div class="col-9">
-        <div class="custom-control custom-switch" style="padding-top: calc(.25rem + 1px);">
-          <input type="checkbox" class="custom-control-input" id="showEvents" [checked]="showEvents" (change)="toggleShowThresholds()" />
-          <label class="custom-control-label" for="showEvents"></label>
-        </div>
-      </div>
-    </div>
-    <div class="form-group row pt-1 mb-0">
-      <div class="col"></div>
-      <div class="col-auto pr-0">
-        <button type="button" class="btn btn-secondary" (click)="modal.dismiss()">
-          Cancel
-        </button>
-      </div>
-      <div class="col-auto">
-        <button type="button" class="btn btn-primary" (click)="modal.close('save')">
-          Save
-        </button>
-      </div>
-    </div>
-  </div>
-</ng-template> -->
-
-
-
-
-
-<!-- <div class="p-2 border">
-    <div class="text-right chartConfigureIcon"><i class="icon-cog font-15" (click)="onClickOfCustomizeTrendChart()"></i></div>
-<div class="border h-100 w-100 position-relative">
-    <div class="text-right chart-actions" [class.d-none]="locked"><i class="icon-cog" (click)="onClickOfCustomizeTrendChart()"></i></div>
-    <div class="text-center con-wid-preview" *ngIf="!isTrendChartConfigured">
-        <img class="img-fluid img-fluid-custom" src="../../../../../assets/images/configure_trend_chart_widget.jpg">
-    </div>
-    <div *ngIf="isTrendChartConfigured" id="{{ 'chartdiv-div-line-' + id }}" style="width: 100%; height: 350px" ></div>
-</div>
-
-<div id="configure-trend-chart-modal" class="modal">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Configure Trend Chart</h5>
-                <button type="button" class="close" (click)="onClickOfCustomizeTrendChartModalClose()">&times;</button>
-            </div>
-            <div class="modal-body">
-                <div class="form-group form-row">
-                    <label class="col-3 col-form-label mandatory">Signals</label>
-                    <div class="col-9">
-                      <div class="table-fixed">
-                        <table class="table table-sm table-bordered">
-                          <thead>
-                            <tr>
-                              <th scope="col" class="">Signal Name</th>
-                              <th scope="col" class="">Signal Type</th>
-                              <th scope="col" class="text-center">Y1</th>
-                              <th scope="col" class="text-center">Y2</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr>
-                              <td><i class="pr-1 icon-sig-vibration"></i>Vibration</td>
-                              <td>Vibration Sensor</td>
-                              <td class="text-center">
-                                <div class="custom-control custom-checkbox">
-                                  <input type="checkbox" id=y1 class="custom-control-input"/>
-                                  <label class="custom-control-label mr-n2" for=y1></label>
-                                </div>
-                              </td>
-                              <td class="text-center">
-                                <div class="custom-control custom-checkbox ">
-                                  <input type="checkbox" id=y2 class="custom-control-input"/>
-                                  <label class="custom-control-label mr-n2" for=y2></label>
-                                </div>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="form-group form-row">
-                    <label for="axisDateRngSelect" class="col-3 col-form-label mandatory">Date Range</label>
-                    <div class="col-3">
-                      <ng-select class="custom">
-                        <ng-option value="Min">One Minute</ng-option>
-                        <ng-option value="Hour">One Hour</ng-option>
-                        <ng-option value="Day">One Day</ng-option>
-                        <ng-option value="Week">One Week</ng-option>
-                        <ng-option value="Month">One Month</ng-option>
-                        <ng-option value="3Month">Three Months</ng-option>
-                        <ng-option value="6Month">Six Months</ng-option>
-                        <ng-option value="YTD">Year to Date</ng-option>
-                        <ng-option value="Year">One Year</ng-option>
-                        <ng-option value="All">All Available Data</ng-option>
-                      </ng-select>
-                    </div>
-                  </div>
-                  <div class="form-group form-row">
-                    <label for="LeftAxis" class="col-3 col-form-label mandatory">Left Axis Range (Y1)</label>
-                    <div class="col-3">
-                      <ng-select autofocus labelForId="axisY1RngSelect" class="custom" >
-                        <ng-option value="auto">Auto</ng-option>
-                        <ng-option value="rngMinMax">Range Min/Max</ng-option>
-                        <ng-option value="fixed">Fixed</ng-option>
-                      </ng-select>
-                    </div>
-                    <div class="col-3">
-                      <div class="form-row">
-                        <div class="col-9">
-                          <input type="text" class="form-control" id="y1Min"  placeholder="Y1 Min" />
-                        </div>
-                        <div class="col-3" style="padding-top: calc(.25rem + 1px);">
-                          psi
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-3">
-                      <div class="form-row">
-                        <div class="col-9">
-                          <input type="text" class="form-control" id="y1Max"  placeholder="Y1 Max" />
-                        </div>
-                        <div class="col-3" style="padding-top: calc(.25rem + 1px);">
-                          psi
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="form-group form-row">
-                    <label for="RightAxis" class="col-3 col-form-label mandatory">Right Axis Range (Y2)</label>
-                    <div class="col-3">
-                      <ng-select #axisY2RngSelect labelForId="axisY2RngSelect" class="custom" >
-                        <ng-option value="auto">Auto</ng-option>
-                        <ng-option value="rngMinMax">Range Min/Max</ng-option>
-                        <ng-option value="fixed">Fixed</ng-option>
-                      </ng-select>
-                    </div>
-                    <div class="col-3">
-                      <div class="form-row">
-                        <div class="col-9">
-                          <input type="text" class="form-control" id="y2Min"  placeholder="Y2 Min" />
-                        </div>
-                        <div class="col-3" style="padding-top: calc(.25rem + 1px);">
-                          psi
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-3">
-                      <div class="form-row">
-                        <div class="col-9">
-                          <input type="text" class="form-control" id="y2Max"  placeholder="Y2 Max" />
-                        </div>
-                        <div class="col-3" style="padding-top: calc(.25rem + 1px);">
-                          psi
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="form-group form-row">
-                    <label for="title" class="col-3 col-form-label">Chart Title</label>
-                    <div class="col-9">
-                      <input type="text" class="form-control" id="title" />
-                    </div>
-                  </div>
-                  <div class="form-group form-row">
-                    <label for="showThresholds" class="col-3 col-form-label mandatory">Display thresholds</label>
-                    <div class="col-9">
-                      <div class="custom-control custom-radio custom-control-inline" style="padding-top: calc(.25rem + 1px);">
-                        <input type="radio" checked id="noThresholds" name="showThresholds" class="custom-control-input" />
-                        <label class="custom-control-label" for="noThresholds">None</label>
-                      </div>
-                      <div class="custom-control custom-radio custom-control-inline" style="padding-top: calc(.25rem + 1px);">
-                        <input type="radio" id="y1Thresholds" name="showThresholds" class="custom-control-input" />
-                        <label class="custom-control-label" for="y1Thresholds">Left Axis</label>
-                      </div>
-                      <div class="custom-control custom-radio custom-control-inline" style="padding-top: calc(.25rem + 1px);">
-                        <input type="radio" id="y2Thresholds" name="showThresholds" class="custom-control-input" />
-                        <label class="custom-control-label" for="y2Thresholds">Right Axis</label>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="form-group form-row">
-                    <label for="showEvents" class="col-3 col-form-label mandatory">Display defaults</label>
-                    <div class="col-3">
-                      <div class="custom-control custom-switch" style="padding-top: calc(.25rem + 1px);">
-                        <input type="checkbox" class="custom-control-input" id="showEvents" [checked]="showEvents" (change)="toggleShowThresholds()" />
-                        <label class="custom-control-label" for="showEvents">Event Flags</label>
-                      </div>
-                    </div>
-                    <div class="col-3">
-                      <div class="custom-control custom-switch" style="padding-top: calc(.25rem + 1px);">
-                        <input type="checkbox" class="custom-control-input" id="showLegend" [checked]="showLegend" (change)="showLegend = !showLegend" />
-                        <label class="custom-control-label" for="showLegend">Legends</label>
-                      </div>
-                    </div>
-                    <div class="col-3">
-                      <div class="custom-control custom-switch" style="padding-top: calc(.25rem + 1px);">
-                        <input type="checkbox" class="custom-control-input" id="showMinMax" [checked]="showMinMax" (change)="showMinMax = !showMinMax" />
-                        <label class="custom-control-label" for="showMinMax">Min/Max</label>
-                      </div>
-                    </div>
-                  </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary btn-sm" id="grant_user_btncancel"
-                    (click)="onClickOfCustomizeTrendChartModalClose()">Cancel</button>
-                <button type="button" class="btn btn-info btn-sm" id="" (click)="saveTrendChartConfiguration()">
-                    Save
-                </button>
-            </div>
-        </div>
-    </div>
-</div> -->
-<!-- </div> -->
-<!-- Modal Add User -->

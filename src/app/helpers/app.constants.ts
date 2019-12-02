@@ -26,6 +26,8 @@ export class AppConstants {
     public static DEL_DASHBOARD = '/Dashboard';
 
     public static CREATE_DASHBOARD_WIDGET = '/DashboardWidget';
+    public static GET_DASHBOARD_WIDGETS = '/DashboardWidget/dashboard/type';
+    public static UPDATE_DASHBOARD_WIDGET = '/DashboardWidget';
 
     public static GET_FAVORITES = '/UserManagement/UserFavorites';
     public static POST_FAVORITES = '/UserManagement/UserFavorites';
