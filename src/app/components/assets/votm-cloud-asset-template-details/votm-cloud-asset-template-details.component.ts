@@ -55,12 +55,11 @@ export class VotmCloudAssetTemplateDetailsComponent implements OnInit {
         this.templateId = params.templateId;
         this.orgId = params.orgId;
         this.orgName = params.orgName;
+        this.template.organizationId = this.orgId;
+        this.template.organizationName = this.orgName;
         if (this.templateId) {
           this.fetchTemplateById();
         }
-
-        this.template.organizationId = this.orgId;
-        this.template.organizationName = this.orgName;
       });
     this.pageType = this.route.snapshot.data['type'];
     // this.getAllAssets();
