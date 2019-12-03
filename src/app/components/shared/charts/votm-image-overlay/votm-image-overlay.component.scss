@@ -209,6 +209,7 @@
   .assoc-pane > div.widget-icon-large{
     padding-left:calc(1 * 3rem + 0px);
     line-height: calc(1 * 3rem + 0px);
+    min-height: calc(1 * 3rem + 0px);
     border-radius: calc(1 * 3rem / 2 + 0px) !important;
     background: $qcd-white-90;
     transition: all 0.3s ease;
@@ -217,6 +218,11 @@
     &:hover{
       border: 1px solid $qcd-success-brd;
       padding-left:calc(1.1 * 3rem + 0px);
+      p{
+        // line-height: calc(0.295 * 12rem + 0px);
+        line-height: 18px;
+        white-space: pre-wrap;
+      }
     }
     &:before {
       width: calc(1 * 3rem + 0px);
@@ -234,23 +240,29 @@
   //extra large icon
   .assoc-pane > div.widget-icon-extra-large{
     padding-left:calc(1 * 5.75rem + 0px);
-    line-height: calc(1 * 5.75rem + 0px);
+    line-height: calc(0.98 * 5.75rem + 0px);
+    min-height: calc(1 * 5.75rem + 0px);
     border-radius: calc(1 * 5.75rem / 2 + 0px) !important;
     background: $qcd-white-90;
     transition: all 0.3s ease;
     border-color: $qcd-success-brd;
     cursor: pointer;
-    p{
-      line-height: 1.99rem !important;
-    }
+    // p{
+    //   line-height: 1.99rem !important;
+    // }
     &:hover{
       border: 1px solid $qcd-success-brd;
       padding-left:calc(1 * 5.75rem + 0px);
-      line-height: calc(1 * 1.99rem + 0px) !important;
+      // line-height: calc(1 * 1.99rem + 0px) !important;
+      p{
+        // line-height: calc(0.295 * 12rem + 0px);
+        line-height: 22px;
+        white-space: pre-wrap;
+      }
     }
     &:before {
       width: calc(1 * 5.75rem + 0px);
-      line-height: calc(1 * 5.75rem + 0px);
+      line-height: calc(0.98 * 5.75rem + 0px);
       border-radius: calc(1 * 5.75rem + 0px);
       background-color: $qcd-success;
       color: $white;
@@ -264,28 +276,37 @@
 
 // Extgra Extra large icon
 .assoc-pane > div.widget-icon-extra-extra-large{
-  padding-left:calc(1 * 9rem + 0px);
-    line-height: calc(1 * 9rem + 0px);
-    border-radius: calc(1 * 9rem / 2 + 0px) !important;
+    padding-left:calc(1 * 12rem + 0px);
+    line-height: calc(1 * 12rem + 0px);
+    height: calc(1 * 12rem + 0px);
+    border-top-left-radius: calc(1 * 12rem / 2 + 0px) !important;
+    border-bottom-left-radius: calc(1 * 12rem / 2 + 0px) !important;
+    border-top-right-radius: calc(1 * 12rem / 6 + 0px) !important;
+    border-bottom-right-radius: calc(1 * 12rem / 6 + 0px) !important;
     background: $qcd-white-90;
     transition: all 0.3s ease;
     border-color: $qcd-success-brd;
     cursor: pointer;
     &:hover{
       border: 1px solid $qcd-success-brd;
-      padding-left:calc(1 * 9rem + 0px);
+      padding-left:calc(1 * 12rem + 0px);
+      p{
+        // line-height: calc(0.295 * 12rem + 0px);
+        line-height: 42px;
+        white-space: pre-wrap;
+      }
     }
     &:before {
-      width: calc(1 * 9rem + 0px);
-      line-height: calc(1 * 9rem + 0px);
-      border-radius: calc(1 * 9rem + 0px);
+      width: calc(1 * 12rem + 0px);
+      line-height: calc(0.99 * 12rem + 0px);
+      border-radius: calc(1 * 12rem + 0px);
       background-color: $qcd-success;
       color: $white;
       border-color: $qcd-success-brd;
       position: absolute;
-      left: 0px;
-      top: -1px;
-      font-size: 3rem;
+      left: -1px;
+      top: 0px;
+      font-size: 6rem;
     }
 }
 
@@ -384,8 +405,8 @@
       z-index: 1;
       border: 1px solid $qcd-success-brd;
       p {
-        line-height: 0.9rem;
-        padding:4px 0;
+        // line-height: 0.9rem;
+        padding:4px 8px;
         margin:0;
       }
     }
