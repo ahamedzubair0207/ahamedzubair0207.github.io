@@ -333,9 +333,12 @@ span.loc-extent {
     /* margin: 0 auto; */
     justify-content: center;
     text-align: center;
-    display: flex;
-    /* flex: 1 1 100%;
+    /*display: flex;
+     flex: 1 1 100%;
     align-items: center*/
+}
+.img-fluid-custom{
+  max-height: 100%;
 }
 .asset-btm-same{
   // height: 40vh;

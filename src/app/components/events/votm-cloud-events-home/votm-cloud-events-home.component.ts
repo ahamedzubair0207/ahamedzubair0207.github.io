@@ -64,6 +64,15 @@ export class VotmCloudEventsHomeComponent implements OnInit {
     this.eventLogTable.rowDetail.toggleExpandRow(row);
   }
 
+  closeRow(row) {
+    this.selectedAcknowledgement = undefined;
+    this.closureActivity = undefined;
+    this.closureNote = undefined;
+    this.closedBy = undefined;
+    this.closedOn = undefined;
+    this.eventLogTable.rowDetail.toggleExpandRow(row);
+  }
+
   onDetailToggle(event) {
     console.log('Detail Toggled', event);
   }

@@ -133,9 +133,6 @@ export class VotmCloudLocationsAssetComponent implements OnInit {
       item.associationName = item.name;
       item.associated = false;
       actualAssets.push(item);
-      if (item.node.length > 0) {
-        this.getAssetChildNode(item.node, actualAssets);
-      }
     }
     return actualAssets;
   }

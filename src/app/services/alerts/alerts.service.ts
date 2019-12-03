@@ -115,6 +115,10 @@ export class AlertsService {
       );
   }
 
+  getAllHierarchy(id, type) {
+    return (this.http.get(AppConstants.NAVIGATION_URL + '?Id=' + id + '&type=' + type));
+  }
+
 
 
 }

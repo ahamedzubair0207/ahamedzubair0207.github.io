@@ -1,4 +1,4 @@
-<form class="text-body">
+<form class="text-body" *ngIf="!showGatewayDetail">
   <div class="row">
     <div class="col-md-3 col-xl-4">
       <div class="form-group">
@@ -17,36 +17,6 @@
 
   <div class="row">
     <div [ngClass]="{'col-12 col-md-6 col-lg-8 col-xl-9' : originList !== 'organizationView', 'col-12 col-md-12 col-lg-12 col-xl-12' : originList === 'organizationView'}">
-        <!-- <div class="col-12 col-md-12 col-lg-12 col-xl-12"> -->
-      <!-- <div class="table-responsive">
-        <table class="table table-bordered table-sm table-stripped table-hover" id="gateway_table">
-          <thead class="thead-dark">
-            <tr>
-              <th>Gateway Name</th>
-              <th>Serial Number</th>
-              <th>Type</th>
-              <th>Location</th>
-              <th>On-line Time</th>
-              <th>Data Transfer</th>
-              <th class="text-center">Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let allgetways of allGetways">
-              <td class="">
-                <a [routerLink]="['/admin/networkmanagement/GatewayDetails', 1]"><i class="icon-gateway mr-1"></i>
-                  {{ allgetways.gatewayname }}</a>
-              </td>
-              <td>{{ allgetways.eath0mac }}</td>
-              <td>{{ allgetways.location }}</td>
-              <td>{{ allgetways.organization }}</td>
-              <td class="text-center"><i class="icon-signal-100"></i></td>
-              <td>{{ allgetways.lastreporttime * 1000| date: 'MM-dd-yy'}} @
-                {{ allgetways.lastreporttime * 1000| date: 'hh:mm a'}}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div> -->
       <ngx-datatable
       class="bootstrap"
       style="height: 600px;"
@@ -54,15 +24,20 @@
       columnMode="force"
       [headerHeight]="50"
       [footerHeight]="0"
-      [rowHeight]="50"
+      [rowHeight]="35"
       [scrollbarV]="true"
       >
         <ngx-datatable-column name="Gateway Name" [sortable]="true">
           <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
-              <a class="cursor-point" [routerLink]="['/admin/networkmanagement/GatewayDetails', 1]">{{row.gatewayName}}</a>
+            <ng-container *ngIf="originList === 'organizationView'">
+              <a class="cursor-point" (click)="loadGatewayDetail(row.gatewayId)">{{row.gatewayName}}</a>
+            </ng-container>
+            <ng-container *ngIf="originList !== 'organizationView'">
+                <a class="cursor-point" [routerLink]="['/admin/networkmanagement/GatewayDetails', 1]">{{row.gatewayName}}</a>
+            </ng-container>
           </ng-template>
         </ngx-datatable-column>
-        <ngx-datatable-column name="Serial Number" [sortable]="true" prop="gatewayName"></ngx-datatable-column>
+        <ngx-datatable-column name="Serial Number" [sortable]="true"></ngx-datatable-column>
         <ngx-datatable-column name="Type" [sortable]="true" prop="productName"></ngx-datatable-column>
         <ngx-datatable-column name="Location" [sortable]="true" prop="gatewayLocationMapping.0.locationName"></ngx-datatable-column>
         <ngx-datatable-column name="On-line Time" [sortable]="true"></ngx-datatable-column>
@@ -165,3 +140,5 @@
 <button id="configure-gateways" routerLink="GatewayDetails" type="button"
   class="btn btn-sm btn-info loc-table-fonts ml-2">
   <i class="pr-2 icon-gateway"></i>Configure Gateways</button> -->
+
+<app-votm-cloud-gateways-details *ngIf="showGatewayDetail" [gatewayId]="selectedGatwayId" (showGatewayDetail)="showGatewayList()"></app-votm-cloud-gateways-details>

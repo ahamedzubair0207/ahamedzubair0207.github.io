@@ -72,7 +72,7 @@
                   <label for="closeby" class="col-sm-2 col-form-label">Close on</label>
                   <div class="col-sm-4">
                     <div class="input-group input-group-sm">
-                      <input type="text" id="event-ack-close-ondate" class="form-control" disabled [defaultValue]="currentDate" placeholder="dd/mm/yyy mm:hh">
+                      <input type="text" id="event-ack-close-ondate" class="form-control" disabled [defaultValue]="closedOn" placeholder="dd/mm/yyy mm:hh">
                       <div class="input-group-append">
                         <span class="input-group-text"><i class="icon-calendar"></i></span>
                       </div>
@@ -80,7 +80,7 @@
                   </div>
                   <label for="closeby" class="col-sm-2 col-form-label">Close by</label>
                   <div class="col-sm-4 pr-0">
-                    <input type="text" class="form-control form-control-sm" id="event-ack-close-by" disabled [defaultValue]="loggedInUser.userName" placeholder="Close By">
+                    <input type="text" class="form-control form-control-sm" id="event-ack-close-by" disabled [defaultValue]="closedBy" placeholder="Close By">
                   </div>
                 </div>
 
@@ -125,7 +125,7 @@
               </div>
             </div>
             <div class="row p-3 row-detail-buttons">
-              <button id="close-row-detail" type="button" class="btn btn-outline-secondary btn-sm mr-2" (click)="toggleExpandRow(row)" id="addEvntCancle">Close
+              <button id="close-row-detail" type="button" class="btn btn-outline-secondary btn-sm mr-2" (click)="closeRow(row)" id="addEvntCancle">Close
               </button>
               <button id="save-row-detail" type="button" class="btn btn-info btn-sm" (click)="updateEventLog(row)" id="updateLog">Save</button>
             </div>

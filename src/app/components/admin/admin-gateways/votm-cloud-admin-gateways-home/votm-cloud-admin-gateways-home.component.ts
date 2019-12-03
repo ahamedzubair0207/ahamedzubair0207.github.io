@@ -22,6 +22,8 @@ export class VotmCloudAdminGatewaysHomeComponent implements OnInit {
   // app-votm-cloud-admin-gateways-home == selector called in Org create component with originList="originListView"
   @Input() originList: any;
   gatewayList: any[];
+  showGatewayDetail = false;
+  selectedGatwayId: any;
 
   constructor(
     private zone: NgZone,
@@ -54,6 +56,7 @@ export class VotmCloudAdminGatewaysHomeComponent implements OnInit {
         // get logged in admin user home organization
         // currently taking static - VOTM - 7a59bdd8-6e1d-48f9-a961-aa60b2918dde
         this.getGatewaysByTypeAndId('organization', this.loggedInUserData.organizationId);
+        console.log('admin gateway list');
       }
 
     });
@@ -66,53 +69,22 @@ export class VotmCloudAdminGatewaysHomeComponent implements OnInit {
         this.gatewayList = [];
         if (response && response.length > 0) {
           this.gatewayList = response;
-          console.log('org gateway list ==', this.gatewayList);
+          console.log('org gatewayList-Length gateway list ==', this.gatewayList.length, this.gatewayList);
 
         }
       });
 
   }
 
-  getAllGateways() {
-    this.allGetways = [
-      {
-        gatewayname: 'Compressor Room',
-        eath0mac: '18:9b:a5:10:22:23',
-        location: 'CR01',
-        organization: 'QCD',
-        signal: '',
-        lastreporttime: '1571051724',
-        state: ''
-      },
-      {
-        gatewayname: 'QCD Lab',
-        eath0mac: '18:9b:a5:10:22:19',
-        location: 'CR01',
-        organization: 'QCD',
-        signal: '',
-        lastreporttime: '1571051024',
-        state: ''
-      },
-      {
-        gatewayname: 'Production',
-        eath0mac: '18:9b:a5:10:22:81',
-        location: 'CR01',
-        organization: 'QCD',
-        signal: '',
-        lastreporttime: '1571051224',
-        state: ''
-      },
-      {
-        gatewayname: 'Line 62',
-        eath0mac: '18:9b:a5:10:22:64',
-        location: 'CR01',
-        organization: 'QCD',
-        signal: '',
-        lastreporttime: '1571051524',
-        state: ''
-      }
-    ];
-  } // get allGetWays fun end
+  loadGatewayDetail(gatewayId) {
+    this.selectedGatwayId = gatewayId;
+    this.showGatewayDetail = true;
+  }
+
+  showGatewayList() {
+    this.showGatewayDetail = false;
+    this.selectedGatwayId = undefined;
+  }
 
   ngAfterViewInit() {
     if (this.originList !== 'organizationView') {

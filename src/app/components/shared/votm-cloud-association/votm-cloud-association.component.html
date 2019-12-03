@@ -150,12 +150,12 @@
       </div>
     </div>
   </div>
-  <div class="ml-auto mr-3 mt-3 pull-right" [class.d-none]="disable" *ngIf="model === 'Signal' || model === 'gateway'">
+  <div class="ml-auto mr-3 mt-3 pull-right">
     <button id="loc-sig-cancel" for="form-cancel" type="button" (click)="onCancelClick($event)"
       class="btn btn-outline-secondary btn-sm mr-2">Return to List</button>
-    <button id="loc-sig-reset" for="form-reset" type="button" (click)="onClickOfReset()"
+    <button id="loc-sig-reset" for="form-reset" type="button" (click)="onClickOfReset()"  [class.d-none]="disable"
       class="btn btn-info btn-sm mr-2">Reset</button>
-    <button id="loc-signal-association-save" type="button" class="btn btn-info btn-sm" (click)="onSaveSignalAssociation()"
+    <button id="loc-signal-association-save" type="button" class="btn btn-info btn-sm" (click)="onSaveSignalAssociation()"  [class.d-none]="disable"
       [disabled]="droppedList.length === 0 || isSignalAssociationAPILoading">
       Save<i *ngIf="isSignalAssociationAPILoading" class="fa fa-spinner fa-spin fa-fw"></i>
     </button>
@@ -221,7 +221,7 @@
 </div>
 </p-overlayPanel>
 
-<p-overlayPanel #alertOP [appendTo]="'body'" [style]="{ 'width' : '300px'}" [dismissable]="false"
+<p-overlayPanel #alertOP [appendTo]="'body'" [style]="{ 'width' : '315px'}" [dismissable]="false"
 >
   <div class="row"  *ngIf="selectedSignal">
     <div class="col-md-12">
@@ -235,10 +235,28 @@
                   <div class="form-group">
                     <label class="temp" id="edit-panel-name-label">Add Rule: </label>
                     <div class="">
-                      <select  class="form-control form-control-sm" id="alert-panel-rule-name" [(ngModel)]="selectedAlertRule">
+                      <!-- <select  class="form-control form-control-sm" id="alert-panel-rule-name" [(ngModel)]="selectedAlertRule">
                         <option>Select Any</option>
                         <option *ngFor="let rule of alertRules" [ngValue]="rule">{{rule.alertRuleName}}</option>
-                      </select>
+                      </select> -->
+                      <ng-select [(ngModel)]="selectedAlertRule"
+                      [items]="alertRules"
+                      [multiple]="true" [closeOnSelect]="false" [hideSelected]="false"
+                       name="alertruleselect"
+                       bindLabel="alertRuleName"
+                        bindValue="alertRuleId"
+                      class="custom">
+                      <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+                          <div class="ng-value" *ngFor="let item of items | slice:0:1">
+                            <span class="ng-value-label" >{{item.alertRuleName}}</span>
+                            <span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true">×</span>
+                          </div>
+                          <div class="ng-value" *ngIf="items.length > 1">
+                            <span class="ng-value-label">{{items.length - 1}} more..</span>
+                          </div>
+                        </ng-template>
+
+                    </ng-select>
                     </div>
                   </div>
                 </div>
