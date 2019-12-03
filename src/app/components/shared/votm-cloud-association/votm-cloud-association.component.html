@@ -150,12 +150,12 @@
       </div>
     </div>
   </div>
-  <div class="ml-auto mr-3 mt-3 pull-right" [class.d-none]="disable" *ngIf="model === 'Signal' || model === 'gateway'">
+  <div class="ml-auto mr-3 mt-3 pull-right">
     <button id="loc-sig-cancel" for="form-cancel" type="button" (click)="onCancelClick($event)"
       class="btn btn-outline-secondary btn-sm mr-2">Return to List</button>
-    <button id="loc-sig-reset" for="form-reset" type="button" (click)="onClickOfReset()"
+    <button id="loc-sig-reset" for="form-reset" type="button" (click)="onClickOfReset()"  [class.d-none]="disable"
       class="btn btn-info btn-sm mr-2">Reset</button>
-    <button id="loc-signal-association-save" type="button" class="btn btn-info btn-sm" (click)="onSaveSignalAssociation()"
+    <button id="loc-signal-association-save" type="button" class="btn btn-info btn-sm" (click)="onSaveSignalAssociation()"  [class.d-none]="disable"
       [disabled]="droppedList.length === 0 || isSignalAssociationAPILoading">
       Save<i *ngIf="isSignalAssociationAPILoading" class="fa fa-spinner fa-spin fa-fw"></i>
     </button>
