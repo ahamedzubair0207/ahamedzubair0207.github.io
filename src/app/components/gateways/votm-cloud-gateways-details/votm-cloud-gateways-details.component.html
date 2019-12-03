@@ -1,3 +1,24 @@
-<p>
-  votm-cloud-gateways-details works!
-</p>
+<div class="row">
+  <div class="col-md-6 col-lg-6 col-xl-6">
+    <div class="row">
+      <div class="col-12 col-md-6 col-lg-4 col-xl-3 ipad-pro-lg-6">
+        <div class="form-group">
+          <label for="g_name">Gateway Name</label>
+          <input class="form-control form-control-sm" placeholder="QCD Lab" type="text" id="g_name" />
+        </div>
+      </div>
+      <div class="col-12 col-md-6 col-lg-4 col-xl-3 ipad-pro-lg-6">
+        <div class="form-group">
+          <label for="g_type">Gateway Type</label>
+          <input class="form-control form-control-sm" placeholder="QCD Vantron" type="text" id="g_type" />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="ml-auto mr-3">
+    <button class="btn btn-secondary btn-sm mr-2" (click)="returnToGatewayList()"><i class="icon-gateway"></i> Return to List</button>
+    <button class="btn btn-info btn-sm">Save</button>
+  </div>
+</div>

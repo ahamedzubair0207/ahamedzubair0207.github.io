@@ -316,7 +316,11 @@ const routes: Routes = [
     component: VotmCloudAdminPanelComponent
   },
   {
-    path: 'admin/networkmanagement/GatewayDetails/:gatewayId',
+    path: 'admin/networkmanagement/gatewaydetails/view/:gatewayId',
+    component: VotmCloudAdminGatewaysDetailsComponent
+  },
+  {
+    path: 'admin/networkmanagement/gatewaydetails/edit/:gatewayId',
     component: VotmCloudAdminGatewaysDetailsComponent
   },
   {
