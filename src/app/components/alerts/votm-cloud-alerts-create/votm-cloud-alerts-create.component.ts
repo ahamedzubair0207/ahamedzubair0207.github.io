@@ -444,8 +444,10 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
           // this.selectUnselectAssetCheckbox(location);
 
           if (location.assets && location.assets.length > 0) {
-            let tempTreeNode: TreeNode = {};
+
             location.assets.forEach(asset => {
+              let tempTreeNode: TreeNode = {};
+              console.log(asset.assetName);
               this.assetsChecked[asset.assetId] = false;
               tempTreeNode.data = { id: asset.assetId, label: treeNode.data.label + ' > ' + asset.assetName, value: asset, parent: location };
               tempTreeNode.children = [];

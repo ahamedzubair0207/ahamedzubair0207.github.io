@@ -105,8 +105,7 @@ import { VotmCloudAssetDashboardComponent } from './components/assets/votm-cloud
 import {
   VotmCloudLocationsGatewayComponent
 } from './components/locations/votm-cloud-locations-gateway/votm-cloud-locations-gateway.component';
-import { VotmCloudEventsLocComponent } from './components/events/votm-cloud-events-loc/votm-cloud-events-loc.component';
-import { VotmCloudEventsAssetComponent } from './components/events/votm-cloud-events-asset/votm-cloud-events-asset.component';
+
 import {
   VotmCloudAdminNetworkManagementComponent
 } from './components/admin/votm-cloud-admin-network-management/votm-cloud-admin-network-management.component';
@@ -196,8 +195,6 @@ const oktaConfig = Object.assign({
     VotmCloudLocationsDashboardComponent,
     VotmCloudAssetDashboardComponent,
     VotmCloudLocationsGatewayComponent,
-    VotmCloudEventsLocComponent,
-    VotmCloudEventsAssetComponent,
     VotmCloudAdminNetworkManagementComponent,
     OnlyNumber,
     VotmCloudAdminUserManagementComponent,
