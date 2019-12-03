@@ -31,6 +31,8 @@ export class AppConstants {
     public static DEL_DASHBOARD = '/Dashboard';
 
     public static CREATE_DASHBOARD_WIDGET = '/DashboardWidget';
+    public static GET_DASHBOARD_WIDGETS = '/DashboardWidget/dashboard/type';
+    public static UPDATE_DASHBOARD_WIDGET = '/DashboardWidget';
 
     public static GET_FAVORITES = '/UserManagement/UserFavorites';
     public static POST_FAVORITES = '/UserManagement/UserFavorites';
@@ -121,6 +123,9 @@ export class AppConstants {
 
     public static GET_GATEWAY_DETAIL_BY_TYPE_AND_ID = '/GatewayByOrganizationId';
     public static GET_GATEWAY_BY_ORG_ID = '/GatewayByOrganizationId';
+
+
+    public static GET_DATATABLE = '/Dashboard/getTimeseriesDatatable';
 
     // Need to change to configurable strings once DB is in good shape
     // public static ORG_LBL = 'ConfigSettings/fd027a29-f9b7-474d-a4f4-0462d027c535/ScreenLabel/95200C8D-9910-42F2-B26D-56E4BAC697B1';

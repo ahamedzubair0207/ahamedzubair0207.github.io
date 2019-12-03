@@ -29,26 +29,27 @@ export class VotmDataTableComponent implements OnInit {
   private title: string = "";
   private timestamp: string = "";
   private signalTypes: any[] = [
-    { "type": "pressure", "uom": "psi", "nominal": 1500, "var": 5 },
-    { "type": "temperature", "uom": "°F", "nominal": 100, "var": 2 },
-    { "type": "humidity", "uom": "%", "nominal": 50, "var": 1 }
+    { "type": "Absolute Pressure", "uom": "psi", "nominal": 1500, "var": 5 },
+    { "type": "Temperature", "uom": "°F", "nominal": 100, "var": 2 },
+    { "type": "humidity", "uom": "%", "nominal": 50, "var": 1 },
+    { "type": "Peak Current", "uom": "%", "nominal": 50, "var": 3 }
   ]
   
-  signals: any = 
-  [
-    { "type": "temperature", "org": "QCD", "loc": "GV ❯ Prod", "asset": "", "name": "Ambient Temperature", "sel": false, "value": 105.5, "bat": 3.0, "rssi": .17, "sensor": "E5000001" },
-    { "type": "temperature", "org": "QCD", "loc": "GV ❯ Prod", "asset": "EAP1", "name": "Exhaust", "sel": false, "value": 94.1, "bat": 2.9, "rssi": .31, "sensor": "E5000001" },
-    { "type": "temperature", "org": "QCD", "loc": "GV ❯ Prod", "asset": "EAP2", "name": "Exhaust", "sel": false, "value": 101.4, "bat": 2.85, "rssi": .20, "sensor": "E5000001" },
-    { "type": "pressure", "org": "QCD", "loc": "GV ❯ Lab", "asset": "IB", "name": "Main Pump", "sel": false, "value": 1503.0, "bat": 3.0, "rssi": .22, "sensor": "E4000001" },
-    { "type": "pressure", "org": "QCD", "loc": "GV ❯ Lab", "asset": "IB", "name": "Drain Pan Suction", "sel": false, "value": 1467.3, "bat": 2.76, "rssi": .29, "sensor": "E4000002" },
-    { "type": "temperature", "org": "QCD", "loc": "GV ❯ Lab", "asset": "IB", "name": "Oil Cooler", "sel": false, "value": 74.5, "bat": 2.9, "rssi": .25, "sensor": "E5000001" },
-    { "type": "temperature", "org": "QCD", "loc": "GV ❯ Lab", "asset": "IB", "name": "Oil Reservoir", "sel": false, "value": 80.1, "bat": 2.87, "rssi": .14, "sensor": "E5000001" },
-    { "type": "pressure", "org": "QCD", "loc": "GV ❯ Lab", "asset": "IB", "name": "Impulse #2 Pilot Pressure", "sel": false, "value": 1356, "bat": 3.0, "rssi": .17, "sensor": "E4000001" },
-    { "type": "pressure", "org": "QCD", "loc": "GV ❯ Lab", "asset": "IB", "name": "Accumulator", "sel": false, "value": 4320.3, "bat": 2.78, "rssi": .22, "sensor": "E4000001" },
-    { "type": "pressure", "org": "QCD", "loc": "GV ❯ Lab", "asset": "IB", "name": "Main Pump Suction", "sel": false, "value": 10.3, "bat": 2.87, "rssi": .34, "sensor": "E2000001" },
-    { "type": "humidity", "org": "QCD", "loc": "GB", "asset": "", "name": "Furness Supply Humidity", "sel": false, "value": 34.2, "bat": 3.02, "rssi": .12, "sensor": "E7000001" },
-    { "type": "humidity", "org": "QCD", "loc": "GB", "asset": "", "name": "Cleanroom Supply Humidity", "sel": false, "value": 53.0, "bat": 2.9, "rssi": .19, "sensor": "E7000001" }
-  ];
+  signals: any = [];
+  // [
+  //   { "type": "temperature", "org": "QCD", "loc": "GV ❯ Prod", "asset": "", "name": "Ambient Temperature", "sel": false, "value": 105.5, "bat": 3.0, "rssi": .17, "sensor": "E5000001" },
+  //   { "type": "temperature", "org": "QCD", "loc": "GV ❯ Prod", "asset": "EAP1", "name": "Exhaust", "sel": false, "value": 94.1, "bat": 2.9, "rssi": .31, "sensor": "E5000001" },
+  //   { "type": "temperature", "org": "QCD", "loc": "GV ❯ Prod", "asset": "EAP2", "name": "Exhaust", "sel": false, "value": 101.4, "bat": 2.85, "rssi": .20, "sensor": "E5000001" },
+  //   { "type": "pressure", "org": "QCD", "loc": "GV ❯ Lab", "asset": "IB", "name": "Main Pump", "sel": false, "value": 1503.0, "bat": 3.0, "rssi": .22, "sensor": "E4000001" },
+  //   { "type": "pressure", "org": "QCD", "loc": "GV ❯ Lab", "asset": "IB", "name": "Drain Pan Suction", "sel": false, "value": 1467.3, "bat": 2.76, "rssi": .29, "sensor": "E4000002" },
+  //   { "type": "temperature", "org": "QCD", "loc": "GV ❯ Lab", "asset": "IB", "name": "Oil Cooler", "sel": false, "value": 74.5, "bat": 2.9, "rssi": .25, "sensor": "E5000001" },
+  //   { "type": "temperature", "org": "QCD", "loc": "GV ❯ Lab", "asset": "IB", "name": "Oil Reservoir", "sel": false, "value": 80.1, "bat": 2.87, "rssi": .14, "sensor": "E5000001" },
+  //   { "type": "pressure", "org": "QCD", "loc": "GV ❯ Lab", "asset": "IB", "name": "Impulse #2 Pilot Pressure", "sel": false, "value": 1356, "bat": 3.0, "rssi": .17, "sensor": "E4000001" },
+  //   { "type": "pressure", "org": "QCD", "loc": "GV ❯ Lab", "asset": "IB", "name": "Accumulator", "sel": false, "value": 4320.3, "bat": 2.78, "rssi": .22, "sensor": "E4000001" },
+  //   { "type": "pressure", "org": "QCD", "loc": "GV ❯ Lab", "asset": "IB", "name": "Main Pump Suction", "sel": false, "value": 10.3, "bat": 2.87, "rssi": .34, "sensor": "E2000001" },
+  //   { "type": "humidity", "org": "QCD", "loc": "GB", "asset": "", "name": "Furness Supply Humidity", "sel": false, "value": 34.2, "bat": 3.02, "rssi": .12, "sensor": "E7000001" },
+  //   { "type": "humidity", "org": "QCD", "loc": "GB", "asset": "", "name": "Cleanroom Supply Humidity", "sel": false, "value": 53.0, "bat": 2.9, "rssi": .19, "sensor": "E7000001" }
+  // ];
 
   // [];
 
@@ -58,6 +59,7 @@ export class VotmDataTableComponent implements OnInit {
     if (this.data) {
       if (this.data.organizationId) {
         // this.getSignalsAssociatedAssetByOrgId(this.data.organizationId);
+        this.getUpdatedData();
       }
       this.wId = this.data.dashboardId + "-" + this.id;
       this.wConfig = (this.data.widgetConf) ? this.data.widgetConf : { "title": "", "showSensor": false, "showOrg": false, "showLoc": false, "showAsset": true, "showStatus": true };
@@ -102,6 +104,7 @@ export class VotmDataTableComponent implements OnInit {
 
 
   pathName(signal) {
+    
     return signal.org + ((signal.org) ? " ❯ " : "") + signal.loc + ((signal.loc) ? " ❯ " : "") + signal.asset + ((signal.asset) ? " ❯ " : "") + signal.name;
   }
 
@@ -144,6 +147,44 @@ export class VotmDataTableComponent implements OnInit {
 
   getUoM(signal) {
     return this.signalTypes.find(({ type }) => type === signal.type).uom;
+  }
+
+
+  getUpdatedData(){
+    this.timeSeries.getDataTable()
+    .subscribe(response => {
+      // response.signals = [];
+      console.log("List of Data", response);
+      let sigArray = [];
+      if (response) {
+        // Location
+        if (response.locations && response.locations.length > 0) {
+          response.locations.forEach(location => {
+            // Direct Signal
+            if (location.signals && location.signals.length > 0) {
+              location.signals.forEach(signal => {
+                sigArray.push({ "type": signal.signalType,  "name": `${response.organizationName} > ${location.locationName} > ${signal.signalName}`, "sel": false, "value": signal.Value, "bat": signal.Battery, "rssi": signal.Signal, "sensor": signal.Sensor })
+                // sigArray.push({ "type": signal.signalType, "org": response.organizationName, "loc": location.locationName, "asset": "", "name": signal.signalName, "sel": false, "value": signal.Value, "bat": signal.Battery, "rssi": signal.Signal, "sensor": signal.Sensor })
+              });
+            }
+
+            // Asset
+            if (location.assets && location.assets.length > 0) {
+              location.assets.forEach(asset => {
+                if (asset.signals && asset.signals.length > 0) {
+                  asset.signals.forEach(signal => {
+                    sigArray.push({ "type": signal.signalType, "name": `${response.organizationName} > ${location.locationName} > ${asset.assetName} > ${signal.signalName}`, "sel": false, "value": signal.Value, "bat": signal.Battery, "rssi": signal.Signal, "sensor": signal.Sensor })
+                    // sigArray.push({ "type": signal.signalType, "org": response.organizationName, "loc": location.locationName, "asset": asset.assetName, "name": signal.signalName, "sel": false, "value": signal.Value, "bat": signal.Battery, "rssi": signal.Signal, "sensor": signal.Sensor })
+                  });
+                }
+              })
+            }
+          })
+        }
+      }
+      this.signals = sigArray; //.reduce((acc, cur) => acc.some(x => (x.id === cur.id)) ? acc : acc.concat(cur), [])
+      console.log('this.signals ', this.signals)
+    });
   }
 
   getSignalsAssociatedAssetByOrgId(orgId: string) {

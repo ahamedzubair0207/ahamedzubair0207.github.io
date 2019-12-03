@@ -37,4 +37,12 @@ export class TimeSeriesService {
   // /v1/SignalAssociatedwithAssetLocationByOrganization/{organizationId}
 
 
+  getDataTable(){
+    return this.http.get(`${AppConstants.GET_DATATABLE}`)
+    .pipe(
+      map(response => response)
+    );
+  }
+  // /v1/Dashboard/getTimeseriesDatatable
+
 }

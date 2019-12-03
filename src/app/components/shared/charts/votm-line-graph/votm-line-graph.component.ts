@@ -52,21 +52,22 @@ export class VotmLineGraphComponent implements OnInit {
   private rangeSeriesSet: boolean = false;
   private signalTypes: any[] = [
     { "type": "pressure", "uom": "psi", "nominal": 1500, "var": 5 },
-    { "type": "Temperature", "uom": "°F", "nominal": 100, "var": 2 },
+    { "type": "Temperature", "uom": "Kelvin", "nominal": 100, "var": 2 },
     { "type": "Elec_Current", "uom": "kV", "nominal": 80, "var": 3 },
-    { "type": "humidity", "uom": "%RH", "nominal": 50, "var": 1 },
+    { "type": "humidity", "uom": "%", "nominal": 50, "var": 1 },
     { "type": "Battery", "uom": "V", "nominal": 50, "var": 4 },
     { "type": "signal", "uom": "C", "nominal": 50, "var": 1 },
-    { "type": "Peak Current", "uom": "V", "nominal": 50, "var": 1 },
-    { "type": "Average Current", "uom": "V", "nominal": 50, "var": 1 },
-    { "type": "Y Peak Acceleration", "uom": "V", "nominal": 50, "var": 1 },
-    { "type": "mode", "uom": "%", "nominal": 50, "var": 1 },
-    { "type": "Gauge Pressure", "uom": "psi", "nominal": 50, "var": 1 },
-    { "type": "X Peak Acceleration", "uom": "%RH", "nominal": 50, "var": 1 },
-    { "type": "range", "uom": "%RH", "nominal": 50, "var": 1 },
-    { "type": "Polar Angle Peak Acceleration", "uom": "%RH", "nominal": 50, "var": 1 },
-    { "type": "Z Peak Acceleration", "uom": "%RH", "nominal": 50, "var": 1 },
-    { "type": "Absolute Pressure Count", "uom": "%RH", "nominal": 50, "var": 1 }
+    { "type": "Peak Current", "uom": "V", "nominal": 50, "var": 6 },
+    { "type": "Average Current", "uom": "V", "nominal": 50, "var": 7 },
+    { "type": "Y Peak Acceleration", "uom": "V", "nominal": 50, "var": 8 },
+    { "type": "mode", "uom": "%", "nominal": 50, "var": 9 },
+    { "type": "Gauge Pressure", "uom": "psi", "nominal": 50, "var": 10 },
+    { "type": "X Peak Acceleration", "uom": "%RH", "nominal": 50, "var": 11 },
+    { "type": "range", "uom": "%RH", "nominal": 50, "var": 12 },
+    { "type": "Polar Angle Peak Acceleration", "uom": "%RH", "nominal": 50, "var": 13 },
+    { "type": "Z Peak Acceleration", "uom": "%RH", "nominal": 50, "var": 14 },
+    { "type": "Absolute Pressure Count", "uom": "%RH", "nominal": 50, "var": 15 },
+    { "type": "Absolute Pressure", "uom": "%RH", "nominal": 50, "var": 16 }
   ]
 
   private dateRange: any[] = [
@@ -130,6 +131,8 @@ export class VotmLineGraphComponent implements OnInit {
 
   @ViewChild('graphDiv', null) graphDiv: ElementRef;
   trendChartWidget: TrendChartWidget = new TrendChartWidget();
+  dashboardWidget: any;
+  chartLoaded: boolean;
 
   constructor(private modalService: NgbModal, private zone: NgZone, private timeSeries: TimeSeriesService, private configSettingsService: ConfigSettingsService,
     private dashboardService: DashboardService) { }
@@ -141,6 +144,9 @@ export class VotmLineGraphComponent implements OnInit {
     this.trendChartWidget.displayThrshold = 'none';
     // console.log('this.data ', this.data)
     if (this.data) {
+      if (this.data.dashboardId) {
+        this.getDashboardWidget();
+      }
       if (this.data.organizationId) {
         this.getSignalsAssociatedAssetByOrgId(this.data.organizationId);
       }
@@ -200,26 +206,46 @@ export class VotmLineGraphComponent implements OnInit {
   setFromDate(count: number, option: moment.unitOfTime.DurationConstructor) {
     return moment().subtract(count, option).toDate();
   }
-  saveResult(reload: boolean = true) {
-    this.trendChartWidget.leftAxisRangeY1 = this.selYAxisRange[0];
-    this.trendChartWidget.rightAxisRangeY2 = this.selYAxisRange[1];
-    this.trendChartWidget.chartTitle = this.wConfig.title;
 
-    let trendWidgetBody = {
-      "widgetName": "Trend Chart Widget",
-      "dashBoardId": this.data.dashboardId,
-      "widgetConfiguration": JSON.stringify(this.trendChartWidget),
-      "published": true,
-      "active": true
-    }
-    console.log('trendwidget body ', trendWidgetBody)
-
-    this.dashboardService.saveDashboardWidget(trendWidgetBody)
+  getDashboardWidget() {
+    this.dashboardService.getDashboardWidgets(this.data.dashboardId)
       .subscribe(response => {
-        console.log('response ', response)
-      })
+        if (response && response.length > 0) {
+          response.forEach(widget => {
+            if (widget.widgetName === 'Trend Chart Widget') {
+              this.dashboardWidget = widget;
+              let widgetConfiguration = JSON.parse(widget.widgetConfiguration);
+              // console.log('getDashboardWidget ', JSON.parse(widget.widgetConfiguration));
+              this.trendChartWidget = new TrendChartWidget();
+              this.trendChartWidget = widgetConfiguration;
+              this.wConfig['title'] = widgetConfiguration.chartTitle;
+              this.selectedCheckboxes = this.trendChartWidget.propertyValue.split(',');
 
-    console.log('this.trendChartWidget ', this.trendChartWidget)
+              if (this.trendChartWidget.signalsY1 && this.trendChartWidget.signalsY1.length > 0) {
+                this.yAxisSignals[0] += 1; // yaxistype
+
+              }
+              if (this.trendChartWidget.signalsY2 && this.trendChartWidget.signalsY2.length > 0) {
+                this.yAxisSignals[1] += 1;
+              }
+              this.loadYAxisType();
+              // signal.selY[0] = 
+              // this.trendChartWidget.dateRange = widgetConfiguration.dateRange
+              // this.trendChartWidget.displayThrshold = widgetConfiguration.displayThrshold
+              // this.trendChartWidget.eventFlags = widgetConfiguration.eventFlags
+              // this.trendChartWidget.leftAxisRangeY1 = widgetConfiguration.leftAxisRangeY1
+              // this.trendChartWidget.legends = widgetConfiguration.legends
+            }
+          });
+
+        }
+        // var configuration = JSON.parse(response.widgetConfiguration)
+        // console.log('getDashboardWidget ', response);
+      });
+  }
+
+  async saveResult(performSaveWidgetConfig: boolean = true) {
+    // console.log('this.trendChartWidget ', this.trendChartWidget)
 
     let body = {
       "accountCode": "PCM",
@@ -284,7 +310,6 @@ export class VotmLineGraphComponent implements OnInit {
       let offsetWidth = this.graphDiv.nativeElement.offsetWidth;
       // body.bucketSize = `${((numberOfSeconds * 2) / (60 * offsetWidth)).toFixed()}m`;
       body.bucketSize = `${((numberOfSeconds * 2) / offsetWidth).toFixed()}s`;
-
       // console.log('bucketsize ', numberOfSeconds, offsetWidth, body.bucketSize)
     }
 
@@ -306,27 +331,70 @@ export class VotmLineGraphComponent implements OnInit {
     // end
 
     // console.log('body.propertyValue ', this.signals, this.selectedCheckboxes, body.propertyValue)
+    if (performSaveWidgetConfig) {
+      this.timeSeries.getTimeSeriesAggregateMultipleDevices(body)
+        .subscribe(response => {
+          this.loadLineChart(selectedSignals, body);
+        });
 
-    this.timeSeries.getTimeSeriesAggregateMultipleDevices(body)
-      .subscribe(response => {
-        if (reload) {
-          this.dataLoading = true;
-          this.loadLineChart(response, selectedSignals, body);
-        } else {
-          // debugger
-          // console.log('Load data');
-          // this.chart.data = [...response];
-        }
-        // });
+      this.trendChartWidget.leftAxisRangeY1 = this.selYAxisRange[0];
+      this.trendChartWidget.rightAxisRangeY2 = this.selYAxisRange[1];
+      this.trendChartWidget.chartTitle = this.wConfig.title;
+      this.trendChartWidget.fromDateTime = body['fromDateTime'];
+      this.trendChartWidget.bucketSize = body.bucketSize;
+      this.trendChartWidget.propertyValue = body.propertyValue;
 
+      this.trendChartWidget.accountCode = "PCM";
+      this.trendChartWidget.propertyName = "SignalId";
+      this.trendChartWidget.measuredValue = "SignalValue";
+      this.trendChartWidget.toDateTime = new Date();
+      this.trendChartWidget.environmentFqdn = "41075d1a-97a6-4f2d-9abb-a1c08be5b6c4.env.timeseries.azure.com";
+      let trendWidgetBody = {
+        "widgetName": "Trend Chart Widget",
+        "dashBoardId": this.data.dashboardId,
+        "widgetConfiguration": JSON.stringify(this.trendChartWidget),
+        "published": true,
+        "active": true,
+        "dashboardWidgetId": this.dashboardWidget ? this.dashboardWidget.dashboardWidgetId : null
+      }
 
-        // console.log('response ', response);
-        // this.chart.data = response;
-        // console.log('this.chart ', this.chart)
-      });
+      if (trendWidgetBody && !trendWidgetBody.dashboardWidgetId) {
+        delete trendWidgetBody.dashboardWidgetId;
+      }
+
+      // console.log('trendwidget body ', trendWidgetBody)
+      this.saveUpdateWidget(trendWidgetBody);
+    } else {
+      // this.loadYAxisType();
+      if (!this.signals || this.signals.length === 0) {
+        await this.getSignalsAssociatedAssetByOrgId(this.data.organizationId);
+        let selectedSignals = [];
+        this.signals.forEach(signal => {
+          if (this.trendChartWidget.propertyValue.indexOf(signal.id) >= 0) {
+            selectedSignals.push(signal);
+          }
+        })
+      }
+      this.loadLineChart(selectedSignals, this.trendChartWidget);
+    }
   }
 
-  private loadLineChart(response: any, selectedSignals: any[], requestedBody: any) {
+  private saveUpdateWidget(trendWidgetBody: any) {
+    if (this.dashboardWidget && this.dashboardWidget.dashboardWidgetId) {
+      this.dashboardService.updateDashboardWidget(trendWidgetBody)
+        .subscribe(response => {
+          // console.log('response ', response);
+        });
+    }
+    else {
+      this.dashboardService.saveDashboardWidget(trendWidgetBody)
+        .subscribe(response => {
+          // console.log('response ', response);
+        });
+    }
+  }
+
+  private loadLineChart(selectedSignals: any[], requestedBody: any) {
     if (this.chart) {
       this.chart.dispose();
       this.rangeSeriesSet = false;
@@ -348,7 +416,12 @@ export class VotmLineGraphComponent implements OnInit {
     // this.zone.runOutsideAngular(() => {
     let chart = am4core.create(this.wId, am4charts.XYChart);
     chart.paddingRight = 20;
-    chart.dataSource.url = `${environment.protocol}://${environment.server}/${environment.virtualName}/${AppConstants.GET_UPDATEDTIMESERIES_SIGNAL}?AccountCode=${requestedBody.accountCode}&PropertyName=${requestedBody.propertyName}&PropertyValue=${requestedBody.propertyValue}&MeasuredValue=${requestedBody.measuredValue}&FromDateTime=${requestedBody.fromDateTime.toISOString()}&ToDateTime=${requestedBody.toDateTime.toISOString()}&BucketSize=${requestedBody.bucketSize}`;
+    chart.dataSource.url = `${environment.protocol}://${environment.server}/${environment.virtualName}/${AppConstants.GET_UPDATEDTIMESERIES_SIGNAL}?AccountCode=${requestedBody.accountCode}&PropertyName=${requestedBody.propertyName}&PropertyValue=${requestedBody.propertyValue}&MeasuredValue=${requestedBody.measuredValue}&FromDateTime=${typeof (requestedBody.fromDateTime) === 'string' ? requestedBody.fromDateTime : requestedBody.fromDateTime.toISOString()}&ToDateTime=${typeof (requestedBody.toDateTime) === 'string' ? requestedBody.toDateTime : requestedBody.toDateTime.toISOString()}&BucketSize=${requestedBody.bucketSize}`;
+    chart.dataSource.parser = new am4core.JSONParser();
+    // xAxis.dateFormatter = new am4core.DateFormatter();
+    // xAxis.dateFormatter.dateFormat = "MM-dd";
+    chart.dataSource.parser.options.dateFormat = 'MM/d/yyyy h:mm:ss a';
+    // chart.dataSource.dateFormat = 'M/d/y h:m:s a';
     chart.dataSource.reloadFrequency = 60000;
     // chart.data = response; // timeseries;// this.generateChartData();
     // chart.dataSource.reloadFrequency = 3000;
@@ -365,10 +438,10 @@ export class VotmLineGraphComponent implements OnInit {
     let dateAxis = chart.xAxes.push(tempdateaxis);
     dateAxis.renderer.line.strokeOpacity = 1;
     dateAxis.renderer.line.stroke = am4core.color("gray");
-    dateAxis.tooltipDateFormat = "MM/dd/YYYY hh:mm:ss";
-    dateAxis.dateFormats.setKey("day", "MMM dd");
-    dateAxis.dateFormats.setKey("year", "yyyy");
-    dateAxis.dateFormats.setKey("second", "HH:mm:ss");
+    dateAxis.tooltipDateFormat = "MM/dd/YYYY h:mm:ss a";
+    // dateAxis.dateFormats.setKey("day", "MMM dd");
+    // dateAxis.dateFormats.setKey("year", "yyyy");
+    // dateAxis.dateFormats.setKey("second", "HH:mm:ss");
     //Added Code Start
     // dateAxis.start = 0.7;
     // dateAxis.keepSelection = true;
@@ -424,13 +497,6 @@ export class VotmLineGraphComponent implements OnInit {
     this.modalService.open(config, { size: 'lg' }).result.then((result) => {
       if (result === 'save') {
         this.saveResult();
-        // if (!this.autoRefresh) {
-        //   this.autoRefresh = true;
-        //   setInterval(() => {
-        //     if (!this.dataLoading)
-        //       this.saveResult(false);
-        //   }, 30000);
-        // }
       }
     });
   }
@@ -439,7 +505,11 @@ export class VotmLineGraphComponent implements OnInit {
   createValueAxis(chart, axis) {
     let valueYAxis = chart.yAxes.push(new am4charts.ValueAxis());
     valueYAxis.tooltip.disabled = true;
-    valueYAxis.title.text = this.signalTypes.find(({ type }) => type === this.yAxisType[axis]).uom.toUpperCase();
+    // debugger;
+    // Will Fix this title issue -- Ahamed
+    let signalType = this.signalTypes.find(({ type }) => type === this.yAxisType[axis]);
+    valueYAxis.title.text = signalType ? signalType.uom.toUpperCase() : '';
+
     valueYAxis.renderer.line.strokeOpacity = 1;
     valueYAxis.renderer.line.stroke = am4core.color("gray");
     valueYAxis.renderer.labels.template.fill = am4core.color("gray");
@@ -694,6 +764,7 @@ export class VotmLineGraphComponent implements OnInit {
   }
 
   yAxisUoM(axis) {
+
     return this.signalTypes.find(({ type }) => type === this.yAxisType[axis]).uom;
   }
 
@@ -709,7 +780,7 @@ export class VotmLineGraphComponent implements OnInit {
               // Direct Signal
               if (location.signals && location.signals.length > 0) {
                 location.signals.forEach(signal => {
-                  tempArray.push({ "id": signal.signalId, "type": signal.signalType, "name": `Quick Coupling Division > ${location.locationName} > ${signal.signalName}`, "selY": [false, false] })
+                  tempArray.push({ "id": signal.signalId, "type": signal.signalType, "name": `${response.organizationName} > ${location.locationName} > ${signal.signalName}`, "selY": [false, false] })
                 });
               }
 
@@ -718,7 +789,7 @@ export class VotmLineGraphComponent implements OnInit {
                 location.assets.forEach(asset => {
                   if (asset.signals && asset.signals.length > 0) {
                     asset.signals.forEach(signal => {
-                      tempArray.push({ "id": signal.signalId, "type": signal.signalType, "name": `Quick Coupling Division > ${location.locationName} > ${asset.assetName} > ${signal.signalName}`, "selY": [false, false] })
+                      tempArray.push({ "id": signal.signalId, "type": signal.signalType, "name": `${response.organizationName} > ${location.locationName} > ${asset.assetName} > ${signal.signalName}`, "selY": [false, false] })
                     });
                   }
                 })
@@ -727,8 +798,29 @@ export class VotmLineGraphComponent implements OnInit {
           }
         }
         this.signals = tempArray.reduce((acc, cur) => acc.some(x => (x.id === cur.id)) ? acc : acc.concat(cur), [])
+
+        this.loadYAxisType();
+
       });
 
+  }
+
+  private loadYAxisType() {
+    if (this.signals && this.signals.length > 0 && this.yAxisSignals[0] || this.yAxisSignals[1]) {
+      this.signals.forEach(signal => {
+        if (this.trendChartWidget.signalsY2 && this.trendChartWidget.signalsY2.length > 0 && signal.id === this.trendChartWidget.signalsY2[0]) {
+          this.yAxisType[1] = signal.type;
+        }
+        if (this.trendChartWidget.signalsY1 && this.trendChartWidget.signalsY1.length > 0 && signal.id === this.trendChartWidget.signalsY1[0]) {
+          this.yAxisType[0] = signal.type;
+        }
+      });
+      if (!this.chartLoaded) {
+        this.chartLoaded = true;
+
+        this.saveResult(false);
+      }
+    }
   }
 
   onRefreshClick() {
@@ -737,7 +829,7 @@ export class VotmLineGraphComponent implements OnInit {
   }
 
   onDisplayThresholdsChange(event, value) {
-    console.log('onRadioChange ', event);
+    // console.log('onRadioChange ', event);
     this.trendChartWidget.displayThrshold = value;
   }
 }
