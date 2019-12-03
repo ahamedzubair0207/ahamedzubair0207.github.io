@@ -3,10 +3,9 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import * as am4core from "@amcharts/amcharts4/core";
 import * as am4charts from "@amcharts/amcharts4/charts";
 import am4themes_animated from "@amcharts/amcharts4/themes/animated";
-// import am4themes_kelly from "@amcharts/amcharts4/themes/animated";
+import am4themes_kelly from "@amcharts/amcharts4/themes/animated";
 // import { DbItem } from 'src/app/models/db-item';
 import { DashBoard } from 'src/app/models/dashboard.model';
-// import { timeseries } from 'src/assets/data/time-series';
 import { ConfigSettingsService } from 'src/app/services/configSettings/configSettings.service';
 import { TimeSeriesService } from 'src/app/services/timeSeries/time-series.service';
 import * as moment from 'moment';
@@ -16,7 +15,7 @@ import { AppConstants } from 'src/app/helpers/app.constants';
 import { environment } from 'src/environments/environment';
 
 am4core.useTheme(am4themes_animated);
-// am4core.useTheme(am4themes_kelly);
+am4core.useTheme(am4themes_kelly);
 
 @Component({
   selector: 'app-votm-line-graph',
@@ -71,16 +70,6 @@ export class VotmLineGraphComponent implements OnInit {
   ]
 
   private dateRange: any[] = [
-    // { "value": "5m", "name": "Five Minute" },
-    // { "value": "10m", "name": "Ten Minute" },
-    // { "value": "20m", "name": "Twenty Minute" },
-    // { "value": "30m", "name": "Thirty Minute" },
-    // { "value": "1h", "name": "One hour" },
-    // { "value": "5h", "name": "Five hour" },
-    // { "value": "10h", "name": "Ten hour" },
-    // { "value": "1d", "name": "One day" }
-    // 5m , 10m, 20m, 30m, 1h, 5h, 10h, 20h, 1d
-
     { "value": "1m", "name": "One Minute" },
     { "value": "1h", "name": "One Hour" },
     { "value": "1d", "name": "One Day" },
@@ -91,7 +80,6 @@ export class VotmLineGraphComponent implements OnInit {
     { "value": "ytd", "name": "Year to Date" },
     { "value": "year", "name": "One Year" },
     { "value": "all", "name": "All Available Data" }
-
   ]
 
   yAxisType: string[] = ["", ""];
@@ -115,19 +103,6 @@ export class VotmLineGraphComponent implements OnInit {
   selectedCheckboxes: any[] = [];
   autoRefresh: boolean = false;
   dataLoading: boolean = false;
-  //   [{ "type": "temperature", "name": "GV ❯ Prod ❯ Ambient Temperature", "selY": [false, false] },
-  //   { "type": "temperature", "name": "GV ❯ Prod ❯ EAP1 ❯ Exhaust", "selY": [false, false] },
-  //   { "type": "temperature", "name": "GV ❯ Prod ❯ EAP2 ❯ Exhaust", "selY": [false, false] },
-  //   { "type": "pressure", "name": "GV ❯ Lab ❯ IB ❯ Main Pump", "selY": [false, false] },
-  //   { "type": "pressure", "name": "GV ❯ Lab ❯ IB ❯ Drain Pan Suction", "selY": [false, false] },
-  //   { "type": "temperature", "name": "GV ❯ Lab ❯ IB ❯ Oil Cooler", "selY": [false, false] },
-  //   { "type": "temperature", "name": "GV ❯ Lab ❯ IB ❯ Oil Reservoir", "selY": [false, false] },
-  //   { "type": "pressure", "name": "GV ❯ Lab ❯ IB ❯ Impulse #2 Pilot Pressure", "selY": [false, false] },
-  //   { "type": "pressure", "name": "GV ❯ Lab ❯ IB ❯ Accumulator", "selY": [false, false] },
-  //   { "type": "pressure", "name": "GV ❯ Lab ❯ IB ❯ Main Pump Suction", "selY": [false, false] },
-  //   { "type": "humidity", "name": "GB ❯ Furness Supply Humidity", "selY": [false, false] },
-  //   { "type": "humidity", "name": "GB ❯ Cleanroom Supply Humidity", "selY": [false, false] }
-  // ];
 
   @ViewChild('graphDiv', null) graphDiv: ElementRef;
   trendChartWidget: TrendChartWidget = new TrendChartWidget();
@@ -257,7 +232,7 @@ export class VotmLineGraphComponent implements OnInit {
       "toDateTime": new Date(),//"2019-11-20T20:23:43.863Z",
       "environmentFqdn": "41075d1a-97a6-4f2d-9abb-a1c08be5b6c4.env.timeseries.azure.com",
       "bucketSize": "1m"//this.selDateRange
-      // bucket Size: make it 5m , 10m, 20m, 30m, 1h, 5h, 10h, 20h, 1d, 5 71fe01ae-141c-463f-8e5c-5c40ee02e533
+      
     };
     let numberOfSeconds = 0;
     if (this.trendChartWidget.dateRange) {
@@ -422,7 +397,7 @@ export class VotmLineGraphComponent implements OnInit {
     // xAxis.dateFormatter.dateFormat = "MM-dd";
     chart.dataSource.parser.options.dateFormat = 'MM/d/yyyy h:mm:ss a';
     // chart.dataSource.dateFormat = 'M/d/y h:m:s a';
-    chart.dataSource.reloadFrequency = 60000;
+    chart.dataSource.reloadFrequency = 20000;
     // chart.data = response; // timeseries;// this.generateChartData();
     // chart.dataSource.reloadFrequency = 3000;
     let title = chart.titles.create();
@@ -521,10 +496,16 @@ export class VotmLineGraphComponent implements OnInit {
 
   // Create thresholds
   createThresholdRanges(valueAxis, idx, nominal) {
-    let thresholds = { lowCritical: nominal * .75, lowWarn: nominal * .9, highWarn: nominal * 1.1, highCritical: nominal * 1.25 };
+    // let thresholds = { lowCritical: nominal * .75, lowWarn: nominal * .9, highWarn: nominal * 1.1, highCritical: nominal * 1.25 };
+    let thresholds = { 
+      lowCritical: 270, 
+      lowWarn: 280, 
+      highWarn: 295, 
+      highCritical: 300 
+    };
     if (thresholds.lowCritical) {
       var rangeLC = valueAxis.axisRanges.create();
-      rangeLC.value = 1000000; //-99999;
+      rangeLC.value = -99999;
       rangeLC.endValue = thresholds.lowCritical;
       rangeLC.axisFill.fill = am4core.color("#dc3545");
       rangeLC.axisFill.fillOpacity = (this.showThresh[idx]) ? 0.2 : 0;
@@ -532,7 +513,7 @@ export class VotmLineGraphComponent implements OnInit {
     }
     if (thresholds.lowWarn) {
       var rangeLW = valueAxis.axisRanges.create();
-      rangeLW.value = (thresholds.lowCritical) ? thresholds.lowCritical : 800000;
+      rangeLW.value = (thresholds.lowCritical) ? thresholds.lowCritical : -99999;
       rangeLW.endValue = thresholds.lowWarn;
       rangeLW.axisFill.fill = am4core.color("#ffc107");
       rangeLW.axisFill.fillOpacity = (this.showThresh[idx]) ? 0.2 : 0;
@@ -540,9 +521,9 @@ export class VotmLineGraphComponent implements OnInit {
     }
     if (thresholds.highWarn) {
       var rangeHW = valueAxis.axisRanges.create();
-      rangeHW.value = thresholds.highWarn;
-      rangeHW.endValue = (thresholds.highCritical) ? thresholds.highCritical : 800000;
-      rangeHW.axisFill.fill = am4core.color("#ffc107");
+      rangeHW.value =  (thresholds.highCritical) ? thresholds.highCritical : 1200000;
+      rangeHW.endValue = thresholds.highWarn;
+      rangeHW.axisFill.fill = am4core.color("#dc3545");
       rangeHW.axisFill.fillOpacity = (this.showThresh[idx]) ? 0.2 : 0;
       rangeHW.grid.strokeOpacity = 0;
     }
@@ -551,7 +532,7 @@ export class VotmLineGraphComponent implements OnInit {
       rangeHC.value = thresholds.highCritical;
       rangeHW.endValue = 1200000;
       // rangeHC.endValue = 99999;
-      rangeHC.axisFill.fill = am4core.color("#dc3545");
+      rangeHC.axisFill.fill = am4core.color("#ffc107");
       rangeHC.axisFill.fillOpacity = (this.showThresh[idx]) ? 0.2 : 0;
       rangeHC.grid.strokeOpacity = 0;
     }
