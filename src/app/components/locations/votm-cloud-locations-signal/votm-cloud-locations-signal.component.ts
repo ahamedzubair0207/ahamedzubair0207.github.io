@@ -234,9 +234,10 @@ export class VotmCloudLocationsSignalComponent implements OnInit {
       );
   }
 
-  onCreateAssociateRule() {
+  onCreateAssociateRule(signal) {
     this.route.navigate(['org', 'view', this.curOrganizationId, this.curOrganizationName,
     this.organizationId ? this.organizationId : this.curOrganizationId, 'alertRule', 'create']);
+    this.sharedService.setSignalDataForAlert(signal);
   }
 
   onReturnToList() {

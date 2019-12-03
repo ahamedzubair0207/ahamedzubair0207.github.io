@@ -11,6 +11,7 @@ export class SharedService {
   menuOpen: BehaviorSubject<boolean>;
   activeMenu: string;
   public favorites: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
+  selectedSignalForAlert: any;
 
   constructor(private http: CustomHttp) {
     this.menuOpen = new BehaviorSubject(false);
@@ -84,5 +85,14 @@ export class SharedService {
     };
     return loggedInUserData;
   }
+
+  setSignalDataForAlert(signal) {
+    this.selectedSignalForAlert = signal;
+  }
+
+  getSignalDataForAlert() {
+    return this.selectedSignalForAlert;
+  }
+
 
 }

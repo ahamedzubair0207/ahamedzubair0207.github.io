@@ -30,7 +30,7 @@ export class VotmCloudAssociationComponent {
   @ViewChild('alertOP', null) alertOPanel: OverlayPanel; // signal association alert modal refference
   isAlarmRuleAssociationAPILoading = false;
   isSignalAssociationAPILoading = false;
-  selectedAlertRule: Alert;
+  selectedAlertRule: string[] = [];
   derivedSignals: any = [];
   @Input() showAssoc = true;
   @Input() showUnassoc = false;
@@ -375,14 +375,21 @@ export class VotmCloudAssociationComponent {
   onClickOfAlarmRuleAssociation() {
     if (this.selectedSignal.signalMappingId) {
       this.isAlarmRuleAssociationAPILoading = true;
-      const alertObj = {...this.selectedAlertRule};
-      console.log(alertObj);
-      alertObj.alertRuleSignalMapping = [];
-      alertObj.alertRuleSignalMapping.push({
-        signalMappingId: this.selectedSignal.signalMappingId,
-        active: true
+
+      const alerts = [];
+      this.alertRules.forEach(alertRule => {
+        if (this.selectedAlertRule.indexOf(alertRule.alertRuleId) !== -1) {
+          alertRule.alertRuleSignalMapping = [];
+          alertRule.alertRuleSignalMapping.push({
+            signalMappingId: this.selectedSignal.signalMappingId,
+            active: true
+          });
+          alerts.push(alertRule);
+        }
       });
-      this.saveAlarmAssociation.emit(alertObj);
+      console.log(alerts);
+
+      this.saveAlarmAssociation.emit(alerts);
       this.closeAlertOPanel();
       this.isAlarmRuleAssociationAPILoading = false;
     } else {
@@ -392,7 +399,7 @@ export class VotmCloudAssociationComponent {
   }
 
   onClickOfCreateAssociateRule() {
-    this.createAssociateRule.emit();
+    this.createAssociateRule.emit(this.selectedSignal);
   }
 
   onSaveSignalAssociation() {

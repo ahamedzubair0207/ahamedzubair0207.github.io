@@ -1,4 +1,5 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { SharedService } from 'src/app/services/shared.service';
+import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { DatePipe, Location as RouterLocation } from '@angular/common';
 import { Select2OptionData } from 'ng2-select2';
 import { Toaster } from '../../shared/votm-cloud-toaster/votm-cloud-toaster';
@@ -37,6 +38,7 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
   responsibilities: any[] = [];
   userResponsibities = {};
   assetsChecked = {};
+  selectedSignal: any;
   ruleTypes: any[] = [
     {
       id: '3D97A28E-7D8E-4C7D-98CE-251909FED1A9',
@@ -73,6 +75,7 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
   metricChangeMessage: string;
   previousMetricType: string = '';
   userId = '03c7fb47-58ee-4c41-a9d6-2ad0bd43392a';
+  orgHierarchy: string;
 
 
   constructor(
@@ -83,13 +86,15 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
     private route: Router,
     private alertsService: AlertsService,
     private userService: UserService,
-    private navigationService: NavigationService) {
+    private navigationService: NavigationService,
+    private sharedService: SharedService
+    ) {
 
   }
 
   ngOnInit() {
     this.pageType = this.activeroute.snapshot.data['type'];
-    console.log('dataaaaaaaaaaaaaaaaaaaaaa          ', this.activeroute.snapshot.data);
+    this.selectedSignal = this.sharedService.getSignalDataForAlert();
     this.activeroute.paramMap.subscribe(params => {
       this.curOrgId = params.get('curOrgId');
       this.curOrgName = params.get('curOrgName');
@@ -97,6 +102,7 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
       this.alertId = params.get('alertId');
       this.alert.organizationScopeId = this.orgId;
       this.getAbsoluteThreshold();
+      this.getAllHierarchy();
       this.navigationService.lastOrganization.subscribe(response => {
         this.accessScopeName = response;
       });
@@ -149,10 +155,14 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
         this.ALertRuleUserGroupSubscriber();
       } else {
         this.userGroupSubscribers = [];
+        if (this.selectedSignal) {
+          this.alert.signalTypeId = this.selectedSignal.signalId;
+          this.onSignalTypeChange(this.alert.signalTypeId);
+          this.assetsChecked[this.alert.signalTypeId] = true;
+        }
       }
       // this.alertId ='';
       this.getAlertRuleSignalAssociatedAssetByOrgId();
-      this.getAccessScopeByOrgId();
     });
     this.getMeticTypes();
     this.getUserGroupRoles();
@@ -269,27 +279,7 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
       this.changeSignalType(true);
     }
   }
-  /*
-    // getUserGroupRoles() {
-    //   this.alertsService.getUserGroupRoles()
-    //     .subscribe(response => {
-    //       // console.log('getUserGroupRoles ', response);
-    //     });
-    // } */
 
-  getAccessScopeByOrgId() {
-    this.alertsService.getAccessScopeByOrgId(this.orgId)
-      .subscribe(response => {
-        // // console.log('getAccessScopeByOrgId ', response);
-        // accessScopes
-        this.accessScopes = [];
-        if (response && response.length > 0) {
-          response.forEach(item => {
-            this.accessScopes.push({ id: item.id, name: item.name });
-          });
-        }
-      });
-  }
 
   getUserGroupRoles() {
     this.alertsService.getUserGroupRoles()
@@ -407,6 +397,24 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
     }
   }
 
+  getAllHierarchy() {
+    this.alertsService.getAllHierarchy(this.orgId, 'organization').subscribe(
+      response => {
+        response = response.slice().reverse();
+        for (let i = 0; i < response.length; i++) {
+
+            if (i === 0) {
+              this.orgHierarchy = response[i].name + ' > ';
+              console.log(this.orgHierarchy);
+            } else {
+              this.orgHierarchy = this.orgHierarchy + response[i].shortName + ' > ';
+              console.log(this.orgHierarchy);
+            }
+          }
+        }
+    );
+  }
+
   createAssetCheckedProperties() {
     // console.log('this.alertRuleSignalAssociatedAsset ', this.alertRuleSignalAssociatedAsset);
 
@@ -423,11 +431,13 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
         this.alertRuleSignalAssociatedAsset.locations.forEach(location => {
           this.assetsChecked[location.locationId] = false;
           let treeNode: TreeNode = {};
-          treeNode.data = { id: location.locationId, label: `Organization > ${location.locationName}`, value: location, parent: null };
+          treeNode.data = { id: location.locationId, label: this.orgHierarchy + location.locationName, value: location, parent: null };
           treeNode.children = [];
           treeNode.expanded = true;
           location.signals.forEach(signal => {
-            treeNode.children.push({ expanded: true, data: { id: signal.signalMappingId, label: signal.signalName, value: signal, parent: location } });
+            treeNode.children.push({ expanded: true, data: { id: signal.signalMappingId,
+              label: signal.associationName ? signal.associationName : signal.signalName,
+              value: signal, parent: location } });
           });
           this.treeSignalAssociationList.push(treeNode);
 
@@ -437,11 +447,13 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
             let tempTreeNode: TreeNode = {};
             location.assets.forEach(asset => {
               this.assetsChecked[asset.assetId] = false;
-              tempTreeNode.data = { id: asset.assetId, label: `${treeNode.label} > ${asset.assetName}`, value: asset, parent: location };
+              tempTreeNode.data = { id: asset.assetId, label: treeNode.data.label + ' > ' + asset.assetName, value: asset, parent: location };
               tempTreeNode.children = [];
               tempTreeNode.expanded = true;
               asset.signals.forEach(signal => {
-                tempTreeNode.children.push({ expanded: true, data: { id: signal.signalMappingId, label: signal.signalName, value: signal, parent: asset } });
+                tempTreeNode.children.push({ expanded: true, data: { id: signal.signalMappingId,
+                  label: signal.associationName ? signal.associationName : signal.signalName,
+                  value: signal, parent: asset } });
               });
               this.treeSignalAssociationList.push(tempTreeNode);
               // this.selectUnselectAssetCheckbox(asset);
