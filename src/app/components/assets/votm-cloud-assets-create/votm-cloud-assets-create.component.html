@@ -21,14 +21,25 @@
       <li *ngFor="let dbItem of dashboardTabs">
         <a class="nav-link tab-icon" for="assetDashboard" id="dashboard{{dbItem.dashboardId}}-tab" data-toggle="tab"
           href="#DashboardID_{{dbItem.dashboardId}}" role="tab" aria-controls="loc" aria-selected="false"
-          title="{{ dbItem.dashboardName}}"><i class="mr-2  icon-dashboard"></i>{{dbItem.shortName}}<i
-            class="fa fa-pencil ml-2"
-            (click)="openAddDashboardModal('editDashboard', dbItem.dashboardId,  dbItem.dashboardName, dbItem.shortName);"
-            title="Configure Dashboard"></i>&nbsp;
-          <i class="icon-trash" (click)="openDashboardConfirmDialog(dbItem.dashboardId, dbItem.shortName)"
-            title="Delete Dashboard"></i>
+          title="{{ dbItem.dashboardName}}">
+          <i class="mr-2 icon-dashboard"></i>{{dbItem.shortName}}
+          <i class="dashboard-configure-icon icon-pencil ml-2" [ngClass]="{'d-none': locked}"
+            (click)="openAddDashboardModal('editDashboard',dbItem);" title="Configure Dashboard"></i>
+          <i class="dashboard-configure-icon icon-trash" [ngClass]="{'d-none': locked}"
+            (click)="openDashboardConfirmDialog(dbItem.dashboardId, dbItem.shortName)" title="Delete Dashboard"></i>
         </a>
       </li>
+      <!-- <li *ngFor="let dbItem of dashboardTabs">
+        <a class="nav-link tab-icon" for="assetDashboard" id="dashboard{{dbItem.dashboardId}}-tab" data-toggle="tab"
+          href="#DashboardID_{{dbItem.dashboardId}}" role="tab" aria-controls="loc" aria-selected="false"
+          title="{{ dbItem.dashboardName}}">
+          <i class="mr-2 icon-dashboard"></i>{{dbItem.shortName}}
+          <i class="dashboard-configure-icon icon-pencil ml-2" [ngClass]="{'d-none': locked}"
+            (click)="openAddDashboardModal('editDashboard',dbItem);" title="Configure Dashboard"></i>
+          <i class="dashboard-configure-icon icon-trash" [ngClass]="{'d-none': locked}"
+            (click)="openDashboardConfirmDialog(dbItem.dashboardId, dbItem.shortName)" title="Delete Dashboard"></i>
+        </a>
+      </li> -->
       <li class="nav-item">
         <div class="add-dashboard-btn-wrapper">
           <a class="nav-link tab-icon create-event-btn" (click)="openAddDashboardModal('addDashboard')"

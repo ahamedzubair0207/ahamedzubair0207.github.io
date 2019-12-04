@@ -45,4 +45,16 @@ export class TimeSeriesService {
   }
   // /v1/Dashboard/getTimeseriesDatatable
 
+  getTimeSeriesSignalsByLocationID(locationId){
+    // return this.http.get(AppConstants.GET_SIGNAL_ASSOCIATION + '/' + locId + '/LocationAssociation');
+    return this.http.get(`${AppConstants.GET_SIGNAL_ASSOCIATION}/${locationId}/LocationAssociation`)
+    .pipe(
+      map(response => response)
+    );
+  }
+
+  getTimeSeriesSignalsByAssetID(assetId){
+    return this.http.get(AppConstants.GET_SIGNAL_ASSOCIATION + '/' + assetId + '/AssetAssociation');
+  }
+
 }
