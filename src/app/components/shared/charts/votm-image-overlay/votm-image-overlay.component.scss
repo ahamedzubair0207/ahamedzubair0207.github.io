@@ -130,7 +130,7 @@
     cursor: pointer;
     &:hover{
       background-color: $white;
-      padding-left: calc(1 * #{$font-size-xs} + 5px);
+      padding-left: calc(0.1 * #{$font-size-xs} + 0px);
     }
     &:before {
       width: calc(1 * #{$font-size-xs} + 0px);
@@ -151,24 +151,32 @@
 
   // small icon
   .assoc-pane > div.widget-icon-small{
-    padding-left:calc(0.6 * #{$h4-font-size} + 0px);
-    padding-bottom: calc(1 * #{$h4-font-size} + 1px);
-    line-height: calc(1 * #{$h4-font-size} + 0px);
-    border-radius: calc(1 * #{$h4-font-size} / 2 + 0px) !important;
+    padding-left:16px;
+    // padding-bottom: calc(0.0 * #{$h4-font-size} + 0px);
+    line-height: 24px;
+    min-height: 24px;
+    border-radius: 12px;
     border:none;
     background: $qcd-white-90;
     transition: all 0.3s ease;
     border-color: $qcd-success-brd;
     cursor: pointer;
+    max-width: 60%;
     &:hover{
       border: 1px solid $qcd-success-brd;
-      padding-left:calc(1 * #{$h4-font-size} + 3px);
-      padding-bottom: calc(0.0 * #{$h4-font-size} + 0px);
+      padding-left:24px;
+      min-height: 24px;
+      p{
+        line-height: normal;
+        white-space: pre-wrap;
+        font-size: 0.85rem
+      }
     }
     &:before {
-      width: calc(1 * #{$h4-font-size} + 0px);
-      line-height: calc(1 * #{$h4-font-size} + 0px);
-      border-radius: calc(1 * #{$h4-font-size} + 0px);
+      width: 24px;
+      line-height: 22px;
+      min-height: 24px;
+      border-radius: 12px;
       background-color: $qcd-success;
       color: $white;
       border-color: $qcd-success-brd;
@@ -188,12 +196,19 @@
     transition: all 0.3s ease;
     border-color: $qcd-success-brd;
     cursor: pointer;
+    max-width: 60%;
+    font-size: 0.75rem;
     &:hover{
       border: 1px solid qcd-success;
       padding-left:calc(1 * 2rem + 0px);
+      p{
+        line-height: normal;
+        white-space: pre-wrap;
+        font-size: 0.75rem
+      }
     }
     &:before {
-      width: calc(1 * 2rem + 0px);
+      width: calc(1 * 2rem + 2px);
       line-height: calc(1 * 2rem + 0px);
       border-radius: calc(1 * 2rem + 0px);
       background-color: $qcd-success;
@@ -202,7 +217,7 @@
       position: absolute;
       left: 0px;
       top: -1px;
-      font-size: 1rem;
+      font-size: 0.75rem;
     }
   }
   // large icon
@@ -215,13 +230,16 @@
     transition: all 0.3s ease;
     border-color: $qcd-success-brd;
     cursor: pointer;
+    max-width: 60%;
+    font-size: 0.85rem;
     &:hover{
       border: 1px solid $qcd-success-brd;
-      padding-left:calc(1.1 * 3rem + 0px);
+      padding-left:calc(1 * 3rem + 0px);
       p{
         // line-height: calc(0.295 * 12rem + 0px);
-        line-height: 18px;
+        line-height: normal;
         white-space: pre-wrap;
+        font-size: 0.85rem
       }
     }
     &:before {
@@ -247,6 +265,8 @@
     transition: all 0.3s ease;
     border-color: $qcd-success-brd;
     cursor: pointer;
+    max-width: 60%;
+    font-size: 1rem;
     // p{
     //   line-height: 1.99rem !important;
     // }
@@ -256,8 +276,9 @@
       // line-height: calc(1 * 1.99rem + 0px) !important;
       p{
         // line-height: calc(0.295 * 12rem + 0px);
-        line-height: 22px;
+        line-height: normal;
         white-space: pre-wrap;
+        font-size: 1rem;
       }
     }
     &:before {
@@ -278,7 +299,7 @@
 .assoc-pane > div.widget-icon-extra-extra-large{
     padding-left:calc(1 * 12rem + 0px);
     line-height: calc(1 * 12rem + 0px);
-    height: calc(1 * 12rem + 0px);
+    min-height: calc(1 * 12rem + 0px);
     border-top-left-radius: calc(1 * 12rem / 2 + 0px) !important;
     border-bottom-left-radius: calc(1 * 12rem / 2 + 0px) !important;
     border-top-right-radius: calc(1 * 12rem / 6 + 0px) !important;
@@ -287,13 +308,15 @@
     transition: all 0.3s ease;
     border-color: $qcd-success-brd;
     cursor: pointer;
+    max-width: 60%;
+    font-size: 1.25rem;
     &:hover{
       border: 1px solid $qcd-success-brd;
       padding-left:calc(1 * 12rem + 0px);
       p{
-        // line-height: calc(0.295 * 12rem + 0px);
-        line-height: 42px;
+        line-height: normal;
         white-space: pre-wrap;
+        font-size: 1.25rem;
       }
     }
     &:before {
