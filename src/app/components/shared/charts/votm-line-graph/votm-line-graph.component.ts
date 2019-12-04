@@ -351,6 +351,7 @@ export class VotmLineGraphComponent implements OnInit {
     }
   }
 
+  
   private SelectSignalsAndLoadChart() {
     let tempSelectedSignals: any[] = [];
     this.signals.forEach(signal => {

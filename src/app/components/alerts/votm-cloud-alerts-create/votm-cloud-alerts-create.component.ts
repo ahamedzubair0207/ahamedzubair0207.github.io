@@ -22,7 +22,7 @@ import { VotmCommon } from '../../shared/votm-common';
   templateUrl: './votm-cloud-alerts-create.component.html',
   styleUrls: ['./votm-cloud-alerts-create.component.scss']
 })
-export class VotmCloudAlertsCreateComponent implements OnInit, OnDestroy {
+export class VotmCloudAlertsCreateComponent implements OnInit {
   alert: Alert = new Alert();
   pageType: string;
   curOrgId: string;
