@@ -1,18 +1,18 @@
-<div class="shadow p-3 mb-5 bg-white rounded mt-5">
+<!-- <div class="shadow p-3 mb-5 bg-white rounded mt-5"> For Modal-->
     <form #alertRuleForm="ngForm" (ngSubmit)="onAlertRuleSubmit()" class="form needs-validation" novalidate>
-        <div class="position-relative" *ngIf="pageType.toLowerCase() === 'view' || pageType.toLowerCase() === 'edit'" >
+        <!-- <div class="position-relative" *ngIf="pageType.toLowerCase() === 'view' || pageType.toLowerCase() === 'edit'" >
             <div class="lock-tab border border-bottom-0">
                 <i class="icon-lock edit-view-lock" id="view-lock" name="lockTogglebutton"
                     *ngIf="pageType.toLowerCase() === 'view'" (click)="onLockClick()"></i>
                 <i *ngIf="pageType.toLowerCase() === 'edit'" class="icon-lock-open edit-view-lock" id="edit-lock"
                     name="unlockTogglebutton" (click)="onLockClick()"></i>
             </div>
-        </div>
-        <div class="row">
+        </div> For Modal-->
+        <!-- <div class="row">
             <div class="col-md-6">
                 <h5>Alert Rule Configuration</h5>
             </div>
-        </div>
+        </div> For Modal-->
         <div class="form-group row">
             <div class="col-12 col-md-3 col-xl-2">
                 <label id="alertRuleNameLbl" class="">Alert Rule Name:</label>
@@ -456,7 +456,7 @@
             </div>
         </div>
     </form>
-</div>
+<!-- </div> For Modal -->
 <!-- Add Notified User Modal -->
 <div id="notifiedUserModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="userModal"
     aria-hidden="true">

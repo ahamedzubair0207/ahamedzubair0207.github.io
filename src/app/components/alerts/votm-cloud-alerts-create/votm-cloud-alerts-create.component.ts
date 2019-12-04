@@ -22,7 +22,7 @@ import { VotmCommon } from '../../shared/votm-common';
   templateUrl: './votm-cloud-alerts-create.component.html',
   styleUrls: ['./votm-cloud-alerts-create.component.scss']
 })
-export class VotmCloudAlertsCreateComponent implements OnInit {
+export class VotmCloudAlertsCreateComponent implements OnInit, OnDestroy {
   alert: Alert = new Alert();
   pageType: string;
   curOrgId: string;
@@ -76,6 +76,13 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
   previousMetricType: string = '';
   userId = '03c7fb47-58ee-4c41-a9d6-2ad0bd43392a';
   orgHierarchy: string;
+  @Input() requiredData: any;
+  @Input() AlertpageType: any;
+  @Input() AlertcurOrgId: any;
+  @Input() AlertcurOrgName: any;
+  @Input() AlertorgId: any;
+  @Input() AlertalertId: any;
+  @Input() AlertaccessScopeName: any;
 
 
   constructor(
@@ -94,6 +101,20 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
 
   ngOnInit() {
     this.pageType = this.activeroute.snapshot.data['type'];
+    if (this.AlertpageType !== '') {
+      this.pageType = this.AlertpageType;
+      this.curOrgId = this.AlertcurOrgId;
+      this.curOrgName = this.AlertcurOrgName;
+      this.orgId = this.AlertorgId;
+      this.alert.organizationScopeId = this.orgId;
+      this.accessScopeName = this.AlertaccessScopeName;
+      console.log('alert===parmas-', this.curOrgId, this.curOrgName, this.orgId, this.pageType, this.AlertaccessScopeName);
+    }
+    // Called when alert rule popup save button clicked
+    this.alertsService.createAlertRuleEvent.subscribe(() => {
+      this.onAlertRuleSubmit();
+    });
+
     this.selectedSignal = this.sharedService.getSignalDataForAlert();
     this.activeroute.paramMap.subscribe(params => {
       this.curOrgId = params.get('curOrgId');
@@ -684,7 +705,7 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
         .subscribe(response => {
           this.toaster.onSuccess(`${this.alert.alertRuleName} updated successfully`, 'Updated');
           // console.log('response ', response);
-          this.routerLocation.back();
+          // this.routerLocation.back();
         }, error => {
           this.toaster.onFailure('Something went wrong. Please fill the form correctly', 'Failed');
         });
@@ -693,7 +714,7 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
         .subscribe(response => {
           this.toaster.onSuccess(`${this.alert.alertRuleName} created successfully`, 'Created');
           // console.log('response ', response);
-          this.routerLocation.back();
+          // this.routerLocation.back();
         }, error => {
           this.toaster.onFailure('Something went wrong. Please fill the form correctly', 'Fail');
         });
