@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ViewEncapsulation } from '@angular/core';
 import { AlertsService } from 'src/app/services/alerts/alerts.service';
 import { VotmCloudConfimDialogComponent } from '../../shared/votm-cloud-confim-dialog/votm-cloud-confim-dialog.component';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -7,12 +7,15 @@ import { Toaster } from '../../shared/votm-cloud-toaster/votm-cloud-toaster';
 import { ToastrService } from 'ngx-toastr';
 import { Alert } from 'src/app/models/alert.model';
 import {TableModule} from 'primeng/table';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NavigationService } from 'src/app/services/navigation/navigation.service';
 
 
 @Component({
   selector: 'app-votm-cloud-alerts-home',
   templateUrl: './votm-cloud-alerts-home.component.html',
-  styleUrls: ['./votm-cloud-alerts-home.component.scss']
+  styleUrls: ['./votm-cloud-alerts-home.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class VotmCloudAlertsHomeComponent implements OnInit {
 
@@ -23,14 +26,39 @@ export class VotmCloudAlertsHomeComponent implements OnInit {
   alertRuleToDelete: any;
   @ViewChild('confirmBox', null) confirmBox: VotmCloudConfimDialogComponent;
   toaster: Toaster = new Toaster(this.toastr);
+  pageTypePopup: string;
+  requiredData: any;
+  accessScopeName: string;
 
-  constructor(private router: Router,
+  @Input() AlertorgName: string;
+  AlertpageType: any;
+  AlertcurOrgId: any;
+  AlertcurOrgName: any;
+  AlertorgId: string;
+  AlertalertId: any;
+  AlertaccessScopeName: any;
+
+  curOrgId: string;
+  curOrgName: string;
+  alertId: string;
+  alertModalTitle: string;
+
+  constructor(
+    private router: Router,
     private alertsService: AlertsService,
     private toastr: ToastrService,
     private routerLocation: RouterLocation,
-    private activatedRoute: ActivatedRoute) { }
+    private activatedRoute: ActivatedRoute,
+    private ngbModal: NgbModal,
+    private navigationService: NavigationService,
+    ) { }
 
   ngOnInit() {
+    this.activatedRoute.paramMap.subscribe(params => {
+      this.AlertcurOrgId = params.get('curOrgId');
+      this.AlertcurOrgName = params.get('curOrgName');
+      this.AlertorgId = params.get('orgId');
+    });
   }
 
   onEditViewClick(alert, action) {
@@ -67,6 +95,29 @@ export class VotmCloudAlertsHomeComponent implements OnInit {
         });
     }
     this.alertRuleToDelete = '';
+  }
+
+  getAllAlertsByOrgID(orgID) {
+    this.alertsService.getAllAlertsByOrgId(orgID)
+    .subscribe(response => {
+      this.alertList = response;
+      console.log('this.alertList===', this.alertList);
+
+    });
+  }
+
+  openCreateAlert(content) {
+    this.AlertpageType = 'create';
+    this.alertModalTitle = 'Alert Rule Configuration';
+    this.AlertaccessScopeName = this.AlertorgName;
+    this.ngbModal.open(content, { size: 'xl', scrollable: true });
+  }
+
+  onCreateAlertRule() {
+    this.alertsService.createAlertRuleEvent.emit();
+    console.log('this.AlertorgId===', this.AlertorgId);
+    this.getAllAlertsByOrgID(this.AlertorgId);
+    this.ngbModal.dismissAll();
   }
 
 }

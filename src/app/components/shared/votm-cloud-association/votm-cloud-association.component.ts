@@ -77,6 +77,13 @@ export class VotmCloudAssociationComponent {
     private eleRef: ElementRef
   ) { }
 
+  ngOnInit(): void {
+    //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
+    //Add 'implements OnInit' to the class.
+    console.log(this.dragList);
+    console.log(this.droppedList);
+  }
+
   getLocationSignalAssociation() {
     this.reload.next();
   }

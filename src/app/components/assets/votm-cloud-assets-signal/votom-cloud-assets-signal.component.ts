@@ -118,11 +118,12 @@ export class VotomCloudAssetsSignalComponent implements OnInit {
               associateSignal.sensorId === signal.sensorId) {
               signal.associated = true;
               signal.associationName = associateSignal.associationName;
-              console.log(associateSignal.bound);
+
             }
           }
         }
       }
+      console.log(response);
       this.isGetAvailableSignalsAPILoading = false;
     },
     error => {
@@ -224,9 +225,10 @@ export class VotomCloudAssetsSignalComponent implements OnInit {
       );
   }
 
-  onCreateAssociateRule() {
-    this.route.navigate(['org', 'view', this.organizationId, this.organizationName,
-      'null', 'alertRule', 'create']);
+  onCreateAssociateRule(signal) {
+    this.route.navigate(['org', 'view', 'null', 'null',
+    this.organizationId, 'alertRule', 'create']);
+    this.sharedService.setSignalDataForAlert(signal);
   }
 
   onReset() {

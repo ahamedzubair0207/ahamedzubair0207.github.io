@@ -4,6 +4,8 @@
   <div class="col">
     <button class="btn btn-info mb-3 btn-sm" style="float: right;" id="alert-org-create"
       (click)="onCreateAlertClick()"><i class="icon-warn mr-2"></i>Create Alert rules</button>
+      <button class="btn btn-info mb-3 btn-sm" style="float: right;" id="alert-org-create-new"
+      (click)="openCreateAlert(content)"><i class="icon-warn mr-2"></i>Create Alert rules</button>
     <form class="form-inline">
       <div class="form-group">
         <label for="typeahead-config" id="alert-filter">Type to filter rules:</label>
@@ -97,3 +99,19 @@
 
 <app-votm-cloud-confim-dialog (onClose)="deleteAlert($event)" #confirmBox message="{{message}}"
   headerMessage="Warning"></app-votm-cloud-confim-dialog>
+
+  <ng-template #content let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title">{{alertModalTitle}}</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <app-votm-cloud-alerts-create [AlertpageType]="AlertpageType" [AlertcurOrgId]="AlertcurOrgId" [AlertcurOrgName]="AlertcurOrgName" [AlertorgId]="AlertorgId" [AlertalertId]="AlertalertId" [AlertaccessScopeName]="AlertorgName"></app-votm-cloud-alerts-create>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary btn-sm" (click)="modal.close('Close click')">Close</button>
+      <button type="button" class="btn btn-info btn-sm" *ngIf="AlertpageType !== 'view'" id="alertRuleSaveBtn" (click)="onCreateAlertRule()"><i class="icon-warn"></i>Save Alert Rule</button>
+    </div>
+  </ng-template>

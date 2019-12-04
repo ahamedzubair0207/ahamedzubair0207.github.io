@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 import { CustomHttp } from '../custom_http/custom_http.service';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
@@ -10,6 +10,8 @@ import { HttpParams } from '@angular/common/http';
   providedIn: 'root'
 })
 export class AlertsService {
+
+  createAlertRuleEvent: EventEmitter<any> = new EventEmitter<any>();
 
   constructor(private http: CustomHttp) { }
 
