@@ -57,17 +57,15 @@ export class VotmCloudLocationsGatewayComponent implements OnInit {
         for (const gateway of this.gateways) {
           console.log(gateway);
           console.log(gateway.locationId, '===', this.locationId);
-          if (gateway.locationId === this.locationId) {
-            gateway.associationName = gateway.gatewayName;
-            gateway.associated = false;
-            gateway.imageCordinates = {
-              x: 0,
-              y: 0
-            };
-            gateway.icon = 'icon-gateway';
-            gateway.bound = true;
-            gatewayList.push(gateway);
-          }
+          gateway.associationName = gateway.gatewayName;
+          gateway.associated = true;
+          gateway.imageCordinates = {
+            x: 0,
+            y: 0
+          };
+          gateway.icon = 'icon-gateway';
+          gateway.bound = true;
+          gatewayList.push(gateway);
         }
         this.gateways = [...gatewayList];
         console.log(this.gateways);
@@ -86,35 +84,46 @@ export class VotmCloudLocationsGatewayComponent implements OnInit {
         this.associatedGateways = response;
         for (let i = 0; i < this.associatedGateways.length; i++) {
           const gateway = this.associatedGateways[i];
-          gateway.imageCordinates = gateway.imageCordinates[gateway.associationName];
-          gateway.pctPos = {};
-          gateway.pctPos['left'] = gateway.imageCordinates.x;
-          gateway.pctPos['top'] = gateway.imageCordinates.y;
+          if (!gateway.associationName) {
+            gateway.associationName = gateway.gatewayName;
+          }
+          if (!gateway.imageCordinates) {
+            gateway.imageCordinates = {};
+            gateway.pctPos = {};
+            gateway.pctPos['left'] = 0;
+            gateway.pctPos['top'] = 0;
+          } else {
+            gateway.imageCordinates = gateway.imageCordinates[gateway.associationName];
+            gateway.pctPos = {};
+            gateway.pctPos['left'] = gateway.imageCordinates.x;
+            gateway.pctPos['top'] = gateway.imageCordinates.y;
+          }
+
           gateway.isClicked = false;
           gateway.icon = 'icon-gateway';
           gateway.associated = true;
           gateway.did = i;
           gateway.bound = true;
         }
-        for (let i = 0; i < this.gateways.length; i++) {
-          const gateway = this.gateways[i];
-          const index = this.associatedGateways.findIndex(assGateway => assGateway.gatewayId === gateway.gatewayId);
-          console.log(index);
-          if (index !== -1) {
-            gateway.associated = true;
-            gateway.associationName = this.associatedGateways[index].associationName;
-            this.associatedGateways[index].organizationId = this.curOrganizationId;
-            this.associatedGateways[index].locationId = this.locationId;
-          } else {
-            gateway.pctPos = { left: 0, top: 0};
-            gateway.isClicked = false;
-            gateway.icon = 'icon-gateway';
-            gateway.associated = true;
-            gateway.did = this.associatedGateways.length;
+        // for (let i = 0; i < this.gateways.length; i++) {
+        //   const gateway = this.gateways[i];
+        //   const index = this.associatedGateways.findIndex(assGateway => assGateway.gatewayId === gateway.gatewayId);
+        //   console.log(index);
+        //   if (index !== -1) {
+        //     gateway.associated = true;
+        //     gateway.associationName = this.associatedGateways[index].associationName;
+        //     this.associatedGateways[index].organizationId = this.curOrganizationId;
+        //     this.associatedGateways[index].locationId = this.locationId;
+        //   } else {
+        //     gateway.pctPos = { left: 0, top: 0};
+        //     gateway.isClicked = false;
+        //     gateway.icon = 'icon-gateway';
+        //     gateway.associated = true;
+        //     gateway.did = this.associatedGateways.length;
 
-            this.associatedGateways.push(gateway);
-          }
-        }
+        //     this.associatedGateways.push(gateway);
+        //   }
+        // }
 
       }
     );
@@ -130,20 +139,24 @@ export class VotmCloudLocationsGatewayComponent implements OnInit {
   }
 
   onSaveGatewayAssociation(droppedList) {
-    const data = droppedList.map(signal => {
-      const obj = {
-        locationId: this.locationId,
-        gatewayId: signal.gatewayId,
-        imageCordinates: {},
-        name: signal.associationName,
-        gatewayLocationId: signal.gatewayLocationId ? signal.gatewayLocationId : null
-      };
-      obj.imageCordinates[signal.associationName] = {
-        x: signal.pctPos['left'],
-        y: signal.pctPos['top']
-      };
-      return obj;
+    const data = [];
+    droppedList.forEach(signal => {
+      if (signal.pctPos.left !== 0 ||  signal.pctPos.top !== 0) {
+        const obj = {
+          locationId: this.locationId,
+          gatewayId: signal.gatewayId,
+          imageCordinates: {},
+          name: signal.associationName,
+          gatewayLocationId: signal.gatewayLocationId ? signal.gatewayLocationId : null
+        };
+        obj.imageCordinates[signal.associationName] = {
+          x: signal.pctPos['left'],
+          y: signal.pctPos['top']
+        };
+        data.push(obj);
+      }
     });
+    console.log(data);
     this.gatewayService.associateGatewayLocation(data)
       .subscribe(
         response => {

@@ -158,7 +158,7 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
         if (this.selectedSignal) {
           this.alert.signalTypeId = this.selectedSignal.signalId;
           this.onSignalTypeChange(this.alert.signalTypeId);
-          this.assetsChecked[this.alert.signalTypeId] = true;
+          this.assetsChecked[this.selectedSignal.signalMappingId] = true;
         }
       }
       // this.alertId ='';
