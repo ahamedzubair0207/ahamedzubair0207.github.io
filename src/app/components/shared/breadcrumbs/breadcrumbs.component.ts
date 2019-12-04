@@ -191,6 +191,8 @@ export class BreadcrumbsComponent implements OnInit {
                   this.checkForVisibility();
                   if (this.finalBreadcrumbs && this.finalBreadcrumbs.length > 0) {
                     // this.navigationService.lastOrganization = this.finalBreadcrumbs[this.finalBreadcrumbs.length - 1].name
+                    console.log('header emit');
+
                     this.navigationService.lastOrganization.next(this.finalBreadcrumbs[this.finalBreadcrumbs.length - 1].name);
                   }
                 }

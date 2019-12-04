@@ -1,5 +1,5 @@
 import { SharedService } from 'src/app/services/shared.service';
-import { Component, OnInit, ViewChild, Input } from '@angular/core';
+import { Component, OnInit, ViewChild, Input, OnDestroy } from '@angular/core';
 import { DatePipe, Location as RouterLocation } from '@angular/common';
 import { Select2OptionData } from 'ng2-select2';
 import { Toaster } from '../../shared/votm-cloud-toaster/votm-cloud-toaster';
@@ -22,7 +22,7 @@ import { VotmCommon } from '../../shared/votm-common';
   templateUrl: './votm-cloud-alerts-create.component.html',
   styleUrls: ['./votm-cloud-alerts-create.component.scss']
 })
-export class VotmCloudAlertsCreateComponent implements OnInit {
+export class VotmCloudAlertsCreateComponent implements OnInit, OnDestroy {
   alert: Alert = new Alert();
   pageType: string;
   curOrgId: string;
@@ -76,6 +76,13 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
   previousMetricType: string = '';
   userId = '03c7fb47-58ee-4c41-a9d6-2ad0bd43392a';
   orgHierarchy: string;
+  @Input() requiredData: any;
+  @Input() AlertpageType: any;
+  @Input() AlertcurOrgId: any;
+  @Input() AlertcurOrgName: any;
+  @Input() AlertorgId: any;
+  @Input() AlertalertId: any;
+  @Input() AlertaccessScopeName: any;
 
 
   constructor(
@@ -88,12 +95,28 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
     private userService: UserService,
     private navigationService: NavigationService,
     private sharedService: SharedService
-    ) {
+  ) {
 
   }
+  ngOnDestroy() {
 
+  }
   ngOnInit() {
     this.pageType = this.activeroute.snapshot.data['type'];
+    if (this.AlertpageType !== '') {
+      this.pageType = this.AlertpageType;
+      this.curOrgId = this.AlertcurOrgId;
+      this.curOrgName = this.AlertcurOrgName;
+      this.orgId = this.AlertorgId;
+      this.alert.organizationScopeId = this.orgId;
+      this.accessScopeName = this.AlertaccessScopeName;
+      console.log('alert===parmas-', this.curOrgId, this.curOrgName, this.orgId, this.pageType, this.AlertaccessScopeName);
+    }
+    // Called when alert rule popup save button clicked
+    this.alertsService.createAlertRuleEvent.subscribe(() => {
+      this.onAlertRuleSubmit();
+    });
+
     this.selectedSignal = this.sharedService.getSignalDataForAlert();
     this.activeroute.paramMap.subscribe(params => {
       this.curOrgId = params.get('curOrgId');
@@ -158,7 +181,7 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
         if (this.selectedSignal) {
           this.alert.signalTypeId = this.selectedSignal.signalId;
           this.onSignalTypeChange(this.alert.signalTypeId);
-          this.assetsChecked[this.alert.signalTypeId] = true;
+          this.assetsChecked[this.selectedSignal.signalMappingId] = true;
         }
       }
       // this.alertId ='';
@@ -255,14 +278,14 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
       this.treeSignalAssociationList = [];
       this.assetsChecked = {};
 
-      this.alertsService.getUomForSelectedSignalType( this.alert.signalTypeId, this.userId)
+      this.alertsService.getUomForSelectedSignalType(this.alert.signalTypeId, this.userId)
         .subscribe(response => {
           if (response) {
-          this.unitToShow = response.uomName;
-          this.alert.uomId = response.uomId;
-          this.alert.uomName = response.uomName;
-          this.alert.uomTypeId = response.uomTypeId;
-          this.getAlertRuleSignalAssociatedAssetByOrgId();
+            this.unitToShow = response.uomName;
+            this.alert.uomId = response.uomId;
+            this.alert.uomName = response.uomName;
+            this.alert.uomTypeId = response.uomTypeId;
+            this.getAlertRuleSignalAssociatedAssetByOrgId();
           }
         });
     } else {
@@ -403,15 +426,15 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
         response = response.slice().reverse();
         for (let i = 0; i < response.length; i++) {
 
-            if (i === 0) {
-              this.orgHierarchy = response[i].name + ' > ';
-              console.log(this.orgHierarchy);
-            } else {
-              this.orgHierarchy = this.orgHierarchy + response[i].shortName + ' > ';
-              console.log(this.orgHierarchy);
-            }
+          if (i === 0) {
+            this.orgHierarchy = response[i].name + ' > ';
+            console.log(this.orgHierarchy);
+          } else {
+            this.orgHierarchy = this.orgHierarchy + response[i].shortName + ' > ';
+            console.log(this.orgHierarchy);
           }
         }
+      }
     );
   }
 
@@ -435,9 +458,13 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
           treeNode.children = [];
           treeNode.expanded = true;
           location.signals.forEach(signal => {
-            treeNode.children.push({ expanded: true, data: { id: signal.signalMappingId,
-              label: signal.associationName ? signal.associationName : signal.signalName,
-              value: signal, parent: location } });
+            treeNode.children.push({
+              expanded: true, data: {
+                id: signal.signalMappingId,
+                label: signal.associationName ? signal.associationName : signal.signalName,
+                value: signal, parent: location
+              }
+            });
           });
           this.treeSignalAssociationList.push(treeNode);
 
@@ -453,9 +480,13 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
               tempTreeNode.children = [];
               tempTreeNode.expanded = true;
               asset.signals.forEach(signal => {
-                tempTreeNode.children.push({ expanded: true, data: { id: signal.signalMappingId,
-                  label: signal.associationName ? signal.associationName : signal.signalName,
-                  value: signal, parent: asset } });
+                tempTreeNode.children.push({
+                  expanded: true, data: {
+                    id: signal.signalMappingId,
+                    label: signal.associationName ? signal.associationName : signal.signalName,
+                    value: signal, parent: asset
+                  }
+                });
               });
               this.treeSignalAssociationList.push(tempTreeNode);
               // this.selectUnselectAssetCheckbox(asset);
@@ -684,7 +715,7 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
         .subscribe(response => {
           this.toaster.onSuccess(`${this.alert.alertRuleName} updated successfully`, 'Updated');
           // console.log('response ', response);
-          this.routerLocation.back();
+          // this.routerLocation.back();
         }, error => {
           this.toaster.onFailure('Something went wrong. Please fill the form correctly', 'Failed');
         });
@@ -693,7 +724,7 @@ export class VotmCloudAlertsCreateComponent implements OnInit {
         .subscribe(response => {
           this.toaster.onSuccess(`${this.alert.alertRuleName} created successfully`, 'Created');
           // console.log('response ', response);
-          this.routerLocation.back();
+          // this.routerLocation.back();
         }, error => {
           this.toaster.onFailure('Something went wrong. Please fill the form correctly', 'Fail');
         });
