@@ -49,6 +49,7 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
   pageTitle: string;
   pageType: any;
 
+  deleteDashboardId: any;
   assetId: string;
   parentAssetId: string;
   locId: string;
@@ -64,6 +65,7 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
   isSignalAssociationClicked = false;
   @ViewChild('assetForm', null) assetForm: NgForm;
   @ViewChild('confirmBox', null) confirmBox: VotmCloudConfimDialogComponent;
+  @ViewChild('confirmBoxDash', null) confirmBoxDash: VotmCloudConfimDialogComponent;
   @ViewChild('templateConfirmBox', null) templateConfirmBox: VotmCloudConfimDialogComponent;
   @ViewChild('imageChangeConfirmBox', null) imageChangeConfirmBox: VotmCloudConfimDialogComponent;
   @ViewChild('documentChangeConfirmBox', null) documentChangeConfirmBox: VotmCloudConfimDialogComponent;
@@ -140,6 +142,7 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
   screenLabelsLoader: boolean;
   appInfoLoader: boolean;
   disableParentOrgaAndLoc: boolean;
+  locked: boolean = true;
   // Dashboard-david end
   templateDocuments: any[] = [];
 
@@ -222,7 +225,7 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
     this.getAllLocations();
     this.getScreenLabels();
     this.getAllAppInfo();
-
+    this.getAllDashboards();
     // dashboard data
     this.dashboardData = this.getDashboards();
     this.getDashboardsTemplates();
@@ -1269,24 +1272,46 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
     }
 
     this.dashboardTab.assetId = this.assetId;
+    this.dashboardTab.organizationId = this.curOrgId;
+    this.dashboardTab.locationId = this.parentLocId;
     this.dashboardTab.published = true;
     this.dashboardTab.active = true;
 
     this.dbLastIdNum++;
     this.newTabId = "dbtab-" + this.dbLastIdNum;
-    this.dbItems.push(new DbItem(this.newTabId, this.dbLongName, this.dbShortName, this.selTemplate,
-      this.dbTemplates.find(({ name }) => name === this.selTemplate).component, ''));
+    // this.dbItems.push(new DbItem(this.newTabId, this.dbLongName, this.dbShortName, this.selTemplate,
+    //   this.dbTemplates.find(({ name }) => name === this.selTemplate).component, ''));
     // console.log('this.dbItems---added', this.dbItems);
 
-    this.dbService.saveDashboard(this.dashboardTab)
+    if (this.dashboardTab.dashboardId) {
+      this.dbService.editDashboard(this.dashboardTab)
+        .subscribe(response => {
+          this.getAllDashboards();
+          // let index = this.dashboardTabs.findIndex(x => x.dashboardId === this.dashboardTab.dashboardId);
+          // this.dashboardTabs[index] = this.dashboardTab;
+          this.dashboardTab = new DashBoard();
+          this.toaster.onSuccess('Successfully Updated Dashboard', 'Updated');
+        });
+    } else {
+      this.dbService.saveDashboard(this.dashboardTab)
       .subscribe(response => {
         this.dashboardTabs.push(this.dashboardTab);
         this.dashboardTab = new DashBoard();
         this.toaster.onSuccess('Successfully Created Dashboard', 'Created');
-        this.closeAddDashboardModal(true);
-      })
-
+        
+      });
+    }
+      this.closeAddDashboardModal(true);
   }
+
+  private getAllDashboards() {
+    this.dbService.getAllDashboards(this.assetId, 'asset')
+      .subscribe(response => {
+        console.log('get All Dashboard ', response);
+        this.dashboardTabs = response;
+      });
+  }
+
 
   closeAddDashboardModal(event: any) {
     // console.log('==', event);
@@ -1296,6 +1321,12 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
     // } else if (event === 'create') {
     //
     // }
+  }
+
+  openDashboardConfirmDialog(dashboardId, dashboardName) {
+    this.deleteDashboardId = dashboardId;
+    this.message = `Do you want to delete the "${dashboardName}" Dashboard?`;
+    this.confirmBoxDash.open();
   }
 
   deleteAssetDashboardById(event) {

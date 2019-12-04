@@ -39,13 +39,6 @@ declare var jQuery: any;
   providers: [DatePipe]
 })
 export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewInit {
-
-  ///
-
-
-  ///
-
-
   public imagePath;
   imgURL: any = '../../../../assets/images/orgLogoPlaceholder.svg';
   public message: string;
