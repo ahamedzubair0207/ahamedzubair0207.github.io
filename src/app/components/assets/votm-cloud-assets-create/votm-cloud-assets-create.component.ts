@@ -618,7 +618,7 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
   }
 
   private getDismissReason(reason: any): string {
-    debugger;
+    // debugger;
     if (reason === ModalDismissReasons.ESC) {
       return 'by pressing ESC';
     } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
