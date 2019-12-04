@@ -43,7 +43,7 @@ export class VotmCloudLocationsGatewayComponent implements OnInit {
       this.locationId = params.get('locId');
       console.log(this.curOrganizationId, '====', this.curOrganizationName, '====', this.locationId);
 
-      this.getAllGateways();
+      this.getLocationGatewayAssociation();
     });
   }
 
@@ -78,6 +78,7 @@ export class VotmCloudLocationsGatewayComponent implements OnInit {
   }
 
   getLocationGatewayAssociation() {
+    this.isGetGatewayAPILoading = true;
     this.associatedGateways = [];
     this.gatewayService.getGatewayLocationAssociation(this.locationId).subscribe(
       response => {
@@ -105,6 +106,8 @@ export class VotmCloudLocationsGatewayComponent implements OnInit {
           gateway.did = i;
           gateway.bound = true;
         }
+        this.gateways = [...this.associatedGateways];
+        this.isGetGatewayAPILoading = false;
         // for (let i = 0; i < this.gateways.length; i++) {
         //   const gateway = this.gateways[i];
         //   const index = this.associatedGateways.findIndex(assGateway => assGateway.gatewayId === gateway.gatewayId);
@@ -125,6 +128,8 @@ export class VotmCloudLocationsGatewayComponent implements OnInit {
         //   }
         // }
 
+      }, error => {
+        this.isGetGatewayAPILoading = false;
       }
     );
   }
