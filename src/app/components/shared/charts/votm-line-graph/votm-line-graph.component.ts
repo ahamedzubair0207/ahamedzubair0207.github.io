@@ -232,7 +232,7 @@ export class VotmLineGraphComponent implements OnInit {
       "toDateTime": new Date(),//"2019-11-20T20:23:43.863Z",
       "environmentFqdn": "41075d1a-97a6-4f2d-9abb-a1c08be5b6c4.env.timeseries.azure.com",
       "bucketSize": "1m"//this.selDateRange
-      
+
     };
     let numberOfSeconds = 0;
     if (this.trendChartWidget.dateRange) {
@@ -340,18 +340,25 @@ export class VotmLineGraphComponent implements OnInit {
       // console.log('trendwidget body ', trendWidgetBody)
       this.saveUpdateWidget(trendWidgetBody);
     } else {
+      // debugger;
       // this.loadYAxisType();
+      let tempSelectedSignals = [];
       if (!this.signals || this.signals.length === 0) {
-        await this.getSignalsAssociatedAssetByOrgId(this.data.organizationId);
-        let selectedSignals = [];
-        this.signals.forEach(signal => {
-          if (this.trendChartWidget.propertyValue.indexOf(signal.id) >= 0) {
-            selectedSignals.push(signal);
-          }
-        })
+        this.getSignalsAssociatedAssetByOrgId(this.data.organizationId, true);
+      } else {
+        this.SelectSignalsAndLoadChart();
       }
-      this.loadLineChart(selectedSignals, this.trendChartWidget);
     }
+  }
+
+  private SelectSignalsAndLoadChart() {
+    let tempSelectedSignals: any[] = [];
+    this.signals.forEach(signal => {
+      if (this.trendChartWidget.propertyValue.indexOf(signal.id) >= 0) {
+        tempSelectedSignals.push(signal);
+      }
+    });
+    this.loadLineChart(tempSelectedSignals, this.trendChartWidget);
   }
 
   private saveUpdateWidget(trendWidgetBody: any) {
@@ -491,17 +498,17 @@ export class VotmLineGraphComponent implements OnInit {
     valueYAxis.renderer.opposite = (axis == 1);
     valueYAxis.renderer.grid.template.disabled = true;
 
-    this.createThresholdRanges(valueYAxis, 0, this.signalTypes.find(({ type }) => type === this.yAxisType[axis]).nominal);
+    // this.createThresholdRanges(valueYAxis, 0, this.signalTypes.find(({ type }) => type === this.yAxisType[axis]).nominal);
   }
 
   // Create thresholds
   createThresholdRanges(valueAxis, idx, nominal) {
     // let thresholds = { lowCritical: nominal * .75, lowWarn: nominal * .9, highWarn: nominal * 1.1, highCritical: nominal * 1.25 };
-    let thresholds = { 
-      lowCritical: 270, 
-      lowWarn: 280, 
-      highWarn: 295, 
-      highCritical: 300 
+    let thresholds = {
+      lowCritical: 270,
+      lowWarn: 280,
+      highWarn: 295,
+      highCritical: 300
     };
     if (thresholds.lowCritical) {
       var rangeLC = valueAxis.axisRanges.create();
@@ -521,7 +528,7 @@ export class VotmLineGraphComponent implements OnInit {
     }
     if (thresholds.highWarn) {
       var rangeHW = valueAxis.axisRanges.create();
-      rangeHW.value =  (thresholds.highCritical) ? thresholds.highCritical : 1200000;
+      rangeHW.value = (thresholds.highCritical) ? thresholds.highCritical : 1200000;
       rangeHW.endValue = thresholds.highWarn;
       rangeHW.axisFill.fill = am4core.color("#dc3545");
       rangeHW.axisFill.fillOpacity = (this.showThresh[idx]) ? 0.2 : 0;
@@ -749,7 +756,8 @@ export class VotmLineGraphComponent implements OnInit {
     return this.signalTypes.find(({ type }) => type === this.yAxisType[axis]).uom;
   }
 
-  getSignalsAssociatedAssetByOrgId(orgId: string) {
+  getSignalsAssociatedAssetByOrgId(orgId: string, loadChart: boolean = false) {
+    let isLoaded = false;
     this.timeSeries.getSignalsAssociatedAssetByOrgId(orgId)
       .subscribe(response => {
         // console.log('Time Series Signal', response);
@@ -781,9 +789,17 @@ export class VotmLineGraphComponent implements OnInit {
         this.signals = tempArray.reduce((acc, cur) => acc.some(x => (x.id === cur.id)) ? acc : acc.concat(cur), [])
 
         this.loadYAxisType();
-
+        if(loadChart){
+          this.SelectSignalsAndLoadChart();
+        }
       });
+      
+    // while (!isLoaded) {
+    //   setTimeout(() => {
 
+    //   }, 10);
+    // }
+    return this.signals;
   }
 
   private loadYAxisType() {
