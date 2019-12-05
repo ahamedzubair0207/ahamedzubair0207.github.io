@@ -1,3 +1,4 @@
+import { DashBoard } from './../../../../models/dashboard.model';
 import { SignalRService } from './../../../../services/signalR/signal-r.service';
 import { DbItem } from './../../../../models/db-item';
 import { AssetSignalService } from 'src/app/services/assetSignal/asset-signal.service';
@@ -18,7 +19,7 @@ import { AssetsService } from 'src/app/services/assets/assets.service';
 })
 export class VotmImageOverlayComponent implements OnInit, OnDestroy {
 
-  @Input() data: DbItem;
+  @Input() data: DashBoard;
   @Input() id: string;
   @Input() locked: boolean;
   customizeImageOverlay: any;
@@ -70,7 +71,7 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.wId = this.data.id + '-' + this.id;
+    this.wId = this.data.dashboardId + '-' + this.id;
     this.isImageOverlayConfigured = false;
     this.widgetImageOverlaySource = ['Location', 'Asset', 'Custom'];
 
