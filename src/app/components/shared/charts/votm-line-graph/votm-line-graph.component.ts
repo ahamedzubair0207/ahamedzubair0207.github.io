@@ -29,6 +29,7 @@ export class VotmLineGraphComponent implements OnInit {
 
   pageLabels: any;
   updatedData: any;
+  selectedSignal: string;
 
   // @ViewChild('config', null) configModal: any;
   "hideCredits": true;
@@ -124,6 +125,7 @@ export class VotmLineGraphComponent implements OnInit {
       }
       if (this.data.organizationId) {
         this.getSignalsAssociatedAssetByOrgId(this.data.organizationId);
+        this.getThresholdForSignal();
       }
       this.wId = this.data.dashboardId + "-" + this.id;
       this.wConfig = (this.data.widgetConf) ? this.data.widgetConf : { yMin: [null, null], yMax: [null, null] };
@@ -532,7 +534,7 @@ export class VotmLineGraphComponent implements OnInit {
       var rangeHW = valueAxis.axisRanges.create();
       rangeHW.value = (thresholds.highCritical) ? thresholds.highCritical : 1200000;
       rangeHW.endValue = thresholds.highWarn;
-      rangeHW.axisFill.fill = am4core.color("#dc3545");
+      rangeHW.axisFill.fill = am4core.color("#ffc107");
       rangeHW.axisFill.fillOpacity = (this.showThresh[idx]) ? 0.2 : 0;
       rangeHW.grid.strokeOpacity = 0;
     }
@@ -541,7 +543,7 @@ export class VotmLineGraphComponent implements OnInit {
       rangeHC.value = thresholds.highCritical;
       rangeHW.endValue = 1200000;
       // rangeHC.endValue = 99999;
-      rangeHC.axisFill.fill = am4core.color("#ffc107");
+      rangeHC.axisFill.fill = am4core.color("#dc3545");
       rangeHC.axisFill.fillOpacity = (this.showThresh[idx]) ? 0.2 : 0;
       rangeHC.grid.strokeOpacity = 0;
     }
@@ -831,4 +833,15 @@ export class VotmLineGraphComponent implements OnInit {
     // console.log('onRadioChange ', event);
     this.trendChartWidget.displayThrshold = value;
   }
+
+  getThresholdForSignal(){
+    let signal = this.selectedSignal;
+    this.selectedSignal = '71fe01ae-141c-463f-8e5c-5c40ee02e533';
+    this.timeSeries.getThresholdValueBySignalAndOrganizationID(this.selectedSignal, `organizationID=${this.data.organizationId}`)
+    .subscribe(response => {
+      // this.signals = response;
+      console.log("Threshold Values: ",response)
+    })
+  }
+
 }
