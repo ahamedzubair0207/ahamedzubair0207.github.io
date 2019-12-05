@@ -143,7 +143,7 @@
               {{item.associationName}}
               <a id="sig_edit_{{i}}" *ngIf="showEditIcon"  [class.d-none]="disable || !item.bound" (click)="onClickOfEditIcon(i, $event)"><i class="icon-edit cursorpoint"></i></a>
               <a id="sig_alert_{{i}}" *ngIf="showAlertIcon" [class.d-none]="disable || !item.bound" (click)="onClickOfAlertIcon(i, $event)"><i class="icon-warn cursorpoint"></i></a>
-              <a id="sig_unlink_{{i}}" *ngIf="showDetachIcon"  [class.d-none]="disable || !item.bound" (click)="onDetachSignalFromAsset(i)"><i class="icon-unlink cursorpoint"></i></a>
+              <a id="sig_unlink_{{i}}" *ngIf="showDetachIcon"  [class.d-none]="disable || !item.bound" (click)="openConfirmDialog(i)"><i class="icon-trash cursorpoint"></i></a>
             </div>
           </div>
         </div>
@@ -271,7 +271,8 @@
     </div>
 </div>
 </p-overlayPanel>
-
+<app-votm-cloud-confim-dialog (onClose)="onDetachSignalFromAsset()" #confirmBox message="{{signalRemoveMessage}}"
+    headerMessage="Warning"></app-votm-cloud-confim-dialog>
 
 <!-- Modal for Favorite  -->
 <!-- <div id="alertModal" class="modal">

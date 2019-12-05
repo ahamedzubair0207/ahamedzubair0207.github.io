@@ -38,11 +38,13 @@ export class VotmCloudEventsHomeComponent implements OnInit {
   constructor(
     private eventLogsService: EventLogsService,
     private sharedService: SharedService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private modalService: NgbModal
   ) { }
 
   ngOnInit() {
     this.loggedInUser = this.sharedService.getLoggedInUser();
+    this.getEventActivities();
     this.getEventLogs();
   }
 
@@ -51,6 +53,10 @@ export class VotmCloudEventsHomeComponent implements OnInit {
       .subscribe(response => {
         this.eventsLogs = response;
       });
+  }
+
+  getEventActivities() {
+
   }
 
   toggleExpandRow(row) {
@@ -93,11 +99,11 @@ export class VotmCloudEventsHomeComponent implements OnInit {
     const obj = {
       eventLogId: logObj.eventLogId,
       clousureType: this.selectedAcknowledgement,
-      eventActivtiyId: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
+      eventActivtiyId: null,
       description: null
     };
     if (this.selectedAcknowledgement === 2) {
-      obj['eventActivtiyId'] = '3fa85f64-5717-4562-b3fc-2c963f66afa6';
+      obj['eventActivtiyId'] = null;
       obj['description'] = this.closureNote;
     }
     this.eventLogsService.updateEventLog(obj).subscribe(
@@ -110,29 +116,18 @@ export class VotmCloudEventsHomeComponent implements OnInit {
     );
   }
 
-  openAddEventModal() {
+  openAddEventModal(content) {
     // Get the modal
-    let addEventmodal = document.getElementById('addEventModalWrapper');
-    addEventmodal.style.display = 'block';
-    this.addEventmodal = document.getElementById('addEventModalWrapper');
-    // Get the <span> element that closes the modal
-    var span = document.getElementsByClassName('close')[0];
-
-    // When the user clicks anywhere outside of the modal, close it
-    window.onclick = function (event) {
-      if (event.target == addEventmodal) {
-        addEventmodal.style.display = 'none';
-      }
-    };
+    this.modalService.open(content,  { size: 'lg' }).result.then((result) => {
+      console.log(result);
+      this.createEventActivity();
+    }, (reason) => {
+     console.log('Dismissed', reason);
+    });
 
   }
-  closeAddEventModal(event: string) {
-    this.addEventmodal.style.display = 'none';
-    // if (event === 'save') {
-    //
-    // } else {
-    //
-    // }
+  createEventActivity() {
+
   }
 
 

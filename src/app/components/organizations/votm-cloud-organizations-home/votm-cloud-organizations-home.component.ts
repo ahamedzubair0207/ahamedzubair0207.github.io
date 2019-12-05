@@ -128,11 +128,23 @@ export class VotmCloudOrganizationsHomeComponent implements OnInit {
   }
 
   onOrganizationSearch() {
+    this.loader = true;
     if (this.searchedText) {
+      this.organizationsList = [];
       this.organizationService.searchOrganizations(this.searchedText)
         .subscribe(response => {
-          // this.organizationsList = response;
+          this.organizationsList = [];
+          if (response && response.length > 0) {
+            this.organizationsList = this.fillOrganizationData(response);
+          }
+          this.isGetOrganizationsApiLoading = false;
+          this.loader = false;
+        }, error => {
+          this.isGetOrganizationsApiLoading = false;
+          this.loader = false;
         });
+    } else {
+      this.fetchOrgList();
     }
   }
 
