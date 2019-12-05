@@ -1,3 +1,4 @@
+import { VotmCloudConfimDialogComponent } from './../votm-cloud-confim-dialog/votm-cloud-confim-dialog.component';
 import { Alert } from './../../../models/alert.model';
 import { AlertsService } from 'src/app/services/alerts/alerts.service';
 import { Component, OnInit, OnDestroy, ViewChild, AfterViewInit, ViewEncapsulation, ElementRef, Input, Output, EventEmitter, AfterContentInit } from '@angular/core';
@@ -68,9 +69,11 @@ export class VotmCloudAssociationComponent {
   @Output() resetPage: EventEmitter<any> = new EventEmitter<any>();
   @Output() returnToList: EventEmitter<any> = new EventEmitter<any>();
   @Output() createAssociateRule: EventEmitter<any> = new EventEmitter<any>();
+  @ViewChild('confirmBox', null) confirmBox: VotmCloudConfimDialogComponent;
   batterySignalType = 'battery';
   signalSignalType = 'signal';
-
+  signalRemoveMessage: string;
+  deletedSignalIndex: number;
   constructor(
     private router: Router,
     private toastr: ToastrService,
@@ -283,6 +286,7 @@ export class VotmCloudAssociationComponent {
       this.droppedList[index].isClicked = true;
       this.selectedSignal = this.droppedList[index];
       this.selectedSignal['selectedIndex'] = index;
+      this.selectedAlertRule = this.selectedSignal.alertRule;
       this.alertOPanel.show(event);
       this.droppedList[index].isClicked = true;
     }, 300);
@@ -351,8 +355,16 @@ export class VotmCloudAssociationComponent {
     }
   }
 
-  onDetachSignalFromAsset(index) {
-    this.selectedSignal = this.droppedList[index];
+  openConfirmDialog(index) {
+    const selectedSignal = this.droppedList[index];
+    this.signalRemoveMessage = 'Are you sure you want to unlink the ' + selectedSignal.signalName +
+    ' signal? The historical data for this signal will be lost.';
+    this.confirmBox.open();
+    this.deletedSignalIndex = index;
+  }
+
+  onDetachSignalFromAsset() {
+    this.selectedSignal = this.droppedList[this.deletedSignalIndex];
     if (this.selectedSignal.signalMappingId) {
       this.detach.emit(this.selectedSignal.signalMappingId);
       this.dragList = [];
@@ -362,18 +374,18 @@ export class VotmCloudAssociationComponent {
       if (this.selectedSignal.derived) {
         const ix = this.derivedSignals.findIndex(derivedSignal => derivedSignal.derivedSigid === this.selectedSignal.derivedSigid);
         this.derivedSignals.splice(ix, 1);
-        this.droppedList.splice(index, 1);
+        this.droppedList.splice(this.deletedSignalIndex, 1);
       } else {
         for (const sensor of this.dragList) {
           for (const signal of sensor.node) {
-            if (signal.signalId === this.droppedList[index].signalId &&
-            signal.sensorId === this.droppedList[index].sensorId) {
+            if (signal.signalId === this.droppedList[this.deletedSignalIndex].signalId &&
+            signal.sensorId === this.droppedList[this.deletedSignalIndex].sensorId) {
               signal.associated = false;
               signal.associationName = signal.signalName;
             }
           }
         }
-        this.droppedList.splice(index, 1);
+        this.droppedList.splice(this.deletedSignalIndex, 1);
       }
       this.selectedSignal = undefined;
     }

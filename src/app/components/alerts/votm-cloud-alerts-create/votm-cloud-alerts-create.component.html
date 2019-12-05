@@ -13,8 +13,8 @@
                 <h5>Alert Rule Configuration</h5>
             </div>
         </div> For Modal-->
-        <div class="form-group row">
-            <div class="col-12 col-md-3 col-xl-2">
+        <div class="row">
+            <div class="form-group col-12 col-md-4 col-xl-3">
                 <label id="alertRuleNameLbl" class="">Alert Rule Name:</label>
                 <div class="">
                     <input type="text" name="alertRuleName" [(ngModel)]="alert.alertRuleName"
@@ -22,7 +22,7 @@
                         [disabled]="pageType === 'View'">
                 </div>
             </div>
-            <div class="col-12 col-md-3 col-xl-2">
+            <div class="form-group col-12 col-md-4 col-xl-3">
                 <label id="metricTypeLbl" class="">Signal Type:</label>
                 <div class="">
                     <!-- <select name="metricType" id="metricTypeDropDown" [(ngModel)]="alert.UomTypeId"
@@ -42,7 +42,7 @@
                 </div>
             </div>
 
-            <div class="col-12 col-md-3 col-xl-1">
+            <div class="form-group col-12 col-md-4 col-xl-3">
                 <label id="ruleTypeLbl" class="">Rule Type:</label>
                 <div class="">
                     <!-- <select name="ruleType" id="ruleTypeDropDown" [(ngModel)]="alert.alertRuleTypeId"
@@ -60,7 +60,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-12 col-md-2 col-xl-2">
+            <div class="form-group col-12 col-md-4 col-xl-3">
                 <label id="minimumSustainTimeLbl" class="">Minimum Sustain Time: <i class="icon-info"
                   ngbPopover="The alert will not trigger unless a threshold is breached and sustained for the given period."
                   triggers="mouseenter:mouseleave" popoverTitle="Information"></i></label>
@@ -76,7 +76,7 @@
                 </div>
             </div>
 
-            <div class="col-12 col-md-2 pl-4 pt-2 col-xl-1">
+            <div class="form-group col-12 col-md-4 pl-4 pt-2 col-xl-3">
                 <div class="custom-control custom-switch input-group">
                     <input type="checkbox" class="custom-control-input mr-2" id="closureCheckBox" name="closure" [(ngModel)]="alert.closureRequired" (change)="onChangeOfClosure(alert.closureRequired)">
                         <label class="custom-control-label mt-2" for="closureCheckBox">Closure Required</label>
@@ -87,7 +87,7 @@
                     <label class="mt-2">Closure Required</label>
                 </div> -->
             </div>
-            <div class="col-12 col-md-2 col-xl-2" *ngIf="alert.closureRequired" >
+            <div class="form-group col-12 col-md-4 col-xl-3" *ngIf="alert.closureRequired" >
               <label id="excalateAfterLbl" class="">Escalate After: <i class="icon-info"
                 ngbPopover="The alert is triggered and not closed after the given period the Secondary Users/Groups will be notified."
                 triggers="mouseenter:mouseleave" popoverTitle="Information"></i></label>
@@ -101,7 +101,7 @@
                   </div>
               </div>
           </div>
-            <div class="col-12 col-md-3 col-xl-2">
+            <div class="form-group col-12 col-md-4 col-xl-3">
                 <div class="">
                     <label id="accessTypeLbl" class="">Rule Owner:</label>
                     <div class="">
@@ -446,7 +446,7 @@
             </div>
         </div>
         <hr>
-        <div class="row">
+        <!-- <div class="row">
             <div class="col-md-12 text-right">
                 <button class="btn btn-secondary btn-sm mr-2" type="button" (click)="onCancelClick($event)"
                     id="alertRuleCancelBtn"><i class="icon-entity-list"></i>Return to List</button>
@@ -454,7 +454,7 @@
                   id="alertRuleDeleteBtn"><i class="icon-trash"></i>Delete</button>
                 <button type="submit" class="btn btn-info btn-sm mr-2" *ngIf="pageType !== 'View'" id="alertRuleSaveBtn"><i class="icon-warn"></i>Save Alert Rule</button>
             </div>
-        </div>
+        </div> -->
     </form>
 <!-- </div> For Modal -->
 <!-- Add Notified User Modal -->
@@ -570,3 +570,19 @@
 
 <app-votm-cloud-confim-dialog (onClose)="changeSignalType($event)" #MetricTypeConfirmBox [message]="metricChangeMessage"
 headerMessage="Warning"></app-votm-cloud-confim-dialog>
+
+<!-- <ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">{{alertModalTitle}}</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <app-votm-cloud-alerts-create [AlertpageType]="AlertpageType" [AlertcurOrgId]="AlertcurOrgId" [AlertcurOrgName]="AlertcurOrgName" [AlertorgId]="AlertorgId" [AlertalertId]="AlertalertId" [AlertaccessScopeName]="AlertorgName"></app-votm-cloud-alerts-create>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary btn-sm" (click)="modal.close('Close click')">Close</button>
+    <button type="button" class="btn btn-info btn-sm" *ngIf="AlertpageType !== 'view'" id="alertRuleSaveBtn" (click)="onCreateAlertRule()"><i class="icon-warn"></i>Save Alert Rule</button>
+  </div>
+</ng-template> -->

@@ -1,5 +1,5 @@
 import { SharedService } from 'src/app/services/shared.service';
-import { Component, OnInit, ViewChild, Input, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewChild, Input, OnDestroy, Output, EventEmitter } from '@angular/core';
 import { DatePipe, Location as RouterLocation } from '@angular/common';
 import { Select2OptionData } from 'ng2-select2';
 import { Toaster } from '../../shared/votm-cloud-toaster/votm-cloud-toaster';
@@ -12,7 +12,7 @@ import { UserService } from 'src/app/services/users/userService';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { UserGroup } from 'src/app/models/user-groups';
 import { UserRole } from 'src/app/models/user-role';
-import { config } from 'rxjs';
+import { config, Subject, Subscription } from 'rxjs';
 import { NavigationService } from 'src/app/services/navigation/navigation.service';
 import { TreeNode } from 'primeng/api';
 import { VotmCommon } from '../../shared/votm-common';
@@ -83,7 +83,8 @@ export class VotmCloudAlertsCreateComponent implements OnInit, OnDestroy {
   @Input() AlertorgId: any;
   @Input() AlertalertId: any;
   @Input() AlertaccessScopeName: any;
-
+  @Output() refreshList: Subject<any> = new Subject<any>();
+  subscription: Subscription;
 
   constructor(
     private activeroute: ActivatedRoute,
@@ -99,36 +100,44 @@ export class VotmCloudAlertsCreateComponent implements OnInit, OnDestroy {
 
   }
   ngOnDestroy() {
-
+    this.subscription.unsubscribe();
   }
   ngOnInit() {
     this.pageType = this.activeroute.snapshot.data['type'];
-    if (this.AlertpageType !== '') {
+    if (this.AlertpageType) {
       this.pageType = this.AlertpageType;
       this.curOrgId = this.AlertcurOrgId;
       this.curOrgName = this.AlertcurOrgName;
       this.orgId = this.AlertorgId;
       this.alert.organizationScopeId = this.orgId;
       this.accessScopeName = this.AlertaccessScopeName;
-      console.log('alert===parmas-', this.curOrgId, this.curOrgName, this.orgId, this.pageType, this.AlertaccessScopeName);
+      console.log('alert===init-', this.curOrgId, this.curOrgName, this.orgId, this.pageType, this.AlertaccessScopeName, this.AlertalertId);
+
+      if (this.AlertalertId) {
+        this.alertId = this.AlertalertId;
+      }
     }
     // Called when alert rule popup save button clicked
-    this.alertsService.createAlertRuleEvent.subscribe(() => {
+    this.subscription = this.alertsService.createAlertRuleEvent.subscribe(() => {
       this.onAlertRuleSubmit();
     });
-
+    console.log('this.alertID===out===', this.alertId);
     this.selectedSignal = this.sharedService.getSignalDataForAlert();
     this.activeroute.paramMap.subscribe(params => {
-      this.curOrgId = params.get('curOrgId');
-      this.curOrgName = params.get('curOrgName');
-      this.orgId = params.get('orgId');
-      this.alertId = params.get('alertId');
-      this.alert.organizationScopeId = this.orgId;
+      if (!this.AlertpageType) {
+        this.curOrgId = params.get('curOrgId');
+        this.curOrgName = params.get('curOrgName');
+        this.orgId = params.get('orgId');
+        this.alertId = params.get('alertId');
+        this.alert.organizationScopeId = this.orgId;
+      }
       this.getAbsoluteThreshold();
       this.getAllHierarchy();
       this.navigationService.lastOrganization.subscribe(response => {
         this.accessScopeName = response;
       });
+      console.log('this.alertID===in parammap=', this.alertId);
+
       if (this.alertId) {
         this.alertsService.getAlertByAlertId(this.alertId)
           .subscribe(response => {
@@ -709,6 +718,7 @@ export class VotmCloudAlertsCreateComponent implements OnInit, OnDestroy {
         });
       }
     });
+
     console.log('onResponsibityChange ', this.alert);
     if (this.alertId) {
       this.alertsService.updateAlertRule(this.alert)

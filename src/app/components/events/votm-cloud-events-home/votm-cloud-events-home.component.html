@@ -22,7 +22,7 @@
     </form> -->
   </div>
   <div class="text-right">
-    <button class="btn btn-info btn-group-right create-event-btn btn-sm" (click)="openAddEventModal()"
+    <button class="btn btn-info btn-group-right create-event-btn btn-sm" (click)="openAddEventModal(content)"
       id="createEventButton" type="button"><i class="icon-asset-robot mr-2"></i>Add Event</button>
   </div>
 </div>
@@ -98,10 +98,17 @@
                   <div class="form-group row">
                     <label for="" class="col-sm-4 col-form-label">Closure Activity Event</label>
                     <div class="col-sm-8">
-                      <select class="form-control form-control-sm" id="evnLogClosureActEvent" [(ngModel)]="closureActivity"
+                      <!-- <select class="form-control form-control-sm" id="evnLogClosureActEvent" [(ngModel)]="closureActivity"
                       [disabled]="selectedAcknowledgement === 1 || selectedAcknowledgement === 3">
                         <option>Asset Maintainance</option>
-                      </select>
+                      </select> -->
+
+                      <ng-select id="event-activity" name="evebtActivity" class="custom"
+                      [searchable]="true" [(ngModel)]="closureActivity"
+                      [disabled]="selectedAcknowledgement === 1 || selectedAcknowledgement === 3" placeholder="Select Closure Activity">
+                      <ng-option value="">Asset Maintainance</ng-option>
+                      <ng-option value="">Plant shut down</ng-option>
+                    </ng-select>
                     </div>
                   </div>
               </div>
@@ -286,13 +293,10 @@
 
 
 <!-- Add Event Model Start-->
-<div id="addEventModalWrapper" class="modal">
-  <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable event-create-font">
-    <!-- Modal content -->
-    <div class="modal-content">
+<ng-template #content let-modal>
       <div class="modal-header">
         <h5 class="modal-title">Add Event</h5>
-        <button type="button" class="close" aria-label="Close" (click)="closeAddEventModal()">
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -400,13 +404,8 @@
         </form>
       </div>
       <div class="modal-footer">
-        <button id="add-event-cancle" type="button" class="btn btn-outline-secondary btn-sm" (click)="closeAddEventModal('cancel')" id="addEvntCancle">Cancel
+        <button id="add-event-cancle" type="button" class="btn btn-outline-secondary btn-sm" (click)="modal.close()" id="addEvntCancle">Cancel
         </button>
-        <button id="add-event-save" type="button" class="btn btn-info btn-sm" (click)="closeAddEventModal('save')" id="addEvntAdd">Add</button>
+        <button id="add-event-save" type="button" class="btn btn-info btn-sm" (click)="modal.dismiss()" id="addEvntAdd">Add</button>
       </div>
-
-    </div>
-
-  </div>
-</div>
 <!-- Add Event Model End-->

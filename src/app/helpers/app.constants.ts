@@ -80,6 +80,7 @@ export class AppConstants {
     public static GET_SIGNAL_ASSOCIATION = 'Signals';
     public static CREATE_SIGNAL_ASSOCIATION = 'Signals/Association';
     public static DETACH_SIGNAL_ASSOCIATION = 'Signals';
+    public static GET_ALERT_THRESHOLD = '/Signal'
 
 
     public static GET_SENSOR_TREE = '/SensorTree';

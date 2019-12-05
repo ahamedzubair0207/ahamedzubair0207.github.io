@@ -2,8 +2,8 @@
   <div class="tab-pane fade show active" id="assets" role="tabpanel" aria-labelledby="assets-tab"> -->
 <div class="row">
   <div class="col">
-    <button class="btn btn-info mb-3 btn-sm" style="float: right;" id="alert-org-create"
-      (click)="onCreateAlertClick()"><i class="icon-warn mr-2"></i>Create Alert rules</button>
+    <!-- <button class="btn btn-info mb-3 btn-sm" style="float: right;" id="alert-org-create"
+      (click)="onCreateAlertClick()"><i class="icon-warn mr-2"></i>Create Alert rules</button> -->
       <button class="btn btn-info mb-3 btn-sm" style="float: right;" id="alert-org-create-new"
       (click)="openCreateAlert(content)"><i class="icon-warn mr-2"></i>Create Alert rules</button>
     <form class="form-inline">
@@ -22,40 +22,7 @@
       </div>
       <!-- <button class="btn btn-sm btn-outline-info mr-2 ml-2" id="alertSearchButton" type="submit">Search</button> -->
     </form>
-    <div class="table-responsive">
-        <!-- <p-table [value]="alertList">
-            <ng-template pTemplate="header">
-                <tr>
-                  <th scope="col" class="align-left table-col-name">Rule Name</th>
-                  <th scope="col" class="align-left">Metric Type</th>
-                  <th scope="col" class="align-left">Rule Type</th>
-                  <th scope="col" class="align-left table-col-small">Rule Owner</th>
-                  <th scope="col" class="align-left table-col-small">Associations</th>
-                  <th scope="col" class="align-left table-col-small">Notifications</th>
-                  <th scope="col" class="align-center">Actions</th>
-                </tr>
-            </ng-template>
-            <ng-template pTemplate="body" let-alert>
-              <tr *ngFor="let alert of alertList">
-                <th scope="row">
-                  <a style="color: #212529;" [routerLink]="['alertRule/view', alerts.alertRuleId]"> {{alert.alertRuleName}}</a>
-                </th>
-                <td class="align-left"><i class="icon-sig-vibration mr-1"></i>{{alert.alertTypeName}}</td>
-                <td class="align-left">{{alert.ruleType}}</td>
-                <td class="align-left">{{alert.organizationScopeName}}</td>
-                <td class="align-left">{{alert.numberofSignalAssociated}}</td>
-                <td class="align-left">{{alert.numberofUserAssociated}}</td>
-                <td class="align-center">
-                  <a style="color: #212529;" class="action-icon" title="Edit" [routerLink]="['alertRule/edit', alerts.alertRuleId]">
-                    <i class="icon-edit pr-1"></i>
-                  </a>
-                  <a class="action-icon" (click)="openConfirmDialog(alerts.alertRuleId, alerts.alertRuleName)" title="Delete">
-                    <i class="icon-trash"></i>
-                  </a>
-                </td>
-              </tr>
-            </ng-template>
-        </p-table> -->
+    <!-- <div class="table-responsive">
       <table class="table table-sm table-bordered asset-table-fonts" id="alertListTb">
         <thead class="thead-dark">
           <tr>
@@ -68,9 +35,11 @@
             <th scope="col" class="align-center">Actions</th>
           </tr>
         </thead>
+        <tr><i class=""></i></tr>
         <tr *ngFor="let item of alertList">
           <td scope="row" class="underline-on-hover">
             <a style="color: #212529;" [routerLink]="['alertRule/view', item.alertRuleId]"> {{item.alertRuleName}}</a>
+            <a style="color: #AAA;" (click)="openViewAlert(content, item.alertRuleId)"> {{item.alertRuleName}}</a>
           </td>
           <td class="align-left"><i class="icon-sig-vibration mr-1"></i>{{item.alertTypeName}}</td>
           <td class="align-left">{{item.ruleType}}</td>
@@ -82,13 +51,49 @@
               [routerLink]="['alertRule/edit', item.alertRuleId]">
               <i class="icon-edit pr-1"></i>
             </a>
+            <a style="color: #212529;" class="action-icon" title="Edit" (click)="openEditAlert(content, item.alertRuleId)">
+              <i class="icon-edit pr-1"></i>
+            </a>
             <a class="action-icon" (click)="openConfirmDialog(item.alertRuleId, item.alertRuleName)" title="Delete">
               <i class="icon-trash"></i>
             </a>
           </td>
         </tr>
       </table>
-    </div>
+    </div> -->
+    <div class="mt-3">
+        <ngx-datatable
+        class="bootstrap"
+        style="height: 600px;"
+        [rows]="alertList"
+        columnMode="force"
+        [headerHeight]="50"
+        [footerHeight]="0"
+        [rowHeight]="35"
+        [scrollbarV]="true"
+        [loadingIndicator]="isGetAlertsAPILoading">
+        <ngx-datatable-column name="Rule Name" [width]="150" [sortable]="true" prop="alertRuleName">
+          <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
+            <a style="color: #212529; cursor: pointer;" (click)="openViewAlert(content, row.alertRuleId)"> {{row.alertRuleName}}</a>
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Signal Type" [width]="100" [sortable]="true" prop="alertTypeName"></ngx-datatable-column>
+        <ngx-datatable-column name="Rule Type" [sortable]="true" prop="ruleType"></ngx-datatable-column>
+        <ngx-datatable-column name="Rule Owner" [width]="230" [sortable]="true" prop="organizationScopeName"></ngx-datatable-column>
+        <ngx-datatable-column name="Associations" [width]="150" [sortable]="true" prop="numberofSignalAssociated"></ngx-datatable-column>
+        <ngx-datatable-column name="Notifications" [width]="100" [sortable]="true" prop="numberofUserAssociated"></ngx-datatable-column>
+        <ngx-datatable-column name="Actions" [width]="100" [sortable]="false">
+          <ng-template let-value="value" let-row="row" let-rowIndex="rowIndex" ngx-datatable-cell-template>
+            <a style="color: #212529;" class="action-icon" title="Edit" (click)="openEditAlert(content, row.alertRuleId)">
+              <i class="icon-edit pr-1"></i>
+            </a>
+            <a class="action-icon" (click)="openConfirmDialog(row.alertRuleId, row.alertRuleName)" title="Delete">
+              <i class="icon-trash"></i>
+            </a>
+          </ng-template>
+        </ngx-datatable-column>
+        </ngx-datatable>
+        </div>
   </div>
 </div>
 
@@ -112,6 +117,6 @@
     </div>
     <div class="modal-footer">
       <button type="button" class="btn btn-secondary btn-sm" (click)="modal.close('Close click')">Close</button>
-      <button type="button" class="btn btn-info btn-sm" *ngIf="AlertpageType !== 'view'" id="alertRuleSaveBtn" (click)="onCreateAlertRule()"><i class="icon-warn"></i>Save Alert Rule</button>
+      <button type="button" class="btn btn-info btn-sm" *ngIf="AlertpageType !== 'View'" id="alertRuleSaveBtn" (click)="onCreateAlertRule()"><i class="icon-warn"></i>Save Alert Rule</button>
     </div>
   </ng-template>
