@@ -676,6 +676,9 @@
   <app-votm-cloud-confim-dialog (onClose)="deleteOrganizationById($event)" #confirmBox
     message="Do you want to delete the organization?" headerMessage="Warning"></app-votm-cloud-confim-dialog>
 
+    <app-votm-cloud-confim-dialog (onClose)="deleteLocationDashboardById($event)" #confirmBoxDash
+    message="Do you want to delete the Dashboard?" headerMessage="Warning"></app-votm-cloud-confim-dialog>
+
 
   <!-- UOM Modal -->
   <div id="myModal" class="modal">

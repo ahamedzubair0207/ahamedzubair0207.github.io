@@ -60,8 +60,8 @@ export class VotmDataTableComponent implements OnInit {
       if (this.data.organizationId) {
         // this.getSignalsAssociatedAssetByOrgId(this.data.organizationId);
         this.getUpdatedData();
-        this.getSignalsAssociatedByAssetId(this.data.locationId);
-        this.getSignalsAssociatedByLocationId(this.data.assetId);
+        this.getSignalsAssociatedByAssetId(this.data.assetId);
+        this.getSignalsAssociatedByLocationId(this.data.locationId);
         
       }
       this.wId = this.data.dashboardId + "-" + this.id;
@@ -224,15 +224,15 @@ export class VotmDataTableComponent implements OnInit {
 
   }
 
-  getSignalsAssociatedByAssetId(assetId: string){
-    this.timeSeries.getTimeSeriesSignalsByLocationID(assetId)
+  getSignalsAssociatedByLocationId(locId: string){
+    this.timeSeries.getTimeSeriesSignalsByLocationID(locId)
     .subscribe(response => {
       console.log('Signals by Asset ID', response);
     });
   }
 
-  getSignalsAssociatedByLocationId(locId: string){
-    this.timeSeries.getTimeSeriesSignalsByAssetID(locId)
+  getSignalsAssociatedByAssetId(assetId: string){
+    this.timeSeries.getTimeSeriesSignalsByAssetID(assetId)
     .subscribe(response => {
       console.log('Signals by Location ID', response);
     });

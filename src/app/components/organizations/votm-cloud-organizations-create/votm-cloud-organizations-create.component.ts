@@ -194,16 +194,17 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
       this.activeTab = 'org-details';
       this.activeroute.fragment.subscribe(
         (fragment) => {
+          this.activeTab = fragment;
           let tabList = ['org-details', 'org-alert', 'asset-template', 'org-sensors', 'org-gateways'];
-          if (fragment && tabList.indexOf(fragment) < 0) {
-            // this.activeTab = 'org-details';
-            this.goToTab('org-details');
-          } else {
-            console.log('Entererd in else ', fragment);
-            if (fragment) {
-              this.activeTab = fragment;
-            }
-          }
+          // if (fragment && tabList.indexOf(fragment) < 0) {
+          //   // this.activeTab = 'org-details';
+          //   this.goToTab('org-details');
+          // } else {
+          //   console.log('Entererd in else ', fragment);
+          //   if (fragment) {
+          //     this.activeTab = fragment;
+          //   }
+          // }
           if (fragment === 'org-alert') {
             this.fetchLertRuleLost();
           } else if (fragment === 'asset-template') {
