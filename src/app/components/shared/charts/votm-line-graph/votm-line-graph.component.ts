@@ -284,7 +284,8 @@ export class VotmLineGraphComponent implements OnInit {
     if (this.graphDiv) {
       let offsetWidth = this.graphDiv.nativeElement.offsetWidth;
       // body.bucketSize = `${((numberOfSeconds * 2) / (60 * offsetWidth)).toFixed()}m`;
-      body.bucketSize = `${((numberOfSeconds * 2) / offsetWidth).toFixed()}s`;
+      let tempBucketSize = (numberOfSeconds * 2) / offsetWidth;
+      body.bucketSize = `${tempBucketSize <= 1 ? 1 : tempBucketSize.toFixed()}s`;
       // console.log('bucketsize ', numberOfSeconds, offsetWidth, body.bucketSize)
     }
 
@@ -351,7 +352,7 @@ export class VotmLineGraphComponent implements OnInit {
     }
   }
 
-  
+
   private SelectSignalsAndLoadChart() {
     let tempSelectedSignals: any[] = [];
     this.signals.forEach(signal => {
@@ -790,11 +791,11 @@ export class VotmLineGraphComponent implements OnInit {
         this.signals = tempArray.reduce((acc, cur) => acc.some(x => (x.id === cur.id)) ? acc : acc.concat(cur), [])
 
         this.loadYAxisType();
-        if(loadChart){
+        if (loadChart) {
           this.SelectSignalsAndLoadChart();
         }
       });
-      
+
     // while (!isLoaded) {
     //   setTimeout(() => {
 

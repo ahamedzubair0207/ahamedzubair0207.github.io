@@ -20,7 +20,7 @@
       <!-- Dashboard-david -->
       <li *ngFor="let dbItem of dashboardTabs">
         <a class="nav-link tab-icon" for="assetDashboard" id="dashboard{{dbItem.dashboardId}}-tab" data-toggle="tab"
-          href="#DashboardID_{{dbItem.dashboardId}}" role="tab" aria-controls="loc" aria-selected="false"
+          href="#DashboardID_{{dbItem.dashboardId}}" role="tab" aria-controls="asset" aria-selected="false"
           title="{{ dbItem.dashboardName}}">
           <i class="mr-2 icon-dashboard"></i>{{dbItem.shortName}}
           <i class="dashboard-configure-icon icon-pencil ml-2" [ngClass]="{'d-none': locked}"
@@ -496,6 +496,9 @@
   <app-votm-cloud-confim-dialog (onClose)="changeDocumentation($event)" #documentChangeConfirmBox
     message="{{templateWarningMessage}}" confirmName="Yes" cancelName="No" headerMessage="Warning">
   </app-votm-cloud-confim-dialog>
+
+  <app-votm-cloud-confim-dialog (onClose)="deleteAssetDashboardById($event)" #confirmBoxDash message="Do you want to Delete the Dashboard"
+    headerMessage="Warning"></app-votm-cloud-confim-dialog>
 
   <!-- Template List Modal -->
   <div id="myModal" class="modal modal-label">
