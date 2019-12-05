@@ -42,6 +42,7 @@ export class VotmCloudAlertsHomeComponent implements OnInit {
   curOrgName: string;
   alertId: string;
   alertModalTitle: string;
+  isGetAlertsAPILoading = false;
 
   constructor(
     private router: Router,
@@ -98,25 +99,55 @@ export class VotmCloudAlertsHomeComponent implements OnInit {
   }
 
   getAllAlertsByOrgID(orgID) {
+    this.alertList = [];
+    this.isGetAlertsAPILoading = true;
     this.alertsService.getAllAlertsByOrgId(orgID)
-    .subscribe(response => {
-      this.alertList = response;
-      console.log('this.alertList===', this.alertList);
-
-    });
+    .subscribe(
+      response => {
+        this.alertList = response;
+        console.log('this.alertList===', this.alertList);
+        this.isGetAlertsAPILoading = false;
+      },
+      error => {
+        this.isGetAlertsAPILoading = false;
+      }
+    );
   }
 
   openCreateAlert(content) {
-    this.AlertpageType = 'create';
+    this.AlertpageType = 'Create';
     this.alertModalTitle = 'Alert Rule Configuration';
     this.AlertaccessScopeName = this.AlertorgName;
+    this.AlertalertId = '';
+    this.ngbModal.open(content, { size: 'xl', scrollable: true });
+  }
+
+  openEditAlert(content, alertId) {
+    this.AlertpageType = 'Edit';
+    this.alertModalTitle = 'Alert Rule Configuration';
+    this.AlertaccessScopeName = this.AlertorgName;
+    this.AlertalertId = alertId;
+    this.ngbModal.open(content, { size: 'xl', scrollable: true });
+  }
+
+  openViewAlert(content, alertId) {
+    this.AlertpageType = 'View';
+    this.alertModalTitle = 'Alert Rule Configuration';
+    this.AlertaccessScopeName = this.AlertorgName;
+    this.AlertalertId = alertId;
     this.ngbModal.open(content, { size: 'xl', scrollable: true });
   }
 
   onCreateAlertRule() {
     this.alertsService.createAlertRuleEvent.emit();
-    console.log('this.AlertorgId===', this.AlertorgId);
-    this.getAllAlertsByOrgID(this.AlertorgId);
+    console.log('onCreateAlertRule this.AlertorgId===', this.AlertorgId);
+    this.isGetAlertsAPILoading = true;
+    setTimeout(
+      () => {
+        this.getAllAlertsByOrgID(this.AlertorgId);
+      },  1000
+    );
+
     this.ngbModal.dismissAll();
   }
 
