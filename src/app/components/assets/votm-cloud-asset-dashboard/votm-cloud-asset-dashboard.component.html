@@ -1,9 +1,65 @@
-<div #takeMeFullscreen id="dashboardIconContainer-{{dbItem.id}}" class="border-top-0 p-3 mb-3 position-relative" style="background-color:white;">
+<!-- <div #takeMeFullscreen id="dashboardIconContainer-{{dbItem.id}}" class="border-top-0 p-3 mb-3 position-relative" style="background-color:white;">
   <div class="lock-tab border border-bottom-0 mt-3 mr-3" id="resizeDashboardId-{{dbItem.id}}">
     <i class="icon-television pr-2" ></i>
     <i [floClickToEnterFullscreen]="takeMeFullscreen" class="icon-resize-full-alt pr-2" title="Resize Full Screen"></i>
     <i class=""  [ngClass]="locked ? 'icon-lock' : 'icon-lock-open'" (click)="toggleLock()"></i>
   </div>
   <app-dashboardhost [dbItem]="dbItem" [locked]="locked"></app-dashboardhost>
+</div> -->
+
+
+<div #takeMeFullscreen id="dashboardIconContainer-{{dbItem.dashboardId}}" class="border-top-0 p-3 mb-3 position-relative" style="background-color:white;">
+  <!-- <div class="lock-tab border border-bottom-0 mt-3 mr-3" id="resizeDashboardId-{{dbItem.id}}">
+    <i class="icon-television pr-2" (click)="onClickOfKiosk()"></i>
+    <i class="icon-resize-full-alt pr-2" title="Resize Full Screen"></i>
+    <i class="icon-lock-open"></i>
+  </div> -->
+  <!-- <div class="m-3 text-right actualDashboardClass" id="actualDashboardId-{{dbItem.id}}">
+    <i class="icon-resize-small border p-1 icon-resize-small-class" (click)="actualDashboard(dbItem.id)" title="Resize"></i>
+  </div> -->
+  <div class=""  id="resizeDashboardId-{{dbItem.dashboardId}}">
+    <div class="lock-tab border border-bottom-0 mt-3 mr-3">
+      <i class="icon-television pr-2"></i>
+      <i [floClickToEnterFullscreen]="takeMeFullscreen" class="icon-resize-full-alt pr-2"></i>
+      <i [ngClass]="locked ? 'icon-lock' : 'icon-lock-open'" (click)="toggleLock(dbItem)"></i>
+    </div>
+    <app-dashboardhost [dbItem]="dbItem" [locked]="locked"></app-dashboardhost>
+  </div>
+  <!-- <app-dashboardhost [dbItem]="dbItem"></app-dashboardhost> -->
 </div>
 
+<!-- Modal Kiosk Mode -->
+<div id="configure-kiosk-mode-modal" class="modal">
+  <div class="modal-dialog modal-dialog-centered ">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Kiosk Mode</h5>
+        <button type="button" class="close" (click)="onClickOfKioskModalClose()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col">
+            <button type="button" class="btn btn-info btn-sm">Generate URL</button>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col mt-3">
+            <label>URL Generated from API</label>
+            <!-- <div class="form-group mx-sm-3 mb-2">
+              <input type="text" class="form-control" id="kioskUrl"
+                placeholder="Unique URL will Generate from API and Show here">
+            </div> -->
+          </div>
+        </div>
+
+      </div>
+      <!-- <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary btn-sm" id="kisokCloseBtn"
+          (click)="onClickOfKioskModalClose()">Close</button>
+        <button type="button" class="btn btn-info btn-sm" id="" (click)="saveColumnChartConfiguration()">
+                    Save
+                </button>
+      </div> -->
+    </div>
+  </div>
+</div>
