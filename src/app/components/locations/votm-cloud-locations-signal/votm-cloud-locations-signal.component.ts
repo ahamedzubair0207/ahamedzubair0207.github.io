@@ -185,7 +185,7 @@ export class VotmCloudLocationsSignalComponent implements OnInit {
   }
 
   onClickOfAlarmRuleAssociation(alertObj) {
-    this.alertsService.updateAlertRule(alertObj).subscribe(
+    this.locationSignalService.updateAlertSignalMapping(alertObj).subscribe(
       response => {
         this.toaster.onSuccess('Alarm Rule associated successfully.', 'Association Saved!');
         this.toggleDisable();
