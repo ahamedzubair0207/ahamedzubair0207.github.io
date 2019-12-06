@@ -9,13 +9,14 @@
   <div class="text-right range-actions mr-2">
     <div *ngIf="configured" class="btn-group btn-group-toggle" ngbRadioGroup name="radioBasic" [(ngModel)]="trendChartWidget.dateRange" (change)="onRadioGroupChange()">
       <!-- <label ngbButtonLabel class="btn-outline-secondary btn-sm"> <input ngbButton type="radio" value="5m" />5m</label> -->
-      <label ngbButtonLabel class="btn-outline-secondary btn-sm"> <input ngbButton type="radio" value="1m" />1M</label>
+      <label ngbButtonLabel class="btn-outline-secondary btn-sm"> <input ngbButton type="radio" value="1m" />1min</label>
       <!-- <label ngbButtonLabel class="btn-outline-secondary btn-sm"> <input ngbButton type="radio" value="10m" />10m</label> -->
       <label ngbButtonLabel class="btn-outline-secondary btn-sm"> <input ngbButton type="radio" value="1h" />1H</label>
       <!-- <label ngbButtonLabel class="btn-outline-secondary btn-sm"> <input ngbButton type="radio" value="20m" />20m</label> -->
       <label ngbButtonLabel class="btn-outline-secondary btn-sm"> <input ngbButton type="radio" value="1d" />1D</label>
       <!-- <label ngbButtonLabel class="btn-outline-secondary btn-sm"> <input ngbButton type="radio" value="30m" />30m</label> -->
       <label ngbButtonLabel class="btn-outline-secondary btn-sm"> <input ngbButton type="radio" value="1w" />1W</label>
+      <label ngbButtonLabel class="btn-outline-secondary btn-sm"> <input ngbButton type="radio" value="1mo" />1M</label>
       <!-- <label ngbButtonLabel class="btn-outline-secondary btn-sm"> <input ngbButton type="radio" value="1h" />1H</label> -->
       <label ngbButtonLabel class="btn-outline-secondary btn-sm"> <input ngbButton type="radio" value="3mo" />3M</label>
       <!-- <label ngbButtonLabel class="btn-outline-secondary btn-sm"> <input ngbButton type="radio" value="10h" />10H</label> -->
@@ -233,7 +234,7 @@
       <label for="showEvents" class="col-3 col-form-label mandatory">{{pageLabels.DisplayDefaults.labelName}}</label>
       <div class="col-3">
         <div class="custom-control custom-switch" style="padding-top: calc(.25rem + 1px);">
-          <input type="checkbox" class="custom-control-input" [(ngModel)]="trendChartWidget.eventFlags" id="showEvents" [checked]="showEvents" (change)="toggleShowThresholds()" />
+          <input type="checkbox" class="custom-control-input" [(ngModel)]="trendChartWidget.eventFlags" id="showEvents" [checked]="showEvents"/>
           <label class="custom-control-label" for="showEvents">{{pageLabels.EventFlags.labelName}}</label>
         </div>
       </div>

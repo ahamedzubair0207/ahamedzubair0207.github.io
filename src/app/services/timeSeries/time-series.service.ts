@@ -57,4 +57,11 @@ export class TimeSeriesService {
     return this.http.get(AppConstants.GET_SIGNAL_ASSOCIATION + '/' + assetId + '/AssetAssociation');
   }
 
+  getThresholdValueBySignalAndOrganizationID(signalId: string, body:any){
+    return this.http.get(`${AppConstants.GET_ALERT_THRESHOLD}/${signalId}/Threshold?${body}`)
+    .pipe(
+      map(response => response)
+    );
+  }
+
 }
