@@ -210,7 +210,7 @@ export class VotmDataTableComponent implements OnInit {
           // Direct Signal
           if (location.signals && location.signals.length > 0) {
             location.signals.forEach(signal => {
-              sigArray.push({ "type": signal.signalType, "name": `${response.organizationName} > ${location.locationName} > ${signal.signalName}`, "sel": false, "value": signal.Value,
+              sigArray.push({ "type": signal.signalType, "name": `${location.locationName} > ${signal.signalName}`, "sel": false, "value": signal.Value,
                "bat": signal.Battery, "rssi": signal.Signal, "sensor": signal.Sensor, "iconFile":signal.iconFile });
               // sigArray.push({ "type": signal.signalType, "org": response.organizationName, "loc": location.locationName, "asset": "", "name": signal.signalName, "sel": false, "value": signal.Value, "bat": signal.Battery, "rssi": signal.Signal, "sensor": signal.Sensor })
             });
@@ -220,7 +220,7 @@ export class VotmDataTableComponent implements OnInit {
             location.assets.forEach(asset => {
               if (asset.signals && asset.signals.length > 0) {
                 asset.signals.forEach(signal => {
-                  sigArray.push({ "type": signal.signalType, "name": `${response.organizationName} > ${location.locationName} > ${asset.assetName} > ${signal.signalName}`, "sel": false,
+                  sigArray.push({ "type": signal.signalType, "name": `${location.locationName} > ${asset.assetName} > ${signal.signalName}`, "sel": false,
                    "value": signal.Value, "bat": signal.Battery, "rssi": signal.Signal, "sensor": signal.Sensor, "iconFile":signal.iconFile });
                   // sigArray.push({ "type": signal.signalType, "org": response.organizationName, "loc": location.locationName, "asset": asset.assetName, "name": signal.signalName, "sel": false, "value": signal.Value, "bat": signal.Battery, "rssi": signal.Signal, "sensor": signal.Sensor })
                 });
