@@ -13,6 +13,8 @@ import { TrendChartWidget } from 'src/app/models/trend-chart-widget';
 import { DashboardService } from 'src/app/services/dasboards/dashboard.service';
 import { AppConstants } from 'src/app/helpers/app.constants';
 import { environment } from 'src/environments/environment';
+import { Router } from '@angular/router';
+import { VotmCommon } from '../../votm-common';
 
 am4core.useTheme(am4themes_animated);
 am4core.useTheme(am4themes_kelly);
@@ -85,8 +87,9 @@ export class VotmLineGraphComponent implements OnInit {
 
   yAxisType: string[] = ["", ""];
   yAxisSignals: number[] = [0, 0];
-
-  signals: any =
+  currentUrl: any;
+  signals: any = [];
+  
     // [{ "type": "temperature", "name": "GV ❯ Prod ❯ Ambient Temperature", "selY": [false, false] },
     // { "type": "temperature", "name": "GV ❯ Prod ❯ EAP1 ❯ Exhaust", "selY": [false, false] },
     // { "type": "temperature", "name": "GV ❯ Prod ❯ EAP2 ❯ Exhaust", "selY": [false, false] },
@@ -100,7 +103,7 @@ export class VotmLineGraphComponent implements OnInit {
     // { "type": "humidity", "name": "GB ❯ Furness Supply Humidity", "selY": [false, false] },
     // { "type": "humidity", "name": "GB ❯ Cleanroom Supply Humidity", "selY": [false, false] }
     // ];
-    [];
+    
   selectedCheckboxes: any[] = [];
   autoRefresh: boolean = false;
   dataLoading: boolean = false;
@@ -110,7 +113,7 @@ export class VotmLineGraphComponent implements OnInit {
   dashboardWidget: any;
   chartLoaded: boolean;
 
-  constructor(private modalService: NgbModal, private zone: NgZone, private timeSeries: TimeSeriesService, private configSettingsService: ConfigSettingsService,
+  constructor(private modalService: NgbModal, private router: Router, private zone: NgZone, private timeSeries: TimeSeriesService, private configSettingsService: ConfigSettingsService,
     private dashboardService: DashboardService) { }
 
   ngOnInit() {
@@ -120,13 +123,17 @@ export class VotmLineGraphComponent implements OnInit {
     this.trendChartWidget.displayThrshold = 'none';
     // console.log('this.data ', this.data)
     if (this.data) {
+      this.getSignalData();
       if (this.data.dashboardId) {
         this.getDashboardWidget();
       }
-      if (this.data.organizationId) {
-        this.getSignalsAssociatedAssetByOrgId(this.data.organizationId);
-        this.getThresholdForSignal();
-      }
+      // if (this.data.organizationId) {
+      //   this.getSignalData();
+      //   // this.getSignalsAssociatedAssetByOrgId(this.data.organizationId);
+      //   // this.getSignalsAssociatedByAssetId(this.data.assetId);
+      //   // this.getSignalsAssociatedByLocationId(this.data.locationId);
+      //   // this.getThresholdForSignal();
+      // }
       this.wId = this.data.dashboardId + "-" + this.id;
       this.wConfig = (this.data.widgetConf) ? this.data.widgetConf : { yMin: [null, null], yMax: [null, null] };
     }
@@ -135,6 +142,23 @@ export class VotmLineGraphComponent implements OnInit {
 
 
   }
+
+  getSignalData() {
+    if (this.router.url.startsWith(`/org/edit`) || this.router.url.startsWith(`/org/view`)) {
+      console.log('In Organization');
+      if (this.data.organizationId)
+        this.getSignalsAssociatedAssetByOrgId(this.data.organizationId);
+    } else if (this.router.url.startsWith(`/loc/edit`) || this.router.url.startsWith(`/loc/view`)) {
+      console.log('In Location');
+      if (this.data.locationId)
+        this.getSignalsAssociatedByLocationId(this.data.locationId);
+    } else if (this.router.url.startsWith(`/asset/view`) || this.router.url.startsWith(`/asset/edit`)) {
+      console.log('In Asset');
+      if (this.data.assetId)
+        this.getSignalsAssociatedByAssetId(this.data.assetId);
+    }
+  }
+
   // id: any;
   // isTrendChartConfigured: boolean;
   // customizeTrendChart: any;
@@ -487,6 +511,7 @@ export class VotmLineGraphComponent implements OnInit {
     });
   }
 
+
   // Create value axis
   createValueAxis(chart, axis) {
     let valueYAxis = chart.yAxes.push(new am4charts.ValueAxis());
@@ -760,52 +785,109 @@ export class VotmLineGraphComponent implements OnInit {
     return this.signalTypes.find(({ type }) => type === this.yAxisType[axis]).uom;
   }
 
+  // getSignalsAssociatedAssetByOrgId(orgId: string, loadChart: boolean = false) {
+  //   let isLoaded = false;
+  //   this.timeSeries.getSignalsAssociatedAssetByOrgId(orgId)
+  //     .subscribe(response => {
+  //       // console.log('Time Series Signal', response);
+  //       let tempArray = [];
+  //       if (response) {
+  //         // Location
+  //         if (response.locations && response.locations.length > 0) {
+  //           response.locations.forEach(location => {
+  //             // Direct Signal
+  //             if (location.signals && location.signals.length > 0) {
+  //               location.signals.forEach(signal => {
+  //                 tempArray.push({ "id": signal.signalId, "type": signal.signalType, "name": `${response.organizationName} > ${location.locationName} > ${signal.signalName}`, 
+  //                 "selY": [false, false], "iconFile":signal.iconFile })
+  //               });
+  //             }
+
+  //             // Asset
+  //             if (location.assets && location.assets.length > 0) {
+  //               location.assets.forEach(asset => {
+  //                 if (asset.signals && asset.signals.length > 0) {
+  //                   asset.signals.forEach(signal => {
+  //                     tempArray.push({ "id": signal.signalId, "type": signal.signalType, "name": `${response.organizationName} > ${location.locationName} > ${asset.assetName} > ${signal.signalName}`, 
+  //                     "selY": [false, false], "iconFile":signal.iconFile })
+  //                   });
+  //                 }
+  //               })
+  //             }
+  //           })
+  //         }
+  //       }
+  //       this.signals = VotmCommon.getUniqueValues(tempArray);
+  //       this.signals = tempArray.reduce((acc, cur) => acc.some(x => (x.id === cur.id)) ? acc : acc.concat(cur), [])
+
+  //       this.loadYAxisType();
+  //       if (loadChart) {
+  //         this.SelectSignalsAndLoadChart();
+  //       }
+  //     });
+
+  //   // while (!isLoaded) {
+  //   //   setTimeout(() => {
+
+  //   //   }, 10);
+  //   // }
+  //   return this.signals;
+  // }
+
+  getUpdatedData() {
+    this.timeSeries.getDataTable()
+      .subscribe(response => {
+        // response.signals = [];
+        console.log("List of Data", response);
+        this.mapSignalDataTableValuesForOrganization(response);
+      });
+  }
+
+  private mapSignalDataTableValuesForOrganization(response: any) {
+    let sigArray = [];
+    if (response) {
+      // Location
+      if (response.locations && response.locations.length > 0) {
+        response.locations.forEach(location => {
+          // Direct Signal
+          if (location.signals && location.signals.length > 0) {
+            location.signals.forEach(signal => {
+              sigArray.push({ "type": signal.signalType, "name": `${response.organizationName} > ${location.locationName} > ${signal.signalName}`, "sel": false, "value": signal.Value,
+               "bat": signal.Battery, "rssi": signal.Signal, "sensor": signal.Sensor, "iconFile":signal.iconFile });
+              // sigArray.push({ "type": signal.signalType, "org": response.organizationName, "loc": location.locationName, "asset": "", "name": signal.signalName, "sel": false, "value": signal.Value, "bat": signal.Battery, "rssi": signal.Signal, "sensor": signal.Sensor })
+            });
+          }
+          // Asset
+          if (location.assets && location.assets.length > 0) {
+            location.assets.forEach(asset => {
+              if (asset.signals && asset.signals.length > 0) {
+                asset.signals.forEach(signal => {
+                  sigArray.push({ "type": signal.signalType, "name": `${response.organizationName} > ${location.locationName} > ${asset.assetName} > ${signal.signalName}`, "sel": false,
+                   "value": signal.Value, "bat": signal.Battery, "rssi": signal.Signal, "sensor": signal.Sensor, "iconFile":signal.iconFile });
+                  // sigArray.push({ "type": signal.signalType, "org": response.organizationName, "loc": location.locationName, "asset": asset.assetName, "name": signal.signalName, "sel": false, "value": signal.Value, "bat": signal.Battery, "rssi": signal.Signal, "sensor": signal.Sensor })
+                });
+              }
+            });
+          }
+        });
+      }
+    }
+    this.signals = VotmCommon.getUniqueValues(sigArray);
+
+    // this.signals = sigArray; //.reduce((acc, cur) => acc.some(x => (x.id === cur.id)) ? acc : acc.concat(cur), [])
+    console.log('this.signals ', this.signals);
+  }
+
   getSignalsAssociatedAssetByOrgId(orgId: string, loadChart: boolean = false) {
     let isLoaded = false;
     this.timeSeries.getSignalsAssociatedAssetByOrgId(orgId)
       .subscribe(response => {
-        // console.log('Time Series Signal', response);
-        let tempArray = [];
-        if (response) {
-          // Location
-          if (response.locations && response.locations.length > 0) {
-            response.locations.forEach(location => {
-              // Direct Signal
-              if (location.signals && location.signals.length > 0) {
-                location.signals.forEach(signal => {
-                  tempArray.push({ "id": signal.signalId, "type": signal.signalType, "name": `${response.organizationName} > ${location.locationName} > ${signal.signalName}`, "selY": [false, false] })
-                });
-              }
-
-              // Asset
-              if (location.assets && location.assets.length > 0) {
-                location.assets.forEach(asset => {
-                  if (asset.signals && asset.signals.length > 0) {
-                    asset.signals.forEach(signal => {
-                      tempArray.push({ "id": signal.signalId, "type": signal.signalType, "name": `${response.organizationName} > ${location.locationName} > ${asset.assetName} > ${signal.signalName}`, "selY": [false, false] })
-                    });
-                  }
-                })
-              }
-            })
-          }
-        }
-        this.signals = tempArray.reduce((acc, cur) => acc.some(x => (x.id === cur.id)) ? acc : acc.concat(cur), [])
-
-        this.loadYAxisType();
-        if (loadChart) {
-          this.SelectSignalsAndLoadChart();
-        }
+        console.log('Time Series Signal', response);
+        // this.mapSignals(response);
+        this.mapSignalDataTableValuesForOrganization(response);
       });
 
-    // while (!isLoaded) {
-    //   setTimeout(() => {
-
-    //   }, 10);
-    // }
-    return this.signals;
   }
-
   private loadYAxisType() {
     if (this.signals && this.signals.length > 0 && this.yAxisSignals[0] || this.yAxisSignals[1]) {
       this.signals.forEach(signal => {
@@ -832,6 +914,54 @@ export class VotmLineGraphComponent implements OnInit {
   onDisplayThresholdsChange(event, value) {
     // console.log('onRadioChange ', event);
     this.trendChartWidget.displayThrshold = value;
+  }
+
+  // getSignalsAssociatedByLocationId(locId: string){
+  //   this.timeSeries.getTimeSeriesSignalsByLocationID(locId)
+  //   .subscribe(response => {
+  //     console.log('Signals by Asset ID', response);
+  //   });
+  // }
+
+  getSignalsAssociatedByLocationId(locId: string) {
+    this.timeSeries.getTimeSeriesSignalsByLocationID(locId)
+      .subscribe(response => {
+        console.log('Signals by Location ID', response);
+        // this.mapSignals(response);
+        this.mapSignalDataTableValuesForLocAndAsset(response);
+      });
+  }
+
+
+  private mapSignalDataTableValuesForLocAndAsset(response: any) {
+    let sigArray = [];
+    if (response && response.length > 0) {
+      // Location
+      response.forEach(signal => {
+        // Direct Signal
+        sigArray.push({ "type": signal.signalType, "name": `${signal.locationName} > ${signal.signalName}`, "sel": false, "value": signal.Value,
+         "bat": signal.Battery, "rssi": signal.Signal, "sensor": signal.Sensor, "iconFile":signal.iconFile });
+      });
+    }
+    this.signals = VotmCommon.getUniqueValues(sigArray);
+    console.log('this.signals ', this.signals);
+  }
+
+  // getSignalsAssociatedByAssetId(assetId: string){
+  //   this.timeSeries.getTimeSeriesSignalsByAssetID(assetId)
+  //   .subscribe(response => {
+  //     console.log('Signals by Location ID', response);
+  //   });
+  // }
+
+
+  getSignalsAssociatedByAssetId(assetId: string) {
+    this.timeSeries.getTimeSeriesSignalsByAssetID(assetId)
+      .subscribe(response => {
+        console.log('Signals by Asset ID', response);
+        // this.mapSignals(response);
+        this.mapSignalDataTableValuesForLocAndAsset(response);
+      });
   }
 
   getThresholdForSignal(){

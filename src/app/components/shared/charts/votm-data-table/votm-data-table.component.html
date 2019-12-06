@@ -60,7 +60,7 @@
 <ng-template #config let-modal>
   <div class="modal-header">
     <h5 class="modal-title">Configure Data Table</h5>
-    <button type="button" class="close" (click)="modal.dismiss()">
+    <button type="button" class="close" (click)="modal.close()">
       <span>&times;</span>
     </button>
   </div>
@@ -90,7 +90,7 @@
             </thead>
             <tbody>
               <tr *ngFor="let signal of signals; index as i">
-                  <td><i class="pr-1 icon-sig-{{ signal.type }}"></i>{{ signal.name }}</td>
+                  <td><i class="pr-1 {{signal.iconFile}}"></i>{{ signal.name }}</td>
                 <!-- <td><i class="pr-1 icon-sig-{{ signal.type }}"></i>{{ pathName(signal) }}</td> -->
                 <td>{{ signal.type }}</td>
                 <td class="text-center">
@@ -148,7 +148,7 @@
     <div class="form-group row pt-1 mb-0">
       <div class="col"></div>
       <div class="col-auto pr-0">
-        <button type="button" class="btn btn-secondary" (click)="modal.dismiss()">
+        <button type="button" class="btn btn-secondary" (click)="modal.close()">
           Cancel
         </button>
       </div>

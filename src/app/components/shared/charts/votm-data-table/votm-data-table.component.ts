@@ -5,6 +5,10 @@ import { DbItem } from 'src/app/models/db-item';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DashBoard } from 'src/app/models/dashboard.model';
 import { TimeSeriesService } from 'src/app/services/timeSeries/time-series.service';
+import { VotmCommon } from '../../votm-common';
+import { Router, RouterEvent } from '@angular/router';
+import { filter } from 'rxjs/operators';
+import { ConfigSettingsService } from 'src/app/services/configSettings/configSettings.service';
 
 @Component({
   selector: 'app-votm-data-table',
@@ -34,8 +38,10 @@ export class VotmDataTableComponent implements OnInit {
     { "type": "humidity", "uom": "%", "nominal": 50, "var": 1 },
     { "type": "Peak Current", "uom": "%", "nominal": 50, "var": 3 }
   ]
-  
+
   signals: any = [];
+  pageLabels: any;
+  currentUrl: any;
   // [
   //   { "type": "temperature", "org": "QCD", "loc": "GV ❯ Prod", "asset": "", "name": "Ambient Temperature", "sel": false, "value": 105.5, "bat": 3.0, "rssi": .17, "sensor": "E5000001" },
   //   { "type": "temperature", "org": "QCD", "loc": "GV ❯ Prod", "asset": "EAP1", "name": "Exhaust", "sel": false, "value": 94.1, "bat": 2.9, "rssi": .31, "sensor": "E5000001" },
@@ -53,27 +59,46 @@ export class VotmDataTableComponent implements OnInit {
 
   // [];
 
-  constructor(private modalService: NgbModal, private timeSeries: TimeSeriesService) { }
+  constructor(private router: Router, private modalService: NgbModal, 
+    private timeSeries: TimeSeriesService, private configSettingsService: ConfigSettingsService,) { }
 
   ngOnInit() {
     if (this.data) {
-      if (this.data.organizationId) {
-        // this.getSignalsAssociatedAssetByOrgId(this.data.organizationId);
-        this.getUpdatedData();
-        this.getSignalsAssociatedByAssetId(this.data.assetId);
-        this.getSignalsAssociatedByLocationId(this.data.locationId);
-        
-      }
+      this.getSignalData();
       this.wId = this.data.dashboardId + "-" + this.id;
       this.wConfig = (this.data.widgetConf) ? this.data.widgetConf : { "title": "", "showSensor": false, "showOrg": false, "showLoc": false, "showAsset": true, "showStatus": true };
     }
-    
+    this.getScreenLabels();
+  }
+
+  getSignalData() {
+    if (this.router.url.startsWith(`/org/edit`) || this.router.url.startsWith(`/org/view`)) {
+      console.log('In Organization');
+      if (this.data.organizationId)
+        this.getSignalsAssociatedAssetByOrgId(this.data.organizationId);
+    } else if (this.router.url.startsWith(`/loc/edit`) || this.router.url.startsWith(`/loc/view`)) {
+      console.log('In Location');
+      if (this.data.locationId)
+        this.getSignalsAssociatedByLocationId(this.data.locationId);
+    } else if (this.router.url.startsWith(`/asset/view`) || this.router.url.startsWith(`/asset/edit`)) {
+      console.log('In Asset');
+      if (this.data.assetId)
+        this.getSignalsAssociatedByAssetId(this.data.assetId);
+    }
   }
 
   ngAfterViewInit() {
   }
 
   ngOnDestroy() {
+  }
+
+  getScreenLabels() {
+    this.configSettingsService.getDataTableConfigScreenLabels()
+      .subscribe(response => {
+        this.pageLabels = response;
+        // console.log('Screens Labels', this.pageLabels);
+      });
   }
 
   open(config) {
@@ -107,7 +132,7 @@ export class VotmDataTableComponent implements OnInit {
 
 
   pathName(signal) {
-    
+
     return signal.org + ((signal.org) ? " ❯ " : "") + signal.loc + ((signal.loc) ? " ❯ " : "") + signal.asset + ((signal.asset) ? " ❯ " : "") + signal.name;
   }
 
@@ -153,89 +178,118 @@ export class VotmDataTableComponent implements OnInit {
   }
 
 
-  getUpdatedData(){
+  getUpdatedData() {
     this.timeSeries.getDataTable()
-    .subscribe(response => {
-      // response.signals = [];
-      console.log("List of Data", response);
-      let sigArray = [];
-      if (response) {
-        // Location
-        if (response.locations && response.locations.length > 0) {
-          response.locations.forEach(location => {
-            // Direct Signal
-            if (location.signals && location.signals.length > 0) {
-              location.signals.forEach(signal => {
-                sigArray.push({ "type": signal.signalType,  "name": `${response.organizationName} > ${location.locationName} > ${signal.signalName}`, "sel": false, "value": signal.Value, "bat": signal.Battery, "rssi": signal.Signal, "sensor": signal.Sensor })
-                // sigArray.push({ "type": signal.signalType, "org": response.organizationName, "loc": location.locationName, "asset": "", "name": signal.signalName, "sel": false, "value": signal.Value, "bat": signal.Battery, "rssi": signal.Signal, "sensor": signal.Sensor })
-              });
-            }
+      .subscribe(response => {
+        // response.signals = [];
+        console.log("List of Data", response);
+        this.mapSignalDataTableValuesForOrganization(response);
+      });
+  }
 
-            // Asset
-            if (location.assets && location.assets.length > 0) {
-              location.assets.forEach(asset => {
-                if (asset.signals && asset.signals.length > 0) {
-                  asset.signals.forEach(signal => {
-                    sigArray.push({ "type": signal.signalType, "name": `${response.organizationName} > ${location.locationName} > ${asset.assetName} > ${signal.signalName}`, "sel": false, "value": signal.Value, "bat": signal.Battery, "rssi": signal.Signal, "sensor": signal.Sensor })
-                    // sigArray.push({ "type": signal.signalType, "org": response.organizationName, "loc": location.locationName, "asset": asset.assetName, "name": signal.signalName, "sel": false, "value": signal.Value, "bat": signal.Battery, "rssi": signal.Signal, "sensor": signal.Sensor })
-                  });
-                }
-              })
-            }
-          })
-        }
+  private mapSignalDataTableValuesForLocAndAsset(response: any) {
+    let sigArray = [];
+    if (response && response.length > 0) {
+      // Location
+      response.forEach(signal => {
+        // Direct Signal
+        sigArray.push({ "type": signal.signalType, "name": `${signal.locationName} > ${signal.signalName}`, "sel": false, "value": signal.Value,
+         "bat": signal.Battery, "rssi": signal.Signal, "sensor": signal.Sensor, "iconFile":signal.iconFile });
+      });
+    }
+    this.signals = VotmCommon.getUniqueValues(sigArray);
+    console.log('this.signals ', this.signals);
+  }
+
+  private mapSignalDataTableValuesForOrganization(response: any) {
+    let sigArray = [];
+    if (response) {
+      // Location
+      if (response.locations && response.locations.length > 0) {
+        response.locations.forEach(location => {
+          // Direct Signal
+          if (location.signals && location.signals.length > 0) {
+            location.signals.forEach(signal => {
+              sigArray.push({ "type": signal.signalType, "name": `${response.organizationName} > ${location.locationName} > ${signal.signalName}`, "sel": false, "value": signal.Value,
+               "bat": signal.Battery, "rssi": signal.Signal, "sensor": signal.Sensor, "iconFile":signal.iconFile });
+              // sigArray.push({ "type": signal.signalType, "org": response.organizationName, "loc": location.locationName, "asset": "", "name": signal.signalName, "sel": false, "value": signal.Value, "bat": signal.Battery, "rssi": signal.Signal, "sensor": signal.Sensor })
+            });
+          }
+          // Asset
+          if (location.assets && location.assets.length > 0) {
+            location.assets.forEach(asset => {
+              if (asset.signals && asset.signals.length > 0) {
+                asset.signals.forEach(signal => {
+                  sigArray.push({ "type": signal.signalType, "name": `${response.organizationName} > ${location.locationName} > ${asset.assetName} > ${signal.signalName}`, "sel": false,
+                   "value": signal.Value, "bat": signal.Battery, "rssi": signal.Signal, "sensor": signal.Sensor, "iconFile":signal.iconFile });
+                  // sigArray.push({ "type": signal.signalType, "org": response.organizationName, "loc": location.locationName, "asset": asset.assetName, "name": signal.signalName, "sel": false, "value": signal.Value, "bat": signal.Battery, "rssi": signal.Signal, "sensor": signal.Sensor })
+                });
+              }
+            });
+          }
+        });
       }
-      this.signals = sigArray; //.reduce((acc, cur) => acc.some(x => (x.id === cur.id)) ? acc : acc.concat(cur), [])
-      console.log('this.signals ', this.signals)
-    });
+    }
+    this.signals = VotmCommon.getUniqueValues(sigArray);
+
+    // this.signals = sigArray; //.reduce((acc, cur) => acc.some(x => (x.id === cur.id)) ? acc : acc.concat(cur), [])
+    console.log('this.signals ', this.signals);
   }
 
   getSignalsAssociatedAssetByOrgId(orgId: string) {
     this.timeSeries.getSignalsAssociatedAssetByOrgId(orgId)
       .subscribe(response => {
         console.log('Time Series Signal', response);
-        let tempArray = [];
-        if (response) {
-          // Location
-          if (response.locations && response.locations.length > 0) {
-            response.locations.forEach(location => {
-              // Direct Signal
-              if (location.signals && location.signals.length > 0) {
-                location.signals.forEach(signal => {
-                  tempArray.push({ "id": signal.signalId, "type": signal.signalType, "name": `QCD > ${location.locationName} > ${signal.signalName}` })
-                });
-              }
-
-              // Asset
-              if (location.assets && location.assets.length > 0) {
-                location.assets.forEach(asset => {
-                  if (asset.signals && asset.signals.length > 0) {
-                    asset.signals.forEach(signal => {
-                      tempArray.push({ "id": signal.signalId, "type": signal.signalType, "name": `QCD > ${location.locationName} > ${asset.assetName} > ${signal.signalName}` })
-                    });
-                  }
-                })
-              }
-            })
-          }
-        }
-        this.signals = tempArray.reduce((acc, cur) => acc.some(x => (x.id === cur.id)) ? acc : acc.concat(cur), [])
+        // this.mapSignals(response);
+        this.mapSignalDataTableValuesForOrganization(response);
       });
 
   }
 
-  getSignalsAssociatedByLocationId(locId: string){
-    this.timeSeries.getTimeSeriesSignalsByLocationID(locId)
-    .subscribe(response => {
-      console.log('Signals by Asset ID', response);
-    });
+  private mapSignals(response: any) {
+    let tempArray = [];
+    if (response) {
+      // Location
+      if (response.locations && response.locations.length > 0) {
+        response.locations.forEach(location => {
+          // Direct Signal
+          if (location.signals && location.signals.length > 0) {
+            location.signals.forEach(signal => {
+              tempArray.push({ "id": signal.signalId, "type": signal.signalType, "name": `QCD > ${location.locationName} > ${signal.signalName}` });
+            });
+          }
+          // Asset
+          if (location.assets && location.assets.length > 0) {
+            location.assets.forEach(asset => {
+              if (asset.signals && asset.signals.length > 0) {
+                asset.signals.forEach(signal => {
+                  tempArray.push({ "id": signal.signalId, "type": signal.signalType, "name": `QCD > ${location.locationName} > ${asset.assetName} > ${signal.signalName}` });
+                });
+              }
+            });
+          }
+        });
+      }
+    }
+    this.signals = tempArray.reduce((acc, cur) => acc.some(x => (x.id === cur.id)) ? acc : acc.concat(cur), []);
   }
 
-  getSignalsAssociatedByAssetId(assetId: string){
+  getSignalsAssociatedByLocationId(locId: string) {
+    this.timeSeries.getTimeSeriesSignalsByLocationID(locId)
+      .subscribe(response => {
+        console.log('Signals by Location ID', response);
+        // this.mapSignals(response);
+        this.mapSignalDataTableValuesForLocAndAsset(response);
+      });
+  }
+
+  getSignalsAssociatedByAssetId(assetId: string) {
     this.timeSeries.getTimeSeriesSignalsByAssetID(assetId)
-    .subscribe(response => {
-      console.log('Signals by Location ID', response);
-    });
+      .subscribe(response => {
+        console.log('Signals by Asset ID', response);
+        // this.mapSignals(response);
+        this.mapSignalDataTableValuesForLocAndAsset(response);
+      });
   }
 }
 
