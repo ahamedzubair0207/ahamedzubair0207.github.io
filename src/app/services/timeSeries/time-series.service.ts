@@ -13,12 +13,22 @@ export class TimeSeriesService {
 
   constructor(private http: CustomHttp) { }
 
+  // getSignalsAssociatedAssetByOrgId(orgId: string): Observable<any> {
+  //   return this.http.get(`${AppConstants.GET_TIMESERIES_SIGNAL}/${orgId}`)
+  //     .pipe(
+  //       map(response => response)
+  //     );
+  // }
+
+
   getSignalsAssociatedAssetByOrgId(orgId: string): Observable<any> {
-    return this.http.get(`${AppConstants.GET_TIMESERIES_SIGNAL}/${orgId}`)
+    return this.http.get(`${AppConstants.GET_ALERT_RULESIGNALS_ASSOCIATION_ASSETS}/${orgId}/null/null`)
       .pipe(
         map(response => response)
       );
   }
+
+
 
   getTimeSeriesAggregateMultipleDevices(body: any) {
     return this.http.post(AppConstants.POST_GETTIMESERIESAGGREGATEMULTIPLEDEVICES, body)

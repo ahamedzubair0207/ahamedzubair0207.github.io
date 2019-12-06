@@ -34,6 +34,20 @@ export class ConfigSettingsService {
     );
   }
 
+  getDataTableConfigScreenLabels(): Observable<any>{
+    return this.http.get(AppConstants.DATA_TABLE_LBL)
+    .pipe(
+      map(response => response)
+    );
+  }
+
+  getImageOverLayConfigScreenLabels(): Observable<any>{
+    return this.http.get(AppConstants.IMAGE_OVERLAY_LBL)
+    .pipe(
+      map(response => response)
+    );
+  }
+
   // Need to interpolate strings for IDs once DB is in good shape
   getCreateLocScreenLabels(): Observable<any> {
     return this.http.get(AppConstants.LOC_LBL)
