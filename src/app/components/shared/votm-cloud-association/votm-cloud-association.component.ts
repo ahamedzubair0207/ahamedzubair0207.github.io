@@ -62,6 +62,8 @@ export class VotmCloudAssociationComponent {
   @Input() showDetachIcon: boolean;
   @Input() showSensorsDetail: boolean;
   @Input() alertRules: Alert[] = [];
+  @Input() locationId: string = null;
+  @Input() assetId: string = null;
   @Output() detach: EventEmitter<any> = new EventEmitter<any>();
   @Output() saveAssociation: EventEmitter<any> = new EventEmitter<any>();
   @Output() reload: EventEmitter<any> = new EventEmitter<any>();
@@ -398,12 +400,13 @@ export class VotmCloudAssociationComponent {
       const alerts = [];
       this.alertRules.forEach(alertRule => {
         if (this.selectedAlertRule.indexOf(alertRule.alertRuleId) !== -1) {
-          alertRule.alertRuleSignalMapping = [];
-          alertRule.alertRuleSignalMapping.push({
+
+          alerts.push({
             signalMappingId: this.selectedSignal.signalMappingId,
-            active: true
+            alertRuleId: alertRule.alertRuleId,
+            locationId: this.locationId,
+            assetId: this.assetId
           });
-          alerts.push(alertRule);
         }
       });
       console.log(alerts);

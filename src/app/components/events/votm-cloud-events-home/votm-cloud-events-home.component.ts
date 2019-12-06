@@ -126,6 +126,7 @@ export class VotmCloudEventsHomeComponent implements OnInit {
     });
 
   }
+
   createEventActivity() {
 
   }
