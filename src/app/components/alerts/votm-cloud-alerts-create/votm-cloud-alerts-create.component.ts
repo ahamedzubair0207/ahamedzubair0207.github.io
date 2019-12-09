@@ -189,7 +189,8 @@ export class VotmCloudAlertsCreateComponent implements OnInit, OnDestroy {
         this.userGroupSubscribers = [];
         if (this.selectedSignal) {
           this.alert.signalTypeId = this.selectedSignal.signalId;
-          this.onSignalTypeChange(this.alert.signalTypeId);
+          // this.onSignalTypeChange(this.alert.signalTypeId);
+          this.onChangeSignalType(this.alert.signalTypeId, '');
           this.assetsChecked[this.selectedSignal.signalMappingId] = true;
         }
       }
@@ -312,6 +313,15 @@ export class VotmCloudAlertsCreateComponent implements OnInit, OnDestroy {
     }
   }
 
+  onChangeSignalType(event, content) {
+    this.uomTypeId = event;
+    if (this.previousMetricType) {
+      this.modalService.open(content);
+    } else {
+      this.changeSignalType(true);
+    }
+  }
+
 
   getUserGroupRoles() {
     this.alertsService.getUserGroupRoles()
@@ -372,6 +382,7 @@ export class VotmCloudAlertsCreateComponent implements OnInit, OnDestroy {
         alertConfigurationLabel: 'Low Critical',   // 364F5CB4-B725-4BD9-8DAA-B3B365123454    Low Critical
         alertConfigurationValue: '',
         class: 'alert-danger text-center',
+        arrowIconClass: 'icon-down-dir text-danger mt-2',
         active: this.alertId ? false : true
       },
       {
@@ -379,6 +390,7 @@ export class VotmCloudAlertsCreateComponent implements OnInit, OnDestroy {
         alertConfigurationLabel: 'Low Warning',  // A307C43E-6C4B-47B1-8427-E13788CF4257    Low Warning
         alertConfigurationValue: '',
         class: 'alert-warning text-center',
+        arrowIconClass: 'icon-down-dir text-warning mt-2',
         active: this.alertId ? false : true
       },
       {
@@ -386,6 +398,7 @@ export class VotmCloudAlertsCreateComponent implements OnInit, OnDestroy {
         alertConfigurationLabel: 'Baseline',  // F4410D8E-3BA9-40C1-9D23-9414BCA3DABD    Baseline
         alertConfigurationValue: '',
         class: 'alert-success text-center',
+        arrowIconClass: '',
         active: this.alertId ? false : true
       },
       {
@@ -393,6 +406,7 @@ export class VotmCloudAlertsCreateComponent implements OnInit, OnDestroy {
         alertConfigurationLabel: 'High Warning',  // 6531DB3F-39CC-4459-8680-AAB303A5B188    High Warning
         alertConfigurationValue: '',
         class: 'alert-warning text-center',
+        arrowIconClass: 'icon-up-dir text-warning mt-2',
         active: this.alertId ? false : true
       },
       {
@@ -400,6 +414,7 @@ export class VotmCloudAlertsCreateComponent implements OnInit, OnDestroy {
         alertConfigurationLabel: 'High Critical',   // 4E045A60-4BEE-44B4-9AF9-151725534706    High Critical
         alertConfigurationValue: '',
         class: 'alert-danger text-center',
+        arrowIconClass: 'icon-up-dir text-danger mt-2',
         active: this.alertId ? false : true
       },
 
