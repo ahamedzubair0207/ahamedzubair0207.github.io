@@ -72,22 +72,22 @@
         [rowHeight]="35"
         [scrollbarV]="true"
         [loadingIndicator]="isGetAlertsAPILoading">
-        <ngx-datatable-column name="Rule Name" [width]="150" [sortable]="true" prop="alertRuleName">
+        <ngx-datatable-column name="Rule Name" [sortable]="true" prop="alertRuleName">
           <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
             <a style="color: #212529; cursor: pointer;" (click)="openViewAlert(content, row.alertRuleId)"> {{row.alertRuleName}}</a>
           </ng-template>
         </ngx-datatable-column>
-        <ngx-datatable-column name="Signal Type" [width]="100" [sortable]="true" prop="alertTypeName"></ngx-datatable-column>
-        <ngx-datatable-column name="Rule Type" [sortable]="true" prop="ruleType"></ngx-datatable-column>
-        <ngx-datatable-column name="Rule Owner" [width]="230" [sortable]="true" prop="organizationScopeName"></ngx-datatable-column>
-        <ngx-datatable-column name="Associations" [width]="150" [sortable]="true" prop="numberofSignalAssociated"></ngx-datatable-column>
-        <ngx-datatable-column name="Notifications" [width]="100" [sortable]="true" prop="numberofUserAssociated"></ngx-datatable-column>
-        <ngx-datatable-column name="Actions" [width]="100" [sortable]="false">
+        <ngx-datatable-column name="Signal Type" [width]="150" [sortable]="true" prop="alertTypeName"></ngx-datatable-column>
+        <ngx-datatable-column name="Rule Type" [width]="150" [sortable]="true" prop="ruleType"></ngx-datatable-column>
+        <ngx-datatable-column name="Rule Owner" [width]="180" [sortable]="true" prop="organizationScopeName"></ngx-datatable-column>
+        <ngx-datatable-column name="Associations" [width]="80" [sortable]="true" prop="numberofSignalAssociated"></ngx-datatable-column>
+        <ngx-datatable-column name="Notifications" [width]="80" [sortable]="true" prop="numberofUserAssociated"></ngx-datatable-column>
+        <ngx-datatable-column name="Actions" [width]="80" [sortable]="false">
           <ng-template let-value="value" let-row="row" let-rowIndex="rowIndex" ngx-datatable-cell-template>
-            <a style="color: #212529;" class="action-icon" title="Edit" (click)="openEditAlert(content, row.alertRuleId)">
+            <a style="color: #212529; cursor: pointer;" class="action-icon" title="Edit" (click)="openEditAlert(content, row.alertRuleId)">
               <i class="icon-edit pr-1"></i>
             </a>
-            <a class="action-icon" (click)="openConfirmDialog(row.alertRuleId, row.alertRuleName)" title="Delete">
+            <a style="cursor: pointer;" class="action-icon" (click)="openConfirmDialog(row.alertRuleId, row.alertRuleName)" title="Delete">
               <i class="icon-trash"></i>
             </a>
           </ng-template>
