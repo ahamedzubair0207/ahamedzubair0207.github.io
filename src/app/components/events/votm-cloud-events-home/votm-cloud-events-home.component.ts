@@ -65,7 +65,7 @@ export class VotmCloudEventsHomeComponent implements OnInit {
     this.closureNote = row.description;
     this.closedBy = !row.active ? row.closedBy : this.loggedInUser.userName;
     this.closedOn = !row.active ? row.closedOn : this.currentDate;
-    console.log('Toggled Expand Row!', row);
+    // console.log('Toggled Expand Row!', row);
     this.eventLogTable.rowDetail.collapseAllRows();
     this.eventLogTable.rowDetail.toggleExpandRow(row);
   }
@@ -80,7 +80,7 @@ export class VotmCloudEventsHomeComponent implements OnInit {
   }
 
   onDetailToggle(event) {
-    console.log('Detail Toggled', event);
+    // console.log('Detail Toggled', event);
   }
 
   getRowClass(event) {
@@ -119,10 +119,10 @@ export class VotmCloudEventsHomeComponent implements OnInit {
   openAddEventModal(content) {
     // Get the modal
     this.modalService.open(content,  { size: 'lg' }).result.then((result) => {
-      console.log(result);
+      // console.log(result);
       this.createEventActivity();
     }, (reason) => {
-     console.log('Dismissed', reason);
+     // console.log('Dismissed', reason);
     });
 
   }

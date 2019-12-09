@@ -85,8 +85,8 @@ export class VotmCloudAssociationComponent {
   ngOnInit(): void {
     //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
     //Add 'implements OnInit' to the class.
-    console.log(this.dragList);
-    console.log(this.droppedList);
+    // console.log(this.dragList);
+    // console.log(this.droppedList);
   }
 
   getLocationSignalAssociation() {
@@ -94,7 +94,7 @@ export class VotmCloudAssociationComponent {
   }
 
   toggleDisable() {
-    console.log(this.dragList);
+    // console.log(this.dragList);
     this.disable = !this.disable;
     this.disabled = (this.disable) ? '' : null;
     this.showUnassoc = !this.disable;
@@ -117,18 +117,18 @@ export class VotmCloudAssociationComponent {
       this.imgSourceWidth = 5000;
       this.imgSourceHeight = (5000.0 * parseFloat(el.naturalHeight) / parseFloat(el.naturalWidth)).toFixed(0);
     }
-    console.log(this.imgOffsetLeft, '[[[[[[[[[[[[[[[[', this.imgOffsetTop);
-    console.log(this.imgParentHeight, ']]]]]]]]]]]]]]]', this.imgParentWidth);
-    console.log(this.imgSourceHeight, '======', this.imgSourceWidth);
+    // console.log(this.imgOffsetLeft, '[[[[[[[[[[[[[[[[', this.imgOffsetTop);
+    // console.log(this.imgParentHeight, ']]]]]]]]]]]]]]]', this.imgParentWidth);
+    // console.log(this.imgSourceHeight, '======', this.imgSourceWidth);
     // if (!this.isDragDropRequired) {
-    //   console.log(JSON.stringify(this.droppedList));
+    //   // console.log(JSON.stringify(this.droppedList));
     //   for (const asset of this.droppedList) {
     //     if (Object.keys(asset.pctPos).length === 0) {
     //       asset.pctPos = { left: .1, top: .1 };
     //     }
     //   }
     // }
-    // console.log(this.droppedList);
+    // // console.log(this.droppedList);
   }
 
   onResize(event) {
@@ -167,14 +167,14 @@ export class VotmCloudAssociationComponent {
     // };
     newSignal['pctPos'] = { left: 0, top: 0 };
     this.droppedList.push(newSignal);
-    console.log(newSignal);
+    // console.log(newSignal);
     this.closeModal(this.derivedSignalModal);
   }
 
   onStart(event: any, index1, index2) {
     this.closeAlertOPanel();
     this.closeEditOpanel();
-    console.log(index1, index2);
+    // console.log(index1, index2);
     if (index2 === undefined) {
       this.droppedList[index1].isClicked = false;
     }
@@ -190,16 +190,16 @@ export class VotmCloudAssociationComponent {
       left: event.event.offsetX - this.grabOffset.x + 16,
       top: event.event.offsetY - this.grabOffset.y + 16
     };
-    console.log(pos);
+    // console.log(pos);
     signal.pctPos = {
       left: (pos.left / event.event.srcElement.offsetWidth).toFixed(5),
       top: (pos.top / event.event.srcElement.offsetHeight).toFixed(5)
     };
 
-    console.log(signal.pctPos);
+    // console.log(signal.pctPos);
       // signal.pos = { 'left.%': pos.left, 'top.%': pos.top };
 
-    console.log(signal.pctPos.left, '========', signal.pctPos.top);
+    // console.log(signal.pctPos.left, '========', signal.pctPos.top);
     if (!signal.associated) {
       signal.associated = true;
       signal.did = this.droppedList.length;
@@ -216,7 +216,7 @@ export class VotmCloudAssociationComponent {
       setTimeout( () => {
         const index = this.droppedList.findIndex(signalObj => signalObj.did === signal.did);
         const elem = this.eleRef.nativeElement.querySelector('#sig_edit_' + index);
-        console.log(elem);
+        // console.log(elem);
         if (elem) {
           elem.dispatchEvent(new Event('click'));
         }
@@ -224,17 +224,17 @@ export class VotmCloudAssociationComponent {
       const index = this.droppedList.findIndex(signalObj => signalObj.did === signal.did);
       this.droppedList[index].isClicked = true;
     } else {
-      console.log(this.droppedList);
-      console.log(signal);
+      // console.log(this.droppedList);
+      // console.log(signal);
       let id = this.droppedList.findIndex(signalObj => {
-        console.log(signalObj.did, '=========', signal.did);
+        // console.log(signalObj.did, '=========', signal.did);
         return signalObj.did === signal.did;
       });
       this.droppedList[id]['pctPos'] = signal.pctPos;
     }
     this.closeAllIconsDisplay();
 
-    console.log(this.droppedList);
+    // console.log(this.droppedList);
   }
 
   // getPositionStyle(signal) {
@@ -323,9 +323,9 @@ export class VotmCloudAssociationComponent {
       left: this.selectedSignal.imageCordinates.x / 100,
       top: this.selectedSignal.imageCordinates.y / 100
     };
-    console.log(JSON.stringify(this.droppedList));
+    // console.log(JSON.stringify(this.droppedList));
     const index = this.droppedList.findIndex(signalObj => signalObj.did === this.selectedSignal.did);
-    console.log(index);
+    // console.log(index);
     this.droppedList.splice(index, 1, this.selectedSignal);
     this.dragList.forEach(dragItem => {
       if (dragItem.node) {
@@ -339,7 +339,7 @@ export class VotmCloudAssociationComponent {
         dragItem.associationName = this.selectedSignal.associationName;
       }
     });
-    console.log(this.droppedList);
+    // console.log(this.droppedList);
     this.closeEditOpanel();
   }
 
@@ -409,7 +409,7 @@ export class VotmCloudAssociationComponent {
           });
         }
       });
-      console.log(alerts);
+      // console.log(alerts);
 
       this.saveAlarmAssociation.emit(alerts);
       this.closeAlertOPanel();
@@ -425,7 +425,7 @@ export class VotmCloudAssociationComponent {
   }
 
   onSaveSignalAssociation() {
-    console.log(this.droppedList);
+    // console.log(this.droppedList);
     this.editOPanel.hide();
     this.alertOPanel.hide();
     this.isSignalAssociationAPILoading = true;
@@ -446,7 +446,7 @@ export class VotmCloudAssociationComponent {
   }
 
   onClickOfAssetName(asset) {
-    console.log(asset);
+    // console.log(asset);
     if (asset.parentId) {
       this.router.navigate(['asset', 'view', asset.parentOrganizationId, asset.parentOrganizationName,
         asset.parentLocationId, asset.parentLocationName, asset.parentId, asset.parentName, asset.id]);

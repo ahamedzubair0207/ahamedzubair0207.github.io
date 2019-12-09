@@ -41,7 +41,7 @@ export class VotmCloudLocationsGatewayComponent implements OnInit {
       this.curOrganizationName = params.get('curOrgName');
 
       this.locationId = params.get('locId');
-      console.log(this.curOrganizationId, '====', this.curOrganizationName, '====', this.locationId);
+      // console.log(this.curOrganizationId, '====', this.curOrganizationName, '====', this.locationId);
 
       this.getLocationGatewayAssociation();
     });
@@ -55,8 +55,8 @@ export class VotmCloudLocationsGatewayComponent implements OnInit {
         this.gateways = this.sharedService.toSortListAlphabetically(response, 'gatewayName');
         const gatewayList = [];
         for (const gateway of this.gateways) {
-          console.log(gateway);
-          console.log(gateway.locationId, '===', this.locationId);
+          // console.log(gateway);
+          // console.log(gateway.locationId, '===', this.locationId);
           gateway.associationName = gateway.gatewayName;
           gateway.associated = true;
           gateway.imageCordinates = {
@@ -68,7 +68,7 @@ export class VotmCloudLocationsGatewayComponent implements OnInit {
           gatewayList.push(gateway);
         }
         this.gateways = [...gatewayList];
-        console.log(this.gateways);
+        // console.log(this.gateways);
         this.isGetGatewayAPILoading = false;
         this.getLocationGatewayAssociation();
       }, error => {
@@ -111,7 +111,7 @@ export class VotmCloudLocationsGatewayComponent implements OnInit {
         // for (let i = 0; i < this.gateways.length; i++) {
         //   const gateway = this.gateways[i];
         //   const index = this.associatedGateways.findIndex(assGateway => assGateway.gatewayId === gateway.gatewayId);
-        //   console.log(index);
+        //   // console.log(index);
         //   if (index !== -1) {
         //     gateway.associated = true;
         //     gateway.associationName = this.associatedGateways[index].associationName;
@@ -161,11 +161,11 @@ export class VotmCloudLocationsGatewayComponent implements OnInit {
         data.push(obj);
       }
     });
-    console.log(data);
+    // console.log(data);
     this.gatewayService.associateGatewayLocation(data)
       .subscribe(
         response => {
-          console.log(response);
+          // console.log(response);
           this.toaster.onSuccess('Signal associated successfully', 'Saved');
           this.getAllGateways();
           this.toggleDisable.emit();

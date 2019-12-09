@@ -90,7 +90,7 @@ export class UserService {
     }
 
     deleteUserUOMDetail(uomObj) {
-      console.log(uomObj);
+      // console.log(uomObj);
       return this.http.post(AppConstants.DELETE_USER_UOM, uomObj);
     }
 }

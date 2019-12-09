@@ -49,7 +49,7 @@ export class VotomCloudTemplateSignalComponent implements OnInit, OnDestroy {
 
   getAssetById() {
     this.assetService.getAssetById(this.assetId).subscribe(response => {
-      console.log('response from get ', response);
+      // console.log('response from get ', response);
       this.asset = response;
       if (this.asset.logo.imageName && this.asset.logo.image) {
         let fileExtension = this.asset.logo.imageName.slice((Math.max(0, this.asset.logo.imageName.lastIndexOf('.')) || Infinity) + 1);
@@ -66,7 +66,7 @@ export class VotomCloudTemplateSignalComponent implements OnInit, OnDestroy {
 
   getAllAvailableSignals() {
     this.assetSignalService.getAvailableSignals().subscribe(response => {
-      console.log(response);
+      // console.log(response);
       this.availableSignals = [
         {
           id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
@@ -167,9 +167,9 @@ export class VotomCloudTemplateSignalComponent implements OnInit, OnDestroy {
 
   onClickOfAvailableSignals(index1, index2) {
     const li1 = document.getElementById('signal_' + index1 + '_' + index2);
-    console.log(li1);
+    // console.log(li1);
     li1.onmousedown = event => {
-      console.log('on mouse down');
+      // console.log('on mouse down');
       const shiftX = event.clientX - li1.getBoundingClientRect().left;
       const shiftY = event.clientY - li1.getBoundingClientRect().top;
 
@@ -186,14 +186,14 @@ export class VotomCloudTemplateSignalComponent implements OnInit, OnDestroy {
       }
 
       function onMouseMove(event) {
-        console.log('on mouse move');
+        // console.log('on mouse move');
         moveAt(event.pageX, event.pageY);
       }
 
       document.addEventListener('mousemove', onMouseMove);
 
       li1.onmouseup = () => {
-        console.log('on mouse up');
+        // console.log('on mouse up');
         document.removeEventListener('mousemove', onMouseMove);
         console.log(
           li1.getBoundingClientRect().left,
@@ -201,11 +201,11 @@ export class VotomCloudTemplateSignalComponent implements OnInit, OnDestroy {
         );
         li1.onmouseup = null;
         li1.onmousedown = null;
-        console.log(li1.style.left, li1.style.top);
-        console.log(li1.offsetLeft, li1.offsetTop);
+        // console.log(li1.style.left, li1.style.top);
+        // console.log(li1.offsetLeft, li1.offsetTop);
         li1.addEventListener('click', event => {
-          console.log(index1, index2);
-          console.log(this.copyAvailableSignals);
+          // console.log(index1, index2);
+          // console.log(this.copyAvailableSignals);
           this.onSelectSignal(
             event,
             this.copyAvailableSignals[index1].node[index2]
@@ -217,7 +217,7 @@ export class VotomCloudTemplateSignalComponent implements OnInit, OnDestroy {
           y: li1.style.top
         };
         this.associatedSignals.push(obj);
-        console.log(JSON.stringify(this.associatedSignals));
+        // console.log(JSON.stringify(this.associatedSignals));
         const index = this.availableSignals[index1].node.findIndex(
           signal =>
             signal.id === this.copyAvailableSignals[index1].node[index2].id
@@ -228,7 +228,7 @@ export class VotomCloudTemplateSignalComponent implements OnInit, OnDestroy {
     };
 
     li1.ondragstart = () => {
-      console.log('on drag start');
+      // console.log('on drag start');
       return false;
     };
   }
@@ -279,7 +279,7 @@ export class VotomCloudTemplateSignalComponent implements OnInit, OnDestroy {
 
     setTimeout(() => {
       for (let i = 0; i < this.associatedSignals.length; i++) {
-        console.log('here');
+        // console.log('here');
         const img = document.createElement('img');
         img.src = this.associatedSignals[i].image;
         img.id = 'icon_' + i;
@@ -307,19 +307,19 @@ export class VotomCloudTemplateSignalComponent implements OnInit, OnDestroy {
   removeImgsFromDOM() {
     const elemlist = document.querySelectorAll('.icon-class');
     elemlist.forEach(elem => {
-      console.log('elem');
+      // console.log('elem');
       document.body.removeChild(elem);
     });
   }
 
   onSelectSignal(event, signal) {
     this.selectedSignal = signal;
-    console.log(this.selectedSignal);
+    // console.log(this.selectedSignal);
     this.panel.show(event);
   }
 
   onDetachSignalFromAsset() {
-    console.log('here');
+    // console.log('here');
     const index = this.associatedSignals.findIndex(
       signal => signal.id === this.selectedSignal.id
     );
@@ -334,7 +334,7 @@ export class VotomCloudTemplateSignalComponent implements OnInit, OnDestroy {
           index1 = i;
           const obj = { ...this.copyAvailableSignals[i].node[j] };
           delete obj.imageCoordinates;
-          console.log('heere');
+          // console.log('heere');
           this.availableSignals[i].node.push(obj);
         }
       }
@@ -343,8 +343,8 @@ export class VotomCloudTemplateSignalComponent implements OnInit, OnDestroy {
       const index2 = this.availableSignals.findIndex(sensor =>
         sensor.node.findIndex(signal => signal.id === this.selectedSignal.id)
       );
-      console.log(this.availableSignals);
-      console.log(index1, index2);
+      // console.log(this.availableSignals);
+      // console.log(index1, index2);
       this.onClickOfAvailableSignals(index1, index2);
       this.panel.hide();
       this.selectedSignal = undefined;

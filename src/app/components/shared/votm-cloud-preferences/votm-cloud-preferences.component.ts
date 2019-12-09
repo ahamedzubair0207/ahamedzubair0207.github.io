@@ -141,7 +141,7 @@ export class VotmCloudPreferencesComponent implements OnInit, AfterViewInit {
         // if (this.userprofile.userUnitofMeasurement) {
         //   this.userUOMData = this.userprofile.userUnitofMeasurement;
         //   for (const userUOM of this.userUOMData) {
-        //     console.log(userUOM);
+        //     // console.log(userUOM);
         //     this.uomModels[userUOM.uomtypeId] = userUOM;
         //   }
         // }
@@ -193,7 +193,7 @@ export class VotmCloudPreferencesComponent implements OnInit, AfterViewInit {
   }
 
   onUnitChange(value) {
-    // // console.log(value);
+    // // // console.log(value);
     const uom = this.applicationConfiguration.unitOfMeassurement;
     this.uomMeasurement = value.target.value;
     if (this.uomMeasurement === 'Imperial') {
@@ -220,7 +220,7 @@ export class VotmCloudPreferencesComponent implements OnInit, AfterViewInit {
         delete this.uomModels[key];
       }
     });
-    console.log(JSON.stringify(this.uomModels));
+    // console.log(JSON.stringify(this.uomModels));
   }
 
   onUoMDropdownChange(uomTypeId, uom) {
@@ -247,7 +247,7 @@ export class VotmCloudPreferencesComponent implements OnInit, AfterViewInit {
         customCount += 1;
       }
     });
-    console.log(imperialCount, '====', metricCount, '=======', customCount, '===', keys.length);
+    // console.log(imperialCount, '====', metricCount, '=======', customCount, '===', keys.length);
     if (imperialCount === keys.length) {
       this.uomMeasurement = 'Imperial';
     } else if (metricCount === keys.length) {
@@ -307,20 +307,20 @@ export class VotmCloudPreferencesComponent implements OnInit, AfterViewInit {
 
           for (let j = 0; j < userprofile.userFavorites.length; j++) {
             if ($(this).val() === userprofile.userFavorites[j].userFavoriteId) {
-              // console.log(userprofile.userFavorites[j].userFavoriteId + '===' + (j + 1) + '---' + $(this).val() + '===' + i);
+              // // console.log(userprofile.userFavorites[j].userFavoriteId + '===' + (j + 1) + '---' + $(this).val() + '===' + i);
               userprofile.userFavorites[j].favoriteOrder = i + 1;
-              // console.log('for loop-', JSON.stringify(userprofile.userFavorites[j]));
+              // // console.log('for loop-', JSON.stringify(userprofile.userFavorites[j]));
             }
 
           }
 
           // for (let fav of userprofile.userFavorites) {
-          //   console.log('fav---', fav);
+          //   // console.log('fav---', fav);
           // }
 
         });
-        //console.log('userprofilefav-', JSON.stringify(userprofile.userFavorites));
-        //console.log('this.userprofile=', JSON.stringify(this.userprofile.userFavorites));
+        //// console.log('userprofilefav-', JSON.stringify(userprofile.userFavorites));
+        //// console.log('this.userprofile=', JSON.stringify(this.userprofile.userFavorites));
       };
 
       $('#myFavTable tbody').sortable({
@@ -343,7 +343,7 @@ export class VotmCloudPreferencesComponent implements OnInit, AfterViewInit {
     this.userService.getUserAllRoles()
       .subscribe(response => {
         this.userRoles = response;
-        // console.log('getUserAllRoles ---' + this.userId + JSON.stringify(this.userRoles));
+        // // console.log('getUserAllRoles ---' + this.userId + JSON.stringify(this.userRoles));
       });
   }
 
@@ -552,13 +552,13 @@ export class VotmCloudPreferencesComponent implements OnInit, AfterViewInit {
     // SVG Code
     // let parser = new DOMParser();
     // let xmlDoc: XMLDocument = parser.parseFromString(binaryString.toString(), 'image/svg+xml');
-    // // console.log('XMLDocument ', xmlDoc, xmlDoc.getElementsByTagName('svg'))
+    // // // console.log('XMLDocument ', xmlDoc, xmlDoc.getElementsByTagName('svg'))
     // const xml = (new XMLSerializer()).serializeToString(xmlDoc);
     // const svg64 = btoa(xml);
     // const b64Start = 'data:image/svg+xml;base64,';
     // const image64 = b64Start + svg64;
     // this.location.logo.image = image64;
-    // // console.log('this.location.logo.image ', this.location.logo.image)
+    // // // console.log('this.location.logo.image ', this.location.logo.image)
 
     // Other Images
     base64textString = btoa(binaryString);

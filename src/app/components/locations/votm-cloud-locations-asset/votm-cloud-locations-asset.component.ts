@@ -65,12 +65,12 @@ export class VotmCloudLocationsAssetComponent implements OnInit {
   ngOnInit() {
 
     this.pageType = this.activatedRoute.snapshot.data['type'];
-    console.log(this.pageType);
+    // console.log(this.pageType);
     if (this.pageType.toLowerCase() === 'edit') {
       this.toggleDisable();
     }
     this.activatedRoute.paramMap.subscribe(params => {
-      console.log(params);
+      // console.log(params);
       this.curOrganizationId = params.get('curOrgId');
       this.curOrganizationName = params.get('curOrgName');
       this.locationId = params.get('locId');
@@ -117,7 +117,7 @@ export class VotmCloudLocationsAssetComponent implements OnInit {
         // }
         response = await this.getAssetChildNode(response, []);
         this.assetsList = this.sharedService.toSortListAlphabetically(response, 'name');
-        console.log('aftererrrrrrrrrrrrrrr ', this.assetsList.length);
+        // console.log('aftererrrrrrrrrrrrrrr ', this.assetsList.length);
         this.getAssetAssociation();
         this.isGetChildAssetsAPILoading = false;
       },
@@ -160,15 +160,15 @@ export class VotmCloudLocationsAssetComponent implements OnInit {
           for (let i = 0; i < this.assetsList.length; i++) {
             const childAsset = this.assetsList[i];
             const index = this.associatedAssets.findIndex(assChild => assChild.assetId === childAsset.id);
-            console.log(index);
+            // console.log(index);
             if (index !== -1) {
               childAsset.associated = true;
-              console.log(this.location);
+              // console.log(this.location);
               this.associatedAssets[index].organizationId = this.location.organizationId;
               this.associatedAssets[index].locationId = this.location.locationId;
               this.associatedAssets[index].locationName = this.location.locationName;
               this.associatedAssets[index].associationName = childAsset.name;
-              console.log(this.associatedAssets[index]);
+              // console.log(this.associatedAssets[index]);
             } else {
               childAsset.pctPos = { left: 0, top: 0};
               childAsset.isClicked = false;
@@ -179,7 +179,7 @@ export class VotmCloudLocationsAssetComponent implements OnInit {
               this.associatedAssets.push(childAsset);
             }
           }
-          console.log('aftererrrrrrrrrrrrr    ', this.associatedAssets.length);
+          // console.log('aftererrrrrrrrrrrrr    ', this.associatedAssets.length);
 
         },
         () => {
@@ -195,7 +195,7 @@ export class VotmCloudLocationsAssetComponent implements OnInit {
 
   onSaveChildAssetAssociation(associatedAssets) {
     const data = associatedAssets.map(asset => {
-      console.log(asset);
+      // console.log(asset);
       const obj = {
         locationId: this.locationId,
         assetId: asset.assetMappingId ? asset.assetId : asset.id,

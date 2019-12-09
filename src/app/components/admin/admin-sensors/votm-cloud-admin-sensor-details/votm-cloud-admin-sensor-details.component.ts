@@ -41,7 +41,7 @@ export class VotmCloudAdminSensorDetailsComponent implements OnInit {
     });
 
     this.pageType = this.activatedRoute.snapshot.data['type'];
-    console.log('pageType===', this.pageType);
+    // console.log('pageType===', this.pageType);
 
   }
 
@@ -85,13 +85,13 @@ export class VotmCloudAdminSensorDetailsComponent implements OnInit {
             this.sensorDetailsData.signalStrengthIcon = this.getBatterySignalTypeIconValue('signalStrength', sensorSignalData.signalValue);
         }
 
-        console.log('sensorSignalData.modifiedOn===index===', this.sensorDetailsData.node[index], index);
+        // console.log('sensorSignalData.modifiedOn===index===', this.sensorDetailsData.node[index], index);
 
         if (sensorSignalData.modifiedOn) {
-          console.log('sensorSignalData.modifiedOn===', sensorSignalData.modifiedOn);
+          // console.log('sensorSignalData.modifiedOn===', sensorSignalData.modifiedOn);
           this.sensorDetailsData.node[index].modifiedOn = moment(sensorSignalData.modifiedOn).format(VotmCommon.dateFormat) +' '+ moment(sensorSignalData.modifiedOn).format(VotmCommon.timeFormat);
 
-          console.log('moment====', moment(sensorSignalData.modifiedOn).format(VotmCommon.dateFormat) , moment(sensorSignalData.modifiedOn).format(VotmCommon.timeFormat));
+          // console.log('moment====', moment(sensorSignalData.modifiedOn).format(VotmCommon.dateFormat) , moment(sensorSignalData.modifiedOn).format(VotmCommon.timeFormat));
 
           //this.sensorDetailsData.node[index].push('ReportTime', moment(this.sensorDetailsData.modifiedOn).format(VotmCommon.dateFormat) + ' ' + moment(this.sensorDetailsData.modifiedOn).format(VotmCommon.timeFormat));
 
@@ -99,7 +99,7 @@ export class VotmCloudAdminSensorDetailsComponent implements OnInit {
 
       });
       this.sensorDetailsData.sensorStatusName = this.getSensorHealthStatus(sensorBatteryValue, signalStrengthValue);
-      console.log('updated sensorDetailsData===', this.sensorDetailsData);
+      // console.log('updated sensorDetailsData===', this.sensorDetailsData);
       // Get all home org location
       this.getAllLocationByOrganization(this.sensorDetailsData.parentOrganizationId);
     });
@@ -109,14 +109,14 @@ export class VotmCloudAdminSensorDetailsComponent implements OnInit {
     // this.sensorsService.getSensorDetailsById(this.sensorId)
     //   .subscribe(response => {
     //     this.sensorDetailsData = response;
-    //     console.log('sensordatadetails===', this.sensorDetailsData);
+    //     // console.log('sensordatadetails===', this.sensorDetailsData);
 
     //   });
   }
 
   // Get sensor status based on Admin alert Sensor subscription
   getSensorHealthStatus(batteryValue, signalValue) {
-    // console.log('sensor health', batteryValue, signalValue);
+    // // console.log('sensor health', batteryValue, signalValue);
 
     if (batteryValue <= '2.8' || signalValue <= '14') {
       return 'Critical';
@@ -168,7 +168,7 @@ export class VotmCloudAdminSensorDetailsComponent implements OnInit {
 
   // Get boolen value for signal row display
   checkRowDisplay(sensorObj) {
-    // console.log('sensorObj===', sensorObj, sensorObj.signalId);
+    // // console.log('sensorObj===', sensorObj, sensorObj.signalId);
     // e9326142-068b-494b-bff7-421a44fa0cae == battery
     // fa7b422d-2018-4fdb-ba50-0b4be9bf2735 == signal
     if (
@@ -188,16 +188,16 @@ export class VotmCloudAdminSensorDetailsComponent implements OnInit {
     // this.isCreateUserAPILoading = true;
 
     if (sensorDetailForm && !sensorDetailForm.invalid) {
-      console.log('this.sensorDetailForm==', sensorDetailForm);
-      console.log('this.sensorDetailsData==', this.sensorDetailsData);
+      // console.log('this.sensorDetailForm==', sensorDetailForm);
+      // console.log('this.sensorDetailsData==', this.sensorDetailsData);
     }
     this.sensorDetailsData = {};
-    // console.log('this.sensorDetailsDataObj==', this.sensorDetailsDataObj);
+    // // console.log('this.sensorDetailsDataObj==', this.sensorDetailsDataObj);
     this.sensorDetailsData.sensorName = sensorDetailForm.sensorName;
     this.sensorDetailsData.description = sensorDetailForm.description;
     this.sensorDetailsData.locationId = sensorDetailForm.s_ins_loc;
     this.sensorDetailsData.modelNumber = sensorDetailForm.sensorModelNumber;
-    console.log('this.sensorDetailsData updated==', this.sensorDetailsData);
+    // console.log('this.sensorDetailsData updated==', this.sensorDetailsData);
     this.sensorsService.updateSensorDetail(this.sensorId, this.sensorDetailsData)
       .subscribe(response => {
         this.toaster.onSuccess('Sensor updated successfully ', 'Updated');

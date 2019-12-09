@@ -41,7 +41,7 @@ export class VotmCloudConfimDialogComponent implements OnInit {
   }
 
   private getDismissReason(reason: any): string {
-    console.log('AHAMED ', reason);
+    // console.log('AHAMED ', reason);
     if (reason === ModalDismissReasons.ESC) {
       return 'by pressing ESC';
     } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {

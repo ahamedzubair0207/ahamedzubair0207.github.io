@@ -16,7 +16,7 @@ export class SignalRService {
   constructor(private http: HttpClient) { }
 
   getSignalRConnection(connectionString) {
-    console.log(connectionString);
+    // console.log(connectionString);
     this.http.get<any>(this.signalRURL)
     .subscribe(con => {
       const options = {

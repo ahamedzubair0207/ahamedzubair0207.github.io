@@ -29,7 +29,7 @@ export class VotmCloudAdminNetworkMapComponent implements OnInit {
   ngAfterViewInit() {
     // setTimeout(() => {
     //   this.map.map.resize();
-    //   console.log('RESIZE');
+    //   // console.log('RESIZE');
     // }, 5000);
   }
 

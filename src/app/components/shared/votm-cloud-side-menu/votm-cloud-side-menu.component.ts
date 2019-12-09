@@ -33,7 +33,7 @@ export class VotmCloudSideMenuComponent implements OnInit, AfterViewInit {
     ).subscribe(
       () => {
       const url = this.router.url;
-      console.log(url.includes('/org/'));
+      // console.log(url.includes('/org/'));
       if (url.includes('/org/')) {
         this.selectedTab = 'organizations';
       } else if (url.includes('/loc/')) {
@@ -55,7 +55,7 @@ export class VotmCloudSideMenuComponent implements OnInit, AfterViewInit {
 
 
   setActiveClass(item) {
-    console.log('hereeeeeeeeeeeeee')
+    // console.log('hereeeeeeeeeeeeee')
 
   }
 
@@ -78,7 +78,7 @@ export class VotmCloudSideMenuComponent implements OnInit, AfterViewInit {
             item.childs.push({ enabled: true, url: url, fragment: fragment, name: child.favoriteName, icon: 'menu-icon icon-star' });
           })
           // item.childs = childs;
-          console.log('item ', item)
+          // console.log('item ', item)
         }
       });
     });
@@ -90,7 +90,7 @@ export class VotmCloudSideMenuComponent implements OnInit, AfterViewInit {
 
   setActiveItem(actItem: string) {
 
-    // console.log(elem);
+    // // console.log(elem);
     if (actItem !== 'admin' && actItem !== 'favorites') {
       this.sharedService.setActiveMenu(actItem);
       this.activeItem = this.sharedService.getActiveMenu();

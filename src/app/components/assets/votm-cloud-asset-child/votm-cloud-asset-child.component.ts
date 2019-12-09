@@ -112,7 +112,7 @@ export class VotmCloudAssetChildComponent implements OnInit {
    * This function sets the sensor disable which are already associated.
    */
   getChildAssets() {
-    console.log(this.assetId);
+    // console.log(this.assetId);
     this.isGetChildAssetsAPILoading = true;
     this.assetService.getAssetTreeByAssetId(this.assetId)
       .subscribe(async response => {
@@ -160,7 +160,7 @@ export class VotmCloudAssetChildComponent implements OnInit {
           for (let i = 0; i < this.childAssets.length; i++) {
             const childAsset = this.childAssets[i];
             const index = this.associatedChildAssets.findIndex(assChild => assChild.childAssetId === childAsset.id);
-            console.log(index);
+            // console.log(index);
             if (index !== -1) {
               childAsset.associated = true;
               this.associatedChildAssets[index].organizationId = this.asset.organizationId;
@@ -170,7 +170,7 @@ export class VotmCloudAssetChildComponent implements OnInit {
               this.associatedChildAssets[index].locationId = this.asset.locationId;
               this.associatedChildAssets[index].locationName = this.asset.locationName;
               this.associatedChildAssets[index].associationName = childAsset.name;
-              console.log(this.associatedChildAssets[index]);
+              // console.log(this.associatedChildAssets[index]);
             } else {
               childAsset.pctPos = { left: 0, top: 0};
               childAsset.isClicked = false;
@@ -181,7 +181,7 @@ export class VotmCloudAssetChildComponent implements OnInit {
               this.associatedChildAssets.push(childAsset);
             }
           }
-          console.log(JSON.stringify(this.associatedChildAssets));
+          // console.log(JSON.stringify(this.associatedChildAssets));
 
         },
         error => {
@@ -197,7 +197,7 @@ export class VotmCloudAssetChildComponent implements OnInit {
 
   onSaveChildAssetAssociation(associatedChildAssets) {
     const data = associatedChildAssets.map(asset => {
-      console.log(asset);
+      // console.log(asset);
       const obj = {
         locationId: this.parentLocationId,
         parentAssetId: this.assetId,
