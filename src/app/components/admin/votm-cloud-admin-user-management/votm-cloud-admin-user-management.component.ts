@@ -72,7 +72,7 @@ export class VotmCloudAdminUserManagementComponent implements OnInit, OnDestroy 
   onUserSearch() {
     this.isGetUsersAPILoading = true;
     this.users = [];
-    console.log('jherrrrrrrrrrrrrr');
+    // console.log('jherrrrrrrrrrrrrr');
     if (this.searchedText) {
       this.userService.searchUsers(this.searchedText).subscribe(
         response => {
@@ -317,7 +317,7 @@ export class VotmCloudAdminUserManagementComponent implements OnInit, OnDestroy 
 
   onClickOfConfirmUserStatus(event, user) {
     event.target.closest('datatable-body-cell').blur();
-    console.log(user);
+    // console.log(user);
     this.selectedUserForEdit = user;
     this.confirmUserStatusMessage = 'Are you sure, you want to ' +
       (user.active ? 'Deactivate' : 'Activate') + ' this ' +

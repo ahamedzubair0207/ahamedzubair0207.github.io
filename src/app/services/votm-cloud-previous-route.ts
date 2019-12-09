@@ -11,7 +11,7 @@ export class previousRouteUrl {
         // router.events
         //     .filter(event => event instanceof NavigationEnd)
         //     .subscribe(e => {
-        //         console.log('prev:', this.previousUrl);
+        //         // console.log('prev:', this.previousUrl);
         //         this.previousUrl = e.url;
         //     });
 
@@ -20,10 +20,10 @@ export class previousRouteUrl {
             if (event instanceof NavigationEnd) {
                 this.previousUrl.next(event.url);
                 this.currentUrl = event.url;
-                console.log('prev:', this.previousUrl);
+                // console.log('prev:', this.previousUrl);
                 // this.previousUrl = this.currentUrl;
                 // this.currentUrl = event.url;
-                // console.log('prev:', this.previousUrl);
+                // // console.log('prev:', this.previousUrl);
             }
         });
     }

@@ -30,12 +30,12 @@ export class BreadcrumbsService {
   // 
   addCrumb(crumbObj: any){
     let crumbType = crumbObj.entityType;
-    // console.log(crumbObj);
+    // // console.log(crumbObj);
     switch(crumbType){
       case "Organization":{
         this.orgList.push(crumbObj);
-        // console.log("done add org crumb");
-        // console.log(this.orgList);
+        // // console.log("done add org crumb");
+        // // console.log(this.orgList);
         break;
       }
       case "Location":{
@@ -61,12 +61,12 @@ export class BreadcrumbsService {
         this.orgList = this.orgList.slice(0, orgIndex + 1);
         this.locList = [];
         this.assetList = [];
-        // console.log("nav to org");
-        // console.log(orgIndex);
+        // // console.log("nav to org");
+        // // console.log(orgIndex);
         this.router.navigate(['org/home/'+crumbObj.id+'/'+crumbObj.name, {}]).then(nav => {
-          // console.log(nav); // true if navigation is successful
+          // // console.log(nav); // true if navigation is successful
         }, err => {
-          // console.log(err) // when there's an error
+          // // console.log(err) // when there's an error
         });
         break;
       }
@@ -75,9 +75,9 @@ export class BreadcrumbsService {
         this.locList = this.locList.slice(0, locIndex + 1);
         this.assetList = [];
         this.router.navigate(['loc/home/'+crumbObj.id+'/'+crumbObj.name, {}]).then(nav => {
-          // console.log(nav); // true if navigation is successful
+          // // console.log(nav); // true if navigation is successful
         }, err => {
-          // console.log(err) // when there's an error
+          // // console.log(err) // when there's an error
         });
         break;
       }
@@ -85,9 +85,9 @@ export class BreadcrumbsService {
         let assetIndex = this.assetList.indexOf(crumbObj);
         this.assetList = this.assetList.slice(0, assetIndex + 1);
         this.router.navigate(['asset/home/'+crumbObj.id, {}]).then(nav => {
-          // console.log(nav); // true if navigation is successful
+          // // console.log(nav); // true if navigation is successful
         }, err => {
-          // console.log(err) // when there's an error
+          // // console.log(err) // when there's an error
         });
         break;
       }
@@ -102,8 +102,8 @@ export class BreadcrumbsService {
     this.displayList = this.displayList.concat(this.orgList);
     this.displayList = this.displayList.concat(this.locList);
     this.displayList = this.displayList.concat(this.assetList);
-    // console.log("getting display list");
-    // console.log(this.displayList);
+    // // console.log("getting display list");
+    // // console.log(this.displayList);
     return this.displayList;
   }
 

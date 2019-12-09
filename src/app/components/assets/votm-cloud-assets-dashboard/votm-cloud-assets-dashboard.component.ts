@@ -41,7 +41,7 @@ export class VotmCloudAssetsDashboardComponent implements OnInit {
   }
 
   resizeDashboard(dbId: any) {
-    console.log(dbId);
+    // console.log(dbId);
     $('#dashboardIconContainer-' + dbId).removeClass('position-relative');
     $('#dashboardIconContainer-' + dbId).addClass('dashboard-full-screen');
     $('#resizeDashboardId-' + dbId).hide();

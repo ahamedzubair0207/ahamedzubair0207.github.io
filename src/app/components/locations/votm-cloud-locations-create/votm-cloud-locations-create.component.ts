@@ -197,7 +197,7 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
         this.dahboardsLoader = true;
         this.dbService.getAllDashboards(this.locId, 'location')
           .subscribe(response => {
-            console.log('get All Dashboard ', response);
+            // console.log('get All Dashboard ', response);
             this.dashboardTabs = response;
             this.dahboardsLoader = false;
           });
@@ -226,7 +226,7 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
       multiple: true
     };
     // this.getGeoLocation('London').subscribe(response => {
-    //   console.log('response ', response);
+    //   // console.log('response ', response);
     // endpoint - Option List Data ----- Sensor Blocks ------ Cellular Blocks ------ Service Levels
     // });
 
@@ -258,7 +258,7 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
     this.locationTypes = [{ value: 'locationType1', text: 'locationType1' }, { value: 'locationType2', text: 'locationType2' }];
     // this.locationService.getLocationInfoFromAzureMap(null)
     //   .subscribe(response => {
-    //     // console.log('AHAMED from azure map ', response);
+    //     // // console.log('AHAMED from azure map ', response);
     //   })
 
     this.gateGateways();
@@ -315,7 +315,7 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
   }
 
   getLocationById() {
-    // console.log(' 1st timewsdbgsdghsgdgghghghghgg');
+    // // console.log(' 1st timewsdbgsdghsgdgghghghghgg');
     this.loader = true;
     this.locationService.getLocationById(this.locId)
       .subscribe(response => {
@@ -368,7 +368,7 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
           const img = new Image();
           img.src = base64Img;
           img.onload = () => {
-            // console.log(img.width, '=====', img.height);
+            // // console.log(img.width, '=====', img.height);
             this.imgSize = {
               width: img.width,
               height: img.height
@@ -379,7 +379,7 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
         // if (this.location.geoFenceType === 'bf0bc7b5-1bf8-4a59-a3b5-35904937e89e' && this.location.geoFenceValue.indexOf('undefined') < 0) {
         //   var str = this.location.geoFenceValue;
         //   var matches = str.match(/(\d+)/);
-        //   // console.log(matches[0], str.slice(matches[0].length, str.length - (matches[0].length - 1)));
+        //   // // console.log(matches[0], str.slice(matches[0].length, str.length - (matches[0].length - 1)));
         //   if (matches && matches.length > 0) {
         //     this.radiusValue = matches[0];
         //     this.radiusUnit = str.slice(matches[0].length, str.length - (matches[0].length - 1));
@@ -403,7 +403,7 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
   }
 
   onCountryChange() {
-    // console.log('Country change', this.location.address[0].country);
+    // // console.log('Country change', this.location.address[0].country);
     if (this.location.address && this.location.address.length > 0) {
       this.location.address[0].state = null;
     } else {
@@ -459,7 +459,7 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
       let address = `${this.location.address[0].address1} ${this.location.address[0].address2} ${this.location.address[0].city} ${this.location.address[0].postalCode} ${this.location.address[0].state} ${this.location.address[0].country}`;
       this.locationService.getLocationInfoFromAzureMap(address)
         .subscribe((response: any) => {
-          // console.log('onGeoLocationClick ', response);
+          // // console.log('onGeoLocationClick ', response);
           if (response && response.results && response.results.length > 0) {
             this.location.latitude = response.results[0].position.lat;
             this.location.longitude = response.results[0].position.lon;
@@ -473,7 +473,7 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
       if (this.location.latitude && this.location.longitude) {
         this.locationService.getTimezoneByCordinates(`${this.location.latitude},${this.location.longitude}`)
           .subscribe((response: any) => {
-            // console.log('onLookupClick ', response);
+            // // console.log('onLookupClick ', response);
             if (response && response.TimeZones && response.TimeZones[0].Id) {
               let currentDate = new Date();
               let tempTimezone = moment.tz([currentDate.getFullYear(), currentDate.getMonth()], response.TimeZones[0].Id).format('zz');
@@ -530,7 +530,7 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
   // getLocationInfo() {
   //   this.locationService.getLocationById(this.locId)
   //     .subscribe(response => {
-  //       // console.log('response ', response);
+  //       // // console.log('response ', response);
   //       this.location = response;
   //       this.fillUoM();
   //       this.location.timeZoneId = this.location.timeZone;
@@ -600,7 +600,7 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
       return;
     }
     var mimeType = files[0].type;
-    // console.log(files[0]);
+    // // console.log(files[0]);
     if (mimeType.match(/image\/*/) == null) {
       this.message = 'Only images are supported.';
       return;
@@ -614,7 +614,7 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
       const img = new Image();
       img.src = readerToPreview.result.toString();
       img.onload = () => {
-        // console.log(img.width, '=====', img.height);
+        // // console.log(img.width, '=====', img.height);
         this.imgSize = {
           width: img.width,
           height: img.height
@@ -644,7 +644,7 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
         // }
         const base64textString = btoa(data);
 
-        // console.log('this.organization ', this.location, data);
+        // // console.log('this.organization ', this.location, data);
         this.location.logo.image = base64textString;
       };
       this.location.logo = new Logo();
@@ -662,13 +662,13 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
     // SVG Code
     // let parser = new DOMParser();
     // let xmlDoc: XMLDocument = parser.parseFromString(binaryString.toString(), 'image/svg+xml');
-    // // console.log('XMLDocument ', xmlDoc, xmlDoc.getElementsByTagName('svg'))
+    // // // console.log('XMLDocument ', xmlDoc, xmlDoc.getElementsByTagName('svg'))
     // const xml = (new XMLSerializer()).serializeToString(xmlDoc);
     // const svg64 = btoa(xml);
     // const b64Start = 'data:image/svg+xml;base64,';
     // const image64 = b64Start + svg64;
     // this.location.logo.image = image64;
-    // // console.log('this.location.logo.image ', this.location.logo.image)
+    // // // console.log('this.location.logo.image ', this.location.logo.image)
 
     // Other Images
     base64textString = btoa(binaryString);
@@ -734,7 +734,7 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
       // this.location.geoFenceValue = `${this.rectangleValue1}*${this.rectangleValue2}${this.rectangleUnit}`;
     }
     if (this.selectedItems && this.selectedItems.length > 0) {
-      // console.log('this.selectedItems ', this.selectedItems)
+      // // console.log('this.selectedItems ', this.selectedItems)
       this.location.gateways = [];
       this.selectedItems.forEach((item) => {
         this.location.gateways.push(item.id);
@@ -760,7 +760,7 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
         delete this.location.uoM;
         this.locationService.createLocation(this.location)
           .subscribe(response => {
-            // console.log('response ', response);
+            // // console.log('response ', response);
             this.toaster.onSuccess('Successfully created', 'Created');
             // if (this.parentLocId && this.parentLocName) {
             //   this.route.navigate([`loc/home/${this.parentLocId}/${this.parentLocName}`]);
@@ -799,7 +799,7 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
 
 
   // onFenceTypeChange(type: string) {
-  //   console.log('onFenceTypeChange ', this.location.geoFenceType)
+  //   // console.log('onFenceTypeChange ', this.location.geoFenceType)
   //   // if (type = 'radius') {
   //   //   this.rectangleUnit = null;
   //   //   this.rectangleValue1 = null;
@@ -811,11 +811,11 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
   //   // }
   // }
   // test() {
-  //   console.log('this.radiusUnit ', this.radiusUnit)
+  //   // console.log('this.radiusUnit ', this.radiusUnit)
   // }
 
   fillUoM(uom, type) {
-    // console.log(uom);
+    // // console.log(uom);
     this.uomModels = {};
     for (let i = 0; i < uom.length; i++) {
       this.uomModels[uom[i].uomTypeId] = {};
@@ -831,12 +831,12 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
         delete this.uomModels[key];
       }
     });
-    // console.log(this.uomModels);
+    // // console.log(this.uomModels);
     // this.setUOMMeasurement();
   }
 
   onUnitChange(value) {
-    // // // console.log(value);
+    // // // // console.log(value);
     const uom = this.applicationConfiguration.unitOfMeassurement;
     this.locMeasurementType = value.target.value;
     if (this.locMeasurementType === 'Imperial') {
@@ -870,7 +870,7 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
         customCount += 1;
       }
     });
-    // console.log(imperialCount, '====', metricCount, '=======', customCount, '===', keys.length);
+    // // console.log(imperialCount, '====', metricCount, '=======', customCount, '===', keys.length);
     if (imperialCount === keys.length) {
       this.locMeasurementType = 'Imperial';
     } else if (metricCount === keys.length) {
@@ -905,18 +905,18 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
 
 
   // getGeoLocation(address: string): Observable<any> {
-  //   console.log('Getting address: ', address);
+  //   // console.log('Getting address: ', address);
   //   let geocoder = new google.maps.Geocoder();
   //   return Observable.create(observer => {
   //     geocoder.geocode({
   //       'address': address
   //     }, (results, status) => {
   //       if (status == google.maps.GeocoderStatus.OK) {
-  //         console.log('ACCEPTED')
+  //         // console.log('ACCEPTED')
   //         observer.next(results[0].geometry.location);
   //         observer.complete();
   //       } else {
-  //         console.log('Error: ', results, ' & Status: ', status);
+  //         // console.log('Error: ', results, ' & Status: ', status);
   //         observer.error();
   //       }
   //     });
@@ -978,11 +978,11 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
     ];
   }
   async getDashboardHTML(formName: string, index) {
-    // console.log(formName, '--getDashboardHTML functiona called');
+    // // console.log(formName, '--getDashboardHTML functiona called');
 
     // await this.organizationService.getDashboardHTML(formName)
     //   .subscribe(response => {
-    //     console.log('return response---', response);
+    //     // console.log('return response---', response);
     //     this.userdashboardData[index].dashboardHTML = this.sanitizer.bypassSecurityTrustHtml(response);
     //     setTimeout(() => {
     //       // setData('Hello');
@@ -992,7 +992,7 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
 
   openAddDashboardModal(dashboardAct: string, dashboardItem: DashBoard) {
     // this.dashBoardDataByID = getDashboardById(dashboardId)
-    // console.log(dashboardLongName);
+    // // console.log(dashboardLongName);
     if (dashboardAct === 'editDashboard') {
       this.dashboardDataById = {
         act: 'edit',
@@ -1014,7 +1014,7 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
       this.dbLongName = '';
       this.dbShortName = '';
     }
-    // console.log('dashboardDataById---', this.dashboardDataById);
+    // // console.log('dashboardDataById---', this.dashboardDataById);
     // Get the modal
     let addDashboardmodal = document.getElementById('addDashboardModalWrapper');
     addDashboardmodal.style.display = 'block';
@@ -1032,7 +1032,7 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
   }
 
   onDashboardFormSubmit() {
-    // console.log('onDashboardFormSubmit', this.dashboardDataById);
+    // // console.log('onDashboardFormSubmit', this.dashboardDataById);
     // this.addDashboardArray = {
     //   id: '4',
     //   templateName: 'Standard Asset Dashboard',
@@ -1075,13 +1075,13 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
   private getAllDashboards() {
     this.dbService.getAllDashboards(this.locId, 'location')
       .subscribe(response => {
-        console.log('get All Dashboard ', response);
+        // console.log('get All Dashboard ', response);
         this.dashboardTabs = response;
       });
   }
 
   // onDashboardFormSubmit() {
-  //   // console.log('onDashboardFormSubmit', this.dashboardDataById);
+  //   // // console.log('onDashboardFormSubmit', this.dashboardDataById);
   //   // this.addDashboardArray = {
   //   //   id: '4',
   //   //   templateName: 'Standard Asset Dashboard',
@@ -1101,7 +1101,7 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
   //   this.newTabId = "dbtab-" + this.dbLastIdNum;
   //   this.dbItems.push(new DbItem(this.newTabId, this.dbLongName, this.dbShortName, this.selTemplate,
   //     this.dbTemplates.find(({ name }) => name === this.selTemplate).component, ''));
-  //   // console.log('this.dbItems---added', this.dbItems);
+  //   // // console.log('this.dbItems---added', this.dbItems);
   //   this.dbService.saveDashboard(this.dashboardTab)
   //     .subscribe(response => {
   //       this.dashboardTabs.push(this.dashboardTab);
@@ -1113,7 +1113,7 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
   // }
 
   closeAddDashboardModal(event: any) {
-    // console.log('==', event);
+    // // console.log('==', event);
     this.addDashboardmodal.style.display = 'none';
     // if (event === 'save') {
     //
@@ -1129,7 +1129,7 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
   }
 
   deleteLocationDashboardById(event) {
-    // console.log('deleteLocationDashboardById===', event);
+    // // console.log('deleteLocationDashboardById===', event);
     if (event) {
       // delete dashboard service goes here
       this.dbService.deleteDashboard(this.deleteDashboardId)

@@ -23,7 +23,7 @@ export class DashboardhostComponent implements OnInit {
     this.templates = this.dbService.getDashboardTemplates();
     let dbTPLItem = this.templates.find(({ name }) => name === this.dbItem.templateName);
     if (dbTPLItem) {
-      console.log('this.dbItem ', dbTPLItem)
+      // console.log('this.dbItem ', dbTPLItem)
       const componentFactory = this.cFResolver.resolveComponentFactory(dbTPLItem.component);
       const viewContainerRef = this.dashboardHost.viewContainerRef;
       viewContainerRef.clear();
@@ -37,8 +37,8 @@ export class DashboardhostComponent implements OnInit {
 
   ngOnChanges(changes: SimpleChanges) {
     const locked: SimpleChange = changes.locked;
-    // console.log('prev value: ', locked.previousValue);
-    // console.log('got name: ', locked.currentValue);
+    // // console.log('prev value: ', locked.previousValue);
+    // // console.log('got name: ', locked.currentValue);
     if (this.componentRef) {
       (<DbTemplate>this.componentRef.instance).locked = this.locked;
     }

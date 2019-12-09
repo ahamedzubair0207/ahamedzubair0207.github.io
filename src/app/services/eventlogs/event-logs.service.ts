@@ -23,7 +23,7 @@ export class EventLogsService {
     if (assetId) {
       url += '&assetId=' + assetId;
     }
-    console.log(url);
+    // console.log(url);
     return this.http.get(url);
   }
 

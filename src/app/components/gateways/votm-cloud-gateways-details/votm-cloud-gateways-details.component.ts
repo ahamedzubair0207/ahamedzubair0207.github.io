@@ -16,7 +16,7 @@ export class VotmCloudGatewaysDetailsComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    console.log('gatewayId===', this.gatewayId);
+    // console.log('gatewayId===', this.gatewayId);
 
   }
 

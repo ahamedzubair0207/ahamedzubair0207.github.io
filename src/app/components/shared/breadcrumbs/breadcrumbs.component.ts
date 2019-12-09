@@ -75,7 +75,7 @@ export class BreadcrumbsComponent implements OnInit {
       this.pageType = 'Organization';
       this.parentOrgId = parts[3];
 
-      console.log('OrgId ', this.orgId);
+      // console.log('OrgId ', this.orgId);
       // if (this.orgId.toLowerCase() === this.parentOrgId.toLowerCase()) {
       //   this.breadcrumbs.push({ name: parts[4], nodes: [] });
       // } else {
@@ -191,7 +191,7 @@ export class BreadcrumbsComponent implements OnInit {
                   this.checkForVisibility();
                   if (this.finalBreadcrumbs && this.finalBreadcrumbs.length > 0) {
                     // this.navigationService.lastOrganization = this.finalBreadcrumbs[this.finalBreadcrumbs.length - 1].name
-                    console.log('header emit');
+                    // console.log('header emit');
 
                     this.navigationService.lastOrganization.next(this.finalBreadcrumbs[this.finalBreadcrumbs.length - 1].name);
                   }
@@ -373,7 +373,7 @@ export class BreadcrumbsComponent implements OnInit {
     // }
     this.finalBreadcrumbs = [];
     this.finalBreadcrumbs = [...this.breadcrumbs];
-    console.log('BREADCRUMBS ', this.finalBreadcrumbs);
+    // console.log('BREADCRUMBS ', this.finalBreadcrumbs);
 
   }
 

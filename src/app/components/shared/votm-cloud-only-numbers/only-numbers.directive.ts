@@ -9,7 +9,7 @@ export class OnlyNumber {
 
   @Input() OnlyNumber: boolean;
   constructor(private el: ElementRef) {
-    console.log('OnlyNumber ', OnlyNumber);
+    // console.log('OnlyNumber ', OnlyNumber);
   }
 
 

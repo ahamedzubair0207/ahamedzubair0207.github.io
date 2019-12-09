@@ -60,13 +60,13 @@ export class VotmCloudOrganizationDashboardComponent implements OnInit {
         templateName: 'Standard Asset Dashboard'
       }
     ];
-    console.log(this.dashboardTemplates);
-    console.log(this.dashboardData);
+    // console.log(this.dashboardTemplates);
+    // console.log(this.dashboardData);
     this.getDashboardHTML('parkerdashboard', 0);*/
   }
 
   resizeDashboard(dbId: any) {
-    console.log(dbId);
+    // console.log(dbId);
     $('#dashboardIconContainer-' + dbId).removeClass('position-relative');
     $('#dashboardIconContainer-' + dbId).addClass('dashboard-full-screen');
     $('#resizeDashboardId-' + dbId).hide();
@@ -139,11 +139,11 @@ export class VotmCloudOrganizationDashboardComponent implements OnInit {
   }
 
   async getDashboardHTML(formName: string, index) {
-    console.log(formName, '--getDashboardHTML functiona called');
+    // console.log(formName, '--getDashboardHTML functiona called');
 
     await this.organizationService.getDashboardHTML(formName)
       .subscribe(response => {
-        console.log('return response---', response);
+        // console.log('return response---', response);
         this.userdashboardData[index].dashboardHTML = this.sanitizer.bypassSecurityTrustHtml(response);
         setTimeout( () => {
             // setData('Hello');
@@ -155,7 +155,7 @@ export class VotmCloudOrganizationDashboardComponent implements OnInit {
   openAddDashboardModal(dashboardAct: string, dashboardId: any, dashboardNames: string) {
 
     // this.dashBoardDataByID = getDashboardById(dashboardId)
-    console.log(dashboardNames);
+    // console.log(dashboardNames);
 
     if (dashboardAct === 'editDashboard') {
       this.dashboardDataById = {
@@ -172,7 +172,7 @@ export class VotmCloudOrganizationDashboardComponent implements OnInit {
         dashboardHTML: ''
       };
     }
-    console.log('dashboardDataById---', this.dashboardDataById);
+    // console.log('dashboardDataById---', this.dashboardDataById);
     // Get the modal
     let addDashboardmodal = document.getElementById('addDashboardModalWrapper');
     addDashboardmodal.style.display = 'block';
@@ -190,20 +190,20 @@ export class VotmCloudOrganizationDashboardComponent implements OnInit {
   }
 
   onDashboardFormSubmit() {
-    console.log('onDashboardFormSubmit', this.dashboardDataById);
+    // console.log('onDashboardFormSubmit', this.dashboardDataById);
     this.addDashboardArray = {
       id: '4',
       templateName: 'Standard Asset Dashboard',
       dashboardName: this.dashboardDataById.dashboardName
     };
     this.dashboardData.push(this.addDashboardArray);
-    console.log('this.dashboardData---added', this.dashboardData);
+    // console.log('this.dashboardData---added', this.dashboardData);
 
     this.closeAddDashboardModal(true);
   }
 
   closeAddDashboardModal(event: any) {
-    console.log('==', event);
+    // console.log('==', event);
     this.addDashboardmodal.style.display = 'none';
     // if (event === 'save') {
     //
@@ -219,7 +219,7 @@ export class VotmCloudOrganizationDashboardComponent implements OnInit {
   }
 
   deleteOrganizationDashboardById(event) {
-    console.log('deleteOrganizationDashboardById===', event);
+    // console.log('deleteOrganizationDashboardById===', event);
     if (event) {
       // delete dashboard service goes here
     }

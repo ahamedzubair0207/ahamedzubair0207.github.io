@@ -57,14 +57,14 @@ export class VotmCloudAdminSensorHomeComponent implements OnInit {
 
       this.curOrgId = params.get('curOrgId');
       this.OrgId = params.get('orgId');
-      console.log('sensor originList==========', this.originList);
-      console.log('sensor curOrgId==========', this.curOrgId);
-      console.log('sensor OrgId==========', this.OrgId);
+      // console.log('sensor originList==========', this.originList);
+      // console.log('sensor curOrgId==========', this.curOrgId);
+      // console.log('sensor OrgId==========', this.OrgId);
 
       if (this.OrgId && this.OrgId !== '') {
         // Fetch sensors of Organization
         this.getSensorTreeByTypeAndId('organization', this.OrgId);
-        console.log('org sensor list');
+        // console.log('org sensor list');
 
       } else  {
         // Fetch all sensors
@@ -85,7 +85,7 @@ export class VotmCloudAdminSensorHomeComponent implements OnInit {
         this.sensorList = [];
         if (response && response.length > 0) {
           this.sensorList = this.fillSensorsData(response);
-          console.log('org sensor list ==', this.sensorList);
+          // console.log('org sensor list ==', this.sensorList);
 
         }
       });
@@ -97,7 +97,7 @@ export class VotmCloudAdminSensorHomeComponent implements OnInit {
         this.sensorList = [];
         if (response && response.length > 0) {
           this.sensorList = this.fillSensorsData(response);
-          console.log('sensor list ==', this.sensorList);
+          // console.log('sensor list ==', this.sensorList);
 
         }
       });
@@ -183,7 +183,7 @@ export class VotmCloudAdminSensorHomeComponent implements OnInit {
       }
       treeSensors.push(treeSensor);
     });
-    // console.log('sensors ', treeSensors);
+    // // console.log('sensors ', treeSensors);
     return treeSensors;
   }
 

@@ -275,11 +275,11 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
     ];
   }
   async getDashboardHTML(formName: string, index) {
-    console.log(formName, '--getDashboardHTML functiona called');
+    // console.log(formName, '--getDashboardHTML functiona called');
 
     // await this.organizationService.getDashboardHTML(formName)
     //   .subscribe(response => {
-    //     console.log('return response---', response);
+    //     // console.log('return response---', response);
     //     this.userdashboardData[index].dashboardHTML = this.sanitizer.bypassSecurityTrustHtml(response);
     //     setTimeout(() => {
     //       // setData('Hello');
@@ -295,7 +295,7 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
         if (this.asset) {
           this.asset.organizationName = this.curOrgName;
           this.asset.locationName = this.parentLocName;
-          console.log(this.asset);
+          // console.log(this.asset);
           if (this.asset.parentAssetId) {
             this.getParentAssetById(this.asset.parentAssetId);
             this.parentAssetImageURL = '../../../../assets/images/assetPlaceholder.svg';
@@ -364,7 +364,7 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
   }
 
   onStart(event: any) {
-    console.log('on start');
+    // console.log('on start');
     this.grabOffset = { x: event.offsetX, y: event.offsetY };
   }
 
@@ -378,7 +378,7 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
       x: (pos.left / event.event.srcElement.offsetWidth).toFixed(5),
       y: (pos.top / event.event.srcElement.offsetHeight).toFixed(5)
     };
-    console.log(this.asset.imageCoordinates);
+    // console.log(this.asset.imageCoordinates);
   }
 
   createNestedAsset(event) {
@@ -477,12 +477,12 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
   }
 
   shouldLoadDocument(event) {
-    // console.log('shouldLoadDocument', this.isConfirmToChangeImage);
+    // // console.log('shouldLoadDocument', this.isConfirmToChangeImage);
     // if (this.asset.templateId) {
     //   if (this.isConfirmToChangeImage) {
-    //     console.log('shouldLoadDocument AHAmed', this.isConfirmToChangeImage);
+    //     // console.log('shouldLoadDocument AHAmed', this.isConfirmToChangeImage);
     //     if (this.isConfirmToChangeImage === 'change') {
-    //       console.log('Should Load ', this.isConfirmToChangeImage)
+    //       // console.log('Should Load ', this.isConfirmToChangeImage)
     //       this.onFileChange(event);
     //     }
     //     this.isConfirmToChangeImage = null;
@@ -514,7 +514,7 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
       const img = new Image();
       img.src = readerToPreview.result.toString();
       img.onload = () => {
-        console.log(img.width, '=====', img.height);
+        // console.log(img.width, '=====', img.height);
         this.imgSize = {
           width: img.width,
           height: img.height
@@ -536,7 +536,7 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
           data = e.target.result;
         }
         const base64textString = btoa(data);
-        // console.log('this.organization ', this.location, data)
+        // // console.log('this.organization ', this.location, data)
         this.asset.logo.image = base64textString;
       };
 
@@ -564,7 +564,7 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
           data = e.target.result;
         }
         const base64textString = btoa(data);
-        // console.log('this.organization ', this.location, data)
+        // // console.log('this.organization ', this.location, data)
         // this.asset.fileStore.file = base64textString;
         // this.asset.fileStore.fileName = file.name;
         // this.asset.fileStore.fileType = file.type;
@@ -579,7 +579,7 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
         const templateDocumentsList = [...this.templateDocuments];
         templateDocumentsList.push(temp);
         this.templateDocuments = [...templateDocumentsList];
-        console.log('this.templateDocuments==', this.templateDocuments);
+        // console.log('this.templateDocuments==', this.templateDocuments);
 
       };
       // debugger;
@@ -595,13 +595,13 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
     // SVG Code
     // let parser = new DOMParser();
     // let xmlDoc: XMLDocument = parser.parseFromString(binaryString.toString(), 'image/svg+xml');
-    // // console.log('XMLDocument ', xmlDoc, xmlDoc.getElementsByTagName('svg'))
+    // // // console.log('XMLDocument ', xmlDoc, xmlDoc.getElementsByTagName('svg'))
     // const xml = (new XMLSerializer()).serializeToString(xmlDoc);
     // const svg64 = btoa(xml);
     // const b64Start = 'data:image/svg+xml;base64,';
     // const image64 = b64Start + svg64;
     // this.location.logo.image = image64;
-    // // console.log('this.location.logo.image ', this.location.logo.image)
+    // // // console.log('this.location.logo.image ', this.location.logo.image)
 
     // Other Images
     base64textString = btoa(binaryString);
@@ -715,7 +715,7 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
     } else {
       this.removeTemplate(false);
     }
-    // console.log(event, this.acceptedTemplateChages)
+    // // console.log(event, this.acceptedTemplateChages)
     // if (!event) {
     //   setTimeout(() => {
     //     this.templateWarningMessage = 'This change will remove the template binding';
@@ -825,7 +825,7 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
     //   const img = new Image();
     //   img.src = base64Img;
     //   img.onload = () => {
-    //     console.log(img.width, '=====', img.height);
+    //     // console.log(img.width, '=====', img.height);
     //     this.parentAssetImageSize = {
     //       width: img.width,
     //       height: img.height
@@ -861,7 +861,7 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
   }
 
   isChildNode(tobeCheckedAsset, tempAsset): boolean {
-    // console.log('isChildNode ', tobeCheckedAsset, tempAsset);
+    // // console.log('isChildNode ', tobeCheckedAsset, tempAsset);
     let found: boolean = false;
     let isChild: boolean = false;
     this.parentAssetsList.forEach(asset => {
@@ -962,7 +962,7 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
           const img = new Image();
           img.src = base64Img;
           img.onload = () => {
-            console.log(img.width, '=====', img.height);
+            // console.log(img.width, '=====', img.height);
             this.imgSize = {
               width: img.width,
               height: img.height
@@ -977,14 +977,14 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
             this.templateDocuments[index] = templateDocument;
             this.templateDocuments[index].tempFileStoreId = index + 1;
           });
-          console.log('this.templateDocuments==', this.templateDocuments);
+          // console.log('this.templateDocuments==', this.templateDocuments);
         }
 
         // Please Don't Touch the below code
 
         // if (selectedTemplate.fileStore && selectedTemplate.fileStore.fileName) {
         //   let docExtension = selectedTemplate.fileStore.fileName.slice((Math.max(0, selectedTemplate.fileStore.fileName.lastIndexOf(".")) || Infinity) + 1);
-        //   console.log('docExtension ', docExtension);
+        //   // console.log('docExtension ', docExtension);
         //   selectedTemplate.fileStore.fileName = selectedTemplate.fileStore.fileName + '.xlsx';
         //   this.fileExtensionDoc = selectedTemplate.fileStore.fileName.slice((Math.max(0, selectedTemplate.fileStore.fileName.lastIndexOf(".")) || Infinity) + 1);
         //   // let abcd = this.domSanitizer.bypassSecurityTrustUrl(`data:image/xlsx;base64,${selectedTemplate.fileStore.file}`);
@@ -1034,12 +1034,12 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
         this.asset.fileStore = null;
       }
 
-      console.log('1000 onAssetSubmit this.templateDocuments=====', this.templateDocuments);
+      // console.log('1000 onAssetSubmit this.templateDocuments=====', this.templateDocuments);
       // Multiple file upport
       if (this.templateDocuments) {
         this.asset.fileStore = this.templateDocuments;
 
-        console.log('this.asset=====', this.asset);
+        // console.log('this.asset=====', this.asset);
         // return;
       }
 
@@ -1227,7 +1227,7 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
 
   openAddDashboardModal(dashboardAct: string, dashboardId: any, dashboardLongName: string, dashboardSortName: string) {
     // this.dashBoardDataByID = getDashboardById(dashboardId)
-    // console.log(dashboardLongName);
+    // // console.log(dashboardLongName);
     if (dashboardAct === 'editDashboard') {
       this.dashboardDataById = {
         act: 'edit',
@@ -1248,7 +1248,7 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
       this.dbLongName = '';
       this.dbShortName = '';
     }
-    // console.log('dashboardDataById---', this.dashboardDataById);
+    // // console.log('dashboardDataById---', this.dashboardDataById);
 
     // Get the modal
     const addDashboardmodal = document.getElementById('addDashboardModalWrapper');
@@ -1281,7 +1281,7 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
     this.newTabId = "dbtab-" + this.dbLastIdNum;
     // this.dbItems.push(new DbItem(this.newTabId, this.dbLongName, this.dbShortName, this.selTemplate,
     //   this.dbTemplates.find(({ name }) => name === this.selTemplate).component, ''));
-    // console.log('this.dbItems---added', this.dbItems);
+    // // console.log('this.dbItems---added', this.dbItems);
 
     if (this.dashboardTab.dashboardId) {
       this.dbService.editDashboard(this.dashboardTab)
@@ -1307,14 +1307,14 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
   private getAllDashboards() {
     this.dbService.getAllDashboards(this.assetId, 'asset')
       .subscribe(response => {
-        console.log('get All Dashboard ', response);
+        // console.log('get All Dashboard ', response);
         this.dashboardTabs = response;
       });
   }
 
 
   closeAddDashboardModal(event: any) {
-    // console.log('==', event);
+    // // console.log('==', event);
     this.addDashboardmodal.style.display = 'none';
     // if (event === 'save') {
     //
@@ -1330,7 +1330,7 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
   }
 
   deleteAssetDashboardById(event) {
-    // console.log('deleteOrganizationDashboardById===', event);
+    // // console.log('deleteOrganizationDashboardById===', event);
     if (event) {
       // delete dashboard service goes here
       this.dbService.deleteDashboard(this.dashboardTab.dashboardId)
@@ -1376,14 +1376,14 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
   templateDocumentDelete(removedTempFileStoreId) {
     const regenratedTemplatDocuments = [];
     this.templateDocuments.forEach(eachTemplateDocument => {
-      console.log('eachTemplateDocument.tempFileStoreId === removedTempFileStoreId', eachTemplateDocument.tempFileStoreId + '===' + removedTempFileStoreId);
+      // console.log('eachTemplateDocument.tempFileStoreId === removedTempFileStoreId', eachTemplateDocument.tempFileStoreId + '===' + removedTempFileStoreId);
       if (eachTemplateDocument.tempFileStoreId !== removedTempFileStoreId) {
         regenratedTemplatDocuments.push(eachTemplateDocument);
       }
     });
 
     this.templateDocuments = regenratedTemplatDocuments;
-    console.log('regenratedTemplatDocuments', this.templateDocuments);
+    // console.log('regenratedTemplatDocuments', this.templateDocuments);
 
   }
 
