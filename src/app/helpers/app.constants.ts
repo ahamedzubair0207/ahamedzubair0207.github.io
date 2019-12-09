@@ -134,6 +134,8 @@ export class AppConstants {
     public static ORG_LBL = 'ConfigSettings/fd027a29-f9b7-474d-a4f4-0462d027c535/ScreenLabel/95200C8D-9910-42F2-B26D-56E4BAC697B1?userId=03C7FB47-58EE-4C41-A9D6-2AD0BD43392A';
     public static LOC_LBL = 'ConfigSettings/fd027a29-f9b7-474d-a4f4-0462d027c535/ScreenLabel/a2e85d4b-b6c1-4767-a7d7-ee0df88a6b92?userId=03C7FB47-58EE-4C41-A9D6-2AD0BD43392A';
     public static TRENDCHART_LBL = 'ConfigSettings/fd027a29-f9b7-474d-a4f4-0462d027c535/ScreenLabel/C0319A43-FF57-4511-A79F-C3E2C1B148E2?userId=03C7FB47-58EE-4C41-A9D6-2AD0BD43392A';
+    public static IMAGE_OVERLAY_LBL = 'ConfigSettings/fd027a29-f9b7-474d-a4f4-0462d027c535/ScreenLabel/2B35D17E-17BA-42E0-ACF1-940ECEFF2D8B?userId=03C7FB47-58EE-4C41-A9D6-2AD0BD43392A';
+    public static DATA_TABLE_LBL = 'ConfigSettings/fd027a29-f9b7-474d-a4f4-0462d027c535/ScreenLabel/3AC69D83-3132-4756-B4AE-3B94C8E3A3FE?userId=03C7FB47-58EE-4C41-A9D6-2AD0BD43392A';
 
     public static GetLblUrl(orgId: string, scrId: string) {
         return '';
