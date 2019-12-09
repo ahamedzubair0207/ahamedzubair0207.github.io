@@ -32,9 +32,15 @@
                     </select> -->
 
                     <div class="">
-                        <ng-select id="metricTypeDropDown" class="custom" [disabled]="pageType==='View'"
+                        <!-- <ng-select id="metricTypeDropDown" class="custom" [disabled]="pageType==='View'"
                             [ngStyle]="{'background-color':pageType==='View'?'#e9ecef':'#fff'}" [multiple]="false"
                             name="metricType" (change)="onSignalTypeChange($event)" [(ngModel)]="alert.signalTypeId"
+                            placeholder="Choose Type">
+                            <ng-option *ngFor="let typeObj of signalTypes" [value]="typeObj.signalId">{{typeObj.signalName}}</ng-option>
+                        </ng-select> -->
+                        <ng-select id="metricTypeDropDown" class="custom" [disabled]="pageType==='View'"
+                            [ngStyle]="{'background-color':pageType==='View'?'#e9ecef':'#fff'}" [multiple]="false"
+                            name="metricType" (change)="onChangeSignalType($event, content)" [(ngModel)]="alert.signalTypeId"
                             placeholder="Choose Type">
                             <ng-option *ngFor="let typeObj of signalTypes" [value]="typeObj.signalId">{{typeObj.signalName}}</ng-option>
                         </ng-select>
@@ -63,7 +69,7 @@
             <div class="form-group col-12 col-md-4 col-xl-3">
                 <label id="minimumSustainTimeLbl" class="">Minimum Sustain Time: <i class="icon-info"
                   ngbPopover="The alert will not trigger unless a threshold is breached and sustained for the given period."
-                  triggers="mouseenter:mouseleave" popoverTitle="Information"></i></label>
+                  triggers="mouseenter:mouseleave" container="body" placement="left" popoverTitle="Information"></i></label>
                 <div class="">
                     <div class="input-group">
                         <input name="minimumSustainTime" id="minimumSustainTimeInput" [(ngModel)]="alert.sustainTime"
@@ -90,7 +96,7 @@
             <div class="form-group col-12 col-md-4 col-xl-3" *ngIf="alert.closureRequired" >
               <label id="excalateAfterLbl" class="">Escalate After: <i class="icon-info"
                 ngbPopover="The alert is triggered and not closed after the given period the Secondary Users/Groups will be notified."
-                triggers="mouseenter:mouseleave" popoverTitle="Information"></i></label>
+                triggers="mouseenter:mouseleave" placement="left" popoverTitle="Information"></i></label>
               <div class="">
                   <div class="input-group">
                       <input type="number" id="excalateAfterInput" name="escalateTimeInput" [(ngModel)]="alert.escalateTime"
@@ -106,7 +112,7 @@
                     <label id="accessTypeLbl" class="">Rule Owner:</label>
                     <div class="">
                         <input type="text" name="organizationScopeId" [(ngModel)]="accessScopeName"
-                            class="form-control form-control-sm" id="alertRuleNameInput" disabled>
+                            class="form-control form-control-sm" id="alertRuleaccessScopeNameInput" disabled>
                         <!-- <select name="accessScope" id="accessTypeDropDown" [(ngModel)]="alert.organizationScopeId"
                         class="form-control form-control-sm">
                         <option *ngFor="let accessScope of accessScopes" [value]="accessScope.id">{{accessScope.name}}
@@ -132,26 +138,33 @@
                         </tr>
                         <tr>
                             <td *ngFor="let threshold of absoluteThresholds">
-                                <div class="custom-control custom-switch">
-                                    <input type="checkbox" [(ngModel)]="threshold.active"
-                                        name="{{'checkbox_'+threshold.alertConfigurationId}}"
-                                        class="custom-control-input" id="{{threshold.alertConfigurationId}}">
-                                    <label class="custom-control-label" for="{{threshold.alertConfigurationId}}">
-                                        <input [disabled]="!threshold.active" id="thresholdLowCra" type="text"
-                                            name="{{threshold.alertConfigurationId}}"
-                                            [(ngModel)]="threshold.alertConfigurationValue"
-                                            class="form-control-sm mr-1 w-25" />
-                                        <span *ngIf="alert.alertRuleTypeId === ruleTypes[0].id">
-                                            {{alert.uomName}}
-                                        </span>
-                                        <span *ngIf="alert.alertRuleTypeId === ruleTypes[1].id && threshold.alertConfigurationLabel === 'Baseline'">
-                                            {{alert.uomName}}
-                                        </span>
-                                        <span *ngIf="alert.alertRuleTypeId === ruleTypes[1].id && threshold.alertConfigurationLabel !== 'Baseline'">
-                                          %
-                                        </span>
-                                    </label>
+                              <div class="row">
+
+
+                              <div class="custom-control custom-switch col-3">
+                                  <input type="checkbox" [(ngModel)]="threshold.active" name="{{'checkbox_'+threshold.alertConfigurationId}}"
+                                    class="custom-control-input" id="{{threshold.alertConfigurationId}}">
+                                  <label class="custom-control-label" for="{{threshold.alertConfigurationId}}"></label>
                                 </div>
+                                <div class="input-group w-50 col-9">
+                                  <i class="{{threshold.arrowIconClass}}"></i>
+                                  <input [disabled]="!threshold.active" id="thresholdLowCra" type="text" name="{{threshold.alertConfigurationId}}"
+                                    [(ngModel)]="threshold.alertConfigurationValue" class="form-control form-control-sm " />
+                                  <div class="input-group-append">
+                                    <span class="input-group-text form-control-sm" *ngIf="alert.alertRuleTypeId === ruleTypes[0].id">
+                                      {{alert.uomName}}
+                                    </span>
+                                    <span class="input-group-text form-control-sm"
+                                      *ngIf="alert.alertRuleTypeId === ruleTypes[1].id && threshold.alertConfigurationLabel === 'Baseline'">
+                                      {{alert.uomName}}
+                                    </span>
+                                    <span class="input-group-text form-control-sm"
+                                      *ngIf="alert.alertRuleTypeId === ruleTypes[1].id && threshold.alertConfigurationLabel !== 'Baseline'">
+                                      %
+                                    </span>
+                                  </div>
+                                </div>
+                              </div>
                             </td>
                         </tr>
                     </tbody>
@@ -568,21 +581,19 @@
     [message]="message" headerMessage="Warning"></app-votm-cloud-confim-dialog>
 
 
-<app-votm-cloud-confim-dialog (onClose)="changeSignalType($event)" #MetricTypeConfirmBox [message]="metricChangeMessage"
-headerMessage="Warning"></app-votm-cloud-confim-dialog>
+<!-- <app-votm-cloud-confim-dialog (onClose)="changeSignalType($event)" #MetricTypeConfirmBox [message]="metricChangeMessage"
+headerMessage="Warning"></app-votm-cloud-confim-dialog> -->
 
-<!-- <ng-template #content let-modal>
+<ng-template #content let-modal>
   <div class="modal-header">
-    <h4 class="modal-title">{{alertModalTitle}}</h4>
+    <h4 class="modal-title"><i class="icon-warn"></i>Warning</h4>
     <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
-  <div class="modal-body">
-    <app-votm-cloud-alerts-create [AlertpageType]="AlertpageType" [AlertcurOrgId]="AlertcurOrgId" [AlertcurOrgName]="AlertcurOrgName" [AlertorgId]="AlertorgId" [AlertalertId]="AlertalertId" [AlertaccessScopeName]="AlertorgName"></app-votm-cloud-alerts-create>
-  </div>
+  <div class="modal-body">Do you want to change Metric Type? It will remove all selected associations.</div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-secondary btn-sm" (click)="modal.close('Close click')">Close</button>
-    <button type="button" class="btn btn-info btn-sm" *ngIf="AlertpageType !== 'view'" id="alertRuleSaveBtn" (click)="onCreateAlertRule()"><i class="icon-warn"></i>Save Alert Rule</button>
+    <button type="button" class="btn btn-info btn-sm" (click)="changeSignalType(true); modal.dismiss('Cross click');">Yes</button>
+    <button type="button" class="btn btn-secondary btn-sm" (click)="changeSignalType(false); modal.dismiss('Cross click');">No</button>
   </div>
-</ng-template> -->
+</ng-template>
