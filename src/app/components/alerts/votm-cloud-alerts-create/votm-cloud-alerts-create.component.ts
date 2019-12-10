@@ -111,7 +111,7 @@ export class VotmCloudAlertsCreateComponent implements OnInit, OnDestroy {
       this.orgId = this.AlertorgId;
       this.alert.organizationScopeId = this.orgId;
       this.accessScopeName = this.AlertaccessScopeName;
-      console.log('alert===init-', this.curOrgId, this.curOrgName, this.orgId, this.pageType, this.AlertaccessScopeName, this.AlertalertId);
+      // console.log('alert===init-', this.curOrgId, this.curOrgName, this.orgId, this.pageType, this.AlertaccessScopeName, this.AlertalertId);
 
       if (this.AlertalertId) {
         this.alertId = this.AlertalertId;
@@ -121,7 +121,7 @@ export class VotmCloudAlertsCreateComponent implements OnInit, OnDestroy {
     this.subscription = this.alertsService.createAlertRuleEvent.subscribe(() => {
       this.onAlertRuleSubmit();
     });
-    console.log('this.alertID===out===', this.alertId);
+    // console.log('this.alertID===out===', this.alertId);
     this.selectedSignal = this.sharedService.getSignalDataForAlert();
     this.activeroute.paramMap.subscribe(params => {
       if (!this.AlertpageType) {
@@ -136,12 +136,12 @@ export class VotmCloudAlertsCreateComponent implements OnInit, OnDestroy {
       this.navigationService.lastOrganization.subscribe(response => {
         this.accessScopeName = response;
       });
-      console.log('this.alertID===in parammap=', this.alertId);
+      // console.log('this.alertID===in parammap=', this.alertId);
 
       if (this.alertId) {
         this.alertsService.getAlertByAlertId(this.alertId)
           .subscribe(response => {
-            // // console.log('Alert Record', response);
+            // // // console.log('Alert Record', response);
             this.alert = response;
             // this.alert.alertRuleUserGroup[0].userId = 'ea8a69d9-50a1-4773-a7ef-324cd33b3296';
             this.userResponsibities = [];
@@ -182,7 +182,7 @@ export class VotmCloudAlertsCreateComponent implements OnInit, OnDestroy {
               this.checkIfParentsArechecked();
             });
             // this.selectSignals();
-            // console.log('NG ONINIT')
+            // // console.log('NG ONINIT')
           });
         this.ALertRuleUserGroupSubscriber();
       } else {
@@ -238,7 +238,7 @@ export class VotmCloudAlertsCreateComponent implements OnInit, OnDestroy {
       this.alert.alertRuleUserGroup.splice(0, 0,
         { alertUserGroupRoleId: '', name: user.firstName + ' ' + user.lastName, userId: user.userId, userEmail: user.emailId });
     }
-    // // console.log(' this.alert.alertRuleUserGroup ', this.alert.alertRuleUserGroup);
+    // // // console.log(' this.alert.alertRuleUserGroup ', this.alert.alertRuleUserGroup);
   }
 
   checkForUserGroupSelected(tempUserGroupId, type) {
@@ -254,7 +254,7 @@ export class VotmCloudAlertsCreateComponent implements OnInit, OnDestroy {
   }
 
   onUserGroupSelection(userGroup) {
-    // // console.log('Notified User ', userGroup);
+    // // // console.log('Notified User ', userGroup);
     let found: boolean = false;
     if (!this.alert.alertRuleUserGroup) {
       this.alert.alertRuleUserGroup = [];
@@ -268,19 +268,19 @@ export class VotmCloudAlertsCreateComponent implements OnInit, OnDestroy {
       this.userResponsibities[userGroup.userGroupId] = '';
       this.alert.alertRuleUserGroup.splice(0, 0, { alertUserGroupRoleId: '', name: userGroup.userGroupName, userGroupId: userGroup.userGroupId });
     }
-    // // console.log(' this.alert.alertRuleUserGroup ', this.alert.alertRuleUserGroup);
+    // // // console.log(' this.alert.alertRuleUserGroup ', this.alert.alertRuleUserGroup);
   }
 
   getMeticTypes() {
     this.alertsService.getAllSignalTypes()
       .subscribe(response => {
-        // console.log('getMeticTypes ', response);
+        // // console.log('getMeticTypes ', response);
         this.signalTypes = response;
       });
   }
 
   changeSignalType(event) {
-    console.log('changeMetricType ', event);
+    // console.log('changeMetricType ', event);
     if (event) {
       this.previousMetricType = this.alert.signalTypeId;
       this.alert.alertRuleSignalMapping = [];
@@ -326,7 +326,7 @@ export class VotmCloudAlertsCreateComponent implements OnInit, OnDestroy {
   getUserGroupRoles() {
     this.alertsService.getUserGroupRoles()
       .subscribe(response => {
-        // // console.log('user Roles ', response);
+        // // // console.log('user Roles ', response);
         this.userRoles = response;
         // this.userRoles.forEach(tempRole => {
         //   this.userResponsibities[tempRole.roleId] = '';
@@ -371,7 +371,7 @@ export class VotmCloudAlertsCreateComponent implements OnInit, OnDestroy {
           }
         }
         this.getUserGroupName();
-        // // console.log('userGroupSubscribers ', this.userGroupSubscribers);
+        // // // console.log('userGroupSubscribers ', this.userGroupSubscribers);
       });
   }
 
@@ -431,7 +431,7 @@ export class VotmCloudAlertsCreateComponent implements OnInit, OnDestroy {
     if (this.alert.uomTypeId) {
       this.alertsService.getAlertRuleSignalAssociatedAssetByOrgId(this.orgId, this.alertId, this.alert.uomTypeId)
         .subscribe(response => {
-          // // console.log('response ', response);
+          // // // console.log('response ', response);
           this.alertRuleSignalAssociatedAsset = response;
           this.createAssetCheckedProperties();
           setTimeout(() => {
@@ -452,10 +452,10 @@ export class VotmCloudAlertsCreateComponent implements OnInit, OnDestroy {
 
           if (i === 0) {
             this.orgHierarchy = response[i].name + ' > ';
-            console.log(this.orgHierarchy);
+            // console.log(this.orgHierarchy);
           } else {
             this.orgHierarchy = this.orgHierarchy + response[i].shortName + ' > ';
-            console.log(this.orgHierarchy);
+            // console.log(this.orgHierarchy);
           }
         }
       }
@@ -463,7 +463,7 @@ export class VotmCloudAlertsCreateComponent implements OnInit, OnDestroy {
   }
 
   createAssetCheckedProperties() {
-    // console.log('this.alertRuleSignalAssociatedAsset ', this.alertRuleSignalAssociatedAsset);
+    // // console.log('this.alertRuleSignalAssociatedAsset ', this.alertRuleSignalAssociatedAsset);
 
     if (!this.selectedSignals) {
       this.selectedSignals = [];
@@ -498,7 +498,7 @@ export class VotmCloudAlertsCreateComponent implements OnInit, OnDestroy {
 
             location.assets.forEach(asset => {
               let tempTreeNode: TreeNode = {};
-              console.log(asset.assetName);
+              // console.log(asset.assetName);
               this.assetsChecked[asset.assetId] = false;
               tempTreeNode.data = { id: asset.assetId, label: treeNode.data.label + ' > ' + asset.assetName, value: asset, parent: location };
               tempTreeNode.children = [];
@@ -521,23 +521,23 @@ export class VotmCloudAlertsCreateComponent implements OnInit, OnDestroy {
     }
 
     this.selectSignals();
-    // console.log(' this.treeSignalAssociationList ', this.treeSignalAssociationList);
+    // // console.log(' this.treeSignalAssociationList ', this.treeSignalAssociationList);
   }
 
   onAssetCollapse(event) {
-    // console.log('onAssetCollapse', event);
+    // // console.log('onAssetCollapse', event);
     let asset = event.node.data.value;
     this.selectUnselectAssetCheckbox(asset);
   }
 
   onAssetExpand(event) {
-    // console.log('onAssetExpand', event);
+    // // console.log('onAssetExpand', event);
     let asset = event.node.data.value;
     this.selectUnselectAssetCheckbox(asset);
   }
 
   onSignalFilter() {
-    // console.log(this.searchSignalText)
+    // // console.log(this.searchSignalText)
     // this.treeSignalAssociationList.forEach
   }
 
@@ -567,7 +567,7 @@ export class VotmCloudAlertsCreateComponent implements OnInit, OnDestroy {
   }
 
   onAssetChecked(event, value, parent) {
-    // // console.log('value ', value)
+    // // // console.log('value ', value)
     let asset;
     if (value) {
       if (value.hasOwnProperty('signalId')) {
@@ -611,12 +611,12 @@ export class VotmCloudAlertsCreateComponent implements OnInit, OnDestroy {
         });
       }
     }
-    // console.log(this.selectedSignals);
+    // // console.log(this.selectedSignals);
   }
 
   onSignalSelectionChange(event, signalMappingId: string, asset) {
-    // // console.log('ASSET ', asset);
-    // // console.log('onSignalSelectionChange ', event, signalMappingId);
+    // // // console.log('ASSET ', asset);
+    // // // console.log('onSignalSelectionChange ', event, signalMappingId);
     if (!this.alert.alertRuleSignalMapping || this.alert.alertRuleSignalMapping.length === 0) {
       this.alert.alertRuleSignalMapping = [];
     }
@@ -651,7 +651,7 @@ export class VotmCloudAlertsCreateComponent implements OnInit, OnDestroy {
       let checkBoxId = asset.assetId ? asset.assetId : asset.locationId;
       let checkbox: any = document.getElementById(checkBoxId);
       if (isAssetSelected) {
-        // console.log('Interminate', checkbox);
+        // // console.log('Interminate', checkbox);
         if (checkbox) {
           checkbox.indeterminate = false;
           checkbox.checked = true;
@@ -668,17 +668,17 @@ export class VotmCloudAlertsCreateComponent implements OnInit, OnDestroy {
         });
         if (isSignalFound) {
           // interminate
-          // // console.log('Interminate', checkbox);
+          // // // console.log('Interminate', checkbox);
           asset.assetId ? this.assetsChecked[asset.assetId] = false : this.assetsChecked[asset.locationId] = false;
           if (checkbox) {
             checkbox.indeterminate = true;
-            // // console.log('selected signals ', asset.locationId, this.selectedSignals, tempSignalArray, isAssetSelected, 'interminate');
+            // // // console.log('selected signals ', asset.locationId, this.selectedSignals, tempSignalArray, isAssetSelected, 'interminate');
           }
         } else {
           asset.assetId ? this.assetsChecked[asset.assetId] = false : this.assetsChecked[asset.locationId] = false;
           if (checkbox) {
             checkbox.indeterminate = false;
-            // // console.log('checkbox ', checkbox.checked)
+            // // // console.log('checkbox ', checkbox.checked)
           }
 
           asset.assetId ? this.assetsChecked[asset.assetId] = false : this.assetsChecked[asset.locationId] = false;
@@ -688,25 +688,25 @@ export class VotmCloudAlertsCreateComponent implements OnInit, OnDestroy {
   }
 
   onResponsibityChangeForUserGroup(event, userGroup: AlertRuleUserGroup) {
-    // console.log('onResponsibityChangeForUserGroup ', event)
+    // // console.log('onResponsibityChangeForUserGroup ', event)
     this.alert.alertRuleUserGroup.forEach(alertRuleUserGroup => {
       if (alertRuleUserGroup.userGroupId === userGroup.userGroupId) {
-        // console.log(event.target.value);
+        // // console.log(event.target.value);
         alertRuleUserGroup.alertUserGroupRoleId = event.target.value;
       }
     });
-    // console.log(' this.alert.alertRuleUserGroup ', this.alert.alertRuleUserGroup);
+    // // console.log(' this.alert.alertRuleUserGroup ', this.alert.alertRuleUserGroup);
   }
 
   onResponsibityChangeForUserId(event, userGroup: AlertRuleUserGroup) {
-    // console.log('onResponsibityChangeForUserId ', event, userGroup);
+    // // console.log('onResponsibityChangeForUserId ', event, userGroup);
     this.alert.alertRuleUserGroup.forEach(alertRuleUserGroup => {
       if (alertRuleUserGroup.userId === userGroup.userId) {
-        // console.log(event.target.value);
+        // // console.log(event.target.value);
         alertRuleUserGroup.alertUserGroupRoleId = event.target.value;
       }
     });
-    // console.log(' this.alert.alertRuleUserGroup ', this.alert.alertRuleUserGroup);
+    // // console.log(' this.alert.alertRuleUserGroup ', this.alert.alertRuleUserGroup);
     // this.alert.alertRuleUserGroup.forEach(alertRuleUserGroup=>{
     //   if(alertRuleUserGroup.)
     // })
@@ -734,12 +734,12 @@ export class VotmCloudAlertsCreateComponent implements OnInit, OnDestroy {
       }
     });
 
-    console.log('onResponsibityChange ', this.alert);
+    // console.log('onResponsibityChange ', this.alert);
     if (this.alertId) {
       this.alertsService.updateAlertRule(this.alert)
         .subscribe(response => {
           this.toaster.onSuccess(`${this.alert.alertRuleName} updated successfully`, 'Updated');
-          // console.log('response ', response);
+          // // console.log('response ', response);
           // this.routerLocation.back();
         }, error => {
           this.toaster.onFailure('Something went wrong. Please fill the form correctly', 'Failed');
@@ -748,7 +748,7 @@ export class VotmCloudAlertsCreateComponent implements OnInit, OnDestroy {
       this.alertsService.createAlertRule(this.alert)
         .subscribe(response => {
           this.toaster.onSuccess(`${this.alert.alertRuleName} created successfully`, 'Created');
-          // console.log('response ', response);
+          // // console.log('response ', response);
           // this.routerLocation.back();
         }, error => {
           this.toaster.onFailure('Something went wrong. Please fill the form correctly', 'Fail');
@@ -779,7 +779,7 @@ export class VotmCloudAlertsCreateComponent implements OnInit, OnDestroy {
     if (!this.notifyUsers || this.notifyUsers.length === 0) {
       this.userService.getAllUsers()
         .subscribe(response => {
-          // console.log('response Notify Users ', response);
+          // // console.log('response Notify Users ', response);
           this.notifyUsers = [];
           this.notifyUsers = response;
         });
@@ -800,7 +800,7 @@ export class VotmCloudAlertsCreateComponent implements OnInit, OnDestroy {
 
 
   onUserGroupDelete(userGroupSubscriber) {
-    // console.log(userGroupSubscriber, this.alert.alertRuleUserGroup);
+    // // console.log(userGroupSubscriber, this.alert.alertRuleUserGroup);
     let found: boolean;
     let count: number;
     let isUserId: boolean;
@@ -823,10 +823,10 @@ export class VotmCloudAlertsCreateComponent implements OnInit, OnDestroy {
       });
       if (found) {
         this.alert.alertRuleUserGroup.splice(count, 1);
-        // // console.log(count);
+        // // // console.log(count);
       }
     }
-    // console.log(userGroupSubscriber, this.alert.alertRuleUserGroup);
+    // // console.log(userGroupSubscriber, this.alert.alertRuleUserGroup);
   }
 
   openConfirmDialog() {
@@ -836,7 +836,7 @@ export class VotmCloudAlertsCreateComponent implements OnInit, OnDestroy {
 
   deleteAlert(event) {
     if (event) {
-      console.log('whdasdsdf');
+      // console.log('whdasdsdf');
       this.alertsService.deleteAlert(this.alert.alertRuleId)
         .subscribe(response => {
           this.toaster.onSuccess(`You have deleted ` + this.alert.alertRuleName + ` successfully.`, 'Delete Success!');

@@ -92,7 +92,7 @@ export class VotmCloudAssetTemplateDetailsComponent implements OnInit {
               this.templateDocuments[index] = templateDocument;
               this.templateDocuments[index].tempFileStoreId = index + 1;
             });
-            console.log('fetchTemplateById==', this.templateDocuments);
+            // console.log('fetchTemplateById==', this.templateDocuments);
           }
         }
       });
@@ -159,7 +159,7 @@ export class VotmCloudAssetTemplateDetailsComponent implements OnInit {
       // Multiple file upport
       if (this.templateDocuments) {
         this.template.fileStore = this.templateDocuments;
-        console.log('this.template=====', this.template);
+        // console.log('this.template=====', this.template);
         // return;
       }
     }
@@ -231,7 +231,7 @@ export class VotmCloudAssetTemplateDetailsComponent implements OnInit {
       const img = new Image();
       img.src = readerToPreview.result.toString();
       img.onload = () => {
-        console.log(img.width, '=====', img.height);
+        // console.log(img.width, '=====', img.height);
         this.imgSize = {
           width: img.width,
           height: img.height
@@ -324,7 +324,7 @@ export class VotmCloudAssetTemplateDetailsComponent implements OnInit {
         const templateDocumentsList = [...this.templateDocuments];
         templateDocumentsList.push(temp);
         this.templateDocuments = [...templateDocumentsList];
-        console.log('this.templateDocuments==', this.templateDocuments);
+        // console.log('this.templateDocuments==', this.templateDocuments);
       };
 
       // debugger;
@@ -358,14 +358,14 @@ export class VotmCloudAssetTemplateDetailsComponent implements OnInit {
   templateDocumentDelete(removedTempFileStoreId) {
     const regenratedTemplatDocuments = [];
     this.templateDocuments.forEach(eachTemplateDocument => {
-      console.log('eachTemplateDocument.tempFileStoreId === removedTempFileStoreId', eachTemplateDocument.tempFileStoreId + '===' + removedTempFileStoreId);
+      // console.log('eachTemplateDocument.tempFileStoreId === removedTempFileStoreId', eachTemplateDocument.tempFileStoreId + '===' + removedTempFileStoreId);
       if (eachTemplateDocument.tempFileStoreId !== removedTempFileStoreId) {
         regenratedTemplatDocuments.push(eachTemplateDocument);
       }
     });
 
     this.templateDocuments = regenratedTemplatDocuments;
-    console.log('regenratedTemplatDocuments', this.templateDocuments);
+    // console.log('regenratedTemplatDocuments', this.templateDocuments);
 
   }
 }

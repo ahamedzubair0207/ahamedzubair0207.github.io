@@ -59,7 +59,7 @@ export class VotomCloudAssetsSignalComponent implements OnInit {
       this.organizationName = params.get('parentOrgName');
       this.locationId = params.get('parentLocId');
       this.assetId = params.get('assetId');
-      console.log('====', this.organizationId);
+      // console.log('====', this.organizationId);
       this.getAssetById();
       this.getAssetSignalAssociation();
       this.getAlertRulesList();
@@ -69,7 +69,7 @@ export class VotomCloudAssetsSignalComponent implements OnInit {
 
   getAssetById() {
     this.assetService.getAssetById(this.assetId).subscribe(response => {
-      console.log('response from get ', response);
+      // console.log('response from get ', response);
       this.asset = response;
       if (this.asset.logo.imageName && this.asset.logo.image) {
         let fileExtension = this.asset.logo.imageName.slice((Math.max(0, this.asset.logo.imageName.lastIndexOf('.')) || Infinity) + 1);
@@ -83,12 +83,12 @@ export class VotomCloudAssetsSignalComponent implements OnInit {
       } else {
         this.imgURL = '../../../../assets/images/assetPlaceholder.svg';
       }
-      console.log(this.imgURL);
+      // console.log(this.imgURL);
     });
   }
 
   getAlertRulesList() {
-    console.log(this.organizationId);
+    // console.log(this.organizationId);
     this.alertsService.getAllAlertsByOrgId(this.organizationId)
       .subscribe(response => {
         this.alertRules = response;
@@ -97,7 +97,7 @@ export class VotomCloudAssetsSignalComponent implements OnInit {
 
   getAllAvailableSignals() {
     this.assetSignalService.getAvailableSignalsForLocation('location', this.locationId).subscribe(async response => {
-      console.log(response);
+      // console.log(response);
       this.sensors = response;
       for (const sensor of this.sensors) {
         sensor.node = await this.sharedService.toSortListAlphabetically(sensor.node, 'signalName');
@@ -123,7 +123,7 @@ export class VotomCloudAssetsSignalComponent implements OnInit {
           }
         }
       }
-      console.log(response);
+      // console.log(response);
       this.isGetAvailableSignalsAPILoading = false;
     },
     error => {
@@ -215,7 +215,7 @@ export class VotomCloudAssetsSignalComponent implements OnInit {
     this.assetSignalService.createSignalAssociation(data)
       .subscribe(
         response => {
-          console.log(response);
+          // console.log(response);
           this.toaster.onSuccess('Signal associated successfully', 'Saved');
           this.getAssetSignalAssociation();
           this.toggleDisable();

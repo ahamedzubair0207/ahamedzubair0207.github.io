@@ -9,12 +9,4 @@ export class DataTableWidget {
     displayStatus: boolean;
 
     
-    accountCode: string;
-    propertyName: string;
-    propertyValue: string;
-    measuredValue: string;
-    environmentFqdn: string;
-    bucketSize: string;
-    fromDateTime: Date;
-    toDateTime: Date;
 }

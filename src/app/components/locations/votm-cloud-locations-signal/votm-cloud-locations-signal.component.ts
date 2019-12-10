@@ -62,7 +62,7 @@ export class VotmCloudLocationsSignalComponent implements OnInit {
       this.curOrganizationId = params.get('curOrgId');
       this.curOrganizationName = params.get('curOrgName');
       this.locationId = params.get('locId');
-      console.log(this.curOrganizationId, '====', this.curOrganizationName, '====', this.organizationId);
+      // console.log(this.curOrganizationId, '====', this.curOrganizationName, '====', this.organizationId);
       this.getLocationById();
       this.getLocationSignalAssociation();
       this.getAlertRulesList();
@@ -107,7 +107,7 @@ export class VotmCloudLocationsSignalComponent implements OnInit {
     this.isGetAvailableSignalsAPILoading = true;
     this.locationSignalService.getSignalsByLocation('location', this.locationId)
       .subscribe(async response => {
-        console.log(response);
+        // console.log(response);
         this.sensors = response;
         for (const sensor of this.sensors) {
           sensor.node = await this.sharedService.toSortListAlphabetically(sensor.node, 'signalName');
@@ -224,7 +224,7 @@ export class VotmCloudLocationsSignalComponent implements OnInit {
     this.locationSignalService.createSignalAssociation(data)
       .subscribe(
         response => {
-          console.log(response);
+          // console.log(response);
           this.toaster.onSuccess('Signal associated successfully', 'Saved');
           this.getLocationSignalAssociation();
           this.toggleDisable();

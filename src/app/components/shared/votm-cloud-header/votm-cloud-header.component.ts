@@ -72,8 +72,8 @@ export class VotmCloudHeaderComponent implements OnInit {
   }
 
   onFavoriteSubmit() {
-    // console.log('this.favoriteName, ', this.favoriteName);
-    // console.log('this.router ', this.router.url);
+    // // console.log('this.favoriteName, ', this.favoriteName);
+    // // console.log('this.router ', this.router.url);
 
     // let body = {
     //   'userId': '03c7fb47-58ee-4c41-a9d6-2ad0bd43392a',
@@ -84,7 +84,7 @@ export class VotmCloudHeaderComponent implements OnInit {
     if (this.currentFavorite && this.currentFavorite.userFavoriteId) {
       this.sharedService.patchFavorites(this.currentFavorite)
         .subscribe(response => {
-          // console.log('post result ', response);
+          // // console.log('post result ', response);
           this.toaster.onSuccess('Favorite name updated successfully.', 'Updated');
           this.sharedService.getFavorites();
           this.currentFavorite = {};

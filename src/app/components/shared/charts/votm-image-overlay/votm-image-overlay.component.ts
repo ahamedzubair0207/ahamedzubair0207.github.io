@@ -82,7 +82,7 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
       // this.parentOrgName = params.get('orgName');
       this.orgId = params.get('orgId');
       this.assetId = params.get('assetId');
-      console.log('m y this.curLocId parentOrgId this.orgId', this.curLocId, this.parentOrgId, this.orgId);
+      // console.log('m y this.curLocId parentOrgId this.orgId', this.curLocId, this.parentOrgId, this.orgId);
 
       if ((this.parentOrgId || this.orgId) && !this.curLocId) {
         // Organization dashboard
@@ -94,7 +94,7 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
         }
         // Fetch all asset tree by orgid
         this.fetchAssetsTreeByOrganizationId();
-        console.log('Organization dashboard');
+        // console.log('Organization dashboard');
 
       } else if (this.curLocId) {
         // Location dashbaord
@@ -116,15 +116,15 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
   }
 
   fetchlocationTreeByOrganizationId(organizationID) {
-    console.log('organizationID===', organizationID);
+    // console.log('organizationID===', organizationID);
 
     this.locationService.getAllLocationsTreeByOrganizationID(organizationID).subscribe(response => {
       this.locationsList = [];
       if (response && response.length > 0) {
         this.LocationSourceChild = this.fillLocationData(response);
-        console.log('location response this.LocationSourceChild by Org id ', response, this.LocationSourceChild);
+        // console.log('location response this.LocationSourceChild by Org id ', response, this.LocationSourceChild);
       }
-      // console.log('location by Org id ', this.locationsList);
+      // // console.log('location by Org id ', this.locationsList);
       // this.LocationSourceChild = this.locationsList[0].children;
     });
   }
@@ -136,7 +136,7 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
         if (response && response.length > 0) {
           this.assetsList = this.fillAssetData(response);
         }
-        console.log('assets by Org id ', this.assetsList);
+        // console.log('assets by Org id ', this.assetsList);
         this.assetsSourceChild = this.assetsList;
       });
   }
@@ -147,11 +147,11 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
       if (response && response.length > 0) {
         this.locationsList = this.fillLocationData(response);
       }
-      console.log('my this.locationsList ', this.locationsList);
+      // console.log('my this.locationsList ', this.locationsList);
       this.LocationSourceChild = this.locationsList[0].children;
       // Requirement to Include Parent location (it self in dropdown)
       this.LocationSourceChild.push({data: this.locationsList[0].data});
-      console.log('my updated locationsList ', this.locationsList);
+      // console.log('my updated locationsList ', this.locationsList);
     });
   }
 
@@ -163,11 +163,11 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
           // this.assetsList = this.fillAssetData(response);
           this.assetsList = response[0].node[0].node;
         }
-        console.log('assets by asset id ', this.assetsList);
+        // console.log('assets by asset id ', this.assetsList);
         this.assetsSourceChild = this.assetsList;
 
         // this.assetsSourceChild.push({data: response[0].node[0]});
-        // console.log('my updated assets ', this.assetsSourceChild);
+        // // console.log('my updated assets ', this.assetsSourceChild);
       });
   }
 
@@ -177,7 +177,7 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
       const tempLoc: TreeNode = { data: org };
       tempLoc.children = [];
       if (org.node && org.node.length > 0) {
-        console.log('org.node====', org.node);
+        // console.log('org.node====', org.node);
         tempLoc.children = this.fillLocationData(org.node);
       } else {
         tempLoc.children = [];
@@ -194,7 +194,7 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
         if (response && response.length > 0) {
           this.assetsList = this.fillAssetData(response);
         }
-        console.log('my assetsList ', this.assetsList);
+        // console.log('my assetsList ', this.assetsList);
         this.assetsSourceChild = this.assetsList;
       });
   }
@@ -249,7 +249,7 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
     this.associatedAssets = [];
     if (overlaySource === 'location') {
 
-      console.log('locationID======', this.widgetlocImageID);
+      // console.log('locationID======', this.widgetlocImageID);
       this.getLocationById(this.widgetlocImageID); // get location Image data
       if (this.signalsCheckboxChecked) {
         this.locationSignalService.getSignalAssociation(this.widgetlocImageID)
@@ -372,8 +372,8 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
     }
     this.customizeImageOverlay.style.display = 'none';
     this.toaster.onSuccess('Chart Configured Successfully', 'Success');
-    console.log('widgetlocImage', this.widgetlocImageID);
-    console.log('widgetassetimageID', this.widgetassetimageID, this.overLaySource);
+    // console.log('widgetlocImage', this.widgetlocImageID);
+    // console.log('widgetassetimageID', this.widgetassetimageID, this.overLaySource);
 
     // Call services to save image overlay configuration data
     // this.widgetService.addImageOverlayConfiguration(imageOvelayConfigureObj).subscribe(
@@ -391,7 +391,7 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
     // }
     this.getImageOverlayConfiguration(this.overLaySource);
     // setTimeout(() => {
-    //   console.log('image overlay called');
+    //   // console.log('image overlay called');
 
     // }, 500);
 
@@ -400,18 +400,18 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
     // }
     // signal R code
     let connString = 'Sensor*' + this.parentOrgId + '*' + (this.widgetlocImageID ? this.widgetlocImageID : this.widgetassetimageID);
-    console.log(connString);
+    // console.log(connString);
     // connString = '7a59bdd8-6e1d-48f9-a961-aa60b2918dde*1387c6d3-cabc-41cf-a733-8ea9c9169831';
     this.signalRService.getSignalRConnection(connString);
     this.signalRService.signalData.subscribe(data => {
-      console.log(typeof data);
+      // console.log(typeof data);
 
       const jsonData = JSON.parse(JSON.stringify(data));
-      console.log('componnet', jsonData.SignalName, '===', jsonData.SignalValue, '=====', jsonData.ParkerDeviceId);
+      // console.log('componnet', jsonData.SignalName, '===', jsonData.SignalValue, '=====', jsonData.ParkerDeviceId);
       const index = this.associatedSignals.findIndex(assSig => {
-        console.log(jsonData);
-        console.log(assSig.parkerDeviceId, '===', jsonData.ParkerDeviceId);
-        console.log(assSig.signalId, '===', jsonData.SignalId);
+        // console.log(jsonData);
+        // console.log(assSig.parkerDeviceId, '===', jsonData.ParkerDeviceId);
+        // console.log(assSig.signalId, '===', jsonData.SignalId);
         return assSig.parkerDeviceId === jsonData.ParkerDeviceId && assSig.signalId === jsonData.SignalId;
       });
       if (index !== -1) {
@@ -423,7 +423,7 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    console.log('on destroy');
+    // console.log('on destroy');
     this.signalRService.closeSignalRConnection();
   }
 
@@ -509,13 +509,13 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
     // SVG Code
     // let parser = new DOMParser();
     // let xmlDoc: XMLDocument = parser.parseFromString(binaryString.toString(), 'image/svg+xml');
-    // // console.log('XMLDocument ', xmlDoc, xmlDoc.getElementsByTagName('svg'))
+    // // // console.log('XMLDocument ', xmlDoc, xmlDoc.getElementsByTagName('svg'))
     // const xml = (new XMLSerializer()).serializeToString(xmlDoc);
     // const svg64 = btoa(xml);
     // const b64Start = 'data:image/svg+xml;base64,';
     // const image64 = b64Start + svg64;
     // this.location.logo.image = image64;
-    // // console.log('this.location.logo.image ', this.location.logo.image)
+    // // // console.log('this.location.logo.image ', this.location.logo.image)
 
     // Other Images
     base64textString = btoa(binaryString);

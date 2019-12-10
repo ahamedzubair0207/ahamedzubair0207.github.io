@@ -43,8 +43,8 @@ export class VotmCloudAssetTemplateListComponent implements OnInit {
     private breadcrumbs: BreadcrumbsService) { }
 
   ngOnInit() {
-    console.log('@Input() orgId: string;===', this.orgId);
-    console.log('@Input() orgName: string;===', this.orgName);
+    // console.log('@Input() orgId: string;===', this.orgId);
+    // console.log('@Input() orgName: string;===', this.orgName);
   }
 
   onCreateAssetTemplateClick() {

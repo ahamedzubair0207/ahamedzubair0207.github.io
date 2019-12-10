@@ -2,7 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { Toaster } from '../../votm-cloud-toaster/votm-cloud-toaster';
 import { DbItem } from 'src/app/models/db-item';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
 import { DashBoard } from 'src/app/models/dashboard.model';
 import { TimeSeriesService } from 'src/app/services/timeSeries/time-series.service';
 import { VotmCommon } from '../../votm-common';
@@ -13,7 +13,8 @@ import { ConfigSettingsService } from 'src/app/services/configSettings/configSet
 @Component({
   selector: 'app-votm-data-table',
   templateUrl: './votm-data-table.component.html',
-  styleUrls: ['./votm-data-table.component.scss']
+  styleUrls: ['./votm-data-table.component.scss'],
+  providers: [NgbModalConfig, NgbModal]
 })
 export class VotmDataTableComponent implements OnInit {
   @Input() data: DashBoard;
@@ -42,6 +43,7 @@ export class VotmDataTableComponent implements OnInit {
   signals: any = [];
   pageLabels: any;
   currentUrl: any;
+  isParent: any = true;
   // [
   //   { "type": "temperature", "org": "QCD", "loc": "GV ❯ Prod", "asset": "", "name": "Ambient Temperature", "sel": false, "value": 105.5, "bat": 3.0, "rssi": .17, "sensor": "E5000001" },
   //   { "type": "temperature", "org": "QCD", "loc": "GV ❯ Prod", "asset": "EAP1", "name": "Exhaust", "sel": false, "value": 94.1, "bat": 2.9, "rssi": .31, "sensor": "E5000001" },
@@ -59,8 +61,12 @@ export class VotmDataTableComponent implements OnInit {
 
   // [];
 
-  constructor(private router: Router, private modalService: NgbModal, 
-    private timeSeries: TimeSeriesService, private configSettingsService: ConfigSettingsService,) { }
+  constructor(private router: Router, private modalService: NgbModal,
+    private timeSeries: TimeSeriesService, private configSettingsService: ConfigSettingsService,
+    ngbModalConfig: NgbModalConfig) {
+    ngbModalConfig.backdrop = 'static';
+    ngbModalConfig.keyboard = false;
+  }
 
   ngOnInit() {
     if (this.data) {
@@ -73,15 +79,15 @@ export class VotmDataTableComponent implements OnInit {
 
   getSignalData() {
     if (this.router.url.startsWith(`/org/edit`) || this.router.url.startsWith(`/org/view`)) {
-      console.log('In Organization');
+      // console.log('In Organization');
       if (this.data.organizationId)
         this.getSignalsAssociatedAssetByOrgId(this.data.organizationId);
     } else if (this.router.url.startsWith(`/loc/edit`) || this.router.url.startsWith(`/loc/view`)) {
-      console.log('In Location');
+      // console.log('In Location');
       if (this.data.locationId)
         this.getSignalsAssociatedByLocationId(this.data.locationId);
     } else if (this.router.url.startsWith(`/asset/view`) || this.router.url.startsWith(`/asset/edit`)) {
-      console.log('In Asset');
+      // console.log('In Asset');
       if (this.data.assetId)
         this.getSignalsAssociatedByAssetId(this.data.assetId);
     }
@@ -97,7 +103,7 @@ export class VotmDataTableComponent implements OnInit {
     this.configSettingsService.getDataTableConfigScreenLabels()
       .subscribe(response => {
         this.pageLabels = response;
-        // console.log('Screens Labels', this.pageLabels);
+        // // console.log('Screens Labels', this.pageLabels);
       });
   }
 
@@ -182,7 +188,7 @@ export class VotmDataTableComponent implements OnInit {
     this.timeSeries.getDataTable()
       .subscribe(response => {
         // response.signals = [];
-        console.log("List of Data", response);
+        // console.log("List of Data", response);
         this.mapSignalDataTableValuesForOrganization(response);
       });
   }
@@ -193,15 +199,25 @@ export class VotmDataTableComponent implements OnInit {
       // Location
       response.forEach(signal => {
         // Direct Signal
-        sigArray.push({ "type": signal.signalType, "name": `${signal.locationName} > ${signal.signalName}`, "sel": false, "value": signal.Value,
-         "bat": signal.Battery, "rssi": signal.Signal, "sensor": signal.Sensor, "iconFile":signal.iconFile });
+        sigArray.push({
+          "type": signal.signalType, "name": `${signal.locationName} > ${signal.signalName}`, "sel": false, "value": signal.Value,
+          "bat": signal.Battery, "rssi": signal.Signal, "sensor": signal.Sensor, "iconFile": signal.iconFile
+        });
       });
     }
     this.signals = VotmCommon.getUniqueValues(sigArray);
-    console.log('this.signals ', this.signals);
+    // console.log('this.signals ', this.signals);
   }
 
-  private mapSignalDataTableValuesForOrganization(response: any) {
+  getShortName(name: string) {
+    let splittedNames: string[] = name.split(' ');
+    if (splittedNames.length > 1) {
+      name = splittedNames.map((splitedName) => splitedName[0]).join('')
+    }
+    return name;
+  }
+
+  private mapSignalDataTableValuesForOrganization(response: any, isParent: boolean = false) {
     let sigArray = [];
     if (response) {
       // Location
@@ -210,8 +226,10 @@ export class VotmDataTableComponent implements OnInit {
           // Direct Signal
           if (location.signals && location.signals.length > 0) {
             location.signals.forEach(signal => {
-              sigArray.push({ "type": signal.signalType, "name": `${location.locationName} > ${signal.signalName}`, "sel": false, "value": signal.Value,
-               "bat": signal.Battery, "rssi": signal.Signal, "sensor": signal.Sensor, "iconFile":signal.iconFile });
+              sigArray.push({
+                "type": signal.signalType, "name": `${!isParent ? this.getShortName(response.organizationName) + ' > ' : ''}${this.getShortName(location.locationName)} > ${signal.signalName}`, "sel": false, "value": signal.Value,
+                "bat": signal.Battery, "rssi": signal.Signal, "sensor": signal.Sensor, "iconFile": signal.iconFile
+              });
               // sigArray.push({ "type": signal.signalType, "org": response.organizationName, "loc": location.locationName, "asset": "", "name": signal.signalName, "sel": false, "value": signal.Value, "bat": signal.Battery, "rssi": signal.Signal, "sensor": signal.Sensor })
             });
           }
@@ -220,8 +238,10 @@ export class VotmDataTableComponent implements OnInit {
             location.assets.forEach(asset => {
               if (asset.signals && asset.signals.length > 0) {
                 asset.signals.forEach(signal => {
-                  sigArray.push({ "type": signal.signalType, "name": `${location.locationName} > ${asset.assetName} > ${signal.signalName}`, "sel": false,
-                   "value": signal.Value, "bat": signal.Battery, "rssi": signal.Signal, "sensor": signal.Sensor, "iconFile":signal.iconFile });
+                  sigArray.push({
+                    "type": signal.signalType, "name": `${!isParent ? this.getShortName(response.organizationName) + ' > ' : ''}${this.getShortName(location.locationName)} > ${this.getShortName(asset.assetName)} > ${signal.signalName}`, "sel": false,
+                    "value": signal.Value, "bat": signal.Battery, "rssi": signal.Signal, "sensor": signal.Sensor, "iconFile": signal.iconFile
+                  });
                   // sigArray.push({ "type": signal.signalType, "org": response.organizationName, "loc": location.locationName, "asset": asset.assetName, "name": signal.signalName, "sel": false, "value": signal.Value, "bat": signal.Battery, "rssi": signal.Signal, "sensor": signal.Sensor })
                 });
               }
@@ -230,21 +250,43 @@ export class VotmDataTableComponent implements OnInit {
         });
       }
     }
-    this.signals = VotmCommon.getUniqueValues(sigArray);
+    if (!this.signals) {
+      this.signals = [];
+    }
+    this.signals.push(...sigArray);
+    // this.signals = [this.signals, ...VotmCommon.getUniqueValues(sigArray)];
 
     // this.signals = sigArray; //.reduce((acc, cur) => acc.some(x => (x.id === cur.id)) ? acc : acc.concat(cur), [])
-    console.log('this.signals ', this.signals);
+    // console.log('this.signals ', this.signals);
   }
 
   getSignalsAssociatedAssetByOrgId(orgId: string) {
     this.timeSeries.getSignalsAssociatedAssetByOrgId(orgId)
       .subscribe(response => {
-        console.log('Time Series Signal', response);
+        // console.log('Time Series Signal', response);
         // this.mapSignals(response);
-        this.mapSignalDataTableValuesForOrganization(response);
+        if (response) {
+          this.passOrganizationsToMap(response);
+        }
       });
-
   }
+
+  passOrganizationsToMap(organization) {
+    if (organization) {
+      this.mapSignalDataTableValuesForOrganization(organization, this.isParent);
+      if (this.isParent) {
+        this.isParent = false;
+      }
+
+      if (organization.organizations && organization.organizations.length > 0) {
+        organization.organizations.forEach(subOrg => {
+          this.passOrganizationsToMap(subOrg);
+        })
+      }
+    }
+    VotmCommon.getUniqueValues(this.signals);
+  }
+
 
   private mapSignals(response: any) {
     let tempArray = [];
@@ -277,7 +319,7 @@ export class VotmDataTableComponent implements OnInit {
   getSignalsAssociatedByLocationId(locId: string) {
     this.timeSeries.getTimeSeriesSignalsByLocationID(locId)
       .subscribe(response => {
-        console.log('Signals by Location ID', response);
+        // console.log('Signals by Location ID', response);
         // this.mapSignals(response);
         this.mapSignalDataTableValuesForLocAndAsset(response);
       });
@@ -286,7 +328,7 @@ export class VotmDataTableComponent implements OnInit {
   getSignalsAssociatedByAssetId(assetId: string) {
     this.timeSeries.getTimeSeriesSignalsByAssetID(assetId)
       .subscribe(response => {
-        console.log('Signals by Asset ID', response);
+        // console.log('Signals by Asset ID', response);
         // this.mapSignals(response);
         this.mapSignalDataTableValuesForLocAndAsset(response);
       });
