@@ -126,6 +126,8 @@ export class AppConstants {
     public static GET_GATEWAY_DETAIL_BY_TYPE_AND_ID = '/GatewayByOrganizationId';
     public static GET_GATEWAY_BY_ORG_ID = '/GatewayByOrganizationId';
 
+    public static UOM_CONVERSION = 'UnitofMeasurement/UOMConvert';
+
 
     public static GET_DATATABLE = '/Dashboard/getTimeseriesDatatable';
 

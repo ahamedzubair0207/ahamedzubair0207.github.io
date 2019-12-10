@@ -191,7 +191,7 @@
 
   // Medium icon
   .assoc-pane > div.widget-icon-medium{
-    padding-left:calc(1 * 2rem + 0px);
+    padding-left:calc(1 * 2rem + 4px);
     line-height: calc(1 * 2rem + 0px);
     border-radius: calc(1 * 2rem / 2 + 0px) !important;
     background: $qcd-white-90;
@@ -224,7 +224,7 @@
   }
   // large icon
   .assoc-pane > div.widget-icon-large{
-    padding-left:calc(1 * 3rem + 0px);
+    padding-left:calc(1 * 3rem + 3px);
     line-height: calc(1 * 3rem + 0px);
     min-height: calc(1 * 3rem + 0px);
     border-radius: calc(1 * 3rem / 2 + 0px) !important;
@@ -259,7 +259,7 @@
   }
   //extra large icon
   .assoc-pane > div.widget-icon-extra-large{
-    padding-left:calc(1 * 5.75rem + 0px);
+    padding-left:calc(1 * 5.75rem + 3px);
     line-height: calc(0.98 * 5.75rem + 0px);
     min-height: calc(1 * 5.75rem + 0px);
     border-radius: calc(1 * 5.75rem / 2 + 0px) !important;
@@ -299,7 +299,7 @@
 
 // Extgra Extra large icon
 .assoc-pane > div.widget-icon-extra-extra-large{
-    padding-left:calc(1 * 12rem + 0px);
+    padding-left:calc(1 * 12rem + 3px);
     line-height: calc(1 * 12rem + 0px);
     min-height: calc(1 * 12rem + 0px);
     border-top-left-radius: calc(1 * 12rem / 2 + 0px) !important;

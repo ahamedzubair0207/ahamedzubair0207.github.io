@@ -63,7 +63,7 @@ export class VotmCloudLocationsSignalComponent implements OnInit {
       this.curOrganizationName = params.get('curOrgName');
       this.locationId = params.get('locId');
       // console.log(this.curOrganizationId, '====', this.curOrganizationName, '====', this.organizationId);
-      this.getLocationById();
+
       this.getLocationSignalAssociation();
       this.getAlertRulesList();
     });
@@ -147,6 +147,7 @@ export class VotmCloudLocationsSignalComponent implements OnInit {
       .subscribe(
         response => {
           this.getAllAvailableSignals();
+          this.getLocationById();
           this.isGetAssociatedSignalsAPILoading = false;
           for (let i = 0; i < response.length; i++) {
             const signal = response[i];

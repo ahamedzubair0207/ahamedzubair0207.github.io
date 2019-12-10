@@ -61,9 +61,13 @@ export class VotmDataTableComponent implements OnInit {
 
   // [];
 
-  constructor(private router: Router, private modalService: NgbModal,
-    private timeSeries: TimeSeriesService, private configSettingsService: ConfigSettingsService,
-    ngbModalConfig: NgbModalConfig) {
+  constructor(
+    private router: Router,
+    private modalService: NgbModal,
+    private timeSeries: TimeSeriesService,
+    private configSettingsService: ConfigSettingsService,
+    ngbModalConfig: NgbModalConfig
+    ) {
     ngbModalConfig.backdrop = 'static';
     ngbModalConfig.keyboard = false;
   }
@@ -80,8 +84,9 @@ export class VotmDataTableComponent implements OnInit {
   getSignalData() {
     if (this.router.url.startsWith(`/org/edit`) || this.router.url.startsWith(`/org/view`)) {
       // console.log('In Organization');
-      if (this.data.organizationId)
+      if (this.data.organizationId) {
         this.getSignalsAssociatedAssetByOrgId(this.data.organizationId);
+      }
     } else if (this.router.url.startsWith(`/loc/edit`) || this.router.url.startsWith(`/loc/view`)) {
       // console.log('In Location');
       if (this.data.locationId)
@@ -341,7 +346,7 @@ export class VotmDataTableComponent implements OnInit {
 
 
 
-// Old Code 
+// Old Code
 // import { Component, OnInit, Input } from '@angular/core';
 // import { ColumnMode } from '../../../../../assets/projects/swimlane/ngx-datatable/src/public-api';
 // import { ToastrService } from 'ngx-toastr';
@@ -372,7 +377,7 @@ export class VotmDataTableComponent implements OnInit {
 
 //   ColumnMode = ColumnMode;
 
-//   constructor(private toastr: ToastrService) { 
+//   constructor(private toastr: ToastrService) {
 //     this.fetch(data => {
 //       this.rows = data;
 //       setTimeout(() => {
