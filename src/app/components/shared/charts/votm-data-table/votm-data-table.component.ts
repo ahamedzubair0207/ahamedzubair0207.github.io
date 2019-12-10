@@ -9,6 +9,7 @@ import { VotmCommon } from '../../votm-common';
 import { Router, RouterEvent } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { ConfigSettingsService } from 'src/app/services/configSettings/configSettings.service';
+import { SignalRService } from 'src/app/services/signalR/signal-r.service';
 
 @Component({
   selector: 'app-votm-data-table',
@@ -63,7 +64,7 @@ export class VotmDataTableComponent implements OnInit {
 
   constructor(private router: Router, private modalService: NgbModal,
     private timeSeries: TimeSeriesService, private configSettingsService: ConfigSettingsService,
-    ngbModalConfig: NgbModalConfig) {
+    ngbModalConfig: NgbModalConfig, private signalRService: SignalRService) {
     ngbModalConfig.backdrop = 'static';
     ngbModalConfig.keyboard = false;
   }
@@ -119,10 +120,18 @@ export class VotmDataTableComponent implements OnInit {
         this.wConfig.showStatus = this.showStatus;
         this.wConfig.title = this.title;
         this.timestamp = ts.getFullYear() + "-" + (ts.getMonth() + 1) + "-" + ts.getDate() + " " + ts.getHours() + ":" + ts.getMinutes() + ":" + ts.getSeconds();
+        // this.liveSignalValues();
       }
     });
   }
 
+  liveSignalValues() {
+    let connectionString = '7a59bdd8-6e1d-48f9-a961-aa60b2918dde*1387c6d3-cabc-41cf-a733-8ea9c9169831';
+    this.signalRService.getSignalRConnection(connectionString);
+    this.signalRService.signalData.subscribe(response => {
+      console.log('socket data ', response);
+    })
+  }
 
   selectSignal(idx) {
     if (idx == -1) {
