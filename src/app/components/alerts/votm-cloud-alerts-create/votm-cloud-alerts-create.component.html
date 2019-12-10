@@ -154,14 +154,14 @@
                                   <input [disabled]="!threshold.active" id="thresholdLowCra" type="text" name="{{threshold.alertConfigurationId}}"
                                     [(ngModel)]="threshold.alertConfigurationValue" class="form-control form-control-sm brd-radius-tr-br" />
                                   <div class="">
-                                    <span class="input-group-text form-control-sm bg-white border-0" *ngIf="alert.alertRuleTypeId === ruleTypes[0].id">
+                                    <span class="form-control-sm border-0" *ngIf="alert.alertRuleTypeId === ruleTypes[0].id">
                                       {{alert.uomName}}
                                     </span>
-                                    <span class="input-group-text form-control-sm bg-white border-0"
+                                    <span class="form-control-sm border-0"
                                       *ngIf="alert.alertRuleTypeId === ruleTypes[1].id && threshold.alertConfigurationLabel === 'Baseline'">
                                       {{alert.uomName}}
                                     </span>
-                                    <span class="input-group-text form-control-sm bg-white border-0"
+                                    <span class="form-control-sm border-0"
                                       *ngIf="alert.alertRuleTypeId === ruleTypes[1].id && threshold.alertConfigurationLabel !== 'Baseline'">
                                       %
                                     </span>
@@ -177,7 +177,7 @@
         </div>
         <div class="row">
             <div class="col-md-12 col-xl-6">
-                <fieldset style="height:380px;" [disabled]="pageType === 'View'">
+                <fieldset [disabled]="pageType === 'View'">
                     <legend id="alertRuleSignallbl">Signal Associations</legend>
                     <ul class="nav nav-tabs">
                         <li class="nav-item">

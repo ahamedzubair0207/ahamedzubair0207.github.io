@@ -1,5 +1,5 @@
 import { SharedService } from 'src/app/services/shared.service';
-import { Component, OnInit, ViewChild, Input, OnDestroy, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, ViewChild, Input, OnDestroy, Output, EventEmitter,ViewEncapsulation } from '@angular/core';
 import { DatePipe, Location as RouterLocation } from '@angular/common';
 import { Select2OptionData } from 'ng2-select2';
 import { Toaster } from '../../shared/votm-cloud-toaster/votm-cloud-toaster';
@@ -20,7 +20,8 @@ import { VotmCommon } from '../../shared/votm-common';
 @Component({
   selector: 'app-votm-cloud-alerts-create',
   templateUrl: './votm-cloud-alerts-create.component.html',
-  styleUrls: ['./votm-cloud-alerts-create.component.scss']
+  styleUrls: ['./votm-cloud-alerts-create.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class VotmCloudAlertsCreateComponent implements OnInit, OnDestroy {
   alert: Alert = new Alert();
