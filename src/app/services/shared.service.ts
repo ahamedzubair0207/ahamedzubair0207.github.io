@@ -81,7 +81,13 @@ export class SharedService {
     const loggedInUserData = {
       userId: '03c7fb47-58ee-4c41-a9d6-2ad0bd43392a',
       organizationId : '7a59bdd8-6e1d-48f9-a961-aa60b2918dde',
-      userName: 'Sean Haley'
+      userName: 'Sean Haley',
+      userConfigSettings: [
+        {
+          localeId: '3c10d7d2-c95a-4c16-bb51-44a80ec63fba',
+          localeName: 'de-de'
+        }
+      ]
     };
     return loggedInUserData;
   }
@@ -92,6 +98,10 @@ export class SharedService {
 
   getSignalDataForAlert() {
     return this.selectedSignalForAlert;
+  }
+
+  getUOMConversionData(body, userId) {
+    return this.http.post(AppConstants.UOM_CONVERSION + '?userId=' + userId, body);
   }
 
 
