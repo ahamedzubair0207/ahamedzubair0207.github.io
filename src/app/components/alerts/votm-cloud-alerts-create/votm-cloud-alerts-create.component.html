@@ -146,7 +146,7 @@
                                         <label class="custom-control-label" for="{{threshold.alertConfigurationId}}"></label>
                                     </div>
                                 </div>
-                                <div class="col-1 p-0">
+                                <div class="col-1 p-0" *ngIf="alert.alertRuleTypeId === ruleTypes[1].id">
                                     <i class="{{threshold.arrowIconClass}}"></i>
                                 </div>
                                 <div class="col-8 pl-1">
