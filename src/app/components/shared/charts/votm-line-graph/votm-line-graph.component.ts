@@ -433,6 +433,9 @@ export class VotmLineGraphComponent implements OnInit {
     chart.dataSource.parser.options.dateFormat = 'MM/d/yyyy h:mm:ss a';
     chart.dataSource.parser.options.dateFormatter = new am4core.DateFormatter();
     chart.dataSource.parser.options.dateFormatter.timezoneOffset = -360;
+
+    // chart.dataSource.parser.options
+
     // chart.dataSource.dateFormat = 'M/d/y h:m:s a';
     chart.dataSource.reloadFrequency = 20000;
     // chart.data = response; // timeseries;// this.generateChartData();

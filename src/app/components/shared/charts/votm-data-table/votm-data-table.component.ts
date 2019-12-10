@@ -9,6 +9,7 @@ import { VotmCommon } from '../../votm-common';
 import { Router, RouterEvent } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { ConfigSettingsService } from 'src/app/services/configSettings/configSettings.service';
+import { SignalRService } from 'src/app/services/signalR/signal-r.service';
 
 @Component({
   selector: 'app-votm-data-table',
@@ -63,7 +64,7 @@ export class VotmDataTableComponent implements OnInit {
 
   constructor(private router: Router, private modalService: NgbModal,
     private timeSeries: TimeSeriesService, private configSettingsService: ConfigSettingsService,
-    ngbModalConfig: NgbModalConfig) {
+    ngbModalConfig: NgbModalConfig, private signalRService: SignalRService) {
     ngbModalConfig.backdrop = 'static';
     ngbModalConfig.keyboard = false;
   }
@@ -80,8 +81,9 @@ export class VotmDataTableComponent implements OnInit {
   getSignalData() {
     if (this.router.url.startsWith(`/org/edit`) || this.router.url.startsWith(`/org/view`)) {
       // console.log('In Organization');
-      if (this.data.organizationId)
+      if (this.data.organizationId) {
         this.getSignalsAssociatedAssetByOrgId(this.data.organizationId);
+      }
     } else if (this.router.url.startsWith(`/loc/edit`) || this.router.url.startsWith(`/loc/view`)) {
       // console.log('In Location');
       if (this.data.locationId)
@@ -119,10 +121,18 @@ export class VotmDataTableComponent implements OnInit {
         this.wConfig.showStatus = this.showStatus;
         this.wConfig.title = this.title;
         this.timestamp = ts.getFullYear() + "-" + (ts.getMonth() + 1) + "-" + ts.getDate() + " " + ts.getHours() + ":" + ts.getMinutes() + ":" + ts.getSeconds();
+        // this.liveSignalValues();
       }
     });
   }
 
+  liveSignalValues() {
+    let connectionString = '7a59bdd8-6e1d-48f9-a961-aa60b2918dde*1387c6d3-cabc-41cf-a733-8ea9c9169831';
+    this.signalRService.getSignalRConnection(connectionString);
+    this.signalRService.signalData.subscribe(response => {
+      console.log('socket data ', response);
+    })
+  }
 
   selectSignal(idx) {
     if (idx == -1) {
@@ -341,7 +351,7 @@ export class VotmDataTableComponent implements OnInit {
 
 
 
-// Old Code 
+// Old Code
 // import { Component, OnInit, Input } from '@angular/core';
 // import { ColumnMode } from '../../../../../assets/projects/swimlane/ngx-datatable/src/public-api';
 // import { ToastrService } from 'ngx-toastr';
@@ -372,7 +382,7 @@ export class VotmDataTableComponent implements OnInit {
 
 //   ColumnMode = ColumnMode;
 
-//   constructor(private toastr: ToastrService) { 
+//   constructor(private toastr: ToastrService) {
 //     this.fetch(data => {
 //       this.rows = data;
 //       setTimeout(() => {

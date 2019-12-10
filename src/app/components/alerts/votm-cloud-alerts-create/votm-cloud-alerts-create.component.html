@@ -138,30 +138,30 @@
                         </tr>
                         <tr>
                             <td *ngFor="let threshold of absoluteThresholds">
-                              <div class="row">
-                                <div class="col-2 ml-1 pr-0">
+                              <div class="row justify-center">
+                                <div class="col-2 ml-1 mr-2 pr-0">
                                     <div class="custom-control custom-switch mt-2">
                                         <input type="checkbox" [(ngModel)]="threshold.active" name="{{'checkbox_'+threshold.alertConfigurationId}}"
                                         class="custom-control-input" id="{{threshold.alertConfigurationId}}">
                                         <label class="custom-control-label" for="{{threshold.alertConfigurationId}}"></label>
                                     </div>
                                 </div>
-                                <div class="col-1 p-0">
+                                <div class="col-1 p-0" *ngIf="alert.alertRuleTypeId === ruleTypes[1].id">
                                     <i class="{{threshold.arrowIconClass}}"></i>
                                 </div>
                                 <div class="col-8 pl-1">
                                 <div class="input-group">
                                   <input [disabled]="!threshold.active" id="thresholdLowCra" type="text" name="{{threshold.alertConfigurationId}}"
-                                    [(ngModel)]="threshold.alertConfigurationValue" class="form-control form-control-sm " />
-                                  <div class="input-group-append">
-                                    <span class="input-group-text form-control-sm bg-white" *ngIf="alert.alertRuleTypeId === ruleTypes[0].id">
+                                    [(ngModel)]="threshold.alertConfigurationValue" class="form-control form-control-sm brd-radius-tr-br" />
+                                  <div class="">
+                                    <span class="form-control-sm border-0" *ngIf="alert.alertRuleTypeId === ruleTypes[0].id">
                                       {{alert.uomName}}
                                     </span>
-                                    <span class="input-group-text form-control-sm bg-white"
+                                    <span class="form-control-sm border-0"
                                       *ngIf="alert.alertRuleTypeId === ruleTypes[1].id && threshold.alertConfigurationLabel === 'Baseline'">
                                       {{alert.uomName}}
                                     </span>
-                                    <span class="input-group-text form-control-sm bg-white"
+                                    <span class="form-control-sm border-0"
                                       *ngIf="alert.alertRuleTypeId === ruleTypes[1].id && threshold.alertConfigurationLabel !== 'Baseline'">
                                       %
                                     </span>
@@ -176,8 +176,8 @@
             </fieldset>
         </div>
         <div class="row">
-            <div class="col-md-6">
-                <fieldset style="height:380px;" [disabled]="pageType === 'View'">
+            <div class="col-md-12 col-xl-6">
+                <fieldset [disabled]="pageType === 'View'">
                     <legend id="alertRuleSignallbl">Signal Associations</legend>
                     <ul class="nav nav-tabs">
                         <li class="nav-item">
@@ -369,7 +369,7 @@
                     </div>
                 </fieldset>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-12 col-xl-6">
                 <fieldset style="height:380px;" [disabled]="pageType === 'View'">
                     <legend>Notified Parties</legend>
                     <div class="">

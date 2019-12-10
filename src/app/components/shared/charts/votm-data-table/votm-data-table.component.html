@@ -26,7 +26,7 @@
                   <tr *ngIf="signal.sel">
                       <td scope="col" class="" title="{{ selPathName(signal) }}"><i class="pr-1 icon-sig-{{ signal.type }}"></i>{{ signal.name }}</td>
                     <!-- <td scope="col" class="" title="{{ selPathName(signal) }}"><i class="pr-1 icon-sig-{{ signal.type }}"></i>{{ selPathName(signal) }}</td> -->
-                    <td scope="col" class="text-right" title="{{ signal.value }} {{ getUoM(signal) }}">{{ signal.value }} {{ getUoM(signal) }}</td>
+                    <td scope="col" class="text-right" title="{{ signal.value }}">{{ signal.value }}</td>
                     <td scope="col" class="" title="{{ timestamp }}">{{ timestamp }}</td>
                     <td *ngIf="wConfig.showSensor" scope="col" class="text-center">{{ signal.sensor }}</td>
                     <td *ngIf="wConfig.showStatus" scope="col" class="text-center align-middle">

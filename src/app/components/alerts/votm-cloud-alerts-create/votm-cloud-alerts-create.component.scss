@@ -10,14 +10,14 @@
 .table-scroll{
   max-height: 180px;
   overflow: hidden;
-  overflow-y: scroll;
+  overflow: scroll;
   display: block; 
 }
 
 .table2-scroll{
   // max-height: 180px;
   overflow: hidden;
-  overflow-y: scroll;
+  overflow: scroll;
   display: block; 
 }
 .table-scroll::-webkit-scrollbar {
@@ -45,4 +45,17 @@
   // margin-left: auto;
   // margin-top: 4px;
 }
+.brd-radius-tr-br{
+  border-top-right-radius: .2rem !important;
+  border-bottom-right-radius: .2rem !important;
+}
+.justify-center{
+  justify-content:center;
+}
+/* iPad Pro*/
+@media only screen and (min-width: 1024px) and (max-width: 1366px) {
+  .modal-lg, .modal-xl {
+      max-width: 90% !important;
+  }
 
+}
