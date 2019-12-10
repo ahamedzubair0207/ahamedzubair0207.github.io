@@ -2,11 +2,11 @@ export class ImageOverlayWidget{
 
     title: string;
     overlaySource: string;
-    location: string;
+    overlaySourceID: string;
     iconDisplaySize: string;
-    showLocation: boolean;
+    showSignals: boolean;
     showAsset: boolean;
     signals: string[];
-    coOrdinates: string;
+    showChildAsset: boolean;
 
 }

@@ -14,6 +14,8 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { AssetsService } from 'src/app/services/assets/assets.service';
 import * as moment from 'moment';
 import { VotmCommon } from '../../votm-common';
+import { ImageOverlayWidget } from 'src/app/models/image-overlay-widget.model';
+import { DashboardService } from 'src/app/services/dasboards/dashboard.service';
 
 @Component({
   selector: 'app-votm-image-overlay',
@@ -61,6 +63,8 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
   message: string;
   widgetCustomImgURL: any;
   loggedInUser: any;
+  imageOverlay: ImageOverlayWidget = new ImageOverlayWidget();
+
   constructor(
     private toastr: ToastrService,
     private locationSignalService: LocationSignalService,
