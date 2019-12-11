@@ -61,7 +61,7 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
   displaySignalHoverContent: any = {};
   orgId: string;
   message: string;
-  widgetCustomImgURL = '../../../../assets/images/default-image-svg.svg';
+  widgetCustomImgURL: any;
   loggedInUser: any;
   imageOverlay: ImageOverlayWidget = new ImageOverlayWidget();
 
