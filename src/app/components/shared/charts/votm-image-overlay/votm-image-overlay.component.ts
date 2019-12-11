@@ -14,6 +14,8 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { AssetsService } from 'src/app/services/assets/assets.service';
 import * as moment from 'moment';
 import { VotmCommon } from '../../votm-common';
+import { ImageOverlayWidget } from 'src/app/models/image-overlay-widget.model';
+import { DashboardService } from 'src/app/services/dasboards/dashboard.service';
 
 @Component({
   selector: 'app-votm-image-overlay',
@@ -33,20 +35,20 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
   curLocId: string;
   locationsList: Array<TreeNode> = [];
   LocationSourceChild: any[];
-  widgetlocImageID: any;
+  // widgetlocImageID: any;
   widgetImageData: any;
   widgetimgURL: any;
-  iconSize = 'widget-icon-extra-small';
+  // iconSize = 'widget-icon-extra-small';
   assetsList: Array<TreeNode> = [];
   assetsSourceChild: any[];
-  widgetassetimageID: any;
-  overLaySource = 'location';
+  // widgetassetimageID: any;
+  // overLaySource = 'location';
   wId: string;
   parentOrgId: string;
   assetId: string;
   widgetImageOverlaySource: any;
-  signalsCheckboxChecked = true;
-  assetsCheckboxChecked = true;
+  // signalsCheckboxChecked = true;
+  // assetsCheckboxChecked = true;
   @ViewChild('overlayImage', { static: false }) eloverlayImg: ElementRef;
   imgOffsetLeft = null;
   imgOffsetTop = null;
@@ -61,6 +63,9 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
   message: string;
   widgetCustomImgURL: any;
   loggedInUser: any;
+  imageOverlay: ImageOverlayWidget = new ImageOverlayWidget();
+
+
   constructor(
     private toastr: ToastrService,
     private locationSignalService: LocationSignalService,
@@ -70,12 +75,18 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
     private assetService: AssetsService,
     private domSanitizer: DomSanitizer,
     private signalRService: SignalRService,
-    private sharedService: SharedService
+    private sharedService: SharedService,
+    private dashboardService: DashboardService
   ) {
 
   }
 
   ngOnInit() {
+    this.imageOverlay.overlaySource = 'location';
+    this.imageOverlay.iconDisplaySize = 'widget-icon-extra-small';
+    this.imageOverlay.showSignals = true;
+    this.imageOverlay.showAsset = true;
+
     this.loggedInUser = this.sharedService.getLoggedInUser();
     this.wId = this.data.dashboardId + '-' + this.id;
     this.isImageOverlayConfigured = false;
@@ -156,7 +167,7 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
       // console.log('my this.locationsList ', this.locationsList);
       this.LocationSourceChild = this.locationsList[0].children;
       // Requirement to Include Parent location (it self in dropdown)
-      this.LocationSourceChild.push({data: this.locationsList[0].data});
+      this.LocationSourceChild.push({ data: this.locationsList[0].data });
       // console.log('my updated locationsList ', this.locationsList);
     });
   }
@@ -235,7 +246,7 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
   onClickOfCustomizeImageOverlayModalClose() {
     // Close modal popup
     if (this.customizeImageOverlay) {
-    this.customizeImageOverlay.style.display = 'none';
+      this.customizeImageOverlay.style.display = 'none';
     }
   }
 
@@ -256,75 +267,75 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
     if (overlaySource === 'location') {
 
       // console.log('locationID======', this.widgetlocImageID);
-      this.getLocationById(this.widgetlocImageID); // get location Image data
-      if (this.signalsCheckboxChecked) {
-        this.locationSignalService.getSignalAssociation(this.widgetlocImageID)
+      this.getLocationById(this.imageOverlay.overlaySourceID); // get location Image data
+      if (this.imageOverlay.showSignals) {
+        this.locationSignalService.getSignalAssociation(this.imageOverlay.overlaySourceID)
           .subscribe(
             response => {
               for (let i = 0; i < response.length; i++) {
                 const signal = response[i];
-                signal.icon = signal.iconFile + ' ' + this.iconSize;
+                signal.icon = signal.iconFile + ' ' + this.imageOverlay.iconDisplaySize;
                 signal.latestValue = 0;
                 signal.modifiedOn =
-                moment(new Date()).format(moment.localeData(this.loggedInUser.userConfigSettings[0].localeName)
-                .longDateFormat('L')) + ' '
-                + moment(new Date()).format(moment.localeData(this.loggedInUser.userConfigSettings[0].localeName)
-                .longDateFormat('LTS'));
+                  moment(new Date()).format(moment.localeData(this.loggedInUser.userConfigSettings[0].localeName)
+                    .longDateFormat('L')) + ' '
+                  + moment(new Date()).format(moment.localeData(this.loggedInUser.userConfigSettings[0].localeName)
+                    .longDateFormat('LTS'));
                 this.displaySignalHoverContent['s-' + i] = false;
               }
               this.associatedSignals = [...response];
             }
-        );
+          );
       }
-      if (this.assetsCheckboxChecked) {
-        this.locationService.getAssetAssociation(this.widgetlocImageID)
+      if (this.imageOverlay.showAsset) {
+        this.locationService.getAssetAssociation(this.imageOverlay.overlaySourceID)
           .subscribe(
             response => {
               for (let i = 0; i < response.length; i++) {
                 const signal = response[i];
-                signal.icon = 'icon-asset-robot ' + this.iconSize;
+                signal.icon = 'icon-asset-robot ' + this.imageOverlay.iconDisplaySize;
                 this.displaySignalHoverContent['a-' + i] = false;
               }
               this.associatedAssets = [...response];
             }
-        );
+          );
       }
-      } else if (overlaySource === 'asset') {
+    } else if (overlaySource === 'asset') {
 
-        this.getAssetById(this.widgetassetimageID); // get asset Image data
-        if (this.signalsCheckboxChecked) {
-          this.assetSignalService.getAssetSignalAssociation(this.widgetassetimageID)
+      this.getAssetById(this.imageOverlay.overlaySourceID); // get asset Image data
+      if (this.imageOverlay.showSignals) {
+        this.assetSignalService.getAssetSignalAssociation(this.imageOverlay.overlaySourceID)
           .subscribe(
             response => {
               for (let i = 0; i < response.length; i++) {
                 const signal = response[i];
-                signal.icon = signal.iconFile + ' ' + this.iconSize;
+                signal.icon = signal.iconFile + ' ' + this.imageOverlay.iconDisplaySize;
                 signal.modifiedOn =
-                moment(new Date()).format(moment.localeData(this.loggedInUser.userConfigSettings[0].localeName)
-                .longDateFormat('L')) + ' '
-                + moment(new Date()).format(moment.localeData(this.loggedInUser.userConfigSettings[0].localeName)
-                .longDateFormat('LTS'));
+                  moment(new Date()).format(moment.localeData(this.loggedInUser.userConfigSettings[0].localeName)
+                    .longDateFormat('L')) + ' '
+                  + moment(new Date()).format(moment.localeData(this.loggedInUser.userConfigSettings[0].localeName)
+                    .longDateFormat('LTS'));
                 signal.latestValue = 0;
                 this.displaySignalHoverContent['s-' + i] = false;
               }
               this.associatedSignals = [...response];
             }
           );
-        }
-        if (this.assetsCheckboxChecked) {
-          this.assetService.getParentChildAssetAssociation(this.widgetassetimageID)
-            .subscribe(
-              response => {
-                for (let i = 0; i < response.length; i++) {
-                  const asset = response[i];
-                  asset.icon = asset.iconFile  + ' ' + this.iconSize;
-                  this.displaySignalHoverContent['a-' + i] = false;
-                }
-                this.associatedAssets = [...response];
-              }
-          );
-        }
       }
+      if (this.imageOverlay.showAsset) {
+        this.assetService.getParentChildAssetAssociation(this.imageOverlay.overlaySourceID)
+          .subscribe(
+            response => {
+              for (let i = 0; i < response.length; i++) {
+                const asset = response[i];
+                asset.icon = asset.iconFile + ' ' + this.imageOverlay.iconDisplaySize;
+                this.displaySignalHoverContent['a-' + i] = false;
+              }
+              this.associatedAssets = [...response];
+            }
+          );
+      }
+    }
   }
 
   getPositionStyle(signal) {
@@ -351,7 +362,7 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
             fileExtension = 'svg+xml';
           }
           this.widgetimgURL = this.domSanitizer.bypassSecurityTrustUrl
-          (`data:image/${fileExtension};base64,${this.widgetImageData.logo.image}`);
+            (`data:image/${fileExtension};base64,${this.widgetImageData.logo.image}`);
         } else {
           this.widgetimgURL = '../../../../assets/images/default-image-svg.svg';
         }
@@ -370,7 +381,7 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
             fileExtension = 'svg+xml';
           }
           this.widgetimgURL = this.domSanitizer.bypassSecurityTrustUrl
-          (`data:image/${fileExtension};base64,${this.widgetImageData.logo.image}`);
+            (`data:image/${fileExtension};base64,${this.widgetImageData.logo.image}`);
         } else {
           this.widgetimgURL = '../../../../assets/images/default-image-svg.svg';
         }
@@ -378,16 +389,35 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
   }
 
   saveImageOverlayConfiguration() {
-    if (this.overLaySource === 'location' && !this.widgetlocImageID) {
+    if (this.imageOverlay && this.imageOverlay.overlaySource === 'location' && !this.imageOverlay.overlaySourceID) {
       this.toaster.onFailure('Please select location for overlay', 'Image Overlay');
       return;
     }
-    if (this.overLaySource === 'asset' && !this.widgetassetimageID) {
+    if (this.imageOverlay.overlaySource === 'asset' && !this.imageOverlay.overlaySourceID) {
       this.toaster.onFailure('Please select asset for overlay', 'Image Overlay');
       return;
     }
-    this.customizeImageOverlay.style.display = 'none';
-    this.toaster.onSuccess('Chart Configured Successfully', 'Success');
+    console.log('imageOverlay ', this.imageOverlay);
+
+
+    let body = {
+      // "dashboardWidgetId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+      "widgetName": "Image Overlay Widget",
+      "dashBoardId": this.data ? this.data.dashboardId : null,
+      "widgetConfiguration": JSON.stringify(this.imageOverlay),
+      "published": true,
+      "active": true,
+    };
+
+    this.dashboardService.saveDashboardWidget(body)
+      .subscribe(response => {
+        console.log('saved successfully ', response);
+        this.customizeImageOverlay.style.display = 'none';
+        this.toaster.onSuccess('Chart Configured Successfully', 'Success');
+      });
+
+
+
     // console.log('widgetlocImage', this.widgetlocImageID);
     // console.log('widgetassetimageID', this.widgetassetimageID, this.overLaySource);
 
@@ -405,7 +435,7 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
     // if (!this.widgetlocImageID) {
     //   this.widgetlocImageID = this.curLocId;
     // }
-    this.getImageOverlayConfiguration(this.overLaySource);
+    this.getImageOverlayConfiguration(this.imageOverlay.overlaySource);
     // setTimeout(() => {
     //   // console.log('image overlay called');
 
@@ -415,7 +445,7 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
     //   this.getImageOverlayConfiguration(this.widgetlocImageID);
     // }
     // signal R code
-    let connString = 'Sensor*' + this.parentOrgId + '*' + (this.widgetlocImageID ? this.widgetlocImageID : this.widgetassetimageID);
+    let connString = 'Sensor*' + this.parentOrgId + '*' + this.imageOverlay.overlaySourceID;
     // console.log(connString);
     // connString = '7a59bdd8-6e1d-48f9-a961-aa60b2918dde*1387c6d3-cabc-41cf-a733-8ea9c9169831';
     this.signalRService.getSignalRConnection(connString);
@@ -433,10 +463,10 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
       if (index !== -1) {
         this.associatedSignals[index].latestValue = jsonData.SignalValue;
         this.associatedSignals[index].modifiedOn =
-        moment(jsonData.RecievedDateTime).format(moment.localeData(this.loggedInUser.userConfigSettings[0].localeName)
-        .longDateFormat('L')) + ' '
-        + moment(jsonData.RecievedDateTime).format(moment.localeData(this.loggedInUser.userConfigSettings[0].localeName)
-        .longDateFormat('LTS'));
+          moment(jsonData.RecievedDateTime).format(moment.localeData(this.loggedInUser.userConfigSettings[0].localeName)
+            .longDateFormat('L')) + ' '
+          + moment(jsonData.RecievedDateTime).format(moment.localeData(this.loggedInUser.userConfigSettings[0].localeName)
+            .longDateFormat('LTS'));
         // this.convertUOMData();
       }
     });
@@ -574,14 +604,14 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
       alarmStatus === 'HighCritical' ||
       alarmStatus === 'Low Critical' ||
       alarmStatus === 'LowCritical'
-      ) {
+    ) {
       return 'icon-state-danger';
     } else if (
       alarmStatus === 'High Warning' ||
       alarmStatus === 'HighWarning' ||
       alarmStatus === 'Low Warning' ||
       alarmStatus === 'LowWarning'
-      ) {
+    ) {
       return 'icon-state-warning';
     } else {
       return 'icon-state-success';

@@ -6,9 +6,10 @@ import { NgbModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
 import { DashBoard } from 'src/app/models/dashboard.model';
 import { TimeSeriesService } from 'src/app/services/timeSeries/time-series.service';
 import { VotmCommon } from '../../votm-common';
-import { Router, RouterEvent } from '@angular/router';
+import { Router, RouterEvent, ActivatedRoute, ParamMap } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { ConfigSettingsService } from 'src/app/services/configSettings/configSettings.service';
+import { SignalRService } from 'src/app/services/signalR/signal-r.service';
 
 @Component({
   selector: 'app-votm-data-table',
@@ -44,6 +45,7 @@ export class VotmDataTableComponent implements OnInit {
   pageLabels: any;
   currentUrl: any;
   isParent: any = true;
+  parentOrgId: string;
   // [
   //   { "type": "temperature", "org": "QCD", "loc": "GV ❯ Prod", "asset": "", "name": "Ambient Temperature", "sel": false, "value": 105.5, "bat": 3.0, "rssi": .17, "sensor": "E5000001" },
   //   { "type": "temperature", "org": "QCD", "loc": "GV ❯ Prod", "asset": "EAP1", "name": "Exhaust", "sel": false, "value": 94.1, "bat": 2.9, "rssi": .31, "sensor": "E5000001" },
@@ -61,18 +63,21 @@ export class VotmDataTableComponent implements OnInit {
 
   // [];
 
-  constructor(
-    private router: Router,
-    private modalService: NgbModal,
-    private timeSeries: TimeSeriesService,
-    private configSettingsService: ConfigSettingsService,
-    ngbModalConfig: NgbModalConfig
-    ) {
+  constructor(private router: Router, private modalService: NgbModal,
+    private timeSeries: TimeSeriesService, private configSettingsService: ConfigSettingsService,
+    ngbModalConfig: NgbModalConfig, private signalRService: SignalRService,
+    private route: ActivatedRoute) {
     ngbModalConfig.backdrop = 'static';
     ngbModalConfig.keyboard = false;
   }
 
   ngOnInit() {
+
+    this.route.paramMap.subscribe((params: ParamMap) => {      
+      this.parentOrgId = params.get('curOrgId');
+    });
+
+
     if (this.data) {
       this.getSignalData();
       this.wId = this.data.dashboardId + "-" + this.id;
@@ -124,10 +129,18 @@ export class VotmDataTableComponent implements OnInit {
         this.wConfig.showStatus = this.showStatus;
         this.wConfig.title = this.title;
         this.timestamp = ts.getFullYear() + "-" + (ts.getMonth() + 1) + "-" + ts.getDate() + " " + ts.getHours() + ":" + ts.getMinutes() + ":" + ts.getSeconds();
+        this.liveSignalValues();
       }
     });
   }
 
+  liveSignalValues() {
+    let connectionString =`${this.parentOrgId}*cb69d6e2-596a-4399-bd5a-36b29c008cb8`; // '7a59bdd8-6e1d-48f9-a961-aa60b2918dde*1387c6d3-cabc-41cf-a733-8ea9c9169831';
+    this.signalRService.getSignalRConnection(connectionString);
+    this.signalRService.signalData.subscribe(response => {
+      console.log('socket data ', response);
+    })
+  }
 
   selectSignal(idx) {
     if (idx == -1) {
