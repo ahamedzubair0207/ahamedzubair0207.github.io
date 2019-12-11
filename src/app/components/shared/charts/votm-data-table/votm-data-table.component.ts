@@ -173,14 +173,14 @@ export class VotmDataTableComponent implements OnInit, OnDestroy {
       userId: this.loggedInUser.userId,
       organizationId: this.data.organizationId,
       locationId: this.data.locationId,
-      precision: 0,
+      precision: 3,
       uom: arr
     };
 
     this.sharedService.getUOMConversionData(obj).subscribe(
       response => {
 
-          this.signals[index].value = response[0].uomValue + ' ' + response[0].uomname;
+          this.signals[index].value = response[0].uomValue + ( response[0].uomname ? ' ' + response[0].uomname : '');
           this.signals[index].modifiedOn =
           moment(signalRObj.RecievedDateTime).tz(this.loggedInUser.userConfigSettings[0].timeZoneDescription)
           .format(moment.localeData(this.loggedInUser.userConfigSettings[0].localeName)

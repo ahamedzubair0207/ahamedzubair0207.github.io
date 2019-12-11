@@ -492,7 +492,7 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
     this.sharedService.getUOMConversionData(obj).subscribe(
       response => {
 
-          this.associatedSignals[index].latestValue = response[0].uomValue + ' ' + response[0].uomname;
+          this.associatedSignals[index].latestValue = response[0].uomValue + ( response[0].uomname ? ' ' + response[0].uomname : '');
           this.associatedSignals[index].modifiedOn =
           moment(signalRObj.RecievedDateTime).tz(this.loggedInUser.userConfigSettings[0].timeZoneDescription)
           .format(moment.localeData(this.loggedInUser.userConfigSettings[0].localeName)
