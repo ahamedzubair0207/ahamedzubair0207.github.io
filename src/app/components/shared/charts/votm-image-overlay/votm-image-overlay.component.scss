@@ -132,10 +132,10 @@
     &:hover{
       border: 1px solid $qcd-success;
       padding-left:calc(1 * 0.625rem + 0px);
-      p{
+      .values{
         line-height: normal;
         font-size: 0.75rem;
-        border-left: 1px solid #666;
+        border-left: 1px solid #ccc;
         margin-top: 3px;
         margin-left: -1px;
       }
@@ -165,7 +165,7 @@
 
   // small icon
   .assoc-pane > div.widget-icon-small{
-    padding-left:calc(1 * 1.5rem + 0px);
+    padding-left:calc(1 * 1.5rem + -10px);
     line-height: calc(1 * 1.4rem + 0px);
     border-radius: calc(1 * 1.5rem / 2 + 0px) !important;
     background: $qcd-white-90;
@@ -178,19 +178,22 @@
     &:hover{
       border: 1px solid qcd-success;
       padding-left:calc(1 * 1.5rem + 0px);
-      p{
+      .values{
         line-height: normal;
-        white-space: pre-wrap;
+        // white-space: pre-wrap;
         font-size: 0.75rem;
-        border-left: 1px solid #666;
       }
       .icon-wrapper {
         position: absolute;
         left: 1px;
-        bottom: 0;
         display: flex;
         flex-direction: column;
-        line-height:1;
+        line-height: 1;
+        border-right: 1px solid #ccc;
+        padding-right: 1px;
+        min-height: 93%;
+        justify-content: flex-end;
+        top: 7px;
       }
     }
     &:before {
@@ -211,7 +214,7 @@
   .assoc-pane > div.widget-icon-medium{
     padding-left:calc(1 * 2rem + 4px);
     line-height: calc(1 * 2rem + 0px);
-    border-radius: calc(1.2 * 2rem / 2 + 0px) !important;
+    border-radius: calc(1 * 2rem / 2 + 0px) !important;
     background: $qcd-white-90;
     transition: all 0.3s ease;
     border-color: $qcd-success-brd;
@@ -223,21 +226,25 @@
       padding-left:calc(1 * 2rem + 0px);
       min-height:70px;
       
-      p{
+      .values{
         line-height: normal;
         // white-space: pre-wrap;
         font-size: 0.75rem;
-        border-left: 1px solid #666;
+        display: flex;
+        padding: 4px 0px;
+        flex-direction:column;
       }
       .icon-wrapper {
         position: absolute;
-        left: 6px;
-        bottom: 0;
+        left: 7px;
+        top: 12px;
         display: flex;
         flex-direction: column;
-        line-height:1.5;
-        border-right: 1px solid #666;
+        line-height: 1.5;
+        border-right: 1px solid #ccc;
         padding-right: 6px;
+        min-height: 90%;
+        justify-content: flex-end;
       }
     }
     &:before {
@@ -268,12 +275,14 @@
     &:hover{
       border: 1px solid $qcd-success-brd;
       padding-left:calc(1.6 * 3rem + 0px);
-      p{
+      .values{
         // line-height: calc(0.295 * 12rem + 0px);
         line-height: normal;
         // white-space: pre-wrap;
         font-size: 0.85rem;
-        border-left: 1px solid #666;
+        border-left: 1px solid #ccc;
+        display: flex;
+        flex-direction: column;
       }
       .icon-wrapper {
         position: absolute;
@@ -316,12 +325,15 @@
       border: 1px solid $qcd-success-brd;
       padding-left:calc(1.27 * 5.75rem + 0px);
       // line-height: calc(1 * 1.99rem + 0px) !important;
-      p{
+      .values{
         // line-height: calc(0.295 * 12rem + 0px);
         line-height: normal;
         //white-space: pre-wrap;
         font-size: 1rem;
-        border-left: 1px solid #666;
+        border-left: 1px solid #ccc;
+        display: flex;
+        white-space: pre-line;
+        flex-direction: column;
       }
       .icon-wrapper {
         position: absolute;
@@ -365,11 +377,14 @@
     &:hover{
       border: 1px solid $qcd-success-brd;
       padding-left:calc(1.2 * 12rem + 0px);
-      p{
+      .values{
         line-height: normal;
         // white-space: pre-wrap;
         font-size: 1.25rem;
-        border-left: 1px solid #666;
+        border-left: 1px solid #ccc;
+        display: flex;
+        white-space: pre-line;
+        flex-direction: column;
       }
       .icon-wrapper {
         position: absolute;
@@ -491,8 +506,8 @@
       border: 1px solid $qcd-success-brd;
       p {
         // line-height: 0.9rem;
-        padding:4px 8px;
-        margin:0;
+        padding: 0px 8px;
+        margin: 4px 0 0 -1px;
       }
     }
     &:before {
