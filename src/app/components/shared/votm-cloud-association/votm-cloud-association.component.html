@@ -119,7 +119,7 @@
               </div>
           </div>
           <div class="sensor-list h-100" *ngIf="customImageOverlay" >
-              <div class="sensor-item icon-asset-robot">
+              <!-- <div class="sensor-item icon-asset-robot">
                   Assets Custom {{customImageOverlay}}
                 <div class="signal-list">
                   <ng-container *ngFor="let item of dragList; let j = index">
@@ -140,7 +140,32 @@
                     No data available.
                   </div>
                 </div>
-              </div>
+              </div> -->
+              <ng-container *ngFor="let sensor of dragList; let i = index"  >
+                <div *ngIf="showSensor(sensor.node)" class="sensor-item icon-sensonode">
+                  {{ sensor.sensorName }}
+
+                  <div class="signal-list">
+                    <ng-container *ngFor="let signal of sensor.node; let j = index">
+                      <ng-container *ngIf="signal.signalType.toLowerCase() !== batterySignalType && signal.signalType.toLowerCase() !== signalSignalType" >
+                        <div
+                          attr.sensorIx="{{ i }}"
+                          attr.signalIx="{{ j }}"
+                          class="signal-item {{ signal.icon }}"
+                          *ngIf="showSignal(signal)"
+                          [ngClass]="{ assoc: signal.associated, locked: disable, cursordefault: !sensor.isLink }"
+                          [dndDraggable]="signal"
+                          [dndDisableIf]="signal.associated || !sensor.isLink"
+                          [dndEffectAllowed]="'move'"
+                          (dndStart)="onStart($event, i, j)"
+                        >
+                          {{ signal.associationName }}
+                        </div>
+                      </ng-container>
+                    </ng-container>
+                  </div>
+                </div>
+              </ng-container>
           </div>
         </div>
         <div class="col-12 col-md-9 px-md-0" >
@@ -190,7 +215,36 @@
 
 <p-overlayPanel #editOP [appendTo]="'body'" [style]="{ 'width' : '300px', 'z-index': '9999!important'}" [dismissable]="false"
 >
-  <div class="row"  *ngIf="selectedSignal">
+  <div class="row" *ngIf="selectedSignal && customImageOverlay">
+      <div class="col-md-12">
+          <div class="card border-0">
+              <div class="card-header">{{selectedSignal.associationName}}
+                  <button type="button" class="pull-right close" (click)="closeEditOpanel()">&times;</button>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label class="temp" id="edit-panel-x-label">Position: &nbsp; X</label>
+                      <div class="">
+                        <input type="text" id="edit-panel-position-x" class="form-control form-control-sm" [(ngModel)]="selectedSignal.imageCordinates.x" placeholder="Enter Postion X">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label class="temp" id="edit-panel-y-label">Position: &nbsp; Y</label>
+                      <div class="">
+                        <input type="text" id="edit-panel-position-y" class="form-control form-control-sm" [(ngModel)]="selectedSignal.imageCordinates.y" placeholder="Enter Position Y">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+          </div>
+      </div>
+  </div>
+  <div class="row"  *ngIf="selectedSignal && !customImageOverlay">
     <div class="col-md-12">
         <div class="card border-0">
             <div class="card-header">Association

@@ -64,7 +64,11 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
   widgetCustomImgURL: any;
   loggedInUser: any;
   imageOverlay: ImageOverlayWidget = new ImageOverlayWidget();
-
+  sensors: any;
+  showAssoc = true;
+  showUnassoc = true;
+  disable = false;
+  showCustomLayout = false;
 
   constructor(
     private toastr: ToastrService,
@@ -551,6 +555,8 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
     readerToPreview.readAsDataURL(files[0]);
     readerToPreview.onload = (_event) => {
       this.widgetCustomImgURL = this.domSanitizer.bypassSecurityTrustUrl(readerToPreview.result.toString()); //readerToPreview.result;
+      this.getCustomEntityAndSignal();
+      this.showCustomLayout = true;
     };
   }
 
@@ -701,9 +707,88 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
       // );
 
       this.getAssetsByLocation(entityId);
+      this.getLocationSignalAssociation(entityId);
 
     }
 
   } // End - getCustomEntityAndSignal
+
+  getLocationSignalAssociation(locationId) {
+    this.locationSignalService.getSignalAssociation(locationId)
+      .subscribe(
+        response => {
+          this.getLocationAllAvailableSignals(locationId);
+          for (let i = 0; i < response.length; i++) {
+            const signal = response[i];
+            signal.imageCordinates = signal.imageCordinates[signal.associationName];
+            signal.pctPos = {};
+            signal.pctPos['left'] = signal.imageCordinates.x;
+            signal.pctPos['top'] = signal.imageCordinates.y;
+            signal.isClicked = false;
+            signal.icon = signal.iconFile;
+            signal.associated = true;
+            signal.did = i;
+            signal.bound = signal.sensorLinkStatus;
+          }
+          // this.associatedSignals = [...response];
+        },
+        error => {
+
+        }
+      );
+  }
+
+  /**
+   * To get all available signals for that location and organization.
+   * Location id and Organization Id will fetch from current route.
+   * This function sets the sensor disable which are already associated.
+   */
+  getLocationAllAvailableSignals(locationId) {
+    this.locationSignalService.getSignalsByLocation('location', locationId)
+      .subscribe(async response => {
+        // console.log(response);
+        this.sensors = response;
+        for (const sensor of this.sensors) {
+          sensor.node = await this.sharedService.toSortListAlphabetically(sensor.node, 'signalName');
+          for (const signal of sensor.node) {
+            signal.sensorId = sensor.sensorId;
+            signal.sensorName = sensor.sensorName;
+            signal.signalId = signal.signalId;
+            signal.signalName = signal.signalName;
+            signal.associationName = signal.signalName;
+            signal.associated = false;
+            signal.imageCordinates = {
+              x: 0,
+              y: 0
+            };
+            signal.icon = signal.iconFile;
+            for (const associateSignal of this.associatedSignals) {
+              if (associateSignal.signalId === signal.signalId &&
+                associateSignal.sensorId === signal.sensorId && sensor.isLink) {
+                signal.associated = true;
+                signal.associationName = associateSignal.associationName;
+
+              }
+            }
+          }
+        }
+
+      },
+        error => {
+
+        });
+  }
+
+  showSignal(signal: any): boolean {
+    return (signal.associated && this.showAssoc) || ((!signal.associated) && this.showUnassoc);
+  }
+
+  showSensor(signals: any): boolean {
+    let hasAssocSignals = false;
+    signals.forEach(signal => {
+      hasAssocSignals = hasAssocSignals || ((signal.associated && this.showAssoc) || ((!signal.associated) && this.showUnassoc));
+    });
+    return hasAssocSignals;
+  }
 
 }

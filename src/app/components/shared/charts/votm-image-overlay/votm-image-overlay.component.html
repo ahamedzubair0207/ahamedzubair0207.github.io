@@ -35,9 +35,11 @@
                     <i class="icon-battery-100 "></i>
                     <i class="icon-signal-100 "></i>
                   </span>
-                  <p><b>{{item.sensorName}}</b><br/>
-                  {{item.modifiedOn}}<br/>
-                  <b>{{item.associationName}}:  {{item.latestValue}}</b></p>
+                  <span class="values">
+                    <p><b>{{item.sensorName}}</b><br/>
+                    {{item.modifiedOn}}<br/>
+                    <b>{{item.associationName}}:  {{item.latestValue}}</b></p>
+                  </span>
                 </ng-template>
               </div>
             </ng-container>
@@ -56,13 +58,15 @@
                 <ng-container *ngIf="imageOverlay && !imageOverlay.iconDisplaySize.includes('small')">{{imageOverlay.overlaySource === 'location' ? item.assetName : item.childAssetName}}</ng-container>
             </ng-container>
             <ng-template #hoveredAssetContent>
-              <p><b>QCD > {{item.locationName}} >  {{imageOverlay.overlaySource === 'location' ? item.assetName : item.childAssetName}}</b>
-                {{item.modifiedOn}}
-              <b>Critical alarm on asset</b></p>
-              <hr class="mt-1 mb-1">
-              <p><b>Critical: Control Cabinet Temperature</b>
-              Temperature: 142&deg; F<br/>
-              Above critical threshold of 95&deg; F</p>
+                <span class="values">
+                  <p><b>QCD > {{item.locationName}} >  {{imageOverlay.overlaySource === 'location' ? item.assetName : item.childAssetName}}</b>
+                    {{item.modifiedOn}}
+                  <b>Critical alarm on asset</b></p>
+                  <hr class="mt-1 mb-1">
+                  <p><b>Critical: Control Cabinet Temperature</b>
+                  Temperature: 142&deg; F<br/>
+                  Above critical threshold of 95&deg; F</p>
+                </span>
             </ng-template>
 
             </div>
@@ -98,7 +102,7 @@
                                 <div class="">
                                     <ng-select id="imageSource" name="imageSource" labelForId="imageSource"
                                         class="custom" [multiple]="false" [(ngModel)]="imageOverlay.overlaySource" placeholder="Choose Source"
-                                        (change)="imageOverlay.showSignals = true; imageOverlay.showAsset = true;associatedAssets = []; associatedSignals=[]; displaySignalHoverContent={}; getCustomEntityAndSignal();">
+                                        (change)="imageOverlay.showSignals = true; imageOverlay.showAsset = true;associatedAssets = []; associatedSignals=[]; displaySignalHoverContent={};">
                                         <ng-option value="location">Location</ng-option>
                                         <ng-option value="asset">Asset</ng-option>
                                         <ng-option value="custom">Custom</ng-option>
@@ -213,22 +217,22 @@
                             </div>
                           </div>
                         </div> -->
-                        <div class="col-12">
+                        <div class="col-12" *ngIf="showCustomLayout" >
                           <app-votm-cloud-association
                             [imageURL]="widgetCustomImgURL"
-                            [dragList]="assetsList"
+                            [dragList]="sensors"
                             [droppedList]=""
                             [showDerivedSignal]="true"
                             [showSensorsDetail]="true"
                             [showEditIcon]="true"
-                            [showAlertIcon]="true"
-                            [showDetachIcon]="false"
+                            [showAlertIcon]="false"
+                            [showDetachIcon]="true"
                             [isDragDropRequired]="true"
                             [model]="signal"
                             [disable]="disable"
                             [alertRules]="alertRules"
-                            [showUnassoc]="true"
-                            [showAssoc]="true"
+                            [showUnassoc]="showUnassoc"
+                            [showAssoc]="showAssoc"
                             [locationId]="locationId"
                             [customImageOverlay]="true"
                             (detach)="onDetachSignalFromAsset($event)"
