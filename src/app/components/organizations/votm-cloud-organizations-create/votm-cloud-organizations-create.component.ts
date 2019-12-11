@@ -211,7 +211,7 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
           //   }
           // }
           if (fragment === 'org-alert') {
-            this.fetchLertRuleLost();
+            this.fetchAlertRuleList();
           } else if (fragment === 'asset-template') {
             this.onTemplateTabClick();
           }
@@ -841,12 +841,12 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
 
   onAlertRuleTabClick() {
     this.goToTab('org-alert');
-    this.fetchLertRuleLost();
+   // this.fetchAlertRuleList();
     // // // console.log('onAlertRuleTabClick');
 
   }
 
-  fetchLertRuleLost() {
+  fetchAlertRuleList() {
     if (!this.alertRuleList || this.alertRuleList.length === 0) {
       this.alertRuleservice.getAllAlertsByOrgId(this.orgId)
         .subscribe(response => {
