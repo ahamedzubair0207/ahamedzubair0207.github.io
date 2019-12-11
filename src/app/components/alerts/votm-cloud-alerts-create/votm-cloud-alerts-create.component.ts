@@ -471,65 +471,73 @@ export class VotmCloudAlertsCreateComponent implements OnInit, OnDestroy {
     }
     if (this.alertRuleSignalAssociatedAsset) {
       this.treeSignalAssociationList = [];
-      if (this.alertRuleSignalAssociatedAsset &&
-        this.alertRuleSignalAssociatedAsset.organizations &&
-        this.alertRuleSignalAssociatedAsset.organizations.length > 0) {
-        this.assetsChecked[this.alertRuleSignalAssociatedAsset.organizationId] = false;
-        const treeNode: TreeNode = {};
-        treeNode.data = { id: this.alertRuleSignalAssociatedAsset.organizationId,
-          label: this.alertRuleSignalAssociatedAsset.organizationName,
-          value: this.alertRuleSignalAssociatedAsset, parent: null };
-        treeNode.children = [];
-        treeNode.expanded = true;
-        this.treeSignalAssociationList.push(treeNode);
-        if (this.alertRuleSignalAssociatedAsset.locations.length > 0) {
-          this.alertRuleSignalAssociatedAsset.locations.forEach(location => {
-            // console.log('locnamr     ', location.locationName);
-            this.assetsChecked[location.locationId] = false;
-            const locTreeNode: TreeNode = {};
-            locTreeNode.data = { id: location.locationId, label: treeNode.data.label + ' > ' + location.locationName,
-              value: location, parent: null };
-            locTreeNode.children = [];
-            locTreeNode.expanded = true;
-            location.signals.forEach(signal => {
-              locTreeNode.children.push({
-                expanded: true, data: {
-                  id: signal.signalMappingId,
-                  label: signal.associationName ? signal.associationName : signal.signalName,
-                  value: signal, parent: location
-                }
-              });
+      this.assetsChecked[this.alertRuleSignalAssociatedAsset.organizationId] = false;
+      const treeNode: TreeNode = {};
+      treeNode.data = { id: this.alertRuleSignalAssociatedAsset.organizationId,
+        label: this.alertRuleSignalAssociatedAsset.organizationName,
+        value: this.alertRuleSignalAssociatedAsset, parent: null };
+      treeNode.children = [];
+      treeNode.expanded = true;
+      this.treeSignalAssociationList.push(treeNode);
+      if (this.alertRuleSignalAssociatedAsset.locations && this.alertRuleSignalAssociatedAsset.locations.length > 0) {
+        this.alertRuleSignalAssociatedAsset.locations.forEach(location => {
+          // console.log('locnamr     ', location.locationName);
+          this.assetsChecked[location.locationId] = false;
+          const locTreeNode: TreeNode = {};
+          locTreeNode.data = { id: location.locationId, label: treeNode.data.label + ' > ' + location.locationName,
+            value: location, parent: null };
+          locTreeNode.children = [];
+          locTreeNode.expanded = true;
+          location.signals.forEach(signal => {
+            locTreeNode.children.push({
+              expanded: true, data: {
+                id: signal.signalMappingId,
+                label: signal.associationName ? signal.associationName : signal.signalName,
+                value: signal, parent: location
+              }
             });
-            this.treeSignalAssociationList.push(locTreeNode);
-            if (location.assets.length > 0) {
-              location.assets.forEach(asset => {
-                // console.log('asset name     ', asset.assetName);
-                const tempTreeNode: TreeNode = {};
-                // console.log(asset.assetName);
-                this.assetsChecked[asset.assetId] = false;
-                tempTreeNode.data = { id: asset.assetId, label: locTreeNode.data.label + ' > ' +
-                asset.assetName, value: asset, parent: null };
-                tempTreeNode.children = [];
-                tempTreeNode.expanded = true;
-                asset.signals.forEach(signal => {
-                  tempTreeNode.children.push({
-                    expanded: true, data: {
-                      id: signal.signalMappingId,
-                      label: signal.associationName ? signal.associationName : signal.signalName,
-                      value: signal, parent: asset
-                    }
-                  });
-                });
-                this.treeSignalAssociationList.push(tempTreeNode);
-                // this.selectUnselectAssetCheckbox(asset);
-              });
-            }
-
           });
+          this.treeSignalAssociationList.push(locTreeNode);
+          if (location.assets.length > 0) {
+            location.assets.forEach(asset => {
+              // console.log('asset name     ', asset.assetName);
+              const tempTreeNode: TreeNode = {};
+              // console.log(asset.assetName);
+              this.assetsChecked[asset.assetId] = false;
+              tempTreeNode.data = { id: asset.assetId, label: locTreeNode.data.label + ' > ' +
+              asset.assetName, value: asset, parent: null };
+              tempTreeNode.children = [];
+              tempTreeNode.expanded = true;
+              asset.signals.forEach(signal => {
+                tempTreeNode.children.push({
+                  expanded: true, data: {
+                    id: signal.signalMappingId,
+                    label: signal.associationName ? signal.associationName : signal.signalName,
+                    value: signal, parent: asset
+                  }
+                });
+              });
+              this.treeSignalAssociationList.push(tempTreeNode);
+              // this.selectUnselectAssetCheckbox(asset);
+            });
+          }
+
+        });
+        if (
+          this.alertRuleSignalAssociatedAsset.organizations &&
+          this.alertRuleSignalAssociatedAsset.organizations.length > 0) {
+            this.getOrgTreeStructure(this.alertRuleSignalAssociatedAsset.organizations, this.alertRuleSignalAssociatedAsset);
+        } else {
+          const arrList = [];
+          this.treeSignalAssociationList.forEach(item => {
+            if (item.children.length > 0) {
+              arrList.push(item);
+            }
+          });
+          this.treeSignalAssociationList = [...arrList];
         }
-        this.getOrgTreeStructure(this.alertRuleSignalAssociatedAsset.organizations, this.alertRuleSignalAssociatedAsset);
       }
-      // console.log(this.treeSignalAssociationList);
+      // console.log('fonal', this.treeSignalAssociationList);
     }
 
     this.selectSignals();

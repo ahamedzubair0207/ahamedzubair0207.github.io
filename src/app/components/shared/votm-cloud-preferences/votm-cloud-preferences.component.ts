@@ -127,6 +127,7 @@ export class VotmCloudPreferencesComponent implements OnInit, AfterViewInit {
     this.userService.getUserDetail(this.userId)
       .subscribe(response => {
         this.userprofile = response;
+        this.sharedService.setItemInLocalStorage('loggedInUser', this.userprofile);
         if (this.userprofile.logo && this.userprofile.logo.imageName) {
           this.fileExtension = this.userprofile.logo.imageName.slice
             ((Math.max(0, this.userprofile.logo.imageName.lastIndexOf('.')) || Infinity) + 1);

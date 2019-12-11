@@ -1,4 +1,5 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { SharedService } from 'src/app/services/shared.service';
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { Toaster } from '../../votm-cloud-toaster/votm-cloud-toaster';
 import { DbItem } from 'src/app/models/db-item';
@@ -10,14 +11,14 @@ import { Router, RouterEvent, ActivatedRoute, ParamMap } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { ConfigSettingsService } from 'src/app/services/configSettings/configSettings.service';
 import { SignalRService } from 'src/app/services/signalR/signal-r.service';
-
+import * as moment from 'moment-timezone';
 @Component({
   selector: 'app-votm-data-table',
   templateUrl: './votm-data-table.component.html',
   styleUrls: ['./votm-data-table.component.scss'],
   providers: [NgbModalConfig, NgbModal]
 })
-export class VotmDataTableComponent implements OnInit {
+export class VotmDataTableComponent implements OnInit, OnDestroy {
   @Input() data: DashBoard;
   @Input() id: string;
   @Input() locked: boolean;
@@ -32,13 +33,13 @@ export class VotmDataTableComponent implements OnInit {
   private showAsset: boolean = true;
   private showSensor: boolean = false;
   private showStatus: boolean = true;
-  private title: string = "";
-  private timestamp: string = "";
+  private title: string = '';
+  private timestamp: string = '';
   private signalTypes: any[] = [
-    { "type": "Absolute Pressure", "uom": "psi", "nominal": 1500, "var": 5 },
-    { "type": "Temperature", "uom": "°F", "nominal": 100, "var": 2 },
-    { "type": "humidity", "uom": "%", "nominal": 50, "var": 1 },
-    { "type": "Peak Current", "uom": "%", "nominal": 50, "var": 3 }
+    { type: 'Absolute Pressure', uom: 'psi', nominal: 1500, var: 5 },
+    { type: 'Temperature', uom: '°F', nominal: 100, var: 2 },
+    { type: 'humidity', uom: '%', nominal: 50, var: 1 },
+    { type: 'Peak Current', uom: '%', nominal: 50, var: 3 }
   ]
 
   signals: any = [];
@@ -46,42 +47,32 @@ export class VotmDataTableComponent implements OnInit {
   currentUrl: any;
   isParent: any = true;
   parentOrgId: string;
-  // [
-  //   { "type": "temperature", "org": "QCD", "loc": "GV ❯ Prod", "asset": "", "name": "Ambient Temperature", "sel": false, "value": 105.5, "bat": 3.0, "rssi": .17, "sensor": "E5000001" },
-  //   { "type": "temperature", "org": "QCD", "loc": "GV ❯ Prod", "asset": "EAP1", "name": "Exhaust", "sel": false, "value": 94.1, "bat": 2.9, "rssi": .31, "sensor": "E5000001" },
-  //   { "type": "temperature", "org": "QCD", "loc": "GV ❯ Prod", "asset": "EAP2", "name": "Exhaust", "sel": false, "value": 101.4, "bat": 2.85, "rssi": .20, "sensor": "E5000001" },
-  //   { "type": "pressure", "org": "QCD", "loc": "GV ❯ Lab", "asset": "IB", "name": "Main Pump", "sel": false, "value": 1503.0, "bat": 3.0, "rssi": .22, "sensor": "E4000001" },
-  //   { "type": "pressure", "org": "QCD", "loc": "GV ❯ Lab", "asset": "IB", "name": "Drain Pan Suction", "sel": false, "value": 1467.3, "bat": 2.76, "rssi": .29, "sensor": "E4000002" },
-  //   { "type": "temperature", "org": "QCD", "loc": "GV ❯ Lab", "asset": "IB", "name": "Oil Cooler", "sel": false, "value": 74.5, "bat": 2.9, "rssi": .25, "sensor": "E5000001" },
-  //   { "type": "temperature", "org": "QCD", "loc": "GV ❯ Lab", "asset": "IB", "name": "Oil Reservoir", "sel": false, "value": 80.1, "bat": 2.87, "rssi": .14, "sensor": "E5000001" },
-  //   { "type": "pressure", "org": "QCD", "loc": "GV ❯ Lab", "asset": "IB", "name": "Impulse #2 Pilot Pressure", "sel": false, "value": 1356, "bat": 3.0, "rssi": .17, "sensor": "E4000001" },
-  //   { "type": "pressure", "org": "QCD", "loc": "GV ❯ Lab", "asset": "IB", "name": "Accumulator", "sel": false, "value": 4320.3, "bat": 2.78, "rssi": .22, "sensor": "E4000001" },
-  //   { "type": "pressure", "org": "QCD", "loc": "GV ❯ Lab", "asset": "IB", "name": "Main Pump Suction", "sel": false, "value": 10.3, "bat": 2.87, "rssi": .34, "sensor": "E2000001" },
-  //   { "type": "humidity", "org": "QCD", "loc": "GB", "asset": "", "name": "Furness Supply Humidity", "sel": false, "value": 34.2, "bat": 3.02, "rssi": .12, "sensor": "E7000001" },
-  //   { "type": "humidity", "org": "QCD", "loc": "GB", "asset": "", "name": "Cleanroom Supply Humidity", "sel": false, "value": 53.0, "bat": 2.9, "rssi": .19, "sensor": "E7000001" }
-  // ];
-
-  // [];
-
-  constructor(private router: Router, private modalService: NgbModal,
-    private timeSeries: TimeSeriesService, private configSettingsService: ConfigSettingsService,
-    ngbModalConfig: NgbModalConfig, private signalRService: SignalRService,
-    private route: ActivatedRoute) {
+  loggedInUser: any;
+  constructor(
+    private router: Router,
+    private modalService: NgbModal,
+    private timeSeries: TimeSeriesService,
+    private configSettingsService: ConfigSettingsService,
+    ngbModalConfig: NgbModalConfig,
+    private signalRService: SignalRService,
+    private route: ActivatedRoute,
+    private sharedService: SharedService
+    ) {
     ngbModalConfig.backdrop = 'static';
     ngbModalConfig.keyboard = false;
   }
 
   ngOnInit() {
 
-    this.route.paramMap.subscribe((params: ParamMap) => {      
+    this.route.paramMap.subscribe((params: ParamMap) => {
       this.parentOrgId = params.get('curOrgId');
     });
 
-
+    this.loggedInUser = this.sharedService.getLoggedInUser();
     if (this.data) {
       this.getSignalData();
-      this.wId = this.data.dashboardId + "-" + this.id;
-      this.wConfig = (this.data.widgetConf) ? this.data.widgetConf : { "title": "", "showSensor": false, "showOrg": false, "showLoc": false, "showAsset": true, "showStatus": true };
+      this.wId = this.data.dashboardId + '-' + this.id;
+      this.wConfig = (this.data.widgetConf) ? this.data.widgetConf : { title: '', showSensor: false, showOrg: false, showLoc: false, showAsset: true, showStatus: true };
     }
     this.getScreenLabels();
   }
@@ -103,10 +94,10 @@ export class VotmDataTableComponent implements OnInit {
     }
   }
 
-  ngAfterViewInit() {
-  }
 
   ngOnDestroy() {
+    // console.log('on destroy');
+    this.signalRService.closeSignalRConnection();
   }
 
   getScreenLabels() {
@@ -118,6 +109,7 @@ export class VotmDataTableComponent implements OnInit {
   }
 
   open(config) {
+    this.signalRService.closeSignalRConnection();
     this.modalService.open(config, { size: 'lg' }).result.then((result) => {
       if (result === 'save') {
         let ts = new Date();
@@ -128,18 +120,76 @@ export class VotmDataTableComponent implements OnInit {
         this.wConfig.showSensor = this.showSensor;
         this.wConfig.showStatus = this.showStatus;
         this.wConfig.title = this.title;
-        this.timestamp = ts.getFullYear() + "-" + (ts.getMonth() + 1) + "-" + ts.getDate() + " " + ts.getHours() + ":" + ts.getMinutes() + ":" + ts.getSeconds();
+        this.timestamp =  moment(new Date()).tz(this.loggedInUser.userConfigSettings[0].timeZoneDescription)
+        .format(moment.localeData(this.loggedInUser.userConfigSettings[0].localeName)
+          .longDateFormat('L')) + ' '
+        + moment(new Date()).tz(this.loggedInUser.userConfigSettings[0].timeZoneDescription)
+        .format(moment.localeData(this.loggedInUser.userConfigSettings[0].localeName)
+          .longDateFormat('LTS'));
         this.liveSignalValues();
       }
     });
   }
 
   liveSignalValues() {
-    let connectionString =`${this.parentOrgId}*cb69d6e2-596a-4399-bd5a-36b29c008cb8`; // '7a59bdd8-6e1d-48f9-a961-aa60b2918dde*1387c6d3-cabc-41cf-a733-8ea9c9169831';
+    let connectionString = 'Sensor*';
+    if (this.data.organizationId) {
+      connectionString += this.data.organizationId;
+    }
+    if (this.data.locationId) {
+      connectionString += '*' + this.data.locationId;
+    }
+    if (this.data.assetId) {
+      connectionString += '*' + this.data.assetId;
+    }
+    // '7a59bdd8-6e1d-48f9-a961-aa60b2918dde*1387c6d3-cabc-41cf-a733-8ea9c9169831';
     this.signalRService.getSignalRConnection(connectionString);
     this.signalRService.signalData.subscribe(response => {
-      console.log('socket data ', response);
-    })
+      const jsonData = JSON.parse(JSON.stringify(response));
+      // console.log('componnet', jsonData.SignalName, '===', jsonData.SignalValue, '=====', jsonData.ParkerDeviceId);
+      const index = this.signals.findIndex(assSig => {
+        console.log(jsonData);
+        console.log(assSig.parkerDeviceId, '===', jsonData.ParkerDeviceId);
+        console.log(assSig.signalId, '===', jsonData.SignalId);
+        console.log(assSig.sel);
+        return assSig.parkerDeviceId === jsonData.ParkerDeviceId && assSig.signalId === jsonData.SignalId
+        && assSig.sel;
+      });
+      if (index !== -1) {
+        this.convertUOMData(jsonData, index);
+      }
+    });
+  }
+
+  convertUOMData(signalRObj, index) {
+    console.log(signalRObj);
+    const arr = [];
+    arr.push({
+      uomValue: signalRObj.SignalValue,
+      signalId: signalRObj.SignalId,
+      sensorId: signalRObj.SensorId
+    });
+    const obj = {
+      userId: this.loggedInUser.userId,
+      organizationId: this.data.organizationId,
+      locationId: this.data.locationId,
+      precision: 0,
+      uom: arr
+    };
+
+    this.sharedService.getUOMConversionData(obj).subscribe(
+      response => {
+
+          this.signals[index].value = response[0].uomValue + ' ' + response[0].uomname;
+          this.signals[index].modifiedOn =
+          moment(signalRObj.RecievedDateTime).tz(this.loggedInUser.userConfigSettings[0].timeZoneDescription)
+          .format(moment.localeData(this.loggedInUser.userConfigSettings[0].localeName)
+          .longDateFormat('L')) + ' '
+          + moment(signalRObj.RecievedDateTime).tz(this.loggedInUser.userConfigSettings[0].timeZoneDescription)
+          .format(moment.localeData(this.loggedInUser.userConfigSettings[0].localeName)
+          .longDateFormat('LTS'));
+      }
+    );
   }
 
   selectSignal(idx) {
@@ -157,28 +207,28 @@ export class VotmDataTableComponent implements OnInit {
 
   pathName(signal) {
 
-    return signal.org + ((signal.org) ? " ❯ " : "") + signal.loc + ((signal.loc) ? " ❯ " : "") + signal.asset + ((signal.asset) ? " ❯ " : "") + signal.name;
+    return signal.org + ((signal.org) ? ' ❯ ' : '') + signal.loc + ((signal.loc) ? ' ❯ ' : '') + signal.asset + ((signal.asset) ? ' ❯ ' : '') + signal.name;
   }
 
   selPathName(signal) {
-    return ((this.wConfig.showOrg) ? (signal.org + ((signal.org) ? " ❯ " : "")) : "") +
-      ((this.wConfig.showLoc) ? (signal.loc + ((signal.loc) ? " ❯ " : "")) : "") +
-      ((this.wConfig.showAsset) ? (signal.asset + ((signal.asset) ? " ❯ " : "")) : "") + signal.name;
+    return ((this.wConfig.showOrg) ? (signal.org + ((signal.org) ? ' ❯ ' : '')) : '') +
+      ((this.wConfig.showLoc) ? (signal.loc + ((signal.loc) ? ' ❯ ' : '')) : '') +
+      ((this.wConfig.showAsset) ? (signal.asset + ((signal.asset) ? ' ❯ ' : '')) : '') + signal.name;
   }
 
   getBattery(signal) {
-    if (signal.bat < 2.75) return "icon-battery-0";
-    else if (signal.bat < 2.8) return "icon-battery-25";
-    else if (signal.bat < 2.93) return "icon-battery-50";
-    else if (signal.bat < 2.98) return "icon-battery-75";
-    else return "icon-battery-100";
+    if (signal.bat < 2.75) return 'icon-battery-0';
+    else if (signal.bat < 2.8) return 'icon-battery-25';
+    else if (signal.bat < 2.93) return 'icon-battery-50';
+    else if (signal.bat < 2.98) return 'icon-battery-75';
+    else return 'icon-battery-100';
   }
 
   getRSSI(signal) {
-    if (signal.rssi < .151) return "icon-signal-25";
-    else if (signal.rssi < .181) return "icon-signal-50";
-    else if (signal.rssi < .291) return "icon-signal-75";
-    else return "icon-signal-100";
+    if (signal.rssi < .151) return 'icon-signal-25';
+    else if (signal.rssi < .181) return 'icon-signal-50';
+    else if (signal.rssi < .291) return 'icon-signal-75';
+    else return 'icon-signal-100';
   }
 
   toggleShowOrg() {
@@ -218,8 +268,11 @@ export class VotmDataTableComponent implements OnInit {
       response.forEach(signal => {
         // Direct Signal
         sigArray.push({
-          "type": signal.signalType, "name": `${signal.locationName} > ${signal.signalName}`, "sel": false, "value": signal.Value,
-          "bat": signal.Battery, "rssi": signal.Signal, "sensor": signal.Sensor, "iconFile": signal.iconFile
+          type: signal.signalType, name: `${signal.locationName} > ${signal.signalName}`, sel: false, value: signal.Value,
+          bat: signal.Battery, rssi: signal.signalId, sensor: signal.sensorName, iconFile: signal.iconFile,
+          signalId: signal.signalId,
+          parkerDeviceId: signal.parkerDeviceId,
+          modifiedOn: this.timestamp
         });
       });
     }
@@ -230,7 +283,7 @@ export class VotmDataTableComponent implements OnInit {
   getShortName(name: string) {
     let splittedNames: string[] = name.split(' ');
     if (splittedNames.length > 1) {
-      name = splittedNames.map((splitedName) => splitedName[0]).join('')
+      name = splittedNames.map((splitedName) => splitedName[0]).join('');
     }
     return name;
   }
@@ -245,10 +298,13 @@ export class VotmDataTableComponent implements OnInit {
           if (location.signals && location.signals.length > 0) {
             location.signals.forEach(signal => {
               sigArray.push({
-                "type": signal.signalType, "name": `${!isParent ? this.getShortName(response.organizationName) + ' > ' : ''}${this.getShortName(location.locationName)} > ${signal.signalName}`, "sel": false, "value": signal.Value,
-                "bat": signal.Battery, "rssi": signal.Signal, "sensor": signal.Sensor, "iconFile": signal.iconFile
+                type: signal.signalType,
+                name: `${!isParent ? this.getShortName(response.organizationName) + ' > ' : ''}${this.getShortName(location.locationName)}
+                > ${signal.signalName}`, sel: false, value: signal.Value,
+                bat: signal.Battery, rssi: signal.signalId, sensor: signal.sensorName, iconFile: signal.iconFile,
+                signalId: signal.signalId,
+                parkerDeviceId: signal.parkerDeviceId
               });
-              // sigArray.push({ "type": signal.signalType, "org": response.organizationName, "loc": location.locationName, "asset": "", "name": signal.signalName, "sel": false, "value": signal.Value, "bat": signal.Battery, "rssi": signal.Signal, "sensor": signal.Sensor })
             });
           }
           // Asset
@@ -257,10 +313,14 @@ export class VotmDataTableComponent implements OnInit {
               if (asset.signals && asset.signals.length > 0) {
                 asset.signals.forEach(signal => {
                   sigArray.push({
-                    "type": signal.signalType, "name": `${!isParent ? this.getShortName(response.organizationName) + ' > ' : ''}${this.getShortName(location.locationName)} > ${this.getShortName(asset.assetName)} > ${signal.signalName}`, "sel": false,
-                    "value": signal.Value, "bat": signal.Battery, "rssi": signal.Signal, "sensor": signal.Sensor, "iconFile": signal.iconFile
+                    type: signal.signalType,
+                    name: `${!isParent ? this.getShortName(response.organizationName) + ' > ' : ''}
+                    ${this.getShortName(location.locationName)}> ${this.getShortName(asset.assetName)} > ${signal.signalName}`, sel: false,
+                    value: signal.Value, bat: signal.Battery, rssi: signal.signalId, sensor: signal.sensorName, iconFile: signal.iconFile,
+                    signalId: signal.signalId,
+                    parkerDeviceId: signal.parkerDeviceId,
+                    modifiedOn: this.timestamp
                   });
-                  // sigArray.push({ "type": signal.signalType, "org": response.organizationName, "loc": location.locationName, "asset": asset.assetName, "name": signal.signalName, "sel": false, "value": signal.Value, "bat": signal.Battery, "rssi": signal.Signal, "sensor": signal.Sensor })
                 });
               }
             });
@@ -315,7 +375,7 @@ export class VotmDataTableComponent implements OnInit {
           // Direct Signal
           if (location.signals && location.signals.length > 0) {
             location.signals.forEach(signal => {
-              tempArray.push({ "id": signal.signalId, "type": signal.signalType, "name": `QCD > ${location.locationName} > ${signal.signalName}` });
+              tempArray.push({ id: signal.signalId, type: signal.signalType, name: `QCD > ${location.locationName} > ${signal.signalName}` });
             });
           }
           // Asset
@@ -323,7 +383,7 @@ export class VotmDataTableComponent implements OnInit {
             location.assets.forEach(asset => {
               if (asset.signals && asset.signals.length > 0) {
                 asset.signals.forEach(signal => {
-                  tempArray.push({ "id": signal.signalId, "type": signal.signalType, "name": `QCD > ${location.locationName} > ${asset.assetName} > ${signal.signalName}` });
+                  tempArray.push({ id: signal.signalId, type: signal.signalType, name: `QCD > ${location.locationName} > ${asset.assetName} > ${signal.signalName}` });
                 });
               }
             });

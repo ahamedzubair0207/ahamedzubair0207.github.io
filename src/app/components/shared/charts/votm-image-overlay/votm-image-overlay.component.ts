@@ -12,7 +12,7 @@ import { TreeNode } from 'primeng/api';
 import { LocationService } from 'src/app/services/locations/location.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { AssetsService } from 'src/app/services/assets/assets.service';
-import * as moment from 'moment';
+import * as moment from 'moment-timezone';
 import { VotmCommon } from '../../votm-common';
 import { ImageOverlayWidget } from 'src/app/models/image-overlay-widget.model';
 import { DashboardService } from 'src/app/services/dasboards/dashboard.service';
@@ -103,9 +103,7 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
       // this.parentOrgName = params.get('orgName');
       this.orgId = params.get('orgId');
       this.assetId = params.get('assetId');
-      console.log('m y this.curLocId', this.curLocId );
-      console.log('m y parentOrgId', this.parentOrgId);
-      console.log('m y this.orgId', this.orgId);
+      // console.log('m y this.curLocId parentOrgId this.orgId', this.curLocId, this.parentOrgId, this.orgId);
 
       if ((this.parentOrgId || this.orgId) && !this.curLocId) {
         // Organization dashboard
@@ -283,9 +281,11 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
                 signal.icon = signal.iconFile + ' ' + this.imageOverlay.iconDisplaySize;
                 signal.latestValue = 0;
                 signal.modifiedOn =
-                  moment(new Date()).format(moment.localeData(this.loggedInUser.userConfigSettings[0].localeName)
+                  moment(new Date()).tz(this.loggedInUser.userConfigSettings[0].timeZoneDescription)
+                  .format(moment.localeData(this.loggedInUser.userConfigSettings[0].localeName)
                     .longDateFormat('L')) + ' '
-                  + moment(new Date()).format(moment.localeData(this.loggedInUser.userConfigSettings[0].localeName)
+                  + moment(new Date()).tz(this.loggedInUser.userConfigSettings[0].timeZoneDescription)
+                  .format(moment.localeData(this.loggedInUser.userConfigSettings[0].localeName)
                     .longDateFormat('LTS'));
                 this.displaySignalHoverContent['s-' + i] = false;
               }
@@ -317,9 +317,11 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
                 const signal = response[i];
                 signal.icon = signal.iconFile + ' ' + this.imageOverlay.iconDisplaySize;
                 signal.modifiedOn =
-                  moment(new Date()).format(moment.localeData(this.loggedInUser.userConfigSettings[0].localeName)
+                  moment(new Date()).tz(this.loggedInUser.userConfigSettings[0].timeZoneDescription)
+                  .format(moment.localeData(this.loggedInUser.userConfigSettings[0].localeName)
                     .longDateFormat('L')) + ' '
-                  + moment(new Date()).format(moment.localeData(this.loggedInUser.userConfigSettings[0].localeName)
+                  + moment(new Date()).tz(this.loggedInUser.userConfigSettings[0].timeZoneDescription)
+                  .format(moment.localeData(this.loggedInUser.userConfigSettings[0].localeName)
                     .longDateFormat('LTS'));
                 signal.latestValue = 0;
                 this.displaySignalHoverContent['s-' + i] = false;
@@ -408,11 +410,11 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
 
     let body = {
       // "dashboardWidgetId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-      "widgetName": "Image Overlay Widget",
-      "dashBoardId": this.data ? this.data.dashboardId : null,
-      "widgetConfiguration": JSON.stringify(this.imageOverlay),
-      "published": true,
-      "active": true,
+      widgetName: 'Image Overlay Widget',
+      dashBoardId: this.data ? this.data.dashboardId : null,
+      widgetConfiguration: JSON.stringify(this.imageOverlay),
+      published: true,
+      active: true,
     };
 
     this.dashboardService.saveDashboardWidget(body)
@@ -467,40 +469,41 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
         return assSig.parkerDeviceId === jsonData.ParkerDeviceId && assSig.signalId === jsonData.SignalId;
       });
       if (index !== -1) {
-        this.associatedSignals[index].latestValue = jsonData.SignalValue;
-        this.associatedSignals[index].modifiedOn =
-          moment(jsonData.RecievedDateTime).format(moment.localeData(this.loggedInUser.userConfigSettings[0].localeName)
-            .longDateFormat('L')) + ' '
-          + moment(jsonData.RecievedDateTime).format(moment.localeData(this.loggedInUser.userConfigSettings[0].localeName)
-            .longDateFormat('LTS'));
-        // this.convertUOMData();
+        this.convertUOMData(jsonData, index);
       }
     });
   }
 
-  // convertUOMData(signalRObj) {
-  //   const obj = {
-  //     uomValue: signalRObj.SignalValue,
-  //     signalId: signalRObj.SignalId,
-  //     sensorId: signalRObj.SensorId
-  //   };
+  convertUOMData(signalRObj, index) {
+    const arr = [];
+    arr.push({
+      uomValue: signalRObj.SignalValue,
+      signalId: signalRObj.SignalId,
+      sensorId: signalRObj.SensorId
+    });
+    const obj = {
+      userId: this.loggedInUser.userId,
+      organizationId: this.parentOrgId,
+      locationId: this.imageOverlay.overlaySource === 'Location' ? this.imageOverlay.overlaySourceID : undefined,
+      precision: 3,
+      uom: arr
+    };
 
-  //   this.sharedService.getUOMConversionData(obj, this.loggedInUser.userId).subscribe(
-  //     response => {
-  //       const index = this.associatedSignals.findIndex(assSig => {
-  //         return assSig.parkerDeviceId === signalRObj.ParkerDeviceId && assSig.signalId === signalRObj.SignalId;
-  //       });
-  //       if (index !== -1) {
-  //         this.associatedSignals[index].latestValue = response.uomValue + ' ' + response.uomname;
-  //         this.associatedSignals[index].modifiedOn =
-  //         moment(signalRObj.RecievedDateTime).format(moment.localeData(this.loggedInUser.userConfigSettings[0].localeName)
-  //         .longDateFormat('L')) + ' '
-  //         + moment(signalRObj.RecievedDateTime).format(moment.localeData(this.loggedInUser.userConfigSettings[0].localeName)
-  //         .longDateFormat('LTS'));
-  //       }
-  //     }
-  //   );
-  // }
+    this.sharedService.getUOMConversionData(obj).subscribe(
+      response => {
+
+          this.associatedSignals[index].latestValue = response[0].uomValue + ' ' + response[0].uomname;
+          this.associatedSignals[index].modifiedOn =
+          moment(signalRObj.RecievedDateTime).tz(this.loggedInUser.userConfigSettings[0].timeZoneDescription)
+          .format(moment.localeData(this.loggedInUser.userConfigSettings[0].localeName)
+          .longDateFormat('L')) + ' '
+          + moment(signalRObj.RecievedDateTime).tz(this.loggedInUser.userConfigSettings[0].timeZoneDescription)
+          .format(moment.localeData(this.loggedInUser.userConfigSettings[0].localeName)
+          .longDateFormat('LTS'));
+
+      }
+    );
+  }
 
 
   ngOnDestroy() {
