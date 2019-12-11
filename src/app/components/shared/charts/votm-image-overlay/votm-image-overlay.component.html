@@ -27,7 +27,7 @@
                 [style.top.px]="imgOffsetTop + item.imageCordinates[item.associationName].y * imgOffsetHeight - 16">
                 <ng-container
                   *ngIf="!displaySignalHoverContent['s-' + i]; else hoveredContent" >
-                  <ng-container *ngIf="!iconSize.includes('small')">{{item.latestValue}}</ng-container>
+                  <ng-container *ngIf="imageOverlay && !imageOverlay.iconDisplaySize.includes('small')">{{item.latestValue}}</ng-container>
                   <!-- <ng-container >{{item.latestValue}}</ng-container> -->
                 </ng-container>
                 <ng-template #hoveredContent>
@@ -45,14 +45,14 @@
               [ngClass]="getAlarmStatusclass(item.alarmStatus)"
               (mouseenter)="displaySignalHoverContent['a-'+i] = true"
               (mouseleave)="displaySignalHoverContent['a-'+i] = false"
-              [style.left.px]="imgOffsetLeft + item.imageCoordinates[overLaySource === 'location' ? item.assetId : item.childAssetId].x * imgOffsetWidth - 16"
-              [style.top.px]="imgOffsetTop + item.imageCoordinates[overLaySource === 'location' ? item.assetId : item.childAssetId].y * imgOffsetHeight - 16"
+              [style.left.px]="imgOffsetLeft + item.imageCoordinates[imageOverlay.overlaySource === 'location' ? item.assetId : item.childAssetId].x * imgOffsetWidth - 16"
+              [style.top.px]="imgOffsetTop + item.imageCoordinates[imageOverlay.overlaySource === 'location' ? item.assetId : item.childAssetId].y * imgOffsetHeight - 16"
             >
             <ng-container *ngIf="!displaySignalHoverContent['a-' + i]; else hoveredAssetContent" >
-                <ng-container *ngIf="!iconSize.includes('small')">{{overLaySource === 'location' ? item.assetName : item.childAssetName}}</ng-container>
+                <ng-container *ngIf="imageOverlay && !imageOverlay.iconDisplaySize.includes('small')">{{imageOverlay.overlaySource === 'location' ? item.assetName : item.childAssetName}}</ng-container>
             </ng-container>
             <ng-template #hoveredAssetContent>
-              <p><b>QCD > {{item.locationName}} >  {{overLaySource === 'location' ? item.assetName : item.childAssetName}}</b>
+              <p><b>QCD > {{item.locationName}} >  {{imageOverlay.overlaySource === 'location' ? item.assetName : item.childAssetName}}</b>
                 {{item.modifiedOn}}
               <b>Critical alarm on asset</b></p>
               <hr class="mt-1 mb-1">
@@ -85,7 +85,7 @@
                             <div class="form-group">
                                 <label for="">Title:</label>
                                 <input class="form-control form-control-sm" type="text" name="widgetTitle"
-                                    [(ngModel)]="widgetTitle" placeholder="" />
+                                    [(ngModel)]="imageOverlay.title" placeholder="" />
                             </div>
                         </div>
                         <div class="col-3">
@@ -93,8 +93,8 @@
                                 <label for="">Overlay Source:</label>
                                 <div class="">
                                     <ng-select id="imageSource" name="imageSource" labelForId="imageSource"
-                                        class="custom" [multiple]="false" [(ngModel)]="overLaySource" placeholder="Choose Source"
-                                        (change)="signalsCheckboxChecked = true; assetsCheckboxChecked = true;associatedAssets = []; associatedSignals=[]; displaySignalHoverContent={};">
+                                        class="custom" [multiple]="false" [(ngModel)]="imageOverlay.overlaySource" placeholder="Choose Source"
+                                        (change)="imageOverlay.showSignals = true; imageOverlay.showAsset = true;associatedAssets = []; associatedSignals=[]; displaySignalHoverContent={};">
                                         <ng-option value="location">Location</ng-option>
                                         <ng-option value="asset">Asset</ng-option>
                                         <ng-option value="custom">Custom</ng-option>
@@ -102,30 +102,30 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-3" *ngIf="overLaySource === 'location'" >
+                        <div class="col-3" *ngIf="imageOverlay.overlaySource === 'location'" >
                             <div class="form-group">
                                 <label for="widgetlocImageID">Location</label>
                                 <div class="">
                                     <ng-select id="widgetlocImageID" name="widgetlocImageID" labelForId="widgetlocImageID"
-                                        class="custom" [multiple]="false" [(ngModel)]="widgetlocImageID"
+                                        class="custom" [multiple]="false" [(ngModel)]="imageOverlay.overlaySourceID"
                                         placeholder="Choose Location">
                                         <ng-option *ngFor="let locationChild of LocationSourceChild" [value]="locationChild.data.id">{{locationChild.data.name}}</ng-option>
                                     </ng-select>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-3" *ngIf="overLaySource === 'asset'" >
+                        <div class="col-3" *ngIf="imageOverlay.overlaySource === 'asset'" >
                             <div class="form-group">
                                 <label for="">Asset</label>
                                 <div class="">
                                     <ng-select id="widgetassetimageID" name="widgetassetimageID" labelForId="widgetassetimageID" class="custom"
-                                        [multiple]="false" [(ngModel)]="widgetassetimageID" placeholder="Choose Asset">
+                                        [multiple]="false" [(ngModel)]="imageOverlay.overlaySourceID" placeholder="Choose Asset">
                                         <ng-option *ngFor="let assetsChild of assetsSourceChild" [value]="assetsChild.data.id">{{assetsChild.data.name}}</ng-option>
                                     </ng-select>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-3" *ngIf="overLaySource === 'custom'" >
+                        <div class="col-3" *ngIf="imageOverlay.overlaySource === 'custom'" >
                             <div class="form-group">
                                 <label for="">Overlay Image</label>
                                 <div class="custom-file">
@@ -143,7 +143,7 @@
                                 <label for="">Icon Display Size</label>
                                 <div class="">
                                     <ng-select id="iconSize" name="iconSize" labelForId="iconSize" class="custom"
-                                        [multiple]="false" [(ngModel)]="iconSize" placeholder="Choose Size">
+                                        [multiple]="false" [(ngModel)]="imageOverlay.iconDisplaySize" placeholder="Choose Size">
                                         <ng-option value="widget-icon-extra-small">X-S</ng-option>
                                         <ng-option value="widget-icon-small">S</ng-option>
                                         <ng-option value="widget-icon-medium">M</ng-option>
@@ -155,27 +155,27 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row" *ngIf="overLaySource === 'location'" >
+                    <div class="row" *ngIf="imageOverlay.overlaySource === 'location'" >
                         <div class="col-4">
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input" id="locSignal" [(ngModel)]="signalsCheckboxChecked" name="locSignal">
+                                <input type="checkbox" class="custom-control-input" id="locSignal" [(ngModel)]="imageOverlay.showSignals" name="locSignal">
                                 <label class="custom-control-label" for="locSignal" id="locSignalLbl">Show Location
                                     Signals?</label>
                             </div>
                         </div>
                         <div class="col-4">
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input" [(ngModel)]="assetsCheckboxChecked" id="assetLocAssociated"
+                                <input type="checkbox" class="custom-control-input" [(ngModel)]="imageOverlay.showAsset" id="assetLocAssociated"
                                     name="assetLocAssociated">
                                 <label class="custom-control-label" for="assetLocAssociated"
                                     id="assetLocAssociatedLbl">Show Assets?</label>
                             </div>
                         </div>
                     </div>
-                    <div class="row" *ngIf="overLaySource === 'asset'" >
+                    <div class="row" *ngIf="imageOverlay.overlaySource === 'asset'" >
                         <div class="col-4">
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" [(ngModel)]="signalsCheckboxChecked" class="custom-control-input" id="locAssetSignal"
+                                <input type="checkbox" [(ngModel)]="imageOverlay.showSignals" class="custom-control-input" id="locAssetSignal"
                                     name="locAssetSignal">
                                 <label class="custom-control-label" for="locAssetSignal" id="locAssetSignalLbl">Show
                                     asset signals?</label>
@@ -183,14 +183,14 @@
                         </div>
                         <div class="col-4">
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" [(ngModel)]="assetsCheckboxChecked" class="custom-control-input" id="childassetLocAssociated"
+                                <input type="checkbox" [(ngModel)]="imageOverlay.showAsset" class="custom-control-input" id="childassetLocAssociated"
                                 name="locChildAsset">
                                 <label class="custom-control-label" for="childassetLocAssociated"
                                     id="childassetLocAssociatedLbl">Show Child Assets?</label>
                             </div>
                         </div>
                     </div>
-                    <div class="row" *ngIf="overLaySource === 'custom'" >
+                    <div class="row" *ngIf="imageOverlay.overlaySource === 'custom'" >
                         <div class="col-12">
                             <label for="">Entity & Signal Layout</label>
                         </div>
