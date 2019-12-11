@@ -360,8 +360,12 @@ export class VotmCloudAssociationComponent {
 
   openConfirmDialog(index) {
     const selectedSignal = this.droppedList[index];
-    this.signalRemoveMessage = 'Are you sure you want to unlink the ' + selectedSignal.signalName +
+    if (this.customImageOverlay) {
+      this.signalRemoveMessage = 'Are you sure you want to unlink the ' + selectedSignal.signalName + ' signal.';
+    } else {
+      this.signalRemoveMessage = 'Are you sure you want to unlink the ' + selectedSignal.signalName +
     ' signal? The historical data for this signal will be lost.';
+    }
     this.confirmBox.open();
     this.deletedSignalIndex = index;
   }

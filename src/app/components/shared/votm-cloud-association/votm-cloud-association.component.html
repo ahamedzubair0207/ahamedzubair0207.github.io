@@ -118,6 +118,7 @@
                 </div>
               </div>
           </div>
+
           <div class="sensor-list h-100" *ngIf="customImageOverlay" >
               <!-- <div class="sensor-item icon-asset-robot">
                   Assets Custom {{customImageOverlay}}
@@ -141,6 +142,9 @@
                   </div>
                 </div>
               </div> -->
+              <div class="center" *ngIf="!dragList">
+                <i class="fa fa-spinner fa-2x fa-spin fa-fw"></i>
+              </div>
               <ng-container *ngFor="let sensor of dragList; let i = index"  >
                 <div *ngIf="showSensor(sensor.node)" class="sensor-item icon-sensonode">
                   {{ sensor.sensorName }}
@@ -199,7 +203,7 @@
       </div>
     </div>
   </div>
-  <div class="ml-auto mr-3 mt-3 pull-right">
+  <div class="ml-auto mr-3 mt-3 pull-right" *ngIf="!customImageOverlay">
     <button id="loc-sig-cancel" for="form-cancel" type="button" (click)="onCancelClick($event)"
       class="btn btn-outline-secondary btn-sm mr-2">Return to List</button>
     <button id="loc-sig-reset" for="form-reset" type="button" (click)="onClickOfReset()"  [class.d-none]="disable"
