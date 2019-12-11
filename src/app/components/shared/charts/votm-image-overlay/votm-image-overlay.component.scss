@@ -136,13 +136,13 @@
         line-height: normal;
         font-size: 0.75rem;
         border-left: 1px solid #ccc;
-        margin-top: 3px;
-        margin-left: -1px;
+        margin-top: 0px;
+        margin-left: 22px;
       }
       .icon-wrapper {
         position: absolute;
-        left: 0px;
-        bottom: 0;
+        left: 10px;
+        top: 2px;
         display: flex;
         flex-direction: column;
       }
@@ -191,7 +191,7 @@
         line-height: 1;
         border-right: 1px solid #ccc;
         padding-right: 1px;
-        min-height: 93%;
+        min-height: 87%;
         justify-content: flex-end;
         top: 7px;
       }
@@ -243,7 +243,7 @@
         line-height: 1.5;
         border-right: 1px solid #ccc;
         padding-right: 6px;
-        min-height: 90%;
+        min-height: 84%;
         justify-content: flex-end;
       }
     }
