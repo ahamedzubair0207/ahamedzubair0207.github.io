@@ -64,6 +64,7 @@ export class VotmCloudAssociationComponent {
   @Input() alertRules: Alert[] = [];
   @Input() locationId: string = null;
   @Input() assetId: string = null;
+  @Input() customImageOverlay = false;
   @Output() detach: EventEmitter<any> = new EventEmitter<any>();
   @Output() saveAssociation: EventEmitter<any> = new EventEmitter<any>();
   @Output() reload: EventEmitter<any> = new EventEmitter<any>();

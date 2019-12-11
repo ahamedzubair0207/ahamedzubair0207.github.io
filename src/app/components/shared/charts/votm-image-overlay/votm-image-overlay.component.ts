@@ -39,7 +39,7 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
   widgetImageData: any;
   widgetimgURL: any;
   // iconSize = 'widget-icon-extra-small';
-  assetsList: Array<TreeNode> = [];
+  assetsList: any[] = [];
   assetsSourceChild: any[];
   // widgetassetimageID: any;
   // overLaySource = 'location';
@@ -61,7 +61,7 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
   displaySignalHoverContent: any = {};
   orgId: string;
   message: string;
-  widgetCustomImgURL: any;
+  widgetCustomImgURL = '../../../../assets/images/default-image-svg.svg';
   loggedInUser: any;
   imageOverlay: ImageOverlayWidget = new ImageOverlayWidget();
 
@@ -99,7 +99,9 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
       // this.parentOrgName = params.get('orgName');
       this.orgId = params.get('orgId');
       this.assetId = params.get('assetId');
-      // console.log('m y this.curLocId parentOrgId this.orgId', this.curLocId, this.parentOrgId, this.orgId);
+      console.log('m y this.curLocId', this.curLocId );
+      console.log('m y parentOrgId', this.parentOrgId);
+      console.log('m y this.orgId', this.orgId);
 
       if ((this.parentOrgId || this.orgId) && !this.curLocId) {
         // Organization dashboard
@@ -617,4 +619,91 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
       return 'icon-state-success';
     }
   }
+
+  getAssetChildNode(assets, actualAssets) {
+    for (const item of assets) {
+      item.associated = false;
+      item.icon = 'icon-asset-robot';
+      item.associationName = item.name;
+      item.associated = false;
+      actualAssets.push(item);
+    }
+    return actualAssets;
+  }
+
+  getAssetsByLocation(locationId) {
+    this.assetService.getAssetTreeByLocId(locationId)
+      .subscribe(async response => {
+        response = await this.getAssetChildNode(response, []);
+        this.assetsList = this.sharedService.toSortListAlphabetically(response, 'name');
+        this.getAssetAssociation(locationId);
+      });
+  }
+
+  getAssetAssociation(locationId) {
+    this.locationService.getAssetAssociation(locationId)
+      .subscribe(
+        response => {
+          for (let i = 0; i < response.length; i++) {
+            const childAsset = response[i];
+            childAsset.isClicked = false;
+            childAsset.icon = 'icon-asset-robot';
+            childAsset.associated = true;
+            childAsset.did = i;
+            childAsset.bound = true;
+            childAsset.imageCordinates = childAsset.imageCoordinates[childAsset.assetId];
+            childAsset.pctPos = {};
+
+            childAsset.pctPos['left'] = childAsset.imageCordinates.x;
+            childAsset.pctPos['top'] = childAsset.imageCordinates.y;
+          }
+          this.associatedAssets = [...response];
+          for (let i = 0; i < this.assetsList.length; i++) {
+            const childAsset = this.assetsList[i];
+            const index = this.associatedAssets.findIndex(assChild => assChild.assetId === childAsset.id);
+            // console.log(index);
+            if (index !== -1) {
+              childAsset.associated = true;
+              // console.log(this.location);
+              // this.associatedAssets[index].organizationId = this.location.organizationId;
+              // this.associatedAssets[index].locationId = this.location.locationId;
+              // this.associatedAssets[index].locationName = this.location.locationName;
+              this.associatedAssets[index].associationName = childAsset.name;
+              // console.log(this.associatedAssets[index]);
+            } else {
+              childAsset.pctPos = { left: 0, top: 0};
+              childAsset.isClicked = false;
+              childAsset.icon = 'icon-asset-robot';
+              childAsset.associated = true;
+              childAsset.did = this.associatedAssets.length;
+              childAsset.bound = true;
+              this.associatedAssets.push(childAsset);
+            }
+          }
+          // console.log('aftererrrrrrrrrrrrr    ', this.associatedAssets.length);
+
+        });
+  }
+
+  getCustomEntityAndSignal() {
+    console.log('overLaySource', this.imageOverlay.overlaySource);
+    if ( this.imageOverlay.overlaySource === 'custom') {
+      let entityId = '';
+      if (this.curLocId) {
+        entityId = this.curLocId;
+      }
+
+      // this.locationSignalService.getSignalAssociation(entityId)
+      //   .subscribe(
+      //     response => {
+      //       this.associatedSignals = [...response];
+      //     }
+      // );
+
+      this.getAssetsByLocation(entityId);
+
+    }
+
+  } // End - getCustomEntityAndSignal
+
 }

@@ -118,6 +118,30 @@
                 </div>
               </div>
           </div>
+          <div class="sensor-list h-100" *ngIf="customImageOverlay" >
+              <div class="sensor-item icon-asset-robot">
+                  Assets Custom {{customImageOverlay}}
+                <div class="signal-list">
+                  <ng-container *ngFor="let item of dragList; let j = index">
+                    <div
+                      attr.signalIx="{{ j }}"
+                      class="signal-item {{ item.icon }} border-0 transparent "
+                      [ngClass]="{ assoc: item.associated, cursorpoint: !disable, cursordefault: disable}"
+                      (click)="!disable ? onClickOfAssetName(item) : ''"
+                      [dndDraggable]="item"
+                      [dndDisableIf]="item.associated || !item.isLink"
+                      [dndEffectAllowed]="'move'"
+                      (dndStart)="onStart($event, i, j)"
+                    >
+                      {{ item.name }}
+                    </div>
+                  </ng-container>
+                  <div *ngIf="dragList.length === 0" >
+                    No data available.
+                  </div>
+                </div>
+              </div>
+          </div>
         </div>
         <div class="col-12 col-md-9 px-md-0" >
           <div class="border h-100 assoc-pane" (window:resize)="onResize($event)">

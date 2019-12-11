@@ -31,6 +31,10 @@
                   <!-- <ng-container >{{item.latestValue}}</ng-container> -->
                 </ng-container>
                 <ng-template #hoveredContent>
+                  <span class="icon-wrapper">
+                    <i class="icon-battery-100 "></i>
+                    <i class="icon-signal-100 "></i>
+                  </span>
                   <p><b>{{item.sensorName}}</b><br/>
                   {{item.modifiedOn}}<br/>
                   <b>{{item.associationName}}:  {{item.latestValue}}</b></p>
@@ -94,7 +98,7 @@
                                 <div class="">
                                     <ng-select id="imageSource" name="imageSource" labelForId="imageSource"
                                         class="custom" [multiple]="false" [(ngModel)]="imageOverlay.overlaySource" placeholder="Choose Source"
-                                        (change)="imageOverlay.showSignals = true; imageOverlay.showAsset = true;associatedAssets = []; associatedSignals=[]; displaySignalHoverContent={};">
+                                        (change)="imageOverlay.showSignals = true; imageOverlay.showAsset = true;associatedAssets = []; associatedSignals=[]; displaySignalHoverContent={}; getCustomEntityAndSignal();">
                                         <ng-option value="location">Location</ng-option>
                                         <ng-option value="asset">Asset</ng-option>
                                         <ng-option value="custom">Custom</ng-option>
@@ -194,7 +198,7 @@
                         <div class="col-12">
                             <label for="">Entity & Signal Layout</label>
                         </div>
-                        <div class="col-12">
+                        <!-- <div class="col-12">
                           <div class="row">
                             <div class="col-4">
                                 <div class="custom-control custom-switch">
@@ -208,6 +212,34 @@
                                 </div>
                             </div>
                           </div>
+                        </div> -->
+                        <div class="col-12">
+                          <app-votm-cloud-association
+                            [imageURL]="widgetCustomImgURL"
+                            [dragList]="assetsList"
+                            [droppedList]=""
+                            [showDerivedSignal]="true"
+                            [showSensorsDetail]="true"
+                            [showEditIcon]="true"
+                            [showAlertIcon]="true"
+                            [showDetachIcon]="false"
+                            [isDragDropRequired]="true"
+                            [model]="signal"
+                            [disable]="disable"
+                            [alertRules]="alertRules"
+                            [showUnassoc]="true"
+                            [showAssoc]="true"
+                            [locationId]="locationId"
+                            [customImageOverlay]="true"
+                            (detach)="onDetachSignalFromAsset($event)"
+                            (reload)="getLocationSignalAssociation()"
+                            (saveAssociation)="onSaveSignalAssociation($event)"
+                            (saveAlarmAssociation)="onClickOfAlarmRuleAssociation($event)"
+                            (resetPage)="onReset($event)"
+                            (returnToList)="onReturnToList()"
+                            (createAssociateRule)="onCreateAssociateRule($event)"
+                          >
+                          </app-votm-cloud-association>
                         </div>
                     </div>
                 </div>
