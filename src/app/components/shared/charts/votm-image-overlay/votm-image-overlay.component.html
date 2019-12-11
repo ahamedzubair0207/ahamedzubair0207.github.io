@@ -31,9 +31,15 @@
                   <!-- <ng-container >{{item.latestValue}}</ng-container> -->
                 </ng-container>
                 <ng-template #hoveredContent>
-                  <p><b>{{item.sensorName}}</b><br/>
-                  {{item.modifiedOn}}<br/>
-                  <b>{{item.associationName}}:  {{item.latestValue}}</b></p>
+                  <span class="icon-wrapper">
+                    <i class="icon-battery-100 "></i>
+                    <i class="icon-signal-100 "></i>
+                  </span>
+                  <span class="values">
+                    <p><b>{{item.sensorName}}</b><br/>
+                    {{item.modifiedOn}}<br/>
+                    <b>{{item.associationName}}:  {{item.latestValue}}</b></p>
+                  </span>
                 </ng-template>
               </div>
             </ng-container>
@@ -52,13 +58,15 @@
                 <ng-container *ngIf="imageOverlay && !imageOverlay.iconDisplaySize.includes('small')">{{imageOverlay.overlaySource === 'location' ? item.assetName : item.childAssetName}}</ng-container>
             </ng-container>
             <ng-template #hoveredAssetContent>
-              <p><b>QCD > {{item.locationName}} >  {{imageOverlay.overlaySource === 'location' ? item.assetName : item.childAssetName}}</b>
-                {{item.modifiedOn}}
-              <b>Critical alarm on asset</b></p>
-              <hr class="mt-1 mb-1">
-              <p><b>Critical: Control Cabinet Temperature</b>
-              Temperature: 142&deg; F<br/>
-              Above critical threshold of 95&deg; F</p>
+                <span class="values">
+                  <p><b>QCD > {{item.locationName}} >  {{imageOverlay.overlaySource === 'location' ? item.assetName : item.childAssetName}}</b>
+                    {{item.modifiedOn}}
+                  <b>Critical alarm on asset</b></p>
+                  <hr class="mt-1 mb-1">
+                  <p><b>Critical: Control Cabinet Temperature</b>
+                  Temperature: 142&deg; F<br/>
+                  Above critical threshold of 95&deg; F</p>
+                </span>
             </ng-template>
 
             </div>
@@ -72,7 +80,7 @@
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
             <form name="dashBoardConfigurationForm" #dashBoardConfigurationForm="ngForm"
-                (ngSubmit)="saveImageOverlayConfiguration()">
+               >
                 <div class="modal-header">
                     <h5 class="modal-title">Image Overlay Configuration</h5>
                     <button type="button" class="close"
@@ -194,7 +202,7 @@
                         <div class="col-12">
                             <label for="">Entity & Signal Layout</label>
                         </div>
-                        <div class="col-12">
+                        <!-- <div class="col-12">
                           <div class="row">
                             <div class="col-4">
                                 <div class="custom-control custom-switch">
@@ -208,13 +216,41 @@
                                 </div>
                             </div>
                           </div>
+                        </div> -->
+                        <div class="col-12" *ngIf="showCustomLayout" >
+                          <app-votm-cloud-association
+                            [imageURL]="widgetCustomImgURL"
+                            [dragList]="sensors"
+                            [droppedList]=""
+                            [showDerivedSignal]="true"
+                            [showSensorsDetail]="true"
+                            [showEditIcon]="true"
+                            [showAlertIcon]="false"
+                            [showDetachIcon]="true"
+                            [isDragDropRequired]="true"
+                            [model]="signal"
+                            [disable]="disable"
+                            [alertRules]="alertRules"
+                            [showUnassoc]="showUnassoc"
+                            [showAssoc]="showAssoc"
+                            [locationId]="locationId"
+                            [customImageOverlay]="true"
+                            (detach)="onDetachSignalFromAsset($event)"
+                            (reload)="getLocationSignalAssociation()"
+                            (saveAssociation)="onSaveSignalAssociation($event)"
+                            (saveAlarmAssociation)="onClickOfAlarmRuleAssociation($event)"
+                            (resetPage)="onReset($event)"
+                            (returnToList)="onReturnToList()"
+                            (createAssociateRule)="onCreateAssociateRule($event)"
+                          >
+                          </app-votm-cloud-association>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-outline-secondary btn-sm" id="imageOverlayCancelBtn"
                         (click)="onClickOfCustomizeImageOverlayModalClose()">Cancel</button>
-                    <button type="submit" class="btn btn-info btn-sm" id="configSave" (click)="saveImageOverlayConfiguration()">
+                    <button type="button" class="btn btn-info btn-sm" id="configSave" (click)="saveImageOverlayConfiguration()">
                         Save
                     </button>
                 </div>

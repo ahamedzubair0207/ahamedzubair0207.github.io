@@ -64,6 +64,7 @@ export class VotmCloudAssociationComponent {
   @Input() alertRules: Alert[] = [];
   @Input() locationId: string = null;
   @Input() assetId: string = null;
+  @Input() customImageOverlay = false;
   @Output() detach: EventEmitter<any> = new EventEmitter<any>();
   @Output() saveAssociation: EventEmitter<any> = new EventEmitter<any>();
   @Output() reload: EventEmitter<any> = new EventEmitter<any>();
@@ -359,8 +360,12 @@ export class VotmCloudAssociationComponent {
 
   openConfirmDialog(index) {
     const selectedSignal = this.droppedList[index];
-    this.signalRemoveMessage = 'Are you sure you want to unlink the ' + selectedSignal.signalName +
+    if (this.customImageOverlay) {
+      this.signalRemoveMessage = 'Are you sure you want to unlink the ' + selectedSignal.signalName + ' signal.';
+    } else {
+      this.signalRemoveMessage = 'Are you sure you want to unlink the ' + selectedSignal.signalName +
     ' signal? The historical data for this signal will be lost.';
+    }
     this.confirmBox.open();
     this.deletedSignalIndex = index;
   }

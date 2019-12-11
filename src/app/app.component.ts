@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { SharedService } from './services/shared.service';
 import { OktaAuthService } from '@okta/okta-angular';
@@ -9,12 +9,23 @@ import { OktaAuthService } from '@okta/okta-angular';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'votm-cloud';
   menuOpen: boolean;
   router: Router;
   isAuthenticated: boolean;
-
+  loggedInUserData = {
+    userId: '03c7fb47-58ee-4c41-a9d6-2ad0bd43392a',
+    organizationId : '7a59bdd8-6e1d-48f9-a961-aa60b2918dde',
+    userName: 'Sean Haley',
+    userConfigSettings: [
+      {
+        localeId: '3c10d7d2-c95a-4c16-bb51-44a80ec63fba',
+        localeName: 'de-de',
+        timeZoneDescription: 'America/New_York'
+      }
+    ]
+  };
   constructor(public oktaAuth: OktaAuthService, router: Router, private sharedService: SharedService) {
     this.oktaAuth.$authenticationState.subscribe(isAuthenticated => this.isAuthenticated = isAuthenticated)
     this.router = router;
@@ -40,12 +51,15 @@ export class AppComponent {
   }
 
   async ngOnInit() {
+    if (!this.sharedService.getItemFromLocalStorgae('loggedInUser')) {
+      this.sharedService.setItemInLocalStorage('loggedInUser', this.loggedInUserData);
+    }
+    console.log('userrrrrrrrrrrrrrrrrrrrrrrrrrrrr', this.sharedService.getItemFromLocalStorgae('loggedInUser'));
     this.isAuthenticated = await this.oktaAuth.isAuthenticated();
 
     this.sharedService.getFavorites();
-
-    this.sharedService.favorites.subscribe(response=>{
-    })
+    this.sharedService.favorites.subscribe(response => {
+    });
   }
   logout() {
     this.oktaAuth.logout('/');

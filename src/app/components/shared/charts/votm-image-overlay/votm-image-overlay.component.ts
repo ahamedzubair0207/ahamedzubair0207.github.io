@@ -12,7 +12,7 @@ import { TreeNode } from 'primeng/api';
 import { LocationService } from 'src/app/services/locations/location.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { AssetsService } from 'src/app/services/assets/assets.service';
-import * as moment from 'moment';
+import * as moment from 'moment-timezone';
 import { VotmCommon } from '../../votm-common';
 import { ImageOverlayWidget } from 'src/app/models/image-overlay-widget.model';
 import { DashboardService } from 'src/app/services/dasboards/dashboard.service';
@@ -39,7 +39,7 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
   widgetImageData: any;
   widgetimgURL: any;
   // iconSize = 'widget-icon-extra-small';
-  assetsList: Array<TreeNode> = [];
+  assetsList: any[] = [];
   assetsSourceChild: any[];
   // widgetassetimageID: any;
   // overLaySource = 'location';
@@ -64,7 +64,11 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
   widgetCustomImgURL: any;
   loggedInUser: any;
   imageOverlay: ImageOverlayWidget = new ImageOverlayWidget();
-
+  sensors: any;
+  showAssoc = true;
+  showUnassoc = true;
+  disable = false;
+  showCustomLayout = false;
 
   constructor(
     private toastr: ToastrService,
@@ -277,9 +281,11 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
                 signal.icon = signal.iconFile + ' ' + this.imageOverlay.iconDisplaySize;
                 signal.latestValue = 0;
                 signal.modifiedOn =
-                  moment(new Date()).format(moment.localeData(this.loggedInUser.userConfigSettings[0].localeName)
+                  moment(new Date()).tz(this.loggedInUser.userConfigSettings[0].timeZoneDescription)
+                  .format(moment.localeData(this.loggedInUser.userConfigSettings[0].localeName)
                     .longDateFormat('L')) + ' '
-                  + moment(new Date()).format(moment.localeData(this.loggedInUser.userConfigSettings[0].localeName)
+                  + moment(new Date()).tz(this.loggedInUser.userConfigSettings[0].timeZoneDescription)
+                  .format(moment.localeData(this.loggedInUser.userConfigSettings[0].localeName)
                     .longDateFormat('LTS'));
                 this.displaySignalHoverContent['s-' + i] = false;
               }
@@ -311,9 +317,11 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
                 const signal = response[i];
                 signal.icon = signal.iconFile + ' ' + this.imageOverlay.iconDisplaySize;
                 signal.modifiedOn =
-                  moment(new Date()).format(moment.localeData(this.loggedInUser.userConfigSettings[0].localeName)
+                  moment(new Date()).tz(this.loggedInUser.userConfigSettings[0].timeZoneDescription)
+                  .format(moment.localeData(this.loggedInUser.userConfigSettings[0].localeName)
                     .longDateFormat('L')) + ' '
-                  + moment(new Date()).format(moment.localeData(this.loggedInUser.userConfigSettings[0].localeName)
+                  + moment(new Date()).tz(this.loggedInUser.userConfigSettings[0].timeZoneDescription)
+                  .format(moment.localeData(this.loggedInUser.userConfigSettings[0].localeName)
                     .longDateFormat('LTS'));
                 signal.latestValue = 0;
                 this.displaySignalHoverContent['s-' + i] = false;
@@ -402,11 +410,11 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
 
     let body = {
       // "dashboardWidgetId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-      "widgetName": "Image Overlay Widget",
-      "dashBoardId": this.data ? this.data.dashboardId : null,
-      "widgetConfiguration": JSON.stringify(this.imageOverlay),
-      "published": true,
-      "active": true,
+      widgetName: 'Image Overlay Widget',
+      dashBoardId: this.data ? this.data.dashboardId : null,
+      widgetConfiguration: JSON.stringify(this.imageOverlay),
+      published: true,
+      active: true,
     };
 
     this.dashboardService.saveDashboardWidget(body)
@@ -461,40 +469,41 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
         return assSig.parkerDeviceId === jsonData.ParkerDeviceId && assSig.signalId === jsonData.SignalId;
       });
       if (index !== -1) {
-        this.associatedSignals[index].latestValue = jsonData.SignalValue;
-        this.associatedSignals[index].modifiedOn =
-          moment(jsonData.RecievedDateTime).format(moment.localeData(this.loggedInUser.userConfigSettings[0].localeName)
-            .longDateFormat('L')) + ' '
-          + moment(jsonData.RecievedDateTime).format(moment.localeData(this.loggedInUser.userConfigSettings[0].localeName)
-            .longDateFormat('LTS'));
-        // this.convertUOMData();
+        this.convertUOMData(jsonData, index);
       }
     });
   }
 
-  // convertUOMData(signalRObj) {
-  //   const obj = {
-  //     uomValue: signalRObj.SignalValue,
-  //     signalId: signalRObj.SignalId,
-  //     sensorId: signalRObj.SensorId
-  //   };
+  convertUOMData(signalRObj, index) {
+    const arr = [];
+    arr.push({
+      uomValue: signalRObj.SignalValue,
+      signalId: signalRObj.SignalId,
+      sensorId: signalRObj.SensorId
+    });
+    const obj = {
+      userId: this.loggedInUser.userId,
+      organizationId: this.parentOrgId,
+      locationId: this.imageOverlay.overlaySource === 'Location' ? this.imageOverlay.overlaySourceID : undefined,
+      precision: 3,
+      uom: arr
+    };
 
-  //   this.sharedService.getUOMConversionData(obj, this.loggedInUser.userId).subscribe(
-  //     response => {
-  //       const index = this.associatedSignals.findIndex(assSig => {
-  //         return assSig.parkerDeviceId === signalRObj.ParkerDeviceId && assSig.signalId === signalRObj.SignalId;
-  //       });
-  //       if (index !== -1) {
-  //         this.associatedSignals[index].latestValue = response.uomValue + ' ' + response.uomname;
-  //         this.associatedSignals[index].modifiedOn =
-  //         moment(signalRObj.RecievedDateTime).format(moment.localeData(this.loggedInUser.userConfigSettings[0].localeName)
-  //         .longDateFormat('L')) + ' '
-  //         + moment(signalRObj.RecievedDateTime).format(moment.localeData(this.loggedInUser.userConfigSettings[0].localeName)
-  //         .longDateFormat('LTS'));
-  //       }
-  //     }
-  //   );
-  // }
+    this.sharedService.getUOMConversionData(obj).subscribe(
+      response => {
+
+          this.associatedSignals[index].latestValue = response[0].uomValue + ( response[0].uomname ? ' ' + response[0].uomname : '');
+          this.associatedSignals[index].modifiedOn =
+          moment(signalRObj.RecievedDateTime).tz(this.loggedInUser.userConfigSettings[0].timeZoneDescription)
+          .format(moment.localeData(this.loggedInUser.userConfigSettings[0].localeName)
+          .longDateFormat('L')) + ' '
+          + moment(signalRObj.RecievedDateTime).tz(this.loggedInUser.userConfigSettings[0].timeZoneDescription)
+          .format(moment.localeData(this.loggedInUser.userConfigSettings[0].localeName)
+          .longDateFormat('LTS'));
+
+      }
+    );
+  }
 
 
   ngOnDestroy() {
@@ -549,6 +558,8 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
     readerToPreview.readAsDataURL(files[0]);
     readerToPreview.onload = (_event) => {
       this.widgetCustomImgURL = this.domSanitizer.bypassSecurityTrustUrl(readerToPreview.result.toString()); //readerToPreview.result;
+      this.getCustomEntityAndSignal();
+      this.showCustomLayout = true;
     };
   }
 
@@ -617,4 +628,170 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
       return 'icon-state-success';
     }
   }
+
+  getAssetChildNode(assets, actualAssets) {
+    for (const item of assets) {
+      item.associated = false;
+      item.icon = 'icon-asset-robot';
+      item.associationName = item.name;
+      item.associated = false;
+      actualAssets.push(item);
+    }
+    return actualAssets;
+  }
+
+  getAssetsByLocation(locationId) {
+    this.assetService.getAssetTreeByLocId(locationId)
+      .subscribe(async response => {
+        response = await this.getAssetChildNode(response, []);
+        this.assetsList = this.sharedService.toSortListAlphabetically(response, 'name');
+        this.getAssetAssociation(locationId);
+      });
+  }
+
+  getAssetAssociation(locationId) {
+    this.locationService.getAssetAssociation(locationId)
+      .subscribe(
+        response => {
+          for (let i = 0; i < response.length; i++) {
+            const childAsset = response[i];
+            childAsset.isClicked = false;
+            childAsset.icon = 'icon-asset-robot';
+            childAsset.associated = true;
+            childAsset.did = i;
+            childAsset.bound = true;
+            childAsset.imageCordinates = childAsset.imageCoordinates[childAsset.assetId];
+            childAsset.pctPos = {};
+
+            childAsset.pctPos['left'] = childAsset.imageCordinates.x;
+            childAsset.pctPos['top'] = childAsset.imageCordinates.y;
+          }
+          this.associatedAssets = [...response];
+          for (let i = 0; i < this.assetsList.length; i++) {
+            const childAsset = this.assetsList[i];
+            const index = this.associatedAssets.findIndex(assChild => assChild.assetId === childAsset.id);
+            // console.log(index);
+            if (index !== -1) {
+              childAsset.associated = true;
+              // console.log(this.location);
+              // this.associatedAssets[index].organizationId = this.location.organizationId;
+              // this.associatedAssets[index].locationId = this.location.locationId;
+              // this.associatedAssets[index].locationName = this.location.locationName;
+              this.associatedAssets[index].associationName = childAsset.name;
+              // console.log(this.associatedAssets[index]);
+            } else {
+              childAsset.pctPos = { left: 0, top: 0};
+              childAsset.isClicked = false;
+              childAsset.icon = 'icon-asset-robot';
+              childAsset.associated = true;
+              childAsset.did = this.associatedAssets.length;
+              childAsset.bound = true;
+              this.associatedAssets.push(childAsset);
+            }
+          }
+          // console.log('aftererrrrrrrrrrrrr    ', this.associatedAssets.length);
+
+        });
+  }
+
+  getCustomEntityAndSignal() {
+    console.log('overLaySource', this.imageOverlay.overlaySource);
+    if ( this.imageOverlay.overlaySource === 'custom') {
+      let entityId = '';
+      if (this.curLocId) {
+        entityId = this.curLocId;
+      }
+
+      // this.locationSignalService.getSignalAssociation(entityId)
+      //   .subscribe(
+      //     response => {
+      //       this.associatedSignals = [...response];
+      //     }
+      // );
+
+      this.getAssetsByLocation(entityId);
+      this.getLocationSignalAssociation(entityId);
+
+    }
+
+  } // End - getCustomEntityAndSignal
+
+  getLocationSignalAssociation(locationId) {
+    this.locationSignalService.getSignalAssociation(locationId)
+      .subscribe(
+        response => {
+          this.getLocationAllAvailableSignals(locationId);
+          for (let i = 0; i < response.length; i++) {
+            const signal = response[i];
+            signal.imageCordinates = signal.imageCordinates[signal.associationName];
+            signal.pctPos = {};
+            signal.pctPos['left'] = signal.imageCordinates.x;
+            signal.pctPos['top'] = signal.imageCordinates.y;
+            signal.isClicked = false;
+            signal.icon = signal.iconFile;
+            signal.associated = true;
+            signal.did = i;
+            signal.bound = signal.sensorLinkStatus;
+          }
+          // this.associatedSignals = [...response];
+        },
+        error => {
+
+        }
+      );
+  }
+
+  /**
+   * To get all available signals for that location and organization.
+   * Location id and Organization Id will fetch from current route.
+   * This function sets the sensor disable which are already associated.
+   */
+  getLocationAllAvailableSignals(locationId) {
+    this.locationSignalService.getSignalsByLocation('location', locationId)
+      .subscribe(async response => {
+        // console.log(response);
+        this.sensors = response;
+        for (const sensor of this.sensors) {
+          sensor.node = await this.sharedService.toSortListAlphabetically(sensor.node, 'signalName');
+          for (const signal of sensor.node) {
+            signal.sensorId = sensor.sensorId;
+            signal.sensorName = sensor.sensorName;
+            signal.signalId = signal.signalId;
+            signal.signalName = signal.signalName;
+            signal.associationName = signal.signalName;
+            signal.associated = false;
+            signal.imageCordinates = {
+              x: 0,
+              y: 0
+            };
+            signal.icon = signal.iconFile;
+            for (const associateSignal of this.associatedSignals) {
+              if (associateSignal.signalId === signal.signalId &&
+                associateSignal.sensorId === signal.sensorId && sensor.isLink) {
+                signal.associated = true;
+                signal.associationName = associateSignal.associationName;
+
+              }
+            }
+          }
+        }
+
+      },
+        error => {
+
+        });
+  }
+
+  showSignal(signal: any): boolean {
+    return (signal.associated && this.showAssoc) || ((!signal.associated) && this.showUnassoc);
+  }
+
+  showSensor(signals: any): boolean {
+    let hasAssocSignals = false;
+    signals.forEach(signal => {
+      hasAssocSignals = hasAssocSignals || ((signal.associated && this.showAssoc) || ((!signal.associated) && this.showUnassoc));
+    });
+    return hasAssocSignals;
+  }
+
 }

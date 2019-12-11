@@ -15,7 +15,7 @@
               <thead>
                 <tr>
                   <th scope="col" class="" [style.width]="wConfig.showSensor || wConfig.showStatus ? '45%' : '50%'">Signal</th>
-                  <th scope="col" class="text-right">Value</th>
+                  <th scope="col">Value</th>
                   <th scope="col" class="">Time</th>
                   <th *ngIf="wConfig.showSensor" scope="col" class="text-center" style="width:6em">Sensor</th>
                   <th *ngIf="wConfig.showStatus" scope="col" class="text-center" style="width:4.5em">Status</th>
@@ -26,8 +26,8 @@
                   <tr *ngIf="signal.sel">
                       <td scope="col" class="" title="{{ selPathName(signal) }}"><i class="pr-1 icon-sig-{{ signal.type }}"></i>{{ signal.name }}</td>
                     <!-- <td scope="col" class="" title="{{ selPathName(signal) }}"><i class="pr-1 icon-sig-{{ signal.type }}"></i>{{ selPathName(signal) }}</td> -->
-                    <td scope="col" class="text-right" title="{{ signal.value }}">{{ signal.value }}</td>
-                    <td scope="col" class="" title="{{ timestamp }}">{{ timestamp }}</td>
+                    <td scope="col" title="{{ signal.value }}">{{ signal.value }}</td>
+                    <td scope="col" class="" title="{{ timestamp }}">{{ signal.modifiedOn }}</td>
                     <td *ngIf="wConfig.showSensor" scope="col" class="text-center">{{ signal.sensor }}</td>
                     <td *ngIf="wConfig.showStatus" scope="col" class="text-center align-middle">
                       <i class="{{ getBattery(signal) }}"></i><i class="{{ getRSSI(signal) }}"></i>

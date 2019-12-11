@@ -119,23 +119,32 @@
 
 // extra small icon
   .assoc-pane > div.widget-icon-extra-small{
-    padding-left:calc(1 * 0.625rem + 0px);
+    padding-left:calc(0 * 0.625rem + 0px);
     line-height: calc(1 * 0.625rem + 0px);
     border-radius: calc(1 * 0.625rem / 2 + 0px) !important;
     background: $qcd-white-90;
     transition: all 0.3s ease;
     border-color: $qcd-success-brd;
     cursor: pointer;
-    max-width: 60%;
+    // max-width: 60%;
     font-size: 0.75rem;
     min-height: calc(1 * 0.625rem + 0px);
     &:hover{
       border: 1px solid $qcd-success;
       padding-left:calc(1 * 0.625rem + 0px);
-      p{
+      .values{
         line-height: normal;
-        white-space: pre-wrap;
-        font-size: 0.75rem
+        font-size: 0.75rem;
+        border-left: 1px solid #ccc;
+        margin-top: 0px;
+        margin-left: 22px;
+      }
+      .icon-wrapper {
+        position: absolute;
+        left: 10px;
+        top: 2px;
+        display: flex;
+        flex-direction: column;
       }
     }
     &:before {
@@ -156,23 +165,35 @@
 
   // small icon
   .assoc-pane > div.widget-icon-small{
-    padding-left:calc(1 * 1.5rem + 0px);
+    padding-left:calc(1 * 1.5rem + -10px);
     line-height: calc(1 * 1.4rem + 0px);
     border-radius: calc(1 * 1.5rem / 2 + 0px) !important;
     background: $qcd-white-90;
     transition: all 0.3s ease;
     border-color: $qcd-success-brd;
     cursor: pointer;
-    max-width: 60%;
+    // max-width: 60%;
     font-size: 0.75rem;
     min-height: calc(1 * 1.5rem + 0px);
     &:hover{
       border: 1px solid qcd-success;
       padding-left:calc(1 * 1.5rem + 0px);
-      p{
+      .values{
         line-height: normal;
-        white-space: pre-wrap;
-        font-size: 0.75rem
+        // white-space: pre-wrap;
+        font-size: 0.75rem;
+      }
+      .icon-wrapper {
+        position: absolute;
+        left: 1px;
+        display: flex;
+        flex-direction: column;
+        line-height: 1;
+        border-right: 1px solid #ccc;
+        padding-right: 1px;
+        min-height: 87%;
+        justify-content: flex-end;
+        top: 7px;
       }
     }
     &:before {
@@ -198,15 +219,32 @@
     transition: all 0.3s ease;
     border-color: $qcd-success-brd;
     cursor: pointer;
-    max-width: 60%;
+    // max-width: 60%;
     font-size: 0.75rem;
     &:hover{
-      border: 1px solid qcd-success;
+      border: 1px solid $qcd-success;
       padding-left:calc(1 * 2rem + 0px);
-      p{
+      min-height:70px;
+      
+      .values{
         line-height: normal;
-        white-space: pre-wrap;
-        font-size: 0.75rem
+        // white-space: pre-wrap;
+        font-size: 0.75rem;
+        display: flex;
+        padding: 4px 0px;
+        flex-direction:column;
+      }
+      .icon-wrapper {
+        position: absolute;
+        left: 7px;
+        top: 12px;
+        display: flex;
+        flex-direction: column;
+        line-height: 1.5;
+        border-right: 1px solid #ccc;
+        padding-right: 6px;
+        min-height: 84%;
+        justify-content: flex-end;
       }
     }
     &:before {
@@ -232,16 +270,27 @@
     transition: all 0.3s ease;
     border-color: $qcd-success-brd;
     cursor: pointer;
-    max-width: 60%;
+    // max-width: 60%;
     font-size: 0.85rem;
     &:hover{
       border: 1px solid $qcd-success-brd;
-      padding-left:calc(1 * 3rem + 0px);
-      p{
+      padding-left:calc(1.6 * 3rem + 0px);
+      .values{
         // line-height: calc(0.295 * 12rem + 0px);
         line-height: normal;
-        white-space: pre-wrap;
-        font-size: 0.85rem
+        // white-space: pre-wrap;
+        font-size: 0.85rem;
+        border-left: 1px solid #ccc;
+        display: flex;
+        flex-direction: column;
+      }
+      .icon-wrapper {
+        position: absolute;
+        left: 50px;
+        top: 0;
+        display: flex;
+        flex-direction: column;
+        line-height: 1.3;
       }
     }
     &:before {
@@ -252,7 +301,7 @@
       color: $white;
       border-color: $qcd-success-brd;
       position: absolute;
-      left: 0px;
+      left: -1px;
       top: -1px;
       font-size: 1.5rem;
     }
@@ -267,20 +316,33 @@
     transition: all 0.3s ease;
     border-color: $qcd-success-brd;
     cursor: pointer;
-    max-width: 60%;
+    // max-width: 60%;
     font-size: 1rem;
     // p{
     //   line-height: 1.99rem !important;
     // }
     &:hover{
       border: 1px solid $qcd-success-brd;
-      padding-left:calc(1 * 5.75rem + 0px);
+      padding-left:calc(1.27 * 5.75rem + 0px);
       // line-height: calc(1 * 1.99rem + 0px) !important;
-      p{
+      .values{
         // line-height: calc(0.295 * 12rem + 0px);
         line-height: normal;
-        white-space: pre-wrap;
+        //white-space: pre-wrap;
         font-size: 1rem;
+        border-left: 1px solid #ccc;
+        display: flex;
+        white-space: pre-line;
+        flex-direction: column;
+      }
+      .icon-wrapper {
+        position: absolute;
+        left: 90px;
+        top: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        line-height: 2;
       }
     }
     &:before {
@@ -291,7 +353,7 @@
       color: $white;
       border-color: $qcd-success-brd;
       position: absolute;
-      left: 0px;
+      left: -1px;
       top: -1px;
       font-size: 3rem;
     }
@@ -304,8 +366,8 @@
     min-height: calc(1 * 12rem + 0px);
     border-top-left-radius: calc(1 * 12rem / 2 + 0px) !important;
     border-bottom-left-radius: calc(1 * 12rem / 2 + 0px) !important;
-    border-top-right-radius: calc(1 * 12rem / 6 + 0px) !important;
-    border-bottom-right-radius: calc(1 * 12rem / 6 + 0px) !important;
+    border-top-right-radius: calc(1 * 12rem / 12 + 0px) !important;
+    border-bottom-right-radius: calc(1 * 12rem / 12 + 0px) !important;
     background: $qcd-white-90;
     transition: all 0.3s ease;
     border-color: $qcd-success-brd;
@@ -314,11 +376,24 @@
     font-size: 1.25rem;
     &:hover{
       border: 1px solid $qcd-success-brd;
-      padding-left:calc(1 * 12rem + 0px);
-      p{
+      padding-left:calc(1.2 * 12rem + 0px);
+      .values{
         line-height: normal;
-        white-space: pre-wrap;
+        // white-space: pre-wrap;
         font-size: 1.25rem;
+        border-left: 1px solid #ccc;
+        display: flex;
+        white-space: pre-line;
+        flex-direction: column;
+      }
+      .icon-wrapper {
+        position: absolute;
+        left: 190px;
+        top: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        line-height: 2;
       }
     }
     &:before {
@@ -431,8 +506,8 @@
       border: 1px solid $qcd-success-brd;
       p {
         // line-height: 0.9rem;
-        padding:4px 8px;
-        margin:0;
+        padding: 0px 8px;
+        margin: 4px 0 0 -1px;
       }
     }
     &:before {
@@ -499,4 +574,11 @@
   display: flex;
   /* flex: 1 1 100%; */
   align-items: center
+}
+
+// over write for the icon hover div display.
+.embed-responsive{
+  overflow: visible;
+  z-index: 0;
+  border:1px solid red;
 }

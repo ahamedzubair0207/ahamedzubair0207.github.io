@@ -553,3 +553,8 @@ a.article:hover {
   }
 
 
+:host ::ng-deep .ngx-datatable.bootstrap .datatable-body .datatable-body-row.datatable-row-even {
+  background-color: transparent!important;
+}
+
+
