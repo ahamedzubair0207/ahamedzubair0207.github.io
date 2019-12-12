@@ -358,6 +358,11 @@ export class VotmCloudAssociationComponent {
     }
   }
 
+  clear(item) {
+    const index = this.selectedAlertRule.findIndex(ruleId => ruleId === item.alertRuleId);
+    this.selectedAlertRule.splice(index, 1);
+  }
+
   openConfirmDialog(index) {
     const selectedSignal = this.droppedList[index];
     if (this.customImageOverlay) {
