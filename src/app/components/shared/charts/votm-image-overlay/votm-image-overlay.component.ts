@@ -87,6 +87,7 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    console.log('image overlay on init');
     this.imageOverlay.overlaySource = 'location';
     this.imageOverlay.iconDisplaySize = 'widget-icon-extra-small';
     this.imageOverlay.showSignals = true;
@@ -265,14 +266,6 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
 
   getImageOverlayConfiguration(overlaySource) {
 
-    // Call service to get configured image overlay data
-    // this.widgetService.getImageOverlayConfiguration().subscribe(
-    //   response => {
-    //     this.isImageOverlayConfigured = true;
-    //   }, error => {
-    //     this.isImageOverlayConfigured = false;
-    //   }
-    // );
     this.isImageOverlayConfigured = true;
     this.associatedSignals = [];
     this.associatedAssets = [];
@@ -414,7 +407,7 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
               this.dashboardWidget = widget;
               this.imageOverlay = JSON.parse(widget.widgetConfiguration);
               console.log('getDashboardWidget ', this.imageOverlay);
-              this.saveImageOverlayConfiguration(false)
+              this.saveImageOverlayConfiguration(false);
               // if (this.imageOverlay.signals) {
               // }
               // if (this.imageOverlay.signals) {
@@ -465,35 +458,10 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
       }
     }
 
-
-
-    // console.log('widgetlocImage', this.widgetlocImageID);
-    // console.log('widgetassetimageID', this.widgetassetimageID, this.overLaySource);
-
-    // Call services to save image overlay configuration data
-    // this.widgetService.addImageOverlayConfiguration(imageOvelayConfigureObj).subscribe(
-    //   response => {
-    //     this.toaster.onSuccess('Widget Configured Successfully', 'Success');
-    //     this.onClickOfCustomizeImageOverlayModalClose();
-    //     this.getChartConfiguration();
-    //   }, error => {
-    //     this.toaster.onFailure('Error in Widget Configuration', 'Failure');
-    //     this.onClickOfCustomizeImageOverlayModalClose();
-    //   }
-    // );
-    // if (!this.widgetlocImageID) {
-    //   this.widgetlocImageID = this.curLocId;
-    // }
     this.getImageOverlayConfiguration(this.imageOverlay.overlaySource);
-    // setTimeout(() => {
-    //   // console.log('image overlay called');
 
-    // }, 500);
-
-    // if (this.overLaySource === 'asset') {
-    //   this.getImageOverlayConfiguration(this.widgetlocImageID);
-    // }
     // signal R code
+    console.log('signalR connection code');
     let connString = 'Sensor*' + this.parentOrgId + '*' + this.imageOverlay.overlaySourceID;
     // console.log(connString);
     // connString = '7a59bdd8-6e1d-48f9-a961-aa60b2918dde*1387c6d3-cabc-41cf-a733-8ea9c9169831';

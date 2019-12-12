@@ -129,6 +129,7 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
   loaderAppInfo: boolean;
   detailsMainTabList: string[];
   deletedDashboardName: any;
+  selectedTab = 'org-details';
 
   constructor(
     private assetService: AssetsService,
@@ -194,12 +195,12 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
       this.curOrgName = params.get('curOrgName');
       this.orgId = params.get('orgId');
       this.activeTab = 'org-details';
-      this.detailsMainTabList = ['org-details', 'org-alert', 'asset-template', 'org-sensors', 'org-gateways'];
+      this.detailsMainTabList = ['org-details-tab', 'org-alert', 'asset-template', 'org-sensors', 'org-gateways'];
       this.activeroute.fragment.subscribe(
         (fragment) => {
           this.activeTab = fragment;
           if (!this.activeTab) {
-            this.activeTab = 'org-details';
+            this.activeTab = 'org-details-tab';
           }
           // let tabList = ['org-details', 'org-alert', 'asset-template', 'org-sensors', 'org-gateways', 'event-details'];
           // if (fragment && tabList.indexOf(fragment) < 0) {
@@ -836,6 +837,7 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
 
   goToTab(location: string): void {
     // window.location.hash = '';
+    this.activeTab = location;
     window.location.hash = location;
   }
 

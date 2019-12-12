@@ -452,7 +452,7 @@ export class VotmCloudAlertsCreateComponent implements OnInit, OnDestroy {
         for (let i = 0; i < response.length; i++) {
 
           if (i === 0) {
-            this.orgHierarchy = response[i].name + ' > ';
+            this.orgHierarchy = response[i].shortName + ' > ';
             // // console.log(this.orgHierarchy);
           } else {
             this.orgHierarchy = this.orgHierarchy + response[i].shortName + ' > ';
@@ -474,7 +474,7 @@ export class VotmCloudAlertsCreateComponent implements OnInit, OnDestroy {
       this.assetsChecked[this.alertRuleSignalAssociatedAsset.organizationId] = false;
       const treeNode: TreeNode = {};
       treeNode.data = { id: this.alertRuleSignalAssociatedAsset.organizationId,
-        label: this.alertRuleSignalAssociatedAsset.organizationName,
+        label: this.orgHierarchy,
         value: this.alertRuleSignalAssociatedAsset, parent: null };
       treeNode.children = [];
       treeNode.expanded = true;
@@ -484,7 +484,7 @@ export class VotmCloudAlertsCreateComponent implements OnInit, OnDestroy {
           // console.log('locnamr     ', location.locationName);
           this.assetsChecked[location.locationId] = false;
           const locTreeNode: TreeNode = {};
-          locTreeNode.data = { id: location.locationId, label: treeNode.data.label + ' > ' + location.locationName,
+          locTreeNode.data = { id: location.locationId, label: treeNode.data.label + location.locationName,
             value: location, parent: null };
           locTreeNode.children = [];
           locTreeNode.expanded = true;
@@ -551,7 +551,7 @@ export class VotmCloudAlertsCreateComponent implements OnInit, OnDestroy {
       this.assetsChecked[organization.organizationId] = false;
       const treeNode: TreeNode = {};
       treeNode.data = { id: organization.organizationId,
-        label: (parentOrg.data && parentOrg.data.label ? (parentOrg.data.label + ' > ') : this.orgHierarchy) + organization.organizationName,
+        label: this.orgHierarchy + organization.organizationName,
         value: organization, parent: null};
       treeNode.children = [];
       treeNode.expanded = true;
