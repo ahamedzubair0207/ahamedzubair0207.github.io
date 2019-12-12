@@ -43,6 +43,7 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
   assetsSourceChild: any[];
   // widgetassetimageID: any;
   // overLaySource = 'location';
+  dashboardWidget: any;
   wId: string;
   parentOrgId: string;
   assetId: string;
@@ -95,7 +96,14 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
     this.wId = this.data.dashboardId + '-' + this.id;
     this.isImageOverlayConfigured = false;
     this.widgetImageOverlaySource = ['Location', 'Asset', 'Custom'];
+    /// Ahamed Code starts
+    if (this.data) {
+      if (this.data.dashboardId) {
+        this.getDashboardWidget();
+      }
+    }
 
+    //end
     this.route.paramMap.subscribe((params: ParamMap) => {
       this.curLocId = params.get('locId');
       // this.curLocName = params.get('locName');
@@ -282,11 +290,11 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
                 signal.latestValue = 0;
                 signal.modifiedOn =
                   moment(new Date()).tz(this.loggedInUser.userConfigSettings[0].timeZoneDescription)
-                  .format(moment.localeData(this.loggedInUser.userConfigSettings[0].localeName)
-                    .longDateFormat('L')) + ' '
+                    .format(moment.localeData(this.loggedInUser.userConfigSettings[0].localeName)
+                      .longDateFormat('L')) + ' '
                   + moment(new Date()).tz(this.loggedInUser.userConfigSettings[0].timeZoneDescription)
-                  .format(moment.localeData(this.loggedInUser.userConfigSettings[0].localeName)
-                    .longDateFormat('LTS'));
+                    .format(moment.localeData(this.loggedInUser.userConfigSettings[0].localeName)
+                      .longDateFormat('LTS'));
                 this.displaySignalHoverContent['s-' + i] = false;
               }
               this.associatedSignals = [...response];
@@ -318,11 +326,11 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
                 signal.icon = signal.iconFile + ' ' + this.imageOverlay.iconDisplaySize;
                 signal.modifiedOn =
                   moment(new Date()).tz(this.loggedInUser.userConfigSettings[0].timeZoneDescription)
-                  .format(moment.localeData(this.loggedInUser.userConfigSettings[0].localeName)
-                    .longDateFormat('L')) + ' '
+                    .format(moment.localeData(this.loggedInUser.userConfigSettings[0].localeName)
+                      .longDateFormat('L')) + ' '
                   + moment(new Date()).tz(this.loggedInUser.userConfigSettings[0].timeZoneDescription)
-                  .format(moment.localeData(this.loggedInUser.userConfigSettings[0].localeName)
-                    .longDateFormat('LTS'));
+                    .format(moment.localeData(this.loggedInUser.userConfigSettings[0].localeName)
+                      .longDateFormat('LTS'));
                 signal.latestValue = 0;
                 this.displaySignalHoverContent['s-' + i] = false;
               }
@@ -396,7 +404,30 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
       });
   }
 
-  saveImageOverlayConfiguration() {
+  //Ahamed Code
+  getDashboardWidget() {
+    this.dashboardService.getDashboardWidgets(this.data.dashboardId)
+      .subscribe(response => {
+        if (response && response.length > 0) {
+          response.forEach(widget => {
+            if (widget.widgetName === 'Image Overlay Widget') {
+              this.dashboardWidget = widget;
+              this.imageOverlay = JSON.parse(widget.widgetConfiguration);
+              console.log('getDashboardWidget ', this.imageOverlay);
+              this.saveImageOverlayConfiguration(false)
+              // if (this.imageOverlay.signals) {
+              // }
+              // if (this.imageOverlay.signals) {
+
+              // }
+            }
+          });
+
+        }
+      });
+  }
+
+  saveImageOverlayConfiguration(saveChartWidget: boolean = true) {
     if (this.imageOverlay && this.imageOverlay.overlaySource === 'location' && !this.imageOverlay.overlaySourceID) {
       this.toaster.onFailure('Please select location for overlay', 'Image Overlay');
       return;
@@ -409,20 +440,30 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
 
 
     let body = {
-      // "dashboardWidgetId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
       widgetName: 'Image Overlay Widget',
       dashBoardId: this.data ? this.data.dashboardId : null,
       widgetConfiguration: JSON.stringify(this.imageOverlay),
       published: true,
       active: true,
     };
-
-    this.dashboardService.saveDashboardWidget(body)
-      .subscribe(response => {
-        console.log('saved successfully ', response);
-        this.customizeImageOverlay.style.display = 'none';
-        this.toaster.onSuccess('Chart Configured Successfully', 'Success');
-      });
+    if (saveChartWidget) {
+      if (this.dashboardWidget) {
+        body['dashboardWidgetId'] = this.dashboardWidget.dashboardWidgetId;
+        this.dashboardService.updateDashboardWidget(body)
+          .subscribe(response => {
+            console.log('Updated successfully ', response);
+            this.customizeImageOverlay.style.display = 'none';
+            this.toaster.onSuccess('Chart Updated Successfully', 'Success');
+          });
+      } else {
+        this.dashboardService.saveDashboardWidget(body)
+          .subscribe(response => {
+            console.log('saved successfully ', response);
+            this.customizeImageOverlay.style.display = 'none';
+            this.toaster.onSuccess('Chart Configured Successfully', 'Success');
+          });
+      }
+    }
 
 
 
@@ -492,14 +533,14 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
     this.sharedService.getUOMConversionData(obj).subscribe(
       response => {
 
-          this.associatedSignals[index].latestValue = response[0].uomValue + ( response[0].uomname ? ' ' + response[0].uomname : '');
-          this.associatedSignals[index].modifiedOn =
+        this.associatedSignals[index].latestValue = response[0].uomValue + (response[0].uomname ? ' ' + response[0].uomname : '');
+        this.associatedSignals[index].modifiedOn =
           moment(signalRObj.RecievedDateTime).tz(this.loggedInUser.userConfigSettings[0].timeZoneDescription)
-          .format(moment.localeData(this.loggedInUser.userConfigSettings[0].localeName)
-          .longDateFormat('L')) + ' '
+            .format(moment.localeData(this.loggedInUser.userConfigSettings[0].localeName)
+              .longDateFormat('L')) + ' '
           + moment(signalRObj.RecievedDateTime).tz(this.loggedInUser.userConfigSettings[0].timeZoneDescription)
-          .format(moment.localeData(this.loggedInUser.userConfigSettings[0].localeName)
-          .longDateFormat('LTS'));
+            .format(moment.localeData(this.loggedInUser.userConfigSettings[0].localeName)
+              .longDateFormat('LTS'));
 
       }
     );
@@ -680,7 +721,7 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
               this.associatedAssets[index].associationName = childAsset.name;
               // console.log(this.associatedAssets[index]);
             } else {
-              childAsset.pctPos = { left: 0, top: 0};
+              childAsset.pctPos = { left: 0, top: 0 };
               childAsset.isClicked = false;
               childAsset.icon = 'icon-asset-robot';
               childAsset.associated = true;
@@ -696,7 +737,7 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
 
   getCustomEntityAndSignal() {
     console.log('overLaySource', this.imageOverlay.overlaySource);
-    if ( this.imageOverlay.overlaySource === 'custom') {
+    if (this.imageOverlay.overlaySource === 'custom') {
       let entityId = '';
       if (this.curLocId) {
         entityId = this.curLocId;

@@ -128,6 +128,7 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
   prntOrgLoader: boolean;
   loaderAppInfo: boolean;
   detailsMainTabList: string[];
+  deletedDashboardName: any;
 
   constructor(
     private assetService: AssetsService,
@@ -841,7 +842,7 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
 
   onAlertRuleTabClick() {
     this.goToTab('org-alert');
-   // this.fetchAlertRuleList();
+    // this.fetchAlertRuleList();
     // // // console.log('onAlertRuleTabClick');
 
   }
@@ -1047,6 +1048,7 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
 
   openDashboardConfirmDialog(dashboardId, dashboardName) {
     this.deleteDashboardId = dashboardId;
+    this.deletedDashboardName = dashboardName;
     // this.dashboardData = this.dashboardTab.dashboardId;
     this.message = `Do you want to delete the "${dashboardName}" Dashboard?`;
     this.confirmBoxDash.open();
@@ -1058,7 +1060,7 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
       //   // delete dashboard service goes here
       this.dbService.deleteDashboard(this.deleteDashboardId)
         .subscribe(response => {
-          this.toaster.onSuccess(`You have deleted ${this.dashboardTab.dashboardName} successfully`, 'Delete Success!');
+          this.toaster.onSuccess(`You have deleted ${this.deletedDashboardName} successfully`, 'Delete Success!');
           this.dbService.getAllDashboards(this.orgId, 'organization')
             .subscribe(response => {
               // console.log('get All Dashboard ', response);
