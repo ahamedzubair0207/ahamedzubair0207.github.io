@@ -1,3 +1,4 @@
+import { Logo } from './logo.model';
 export class ImageOverlayWidget{
 
     title: string;
@@ -8,5 +9,7 @@ export class ImageOverlayWidget{
     showAsset: boolean;
     signals: string[];
     showChildAsset: boolean;
+    droppedList: any;
+    customImage: Logo;
 
 }

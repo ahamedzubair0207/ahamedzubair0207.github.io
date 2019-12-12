@@ -518,9 +518,18 @@ a.article:hover {
   }
 
   :host ::ng-deep .datatable-header {
-    background-color: #dee2e6 !important;
-    border: 1px solid #c8c8c8;
+    // background-color: #dee2e6 !important;
+    // border: 1px solid #c8c8c8;
 
+  }
+
+  :host ::ng-deep .datatable-header-inner {
+    border-top: 1px solid #c8c8c8;
+    border-left: 1px solid #c8c8c8;
+  }
+
+  :host ::ng-deep .ngx-datatable .datatable-body .datatable-scroll {
+    border-right: 1px solid #c8c8c8;
   }
 
   :host ::ng-deep .ngx-datatable.bootstrap .datatable-header .datatable-header-cell {

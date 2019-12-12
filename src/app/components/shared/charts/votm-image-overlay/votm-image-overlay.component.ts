@@ -16,6 +16,7 @@ import * as moment from 'moment-timezone';
 import { VotmCommon } from '../../votm-common';
 import { ImageOverlayWidget } from 'src/app/models/image-overlay-widget.model';
 import { DashboardService } from 'src/app/services/dasboards/dashboard.service';
+import { Logo } from 'src/app/models/logo.model';
 
 @Component({
   selector: 'app-votm-image-overlay',
@@ -70,6 +71,8 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
   showUnassoc = true;
   disable = false;
   showCustomLayout = false;
+  saveCustomImageOverlayFlag = false;
+  customImage: Logo;
 
   constructor(
     private toastr: ToastrService,
@@ -87,6 +90,7 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    console.log('image overlay on init');
     this.imageOverlay.overlaySource = 'location';
     this.imageOverlay.iconDisplaySize = 'widget-icon-extra-small';
     this.imageOverlay.showSignals = true;
@@ -265,14 +269,6 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
 
   getImageOverlayConfiguration(overlaySource) {
 
-    // Call service to get configured image overlay data
-    // this.widgetService.getImageOverlayConfiguration().subscribe(
-    //   response => {
-    //     this.isImageOverlayConfigured = true;
-    //   }, error => {
-    //     this.isImageOverlayConfigured = false;
-    //   }
-    // );
     this.isImageOverlayConfigured = true;
     this.associatedSignals = [];
     this.associatedAssets = [];
@@ -414,7 +410,7 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
               this.dashboardWidget = widget;
               this.imageOverlay = JSON.parse(widget.widgetConfiguration);
               console.log('getDashboardWidget ', this.imageOverlay);
-              this.saveImageOverlayConfiguration(false)
+              this.saveImageOverlayConfiguration([], false);
               // if (this.imageOverlay.signals) {
               // }
               // if (this.imageOverlay.signals) {
@@ -427,7 +423,7 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
       });
   }
 
-  saveImageOverlayConfiguration(saveChartWidget: boolean = true) {
+  saveImageOverlayConfiguration(droppedList, saveChartWidget: boolean = true) {
     if (this.imageOverlay && this.imageOverlay.overlaySource === 'location' && !this.imageOverlay.overlaySourceID) {
       this.toaster.onFailure('Please select location for overlay', 'Image Overlay');
       return;
@@ -437,15 +433,29 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
       return;
     }
     console.log('imageOverlay ', this.imageOverlay);
+    let body = {};
+    if (this.imageOverlay.overlaySource === 'location' || this.imageOverlay.overlaySource === 'asset') {
+      body = {
+        widgetName: 'Image Overlay Widget',
+        dashBoardId: this.data ? this.data.dashboardId : null,
+        widgetConfiguration: JSON.stringify(this.imageOverlay),
+        published: true,
+        active: true,
+      };
+    } else {
+      console.log('custom widget', droppedList);
+      this.imageOverlay.droppedList = droppedList;
+      this.imageOverlay.customImage = this.customImage;
+      body = {
+        widgetName: 'Image Overlay Widget',
+        dashBoardId: this.data ? this.data.dashboardId : null,
+        widgetConfiguration: JSON.stringify(this.imageOverlay),
+        published: true,
+        active: true,
+      };
+      //return;
+    }
 
-
-    let body = {
-      widgetName: 'Image Overlay Widget',
-      dashBoardId: this.data ? this.data.dashboardId : null,
-      widgetConfiguration: JSON.stringify(this.imageOverlay),
-      published: true,
-      active: true,
-    };
     if (saveChartWidget) {
       if (this.dashboardWidget) {
         body['dashboardWidgetId'] = this.dashboardWidget.dashboardWidgetId;
@@ -465,35 +475,10 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
       }
     }
 
-
-
-    // console.log('widgetlocImage', this.widgetlocImageID);
-    // console.log('widgetassetimageID', this.widgetassetimageID, this.overLaySource);
-
-    // Call services to save image overlay configuration data
-    // this.widgetService.addImageOverlayConfiguration(imageOvelayConfigureObj).subscribe(
-    //   response => {
-    //     this.toaster.onSuccess('Widget Configured Successfully', 'Success');
-    //     this.onClickOfCustomizeImageOverlayModalClose();
-    //     this.getChartConfiguration();
-    //   }, error => {
-    //     this.toaster.onFailure('Error in Widget Configuration', 'Failure');
-    //     this.onClickOfCustomizeImageOverlayModalClose();
-    //   }
-    // );
-    // if (!this.widgetlocImageID) {
-    //   this.widgetlocImageID = this.curLocId;
-    // }
     this.getImageOverlayConfiguration(this.imageOverlay.overlaySource);
-    // setTimeout(() => {
-    //   // console.log('image overlay called');
 
-    // }, 500);
-
-    // if (this.overLaySource === 'asset') {
-    //   this.getImageOverlayConfiguration(this.widgetlocImageID);
-    // }
     // signal R code
+    console.log('signalR connection code');
     let connString = 'Sensor*' + this.parentOrgId + '*' + this.imageOverlay.overlaySourceID;
     // console.log(connString);
     // connString = '7a59bdd8-6e1d-48f9-a961-aa60b2918dde*1387c6d3-cabc-41cf-a733-8ea9c9169831';
@@ -513,6 +498,13 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
         this.convertUOMData(jsonData, index);
       }
     });
+  }
+
+  saveCustomImageOverlayPressed() {
+    // this
+    this.saveCustomImageOverlayFlag = true;
+    console.log('image overlay saveCustomImageOverlayConfiguration==', this.saveCustomImageOverlayFlag);
+
   }
 
   convertUOMData(signalRObj, index) {
@@ -617,13 +609,12 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
         } else {
           data = e.target.result;
         }
-        let base64textString = btoa(data);
-        // this.userprofile.logo.image = base64textString;
+        const base64textString = btoa(data);
+        this.customImage = new Logo();
+        this.customImage.image = base64textString;
+        this.customImage.imageName = file.name;
+        this.customImage.imageType = file.type;
       };
-
-      // this.userprofile.logo = new Logo();
-      // this.userprofile.logo.imageName = file.name;
-      // this.userprofile.logo.imageType = file.type;
       reader.readAsBinaryString(file);
     }
   }

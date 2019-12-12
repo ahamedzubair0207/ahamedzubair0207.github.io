@@ -22,7 +22,7 @@ export class AppConstants {
     public static GET_ASSOCIATE_LOCATION_ASSET = 'Asset';
 
     public static ASSOCIATE_LOCATION_GATEWAY = 'Gateway/Association';
-    public static GET_ASSOCIATE_LOCATION_GATEWAY = 'Gateways';
+    public static GET_ASSOCIATE_LOCATION_GATEWAY = 'Gateway';
 
 
     public static CREATE_DASHBOARD = '/Dashboard';

@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, NavigationEnd } from '@angular/router';
 import { SharedService } from './services/shared.service';
 import { OktaAuthService } from '@okta/okta-angular';
-
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
@@ -12,7 +12,6 @@ import { OktaAuthService } from '@okta/okta-angular';
 export class AppComponent implements OnInit {
   title = 'votm-cloud';
   menuOpen: boolean;
-  router: Router;
   isAuthenticated: boolean;
   loggedInUserData = {
     userId: '03c7fb47-58ee-4c41-a9d6-2ad0bd43392a',
@@ -26,9 +25,9 @@ export class AppComponent implements OnInit {
       }
     ]
   };
-  constructor(public oktaAuth: OktaAuthService, router: Router, private sharedService: SharedService) {
+  userFavourites: any[] = [];
+  constructor(public oktaAuth: OktaAuthService, private router: Router, private sharedService: SharedService) {
     this.oktaAuth.$authenticationState.subscribe(isAuthenticated => this.isAuthenticated = isAuthenticated)
-    this.router = router;
     this.sharedService.getMenuOpen().subscribe(newVal => this.menuOpen = newVal);
     if (FileReader.prototype.readAsBinaryString === undefined) {
       FileReader.prototype.readAsBinaryString = function (fileData) {
@@ -54,12 +53,15 @@ export class AppComponent implements OnInit {
     if (!this.sharedService.getItemFromLocalStorgae('loggedInUser')) {
       this.sharedService.setItemInLocalStorage('loggedInUser', this.loggedInUserData);
     }
-    console.log('userrrrrrrrrrrrrrrrrrrrrrrrrrrrr', this.sharedService.getItemFromLocalStorgae('loggedInUser'));
-    this.isAuthenticated = await this.oktaAuth.isAuthenticated();
-
-    this.sharedService.getFavorites();
-    this.sharedService.favorites.subscribe(response => {
+    this.router.events.pipe(
+      filter(e => e instanceof NavigationEnd)
+    ).subscribe( () => {
+      if (this.router.url !== '/login') {
+        this.sharedService.getFavorites();
+      }
     });
+    console.log('user', this.sharedService.getItemFromLocalStorgae('loggedInUser'));
+    this.isAuthenticated = await this.oktaAuth.isAuthenticated();
   }
   logout() {
     this.oktaAuth.logout('/');

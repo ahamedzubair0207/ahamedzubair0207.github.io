@@ -530,13 +530,13 @@
 
 
 
-                        <ng-select [items]="gatewayList" 
-                        [multiple]="true" 
-                        bindLabel="text" 
-                        placeholder="Select gateways" 
-                        name="gatewayslist" 
+                        <ng-select [items]="gatewayList"
+                        [multiple]="true"
+                        bindLabel="text"
+                        placeholder="Select gateways"
+                        name="gatewayslist"
                         [(ngModel)]="selectedItems"
-                        [disabled]="pageType==='View'" 
+                        [disabled]="pageType==='View'"
                         class="custom">
                           <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
                             <div class="ng-value" *ngFor="let item of items | slice:0:2">
@@ -665,7 +665,7 @@
     <!-- Dashboard-david -->
     <div class="tab-pane fade border border-top-0 mb-3 flex-grow-1" *ngFor="let dbItem of dashboardTabs"
       id="DashboardID_{{dbItem.dashboardId}}" role="tabpanel">
-      <app-votm-cloud-locations-dashboard [dbItem]="dbItem"></app-votm-cloud-locations-dashboard>
+      <app-votm-cloud-locations-dashboard [dbItem]="dbItem" ></app-votm-cloud-locations-dashboard>
     </div>
   </div>
 

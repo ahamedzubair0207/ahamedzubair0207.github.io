@@ -9,7 +9,7 @@
     <div class="text-center con-wid-preview" *ngIf="!isImageOverlayConfigured">
         <img class="img-fluid img-fluid-custom" src="../../../../assets/images/configure_image_overlay_widget.jpg">
     </div>
-    <div *ngIf="isImageOverlayConfigured" id="{{ 'image-overlay' + wId }}" class="h-100 w-100">
+    <div *ngIf="isImageOverlayConfigured && (imageOverlay.overlaySource === 'location' || imageOverlay.overlaySource === 'asset')" id="{{ 'image-overlay' + wId }}" class="h-100 w-100">
         <div class=" h-100 assoc-pane" (window:resize)="onResize($event)">
 
             <!--  [src]="imgURL" -->
@@ -36,9 +36,10 @@
                     <i class="icon-signal-100 "></i>
                   </span>
                   <span class="values">
-                    <p><b>{{item.sensorName}}</b><br/>
+                    <p><b>{{item.associationName}}:  {{item.latestValue}}</b><br/>
                     {{item.modifiedOn}}<br/>
-                    <b>{{item.associationName}}:  {{item.latestValue}}</b></p>
+
+                    <b>{{item.sensorName}}</b></p>
                   </span>
                 </ng-template>
               </div>
@@ -58,7 +59,7 @@
                 <ng-container *ngIf="imageOverlay && !imageOverlay.iconDisplaySize.includes('small')">{{imageOverlay.overlaySource === 'location' ? item.assetName : item.childAssetName}}</ng-container>
             </ng-container>
             <ng-template #hoveredAssetContent>
-                <span class="values">
+                <span class="values-assets">
                   <p><b>QCD > {{item.locationName}} >  {{imageOverlay.overlaySource === 'location' ? item.assetName : item.childAssetName}}</b>
                     {{item.modifiedOn}}
                   <b>Critical alarm on asset</b></p>
@@ -141,8 +142,7 @@
                                     <input class="custom-file-input ng-pristine ng-invalid" id="customWidgetImg" type="file"
                                       #file type="file" accept='image/*' (change)="preview(file.files)">
                                     <label class="custom-file-label" for="">Choose file</label>
-                                    <span class="custom-file-label truncate-string"
-                                      ></span>
+                                    <span class="custom-file-label truncate-string" *ngIf="customImage && customImage.imageName">{{customImage.imageName}}</span>
                                   </div>
                             </div>
                         </div>
@@ -235,13 +235,11 @@
                             [showAssoc]="showAssoc"
                             [locationId]="locationId"
                             [customImageOverlay]="true"
+                            [issaveCustomImageOverlayConfigurationPressed] = "saveCustomImageOverlayFlag"
                             (detach)="onDetachSignalFromAsset($event)"
                             (reload)="getLocationSignalAssociation()"
-                            (saveAssociation)="onSaveSignalAssociation($event)"
-                            (saveAlarmAssociation)="onClickOfAlarmRuleAssociation($event)"
+                            (saveAssociation)="saveImageOverlayConfiguration($event)"
                             (resetPage)="onReset($event)"
-                            (returnToList)="onReturnToList()"
-                            (createAssociateRule)="onCreateAssociateRule($event)"
                           >
                           </app-votm-cloud-association>
                         </div>
@@ -250,7 +248,7 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-outline-secondary btn-sm" id="imageOverlayCancelBtn"
                         (click)="onClickOfCustomizeImageOverlayModalClose()">Cancel</button>
-                    <button type="button" class="btn btn-info btn-sm" id="configSave" (click)="saveImageOverlayConfiguration()">
+                    <button type="button" class="btn btn-info btn-sm" id="configSave" (click)="saveCustomImageOverlayPressed()">
                         Save
                     </button>
                 </div>

@@ -44,8 +44,8 @@ export class AssetSignalService {
     return this.http.delete(AppConstants.DETACH_SIGNAL_ASSOCIATION + '/' + signalMappingId + '/Association', obj);
   }
 
-  updateAlertSignalMapping(dataObj) {
-    return this.http.patch(AppConstants.UPDATE_ALERT_SIGNAL_MAPPING, dataObj);
+  updateAlertSignalMapping(dataObj, signalMappingId) {
+    return this.http.patch(AppConstants.UPDATE_ALERT_SIGNAL_MAPPING + '?SignalMappingId=' + signalMappingId, dataObj);
   }
 
 }

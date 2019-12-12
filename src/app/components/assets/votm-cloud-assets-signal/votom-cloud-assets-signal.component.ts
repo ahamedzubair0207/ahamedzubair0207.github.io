@@ -175,7 +175,7 @@ export class VotomCloudAssetsSignalComponent implements OnInit {
   }
 
   onClickOfAlarmRuleAssociation(alertObj) {
-    this.assetSignalService.updateAlertSignalMapping(alertObj).subscribe(
+    this.assetSignalService.updateAlertSignalMapping(alertObj.alerts, alertObj.signalMappingId).subscribe(
       response => {
         this.toaster.onSuccess('Alarm Rule associated successfully.', 'Association Saved!');
         this.toggleDisable();

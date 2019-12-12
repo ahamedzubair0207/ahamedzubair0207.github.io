@@ -1,7 +1,7 @@
 import { VotmCloudConfimDialogComponent } from './../votm-cloud-confim-dialog/votm-cloud-confim-dialog.component';
 import { Alert } from './../../../models/alert.model';
 import { AlertsService } from 'src/app/services/alerts/alerts.service';
-import { Component, OnInit, OnDestroy, ViewChild, AfterViewInit, ViewEncapsulation, ElementRef, Input, Output, EventEmitter, AfterContentInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, AfterViewInit, ViewEncapsulation, ElementRef, Input, Output, EventEmitter, AfterContentInit, SimpleChanges, OnChanges } from '@angular/core';
 import { Location as RouterLocation } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { OverlayPanel } from 'primeng/overlaypanel';
@@ -18,7 +18,7 @@ declare var $: any;
   templateUrl: './votm-cloud-association.component.html',
   styleUrls: ['./votm-cloud-association.component.scss']
 })
-export class VotmCloudAssociationComponent {
+export class VotmCloudAssociationComponent implements OnChanges {
 
   derivedSignalModal: any;
   organizationId: string; // to store selected organization's id
@@ -65,6 +65,7 @@ export class VotmCloudAssociationComponent {
   @Input() locationId: string = null;
   @Input() assetId: string = null;
   @Input() customImageOverlay = false;
+  @Input() issaveCustomImageOverlayConfigurationPressed = false;
   @Output() detach: EventEmitter<any> = new EventEmitter<any>();
   @Output() saveAssociation: EventEmitter<any> = new EventEmitter<any>();
   @Output() reload: EventEmitter<any> = new EventEmitter<any>();
@@ -88,6 +89,19 @@ export class VotmCloudAssociationComponent {
     //Add 'implements OnInit' to the class.
     // console.log(this.dragList);
     // console.log(this.droppedList);
+  }
+
+  // Called when "save" button pressed from customImageOvelay widget
+  ngOnChanges(changes: SimpleChanges) {
+    for (const propName in changes) {
+      if (propName === 'issaveCustomImageOverlayConfigurationPressed' && changes[propName].currentValue) {
+        // console.log('Previous:', changes[propName].previousValue);
+        // console.log('Current:', changes[propName].currentValue);
+        // console.log('firstChange:', changes[propName].firstChange);
+        // Called & emit saveAssociation for parent (image overlay)component
+        this.onSaveSignalAssociation();
+      }
+    }
   }
 
   getLocationSignalAssociation() {
@@ -196,7 +210,6 @@ export class VotmCloudAssociationComponent {
       left: (pos.left / event.event.srcElement.offsetWidth).toFixed(5),
       top: (pos.top / event.event.srcElement.offsetHeight).toFixed(5)
     };
-
     // console.log(signal.pctPos);
       // signal.pos = { 'left.%': pos.left, 'top.%': pos.top };
 
@@ -264,8 +277,8 @@ export class VotmCloudAssociationComponent {
       this.selectedSignal = this.droppedList[index];
       this.selectedSignal['selectedIndex'] = index;
       this.selectedSignal.imageCordinates = {
-        x:  this.selectedSignal.pctPos['left'] * 100,
-        y: this.selectedSignal.pctPos['top'] * 100
+        x:  (this.selectedSignal.pctPos['left'] * 100).toFixed(3),
+        y: (this.selectedSignal.pctPos['top'] * 100).toFixed(3)
       };
       this.editOPanel.show(event);
     }, 300);
@@ -321,8 +334,8 @@ export class VotmCloudAssociationComponent {
     //   };
     // }
     this.selectedSignal.pctPos = {
-      left: this.selectedSignal.imageCordinates.x / 100,
-      top: this.selectedSignal.imageCordinates.y / 100
+      left: (this.selectedSignal.imageCordinates.x / 100).toFixed(5),
+      top: (this.selectedSignal.imageCordinates.y / 100).toFixed(5)
     };
     // console.log(JSON.stringify(this.droppedList));
     const index = this.droppedList.findIndex(signalObj => signalObj.did === this.selectedSignal.did);
@@ -356,6 +369,11 @@ export class VotmCloudAssociationComponent {
     if (this.selectedSignal) {
       this.droppedList[this.selectedSignal.selectedIndex].isClicked = false;
     }
+  }
+
+  clear(item) {
+    const index = this.selectedAlertRule.findIndex(ruleId => ruleId === item.alertRuleId);
+    this.selectedAlertRule.splice(index, 1);
   }
 
   openConfirmDialog(index) {
@@ -414,9 +432,13 @@ export class VotmCloudAssociationComponent {
           });
         }
       });
+      const obj = {
+        signalMappingId: this.selectedSignal.signalMappingId,
+        alerts
+      };
       // console.log(alerts);
 
-      this.saveAlarmAssociation.emit(alerts);
+      this.saveAlarmAssociation.emit(obj);
       this.closeAlertOPanel();
       this.isAlarmRuleAssociationAPILoading = false;
     } else {
