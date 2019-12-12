@@ -35,7 +35,7 @@ export class BreadcrumbsComponent implements OnInit {
     private router: Router,
     private activeroute: ActivatedRoute,
     private navigationService: NavigationService
-    ) {
+  ) {
   }
 
   ngOnInit() {
@@ -156,9 +156,12 @@ export class BreadcrumbsComponent implements OnInit {
       this.breadcrumbs = [];
       this.loadOrganizations(this.orgId);
     } else {
-      this.pageType = '';
-      this.breadcrumbs = [];
-      this.loadOrganizations(this.mainOrganizationId);
+      // debugger;
+      if (!(this.currentUrl.startsWith(`/login`) || this.currentUrl === '/') ) {
+        this.pageType = '';
+        this.breadcrumbs = [];
+        this.loadOrganizations(this.mainOrganizationId);
+      }
       // this.breadcrumbs.push({ name: this.mainOrganizationName, nodes: [] });
     }
   }

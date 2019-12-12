@@ -12,6 +12,7 @@ import { filter } from 'rxjs/operators';
 import { ConfigSettingsService } from 'src/app/services/configSettings/configSettings.service';
 import { SignalRService } from 'src/app/services/signalR/signal-r.service';
 import * as moment from 'moment-timezone';
+import { DataTableWidget } from 'src/app/models/data-table-widget.model';
 @Component({
   selector: 'app-votm-data-table',
   templateUrl: './votm-data-table.component.html',
@@ -48,6 +49,8 @@ export class VotmDataTableComponent implements OnInit, OnDestroy {
   isParent: any = true;
   parentOrgId: string;
   loggedInUser: any;
+  dataTableWidget: DataTableWidget = new DataTableWidget();
+
   constructor(
     private router: Router,
     private modalService: NgbModal,
@@ -252,14 +255,14 @@ export class VotmDataTableComponent implements OnInit, OnDestroy {
   }
 
 
-  getUpdatedData() {
-    this.timeSeries.getDataTable()
-      .subscribe(response => {
-        // response.signals = [];
-        // console.log("List of Data", response);
-        this.mapSignalDataTableValuesForOrganization(response);
-      });
-  }
+  // getUpdatedData() {
+  //   this.timeSeries.getDataTable()
+  //     .subscribe(response => {
+  //       // response.signals = [];
+  //       // console.log("List of Data", response);
+  //       this.mapSignalDataTableValuesForOrganization(response);
+  //     });
+  // }
 
   private mapSignalDataTableValuesForLocAndAsset(response: any) {
     let sigArray = [];

@@ -191,6 +191,7 @@ export class VotmLineGraphComponent implements OnInit {
   }
 
   onRadioGroupChange() {
+    debugger;
     this.saveResult();
   }
 
