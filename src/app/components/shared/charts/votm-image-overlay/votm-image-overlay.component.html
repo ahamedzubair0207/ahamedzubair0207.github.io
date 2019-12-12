@@ -58,7 +58,7 @@
                 <ng-container *ngIf="imageOverlay && !imageOverlay.iconDisplaySize.includes('small')">{{imageOverlay.overlaySource === 'location' ? item.assetName : item.childAssetName}}</ng-container>
             </ng-container>
             <ng-template #hoveredAssetContent>
-                <span class="values">
+                <span class="values-assets">
                   <p><b>QCD > {{item.locationName}} >  {{imageOverlay.overlaySource === 'location' ? item.assetName : item.childAssetName}}</b>
                     {{item.modifiedOn}}
                   <b>Critical alarm on asset</b></p>
