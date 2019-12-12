@@ -196,7 +196,6 @@ export class VotmCloudAssociationComponent {
       left: (pos.left / event.event.srcElement.offsetWidth).toFixed(5),
       top: (pos.top / event.event.srcElement.offsetHeight).toFixed(5)
     };
-
     // console.log(signal.pctPos);
       // signal.pos = { 'left.%': pos.left, 'top.%': pos.top };
 
@@ -264,8 +263,8 @@ export class VotmCloudAssociationComponent {
       this.selectedSignal = this.droppedList[index];
       this.selectedSignal['selectedIndex'] = index;
       this.selectedSignal.imageCordinates = {
-        x:  this.selectedSignal.pctPos['left'] * 100,
-        y: this.selectedSignal.pctPos['top'] * 100
+        x:  (this.selectedSignal.pctPos['left'] * 100).toFixed(3),
+        y: (this.selectedSignal.pctPos['top'] * 100).toFixed(3)
       };
       this.editOPanel.show(event);
     }, 300);
@@ -321,8 +320,8 @@ export class VotmCloudAssociationComponent {
     //   };
     // }
     this.selectedSignal.pctPos = {
-      left: this.selectedSignal.imageCordinates.x / 100,
-      top: this.selectedSignal.imageCordinates.y / 100
+      left: (this.selectedSignal.imageCordinates.x / 100).toFixed(5),
+      top: (this.selectedSignal.imageCordinates.y / 100).toFixed(5)
     };
     // console.log(JSON.stringify(this.droppedList));
     const index = this.droppedList.findIndex(signalObj => signalObj.did === this.selectedSignal.did);
