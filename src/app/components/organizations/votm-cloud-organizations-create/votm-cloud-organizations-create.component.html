@@ -7,7 +7,7 @@
     <ul class="nav nav-tabs">
       <li class="nav-item">
         <a class="nav-link tab-icon" id="org-tab" href="#org-details" data-toggle="tab" role="tab"
-          aria-controls="org-info" aria-selected="true" (click)="goToTab('org-details')" [ngClass]="{ 'active':detailsMainTabList.indexOf(activeTab)>=0}"><i class="mr-2 icon-org-company"></i>Details</a>
+          aria-controls="org-info" aria-selected="true" (click)="goToTab('org-details')" [ngClass]="{ 'active': (activeTab==='org-details' || detailsMainTabList.indexOf(activeTab)>=0) }"><i class="mr-2 icon-org-company"></i>Details</a>
       </li>
       <li class="nav-item">
         <a class="nav-link tab-icon" id="event-tab" href="#event-details-tab" data-toggle="tab" role="tab"
@@ -16,9 +16,9 @@
       </li>
 
       <li *ngFor="let dbItem of dashboardTabs" class="nav-item">
-        <a class="nav-link tab-icon" for="orgDashboard" [ngClass]="{ 'active':activeTab===dbItem.dashboardName}"
+        <a class="nav-link tab-icon" for="orgDashboard" [ngClass]="{ 'active':activeTab===dbItem.dashboardId}"
           id="dashboard{{dbItem.dashboardId}}-tab" data-toggle="tab" href="#DashboardID_{{dbItem.dashboardId}}"
-          role="tab" aria-controls="loc" aria-selected="false" (click)="goToTab(dbItem.dashboardName)"
+          role="tab" aria-controls="loc" aria-selected="false" (click)="goToTab(dbItem.dashboardId)"
           title="{{ dbItem.dashboardName}}">
           <i class="mr-2 icon-dashboard"></i>{{dbItem.shortName}}
           <i class="dashboard-configure-icon icon-pencil ml-2" [ngClass]="{'d-none': locked}"
@@ -48,10 +48,9 @@
     <div class="tab-content bg-white">
 
       <!-- organization details tab  -->
-
       <div class="tab-pane fade show border border-top-0 p-3 mb-3 flex-grow-1 shadow" id="org-details"
         *ngIf="(!orgId && pageLabels) || (orgId && pageLabels && organization) && (activeTab === 'org-details' || detailsMainTabList.indexOf(activeTab)>=0)" role="tabpanle"
-        area-labelledby="org-info-tab" [ngClass]="{ 'active show':detailsMainTabList.indexOf(activeTab)>=0}" >
+        area-labelledby="org-info-tab" [ngClass]="{ 'active show':(activeTab === 'org-details' || detailsMainTabList.indexOf(activeTab)>=0)}" >
 
         <!-- <div class="row"> -->
         <!-- <div class="col-1"> -->
@@ -60,8 +59,8 @@
 
             <!-- details view/edit  -->
             <li class="nav-item" placement="top" ngbTooltip="Details of Organization">
-              <a class="nav-link tab-icon" [ngClass]="{ 'active':activeTab==='org-details-tab'}" id="org-details-tab"
-                name="org-view-edit" href="#org-details-tab" data-toggle="tab" (click)="goToTab('org-details-tab')" role="tab"
+              <a class="nav-link tab-icon" [ngClass]="{ 'active':activeTab==='org-details'}" id="org-details"
+                name="org-view-edit" href="#org-details-tab" data-toggle="tab" (click)="goToTab('org-details')" role="tab"
                 aria-controls="org-details" aria-selected="true"><i class="icon-entity-list"></i></a>
             </li>
             <!-- Alerts Tab  -->
@@ -104,8 +103,8 @@
 
           <div class="tab-content w-100">
 
-            <div class="tab-pane fade show" [ngClass]="{ 'active':activeTab==='org-details-tab'}"
-              *ngIf="(!orgId && pageLabels) || (orgId && pageLabels && organization) && activeTab==='org-details-tab'" id="org-details-tab" role="tabpanle"
+            <div class="tab-pane fade show" [ngClass]="{ 'active':activeTab==='org-details'}"
+              *ngIf="(!orgId && pageLabels) || (orgId && pageLabels && organization) && activeTab==='org-details'" id="org-details-tab" role="tabpanle"
               area-labelledby="org-details-tab">
 
               <form #organizationForm="ngForm" class="needs-validation" (ngSubmit)="onOrganizationSubmit()" novalidate>
@@ -779,9 +778,9 @@
 
       <!-- Dynamic Tabs -->
       <div class="tab-pane fade border border-top-0 mb-3 flex-grow-1" *ngFor="let dbItem of dashboardTabs"
-        [ngClass]="{ 'active show':activeTab===dbItem.dashboardName}" id="DashboardID_{{dbItem.dashboardId}}"
+        [ngClass]="{ 'active show':activeTab===dbItem.dashboardId}" id="DashboardID_{{dbItem.dashboardId}}"
         data-toggle="tab" role="tabpanle">
-        <app-votm-cloud-organization-dashboard [dbItem]="dbItem" *ngIf="activeTab === dbItem.dashboardName" ></app-votm-cloud-organization-dashboard>
+        <app-votm-cloud-organization-dashboard [dbItem]="dbItem" *ngIf="activeTab === dbItem.dashboardId" ></app-votm-cloud-organization-dashboard>
       </div>
       <!-- </div> -->
       <!-- Dashboard-david -->

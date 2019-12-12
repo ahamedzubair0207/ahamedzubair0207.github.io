@@ -52,14 +52,14 @@ export class BreadcrumbsComponent implements OnInit {
   getData() {
     this.mainOrganizationId = '7a59bdd8-6e1d-48f9-a961-aa60b2918dde';
     this.mainOrganizationName = 'VOTM';
-    this.breadcrumbs = [];
-    this.finalBreadcrumbs = [];
-    this.locBreadcrumbs = [];
-    this.assetBreadcrumbs = [];
-    this.minimizedBreadcrumbs = {};
-    this.orgMinimizedBreadcrumbs = {};
-    this.locMinimizedBreadcrumbs = {};
-    this.assetMinimizedBreadcrumbs = {};
+
+    // this.finalBreadcrumbs = [];
+    // this.locBreadcrumbs = [];
+    // this.assetBreadcrumbs = [];
+    // this.minimizedBreadcrumbs = {};
+    // this.orgMinimizedBreadcrumbs = {};
+    // this.locMinimizedBreadcrumbs = {};
+    // this.assetMinimizedBreadcrumbs = {};
     // if (this.currentUrl.startsWith(`/org/home`)) {
     //   let parts = this.currentUrl.split('/');
     //   this.orgId = parts[3];
@@ -74,7 +74,7 @@ export class BreadcrumbsComponent implements OnInit {
       // this.orgName = parts[4];
       this.pageType = 'Organization';
       this.parentOrgId = parts[3];
-
+      this.breadcrumbs = [];
       // console.log('OrgId ', this.orgId);
       // if (this.orgId.toLowerCase() === this.parentOrgId.toLowerCase()) {
       //   this.breadcrumbs.push({ name: parts[4], nodes: [] });
@@ -455,7 +455,7 @@ export class BreadcrumbsComponent implements OnInit {
   getShortName(name: string) {
     let splittedNames: string[] = name.split(' ');
     if (splittedNames.length > 1) {
-      name = splittedNames.map((splitedName) => splitedName[0]).join('')
+      name = splittedNames.map((splitedName) => splitedName[0]).join('');
     }
     return name;
   }

@@ -526,7 +526,7 @@ export class VotmCloudAlertsCreateComponent implements OnInit, OnDestroy {
         if (
           this.alertRuleSignalAssociatedAsset.organizations &&
           this.alertRuleSignalAssociatedAsset.organizations.length > 0) {
-            this.getOrgTreeStructure(this.alertRuleSignalAssociatedAsset.organizations, this.alertRuleSignalAssociatedAsset);
+            this.getOrgTreeStructure(this.alertRuleSignalAssociatedAsset.organizations, treeNode, true);
         } else {
           const arrList = [];
           this.treeSignalAssociationList.forEach(item => {
@@ -544,14 +544,14 @@ export class VotmCloudAlertsCreateComponent implements OnInit, OnDestroy {
     // // console.log(' this.treeSignalAssociationList ', this.treeSignalAssociationList);
   }
 
-  getOrgTreeStructure(orgs, parentOrg) {
+  getOrgTreeStructure(orgs, parentOrg, iconFlag) {
     // console.log('function recursion');
     orgs.forEach(organization => {
       // console.log('orgnamr     ', organization.organizationName);
       this.assetsChecked[organization.organizationId] = false;
       const treeNode: TreeNode = {};
       treeNode.data = { id: organization.organizationId,
-        label: this.orgHierarchy + organization.organizationName,
+        label: parentOrg.data.label + (!iconFlag ? ' > ' : '') + organization.shortName,
         value: organization, parent: null};
       treeNode.children = [];
       treeNode.expanded = true;
@@ -613,7 +613,7 @@ export class VotmCloudAlertsCreateComponent implements OnInit, OnDestroy {
 
 
       if (organization.organizations.length > 0) {
-        this.getOrgTreeStructure(organization.organizations, treeNode);
+        this.getOrgTreeStructure(organization.organizations, treeNode, false);
       }
     });
     const arrList = [];

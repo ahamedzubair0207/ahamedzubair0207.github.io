@@ -418,9 +418,13 @@ export class VotmCloudAssociationComponent {
           });
         }
       });
+      const obj = {
+        signalMappingId: this.selectedSignal.signalMappingId,
+        alerts
+      }
       // console.log(alerts);
 
-      this.saveAlarmAssociation.emit(alerts);
+      this.saveAlarmAssociation.emit(obj);
       this.closeAlertOPanel();
       this.isAlarmRuleAssociationAPILoading = false;
     } else {
