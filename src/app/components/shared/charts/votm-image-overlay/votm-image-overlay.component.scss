@@ -311,6 +311,7 @@
         display: flex;
         flex-direction: column;
         line-height: 1.3;
+        font-size: 1rem;
       }
     }
     &:before {
@@ -343,7 +344,7 @@
     // }
     &:hover{
       border: 1px solid $qcd-success-brd;
-      padding-left:calc(1.27 * 5.75rem + 0px);
+      padding-left:calc(1.35 * 5.75rem + 0px);
       z-index:1000;
       // line-height: calc(1 * 1.99rem + 0px) !important;
       .values{
@@ -374,6 +375,7 @@
         flex-direction: column;
         justify-content: flex-end;
         line-height: 2;
+        font-size: 1.3rem;
       }
     }
     &:before {
@@ -436,6 +438,7 @@
         flex-direction: column;
         justify-content: flex-end;
         line-height: 2;
+        font-size: 1.5rem;
       }
     }
     &:before {
