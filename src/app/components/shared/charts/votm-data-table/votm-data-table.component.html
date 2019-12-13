@@ -120,7 +120,7 @@
     <div class="form-group form-row">
       <label for="title" class="col-3 col-form-label">Title:</label>
       <div class="col-9">
-        <input type="text" class="form-control" id="title" [(ngModel)]="title" />
+        <input type="text" class="form-control" id="title" [(ngModel)]="dataTableWidget.title" />
       </div>
     </div>
     <div class="form-group form-row">
@@ -128,31 +128,31 @@
 
       <div class="col-3">
         <div class="custom-control custom-switch" style="padding-top: calc(.25rem + 1px);">
-          <input type="checkbox" class="custom-control-input" id="showOrg" [checked]="showOrg" (change)="toggleShowOrg()" />
+          <input type="checkbox" class="custom-control-input" id="showOrg" [checked]="showOrg" (change)="toggleShowOrg()" [(ngModel)]="dataTableWidget.displayOrg" />
           <label class="custom-control-label" for="showOrg">Organization</label>
         </div>
       </div>
       <div class="col-3">
         <div class="custom-control custom-switch" style="padding-top: calc(.25rem + 1px);">
-          <input type="checkbox" class="custom-control-input" id="showLoc" [checked]="showLoc" (change)="toggleShowLoc()" />
+          <input type="checkbox" class="custom-control-input" id="showLoc" [checked]="showLoc" (change)="toggleShowLoc()" [(ngModel)]="dataTableWidget.displayLoc" />
           <label class="custom-control-label" for="showLoc">Location</label>
         </div>
       </div>
       <div class="col-3">
         <div class="custom-control custom-switch" style="padding-top: calc(.25rem + 1px);">
-          <input type="checkbox" class="custom-control-input" id="showAsset" [checked]="showAsset" (change)="toggleShowAsset()" />
+          <input type="checkbox" class="custom-control-input" id="showAsset" [checked]="showAsset" (change)="toggleShowAsset()" [(ngModel)]="dataTableWidget.displayAsset" />
           <label class="custom-control-label" for="showAsset">Asset</label>
         </div>
       </div>
       <div class="col-3 offset-3">
         <div class="custom-control custom-switch" style="padding-top: calc(.25rem + 1px);">
-          <input type="checkbox" class="custom-control-input" id="showSensor" [checked]="showSensor" (change)="showSensor = !showSensor" />
+          <input type="checkbox" class="custom-control-input" id="showSensor" [checked]="showSensor" (change)="showSensor = !showSensor" [(ngModel)]="dataTableWidget.displaySensor" />
           <label class="custom-control-label" for="showSensor">Source Sensor</label>
         </div>
       </div>
       <div class="col-3">
         <div class="custom-control custom-switch" style="padding-top: calc(.25rem + 1px);">
-          <input type="checkbox" class="custom-control-input" id="showStatus" [checked]="showStatus" (change)="showStatus = !showStatus" />
+          <input type="checkbox" class="custom-control-input" id="showStatus" [checked]="showStatus" (change)="showStatus = !showStatus" [(ngModel)]="dataTableWidget.displayStatus" />
           <label class="custom-control-label" for="showStatus">Status</label>
         </div>
       </div>

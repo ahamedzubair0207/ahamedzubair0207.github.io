@@ -400,7 +400,7 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
       });
   }
 
-  //Ahamed Code
+  
   getDashboardWidget() {
     this.dashboardService.getDashboardWidgets(this.data.dashboardId)
       .subscribe(response => {
