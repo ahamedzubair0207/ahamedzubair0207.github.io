@@ -141,8 +141,6 @@ export class VotmDataTableComponent implements OnInit, OnDestroy {
               .longDateFormat('LTS'));
         this.liveSignalValues();
 
-
-        // hamed Code -- Widget Config
         const selectedSignals = [];
         this.signals.forEach(signal => {
           if (signal.sel) {

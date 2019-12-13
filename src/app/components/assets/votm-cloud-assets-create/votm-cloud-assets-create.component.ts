@@ -145,6 +145,7 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
   locked: boolean = true;
   // Dashboard-david end
   templateDocuments: any[] = [];
+  deletedDashboardName: any;
 
   constructor(
     private modalService: NgbModal,
@@ -1326,6 +1327,7 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
 
   openDashboardConfirmDialog(dashboardId, dashboardName) {
     this.deleteDashboardId = dashboardId;
+    this.deletedDashboardName = dashboardName;
     this.message = `Do you want to delete the "${dashboardName}" Dashboard?`;
     this.confirmBoxDash.open();
   }
@@ -1334,9 +1336,9 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
     // // console.log('deleteOrganizationDashboardById===', event);
     if (event) {
       // delete dashboard service goes here
-      this.dbService.deleteDashboard(this.dashboardTab.dashboardId)
+      this.dbService.deleteDashboard(this.deleteDashboardId)
         .subscribe(response => {
-          this.toaster.onSuccess(`You have deleted ${this.dashboardTab.dashboardName} successfully`, 'Delete Success!');
+          this.toaster.onSuccess(`You have deleted ${this.deletedDashboardName} successfully`, 'Delete Success!');
           // this.route.navigate([`org/home/${this.curOrgId}/${this.curOrgName}`]);
           this.routerLocation.back();
         }, error => {
