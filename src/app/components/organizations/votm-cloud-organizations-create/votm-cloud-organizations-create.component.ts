@@ -185,8 +185,8 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
     this.organization.cellularBlocks = null;
     this.organization.sensorBlocks = null;
     // this.organization.timeZone = null;
-    this.getScreenLabels();
-    this.getAllAppInfo();
+
+
 
     this.organization.modifiedOn = null; //TimeConcise
     // this.organization.locale = null;
@@ -249,6 +249,10 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
         this.organization.address[0].state = null;
         this.organization.modifiedOn = null; //TimeConcise
       }
+      this.getAllAppInfo();
+      this.getScreenLabels();
+      this.dashboardData = this.getDashboards();
+    this.getDashboardsTemplates();
     });
 
     this.pageType = this.activeroute.snapshot.data['type'];
@@ -269,8 +273,7 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
     //   id: '1',
     //   templateName: 'Standard Organization Dashboard'
     // };
-    this.dashboardData = this.getDashboards();
-    this.getDashboardsTemplates();
+
     this.dashboardTemplates = [
       {
         id: '1',
