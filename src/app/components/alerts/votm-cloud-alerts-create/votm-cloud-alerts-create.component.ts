@@ -631,30 +631,27 @@ export class VotmCloudAlertsCreateComponent implements OnInit, OnDestroy {
   //   this.treeSignalAssociationList = [...arrList];
   // }
 
-  getSignalStructure(signal, parent, list) {
-    list.push({
-      expanded: true, data: {
-        id: signal.signalMappingId,
-        label: signal.associationName ? signal.associationName : signal.signalName,
-        value: signal, parent
-      }
-    });
-    return list;
-  }
-
-  getAssetTreeStrucutre(asset, locTreeNode) {
-    const tempTreeNode: TreeNode = {};
-        // console.log(asset.assetName);
-    this.assetsChecked[asset.assetId] = false;
-    tempTreeNode.data = { id: asset.assetId, label: locTreeNode.data.label + ' > ' +
-    (asset.signals.length > 0 ? asset.assetName : asset.shortName),
-    value: asset, parent: null };
-    tempTreeNode.children = [];
-    tempTreeNode.expanded = true;
-    asset.signals.forEach(signal => {
-      tempTreeNode.children = this.getSignalStructure(signal, asset, tempTreeNode.children);
-    });
-    this.treeSignalAssociationList.push(tempTreeNode);
+  getOrgTreeStructure(org, parentOrg) {
+    console.log(org);
+    this.assetsChecked[org.organizationId] = false;
+    const treeNode: TreeNode = {};
+    treeNode.data = { id: org.organizationId,
+      label: (parentOrg.data && parentOrg.data.label ? (parentOrg.data.label + org.shortName + ' > ') : this.orgHierarchy),
+      value: org, parent: null };
+    treeNode.children = [];
+    treeNode.expanded = true;
+    console.log(org.locations);
+    if (org.locations) {
+      org.locations.forEach(location => {
+        this.getLocationTreeStructure(location, treeNode);
+      });
+    }
+    console.log(org.organizations);
+    if (org.organizations) {
+      org.organizations.forEach(organization => {
+        this.getOrgTreeStructure(organization, treeNode);
+      });
+    }
   }
 
   getLocationTreeStructure(location, treeNode) {
@@ -680,29 +677,31 @@ export class VotmCloudAlertsCreateComponent implements OnInit, OnDestroy {
     }
   }
 
-  getOrgTreeStructure(org, parentOrg) {
-    console.log(org);
-    this.assetsChecked[org.organizationId] = false;
-    const treeNode: TreeNode = {};
-    treeNode.data = { id: org.organizationId,
-      label: (parentOrg.data && parentOrg.data.label ? (parentOrg.data.label + org.shortName + ' > ') : this.orgHierarchy),
-      value: org, parent: null };
-    treeNode.children = [];
-    treeNode.expanded = true;
-    console.log(org.locations);
-    if (org.locations) {
-      org.locations.forEach(location => {
-        this.getLocationTreeStructure(location, treeNode);
-      });
-    }
-    console.log(org.organizations);
-    if (org.organizations) {
-      org.organizations.forEach(organization => {
-        this.getOrgTreeStructure(organization, treeNode);
-      });
-    }
+  getAssetTreeStrucutre(asset, locTreeNode) {
+    const tempTreeNode: TreeNode = {};
+        // console.log(asset.assetName);
+    this.assetsChecked[asset.assetId] = false;
+    tempTreeNode.data = { id: asset.assetId, label: locTreeNode.data.label + ' > ' +
+    (asset.signals.length > 0 ? asset.assetName : asset.shortName),
+    value: asset, parent: null };
+    tempTreeNode.children = [];
+    tempTreeNode.expanded = true;
+    asset.signals.forEach(signal => {
+      tempTreeNode.children = this.getSignalStructure(signal, asset, tempTreeNode.children);
+    });
+    this.treeSignalAssociationList.push(tempTreeNode);
   }
 
+  getSignalStructure(signal, parent, list) {
+    list.push({
+      expanded: true, data: {
+        id: signal.signalMappingId,
+        label: signal.associationName ? signal.associationName : signal.signalName,
+        value: signal, parent
+      }
+    });
+    return list;
+  }
 
 
   onAssetCollapse(event) {
