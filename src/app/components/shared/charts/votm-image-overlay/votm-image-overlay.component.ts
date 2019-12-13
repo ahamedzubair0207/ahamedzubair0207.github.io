@@ -400,7 +400,7 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
       });
   }
 
-  
+
   getDashboardWidget() {
     this.dashboardService.getDashboardWidgets(this.data.dashboardId)
       .subscribe(response => {
@@ -479,7 +479,7 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
 
     // signal R code
     console.log('signalR connection code');
-    let connString = 'Sensor*' + this.parentOrgId + '*' + this.imageOverlay.overlaySourceID;
+    const connString = 'Sensor*' + this.parentOrgId + '*' + this.imageOverlay.overlaySourceID;
     // console.log(connString);
     // connString = '7a59bdd8-6e1d-48f9-a961-aa60b2918dde*1387c6d3-cabc-41cf-a733-8ea9c9169831';
     this.signalRService.getSignalRConnection(connString);

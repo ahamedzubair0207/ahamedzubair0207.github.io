@@ -6,6 +6,7 @@ export class Location {
     locationName: string;
     locationId: string;
     parentLocationId: string;
+    shortName: string;
     parentLocationName: string;
     locationType: string;
     address: Array<Address>;

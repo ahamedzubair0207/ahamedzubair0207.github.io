@@ -26,23 +26,23 @@ export class VotmDataTableComponent implements OnInit, OnDestroy {
   @Input() locked: boolean;
 
   private wConfig;
-  private configured: boolean = false;
-  private wId: string = '';
-  private selAll: boolean = false;
-  private selCount: number = 0;
-  private showOrg: boolean = false;
-  private showLoc: boolean = false;
-  private showAsset: boolean = true;
-  private showSensor: boolean = false;
-  private showStatus: boolean = true;
-  private title: string = '';
-  private timestamp: string = '';
+  private configured = false;
+  private wId = '';
+  private selAll = false;
+  private selCount = 0;
+  private showOrg = false;
+  private showLoc = false;
+  private showAsset = true;
+  private showSensor = false;
+  private showStatus = true;
+  private title = '';
+  private timestamp = '';
   private signalTypes: any[] = [
     { type: 'Absolute Pressure', uom: 'psi', nominal: 1500, var: 5 },
     { type: 'Temperature', uom: '°F', nominal: 100, var: 2 },
     { type: 'humidity', uom: '%', nominal: 50, var: 1 },
     { type: 'Peak Current', uom: '%', nominal: 50, var: 3 }
-  ]
+  ];
 
   signals: any = [];
   pageLabels: any;
@@ -80,7 +80,9 @@ export class VotmDataTableComponent implements OnInit, OnDestroy {
     if (this.data) {
       this.getSignalData();
       this.wId = this.data.dashboardId + '-' + this.id;
-      this.wConfig = (this.data.widgetConf) ? this.data.widgetConf : { title: '', showSensor: false, showOrg: false, showLoc: false, showAsset: true, showStatus: true };
+      this.wConfig = (this.data.widgetConf) ?
+      this.data.widgetConf :
+      { title: '', showSensor: false, showOrg: false, showLoc: false, showAsset: true, showStatus: true };
       if (this.data.dashboardId) {
         this.getDashboardWidget();
       }
@@ -96,12 +98,14 @@ export class VotmDataTableComponent implements OnInit, OnDestroy {
       }
     } else if (this.router.url.startsWith(`/loc/edit`) || this.router.url.startsWith(`/loc/view`)) {
       // console.log('In Location');
-      if (this.data.locationId)
+      if (this.data.locationId) {
         this.getSignalsAssociatedByLocationId(this.data.locationId);
+      }
     } else if (this.router.url.startsWith(`/asset/view`) || this.router.url.startsWith(`/asset/edit`)) {
       // console.log('In Asset');
-      if (this.data.assetId)
+      if (this.data.assetId) {
         this.getSignalsAssociatedByAssetId(this.data.assetId);
+      }
     }
   }
 
@@ -123,7 +127,6 @@ export class VotmDataTableComponent implements OnInit, OnDestroy {
     this.signalRService.closeSignalRConnection();
     this.modalService.open(config, { size: 'lg' }).result.then((result) => {
       if (result === 'save') {
-        let ts = new Date();
         this.configured = true;
         this.wConfig.showOrg = this.showOrg;
         this.wConfig.showLoc = this.showLoc;
@@ -140,24 +143,24 @@ export class VotmDataTableComponent implements OnInit, OnDestroy {
         this.liveSignalValues();
 
 
-        //Ahamed Code -- Widget Config
-        let selectedSignals = [];
+        // hamed Code -- Widget Config
+        const selectedSignals = [];
         this.signals.forEach(signal => {
           if (signal.sel) {
             selectedSignals.push(signal.signalMappingId);
           }
         });
         this.dataTableWidget.signals = selectedSignals;
-        let datatablebody = {
+        const datatablebody = {
           widgetName: 'Data Table Widget',
           dashBoardId: this.data ? this.data.dashboardId : null,
           widgetConfiguration: JSON.stringify(this.dataTableWidget),
           published: true,
           active: true
-        }
-
+        };
         console.log('datatablebody ', datatablebody);
         if (this.dashboardWidget) {
+          // tslint:disable-next-line: no-string-literal
           datatablebody['dashboardWidgetId'] = this.dashboardWidget.dashboardWidgetId;
           this.dashboardService.updateDashboardWidget(datatablebody)
           .subscribe(response => {
@@ -183,6 +186,7 @@ export class VotmDataTableComponent implements OnInit, OnDestroy {
               this.dashboardWidget = widget;
               this.dataTableWidget = JSON.parse(widget.widgetConfiguration);
               console.log('this.dataTableWidget ', this.dataTableWidget);
+              this.configured = true;
               this.selectSignals();
               // console.log('getDashboardWidget ', this.dataTableWidget);
               // this.saveImageOverlayConfiguration([], false);
@@ -206,8 +210,8 @@ export class VotmDataTableComponent implements OnInit, OnDestroy {
           if (selectedSignal === signal.signalMappingId) {
             signal.sel = true;
           }
-        })
-      })
+        });
+      });
     }
   }
 
@@ -273,21 +277,23 @@ export class VotmDataTableComponent implements OnInit, OnDestroy {
   }
 
   selectSignal(idx) {
-    if (idx == -1) {
+    if (idx === -1) {
       this.selAll = !this.selAll;
       this.signals.forEach(signal => signal.sel = this.selAll);
       this.selCount = (this.selAll) ? this.signals.length : 0;
     } else {
       this.signals[idx].sel = !this.signals[idx].sel;
       this.selCount = this.selCount + ((this.signals[idx].sel) ? 1 : -1);
-      this.selAll = (this.selCount == this.signals.length);
+      this.selAll = (this.selCount === this.signals.length);
     }
   }
 
 
   pathName(signal) {
 
-    return signal.org + ((signal.org) ? ' ❯ ' : '') + signal.loc + ((signal.loc) ? ' ❯ ' : '') + signal.asset + ((signal.asset) ? ' ❯ ' : '') + signal.name;
+    return signal.org + ((signal.org) ? ' ❯ ' : '') +
+      signal.loc + ((signal.loc) ? ' ❯ ' : '') + signal.asset
+      + ((signal.asset) ? ' ❯ ' : '') + signal.name;
   }
 
   selPathName(signal) {
@@ -297,34 +303,52 @@ export class VotmDataTableComponent implements OnInit, OnDestroy {
   }
 
   getBattery(signal) {
-    if (signal.bat < 2.75) return 'icon-battery-0';
-    else if (signal.bat < 2.8) return 'icon-battery-25';
-    else if (signal.bat < 2.93) return 'icon-battery-50';
-    else if (signal.bat < 2.98) return 'icon-battery-75';
-    else return 'icon-battery-100';
+    if (signal.bat < 2.75) {
+      return 'icon-battery-0';
+    } else if (signal.bat < 2.8) {
+      return 'icon-battery-25';
+    } else if (signal.bat < 2.93) {
+      return 'icon-battery-50';
+    } else if (signal.bat < 2.98) {
+      return 'icon-battery-75';
+    } else {
+      return 'icon-battery-100';
+    }
   }
 
   getRSSI(signal) {
-    if (signal.rssi < .151) return 'icon-signal-25';
-    else if (signal.rssi < .181) return 'icon-signal-50';
-    else if (signal.rssi < .291) return 'icon-signal-75';
-    else return 'icon-signal-100';
+    if (signal.rssi < .151) {
+      return 'icon-signal-25';
+    } else if (signal.rssi < .181) {
+      return 'icon-signal-50';
+    } else if (signal.rssi < .291) {
+      return 'icon-signal-75';
+    } else {
+      return 'icon-signal-100';
+    }
   }
 
   toggleShowOrg() {
     this.showOrg = !this.showOrg;
-    if (this.showOrg) this.showLoc = this.showAsset = true;
+    if (this.showOrg) {
+      this.showLoc = this.showAsset = true;
+    }
   }
 
   toggleShowLoc() {
     this.showLoc = !this.showLoc;
-    if (this.showLoc) this.showAsset = true;
-    else this.showOrg = false;
+    if (this.showLoc) {
+      this.showAsset = true;
+    } else {
+      this.showOrg = false;
+    }
   }
 
   toggleShowAsset() {
     this.showAsset = !this.showAsset;
-    if (!this.showAsset) this.showOrg = this.showLoc = false;
+    if (!this.showAsset) {
+      this.showOrg = this.showLoc = false;
+    }
   }
 
   getUoM(signal) {
@@ -342,13 +366,13 @@ export class VotmDataTableComponent implements OnInit, OnDestroy {
   // }
 
   private mapSignalDataTableValuesForLocAndAsset(response: any) {
-    let sigArray = [];
+    const sigArray = [];
     if (response && response.length > 0) {
       // Location
       response.forEach(signal => {
         // Direct Signal
         sigArray.push({
-          type: signal.signalType, name: `${signal.locationName} > ${signal.signalName}`, sel: false, value: signal.Value,
+          type: signal.signalType, name: `${signal.locationName} > ${signal.associationName}`, sel: false, value: signal.Value,
           bat: signal.Battery, rssi: signal.signalId, sensor: signal.sensorName, iconFile: signal.iconFile,
           signalId: signal.signalId,
           parkerDeviceId: signal.parkerDeviceId,
@@ -363,7 +387,7 @@ export class VotmDataTableComponent implements OnInit, OnDestroy {
   }
 
   getShortName(name: string) {
-    let splittedNames: string[] = name.split(' ');
+    const splittedNames: string[] = name.split(' ');
     if (splittedNames.length > 1) {
       name = splittedNames.map((splitedName) => splitedName[0]).join('');
     }
@@ -371,7 +395,7 @@ export class VotmDataTableComponent implements OnInit, OnDestroy {
   }
 
   private mapSignalDataTableValuesForOrganization(response: any, isParent: boolean = false) {
-    let sigArray = [];
+    const sigArray = [];
     if (response) {
       // Location
       if (response.locations && response.locations.length > 0) {
@@ -382,10 +406,11 @@ export class VotmDataTableComponent implements OnInit, OnDestroy {
               sigArray.push({
                 type: signal.signalType,
                 name: `${!isParent ? this.getShortName(response.organizationName) + ' > ' : ''}${this.getShortName(location.locationName)}
-                > ${signal.signalName}`, sel: false, value: signal.Value,
+                > ${signal.associationName}`, sel: false, value: signal.Value,
                 bat: signal.Battery, rssi: signal.signalId, sensor: signal.sensorName, iconFile: signal.iconFile,
                 signalId: signal.signalId,
                 parkerDeviceId: signal.parkerDeviceId,
+                modifiedOn: this.timestamp,
                 signalMappingId: signal.signalMappingId
               });
             });
@@ -398,7 +423,8 @@ export class VotmDataTableComponent implements OnInit, OnDestroy {
                   sigArray.push({
                     type: signal.signalType,
                     name: `${!isParent ? this.getShortName(response.organizationName) + ' > ' : ''}
-                    ${this.getShortName(location.locationName)}> ${this.getShortName(asset.assetName)} > ${signal.signalName}`, sel: false,
+                    ${this.getShortName(location.locationName)}> ${this.getShortName(asset.assetName)}
+                    > ${signal.associationName}`, sel: false,
                     value: signal.Value, bat: signal.Battery, rssi: signal.signalId, sensor: signal.sensorName, iconFile: signal.iconFile,
                     signalId: signal.signalId,
                     parkerDeviceId: signal.parkerDeviceId,
@@ -444,7 +470,7 @@ export class VotmDataTableComponent implements OnInit, OnDestroy {
       if (organization.organizations && organization.organizations.length > 0) {
         organization.organizations.forEach(subOrg => {
           this.passOrganizationsToMap(subOrg);
-        })
+        });
       }
     }
     VotmCommon.getUniqueValues(this.signals);

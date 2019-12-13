@@ -3,6 +3,7 @@ import { Logo, VOTMFile } from './logo.model';
 export class Asset {
     assetId: string;
     organizationId: string;
+    shortName: string;
     organizationName: string;
     locationName: string;
     locationId: string;
