@@ -76,4 +76,12 @@ export class DashboardService {
       );
   }
 
+  getCustomImageAssetEntity(assetId) {
+    return this.http.get('Signals/' + assetId + AppConstants.GET_CUSTOM_IMAGE_ASSET_ENTITY)
+      .pipe(
+        map(response => response)
+      );
+  }
+
+
 }

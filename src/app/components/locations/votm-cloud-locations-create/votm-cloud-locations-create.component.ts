@@ -132,6 +132,7 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
   dahboardsLoader: boolean;
   getAllAppInfoLoader: boolean;
   screenLabelLoader: boolean;
+  deletedDashboardName: any;
 
   constructor(
     private modalService: NgbModal,
@@ -1124,6 +1125,7 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
 
   openDashboardConfirmDialog(dashboardId, dashboardName) {
     this.deleteDashboardId = dashboardId;
+    this.deletedDashboardName = dashboardName;
     this.message = `Do you want to delete the "${dashboardName}" Dashboard?`;
     this.confirmBoxDash.open();
   }
@@ -1134,7 +1136,7 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
       // delete dashboard service goes here
       this.dbService.deleteDashboard(this.deleteDashboardId)
         .subscribe(response => {
-          this.toaster.onSuccess(`You have deleted ${this.dashboardTab.dashboardName} successfully`, 'Delete Success!');
+          this.toaster.onSuccess(`You have deleted ${this.deletedDashboardName} successfully`, 'Delete Success!');
           // this.route.navigate([`loc/home/${this.curOrgId}/${this.curOrgName}`]);
           this.getAllDashboards();
         }, error => {

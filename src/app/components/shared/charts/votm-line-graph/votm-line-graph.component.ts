@@ -886,8 +886,8 @@ export class VotmLineGraphComponent implements OnInit {
           if (location.signals && location.signals.length > 0) {
             location.signals.forEach(signal => {
               tempArray.push({
-                "id": signal.signalId, "type": signal.signalType, "name": `${!isParent ? this.getShortName(response.organizationName) + ' > ' : ''}${this.getShortName(location.locationName)} > ${signal.signalName}`,
-                "selY": [false, false], "iconFile": signal.iconFile
+                "id": signal.signalId, "type": signal.signalType, "name": `${!isParent ? this.getShortName(response.organizationName) + ' > ' : ''}${this.getShortName(location.locationName)} > ${signal.associationName}`,
+                "selY": [false, false], "iconFile": signal.iconFile, signalMappingId: signal.signalMappingId
               });
             });
           }
@@ -897,8 +897,8 @@ export class VotmLineGraphComponent implements OnInit {
               if (asset.signals && asset.signals.length > 0) {
                 asset.signals.forEach(signal => {
                   tempArray.push({
-                    "id": signal.signalId, "type": signal.signalType, "name": `${!isParent ? this.getShortName(response.organizationName) + ' > ' : ''}${this.getShortName(location.locationName)} > ${this.getShortName(asset.assetName)} > ${signal.signalName}`,
-                    "selY": [false, false], "iconFile": signal.iconFile
+                    "id": signal.signalId, "type": signal.signalType, "name": `${!isParent ? this.getShortName(response.organizationName) + ' > ' : ''}${this.getShortName(location.locationName)} > ${this.getShortName(asset.assetName)} > ${signal.associationName}`,
+                    "selY": [false, false], "iconFile": signal.iconFile, signalMappingId: signal.signalMappingId
                   });
                 });
               }
@@ -966,8 +966,8 @@ export class VotmLineGraphComponent implements OnInit {
       response.forEach(signal => {
         // Direct Signal
         sigArray.push({
-          "id": signal.signalId, "type": signal.signalType, "name": `${signal.signalName}`,
-          "selY": [false, false], "iconFile": signal.iconFile
+          "id": signal.signalId, "type": signal.signalType, "name": `${signal.associationName}`,
+          "selY": [false, false], "iconFile": signal.iconFile, signalMappingId: signal.signalMappingId
         });
       });
     }
