@@ -132,6 +132,7 @@
     &:hover{
       border: 1px solid $qcd-success;
       padding-left:calc(1 * 0.625rem + 0px);
+      z-index:1000;
       .values{
         line-height: normal;
         font-size: 0.75rem;
@@ -178,6 +179,7 @@
     &:hover{
       border: 1px solid qcd-success;
       padding-left:calc(1 * 1.5rem + 0px);
+      z-index:1000;
       .values{
         line-height: normal;
         // white-space: pre-wrap;
@@ -225,7 +227,7 @@
       border: 1px solid $qcd-success;
       padding-left:calc(1 * 2rem + 0px);
       min-height:70px;
-      
+      z-index:1000;
       .values{
         line-height: normal;
         // white-space: pre-wrap;
@@ -284,6 +286,7 @@
     &:hover{
       border: 1px solid $qcd-success-brd;
       padding-left:calc(1.6 * 3rem + 0px);
+      z-index:1000;
       .values{
         // line-height: calc(0.295 * 12rem + 0px);
         line-height: normal;
@@ -341,6 +344,7 @@
     &:hover{
       border: 1px solid $qcd-success-brd;
       padding-left:calc(1.27 * 5.75rem + 0px);
+      z-index:1000;
       // line-height: calc(1 * 1.99rem + 0px) !important;
       .values{
         // line-height: calc(0.295 * 12rem + 0px);
@@ -404,6 +408,7 @@
     &:hover{
       border: 1px solid $qcd-success-brd;
       padding-left:calc(1.2 * 12rem + 0px);
+      z-index:1000;
       .values{
         line-height: normal;
         // white-space: pre-wrap;
