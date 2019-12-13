@@ -130,7 +130,9 @@ export class AppConstants {
 
 
     public static GET_DATATABLE = '/Dashboard/getTimeseriesDatatable';
-    public static GET_UOM= '/UnitofMeasurement/UOMConvert';
+    public static GET_UOM = '/UnitofMeasurement/UOMConvert';
+
+    public static GET_CUSTOM_IMAGE_ASSET_ENTITY = '/AssetTreeAssociation';
 
     // Need to change to configurable strings once DB is in good shape
     // public static ORG_LBL = 'ConfigSettings/fd027a29-f9b7-474d-a4f4-0462d027c535/ScreenLabel/95200C8D-9910-42F2-B26D-56E4BAC697B1';

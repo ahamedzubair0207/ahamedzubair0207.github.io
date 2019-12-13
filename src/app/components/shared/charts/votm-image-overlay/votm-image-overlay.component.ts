@@ -495,7 +495,8 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
         published: true,
         active: true,
       };
-      //return;
+      // do not post custom image payload
+      return;
     }
 
     if (saveChartWidget) {
@@ -772,23 +773,40 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
     console.log('overLaySource', this.imageOverlay.overlaySource);
     if (this.imageOverlay.overlaySource === 'custom') {
       let entityId = '';
-      if (this.curLocId) {
+      if ((this.parentOrgId || this.orgId) && !this.curLocId) {
+        // Organization dashboard
+        // fetch all location org id
+        if (this.orgId) {
+          entityId = this.orgId;
+        } else {
+          entityId = this.parentOrgId;
+        }
+      } else if (this.curLocId) {
+        // Location dashbaord
         entityId = this.curLocId;
+        this.getLocationSignalAssociation(entityId);
+      } else if (this.assetId) {
+        // Asset Dashboard
+        entityId = this.assetId;
+        this.getCustomImageAssetEntity(entityId);
       }
 
-      // this.locationSignalService.getSignalAssociation(entityId)
-      //   .subscribe(
-      //     response => {
-      //       this.associatedSignals = [...response];
-      //     }
-      // );
-
-      this.getAssetsByLocation(entityId);
-      this.getLocationSignalAssociation(entityId);
+      // this.getAssetsByLocation(entityId);
+      // this.getLocationSignalAssociation(entityId);
 
     }
 
   } // End - getCustomEntityAndSignal
+
+  getCustomImageAssetEntity(assetId) {
+    console.log('assetId==', assetId);
+    this.dashboardService.getCustomImageAssetEntity(assetId)
+      .subscribe(response => {
+        console.log('getCustomImageAssetEntity response asset entity == ', response);
+
+      });
+
+  }
 
   getLocationSignalAssociation(locationId) {
     this.locationSignalService.getSignalAssociation(locationId)
