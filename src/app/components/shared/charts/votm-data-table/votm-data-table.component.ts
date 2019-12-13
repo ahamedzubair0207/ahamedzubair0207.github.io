@@ -13,6 +13,7 @@ import { ConfigSettingsService } from 'src/app/services/configSettings/configSet
 import { SignalRService } from 'src/app/services/signalR/signal-r.service';
 import * as moment from 'moment-timezone';
 import { DataTableWidget } from 'src/app/models/data-table-widget.model';
+import { DashboardService } from 'src/app/services/dasboards/dashboard.service';
 @Component({
   selector: 'app-votm-data-table',
   templateUrl: './votm-data-table.component.html',
@@ -49,7 +50,9 @@ export class VotmDataTableComponent implements OnInit, OnDestroy {
   isParent: any = true;
   parentOrgId: string;
   loggedInUser: any;
+  dashboardWidget: any;
   dataTableWidget: DataTableWidget = new DataTableWidget();
+  toaster: Toaster = new Toaster(this.toastr);
 
   constructor(
     private router: Router,
@@ -59,8 +62,10 @@ export class VotmDataTableComponent implements OnInit, OnDestroy {
     ngbModalConfig: NgbModalConfig,
     private signalRService: SignalRService,
     private route: ActivatedRoute,
-    private sharedService: SharedService
-    ) {
+    private sharedService: SharedService,
+    private dashboardService: DashboardService,
+    private toastr: ToastrService
+  ) {
     ngbModalConfig.backdrop = 'static';
     ngbModalConfig.keyboard = false;
   }
@@ -76,6 +81,9 @@ export class VotmDataTableComponent implements OnInit, OnDestroy {
       this.getSignalData();
       this.wId = this.data.dashboardId + '-' + this.id;
       this.wConfig = (this.data.widgetConf) ? this.data.widgetConf : { title: '', showSensor: false, showOrg: false, showLoc: false, showAsset: true, showStatus: true };
+      if (this.data.dashboardId) {
+        this.getDashboardWidget();
+      }
     }
     this.getScreenLabels();
   }
@@ -123,15 +131,84 @@ export class VotmDataTableComponent implements OnInit, OnDestroy {
         this.wConfig.showSensor = this.showSensor;
         this.wConfig.showStatus = this.showStatus;
         this.wConfig.title = this.title;
-        this.timestamp =  moment(new Date()).tz(this.loggedInUser.userConfigSettings[0].timeZoneDescription)
-        .format(moment.localeData(this.loggedInUser.userConfigSettings[0].localeName)
-          .longDateFormat('L')) + ' '
-        + moment(new Date()).tz(this.loggedInUser.userConfigSettings[0].timeZoneDescription)
-        .format(moment.localeData(this.loggedInUser.userConfigSettings[0].localeName)
-          .longDateFormat('LTS'));
+        this.timestamp = moment(new Date()).tz(this.loggedInUser.userConfigSettings[0].timeZoneDescription)
+          .format(moment.localeData(this.loggedInUser.userConfigSettings[0].localeName)
+            .longDateFormat('L')) + ' '
+          + moment(new Date()).tz(this.loggedInUser.userConfigSettings[0].timeZoneDescription)
+            .format(moment.localeData(this.loggedInUser.userConfigSettings[0].localeName)
+              .longDateFormat('LTS'));
         this.liveSignalValues();
+
+
+        //Ahamed Code -- Widget Config
+        let selectedSignals = [];
+        this.signals.forEach(signal => {
+          if (signal.sel) {
+            selectedSignals.push(signal.signalMappingId);
+          }
+        });
+        this.dataTableWidget.signals = selectedSignals;
+        let datatablebody = {
+          widgetName: 'Data Table Widget',
+          dashBoardId: this.data ? this.data.dashboardId : null,
+          widgetConfiguration: JSON.stringify(this.dataTableWidget),
+          published: true,
+          active: true
+        }
+
+        console.log('datatablebody ', datatablebody);
+        if (this.dashboardWidget) {
+          datatablebody['dashboardWidgetId'] = this.dashboardWidget.dashboardWidgetId;
+          this.dashboardService.updateDashboardWidget(datatablebody)
+          .subscribe(response => {
+            this.toaster.onSuccess('Chart Updated Successfully', 'Success');
+          });
+        } else {
+          this.dashboardService.saveDashboardWidget(datatablebody)
+            .subscribe(response => {
+              this.toaster.onSuccess('Chart Configured Successfully', 'Success');
+            });
+        }
       }
     });
+  }
+
+
+  getDashboardWidget() {
+    this.dashboardService.getDashboardWidgets(this.data.dashboardId)
+      .subscribe(response => {
+        if (response && response.length > 0) {
+          response.forEach(widget => {
+            if (widget.widgetName === 'Data Table Widget') {
+              this.dashboardWidget = widget;
+              this.dataTableWidget = JSON.parse(widget.widgetConfiguration);
+              console.log('this.dataTableWidget ', this.dataTableWidget);
+              this.selectSignals();
+              // console.log('getDashboardWidget ', this.dataTableWidget);
+              // this.saveImageOverlayConfiguration([], false);
+              // if (this.imageOverlay.signals) {
+              // }
+              // if (this.imageOverlay.signals) {
+
+              // }
+            }
+          });
+
+        }
+      });
+  }
+
+  selectSignals() {
+    if (this.signals && this.signals.length > 0 && this.dataTableWidget && this.dataTableWidget.signals
+      && this.dataTableWidget.signals.length > 0) {
+      this.dataTableWidget.signals.forEach(selectedSignal => {
+        this.signals.forEach(signal => {
+          if (selectedSignal === signal.signalMappingId) {
+            signal.sel = true;
+          }
+        })
+      })
+    }
   }
 
   liveSignalValues() {
@@ -156,7 +233,7 @@ export class VotmDataTableComponent implements OnInit, OnDestroy {
         console.log(assSig.signalId, '===', jsonData.SignalId);
         console.log(assSig.sel);
         return assSig.parkerDeviceId === jsonData.ParkerDeviceId && assSig.signalId === jsonData.SignalId
-        && assSig.sel;
+          && assSig.sel;
       });
       if (index !== -1) {
         this.convertUOMData(jsonData, index);
@@ -183,14 +260,14 @@ export class VotmDataTableComponent implements OnInit, OnDestroy {
     this.sharedService.getUOMConversionData(obj).subscribe(
       response => {
 
-          this.signals[index].value = response[0].uomValue + ( response[0].uomname ? ' ' + response[0].uomname : '');
-          this.signals[index].modifiedOn =
+        this.signals[index].value = response[0].uomValue + (response[0].uomname ? ' ' + response[0].uomname : '');
+        this.signals[index].modifiedOn =
           moment(signalRObj.RecievedDateTime).tz(this.loggedInUser.userConfigSettings[0].timeZoneDescription)
-          .format(moment.localeData(this.loggedInUser.userConfigSettings[0].localeName)
-          .longDateFormat('L')) + ' '
+            .format(moment.localeData(this.loggedInUser.userConfigSettings[0].localeName)
+              .longDateFormat('L')) + ' '
           + moment(signalRObj.RecievedDateTime).tz(this.loggedInUser.userConfigSettings[0].timeZoneDescription)
-          .format(moment.localeData(this.loggedInUser.userConfigSettings[0].localeName)
-          .longDateFormat('LTS'));
+            .format(moment.localeData(this.loggedInUser.userConfigSettings[0].localeName)
+              .longDateFormat('LTS'));
       }
     );
   }
@@ -275,11 +352,13 @@ export class VotmDataTableComponent implements OnInit, OnDestroy {
           bat: signal.Battery, rssi: signal.signalId, sensor: signal.sensorName, iconFile: signal.iconFile,
           signalId: signal.signalId,
           parkerDeviceId: signal.parkerDeviceId,
-          modifiedOn: this.timestamp
+          modifiedOn: this.timestamp,
+          signalMappingId: signal.signalMappingId
         });
       });
     }
     this.signals = VotmCommon.getUniqueValues(sigArray);
+    this.selectSignals();
     // console.log('this.signals ', this.signals);
   }
 
@@ -306,7 +385,8 @@ export class VotmDataTableComponent implements OnInit, OnDestroy {
                 > ${signal.signalName}`, sel: false, value: signal.Value,
                 bat: signal.Battery, rssi: signal.signalId, sensor: signal.sensorName, iconFile: signal.iconFile,
                 signalId: signal.signalId,
-                parkerDeviceId: signal.parkerDeviceId
+                parkerDeviceId: signal.parkerDeviceId,
+                signalMappingId: signal.signalMappingId
               });
             });
           }
@@ -322,7 +402,8 @@ export class VotmDataTableComponent implements OnInit, OnDestroy {
                     value: signal.Value, bat: signal.Battery, rssi: signal.signalId, sensor: signal.sensorName, iconFile: signal.iconFile,
                     signalId: signal.signalId,
                     parkerDeviceId: signal.parkerDeviceId,
-                    modifiedOn: this.timestamp
+                    modifiedOn: this.timestamp,
+                    signalMappingId: signal.signalMappingId
                   });
                 });
               }
@@ -348,6 +429,7 @@ export class VotmDataTableComponent implements OnInit, OnDestroy {
         // this.mapSignals(response);
         if (response) {
           this.passOrganizationsToMap(response);
+          this.selectSignals();
         }
       });
   }
@@ -366,35 +448,6 @@ export class VotmDataTableComponent implements OnInit, OnDestroy {
       }
     }
     VotmCommon.getUniqueValues(this.signals);
-  }
-
-
-  private mapSignals(response: any) {
-    let tempArray = [];
-    if (response) {
-      // Location
-      if (response.locations && response.locations.length > 0) {
-        response.locations.forEach(location => {
-          // Direct Signal
-          if (location.signals && location.signals.length > 0) {
-            location.signals.forEach(signal => {
-              tempArray.push({ id: signal.signalId, type: signal.signalType, name: `QCD > ${location.locationName} > ${signal.signalName}` });
-            });
-          }
-          // Asset
-          if (location.assets && location.assets.length > 0) {
-            location.assets.forEach(asset => {
-              if (asset.signals && asset.signals.length > 0) {
-                asset.signals.forEach(signal => {
-                  tempArray.push({ id: signal.signalId, type: signal.signalType, name: `QCD > ${location.locationName} > ${asset.assetName} > ${signal.signalName}` });
-                });
-              }
-            });
-          }
-        });
-      }
-    }
-    this.signals = tempArray.reduce((acc, cur) => acc.some(x => (x.id === cur.id)) ? acc : acc.concat(cur), []);
   }
 
   getSignalsAssociatedByLocationId(locId: string) {

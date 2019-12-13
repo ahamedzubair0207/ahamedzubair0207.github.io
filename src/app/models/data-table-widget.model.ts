@@ -7,6 +7,5 @@ export class DataTableWidget {
     displayAsset: boolean;
     displaySensor: boolean;
     displayStatus: boolean;
-
     
 }
