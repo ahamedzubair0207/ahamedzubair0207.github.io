@@ -73,6 +73,7 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
   showCustomLayout = false;
   saveCustomImageOverlayFlag = false;
   customImage: Logo;
+  assetDashboard = false;
 
   constructor(
     private toastr: ToastrService,
@@ -115,9 +116,14 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
       // this.parentOrgName = params.get('orgName');
       this.orgId = params.get('orgId');
       this.assetId = params.get('assetId');
-      // console.log('m y this.curLocId parentOrgId this.orgId', this.curLocId, this.parentOrgId, this.orgId);
+      console.log('m y this.curLocId =', this.curLocId);
+      console.log('m y parentOrgId =', this.parentOrgId);
+      console.log('m y this.orgId =', this.orgId);
+      console.log('m y this.assetId =', this.assetId);
 
       if ((this.parentOrgId || this.orgId) && !this.curLocId) {
+        console.log('Organization dashboard');
+
         // Organization dashboard
         // fetch all location org id
         if (this.orgId) {
@@ -130,6 +136,7 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
         // console.log('Organization dashboard');
 
       } else if (this.curLocId) {
+        console.log('Loacation dashboard');
         // Location dashbaord
         // fetch all child location & it selft
         this.fetchlocationTreeByLocationId();
@@ -138,6 +145,9 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
         // this.fetchlocationTreeById();
         this.fetchAssetsTreeByLocationId();
       } else if (this.assetId) {
+        console.log('asset dashboard');
+        this.assetDashboard = true;
+        this.imageOverlay.overlaySource = 'asset';
         // Asset Dashboard
         // Fetch all child assets & itself
         this.fetchAssetsTreeByAssetId();
@@ -154,8 +164,10 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
     this.locationService.getAllLocationsTreeByOrganizationID(organizationID).subscribe(response => {
       this.locationsList = [];
       if (response && response.length > 0) {
-        this.LocationSourceChild = this.fillLocationData(response);
-        // console.log('location response this.LocationSourceChild by Org id ', response, this.LocationSourceChild);
+        // console.log('respponse this.LocationSourceChild by Org id ', response);
+        this.LocationSourceChild = this.fillLocationDataList(response, []);
+        // console.log('fillLocationDataList this.LocationSourceChild by Org id ', this.LocationSourceChild);
+        //this.LocationSourceChild = [];
       }
       // // console.log('location by Org id ', this.locationsList);
       // this.LocationSourceChild = this.locationsList[0].children;
@@ -167,7 +179,8 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
       .subscribe(response => {
         this.assetsList = [];
         if (response && response.length > 0) {
-          this.assetsList = this.fillAssetData(response);
+          this.assetsList = this.fillAssetDataList(response, []);
+          this.assetsSourceChild = this.assetsList;
         }
         // console.log('assets by Org id ', this.assetsList);
         this.assetsSourceChild = this.assetsList;
@@ -178,26 +191,30 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
     this.locationService.getLocationTreeByID(this.curLocId).subscribe(response => {
       this.locationsList = [];
       if (response && response.length > 0) {
-        this.locationsList = this.fillLocationData(response);
+        this.locationsList = this.fillLocationDataList(response, []);
+        this.LocationSourceChild = this.locationsList;
       }
       // console.log('my this.locationsList ', this.locationsList);
-      this.LocationSourceChild = this.locationsList[0].children;
+      // this.LocationSourceChild = this.locationsList[0].children;
       // Requirement to Include Parent location (it self in dropdown)
-      this.LocationSourceChild.push({ data: this.locationsList[0].data });
+      // this.LocationSourceChild.push({ data: this.locationsList[0].data });
       // console.log('my updated locationsList ', this.locationsList);
     });
   }
 
   fetchAssetsTreeByAssetId() {
-    this.assetService.getAssetTreeByAssetId('acc9975e-c02a-4fc5-be83-a047821c0b08')
+    this.assetService.getAssetTreeByAssetId(this.assetId)
       .subscribe(response => {
         this.assetsList = [];
         if (response && response.length > 0) {
-          // this.assetsList = this.fillAssetData(response);
-          this.assetsList = response[0].node[0].node;
+          this.assetsList = this.fillAssetDataList(response, []);
+          // this.assetsList = response[0].node[0].node;
+          console.log('response assets by asset id ', response);
+          console.log('assetsList assets by asset id ', this.assetsList);
+          this.assetsSourceChild = this.assetsList;
         }
         // console.log('assets by asset id ', this.assetsList);
-        this.assetsSourceChild = this.assetsList;
+        // this.assetsSourceChild = this.assetsList;
 
         // this.assetsSourceChild.push({data: response[0].node[0]});
         // // console.log('my updated assets ', this.assetsSourceChild);
@@ -220,15 +237,29 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
     return locationList;
   }
 
+  fillLocationDataList(locations: any[], list) {
+    const locationList = [];
+    locations.forEach(loc => {
+      list.push(loc);
+      if (loc.node && loc.node.length > 0) {
+        list = this.fillLocationDataList(loc.node, list);
+      }
+    });
+    return list;
+  }
+
   fetchAssetsTreeByLocationId() {
     this.assetService.getAssetTreeByLocId(this.curLocId)
       .subscribe(response => {
         this.assetsList = [];
         if (response && response.length > 0) {
-          this.assetsList = this.fillAssetData(response);
+          this.assetsList = this.fillAssetDataList(response, []);
+          console.log('my assetsList  by location dashboard--', this.assetsList);
+          console.log('my response  by location dashboard--', response);
+          this.assetsSourceChild = this.assetsList;
         }
         // console.log('my assetsList ', this.assetsList);
-        this.assetsSourceChild = this.assetsList;
+        // this.assetsSourceChild = this.assetsList;
       });
   }
   fillAssetData(assets: any[]) {
@@ -244,6 +275,17 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
       assetList.push(tempAsset);
     });
     return assetList;
+  }
+
+  fillAssetDataList(assets: any[], list) {
+    const assetList = [];
+    assets.forEach(asset => {
+      list.push(asset);
+      if (asset.node && asset.node.length > 0) {
+        list = this.fillAssetDataList(asset.node, list);
+      }
+    });
+    return list;
   }
 
   onClickOfCustomizeImageOverlay() {
@@ -400,7 +442,7 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
       });
   }
 
-  
+
   getDashboardWidget() {
     this.dashboardService.getDashboardWidgets(this.data.dashboardId)
       .subscribe(response => {
@@ -479,7 +521,7 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
 
     // signal R code
     console.log('signalR connection code');
-    let connString = 'Sensor*' + this.parentOrgId + '*' + this.imageOverlay.overlaySourceID;
+    const connString = 'Sensor*' + this.parentOrgId + '*' + this.imageOverlay.overlaySourceID;
     // console.log(connString);
     // connString = '7a59bdd8-6e1d-48f9-a961-aa60b2918dde*1387c6d3-cabc-41cf-a733-8ea9c9169831';
     this.signalRService.getSignalRConnection(connString);
