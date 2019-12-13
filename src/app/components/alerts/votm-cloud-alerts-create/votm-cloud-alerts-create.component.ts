@@ -469,161 +469,240 @@ export class VotmCloudAlertsCreateComponent implements OnInit, OnDestroy {
     if (!this.selectedSignals) {
       this.selectedSignals = [];
     }
-    if (this.alertRuleSignalAssociatedAsset) {
-      this.treeSignalAssociationList = [];
-      this.assetsChecked[this.alertRuleSignalAssociatedAsset.organizationId] = false;
-      const treeNode: TreeNode = {};
-      treeNode.data = { id: this.alertRuleSignalAssociatedAsset.organizationId,
-        label: this.orgHierarchy,
-        value: this.alertRuleSignalAssociatedAsset, parent: null };
-      treeNode.children = [];
-      treeNode.expanded = true;
-      this.treeSignalAssociationList.push(treeNode);
-      if (this.alertRuleSignalAssociatedAsset.locations && this.alertRuleSignalAssociatedAsset.locations.length > 0) {
-        this.alertRuleSignalAssociatedAsset.locations.forEach(location => {
-          // console.log('locnamr     ', location.locationName);
-          this.assetsChecked[location.locationId] = false;
-          const locTreeNode: TreeNode = {};
-          locTreeNode.data = { id: location.locationId, label: treeNode.data.label + location.locationName,
-            value: location, parent: null };
-          locTreeNode.children = [];
-          locTreeNode.expanded = true;
-          location.signals.forEach(signal => {
-            locTreeNode.children.push({
-              expanded: true, data: {
-                id: signal.signalMappingId,
-                label: signal.associationName ? signal.associationName : signal.signalName,
-                value: signal, parent: location
-              }
-            });
-          });
-          this.treeSignalAssociationList.push(locTreeNode);
-          if (location.assets.length > 0) {
-            location.assets.forEach(asset => {
-              // console.log('asset name     ', asset.assetName);
-              const tempTreeNode: TreeNode = {};
-              // console.log(asset.assetName);
-              this.assetsChecked[asset.assetId] = false;
-              tempTreeNode.data = { id: asset.assetId, label: locTreeNode.data.label + ' > ' +
-              asset.assetName, value: asset, parent: null };
-              tempTreeNode.children = [];
-              tempTreeNode.expanded = true;
-              asset.signals.forEach(signal => {
-                tempTreeNode.children.push({
-                  expanded: true, data: {
-                    id: signal.signalMappingId,
-                    label: signal.associationName ? signal.associationName : signal.signalName,
-                    value: signal, parent: asset
-                  }
-                });
-              });
-              this.treeSignalAssociationList.push(tempTreeNode);
-              // this.selectUnselectAssetCheckbox(asset);
-            });
-          }
+    this.treeSignalAssociationList = [];
+    this.getOrgTreeStructure(this.alertRuleSignalAssociatedAsset, {});
+    // if (this.alertRuleSignalAssociatedAsset) {
+    //   this.treeSignalAssociationList = [];
+    //   this.assetsChecked[this.alertRuleSignalAssociatedAsset.organizationId] = false;
+    //   const treeNode: TreeNode = {};
+    //   treeNode.data = { id: this.alertRuleSignalAssociatedAsset.organizationId,
+    //     label: this.orgHierarchy,
+    //     value: this.alertRuleSignalAssociatedAsset, parent: null };
+    //   treeNode.children = [];
+    //   treeNode.expanded = true;
+    //   this.treeSignalAssociationList.push(treeNode);
+    //   if (this.alertRuleSignalAssociatedAsset.locations && this.alertRuleSignalAssociatedAsset.locations.length > 0) {
+    //     this.alertRuleSignalAssociatedAsset.locations.forEach(location => {
+    //       // console.log('locnamr     ', location.locationName);
+    //       this.assetsChecked[location.locationId] = false;
+    //       const locTreeNode: TreeNode = {};
+    //       locTreeNode.data = { id: location.locationId, label: treeNode.data.label +
+    //         (location.signals.length > 0 ? location.locationName : location.shortName),
+    //         value: location, parent: null };
+    //       locTreeNode.children = [];
+    //       locTreeNode.expanded = true;
+    //       location.signals.forEach(signal => {
+    //         locTreeNode.children.push({
+    //           expanded: true, data: {
+    //             id: signal.signalMappingId,
+    //             label: signal.associationName ? signal.associationName : signal.signalName,
+    //             value: signal, parent: location
+    //           }
+    //         });
+    //       });
+    //       this.treeSignalAssociationList.push(locTreeNode);
+    //       if (location.assets.length > 0) {
+    //         location.assets.forEach(asset => {
+    //           // console.log('asset name     ', asset.assetName);
+    //           const tempTreeNode: TreeNode = {};
+    //           // console.log(asset.assetName);
+    //           this.assetsChecked[asset.assetId] = false;
+    //           tempTreeNode.data = { id: asset.assetId, label: locTreeNode.data.label + ' > ' +
+    //           (asset.signals.length > 0 ? asset.assetName : asset.shortName),
+    //           value: asset, parent: null };
+    //           tempTreeNode.children = [];
+    //           tempTreeNode.expanded = true;
+    //           asset.signals.forEach(signal => {
+    //             tempTreeNode.children.push({
+    //               expanded: true, data: {
+    //                 id: signal.signalMappingId,
+    //                 label: signal.associationName ? signal.associationName : signal.signalName,
+    //                 value: signal, parent: asset
+    //               }
+    //             });
+    //           });
+    //           this.treeSignalAssociationList.push(tempTreeNode);
+    //           // this.selectUnselectAssetCheckbox(asset);
+    //         });
+    //       }
 
-        });
-        if (
-          this.alertRuleSignalAssociatedAsset.organizations &&
-          this.alertRuleSignalAssociatedAsset.organizations.length > 0) {
-            this.getOrgTreeStructure(this.alertRuleSignalAssociatedAsset.organizations, treeNode, true);
-        } else {
-          const arrList = [];
-          this.treeSignalAssociationList.forEach(item => {
-            if (item.children.length > 0) {
-              arrList.push(item);
-            }
-          });
-          this.treeSignalAssociationList = [...arrList];
-        }
-      }
-      // console.log('fonal', this.treeSignalAssociationList);
-    }
+    //     });
+    //     if (
+    //       this.alertRuleSignalAssociatedAsset.organizations &&
+    //       this.alertRuleSignalAssociatedAsset.organizations.length > 0) {
+    //         this.getOrgTreeStructure1(this.alertRuleSignalAssociatedAsset.organizations, treeNode, true);
+    //     } else {
+    //       const arrList = [];
+    //       this.treeSignalAssociationList.forEach(item => {
+    //         if (item.children.length > 0) {
+    //           arrList.push(item);
+    //         }
+    //       });
+    //       this.treeSignalAssociationList = [...arrList];
+    //     }
+    //   }
+    //   // console.log('fonal', this.treeSignalAssociationList);
+    // }
 
     this.selectSignals();
     // // console.log(' this.treeSignalAssociationList ', this.treeSignalAssociationList);
   }
 
-  getOrgTreeStructure(orgs, parentOrg, iconFlag) {
-    // console.log('function recursion');
-    orgs.forEach(organization => {
-      // console.log('orgnamr     ', organization.organizationName);
-      this.assetsChecked[organization.organizationId] = false;
-      const treeNode: TreeNode = {};
-      treeNode.data = { id: organization.organizationId,
-        label: parentOrg.data.label + (!iconFlag ? ' > ' : '') + organization.shortName,
-        value: organization, parent: null};
-      treeNode.children = [];
-      treeNode.expanded = true;
+  // getOrgTreeStructure1(orgs, parentOrg, iconFlag) {
+  //   // console.log('function recursion');
+  //   orgs.forEach(organization => {
+  //     // console.log('orgnamr     ', organization.organizationName);
+  //     this.assetsChecked[organization.organizationId] = false;
+  //     const treeNode: TreeNode = {};
+  //     treeNode.data = { id: organization.organizationId,
+  //       label: parentOrg.data.label + (!iconFlag ? ' > ' : '') + organization.shortName,
+  //       value: organization, parent: null};
+  //     treeNode.children = [];
+  //     treeNode.expanded = true;
 
-      // organization.locations.forEach(location => {
-      //   treeNode.children.push({
-      //     expanded: true, data: {
-      //       id: location.signalMappingId,
-      //       label: location.associationName ? location.associationName : location.signalName,
-      //       value: location, parent: location
-      //     }
-      //   });
-      // });
-      this.treeSignalAssociationList.push(treeNode);
-      if (organization.locations.length > 0) {
-        organization.locations.forEach(location => {
-          // console.log('locnamr     ', location.locationName);
-          this.assetsChecked[location.locationId] = false;
-          const locTreeNode: TreeNode = {};
-          locTreeNode.data = { id: location.locationId, label: treeNode.data.label + ' > ' + location.locationName,
-            value: location, parent: null };
-          locTreeNode.children = [];
-          locTreeNode.expanded = true;
-          location.signals.forEach(signal => {
-            locTreeNode.children.push({
-              expanded: true, data: {
-                id: signal.signalMappingId,
-                label: signal.associationName ? signal.associationName : signal.signalName,
-                value: signal, parent: location
-              }
-            });
-          });
-          this.treeSignalAssociationList.push(locTreeNode);
-          if (location.assets.length > 0) {
-            location.assets.forEach(asset => {
-              // console.log('asset name     ', asset.assetName);
-              const tempTreeNode: TreeNode = {};
-              // console.log(asset.assetName);
-              this.assetsChecked[asset.assetId] = false;
-              tempTreeNode.data = { id: asset.assetId, label: locTreeNode.data.label + ' > ' +
-              asset.assetName, value: asset, parent: null };
-              tempTreeNode.children = [];
-              tempTreeNode.expanded = true;
-              asset.signals.forEach(signal => {
-                tempTreeNode.children.push({
-                  expanded: true, data: {
-                    id: signal.signalMappingId,
-                    label: signal.associationName ? signal.associationName : signal.signalName,
-                    value: signal, parent: asset
-                  }
-                });
-              });
-              this.treeSignalAssociationList.push(tempTreeNode);
-              // this.selectUnselectAssetCheckbox(asset);
-            });
-          }
-        });
-      }
+  //     // organization.locations.forEach(location => {
+  //     //   treeNode.children.push({
+  //     //     expanded: true, data: {
+  //     //       id: location.signalMappingId,
+  //     //       label: location.associationName ? location.associationName : location.signalName,
+  //     //       value: location, parent: location
+  //     //     }
+  //     //   });
+  //     // });
+  //     this.treeSignalAssociationList.push(treeNode);
+  //     if (organization.locations.length > 0) {
+  //       organization.locations.forEach(location => {
+  //         // console.log('locnamr     ', location.locationName);
+  //         this.assetsChecked[location.locationId] = false;
+  //         const locTreeNode: TreeNode = {};
+  //         locTreeNode.data = { id: location.locationId, label: treeNode.data.label + ' > ' +
+  //           (location.signals.length > 0 ? location.locationName : location.shortName),
+  //           value: location, parent: null };
+  //         locTreeNode.children = [];
+  //         locTreeNode.expanded = true;
+  //         location.signals.forEach(signal => {
+  //           locTreeNode.children.push({
+  //             expanded: true, data: {
+  //               id: signal.signalMappingId,
+  //               label: signal.associationName ? signal.associationName : signal.signalName,
+  //               value: signal, parent: location
+  //             }
+  //           });
+  //         });
+  //         this.treeSignalAssociationList.push(locTreeNode);
+  //         if (location.assets.length > 0) {
+  //           location.assets.forEach(asset => {
+  //             // console.log('asset name     ', asset.assetName);
+  //             const tempTreeNode: TreeNode = {};
+  //             // console.log(asset.assetName);
+  //             this.assetsChecked[asset.assetId] = false;
+  //             tempTreeNode.data = { id: asset.assetId, label: locTreeNode.data.label + ' > ' +
+  //             (asset.signals.length > 0 ? asset.assetName : asset.shortName)
+  //             , value: asset, parent: null };
+  //             tempTreeNode.children = [];
+  //             tempTreeNode.expanded = true;
+  //             asset.signals.forEach(signal => {
+  //               tempTreeNode.children.push({
+  //                 expanded: true, data: {
+  //                   id: signal.signalMappingId,
+  //                   label: signal.associationName ? signal.associationName : signal.signalName,
+  //                   value: signal, parent: asset
+  //                 }
+  //               });
+  //             });
+  //             this.treeSignalAssociationList.push(tempTreeNode);
+  //             // this.selectUnselectAssetCheckbox(asset);
+  //           });
+  //         }
+  //       });
+  //     }
 
 
-      if (organization.organizations.length > 0) {
-        this.getOrgTreeStructure(organization.organizations, treeNode, false);
-      }
-    });
-    const arrList = [];
-    this.treeSignalAssociationList.forEach(item => {
-      if (item.children.length > 0) {
-        arrList.push(item);
-      }
-    });
-    this.treeSignalAssociationList = [...arrList];
+  //     if (organization.organizations.length > 0) {
+  //       this.getOrgTreeStructure1(organization.organizations, treeNode, false);
+  //     }
+  //   });
+  //   const arrList = [];
+  //   this.treeSignalAssociationList.forEach(item => {
+  //     if (item.children.length > 0) {
+  //       arrList.push(item);
+  //     }
+  //   });
+  //   this.treeSignalAssociationList = [...arrList];
+  // }
+
+  getOrgTreeStructure(org, parentOrg) {
+    console.log(org);
+    this.assetsChecked[org.organizationId] = false;
+    const treeNode: TreeNode = {};
+    treeNode.data = { id: org.organizationId,
+      label: (parentOrg.data && parentOrg.data.label ? (parentOrg.data.label + org.shortName + ' > ') : this.orgHierarchy),
+      value: org, parent: null };
+    treeNode.children = [];
+    treeNode.expanded = true;
+    console.log(org.locations);
+    if (org.locations) {
+      org.locations.forEach(location => {
+        this.getLocationTreeStructure(location, treeNode);
+      });
+    }
+    console.log(org.organizations);
+    if (org.organizations) {
+      org.organizations.forEach(organization => {
+        this.getOrgTreeStructure(organization, treeNode);
+      });
+    }
   }
+
+  getLocationTreeStructure(location, treeNode) {
+    const locTreeNode: TreeNode = {};
+    locTreeNode.data = { id: location.locationId, label: treeNode.data.label +
+      (location.signals.length > 0 ? location.locationName : location.shortName),
+      value: location, parent: null };
+    locTreeNode.children = [];
+    locTreeNode.expanded = true;
+    location.signals.forEach(signal => {
+      locTreeNode.children = this.getSignalStructure(signal, location, locTreeNode.children);
+    });
+    this.treeSignalAssociationList.push(locTreeNode);
+    if (location.assets.length > 0) {
+      location.assets.forEach(asset => {
+        this.getAssetTreeStrucutre(asset, locTreeNode);
+      });
+    }
+    if (location.locations) {
+      location.locations.forEach(childLoc => {
+        this.getLocationTreeStructure(childLoc, locTreeNode);
+      });
+    }
+  }
+
+  getAssetTreeStrucutre(asset, locTreeNode) {
+    const tempTreeNode: TreeNode = {};
+        // console.log(asset.assetName);
+    this.assetsChecked[asset.assetId] = false;
+    tempTreeNode.data = { id: asset.assetId, label: locTreeNode.data.label + ' > ' +
+    (asset.signals.length > 0 ? asset.assetName : asset.shortName),
+    value: asset, parent: null };
+    tempTreeNode.children = [];
+    tempTreeNode.expanded = true;
+    asset.signals.forEach(signal => {
+      tempTreeNode.children = this.getSignalStructure(signal, asset, tempTreeNode.children);
+    });
+    this.treeSignalAssociationList.push(tempTreeNode);
+  }
+
+  getSignalStructure(signal, parent, list) {
+    list.push({
+      expanded: true, data: {
+        id: signal.signalMappingId,
+        label: signal.associationName ? signal.associationName : signal.signalName,
+        value: signal, parent
+      }
+    });
+    return list;
+  }
+
 
   onAssetCollapse(event) {
     // // // console.log('onAssetCollapse', event);

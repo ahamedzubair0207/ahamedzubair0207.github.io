@@ -937,6 +937,7 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
           assetNumber: selectedTemplate.assetNumber,
           assetType: selectedTemplate.assetType,
           description: selectedTemplate.description,
+          shortName: '',
           // documentationUrl: selectedTemplate.documentationUrl,
           fileStore: selectedTemplate.fileStore,
           locationId: this.parentLocId,
@@ -1298,7 +1299,7 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
         this.dashboardTabs.push(this.dashboardTab);
         this.dashboardTab = new DashBoard();
         this.toaster.onSuccess('Successfully Created Dashboard', 'Created');
-        
+
       });
     }
       this.closeAddDashboardModal(true);

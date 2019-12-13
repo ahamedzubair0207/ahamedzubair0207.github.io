@@ -24,7 +24,7 @@
               <tbody>
                 <ng-container *ngFor="let signal of signals; index as i">
                   <tr *ngIf="signal.sel">
-                      <td scope="col" class="" title="{{ selPathName(signal) }}"><i class="pr-1 icon-sig-{{ signal.type }}"></i>{{ signal.name }}</td>
+                      <td scope="col" class="" title="{{ selPathName(signal) }}"><i class="pr-1 {{ signal.iconFile }}"></i>{{ signal.name }}</td>
                     <!-- <td scope="col" class="" title="{{ selPathName(signal) }}"><i class="pr-1 icon-sig-{{ signal.type }}"></i>{{ selPathName(signal) }}</td> -->
                     <td scope="col" title="{{ signal.value }}">{{ signal.value }}</td>
                     <td scope="col" class="" title="{{ timestamp }}">{{ signal.modifiedOn }}</td>
@@ -128,31 +128,31 @@
 
       <div class="col-3">
         <div class="custom-control custom-switch" style="padding-top: calc(.25rem + 1px);">
-          <input type="checkbox" class="custom-control-input" id="showOrg" [checked]="showOrg" (change)="toggleShowOrg()" [(ngModel)]="dataTableWidget.displayOrg" />
+          <input type="checkbox" class="custom-control-input" id="showOrg"  (change)="onOrgCheckboxChange($event)" [(ngModel)]="dataTableWidget.displayOrg" />
           <label class="custom-control-label" for="showOrg">Organization</label>
         </div>
       </div>
       <div class="col-3">
         <div class="custom-control custom-switch" style="padding-top: calc(.25rem + 1px);">
-          <input type="checkbox" class="custom-control-input" id="showLoc" [checked]="showLoc" (change)="toggleShowLoc()" [(ngModel)]="dataTableWidget.displayLoc" />
+          <input type="checkbox" class="custom-control-input" id="showLoc" (change)="onLocCheckboxChange($event)"  [(ngModel)]="dataTableWidget.displayLoc" />
           <label class="custom-control-label" for="showLoc">Location</label>
         </div>
       </div>
       <div class="col-3">
         <div class="custom-control custom-switch" style="padding-top: calc(.25rem + 1px);">
-          <input type="checkbox" class="custom-control-input" id="showAsset" [checked]="showAsset" (change)="toggleShowAsset()" [(ngModel)]="dataTableWidget.displayAsset" />
+          <input type="checkbox" class="custom-control-input" id="showAsset" (change)="onAssetCheckboxChange($event)" [(ngModel)]="dataTableWidget.displayAsset" />
           <label class="custom-control-label" for="showAsset">Asset</label>
         </div>
       </div>
       <div class="col-3 offset-3">
         <div class="custom-control custom-switch" style="padding-top: calc(.25rem + 1px);">
-          <input type="checkbox" class="custom-control-input" id="showSensor" [checked]="showSensor" (change)="showSensor = !showSensor" [(ngModel)]="dataTableWidget.displaySensor" />
+          <input type="checkbox" class="custom-control-input" id="showSensor" [(ngModel)]="dataTableWidget.displaySensor" />
           <label class="custom-control-label" for="showSensor">Source Sensor</label>
         </div>
       </div>
       <div class="col-3">
         <div class="custom-control custom-switch" style="padding-top: calc(.25rem + 1px);">
-          <input type="checkbox" class="custom-control-input" id="showStatus" [checked]="showStatus" (change)="showStatus = !showStatus" [(ngModel)]="dataTableWidget.displayStatus" />
+          <input type="checkbox" class="custom-control-input" id="showStatus" [(ngModel)]="dataTableWidget.displayStatus" />
           <label class="custom-control-label" for="showStatus">Status</label>
         </div>
       </div>

@@ -111,7 +111,7 @@
                       <label class="" id="LocLongName" votmrequired>Name:</label>
                       <div class="">
                         <input type="text" [(ngModel)]="location.locationName" class="form-control" [disabled]="pageType==='View'"
-                          #locName="ngModel" id="locDtlLongName" placeholder="Enter Name" name="name" required maxlength="50">
+                          #locName="ngModel" id="locDtlLongName" placeholder="Enter Name" name="locDtlLongName" required maxlength="50">
                         <div *ngIf="locName.dirty && locName.invalid">
                           <app-votm-cloud-validator message="Name is required"></app-votm-cloud-validator>
                         </div>
@@ -128,8 +128,8 @@
                         <!-- <input type="text" [(ngModel)]="location.locationName" class="form-control"
                                       [disabled]="pageType==='View'" #locName="ngModel" id="locDtlShortlName" placeholder="Short Name"
                                       name="name" required maxlength="10"> -->
-                        <input type="text" id="LocShortName" class="form-control" [disabled]="pageType==='View'" id="locDtlShortlName"
-                          placeholder="Abbrev" name="name" required maxlength="5">
+                        <input type="text" [(ngModel)]="location.shortName" id="LocShortName" class="form-control" [disabled]="pageType==='View'" id="locDtlShortlName"
+                          placeholder="Abbrev" name="LocShortName" required maxlength="5">
                         <!-- <div *ngIf="locName.dirty && locName.invalid">
                                       <app-votm-cloud-validator message="Name is required"></app-votm-cloud-validator>
                                     </div>

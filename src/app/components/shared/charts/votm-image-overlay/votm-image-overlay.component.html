@@ -104,7 +104,7 @@
                                     <ng-select id="imageSource" name="imageSource" labelForId="imageSource"
                                         class="custom" [multiple]="false" [(ngModel)]="imageOverlay.overlaySource" placeholder="Choose Source"
                                         (change)="imageOverlay.showSignals = true; imageOverlay.showAsset = true;associatedAssets = []; associatedSignals=[]; displaySignalHoverContent={};">
-                                        <ng-option value="location">Location</ng-option>
+                                        <ng-option *ngIf="!assetDashboard" value="location">Location</ng-option>
                                         <ng-option value="asset">Asset</ng-option>
                                         <ng-option value="custom">Custom</ng-option>
                                     </ng-select>
@@ -118,7 +118,7 @@
                                     <ng-select id="widgetlocImageID" name="widgetlocImageID" labelForId="widgetlocImageID"
                                         class="custom" [multiple]="false" [(ngModel)]="imageOverlay.overlaySourceID"
                                         placeholder="Choose Location">
-                                        <ng-option *ngFor="let locationChild of LocationSourceChild" [value]="locationChild.data.id">{{locationChild.data.name}}</ng-option>
+                                        <ng-option *ngFor="let locationChild of LocationSourceChild" [value]="locationChild.id">{{locationChild.name}}</ng-option>
                                     </ng-select>
                                 </div>
                             </div>
@@ -129,7 +129,7 @@
                                 <div class="">
                                     <ng-select id="widgetassetimageID" name="widgetassetimageID" labelForId="widgetassetimageID" class="custom"
                                         [multiple]="false" [(ngModel)]="imageOverlay.overlaySourceID" placeholder="Choose Asset">
-                                        <ng-option *ngFor="let assetsChild of assetsSourceChild" [value]="assetsChild.data.id">{{assetsChild.data.name}}</ng-option>
+                                        <ng-option *ngFor="let assetsChild of assetsSourceChild" [value]="assetsChild.id">{{assetsChild.name}}</ng-option>
                                     </ng-select>
                                 </div>
                             </div>
