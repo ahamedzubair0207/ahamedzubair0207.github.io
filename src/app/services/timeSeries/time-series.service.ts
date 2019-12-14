@@ -57,14 +57,14 @@ export class TimeSeriesService {
 
   getTimeSeriesSignalsByLocationID(locationId){
     // return this.http.get(AppConstants.GET_SIGNAL_ASSOCIATION + '/' + locId + '/LocationAssociation');
-    return this.http.get(`${AppConstants.GET_SIGNAL_ASSOCIATION}/${locationId}/LocationAssociation`)
+    return this.http.get(`${AppConstants.GET_SIGNAL_ASSOCIATION}/${locationId}/LocationTreeAssociation`)
     .pipe(
       map(response => response)
     );
   }
 
   getTimeSeriesSignalsByAssetID(assetId){
-    return this.http.get(AppConstants.GET_SIGNAL_ASSOCIATION + '/' + assetId + '/AssetAssociation');
+    return this.http.get(AppConstants.GET_SIGNAL_ASSOCIATION + '/' + assetId + '/AssetTreeAssociation');
   }
 
   getThresholdValueBySignalAndOrganizationID(signalId: string, body:any){

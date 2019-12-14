@@ -71,7 +71,6 @@ export class VotmDataTableComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-
     this.route.paramMap.subscribe((params: ParamMap) => {
       this.parentOrgId = params.get('curOrgId');
     });
@@ -142,8 +141,6 @@ export class VotmDataTableComponent implements OnInit, OnDestroy {
               .longDateFormat('LTS'));
         this.liveSignalValues();
 
-
-        // hamed Code -- Widget Config
         const selectedSignals = [];
         this.signals.forEach(signal => {
           if (signal.sel) {
@@ -177,6 +174,55 @@ export class VotmDataTableComponent implements OnInit, OnDestroy {
   }
 
 
+  private loadChart() {
+    let ts = new Date();
+    this.configured = true;
+    this.wConfig.showOrg = this.dataTableWidget.displayOrg;
+    this.wConfig.showLoc = this.dataTableWidget.displayLoc;
+    this.wConfig.showAsset = this.dataTableWidget.displayAsset;
+    this.wConfig.showSensor = this.dataTableWidget.displaySensor;
+    this.wConfig.showStatus = this.dataTableWidget.displayStatus;
+    this.wConfig.title = this.dataTableWidget.title;
+    this.timestamp = moment(new Date()).tz(this.loggedInUser.userConfigSettings[0].timeZoneDescription)
+      .format(moment.localeData(this.loggedInUser.userConfigSettings[0].localeName)
+        .longDateFormat('L')) + ' '
+      + moment(new Date()).tz(this.loggedInUser.userConfigSettings[0].timeZoneDescription)
+        .format(moment.localeData(this.loggedInUser.userConfigSettings[0].localeName)
+          .longDateFormat('LTS'));
+    this.liveSignalValues();
+  }
+
+  private SaveDashboardWidget() {
+    let selectedSignals = [];
+    this.signals.forEach(signal => {
+      if (signal.sel) {
+        selectedSignals.push(signal.signalMappingId);
+      }
+    });
+    this.dataTableWidget.signals = selectedSignals;
+    let datatablebody = {
+      widgetName: 'Data Table Widget',
+      dashBoardId: this.data ? this.data.dashboardId : null,
+      widgetConfiguration: JSON.stringify(this.dataTableWidget),
+      published: true,
+      active: true
+    };
+    console.log('datatablebody ', datatablebody);
+    if (this.dashboardWidget) {
+      datatablebody['dashboardWidgetId'] = this.dashboardWidget.dashboardWidgetId;
+      this.dashboardService.updateDashboardWidget(datatablebody)
+        .subscribe(response => {
+          this.toaster.onSuccess('Chart Updated Successfully', 'Success');
+        });
+    }
+    else {
+      this.dashboardService.saveDashboardWidget(datatablebody)
+        .subscribe(response => {
+          this.toaster.onSuccess('Chart Configured Successfully', 'Success');
+        });
+    }
+  }
+
   getDashboardWidget() {
     this.dashboardService.getDashboardWidgets(this.data.dashboardId)
       .subscribe(response => {
@@ -188,6 +234,10 @@ export class VotmDataTableComponent implements OnInit, OnDestroy {
               console.log('this.dataTableWidget ', this.dataTableWidget);
               this.configured = true;
               this.selectSignals();
+              this.loadChart();
+              // this.onOrgCheckboxChange();
+              // this.onOrgCheckboxChange();
+              // this.onOrgCheckboxChange();
               // console.log('getDashboardWidget ', this.dataTableWidget);
               // this.saveImageOverlayConfiguration([], false);
               // if (this.imageOverlay.signals) {
@@ -328,27 +378,29 @@ export class VotmDataTableComponent implements OnInit, OnDestroy {
     }
   }
 
-  toggleShowOrg() {
-    this.showOrg = !this.showOrg;
-    if (this.showOrg) {
-      this.showLoc = this.showAsset = true;
+  onOrgCheckboxChange() {
+    if (this.dataTableWidget.displayOrg) {
+      this.dataTableWidget.displayLoc = true;
+      this.dataTableWidget.displayAsset = true;
     }
+    console.log('onOrgCheckboxChange ', this.dataTableWidget)
   }
 
-  toggleShowLoc() {
-    this.showLoc = !this.showLoc;
-    if (this.showLoc) {
-      this.showAsset = true;
+  onLocCheckboxChange() {
+    if (this.dataTableWidget.displayLoc) {
+      this.dataTableWidget.displayAsset = true;
     } else {
-      this.showOrg = false;
+      this.dataTableWidget.displayOrg = false;
     }
+    console.log('onOrgCheckboxChange ', this.dataTableWidget)
   }
 
-  toggleShowAsset() {
-    this.showAsset = !this.showAsset;
-    if (!this.showAsset) {
-      this.showOrg = this.showLoc = false;
+  onAssetCheckboxChange() {
+    if (!this.dataTableWidget.displayAsset) {
+      this.dataTableWidget.displayOrg = false;
+      this.dataTableWidget.displayLoc = false;
     }
+    console.log('onOrgCheckboxChange ', this.dataTableWidget)
   }
 
   getUoM(signal) {
