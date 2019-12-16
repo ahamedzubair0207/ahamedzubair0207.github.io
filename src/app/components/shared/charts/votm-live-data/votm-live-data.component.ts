@@ -2,6 +2,7 @@ import { Component, OnInit, NgZone, Input, ElementRef, ViewChild } from '@angula
 import * as am4core from "@amcharts/amcharts4/core";
 import * as am4charts from "@amcharts/amcharts4/charts";
 import am4themes_animated from "@amcharts/amcharts4/themes/animated";
+import am4themes_kelly from "@amcharts/amcharts4/themes/animated";
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConfigSettingsService } from 'src/app/services/configSettings/configSettings.service';
 import { DashBoard } from 'src/app/models/dashboard.model';
@@ -9,15 +10,18 @@ import { Router } from '@angular/router';
 import { TimeSeriesService } from 'src/app/services/timeSeries/time-series.service';
 import { VotmCommon } from '../../votm-common';
 import { TrendChartWidget } from 'src/app/models/trend-chart-widget';
-import * as moment from 'moment';
+// import * as moment from 'moment';
+import * as moment from 'moment-timezone';
 import { DashboardService } from 'src/app/services/dasboards/dashboard.service';
 import { environment } from 'src/environments/environment';
 import { AppConstants } from 'src/app/helpers/app.constants';
+import { SharedService } from 'src/app/services/shared.service';
 
 
 /* Chart code */
 // Themes begin
-am4core.useTheme(am4themes_animated);
+// am4core.useTheme(am4themes_animated);
+am4core.useTheme(am4themes_kelly);
 // Themes end
 
 @Component({
@@ -31,8 +35,12 @@ export class VotmLiveDataComponent implements OnInit {
   @Input() locked: boolean;
 
   pageLabels: any;
+  selAll = false;
+  selCount = 0;
   isParent: any;
   signals: any = [];
+  loggedInUser: any;
+  timestamp = '';
   trendChartWidget: TrendChartWidget = new TrendChartWidget();
   @ViewChild('graphDiv', null) graphDiv: ElementRef;
 
@@ -53,6 +61,7 @@ export class VotmLiveDataComponent implements OnInit {
   constructor(private zone: NgZone, private modalService: NgbModal,
     private configSettingsService: ConfigSettingsService, private router: Router,
     private timeSeries: TimeSeriesService,
+    private sharedService: SharedService,
     private dashboardService: DashboardService) {
     // this.id = Math.floor((Math.random() * 100) + 1);
   }
@@ -63,6 +72,7 @@ export class VotmLiveDataComponent implements OnInit {
     this.getScreenLabels();
     this.getSignalData();
     this.getDashboardWidget();
+    this.loggedInUser = this.sharedService.getLoggedInUser();
   }
 
   ngAfterViewInit() {
@@ -76,6 +86,37 @@ export class VotmLiveDataComponent implements OnInit {
     this.trendChartWidget.signalY2 = signalMappingId;
   }
 
+  convertUOMData(signalRObj, index) {
+    // console.log(signalRObj);
+    const arr = [];
+    arr.push({
+      uomValue: signalRObj.SignalValue,
+      signalId: signalRObj.SignalId,
+      sensorId: signalRObj.SensorId
+    });
+    const obj = {
+      userId: this.loggedInUser.userId,
+      organizationId: this.data.organizationId,
+      locationId: this.data.locationId,
+      precision: 3,
+      uom: arr
+    };
+
+    this.sharedService.getUOMConversionData(obj).subscribe(
+      response => {
+
+        this.signals[index].value = response[0].uomValue + (response[0].uomname ? ' ' + response[0].uomname : '');
+        this.signals[index].modifiedOn =
+          moment(signalRObj.RecievedDateTime).tz(this.loggedInUser.userConfigSettings[0].timeZoneDescription)
+            .format(moment.localeData(this.loggedInUser.userConfigSettings[0].localeName)
+              .longDateFormat('L')) + ' '
+          + moment(signalRObj.RecievedDateTime).tz(this.loggedInUser.userConfigSettings[0].timeZoneDescription)
+            .format(moment.localeData(this.loggedInUser.userConfigSettings[0].localeName)
+              .longDateFormat('LTS'));
+      }
+    );
+  }
+
   getSignalData() {
     if (this.router.url.startsWith(`/org/edit`) || this.router.url.startsWith(`/org/view`)) {
       // console.log('In Organization');
@@ -85,12 +126,12 @@ export class VotmLiveDataComponent implements OnInit {
     } else if (this.router.url.startsWith(`/loc/edit`) || this.router.url.startsWith(`/loc/view`)) {
       // console.log('In Location');
       if (this.data.locationId) {
-        // this.getSignalsAssociatedByLocationId(this.data.locationId);
+        this.getSignalsAssociatedByLocationId(this.data.locationId);
       }
     } else if (this.router.url.startsWith(`/asset/view`) || this.router.url.startsWith(`/asset/edit`)) {
       // console.log('In Asset');
       if (this.data.assetId) {
-        // this.getSignalsAssociatedByAssetId(this.data.assetId);
+        this.getSignalsAssociatedByAssetId(this.data.assetId);
       }
     }
   }
@@ -175,6 +216,121 @@ export class VotmLiveDataComponent implements OnInit {
     // console.log('this.signals ', this.signals);
   }
 
+  selectSignal(idx) {
+    if (idx === -1) {
+      this.selAll = !this.selAll;
+      this.signals.forEach(signal => signal.sel = this.selAll);
+      this.selCount = (this.selAll) ? this.signals.length : 0;
+    } else {
+      this.signals[idx].sel = !this.signals[idx].sel;
+      this.selCount = this.selCount + ((this.signals[idx].sel) ? 1 : -1);
+      this.selAll = (this.selCount === this.signals.length);
+    }
+  }
+
+  getSignalsAssociatedByLocationId(locId: string) {
+    this.timeSeries.getTimeSeriesSignalsByLocationID(locId)
+      .subscribe(async response => {
+        // this.mapSignals(response);
+        await this.getLocationTreeStructure(response, null, null);
+	VotmCommon.getUniqueValues(this.signals);
+        // this.selectSignals();
+      });
+  }
+
+
+  
+  // selectSignals() {
+  //   if (this.signals && this.signals.length > 0 && this.trendChartWidget && this.trendChartWidget.signalY1
+  //     && this.trendChartWidget.signalY1.length > 0) {
+  //     this.trendChartWidget.signalY2.forEach(selectedSignal => {
+  //       this.signals.forEach(signal => {
+  //         if (selectedSignal === signal.signalMappingId) {
+  //           signal.sel = true;
+  //         }
+  //       });
+  //     });
+  //   }
+  // }
+
+  getSignalsAssociatedByAssetId(assetId: string) {
+    this.timeSeries.getTimeSeriesSignalsByAssetID(assetId)
+      .subscribe(async response => {
+        // this.mapSignals(response);
+        await this.getAssetTreeStrucutre(response, null, null, null);
+	VotmCommon.getUniqueValues(this.signals);
+        // this.selectSignals();
+      });
+  }
+
+  getLocationTreeStructure(location, locationLabel = null, orgLabel) {
+    const locLabel = (locationLabel ? (locationLabel + ' > ' ) : '') + location.shortName;
+    location.signals.forEach(signal => {
+        this.getSignalStructure(signal, orgLabel, locLabel, null);
+    });
+    if (location.assets.length > 0) {
+      location.assets.forEach(asset => {
+        this.getAssetTreeStrucutre(asset, null, locLabel, orgLabel);
+      });
+    }
+    if (location.locations) {
+      location.locations.forEach(childLoc => {
+        this.getLocationTreeStructure(childLoc, locLabel, orgLabel);
+      });
+    }
+  }
+
+  getAssetTreeStrucutre(asset, assetLabel, locLabel, orgLabel) {
+    const aLabel = (assetLabel ? (assetLabel + ' > ' ) : '') + asset.shortName;
+    asset.signals.forEach(signal => {
+      this.getSignalStructure(signal, orgLabel, locLabel, aLabel);
+    });
+    if (asset.assets.length > 0) {
+      asset.assets.forEach(childasset => {
+        this.getAssetTreeStrucutre(childasset, aLabel, locLabel, orgLabel);
+      });
+    }
+  }
+
+  getSignalStructure(signal, orgLabel, locLabel, assetLabel) {
+
+    if (orgLabel) {
+      let list = [];
+      list = orgLabel.split(' > ');
+      orgLabel = list[list.length - 1] + ' > ' + (locLabel ? (locLabel + ' > ') : '') + (assetLabel ? (assetLabel + ' > ') : '');
+    } else {
+      orgLabel = (locLabel ? (locLabel + ' > ') : '') + (assetLabel ? (assetLabel + ' > ') : '');
+    }
+    if (locLabel) {
+      let list = [];
+      list = locLabel.split(' > ');
+      locLabel = list[list.length - 1] + ' > ' + (assetLabel ? (assetLabel + ' > ') : '');
+    } else {
+      locLabel = (assetLabel ? (assetLabel + ' > ') : '');
+    }
+    if (assetLabel) {
+      let list = [];
+      list = assetLabel.split(' > ');
+      assetLabel = assetLabel + ' > ';
+    }
+    console.log(orgLabel);
+    console.log(locLabel);
+    console.log(assetLabel);
+    this.signals.push({
+      type: signal.signalType,
+      organization: orgLabel,
+      location: locLabel,
+      asset: assetLabel,
+      name: signal.signalName, sel: false, value: signal.Value,
+      bat: signal.Battery, rssi: signal.signalId,
+      sensor: signal.sensorName, iconFile: signal.iconFile,
+      signalId: signal.signalId,
+      parkerDeviceId: signal.parkerDeviceId,
+      modifiedOn: this.timestamp,
+      signalMappingId: signal.signalMappingId
+    });
+  }
+
   getShortName(name: string) {
     const splittedNames: string[] = name.split(' ');
     if (splittedNames.length > 1) {
@@ -200,6 +356,7 @@ export class VotmLiveDataComponent implements OnInit {
       }
     });
   }
+  
   setFromDate(count: number, option: moment.unitOfTime.DurationConstructor) {
     return moment().subtract(count, option).toDate();
   }
@@ -344,6 +501,19 @@ export class VotmLiveDataComponent implements OnInit {
 
   loadChart() {
     /* Chart code */
+    let ts = new Date();
+    this.timestamp = moment(new Date()).tz(this.loggedInUser.userConfigSettings[0].timeZoneDescription)
+      .format(moment.localeData(this.loggedInUser.userConfigSettings[0].localeName)
+        .longDateFormat('L')) + ' '
+      + moment(new Date()).tz(this.loggedInUser.userConfigSettings[0].timeZoneDescription)
+        .format(moment.localeData(this.loggedInUser.userConfigSettings[0].localeName)
+          .longDateFormat('LTS'));
+      // Add amCharts 4 license
+      am4core.addLicense("CH192270209");
+      // Add Maps license
+      am4core.addLicense("MP192270209");
+      am4core.options.commercialLicense = true;
+      hideCredits: true;
     // Themes begin
     am4core.useTheme(am4themes_animated);
     // Themes end
@@ -367,6 +537,7 @@ export class VotmLiveDataComponent implements OnInit {
             value: Number(list[i][0]),
             volume: Number(list[i][1]),
           }
+          
         }
 
         // Sort list just in case
@@ -428,6 +599,10 @@ export class VotmLiveDataComponent implements OnInit {
     chart.numberFormatter.numberFormat = "#,###.####";
 
     // Create axes
+
+    // var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
+    // dateAxis.renderer.minGridDistance = 50;
+
     let xAxis = chart.xAxes.push(new am4charts.CategoryAxis());
     xAxis.dataFields.category = "value";
     //xAxis.renderer.grid.template.location = 0;
@@ -472,7 +647,14 @@ export class VotmLiveDataComponent implements OnInit {
 
     // Add cursor
     chart.cursor = new am4charts.XYCursor();
+    // chart.cursor.xAxis = dateAxis;
 
+    // Add Scroll
+    chart.scrollbarX = new am4charts.XYChartScrollbar();
+    (<am4charts.XYChartScrollbar>chart.scrollbarX).series.push(series);
+    chart.scrollbarX.parent = chart.bottomAxesContainer;
   }
+
+
 
 }
