@@ -150,7 +150,7 @@
                         </div>
                         <div class="col-3" *ngIf="imageOverlay.overlaySource === 'location'" >
                             <div class="form-group">
-                                <label for="widgetlocImageID">Location</label>
+                                <label for="widgetlocImageID">Location:</label>
                                 <div class="">
                                     <ng-select id="widgetlocImageID" name="widgetlocImageID" labelForId="widgetlocImageID"
                                         class="custom" [multiple]="false" [(ngModel)]="imageOverlay.overlaySourceID"
@@ -162,7 +162,7 @@
                         </div>
                         <div class="col-3" *ngIf="imageOverlay.overlaySource === 'asset'" >
                             <div class="form-group">
-                                <label for="">Asset</label>
+                                <label for="">Asset:</label>
                                 <div class="">
                                     <ng-select id="widgetassetimageID" name="widgetassetimageID" labelForId="widgetassetimageID" class="custom"
                                         [multiple]="false" [(ngModel)]="imageOverlay.overlaySourceID" placeholder="Choose Asset">
@@ -173,7 +173,7 @@
                         </div>
                         <div class="col-3" *ngIf="imageOverlay.overlaySource === 'custom'" >
                             <div class="form-group">
-                                <label for="">Overlay Image</label>
+                                <label for="">Overlay Image:</label>
                                 <div class="custom-file">
 
                                     <input class="custom-file-input ng-pristine ng-invalid" id="customWidgetImg" type="file"
@@ -185,7 +185,7 @@
                         </div>
                         <div class="col-3">
                             <div class="form-group">
-                                <label for="">Icon Display Size</label>
+                                <label for="">Icon Display Size:</label>
                                 <div class="">
                                     <ng-select id="iconSize" name="iconSize" labelForId="iconSize" class="custom"
                                         [multiple]="false" [(ngModel)]="imageOverlay.iconDisplaySize" placeholder="Choose Size">
