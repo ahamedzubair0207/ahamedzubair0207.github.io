@@ -25,19 +25,19 @@ export class VotmDataTableComponent implements OnInit, OnDestroy {
   @Input() id: string;
   @Input() locked: boolean;
 
-  private wConfig;
-  private configured = false;
-  private wId = '';
-  private selAll = false;
-  private selCount = 0;
-  private showOrg = false;
-  private showLoc = false;
-  private showAsset = true;
-  private showSensor = false;
-  private showStatus = true;
-  private title = '';
-  private timestamp = '';
-  private signalTypes: any[] = [
+  wConfig;
+  configured = false;
+  wId = '';
+  selAll = false;
+  selCount = 0;
+  showOrg = false;
+  showLoc = false;
+  showAsset = true;
+  showSensor = false;
+  showStatus = true;
+  title = '';
+  timestamp = '';
+  signalTypes: any[] = [
     { type: 'Absolute Pressure', uom: 'psi', nominal: 1500, var: 5 },
     { type: 'Temperature', uom: '°F', nominal: 100, var: 2 },
     { type: 'humidity', uom: '%', nominal: 50, var: 1 },
@@ -91,17 +91,14 @@ export class VotmDataTableComponent implements OnInit, OnDestroy {
 
   getSignalData() {
     if (this.router.url.startsWith(`/org/edit`) || this.router.url.startsWith(`/org/view`)) {
-      // console.log('In Organization');
       if (this.data.organizationId) {
         this.getSignalsAssociatedAssetByOrgId(this.data.organizationId);
       }
     } else if (this.router.url.startsWith(`/loc/edit`) || this.router.url.startsWith(`/loc/view`)) {
-      // console.log('In Location');
       if (this.data.locationId) {
         this.getSignalsAssociatedByLocationId(this.data.locationId);
       }
     } else if (this.router.url.startsWith(`/asset/view`) || this.router.url.startsWith(`/asset/edit`)) {
-      // console.log('In Asset');
       if (this.data.assetId) {
         this.getSignalsAssociatedByAssetId(this.data.assetId);
       }
@@ -110,7 +107,6 @@ export class VotmDataTableComponent implements OnInit, OnDestroy {
 
 
   ngOnDestroy() {
-    // console.log('on destroy');
     this.signalRService.closeSignalRConnection();
   }
 
@@ -118,7 +114,6 @@ export class VotmDataTableComponent implements OnInit, OnDestroy {
     this.configSettingsService.getDataTableConfigScreenLabels()
       .subscribe(response => {
         this.pageLabels = response;
-        // // console.log('Screens Labels', this.pageLabels);
       });
   }
 
@@ -126,20 +121,20 @@ export class VotmDataTableComponent implements OnInit, OnDestroy {
     this.signalRService.closeSignalRConnection();
     this.modalService.open(config, { size: 'lg' }).result.then((result) => {
       if (result === 'save') {
-        this.configured = true;
-        this.wConfig.showOrg = this.showOrg;
-        this.wConfig.showLoc = this.showLoc;
-        this.wConfig.showAsset = this.showAsset;
-        this.wConfig.showSensor = this.showSensor;
-        this.wConfig.showStatus = this.showStatus;
-        this.wConfig.title = this.title;
-        this.timestamp = moment(new Date()).tz(this.loggedInUser.userConfigSettings[0].timeZoneDescription)
-          .format(moment.localeData(this.loggedInUser.userConfigSettings[0].localeName)
-            .longDateFormat('L')) + ' '
-          + moment(new Date()).tz(this.loggedInUser.userConfigSettings[0].timeZoneDescription)
-            .format(moment.localeData(this.loggedInUser.userConfigSettings[0].localeName)
-              .longDateFormat('LTS'));
-        this.liveSignalValues();
+        // this.configured = true;
+        // this.wConfig.showOrg = this.showOrg;
+        // this.wConfig.showLoc = this.showLoc;
+        // this.wConfig.showAsset = this.showAsset;
+        // this.wConfig.showSensor = this.showSensor;
+        // this.wConfig.showStatus = this.showStatus;
+        // this.wConfig.title = this.title;
+        // this.timestamp = moment(new Date()).tz(this.loggedInUser.userConfigSettings[0].timeZoneDescription)
+        //   .format(moment.localeData(this.loggedInUser.userConfigSettings[0].localeName)
+        //     .longDateFormat('L')) + ' '
+        //   + moment(new Date()).tz(this.loggedInUser.userConfigSettings[0].timeZoneDescription)
+        //     .format(moment.localeData(this.loggedInUser.userConfigSettings[0].localeName)
+        //       .longDateFormat('LTS'));
+
 
         const selectedSignals = [];
         this.signals.forEach(signal => {
@@ -155,18 +150,20 @@ export class VotmDataTableComponent implements OnInit, OnDestroy {
           published: true,
           active: true
         };
-        console.log('datatablebody ', datatablebody);
+        // console.log('datatablebody ', datatablebody);
         if (this.dashboardWidget) {
           // tslint:disable-next-line: no-string-literal
           datatablebody['dashboardWidgetId'] = this.dashboardWidget.dashboardWidgetId;
           this.dashboardService.updateDashboardWidget(datatablebody)
           .subscribe(response => {
             this.toaster.onSuccess('Chart Updated Successfully', 'Success');
+            this.getDashboardWidget();
           });
         } else {
           this.dashboardService.saveDashboardWidget(datatablebody)
             .subscribe(response => {
               this.toaster.onSuccess('Chart Configured Successfully', 'Success');
+              this.getDashboardWidget();
             });
         }
       }
@@ -192,37 +189,6 @@ export class VotmDataTableComponent implements OnInit, OnDestroy {
     this.liveSignalValues();
   }
 
-  private SaveDashboardWidget() {
-    let selectedSignals = [];
-    this.signals.forEach(signal => {
-      if (signal.sel) {
-        selectedSignals.push(signal.signalMappingId);
-      }
-    });
-    this.dataTableWidget.signals = selectedSignals;
-    let datatablebody = {
-      widgetName: 'Data Table Widget',
-      dashBoardId: this.data ? this.data.dashboardId : null,
-      widgetConfiguration: JSON.stringify(this.dataTableWidget),
-      published: true,
-      active: true
-    };
-    console.log('datatablebody ', datatablebody);
-    if (this.dashboardWidget) {
-      datatablebody['dashboardWidgetId'] = this.dashboardWidget.dashboardWidgetId;
-      this.dashboardService.updateDashboardWidget(datatablebody)
-        .subscribe(response => {
-          this.toaster.onSuccess('Chart Updated Successfully', 'Success');
-        });
-    }
-    else {
-      this.dashboardService.saveDashboardWidget(datatablebody)
-        .subscribe(response => {
-          this.toaster.onSuccess('Chart Configured Successfully', 'Success');
-        });
-    }
-  }
-
   getDashboardWidget() {
     this.dashboardService.getDashboardWidgets(this.data.dashboardId)
       .subscribe(response => {
@@ -231,20 +197,17 @@ export class VotmDataTableComponent implements OnInit, OnDestroy {
             if (widget.widgetName === 'Data Table Widget') {
               this.dashboardWidget = widget;
               this.dataTableWidget = JSON.parse(widget.widgetConfiguration);
-              console.log('this.dataTableWidget ', this.dataTableWidget);
+              this.wConfig.showOrg = this.dataTableWidget.displayOrg;
+              this.wConfig.showLoc = this.dataTableWidget.displayLoc;
+              this.wConfig.showAsset = this.dataTableWidget.displayAsset;
+              this.wConfig.showSensor = this.dataTableWidget.displaySensor;
+              this.wConfig.showStatus = this.dataTableWidget.displayStatus;
+              this.wConfig.title = this.dataTableWidget.title;
+              // console.log('this.dataTableWidget ', this.dataTableWidget);
               this.configured = true;
               this.selectSignals();
               this.loadChart();
-              // this.onOrgCheckboxChange();
-              // this.onOrgCheckboxChange();
-              // this.onOrgCheckboxChange();
-              // console.log('getDashboardWidget ', this.dataTableWidget);
-              // this.saveImageOverlayConfiguration([], false);
-              // if (this.imageOverlay.signals) {
-              // }
-              // if (this.imageOverlay.signals) {
 
-              // }
             }
           });
 
@@ -280,7 +243,6 @@ export class VotmDataTableComponent implements OnInit, OnDestroy {
     this.signalRService.getSignalRConnection(connectionString);
     this.signalRService.signalData.subscribe(response => {
       const jsonData = JSON.parse(JSON.stringify(response));
-      // console.log('componnet', jsonData.SignalName, '===', jsonData.SignalValue, '=====', jsonData.ParkerDeviceId);
       const index = this.signals.findIndex(assSig => {
         console.log(jsonData);
         console.log(assSig.parkerDeviceId, '===', jsonData.ParkerDeviceId);
@@ -296,7 +258,7 @@ export class VotmDataTableComponent implements OnInit, OnDestroy {
   }
 
   convertUOMData(signalRObj, index) {
-    console.log(signalRObj);
+    // console.log(signalRObj);
     const arr = [];
     arr.push({
       uomValue: signalRObj.SignalValue,
@@ -383,7 +345,7 @@ export class VotmDataTableComponent implements OnInit, OnDestroy {
       this.dataTableWidget.displayLoc = true;
       this.dataTableWidget.displayAsset = true;
     }
-    console.log('onOrgCheckboxChange ', this.dataTableWidget)
+    // console.log('onOrgCheckboxChange ', this.dataTableWidget)
   }
 
   onLocCheckboxChange() {
@@ -392,7 +354,7 @@ export class VotmDataTableComponent implements OnInit, OnDestroy {
     } else {
       this.dataTableWidget.displayOrg = false;
     }
-    console.log('onOrgCheckboxChange ', this.dataTableWidget)
+    // console.log('onOrgCheckboxChange ', this.dataTableWidget)
   }
 
   onAssetCheckboxChange() {
@@ -400,7 +362,7 @@ export class VotmDataTableComponent implements OnInit, OnDestroy {
       this.dataTableWidget.displayOrg = false;
       this.dataTableWidget.displayLoc = false;
     }
-    console.log('onOrgCheckboxChange ', this.dataTableWidget)
+    // console.log('onOrgCheckboxChange ', this.dataTableWidget)
   }
 
   getUoM(signal) {
@@ -417,132 +379,118 @@ export class VotmDataTableComponent implements OnInit, OnDestroy {
   //     });
   // }
 
-  private mapSignalDataTableValuesForLocAndAsset(response: any) {
-    const sigArray = [];
-    if (response && response.length > 0) {
-      // Location
-      response.forEach(signal => {
-        // Direct Signal
-        sigArray.push({
-          type: signal.signalType, name: `${signal.locationName} > ${signal.associationName}`, sel: false, value: signal.Value,
-          bat: signal.Battery, rssi: signal.signalId, sensor: signal.sensorName, iconFile: signal.iconFile,
-          signalId: signal.signalId,
-          parkerDeviceId: signal.parkerDeviceId,
-          modifiedOn: this.timestamp,
-          signalMappingId: signal.signalMappingId
-        });
+  getOrgTreeStructure(org, organizationLabel = null) {
+    const orgLabel = (organizationLabel ? (organizationLabel + ' > ' ) : '') + org.shortName;
+    if (org.locations) {
+      org.locations.forEach(location => {
+        this.getLocationTreeStructure(location, null, orgLabel);
       });
     }
-    this.signals = VotmCommon.getUniqueValues(sigArray);
-    this.selectSignals();
-    // console.log('this.signals ', this.signals);
+    if (org.organizations) {
+      org.organizations.forEach(organization => {
+        this.getOrgTreeStructure(organization, orgLabel);
+      });
+    }
   }
 
-  getShortName(name: string) {
-    const splittedNames: string[] = name.split(' ');
-    if (splittedNames.length > 1) {
-      name = splittedNames.map((splitedName) => splitedName[0]).join('');
+  getLocationTreeStructure(location, locationLabel = null, orgLabel) {
+    const locLabel = (locationLabel ? (locationLabel + ' > ' ) : '') + location.shortName;
+    location.signals.forEach(signal => {
+        this.getSignalStructure(signal, orgLabel, locLabel, null);
+    });
+    if (location.assets.length > 0) {
+      location.assets.forEach(asset => {
+        this.getAssetTreeStrucutre(asset, null, locLabel, orgLabel);
+      });
     }
-    return name;
+    if (location.locations) {
+      location.locations.forEach(childLoc => {
+        this.getLocationTreeStructure(childLoc, locLabel, orgLabel);
+      });
+    }
   }
 
-  private mapSignalDataTableValuesForOrganization(response: any, isParent: boolean = false) {
-    const sigArray = [];
-    if (response) {
-      // Location
-      if (response.locations && response.locations.length > 0) {
-        response.locations.forEach(location => {
-          // Direct Signal
-          if (location.signals && location.signals.length > 0) {
-            location.signals.forEach(signal => {
-              sigArray.push({
-                type: signal.signalType,
-                name: `${!isParent ? this.getShortName(response.organizationName) + ' > ' : ''}${this.getShortName(location.locationName)}
-                > ${signal.associationName}`, sel: false, value: signal.Value,
-                bat: signal.Battery, rssi: signal.signalId, sensor: signal.sensorName, iconFile: signal.iconFile,
-                signalId: signal.signalId,
-                parkerDeviceId: signal.parkerDeviceId,
-                modifiedOn: this.timestamp,
-                signalMappingId: signal.signalMappingId
-              });
-            });
-          }
-          // Asset
-          if (location.assets && location.assets.length > 0) {
-            location.assets.forEach(asset => {
-              if (asset.signals && asset.signals.length > 0) {
-                asset.signals.forEach(signal => {
-                  sigArray.push({
-                    type: signal.signalType,
-                    name: `${!isParent ? this.getShortName(response.organizationName) + ' > ' : ''}
-                    ${this.getShortName(location.locationName)}> ${this.getShortName(asset.assetName)}
-                    > ${signal.associationName}`, sel: false,
-                    value: signal.Value, bat: signal.Battery, rssi: signal.signalId, sensor: signal.sensorName, iconFile: signal.iconFile,
-                    signalId: signal.signalId,
-                    parkerDeviceId: signal.parkerDeviceId,
-                    modifiedOn: this.timestamp,
-                    signalMappingId: signal.signalMappingId
-                  });
-                });
-              }
-            });
-          }
-        });
-      }
+  getAssetTreeStrucutre(asset, assetLabel, locLabel, orgLabel) {
+    const aLabel = (assetLabel ? (assetLabel + ' > ' ) : '') + asset.shortName;
+    asset.signals.forEach(signal => {
+      this.getSignalStructure(signal, orgLabel, locLabel, aLabel);
+    });
+    if (asset.assets.length > 0) {
+      asset.assets.forEach(childasset => {
+        this.getAssetTreeStrucutre(childasset, aLabel, locLabel, orgLabel);
+      });
     }
-    if (!this.signals) {
-      this.signals = [];
-    }
-    this.signals.push(...sigArray);
-    // this.signals = [this.signals, ...VotmCommon.getUniqueValues(sigArray)];
+  }
 
-    // this.signals = sigArray; //.reduce((acc, cur) => acc.some(x => (x.id === cur.id)) ? acc : acc.concat(cur), [])
-    // console.log('this.signals ', this.signals);
+  getSignalStructure(signal, orgLabel, locLabel, assetLabel) {
+
+    if (orgLabel) {
+      let list = [];
+      list = orgLabel.split(' > ');
+      orgLabel = list[list.length - 1] + ' > ' + (locLabel ? (locLabel + ' > ') : '') + (assetLabel ? (assetLabel + ' > ') : '');
+    } else {
+      orgLabel = (locLabel ? (locLabel + ' > ') : '') + (assetLabel ? (assetLabel + ' > ') : '');
+    }
+    if (locLabel) {
+      let list = [];
+      list = locLabel.split(' > ');
+      locLabel = list[list.length - 1] + ' > ' + (assetLabel ? (assetLabel + ' > ') : '');
+    } else {
+      locLabel = (assetLabel ? (assetLabel + ' > ') : '');
+    }
+    if (assetLabel) {
+      let list = [];
+      list = assetLabel.split(' > ');
+      assetLabel = assetLabel + ' > ';
+    }
+    console.log(orgLabel);
+    console.log(locLabel);
+    console.log(assetLabel);
+    this.signals.push({
+      type: signal.signalType,
+      organization: orgLabel,
+      location: locLabel,
+      asset: assetLabel,
+      name: signal.signalName, sel: false, value: signal.Value,
+      bat: signal.Battery, rssi: signal.signalId,
+      sensor: signal.sensorName, iconFile: signal.iconFile,
+      signalId: signal.signalId,
+      parkerDeviceId: signal.parkerDeviceId,
+      modifiedOn: this.timestamp,
+      signalMappingId: signal.signalMappingId
+    });
   }
 
   getSignalsAssociatedAssetByOrgId(orgId: string) {
     this.timeSeries.getSignalsAssociatedAssetByOrgId(orgId)
-      .subscribe(response => {
+      .subscribe(async response => {
         // console.log('Time Series Signal', response);
         // this.mapSignals(response);
         if (response) {
-          this.passOrganizationsToMap(response);
+          await this.getOrgTreeStructure(response);
+          VotmCommon.getUniqueValues(this.signals);
           this.selectSignals();
         }
       });
   }
 
-  passOrganizationsToMap(organization) {
-    if (organization) {
-      this.mapSignalDataTableValuesForOrganization(organization, this.isParent);
-      if (this.isParent) {
-        this.isParent = false;
-      }
-
-      if (organization.organizations && organization.organizations.length > 0) {
-        organization.organizations.forEach(subOrg => {
-          this.passOrganizationsToMap(subOrg);
-        });
-      }
-    }
-    VotmCommon.getUniqueValues(this.signals);
-  }
-
   getSignalsAssociatedByLocationId(locId: string) {
     this.timeSeries.getTimeSeriesSignalsByLocationID(locId)
-      .subscribe(response => {
-        // console.log('Signals by Location ID', response);
+      .subscribe(async response => {
         // this.mapSignals(response);
-        this.mapSignalDataTableValuesForLocAndAsset(response);
+        await this.getLocationTreeStructure(response, null, null);
+	VotmCommon.getUniqueValues(this.signals);
+        this.selectSignals();
       });
   }
 
   getSignalsAssociatedByAssetId(assetId: string) {
     this.timeSeries.getTimeSeriesSignalsByAssetID(assetId)
-      .subscribe(response => {
-        // console.log('Signals by Asset ID', response);
+      .subscribe(async response => {
         // this.mapSignals(response);
-        this.mapSignalDataTableValuesForLocAndAsset(response);
+        await this.getAssetTreeStrucutre(response, null, null, null);
+	VotmCommon.getUniqueValues(this.signals);
+        this.selectSignals();
       });
   }
 }

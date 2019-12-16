@@ -1,0 +1,128 @@
+@import "../../../../../styles/david/styles/_functions.scss", "../../../../../styles/david/styles/_variables.scss";
+
+.table-fixed {
+  overflow-y: auto;
+  max-height: calc(((#{$line-height-base} * #{$font-size-base}) + (2 * #{$table-cell-padding-sm}) + 1px) * 7 + 2px);
+  border: 1px solid $gray-300;
+  > table {
+    border-collapse: collapse;
+    width: calc(100% + 2px);
+    margin-left: -1px;
+    margin-top: -1px;
+  }
+  th {
+    position: sticky;
+    top: -1px;
+    background: $gray-200;
+    z-index: 1;
+    &:after {
+      content: "";
+      display: block;
+      position: absolute;
+      right: 0;
+      bottom: -1px;
+      left: 0;
+      height: 1px;
+      background-color: $gray-300;
+    }
+  }
+}
+
+.range-actions {
+  display: block;
+  position: absolute;
+  top: 0.25rem;
+  left: 0.25rem;
+  label.btn-sm {
+    padding: 0.05rem 0.3rem;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// @import "../../../../../styles/_functions.scss", "../../../../../styles/_variables.scss" ;
+
+// .table-fixed {
+//     overflow-y: scroll;
+//     overflow-x: hidden;
+//     max-height: calc(((#{$line-height-base} * #{$font-size-base}) + (2 * #{$table-cell-padding-sm}) + 1px) * 7 + 2px);
+//     border: 1px solid $gray-300;
+//     > table {
+//       border-collapse: collapse;
+//       width: calc(100% + 2px);
+//       margin-left: -1px;
+//       margin-top: -1px;
+//     }
+//     th {
+//       position: sticky;
+//       top: -1px;
+//       background: $gray-200;
+//       z-index: 1;
+//       &:after {
+//         content: "";
+//         display: block;
+//         position: absolute;
+//         right: 0;
+//         bottom: -1px;
+//         left: 0;
+//         height: 1px;
+//         background-color: $gray-300;
+//       }
+//     }
+//   }
+  
+//   .range-actions {
+//     display: block;
+//     position: absolute;
+//     top: 0.25rem;
+//     left: 0.25rem;
+//     label.btn-sm {
+//       padding: 0.05rem 0.3rem;
+//     }
+//   }
+
+
+  // .chart-actions {
+  //   // display: block;
+  //   // position: absolute;
+  //   top: 0.25rem;
+  //   right: 0.25rem;
+  //   .dropdown-item {
+  //     &.custom-checkbox {
+  //       padding: 0.25rem 0.75rem 0.25rem 2.25rem;
+  //     }
+  //     @at-root button#{&} {
+  //       padding: 0.25rem 0.75rem;
+  //     }
+  //   }
+  //   > .dropdown,
+  //   > a {
+  //     display: inline-block;
+  //   }
+  //   > .dropdown-toggle,
+  //   > .dropdown > a,
+  //   > a {
+  //     border: none;
+  //     color: $gray-600 !important;
+  //     cursor: pointer;
+  //     &:hover {
+  //       color: $gray-900 !important;
+  //     }
+  //   }
+  //   > .dropdown > .dropdown-toggle:after {
+  //     display: none;
+  //   }
+  // }
+  

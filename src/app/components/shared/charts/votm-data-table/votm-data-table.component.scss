@@ -3,10 +3,8 @@
 .modal-body .table-fixed {
     max-height: calc(((#{$line-height-base} * #{$font-size-base}) + (2 * #{$table-cell-padding-sm}) + 1px) * 7 + 2px);
   }
-  
   .dt-div {
     height: calc(100% - 1.25rem);
-    margin-top: 1.25rem;
     &.dt-titlespace {
       height: calc(100% - (#{$h3-font-size} * #{$headings-line-height}) - #{$headings-margin-bottom}) !important;
       margin-top: 0;
@@ -23,4 +21,3 @@
       }
     }
   }
-  
