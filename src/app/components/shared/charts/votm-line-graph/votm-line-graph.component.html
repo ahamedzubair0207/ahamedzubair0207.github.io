@@ -78,9 +78,9 @@
     </button>
   </div>
   <div class="modal-body">
-    <div class="form-group form-row">
-      <label class="col-3 col-form-label mandatory">{{pageLabels.Signals.labelName}}</label>
-      <div class="col-9">
+    <div class="form-group">
+      <label class="col-form-label mandatory">{{pageLabels.Signals.labelName}}:</label>
+      <div class="">
         <div class="table-fixed">
           <table class="table table-sm table-bordered">
             <thead>
@@ -128,57 +128,69 @@
         </div>
       </div>
     </div>
-    <div class="form-group form-row">
-      <label for="axisDateRngSelect" class="col-3 col-form-label mandatory">{{pageLabels.DateRange.labelName}}</label>
-      <div class="col-3">
-        <ng-select autofocus labelForId="axisDateRngSelect" class="custom" [(ngModel)]="trendChartWidget.dateRange">
-         <ng-option *ngFor="let dr of dateRange" [value]="dr.value">{{dr.name}}</ng-option>
-          <!-- <ng-option value="Min">One Minute</ng-option>
-          <ng-option value="Hour">One Hour</ng-option>
-          <ng-option value="Day">One Day</ng-option>
-          <ng-option value="Week">One Week</ng-option>
-          <ng-option value="Month">One Month</ng-option>
-          <ng-option value="3Month">Three Months</ng-option>
-          <ng-option value="6Month">Six Months</ng-option>
-          <ng-option value="YTD">Year to Date</ng-option>
-          <ng-option value="Year">One Year</ng-option>
-          <ng-option value="All">All Available Data</ng-option> -->
-        </ng-select>
-      </div>
-    </div>
-    <!-- <div *ngIf="yAxisSignals[0] > 0" class="form-group form-row"> -->
-        <div *ngIf="yAxisSignals[0] > 0" class="form-group form-row">
-      <label for="LeftAxis" class="col-3 col-form-label mandatory">{{pageLabels.LeftAxisRange.labelName}}</label>
-      <div class="col-3">
-        <ng-select labelForId="axisY1RngSelect" class="custom" [(ngModel)]="selYAxisRange[0]">
-          <ng-option value="auto">{{pageLabels.Auto.labelName}}</ng-option>
-          <ng-option value="rngMinMax">{{pageLabels.RangeMinMax.labelName}}</ng-option>
-          <ng-option value="fixed">{{pageLabels.Fixed.labelName}}</ng-option>
-        </ng-select>
-      </div>
-      <div [ngClass]="{ 'd-none': !(selYAxisRange[0] == 'fixed') }" class="col-3">
-        <div class="form-row">
-          <div class="col-9">
-            <input type="text" class="form-control" id="y1Min" [(ngModel)]="wConfig.yMin[0]" placeholder="Y1 Min" />
-          </div>
-          <div class="col-3" style="padding-top: calc(.25rem + 1px);">
-            {{ yAxisUoM(0) }}
-          </div>
-        </div>
-      </div>
-      <div [ngClass]="{ 'd-none': !(selYAxisRange[0] == 'fixed') }" class="col-3">
-        <div class="form-row">
-          <div class="col-9">
-            <input type="text" class="form-control" id="y1Max" [(ngModel)]="wConfig.yMax[0]" placeholder="Y1 Max" />
-          </div>
-          <div class="col-3" style="padding-top: calc(.25rem + 1px);">
-            {{ yAxisUoM(0) }}
-          </div>
+    <div class="row">
+    <div class="col-6">
+      <div class="form-group">
+        <label for="axisDateRngSelect" class="col-form-label mandatory">{{pageLabels.DateRange.labelName}}:</label>
+        <div class="">
+          <ng-select autofocus labelForId="axisDateRngSelect" class="custom" [(ngModel)]="trendChartWidget.dateRange">
+            <ng-option *ngFor="let dr of dateRange" [value]="dr.value">{{dr.name}}</ng-option>
+            <!-- <ng-option value="Min">One Minute</ng-option>
+              <ng-option value="Hour">One Hour</ng-option>
+              <ng-option value="Day">One Day</ng-option>
+              <ng-option value="Week">One Week</ng-option>
+              <ng-option value="Month">One Month</ng-option>
+              <ng-option value="3Month">Three Months</ng-option>
+              <ng-option value="6Month">Six Months</ng-option>
+              <ng-option value="YTD">Year to Date</ng-option>
+              <ng-option value="Year">One Year</ng-option>
+              <ng-option value="All">All Available Data</ng-option> -->
+          </ng-select>
         </div>
       </div>
     </div>
+    <div class="col-6">
+      <div class="form-group">
+        <label for="title" class="col-form-label">{{pageLabels.ChartTitle.labelName}}:</label>
+        <div class="">
+          <input type="text" class="form-control" id="title" [(ngModel)]="wConfig['title']" />
+        </div>
+      </div>
+      <!-- <div *ngIf="yAxisSignals[0] > 0" class="form-group form-row"> -->
+      <div *ngIf="yAxisSignals[0] > 0" class="form-group form-row">
+        <label for="LeftAxis" class="col-3 col-form-label mandatory">{{pageLabels.LeftAxisRange.labelName}}</label>
+        <div class="col-3">
+          <ng-select labelForId="axisY1RngSelect" class="custom" [(ngModel)]="selYAxisRange[0]">
+            <ng-option value="auto">{{pageLabels.Auto.labelName}}</ng-option>
+            <ng-option value="rngMinMax">{{pageLabels.RangeMinMax.labelName}}</ng-option>
+            <ng-option value="fixed">{{pageLabels.Fixed.labelName}}</ng-option>
+          </ng-select>
+        </div>
+        <div [ngClass]="{ 'd-none': !(selYAxisRange[0] == 'fixed') }" class="col-3">
+          <div class="form-row">
+            <div class="col-9">
+              <input type="text" class="form-control" id="y1Min" [(ngModel)]="wConfig.yMin[0]" placeholder="Y1 Min" />
+            </div>
+            <div class="col-3" style="padding-top: calc(.25rem + 1px);">
+              {{ yAxisUoM(0) }}
+            </div>
+          </div>
+        </div>
+        <div [ngClass]="{ 'd-none': !(selYAxisRange[0] == 'fixed') }" class="col-3">
+          <div class="form-row">
+            <div class="col-9">
+              <input type="text" class="form-control" id="y1Max" [(ngModel)]="wConfig.yMax[0]" placeholder="Y1 Max" />
+            </div>
+            <div class="col-3" style="padding-top: calc(.25rem + 1px);">
+              {{ yAxisUoM(0) }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
     <div *ngIf="yAxisSignals[1] > 0" class="form-group form-row">
-      <label for="RightAxis" class="col-3 col-form-label mandatory">{{pageLabels.RightAxisRange.labelName}}</label>
+      <label for="RightAxis" class="col-3 col-form-label mandatory">{{pageLabels.RightAxisRange.labelName}}:</label>
       <div class="col-3">
         <ng-select #axisY2RngSelect labelForId="axisY2RngSelect" class="custom" [(ngModel)]="selYAxisRange[1]">
           <ng-option value="auto">{{pageLabels.Auto.labelName}}</ng-option>
@@ -207,15 +219,10 @@
         </div>
       </div>
     </div>
-    <div class="form-group form-row">
-      <label for="title" class="col-3 col-form-label">{{pageLabels.ChartTitle.labelName}}</label>
-      <div class="col-9">
-        <input type="text" class="form-control" id="title" [(ngModel)]="wConfig['title']" />
-      </div>
-    </div>
-    <div class="form-group form-row">
-      <label for="showThresholds" class="col-3 col-form-label mandatory">{{pageLabels.DisplayThresholds.labelName}}</label>
-      <div class="col-9">
+    
+    <div class="form-group">
+      <label for="showThresholds" class="col-form-label mandatory">{{pageLabels.DisplayThresholds.labelName}}:</label>
+      <div class="">
         <div class="custom-control custom-radio custom-control-inline" style="padding-top: calc(.25rem + 1px);">
           <input type="radio" [checked]="trendChartWidget.displayThrshold.indexOf('none')>=0" (change)="onDisplayThresholdsChange($event, 'none')" id="noThresholds" name="showThresholds" class="custom-control-input" />
           <label class="custom-control-label" for="noThresholds">{{pageLabels.None.labelName}}</label>
@@ -230,8 +237,8 @@
         </div>
       </div>
     </div>
-    <div class="form-group form-row">
-      <label for="showEvents" class="col-3 col-form-label mandatory">{{pageLabels.DisplayDefaults.labelName}}</label>
+    <div class="form-group row">
+      <label for="showEvents" class="col-12 col-form-label mandatory">{{pageLabels.DisplayDefaults.labelName}}:</label>
       <div class="col-3">
         <div class="custom-control custom-switch" style="padding-top: calc(.25rem + 1px);">
           <input type="checkbox" class="custom-control-input" [(ngModel)]="trendChartWidget.eventFlags" id="showEvents" [checked]="showEvents"/>
@@ -251,18 +258,9 @@
         </div>
       </div>
     </div>
-    <div class="form-group row pt-1 mb-0">
-      <div class="col"></div>
-      <div class="col-auto pr-0">
-        <button type="button" class="btn btn-secondary" (click)="modal.close()">
-          Cancel
-        </button>
-      </div>
-      <div class="col-auto">
-        <button type="button" class="btn btn-primary" (click)="modal.close('save');">
-          Save
-        </button>
-      </div>
-    </div>
+  </div>
+  <div class="modal-footer">
+      <button type="button" class="btn btn-outline-secondary" (click)="modal.close()">Cancel</button>
+      <button type="button" class="btn btn-primary" (click)="modal.close('save');">Save</button>
   </div>
 </ng-template>

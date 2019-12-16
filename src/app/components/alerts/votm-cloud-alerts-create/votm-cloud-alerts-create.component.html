@@ -151,7 +151,7 @@
                                 </div>
                                 <div class="col-8 pl-1">
                                 <div class="input-group">
-                                  <input [disabled]="!threshold.active" id="thresholdLowCra" type="text" name="{{threshold.alertConfigurationId}}"
+                                  <input [disabled]="!threshold.active" id="threshold{{threshold.alertConfigurationLabel}}" type="text" name="{{threshold.alertConfigurationId}}"
                                     [(ngModel)]="threshold.alertConfigurationValue" class="form-control form-control-sm brd-radius-tr-br" />
                                   <div class="">
                                     <span class="form-control-sm border-0" *ngIf="alert.alertRuleTypeId === ruleTypes[0].id">

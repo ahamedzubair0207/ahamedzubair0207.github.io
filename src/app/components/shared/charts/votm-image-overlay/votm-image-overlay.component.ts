@@ -74,6 +74,8 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
   saveCustomImageOverlayFlag = false;
   customImage: Logo;
   assetDashboard = false;
+  fileExtension: any;
+  entityList: any[] = [];
 
   constructor(
     private toastr: ToastrService,
@@ -389,6 +391,10 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
             }
           );
       }
+    } else if (overlaySource === 'custom') {
+      this.getCustomEntityAndSignal();
+      this.showCustomLayout = true;
+      this.isImageOverlayConfigured = true;
     }
   }
 
@@ -451,7 +457,20 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
             if (widget.widgetName === 'Image Overlay Widget') {
               this.dashboardWidget = widget;
               this.imageOverlay = JSON.parse(widget.widgetConfiguration);
-              console.log('getDashboardWidget ', this.imageOverlay);
+              console.log('getDashboardWidget ', this.imageOverlay, widget.logo);
+
+              if (widget.logo && widget.logo.imageName) {
+                this.fileExtension = widget.logo.imageName.slice
+                  ((Math.max(0, widget.logo.imageName.lastIndexOf('.')) || Infinity) + 1);
+                // For svg type files use svg+xml as extention
+                if (this.fileExtension === 'svg') {
+                  this.fileExtension = 'svg+xml';
+                }
+                this.widgetCustomImgURL = this.domSanitizer.bypassSecurityTrustUrl
+                  (`data:image/${this.fileExtension};base64,${widget.logo.image}`);
+                this.customImage = widget.logo;
+              }
+
               this.saveImageOverlayConfiguration([], false);
               // if (this.imageOverlay.signals) {
               // }
@@ -481,22 +500,26 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
         widgetName: 'Image Overlay Widget',
         dashBoardId: this.data ? this.data.dashboardId : null,
         widgetConfiguration: JSON.stringify(this.imageOverlay),
+        logo: null,
         published: true,
         active: true,
       };
     } else {
       console.log('custom widget', droppedList);
       this.imageOverlay.droppedList = droppedList;
-      this.imageOverlay.customImage = this.customImage;
+      // this.imageOverlay.customImage = this.customImage;
       body = {
         widgetName: 'Image Overlay Widget',
         dashBoardId: this.data ? this.data.dashboardId : null,
         widgetConfiguration: JSON.stringify(this.imageOverlay),
+        logo: this.customImage,
         published: true,
         active: true,
       };
+      console.log('body===', this.dashboardWidget, body);
+
       // do not post custom image payload
-      return;
+      // return;
     }
 
     if (saveChartWidget) {
@@ -705,14 +728,34 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
   }
 
   getAssetChildNode(assets, actualAssets) {
+    console.log('getAssetChildNode in==', assets);
+
     for (const item of assets) {
-      item.associated = false;
-      item.icon = 'icon-asset-robot';
-      item.associationName = item.name;
-      item.associated = false;
+      // item.associated = false;
+      // item.icon = 'icon-asset-robot';
+      // item.associationName = item.assetName;
       actualAssets.push(item);
     }
     return actualAssets;
+  }
+
+  getAssetChildNodeList(assets: any[], list) {
+    console.log('getAssetChildNodeList in==', assets);
+
+    // for (const asset of assets) {
+    //   list.push(asset);
+    //   if (asset.assets && asset.assets.length > 0) {
+    //     list = this.getAssetChildNodeList(asset.assets, list);
+    //   }
+    // }
+
+    assets.forEach(asset => {
+      list.push(asset);
+      if (asset.assets && asset.assets.length > 0) {
+        list = this.getAssetChildNodeList(asset.assets, list);
+      }
+    });
+    return list;
   }
 
   getAssetsByLocation(locationId) {
@@ -799,11 +842,15 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
   } // End - getCustomEntityAndSignal
 
   getCustomImageAssetEntity(assetId) {
-    console.log('assetId==', assetId);
+    console.log('getCustomImageAssetEntity assetId==', assetId);
+    this.entityList = [];
     this.dashboardService.getCustomImageAssetEntity(assetId)
       .subscribe(response => {
         console.log('getCustomImageAssetEntity response asset entity == ', response);
-
+        this.entityList = this.getAssetChildNodeList(response.assets, []);
+        this.entityList = this.sharedService.toSortListAlphabetically(this.entityList, 'assetName');
+        console.log('getCustomImageAssetEntity response assetsList after == ', this.entityList);
+        // return;
       });
 
   }

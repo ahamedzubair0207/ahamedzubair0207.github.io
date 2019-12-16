@@ -449,215 +449,66 @@ export class VotmCloudAlertsCreateComponent implements OnInit, OnDestroy {
     this.alertsService.getAllHierarchy(this.orgId, 'organization').subscribe(
       response => {
         response = response.slice().reverse();
-        for (let i = 0; i < response.length; i++) {
-
-          if (i === 0) {
-            this.orgHierarchy = response[i].shortName + ' > ';
-            // // console.log(this.orgHierarchy);
-          } else {
-            this.orgHierarchy = this.orgHierarchy + response[i].shortName + ' > ';
-            // // console.log(this.orgHierarchy);
+        let count = 1;
+        while (count <= response.length) {
+          for (const item of response) {
+            if (item.orderNo === count) {
+              this.orgHierarchy = (this.orgHierarchy ? this.orgHierarchy : '') + item.shortName;
+            }
+            console.log('adasdas', count,  '===', response.length);
+            if (count !== response.length) {
+              this.orgHierarchy = this.orgHierarchy + ' > ';
+            }
           }
+          count++;
         }
       }
     );
   }
 
-  createAssetCheckedProperties() {
+  async createAssetCheckedProperties() {
     // // console.log('this.alertRuleSignalAssociatedAsset ', this.alertRuleSignalAssociatedAsset);
 
     if (!this.selectedSignals) {
       this.selectedSignals = [];
     }
     this.treeSignalAssociationList = [];
-    this.getOrgTreeStructure(this.alertRuleSignalAssociatedAsset, {});
-    // if (this.alertRuleSignalAssociatedAsset) {
-    //   this.treeSignalAssociationList = [];
-    //   this.assetsChecked[this.alertRuleSignalAssociatedAsset.organizationId] = false;
-    //   const treeNode: TreeNode = {};
-    //   treeNode.data = { id: this.alertRuleSignalAssociatedAsset.organizationId,
-    //     label: this.orgHierarchy,
-    //     value: this.alertRuleSignalAssociatedAsset, parent: null };
-    //   treeNode.children = [];
-    //   treeNode.expanded = true;
-    //   this.treeSignalAssociationList.push(treeNode);
-    //   if (this.alertRuleSignalAssociatedAsset.locations && this.alertRuleSignalAssociatedAsset.locations.length > 0) {
-    //     this.alertRuleSignalAssociatedAsset.locations.forEach(location => {
-    //       // console.log('locnamr     ', location.locationName);
-    //       this.assetsChecked[location.locationId] = false;
-    //       const locTreeNode: TreeNode = {};
-    //       locTreeNode.data = { id: location.locationId, label: treeNode.data.label +
-    //         (location.signals.length > 0 ? location.locationName : location.shortName),
-    //         value: location, parent: null };
-    //       locTreeNode.children = [];
-    //       locTreeNode.expanded = true;
-    //       location.signals.forEach(signal => {
-    //         locTreeNode.children.push({
-    //           expanded: true, data: {
-    //             id: signal.signalMappingId,
-    //             label: signal.associationName ? signal.associationName : signal.signalName,
-    //             value: signal, parent: location
-    //           }
-    //         });
-    //       });
-    //       this.treeSignalAssociationList.push(locTreeNode);
-    //       if (location.assets.length > 0) {
-    //         location.assets.forEach(asset => {
-    //           // console.log('asset name     ', asset.assetName);
-    //           const tempTreeNode: TreeNode = {};
-    //           // console.log(asset.assetName);
-    //           this.assetsChecked[asset.assetId] = false;
-    //           tempTreeNode.data = { id: asset.assetId, label: locTreeNode.data.label + ' > ' +
-    //           (asset.signals.length > 0 ? asset.assetName : asset.shortName),
-    //           value: asset, parent: null };
-    //           tempTreeNode.children = [];
-    //           tempTreeNode.expanded = true;
-    //           asset.signals.forEach(signal => {
-    //             tempTreeNode.children.push({
-    //               expanded: true, data: {
-    //                 id: signal.signalMappingId,
-    //                 label: signal.associationName ? signal.associationName : signal.signalName,
-    //                 value: signal, parent: asset
-    //               }
-    //             });
-    //           });
-    //           this.treeSignalAssociationList.push(tempTreeNode);
-    //           // this.selectUnselectAssetCheckbox(asset);
-    //         });
-    //       }
-
-    //     });
-    //     if (
-    //       this.alertRuleSignalAssociatedAsset.organizations &&
-    //       this.alertRuleSignalAssociatedAsset.organizations.length > 0) {
-    //         this.getOrgTreeStructure1(this.alertRuleSignalAssociatedAsset.organizations, treeNode, true);
-    //     } else {
-    //       const arrList = [];
-    //       this.treeSignalAssociationList.forEach(item => {
-    //         if (item.children.length > 0) {
-    //           arrList.push(item);
-    //         }
-    //       });
-    //       this.treeSignalAssociationList = [...arrList];
-    //     }
-    //   }
-    //   // console.log('fonal', this.treeSignalAssociationList);
-    // }
-
+    await this.getOrgTreeStructure(this.alertRuleSignalAssociatedAsset);
+    const arrList = [];
+    this.treeSignalAssociationList.forEach(item => {
+      if (item.children.length > 0) {
+        arrList.push(item);
+      }
+    });
+    this.treeSignalAssociationList = [...arrList];
     this.selectSignals();
-    // // console.log(' this.treeSignalAssociationList ', this.treeSignalAssociationList);
   }
 
-  // getOrgTreeStructure1(orgs, parentOrg, iconFlag) {
-  //   // console.log('function recursion');
-  //   orgs.forEach(organization => {
-  //     // console.log('orgnamr     ', organization.organizationName);
-  //     this.assetsChecked[organization.organizationId] = false;
-  //     const treeNode: TreeNode = {};
-  //     treeNode.data = { id: organization.organizationId,
-  //       label: parentOrg.data.label + (!iconFlag ? ' > ' : '') + organization.shortName,
-  //       value: organization, parent: null};
-  //     treeNode.children = [];
-  //     treeNode.expanded = true;
-
-  //     // organization.locations.forEach(location => {
-  //     //   treeNode.children.push({
-  //     //     expanded: true, data: {
-  //     //       id: location.signalMappingId,
-  //     //       label: location.associationName ? location.associationName : location.signalName,
-  //     //       value: location, parent: location
-  //     //     }
-  //     //   });
-  //     // });
-  //     this.treeSignalAssociationList.push(treeNode);
-  //     if (organization.locations.length > 0) {
-  //       organization.locations.forEach(location => {
-  //         // console.log('locnamr     ', location.locationName);
-  //         this.assetsChecked[location.locationId] = false;
-  //         const locTreeNode: TreeNode = {};
-  //         locTreeNode.data = { id: location.locationId, label: treeNode.data.label + ' > ' +
-  //           (location.signals.length > 0 ? location.locationName : location.shortName),
-  //           value: location, parent: null };
-  //         locTreeNode.children = [];
-  //         locTreeNode.expanded = true;
-  //         location.signals.forEach(signal => {
-  //           locTreeNode.children.push({
-  //             expanded: true, data: {
-  //               id: signal.signalMappingId,
-  //               label: signal.associationName ? signal.associationName : signal.signalName,
-  //               value: signal, parent: location
-  //             }
-  //           });
-  //         });
-  //         this.treeSignalAssociationList.push(locTreeNode);
-  //         if (location.assets.length > 0) {
-  //           location.assets.forEach(asset => {
-  //             // console.log('asset name     ', asset.assetName);
-  //             const tempTreeNode: TreeNode = {};
-  //             // console.log(asset.assetName);
-  //             this.assetsChecked[asset.assetId] = false;
-  //             tempTreeNode.data = { id: asset.assetId, label: locTreeNode.data.label + ' > ' +
-  //             (asset.signals.length > 0 ? asset.assetName : asset.shortName)
-  //             , value: asset, parent: null };
-  //             tempTreeNode.children = [];
-  //             tempTreeNode.expanded = true;
-  //             asset.signals.forEach(signal => {
-  //               tempTreeNode.children.push({
-  //                 expanded: true, data: {
-  //                   id: signal.signalMappingId,
-  //                   label: signal.associationName ? signal.associationName : signal.signalName,
-  //                   value: signal, parent: asset
-  //                 }
-  //               });
-  //             });
-  //             this.treeSignalAssociationList.push(tempTreeNode);
-  //             // this.selectUnselectAssetCheckbox(asset);
-  //           });
-  //         }
-  //       });
-  //     }
-
-
-  //     if (organization.organizations.length > 0) {
-  //       this.getOrgTreeStructure1(organization.organizations, treeNode, false);
-  //     }
-  //   });
-  //   const arrList = [];
-  //   this.treeSignalAssociationList.forEach(item => {
-  //     if (item.children.length > 0) {
-  //       arrList.push(item);
-  //     }
-  //   });
-  //   this.treeSignalAssociationList = [...arrList];
-  // }
-
-  getOrgTreeStructure(org, parentOrg) {
-    console.log(org);
+  getOrgTreeStructure(org, organizationLabel = null) {
+    const orgLabel = (organizationLabel ? (organizationLabel + ' > ' ) : '') + org.shortName;
     this.assetsChecked[org.organizationId] = false;
     const treeNode: TreeNode = {};
     treeNode.data = { id: org.organizationId,
-      label: (parentOrg.data && parentOrg.data.label ? (parentOrg.data.label + org.shortName + ' > ') : this.orgHierarchy),
+      label: (organizationLabel ? (organizationLabel + ' > ' ) : '') + org.organizationName,
       value: org, parent: null };
     treeNode.children = [];
     treeNode.expanded = true;
-    console.log(org.locations);
     if (org.locations) {
       org.locations.forEach(location => {
-        this.getLocationTreeStructure(location, treeNode);
+        this.getLocationTreeStructure(location, orgLabel);
       });
     }
-    console.log(org.organizations);
     if (org.organizations) {
       org.organizations.forEach(organization => {
-        this.getOrgTreeStructure(organization, treeNode);
+        this.getOrgTreeStructure(organization, orgLabel);
       });
     }
   }
 
-  getLocationTreeStructure(location, treeNode) {
+  getLocationTreeStructure(location, locationLabel) {
     const locTreeNode: TreeNode = {};
-    locTreeNode.data = { id: location.locationId, label: treeNode.data.label +
-      (location.signals.length > 0 ? location.locationName : location.shortName),
+    const locLabel = locationLabel + ' > ' + location.shortName;
+    locTreeNode.data = { id: location.locationId, label: locationLabel + ' > ' + location.locationName,
       value: location, parent: null };
     locTreeNode.children = [];
     locTreeNode.expanded = true;
@@ -667,22 +518,22 @@ export class VotmCloudAlertsCreateComponent implements OnInit, OnDestroy {
     this.treeSignalAssociationList.push(locTreeNode);
     if (location.assets.length > 0) {
       location.assets.forEach(asset => {
-        this.getAssetTreeStrucutre(asset, locTreeNode);
+        this.getAssetTreeStrucutre(asset, locLabel);
       });
     }
     if (location.locations) {
       location.locations.forEach(childLoc => {
-        this.getLocationTreeStructure(childLoc, locTreeNode);
+        this.getLocationTreeStructure(childLoc, locLabel);
       });
     }
   }
 
-  getAssetTreeStrucutre(asset, locTreeNode) {
+  getAssetTreeStrucutre(asset, assetLabel) {
     const tempTreeNode: TreeNode = {};
         // console.log(asset.assetName);
     this.assetsChecked[asset.assetId] = false;
-    tempTreeNode.data = { id: asset.assetId, label: locTreeNode.data.label + ' > ' +
-    (asset.signals.length > 0 ? asset.assetName : asset.shortName),
+    const aLabel = assetLabel + ' > ' + asset.shortName;
+    tempTreeNode.data = { id: asset.assetId, label: assetLabel + ' > ' + asset.assetName,
     value: asset, parent: null };
     tempTreeNode.children = [];
     tempTreeNode.expanded = true;
@@ -690,6 +541,11 @@ export class VotmCloudAlertsCreateComponent implements OnInit, OnDestroy {
       tempTreeNode.children = this.getSignalStructure(signal, asset, tempTreeNode.children);
     });
     this.treeSignalAssociationList.push(tempTreeNode);
+    if (asset.assets.length > 0) {
+      asset.assets.forEach(childasset => {
+        this.getAssetTreeStrucutre(childasset, aLabel);
+      });
+    }
   }
 
   getSignalStructure(signal, parent, list) {

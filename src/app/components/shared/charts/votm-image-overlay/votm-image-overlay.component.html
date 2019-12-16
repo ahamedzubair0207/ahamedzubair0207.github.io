@@ -74,6 +74,43 @@
           </div>
 
     </div>
+
+    <div *ngIf="isImageOverlayConfigured && imageOverlay.overlaySource === 'custom'" id="{{ 'image-overlay' + wId }}" class="h-100 w-100">
+        <div class=" h-100 assoc-pane" (window:resize)="onResize($event)">
+
+            <!--  [src]="imgURL" -->
+            <!-- <img #overlayImage [src]="widgetimgURL" class="assoc-img" (load)="onLoadLocImg()"  />  -->
+            <img #overlayImage [src]="widgetCustomImgURL" class="assoc-img" (load)="onLoadLocImg()" />
+            <!-- <div
+              id="asset_{{i}}"
+              *ngFor="let item of associatedAssets; let i = index;"
+              style="position: absolute;"
+              class="signal-item {{ item.icon }}"
+              [ngClass]="getAlarmStatusclass(item.alarmStatus)"
+              (mouseenter)="displaySignalHoverContent['a-'+i] = true"
+              (mouseleave)="displaySignalHoverContent['a-'+i] = false"
+              [style.left.px]="imgOffsetLeft + item.imageCoordinates[imageOverlay.overlaySource === 'location' ? item.assetId : item.childAssetId].x * imgOffsetWidth - 16"
+              [style.top.px]="imgOffsetTop + item.imageCoordinates[imageOverlay.overlaySource === 'location' ? item.assetId : item.childAssetId].y * imgOffsetHeight - 16"
+            >
+            <ng-container *ngIf="!displaySignalHoverContent['a-' + i]; else hoveredAssetContent" >
+                <ng-container *ngIf="imageOverlay && !imageOverlay.iconDisplaySize.includes('small')">{{imageOverlay.overlaySource === 'location' ? item.assetName : item.childAssetName}}</ng-container>
+            </ng-container>
+            <ng-template #hoveredAssetContent>
+                <span class="values-assets">
+                  <p><b>QCD > {{item.locationName}} >  {{imageOverlay.overlaySource === 'location' ? item.assetName : item.childAssetName}}</b>
+                    {{item.modifiedOn}}
+                  <b>Critical alarm on asset</b></p>
+                  <hr class="mt-1 mb-1">
+                  <p><b>Critical: Control Cabinet Temperature</b>
+                  Temperature: 142&deg; F<br/>
+                  Above critical threshold of 95&deg; F</p>
+                </span>
+            </ng-template>
+
+            </div> -->
+          </div>
+
+    </div>
 </div>
 
 <!-- Modal Image Overlay Config-->
@@ -113,7 +150,7 @@
                         </div>
                         <div class="col-3" *ngIf="imageOverlay.overlaySource === 'location'" >
                             <div class="form-group">
-                                <label for="widgetlocImageID">Location</label>
+                                <label for="widgetlocImageID">Location:</label>
                                 <div class="">
                                     <ng-select id="widgetlocImageID" name="widgetlocImageID" labelForId="widgetlocImageID"
                                         class="custom" [multiple]="false" [(ngModel)]="imageOverlay.overlaySourceID"
@@ -125,7 +162,7 @@
                         </div>
                         <div class="col-3" *ngIf="imageOverlay.overlaySource === 'asset'" >
                             <div class="form-group">
-                                <label for="">Asset</label>
+                                <label for="">Asset:</label>
                                 <div class="">
                                     <ng-select id="widgetassetimageID" name="widgetassetimageID" labelForId="widgetassetimageID" class="custom"
                                         [multiple]="false" [(ngModel)]="imageOverlay.overlaySourceID" placeholder="Choose Asset">
@@ -136,7 +173,7 @@
                         </div>
                         <div class="col-3" *ngIf="imageOverlay.overlaySource === 'custom'" >
                             <div class="form-group">
-                                <label for="">Overlay Image</label>
+                                <label for="">Overlay Image:</label>
                                 <div class="custom-file">
 
                                     <input class="custom-file-input ng-pristine ng-invalid" id="customWidgetImg" type="file"
@@ -148,7 +185,7 @@
                         </div>
                         <div class="col-3">
                             <div class="form-group">
-                                <label for="">Icon Display Size</label>
+                                <label for="">Icon Display Size:</label>
                                 <div class="">
                                     <ng-select id="iconSize" name="iconSize" labelForId="iconSize" class="custom"
                                         [multiple]="false" [(ngModel)]="imageOverlay.iconDisplaySize" placeholder="Choose Size">
@@ -220,7 +257,7 @@
                         <div class="col-12" *ngIf="showCustomLayout" >
                           <app-votm-cloud-association
                             [imageURL]="widgetCustomImgURL"
-                            [dragList]="sensors"
+                            [dragList]="entityList"
                             [droppedList]=""
                             [showDerivedSignal]="true"
                             [showSensorsDetail]="true"
@@ -228,18 +265,12 @@
                             [showAlertIcon]="false"
                             [showDetachIcon]="true"
                             [isDragDropRequired]="true"
-                            [model]="signal"
                             [disable]="disable"
-                            [alertRules]="alertRules"
                             [showUnassoc]="showUnassoc"
                             [showAssoc]="showAssoc"
-                            [locationId]="locationId"
                             [customImageOverlay]="true"
                             [issaveCustomImageOverlayConfigurationPressed] = "saveCustomImageOverlayFlag"
-                            (detach)="onDetachSignalFromAsset($event)"
-                            (reload)="getLocationSignalAssociation()"
                             (saveAssociation)="saveImageOverlayConfiguration($event)"
-                            (resetPage)="onReset($event)"
                           >
                           </app-votm-cloud-association>
                         </div>
