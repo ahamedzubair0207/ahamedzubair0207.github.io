@@ -24,7 +24,22 @@
               <tbody>
                 <ng-container *ngFor="let signal of signals; index as i">
                   <tr *ngIf="signal.sel">
-                      <td scope="col" class="" title="{{ selPathName(signal) }}"><i class="pr-1 {{ signal.iconFile }}"></i>{{ signal.name }}</td>
+                      <td scope="col" class="" title="{{
+                        (wConfig.showOrg ? signal.organization :
+                          (wConfig.showLoc ? signal.location :
+                            (wConfig.showAsset ? signal.asset : '')
+                          )
+                        )
+                      }}
+                      {{ signal.name }}"><i class="pr-1 {{ signal.iconFile }}"></i>
+                        {{
+                          (wConfig.showOrg ? signal.organization :
+                            (wConfig.showLoc ? signal.location :
+                              (wConfig.showAsset ? signal.asset : '')
+                            )
+                          )
+                        }}
+                        {{ signal.name }}</td>
                     <!-- <td scope="col" class="" title="{{ selPathName(signal) }}"><i class="pr-1 icon-sig-{{ signal.type }}"></i>{{ selPathName(signal) }}</td> -->
                     <td scope="col" title="{{ signal.value }}">{{ signal.value }}</td>
                     <td scope="col" class="" title="{{ timestamp }}">{{ signal.modifiedOn }}</td>
@@ -100,7 +115,14 @@
               </thead>
               <tbody>
                 <tr *ngFor="let signal of signals; index as i">
-                  <td><i class="pr-1 {{signal.iconFile}}"></i>{{ signal.name }}</td>
+                  <td><i class="pr-1 {{signal.iconFile}}"></i>{{
+                      (dataTableWidget.displayOrg ? signal.organization :
+                        (dataTableWidget.displayLoc ? signal.location :
+                          (dataTableWidget.displayAsset ? signal.asset : '')
+                        )
+                      )
+                    }}
+                    {{ signal.name }}</td>
                   <!-- <td><i class="pr-1 icon-sig-{{ signal.type }}"></i>{{ pathName(signal) }}</td> -->
                   <td>{{ signal.type }}</td>
                   <td class="text-center">
