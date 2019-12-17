@@ -10,7 +10,7 @@ export class TrendChartWidget {
     legends: boolean;
     minMax: boolean;
 
-    
+
     accountCode: string;
     propertyName: string;
     propertyValue: string;
@@ -19,4 +19,13 @@ export class TrendChartWidget {
     bucketSize: string;
     fromDateTime: Date;
     toDateTime: Date;
+
+    // Live chart data
+    signalY1: string;
+    signalY2: string;
+    leftAxisRange: string;
+    rightAxisRange: string;
+    displayThreshold_None: boolean;
+    displayThreshold_LeftAxis: boolean;
+    displayThreshold_RightAxis: boolean;
 }

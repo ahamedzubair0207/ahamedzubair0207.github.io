@@ -1,1 +1,251 @@
-<div id="chartdiv" style="width: 100%; height: 350px"></div>
+<div class="border p-2 h-100 w-100 position-relative">
+    <div #graphDiv id="chartdiv" class="w-100 h-100">
+      <div class="text-center con-wid-preview" *ngIf="!configured">
+        <img class="img-fluid img-fluid-custom" src="../../../../../assets/images/configure_trend_chart_widget.jpg">
+    </div>
+    </div>
+
+    <div class="text-right range-actions mr-2">
+      <div *ngIf="configured" class="btn-group btn-group-toggle" ngbRadioGroup name="radioBasic" [(ngModel)]="trendChartWidget.dateRange" (change)="onRadioGroupChange()">
+        <!-- <label ngbButtonLabel class="btn-outline-secondary btn-sm"> <input ngbButton type="radio" value="5m" />5m</label> -->
+        <label ngbButtonLabel class="btn-outline-secondary btn-sm"> <input ngbButton type="radio" value="1m" />1min</label>
+        <!-- <label ngbButtonLabel class="btn-outline-secondary btn-sm"> <input ngbButton type="radio" value="10m" />10m</label> -->
+        <label ngbButtonLabel class="btn-outline-secondary btn-sm"> <input ngbButton type="radio" value="1h" />1H</label>
+        <!-- <label ngbButtonLabel class="btn-outline-secondary btn-sm"> <input ngbButton type="radio" value="20m" />20m</label> -->
+        <label ngbButtonLabel class="btn-outline-secondary btn-sm"> <input ngbButton type="radio" value="1d" />1D</label>
+        <!-- <label ngbButtonLabel class="btn-outline-secondary btn-sm"> <input ngbButton type="radio" value="30m" />30m</label> -->
+        <label ngbButtonLabel class="btn-outline-secondary btn-sm"> <input ngbButton type="radio" value="1w" />1W</label>
+        <label ngbButtonLabel class="btn-outline-secondary btn-sm"> <input ngbButton type="radio" value="1mo" />1M</label>
+        <!-- <label ngbButtonLabel class="btn-outline-secondary btn-sm"> <input ngbButton type="radio" value="1h" />1H</label> -->
+        <label ngbButtonLabel class="btn-outline-secondary btn-sm"> <input ngbButton type="radio" value="3mo" />3M</label>
+        <!-- <label ngbButtonLabel class="btn-outline-secondary btn-sm"> <input ngbButton type="radio" value="10h" />10H</label> -->
+        <label ngbButtonLabel class="btn-outline-secondary btn-sm"> <input ngbButton type="radio" value="6mo" />6M</label>
+        <!-- <label ngbButtonLabel class="btn-outline-secondary btn-sm"> <input ngbButton type="radio" value="1d" />1D</label> -->
+         <label ngbButtonLabel class="btn-outline-secondary btn-sm"> <input ngbButton type="radio" value="year" />1Y</label>
+         <label ngbButtonLabel class="btn-outline-secondary btn-sm"> <input ngbButton type="radio" value="ytd" />YTD</label>
+        <label ngbButtonLabel class="btn-outline-secondary btn-sm"> <input ngbButton type="radio" value="all" />All</label>
+      </div>
+    </div>
+
+    <div class="text-right chart-actions mr-1">
+      <div *ngIf="configured" ngbDropdown placement="bottom-right">
+        <a id="export" ngbDropdownToggle><i class="icon-export"></i></a>
+        <div ngbDropdownMenu aria-labelledby="export">
+          <button ngbDropdownItem>PNG</button>
+          <button ngbDropdownItem>SVG</button>
+          <button ngbDropdownItem>PDF</button>
+          <div class="dropdown-divider"></div>
+          <button ngbDropdownItem>CSV</button>
+          <button ngbDropdownItem>XLSX</button>
+          <button ngbDropdownItem>PDF</button>
+          <div class="dropdown-divider"></div>
+          <button ngbDropdownItem>Print</button>
+        </div>
+      </div>
+      <div *ngIf="configured" ngbDropdown >
+        <a id="immed-actions" ngbDropdownToggle><i class="icon-vert-ellipsis"></i></a>
+        <div ngbDropdownMenu aria-labelledby="immed-actions">
+          <button *ngIf="yAxisSignals[0] > 0" ngbDropdownItem (click)="toggleThresholds(0)">{{ showThresh[0] ? "Hide" : "Show" }} left axis thresholds</button>
+          <button *ngIf="yAxisSignals[1] > 0" ngbDropdownItem (click)="toggleThresholds(1)">{{ showThresh[1] ? "Hide" : "Show" }} right axis thresholds</button>
+          <div class="dropdown-divider"></div>
+          <button ngbDropdownItem (click)="toggleMinMax()">{{ showMinMax ? "Hide" : "Show" }} series min/max range</button>
+          <button ngbDropdownItem (click)="toggleLegend()">{{ showLegend ? "Hide" : "Show" }} series legend</button>
+          <div *ngIf="!(selYAxisRange[0] == 'auto') || !(selYAxisRange[1] == 'auto')" class="dropdown-divider"></div>
+          <button *ngIf="!(selYAxisRange[0] == 'auto')" ngbDropdownItem (click)="toggleAutoScale(0)">
+            {{ autoScaleY[0] ? "Apply fixed scale to" : "Auto scale" }} left axis
+          </button>
+          <button *ngIf="!(selYAxisRange[1] == 'auto')" ngbDropdownItem (click)="toggleAutoScale(1)">
+            {{ autoScaleY[1] ? "Apply fixed scale to" : "Auto scale" }} right axis
+          </button>
+        </div>
+      </div>
+      <a *ngIf="configured"><i class="icon-refresh" (click)="onRefreshClick()"></i></a>
+      <a (click)="open(config)" [class.d-none]="locked"><i class="icon-cog"></i></a>
+        <!-- <a (click)="open(config)"><i class="icon-cog"></i></a> -->
+    </div>
+</div>
+
+
+
+<ng-template #config let-modal>
+    <div class="modal-header">
+        <h5 class="modal-title">{{pageLabels.ConfigureTrendChart.labelName}}</h5>
+        <button type="button" class="close" (click)="modal.close()">
+            <span>&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="form-group form-row">
+            <label class="col-3 col-form-label mandatory">{{pageLabels.Signals.labelName}}</label>
+            <div class="col-9">
+                <div class="table-fixed">
+                    <table class="table table-sm table-bordered">
+                        <thead>
+                            <tr>
+                                <th scope="col" class="">{{pageLabels.SignalName.labelName}}</th>
+                                <th scope="col" class="">{{pageLabels.SignalType.labelName}}</th>
+                                <th scope="col" class="text-center">{{pageLabels.Y1.labelName}}</th>
+                                <th scope="col" class="text-center">{{pageLabels.Y2.labelName}}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let signal of signals; index as i">
+                                <td><i class="pr-1 {{signal.iconFile}}"></i>{{ signal.name }}</td>
+                                <td>{{ signal.type }}</td>
+                                <td class="text-center">
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" id="y1-{{ i }}" class="custom-control-input"
+                                            [checked]="signal.signalMappingId === trendChartWidget.signalY1"
+                                            [name]="y1+signal.signalMappingId"
+                                            (change)="onSignalOneChange(signal.signalMappingId)"
+                                            [disabled]="signal.signalMappingId === trendChartWidget.signalY2" />
+                                        <label class="custom-control-label mr-n2" for="y1-{{ i }}"></label>
+                                    </div>
+                                </td>
+                                <td class="text-center">
+                                    <div class="custom-control custom-checkbox ">
+                                        <input type="checkbox" id="y2-{{ i }}" class="custom-control-input"
+                                            [checked]="signal.signalMappingId === trendChartWidget.signalY2"
+                                            [name]="y2+signal.signalMappingId"
+                                            (change)="onSignalTwoChange(signal.signalMappingId)"
+                                            [disabled]="signal.signalMappingId === trendChartWidget.signalY1" />
+                                        <label class="custom-control-label mr-n2" for="y2-{{ i }}"></label>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="form-group form-row">
+            <label for="axisDateRngSelect"
+                class="col-3 col-form-label mandatory">{{pageLabels.DateRange.labelName}}</label>
+            <div class="col-3">
+                <ng-select autofocus labelForId="axisDateRngSelect" class="custom"
+                    [(ngModel)]="trendChartWidget.dateRange">
+                    <ng-option *ngFor="let dr of dateRange" [value]="dr.value">{{dr.name}}</ng-option>
+                </ng-select>
+            </div>
+        </div>
+        <div *ngIf="trendChartWidget.signalY1" class="form-group form-row">
+            <label for="LeftAxis" class="col-3 col-form-label mandatory">{{pageLabels.LeftAxisRange.labelName}}</label>
+            <div class="col-3">
+                <ng-select labelForId="axisY1RngSelect" class="custom" [(ngModel)]="trendChartWidget.leftAxisRange">
+                    <ng-option value="auto">{{pageLabels.Auto.labelName}}</ng-option>
+                    <ng-option value="rngMinMax">{{pageLabels.RangeMinMax.labelName}}</ng-option>
+                    <ng-option value="fixed">{{pageLabels.Fixed.labelName}}</ng-option>
+                </ng-select>
+            </div>
+            <!-- <div *ngIf="trendChartWidget.leftAxisRange === 'fixed'" class="col-3">
+                <div class="form-row">
+                    <div class="col-9">
+                        <input type="text" class="form-control" id="y1Min" [(ngModel)]="wConfig.yMin[0]"
+                            placeholder="Y1 Min" />
+                    </div>
+                    <div class="col-3" style="padding-top: calc(.25rem + 1px);">
+                        {{ yAxisUoM(0) }}
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="trendChartWidget.leftAxisRange === 'fixed'" class="col-3">
+                <div class="form-row">
+                    <div class="col-9">
+                        <input type="text" class="form-control" id="y1Max" [(ngModel)]="wConfig.yMax[0]"
+                            placeholder="Y1 Max" />
+                    </div>
+                    <div class="col-3" style="padding-top: calc(.25rem + 1px);">
+                        {{ yAxisUoM(0) }}
+                    </div>
+                </div>
+            </div> -->
+        </div>
+        <div *ngIf="trendChartWidget.signalY2" class="form-group form-row">
+        <label for="RightAxis" class="col-3 col-form-label mandatory">{{pageLabels.RightAxisRange.labelName}}</label>
+        <div class="col-3">
+          <ng-select #axisY2RngSelect labelForId="axisY2RngSelect" class="custom" [(ngModel)]="trendChartWidget.rightAxisRange">
+            <ng-option value="auto">{{pageLabels.Auto.labelName}}</ng-option>
+            <ng-option value="rngMinMax">{{pageLabels.RangeMinMax.labelName}}</ng-option>
+            <ng-option value="fixed">{{pageLabels.Fixed.labelName}}</ng-option>
+          </ng-select>
+        </div>
+        <!-- <div *ngIf="trendChartWidget.rightAxisRange === 'fixed'" class="col-3">
+          <div class="form-row">
+            <div class="col-9">
+              <input type="text" class="form-control" id="y2Min" [(ngModel)]="wConfig.yMin[1]" placeholder="Y2 Min" />
+            </div>
+            <div class="col-3" style="padding-top: calc(.25rem + 1px);">
+              {{ yAxisUoM(1) }}
+            </div>
+          </div>
+        </div>
+        <div *ngIf="trendChartWidget.rightAxisRange === 'fixed'" class="col-3">
+          <div class="form-row">
+            <div class="col-9">
+              <input type="text" class="form-control" id="y2Max" [(ngModel)]="wConfig.yMax[1]" placeholder="Y2 Max" />
+            </div>
+            <div class="col-3" style="padding-top: calc(.25rem + 1px);">
+              {{ yAxisUoM(1) }}
+            </div>
+          </div>
+        </div> -->
+      </div>
+        <div class="form-group form-row">
+        <label for="title" class="col-3 col-form-label">{{pageLabels.ChartTitle.labelName}}</label>
+        <div class="col-9">
+          <input type="text" class="form-control" id="title" [(ngModel)]="trendChartWidget.chartTitle" />
+        </div>
+      </div>
+      <div class="form-group form-row">
+        <label for="showThresholds" class="col-3 col-form-label mandatory">{{pageLabels.DisplayThresholds.labelName}}</label>
+        <div class="col-9">
+          <div class="custom-control custom-radio custom-control-inline" style="padding-top: calc(.25rem + 1px);">
+            <input type="radio" [checked]="trendChartWidget.displayThrshold.indexOf('none')>=0" (change)="onDisplayThresholdsChange('none')" id="noThresholds" name="showThresholds" class="custom-control-input" />
+            <label class="custom-control-label" for="noThresholds">{{pageLabels.None.labelName}}</label>
+          </div>
+          <div class="custom-control custom-radio custom-control-inline" style="padding-top: calc(.25rem + 1px);">
+            <input type="radio"  [checked]="trendChartWidget.displayThrshold.indexOf('left axis')>=0" id="y1Thresholds" (change)="onDisplayThresholdsChange('left axis')" name="showThresholds" class="custom-control-input" />
+            <label class="custom-control-label" for="y1Thresholds">{{pageLabels.LeftAxis.labelName}}</label>
+          </div>
+          <div class="custom-control custom-radio custom-control-inline" style="padding-top: calc(.25rem + 1px);">
+            <input type="radio" id="y2Thresholds"  [checked]="trendChartWidget.displayThrshold.indexOf('right axis')>=0" (change)="onDisplayThresholdsChange('right axis')" name="showThresholds" class="custom-control-input" />
+            <label class="custom-control-label" for="y2Thresholds">{{pageLabels.RightAxis.labelName}}</label>
+          </div>
+        </div>
+      </div>
+      <div class="form-group form-row">
+        <label for="showEvents" class="col-3 col-form-label mandatory">{{pageLabels.DisplayDefaults.labelName}}</label>
+        <div class="col-3">
+          <div class="custom-control custom-switch" style="padding-top: calc(.25rem + 1px);">
+            <input type="checkbox" class="custom-control-input" [(ngModel)]="trendChartWidget.eventFlags" id="showEvents" [checked]="showEvents"/>
+            <label class="custom-control-label" for="showEvents">{{pageLabels.EventFlags.labelName}}</label>
+          </div>
+        </div>
+        <div class="col-3">
+          <div class="custom-control custom-switch" style="padding-top: calc(.25rem + 1px);">
+            <input type="checkbox" class="custom-control-input" [(ngModel)]="trendChartWidget.legends" id="showLegend" [checked]="showLegend" (change)="showLegend = !showLegend" />
+            <label class="custom-control-label" for="showLegend">{{pageLabels.Legends.labelName}}</label>
+          </div>
+        </div>
+        <div class="col-3">
+          <div class="custom-control custom-switch" style="padding-top: calc(.25rem + 1px);">
+            <input type="checkbox" class="custom-control-input" [(ngModel)]="trendChartWidget.minMax" id="showMinMax" [checked]="showMinMax" (change)="showMinMax = !showMinMax" />
+            <label class="custom-control-label" for="showMinMax">{{pageLabels.MinMax.labelName}}</label>
+          </div>
+        </div>
+      </div>
+        <div class="form-group row pt-1 mb-0">
+            <div class="col"></div>
+            <div class="col-auto pr-0">
+                <button type="button" class="btn btn-secondary" (click)="modal.close()">
+                    Cancel
+                </button>
+            </div>
+            <div class="col-auto">
+                <button type="button" class="btn btn-primary" (click)="modal.close('save');">
+                    Save
+                </button>
+            </div>
+        </div>
+    </div>
+</ng-template>

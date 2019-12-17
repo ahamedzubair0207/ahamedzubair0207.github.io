@@ -446,11 +446,6 @@ export class VotmLineGraphComponent implements OnInit {
     title.fontSize = 25;
     title.marginBottom = 30;
     let tempdateaxis = new am4charts.DateAxis();
-    // tempdateaxis.title = 'AHAMED';
-    // tempdateaxis.title = new am4core.Label();
-    // tempdateaxis.title.text = 'AHAMED';
-    // tempdateaxis.datest
-    // tempdateaxis.tooltipText ='AHAMED'
     let dateAxis = chart.xAxes.push(tempdateaxis);
     dateAxis.renderer.line.strokeOpacity = 1;
     dateAxis.renderer.line.stroke = am4core.color("gray");
