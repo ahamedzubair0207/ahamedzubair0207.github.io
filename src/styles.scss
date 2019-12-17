@@ -122,3 +122,10 @@ body a{
 .vert-fill-min {
   min-height: calc(100vh - 3rem - 5 * #{$spacer} - #{$line-height-base} * #{$font-size-base} - 1rem - 3px);
 }
+
+.custom-control-input {
+  position: absolute;
+  z-index: -1;
+  opacity: 0;
+  right: 0 !important;
+}

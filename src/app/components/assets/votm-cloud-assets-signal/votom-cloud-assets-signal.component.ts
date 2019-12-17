@@ -60,9 +60,9 @@ export class VotomCloudAssetsSignalComponent implements OnInit {
       this.locationId = params.get('parentLocId');
       this.assetId = params.get('assetId');
       // console.log('====', this.organizationId);
-      this.getAssetById();
+
       this.getAssetSignalAssociation();
-      this.getAlertRulesList();
+
     });
     // this.getAssetById();
   }
@@ -137,6 +137,8 @@ export class VotomCloudAssetsSignalComponent implements OnInit {
       .subscribe(
         response => {
           this.getAllAvailableSignals();
+          this.getAssetById();
+          this.getAlertRulesList();
           this.isGetAssociatedSignalsAPILoading = false;
           for (let i = 0; i < response.length; i++) {
             const signal = response[i];
