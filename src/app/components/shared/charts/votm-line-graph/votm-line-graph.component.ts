@@ -54,7 +54,7 @@ export class VotmLineGraphComponent implements OnInit {
   private rangeSeriesSet: boolean = false;
   private signalTypes: any[] = [
     { "type": "pressure", "uom": "psi", "nominal": 1500, "var": 5 },
-    { "type": "Temperature", "uom": "Kelvin", "nominal": 100, "var": 2 },
+    { "type": "Temperature", "uom": "°F", "nominal": 100, "var": 2 },
     { "type": "Elec_Current", "uom": "kV", "nominal": 80, "var": 3 },
     { "type": "humidity", "uom": "%", "nominal": 50, "var": 1 },
     { "type": "Battery", "uom": "V", "nominal": 50, "var": 4 },
@@ -427,7 +427,7 @@ export class VotmLineGraphComponent implements OnInit {
     // this.zone.runOutsideAngular(() => {
     let chart = am4core.create(this.wId, am4charts.XYChart);
     chart.paddingRight = 20;
-    chart.dataSource.url = `${environment.protocol}://${environment.server}/${environment.virtualName}/${AppConstants.GET_UPDATEDTIMESERIES_SIGNAL}?AccountCode=${requestedBody.accountCode}&PropertyName=${requestedBody.propertyName}&PropertyValue=${requestedBody.propertyValue}&MeasuredValue=${requestedBody.measuredValue}&FromDateTime=${typeof (requestedBody.fromDateTime) === 'string' ? requestedBody.fromDateTime : requestedBody.fromDateTime.toISOString()}&ToDateTime=${typeof (requestedBody.toDateTime) === 'string' ? requestedBody.toDateTime : requestedBody.toDateTime.toISOString()}&BucketSize=${requestedBody.bucketSize}`;
+    chart.dataSource.url = `${environment.protocol}://${environment.server}/${environment.virtualName}/${AppConstants.GET_UPDATEDTIMESERIES_SIGNAL}?userId=03C7FB47-58EE-4C41-A9D6-2AD0BD43392A&organizationId=${this.data.organizationId}&AccountCode=${requestedBody.accountCode}&PropertyName=${requestedBody.propertyName}&PropertyValue=${requestedBody.propertyValue}&MeasuredValue=${requestedBody.measuredValue}&FromDateTime=${typeof (requestedBody.fromDateTime) === 'string' ? requestedBody.fromDateTime : requestedBody.fromDateTime.toISOString()}&ToDateTime=${typeof (requestedBody.toDateTime) === 'string' ? requestedBody.toDateTime : requestedBody.toDateTime.toISOString()}&BucketSize=${requestedBody.bucketSize}&precesion=2`;
     chart.dataSource.parser = new am4core.JSONParser();
     // xAxis.dateFormatter = new am4core.DateFormatter();
     // xAxis.dateFormatter.dateFormat = "MM-dd";

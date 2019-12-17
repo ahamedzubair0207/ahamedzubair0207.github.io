@@ -11,6 +11,8 @@ import { LocationSignalService } from '../../../services/locationSignal/location
 import { ToastrService } from 'ngx-toastr';
 import { Toaster } from '../../shared/votm-cloud-toaster/votm-cloud-toaster';
 import { Location } from 'src/app/models/location.model';
+import { NgbModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
+import { SharedService } from 'src/app/services/shared.service';
 declare var $: any;
 
 @Component({
@@ -20,8 +22,7 @@ declare var $: any;
 })
 export class VotmCloudAssociationComponent implements OnChanges {
 
-  derivedSignalModal: any;
-  organizationId: string; // to store selected organization's id
+  @ViewChild('derivedSignalContent', null)derivedSignalModalContent: ElementRef;
   selectedSignal; // selected signal to display overlay panel.
   toaster: Toaster = new Toaster(this.toastr);
   isGetAvailableSignalsAPILoading = false; // flag for loader for get available signals api
@@ -63,6 +64,8 @@ export class VotmCloudAssociationComponent implements OnChanges {
   @Input() showSensorsDetail: boolean;
   @Input() alertRules: Alert[] = [];
   @Input() locationId: string = null;
+  @Input() organizationId: string = null;
+  @Input() organizationName: string = null;
   @Input() assetId: string = null;
   @Input() customImageOverlay = false;
   @Input() issaveCustomImageOverlayConfigurationPressed = false;
@@ -78,18 +81,22 @@ export class VotmCloudAssociationComponent implements OnChanges {
   signalSignalType = 'signal';
   signalRemoveMessage: string;
   deletedSignalIndex: number;
+  alertModalTitle = 'Create Alert Rule Configuration';
+  alertpageType = 'Create';
+  @ViewChild('alertCreateContent', null) alertCreateContent: ElementRef;
   constructor(
     private router: Router,
     private toastr: ToastrService,
-    private eleRef: ElementRef
-  ) { }
-
-  ngOnInit(): void {
-    //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
-    //Add 'implements OnInit' to the class.
-    // console.log(this.dragList);
-    // console.log(this.droppedList);
-  }
+    private eleRef: ElementRef,
+    private ngbModal: NgbModal,
+    private alertsService: AlertsService,
+    private sharedService: SharedService,
+    private activatedRoute: ActivatedRoute,
+    private ngbModalConfig: NgbModalConfig
+  ) {
+    ngbModalConfig.backdrop = 'static';
+    ngbModalConfig.keyboard = false;
+   }
 
   // Called when "save" button pressed from customImageOvelay widget
   ngOnChanges(changes: SimpleChanges) {
@@ -183,7 +190,7 @@ export class VotmCloudAssociationComponent implements OnChanges {
     newSignal['pctPos'] = { left: 0, top: 0 };
     this.droppedList.push(newSignal);
     // console.log(newSignal);
-    this.closeModal(this.derivedSignalModal);
+    // this.closeModal(this.derivedSignalModal);
   }
 
   onStart(event: any, index1, index2) {
@@ -312,27 +319,7 @@ export class VotmCloudAssociationComponent implements OnChanges {
   }
 
   onClickOfSaveSignalAssociationPanel() {
-    // if (this.selectedSignal.imageCordinates.x === 0) {
-    //   this.selectedSignal.pos = {
-    //     left: (100 * this.imgOffsetLeft / this.imgParentWidth),
-    //     top: this.selectedSignal.imageCordinates.y
-    //   };
-    // } else if (this.selectedSignal.imageCordinates.y === 0) {
-    //   this.selectedSignal.pos = {
-    //     top: (100 * this.imgOffsetTop / this.imgParentHeight),
-    //     left: this.selectedSignal.imageCordinates.x
-    //   };
-    // } else if (this.selectedSignal.imageCordinates.x === 100) {
-    //   this.selectedSignal.pos = {
-    //     left: (100 * this.imgOffsetLeft / this.imgParentWidth),
-    //     top: this.selectedSignal.imageCordinates.y
-    //   };
-    // } else if (this.selectedSignal.imageCordinates.y === 100) {
-    //   this.selectedSignal.pos = {
-    //     top: (100 * this.imgOffsetTop / this.imgParentHeight),
-    //     left: this.selectedSignal.imageCordinates.x
-    //   };
-    // }
+
     this.selectedSignal.pctPos = {
       left: (this.selectedSignal.imageCordinates.x / 100).toFixed(5),
       top: (this.selectedSignal.imageCordinates.y / 100).toFixed(5)
@@ -448,6 +435,8 @@ export class VotmCloudAssociationComponent implements OnChanges {
   }
 
   onClickOfCreateAssociateRule() {
+    this.sharedService.setSignalDataForAlert(this.selectedSignal);
+    this.ngbModal.open(this.alertCreateContent, { size: 'xl', scrollable: true });
     this.createAssociateRule.emit(this.selectedSignal);
   }
 
@@ -494,21 +483,20 @@ export class VotmCloudAssociationComponent implements OnChanges {
     this.returnToList.emit();
   }
 
-  openmodal(id) {
-    // Get the modal
-    const modal = document.getElementById(id);
-    modal.style.display = 'block';
-    this.derivedSignalModal = document.getElementById(id);
-    // When the user clicks anywhere outside of the modal, close it
-    window.onclick = (event) => {
-      if (event.target === modal) {
-        modal.style.display = 'none';
-      }
-    };
-   }
+  openDerivedSignalmodal() {
+    this.ngbModal.open(this.derivedSignalModalContent, { size: 'lg', scrollable: true });
+  }
 
-  closeModal(key) {
-    key.style.display = 'none';
+  // closeModal(key) {
+  //   key.style.display = 'none';
+  // }
+
+  onCreateAlertRule() {
+    this.alertsService.createAlertRuleEvent.emit();
+    setTimeout( () => {
+      this.onClickOfReset();
+    }, 1000);
+    this.ngbModal.dismissAll();
   }
 
 }

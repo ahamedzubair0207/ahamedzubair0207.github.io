@@ -57,6 +57,17 @@ export class VotmLiveDataComponent implements OnInit {
     { "value": "all", "name": "All Available Data" }
   ]
   dashboardWidget: any;
+  chart: am4charts.XYChart;
+  rangeSeriesSet: boolean;
+  configured: boolean;
+  selDynDateRng: string;
+  wId: string;
+  showMinMax: any;
+  legendWidth: number | am4core.Percent;
+  showLegend: boolean = true;
+  private rangeYAxisMin: number[] = [null, null];
+  private rangeYAxisMax: number[] = [null, null];
+  private autoScaleY: boolean[] = [true, true];
 
   constructor(private zone: NgZone, private modalService: NgbModal,
     private configSettingsService: ConfigSettingsService, private router: Router,
@@ -67,6 +78,9 @@ export class VotmLiveDataComponent implements OnInit {
   }
 
   ngOnInit() {
+    if (this.data) {
+      this.wId = this.data.dashboardId + "-" + this.id;
+    }
     this.trendChartWidget.dateRange = '1m';
     this.trendChartWidget.displayThrshold = 'none';
     this.getScreenLabels();
@@ -144,6 +158,10 @@ export class VotmLiveDataComponent implements OnInit {
         if (response) {
           this.passOrganizationsToMap(response);
           // this.selectSignals();
+         
+          if (this.trendChartWidget) {
+            this.loadChart();
+          }
         }
       });
   }
@@ -210,10 +228,7 @@ export class VotmLiveDataComponent implements OnInit {
       this.signals = [];
     }
     this.signals.push(...sigArray);
-    // this.signals = [this.signals, ...VotmCommon.getUniqueValues(sigArray)];
 
-    // this.signals = sigArray; //.reduce((acc, cur) => acc.some(x => (x.id === cur.id)) ? acc : acc.concat(cur), [])
-    // console.log('this.signals ', this.signals);
   }
 
   selectSignal(idx) {
@@ -233,13 +248,13 @@ export class VotmLiveDataComponent implements OnInit {
       .subscribe(async response => {
         // this.mapSignals(response);
         await this.getLocationTreeStructure(response, null, null);
-	VotmCommon.getUniqueValues(this.signals);
+        VotmCommon.getUniqueValues(this.signals);
         // this.selectSignals();
       });
   }
 
 
-  
+
   // selectSignals() {
   //   if (this.signals && this.signals.length > 0 && this.trendChartWidget && this.trendChartWidget.signalY1
   //     && this.trendChartWidget.signalY1.length > 0) {
@@ -258,15 +273,15 @@ export class VotmLiveDataComponent implements OnInit {
       .subscribe(async response => {
         // this.mapSignals(response);
         await this.getAssetTreeStrucutre(response, null, null, null);
-	VotmCommon.getUniqueValues(this.signals);
+        VotmCommon.getUniqueValues(this.signals);
         // this.selectSignals();
       });
   }
 
   getLocationTreeStructure(location, locationLabel = null, orgLabel) {
-    const locLabel = (locationLabel ? (locationLabel + ' > ' ) : '') + location.shortName;
+    const locLabel = (locationLabel ? (locationLabel + ' > ') : '') + location.shortName;
     location.signals.forEach(signal => {
-        this.getSignalStructure(signal, orgLabel, locLabel, null);
+      this.getSignalStructure(signal, orgLabel, locLabel, null);
     });
     if (location.assets.length > 0) {
       location.assets.forEach(asset => {
@@ -281,7 +296,7 @@ export class VotmLiveDataComponent implements OnInit {
   }
 
   getAssetTreeStrucutre(asset, assetLabel, locLabel, orgLabel) {
-    const aLabel = (assetLabel ? (assetLabel + ' > ' ) : '') + asset.shortName;
+    const aLabel = (assetLabel ? (assetLabel + ' > ') : '') + asset.shortName;
     asset.signals.forEach(signal => {
       this.getSignalStructure(signal, orgLabel, locLabel, aLabel);
     });
@@ -313,9 +328,6 @@ export class VotmLiveDataComponent implements OnInit {
       list = assetLabel.split(' > ');
       assetLabel = assetLabel + ' > ';
     }
-    console.log(orgLabel);
-    console.log(locLabel);
-    console.log(assetLabel);
     this.signals.push({
       type: signal.signalType,
       organization: orgLabel,
@@ -356,7 +368,7 @@ export class VotmLiveDataComponent implements OnInit {
       }
     });
   }
-  
+
   setFromDate(count: number, option: moment.unitOfTime.DurationConstructor) {
     return moment().subtract(count, option).toDate();
   }
@@ -425,15 +437,15 @@ export class VotmLiveDataComponent implements OnInit {
 
     if (this.trendChartWidget) {
       if (this.trendChartWidget.signalY1 && this.trendChartWidget.signalY2) {
-        let tempSig1 = this.getSignalByMappingId(this.trendChartWidget.signalY1);
-        let tempSig2 = this.getSignalByMappingId(this.trendChartWidget.signalY2);
+        let tempSig1 = this.getSignalByMappingId(this.trendChartWidget.signalY1).signalId;
+        let tempSig2 = this.getSignalByMappingId(this.trendChartWidget.signalY2).signalId;
         this.trendChartWidget.propertyValue = `${tempSig1},${tempSig2}`;
       }
       else if (this.trendChartWidget.signalY1) {
-        let tempSig1 = this.getSignalByMappingId(this.trendChartWidget.signalY1);
+        let tempSig1 = this.getSignalByMappingId(this.trendChartWidget.signalY1).signalId;
         this.trendChartWidget.propertyValue = `${tempSig1}`
       } else if (this.trendChartWidget.signalY2) {
-        let tempSig = this.getSignalByMappingId(this.trendChartWidget.signalY2);
+        let tempSig = this.getSignalByMappingId(this.trendChartWidget.signalY2).signalId;
         this.trendChartWidget.propertyValue = `${tempSig}`
       }
     }
@@ -478,7 +490,9 @@ export class VotmLiveDataComponent implements OnInit {
             if (widget.widgetName === 'Trend Chart Widget') {
               this.dashboardWidget = widget;
               this.trendChartWidget = JSON.parse(widget.widgetConfiguration);
-              this.loadChart();
+              if (this.signals && this.signals.length > 0) {
+                this.loadChart();
+              }
             }
           });
         }
@@ -489,7 +503,7 @@ export class VotmLiveDataComponent implements OnInit {
     let tempSignal;
     this.signals.forEach(signal => {
       if (signal.signalMappingId === signalMappingId) {
-        tempSignal = signal.signalId;
+        tempSignal = signal;
       }
     });
     return tempSignal;
@@ -500,161 +514,227 @@ export class VotmLiveDataComponent implements OnInit {
   }
 
   loadChart() {
-    /* Chart code */
-    let ts = new Date();
-    this.timestamp = moment(new Date()).tz(this.loggedInUser.userConfigSettings[0].timeZoneDescription)
-      .format(moment.localeData(this.loggedInUser.userConfigSettings[0].localeName)
-        .longDateFormat('L')) + ' '
-      + moment(new Date()).tz(this.loggedInUser.userConfigSettings[0].timeZoneDescription)
-        .format(moment.localeData(this.loggedInUser.userConfigSettings[0].localeName)
-          .longDateFormat('LTS'));
-      // Add amCharts 4 license
-      am4core.addLicense("CH192270209");
-      // Add Maps license
-      am4core.addLicense("MP192270209");
-      am4core.options.commercialLicense = true;
-      hideCredits: true;
-    // Themes begin
-    am4core.useTheme(am4themes_animated);
-    // Themes end
+    
+    if (this.chart) {
+      this.chart.dispose();
+      this.rangeSeriesSet = false;
+    }
+    // this.chart.dataSource.
+    this.configured = true;
+    this.selDynDateRng = this.trendChartWidget.dateRange;
+    // for (let i = 0; i < 2; i++) {
+    //   // this.rangeYAxisMin[i] = parseFloat(this.wConfig.yMin[i]);
+    //   // this.rangeYAxisMax[i] = parseFloat(this.wConfig.yMax[i]);
+    //   this.autoScaleY[i] = (this.trendChartWidget. === "auto");
+    // }
+    // Add amCharts 4 license
+    am4core.addLicense("CH192270209");
+    // Add Maps license
+    am4core.addLicense("MP192270209");
+    am4core.options.commercialLicense = true;
+    hideCredits: true;
+    // this.zone.runOutsideAngular(() => {
+    let chart = am4core.create(this.wId, am4charts.XYChart);
+    chart.paddingRight = 20;
+    chart.dataSource.url = `${environment.protocol}://${environment.server}/${environment.virtualName}/${AppConstants.GET_UPDATEDTIMESERIES_SIGNAL}?AccountCode=${this.trendChartWidget.accountCode}&PropertyName=${this.trendChartWidget.propertyName}&PropertyValue=${this.trendChartWidget.propertyValue}&MeasuredValue=${this.trendChartWidget.measuredValue}&FromDateTime=${typeof (this.trendChartWidget.fromDateTime) === 'string' ? this.trendChartWidget.fromDateTime : this.trendChartWidget.fromDateTime.toISOString()}&ToDateTime=${typeof (this.trendChartWidget.toDateTime) === 'string' ? this.trendChartWidget.toDateTime : this.trendChartWidget.toDateTime.toISOString()}&BucketSize=${this.trendChartWidget.bucketSize}`;
+    chart.dataSource.parser = new am4core.JSONParser();
+    // xAxis.dateFormatter = new am4core.DateFormatter();
+    // xAxis.dateFormatter.dateFormat = "MM-dd";
+    chart.dataSource.parser.options.dateFormat = 'MM/d/yyyy h:mm:ss a';
+    chart.dataSource.parser.options.dateFormatter = new am4core.DateFormatter();
+    chart.dataSource.parser.options.dateFormatter.timezoneOffset = -360;
 
-    // Create chart instance
-    let chart = am4core.create("chartdiv", am4charts.XYChart);
+    // chart.dataSource.parser.options
 
-    // Add data
-    chart.dataSource.url = "https://poloniex.com/public?command=returnOrderBook&currencyPair=BTC_ETH&depth=50";
-    // chart.dataSource.url = `${environment.protocol}://${environment.server}/${environment.virtualName}/${AppConstants.GET_UPDATEDTIMESERIES_SIGNAL}?AccountCode=${this.trendChartWidget.accountCode}&PropertyName=${this.trendChartWidget.propertyName}&PropertyValue=${this.trendChartWidget.propertyValue}
-    // &MeasuredValue=${ this.trendChartWidget.measuredValue}&FromDateTime=${typeof (this.trendChartWidget.fromDateTime) === 'string' ? this.trendChartWidget.fromDateTime : this.trendChartWidget.fromDateTime.toISOString()}&ToDateTime=${typeof (this.trendChartWidget.toDateTime) === 'string' ? this.trendChartWidget.toDateTime : this.trendChartWidget.toDateTime.toISOString()}&BucketSize=${this.trendChartWidget.bucketSize}`;
-    chart.dataSource.reloadFrequency = 30000;
-    chart.dataSource.adapter.add("parsedData", function (data) {
-
-      // Function to process (sort and calculate cummulative volume)
-      function processData(list, type, desc) {
-
-        // Convert to data points
-        for (var i = 0; i < list.length; i++) {
-          list[i] = {
-            value: Number(list[i][0]),
-            volume: Number(list[i][1]),
-          }
-          
-        }
-
-        // Sort list just in case
-        list.sort(function (a, b) {
-          if (a.value > b.value) {
-            return 1;
-          }
-          else if (a.value < b.value) {
-            return -1;
-          }
-          else {
-            return 0;
-          }
-        });
-
-        // Calculate cummulative volume
-        if (desc) {
-          for (var i = list.length - 1; i >= 0; i--) {
-            if (i < (list.length - 1)) {
-              list[i].totalvolume = list[i + 1].totalvolume + list[i].volume;
-            }
-            else {
-              list[i].totalvolume = list[i].volume;
-            }
-            let dp = {};
-            dp["value"] = list[i].value;
-            dp[type + "volume"] = list[i].volume;
-            dp[type + "totalvolume"] = list[i].totalvolume;
-            res.unshift(dp);
-          }
-        }
-        else {
-          for (var i = 0; i < list.length; i++) {
-            if (i > 0) {
-              list[i].totalvolume = list[i - 1].totalvolume + list[i].volume;
-            }
-            else {
-              list[i].totalvolume = list[i].volume;
-            }
-            let dp = {};
-            dp["value"] = list[i].value;
-            dp[type + "volume"] = list[i].volume;
-            dp[type + "totalvolume"] = list[i].totalvolume;
-            res.push(dp);
-          }
-        }
-
-      }
-
-      // Init
-      let res = [];
-      processData(data.bids, "bids", true);
-      processData(data.asks, "asks", false);
-
-      return res;
-    });
-
-    // Set up precision for numbers
-    chart.numberFormatter.numberFormat = "#,###.####";
-
-    // Create axes
-
-    // var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
-    // dateAxis.renderer.minGridDistance = 50;
-
-    let xAxis = chart.xAxes.push(new am4charts.CategoryAxis());
-    xAxis.dataFields.category = "value";
-    //xAxis.renderer.grid.template.location = 0;
-    xAxis.renderer.minGridDistance = 50;
-    xAxis.title.text = "Price (BTC/ETH)";
-
-    let yAxis = chart.yAxes.push(new am4charts.ValueAxis());
-    yAxis.title.text = "Volume";
-
-    // Create series
-    let series = chart.series.push(new am4charts.StepLineSeries());
-    series.dataFields.categoryX = "value";
-    series.dataFields.valueY = "bidstotalvolume";
-    series.strokeWidth = 2;
-    series.stroke = am4core.color("#0f0");
-    series.fill = series.stroke;
-    series.fillOpacity = 0.1;
-    series.tooltipText = "Ask: [bold]{categoryX}[/]\nTotal volume: [bold]{valueY}[/]\nVolume: [bold]{bidsvolume}[/]"
-
-    let series2 = chart.series.push(new am4charts.StepLineSeries());
-    series2.dataFields.categoryX = "value";
-    series2.dataFields.valueY = "askstotalvolume";
-    series2.strokeWidth = 2;
-    series2.stroke = am4core.color("#f00");
-    series2.fill = series2.stroke;
-    series2.fillOpacity = 0.1;
-    series2.tooltipText = "Ask: [bold]{categoryX}[/]\nTotal volume: [bold]{valueY}[/]\nVolume: [bold]{asksvolume}[/]"
-
-    let series3 = chart.series.push(new am4charts.ColumnSeries());
-    series3.dataFields.categoryX = "value";
-    series3.dataFields.valueY = "bidsvolume";
-    series3.strokeWidth = 0;
-    series3.fill = am4core.color("#000");
-    series3.fillOpacity = 0.2;
-
-    let series4 = chart.series.push(new am4charts.ColumnSeries());
-    series4.dataFields.categoryX = "value";
-    series4.dataFields.valueY = "asksvolume";
-    series4.strokeWidth = 0;
-    series4.fill = am4core.color("#000");
-    series4.fillOpacity = 0.2;
-
+    // chart.dataSource.dateFormat = 'M/d/y h:m:s a';
+    chart.dataSource.reloadFrequency = 20000;
+    // chart.data = response; // timeseries;// this.generateChartData();
+    // chart.dataSource.reloadFrequency = 3000;
+    let title = chart.titles.create();
+    title.text = (this.trendChartWidget.chartTitle) ? this.trendChartWidget.chartTitle : 'Line-Chart';
+    title.fontSize = 25;
+    title.marginBottom = 30;
+    let tempdateaxis = new am4charts.DateAxis();
+    let dateAxis = chart.xAxes.push(tempdateaxis);
+    dateAxis.renderer.line.strokeOpacity = 1;
+    dateAxis.renderer.line.stroke = am4core.color("gray");
+    dateAxis.tooltipDateFormat = "MM/dd/YYYY h:mm:ss a";
+    if (this.trendChartWidget.signalY1)
+      this.createValueAxis(chart, 0);
+    if (this.trendChartWidget.signalY1)
+      this.createValueAxis(chart, 1);
+    let colorSet = new am4core.ColorSet();
+    colorSet.step = 2;
+    if (this.trendChartWidget.signalY1) {
+      let signal = this.getSignalByMappingId(this.trendChartWidget.signalY1)
+      this.createAxisAndSeries(chart, signal, 0, colorSet.next());
+    }
+    if (this.trendChartWidget.signalY2) {
+      let signal = this.getSignalByMappingId(this.trendChartWidget.signalY2)
+      this.createAxisAndSeries(chart, signal, 1, colorSet.next());
+    }
+    // selectedSignals.forEach((signal, index) => {
+    //   if (signal.selY[0] || signal.selY[1])
+    //     this.createAxisAndSeries(chart, signal, index, colorSet.next());
+    // });
+    chart.legend = new am4charts.Legend();
+    chart.legend.position = "right";
+    chart.legend.valign = "top";
+    chart.legend.itemContainers.template.tooltipText = "{name}";
+    this.legendWidth = chart.legend.width;
+    if (!this.showLegend)
+      chart.legend.width = 0;
     // Add cursor
     chart.cursor = new am4charts.XYCursor();
-    // chart.cursor.xAxis = dateAxis;
-
-    // Add Scroll
-    chart.scrollbarX = new am4charts.XYChartScrollbar();
-    (<am4charts.XYChartScrollbar>chart.scrollbarX).series.push(series);
-    chart.scrollbarX.parent = chart.bottomAxesContainer;
+    chart.cursor.xAxis = dateAxis;
+    // chart.cursor.snapToSeries = series;
+    // chart.cursor = new am4charts.XYCursor();
+    // var that = this;
+    chart.events.on("ready", (ev) => {
+      // for (let i = 0; i < 2; i++) {
+      //   if (this.selYAxisRange[i] === "rngMinMax") {
+      //     this.rangeYAxisMin[i] = (<am4charts.ValueAxis>this.chart.yAxes.getIndex(i)).minZoomed;
+      //     this.rangeYAxisMax[i] = (<am4charts.ValueAxis>this.chart.yAxes.getIndex(i)).maxZoomed;
+      //   }
+      //   if (this.selYAxisRange[i] !== "auto") {
+      //     (<am4charts.ValueAxis>this.chart.yAxes.getIndex(i)).min = this.rangeYAxisMin[i];
+      //     (<am4charts.ValueAxis>this.chart.yAxes.getIndex(i)).max = this.rangeYAxisMax[i];
+      //   }
+      // }
+    });
+    this.chart = chart;
   }
 
 
+  // Create series
+  createAxisAndSeries(chart, signal, idx, color) {
+    let series = chart.series.push(new am4charts.LineSeries());
+    let valueAxis = (<am4charts.ValueAxis>chart.yAxes.getIndex(idx)); // ((signal.selY[0]) ? 0 : (this.yAxisSignals[0]) ? 1 : 0));
+    let uom = 'uom name'; // this.signalTypes.find(({ type }) => type === signal.type).uom;
+    series.dataFields.dateX = "Date";
+    series.dataFields.valueY = "SigAvg" + idx;
+    series.yAxis = valueAxis;
+    series.name = signal.name;
+    series.tooltipText = "[bold]{name}: [bold #000]{valueY} " + uom + "[/][#000] [[{SigMin" + idx + "} - {SigMax" + idx + "}]][/]";
+    series.stroke = color;
+    series.fill = color;
+    series.showOnInit = false;
+    series.defaultState.transitionDuration = 0;
+    series.hiddenState.transitionDuration = 0;
+    series.tooltip.getFillFromObject = false;
+    series.tooltip.getStrokeFromObject = true;
+    series.tooltip.background.fill = am4core.color("#fff");
+    series.tooltip.autoTextColor = false;
+    series.tooltip.label.fill = color;
 
+    let series2 = chart.series.push(new am4charts.LineSeries());
+    series2.dataFields.dateX = "Date";
+    series2.dataFields.openValueY = "SigMin" + idx;
+    series2.dataFields.valueY = "SigMax" + idx;
+    series2.sequencedInterpolation = true;
+    series2.fillOpacity = 0.3;
+    series2.strokeWidth = 0;
+    series2.fill = color;
+    series2.yAxis = valueAxis;
+    series2.hiddenInLegend = true;
+    series2.showOnInit = false;
+    series2.defaultState.transitionDuration = 0;
+    series2.hiddenState.transitionDuration = 0;
+    series2.name = "minMax";
+
+    // Ahamed Change
+    this.showMinMax = true;
+    series2.hidden = !this.showMinMax;
+
+    series.events.on("hidden", function () {
+      series2.hide();
+    });
+
+    var that = this;
+    series.events.on("shown", function () {
+      if (that.showMinMax) series2.show();
+    });
+
+    if (!this.rangeSeriesSet) {
+      this.rangeSeriesSet = true;
+      chart.scrollbarX = new am4charts.XYChartScrollbar();
+      (<am4charts.XYChartScrollbar>chart.scrollbarX).series.push(series);
+      chart.scrollbarX.parent = chart.bottomAxesContainer;
+    }
+  }
+
+  createValueAxis(chart, axis) {
+    let valueYAxis = chart.yAxes.push(new am4charts.ValueAxis());
+    valueYAxis.tooltip.disabled = true;
+    // Will Fix this title issue -- Ahamed
+    // let signalType = this.signalTypes.find(({ type }) => type === this.yAxisType[axis]);
+    valueYAxis.title.text = 'Uom Title'; // signalType ? signalType.uom.toUpperCase() : '';
+
+    valueYAxis.renderer.line.strokeOpacity = 1;
+    valueYAxis.renderer.line.stroke = am4core.color("gray");
+    valueYAxis.renderer.labels.template.fill = am4core.color("gray");
+    valueYAxis.renderer.opposite = (axis == 1);
+    valueYAxis.renderer.grid.template.disabled = true;
+
+    // this.createThresholdRanges(valueYAxis, 0, this.signalTypes.find(({ type }) => type === this.yAxisType[axis]).nominal);
+    this.createThresholdRanges(valueYAxis, axis);
+  }
+
+  // Create thresholds
+  createThresholdRanges(valueAxis, idx) {
+    this.getThresholdForSignal(valueAxis, idx);
+  }
+
+  getThresholdForSignal(valueAxis, idx) {
+    let signal;
+    if (idx === 1) {
+      signal = this.getSignalByMappingId(this.trendChartWidget.signalY2).signalId;
+    } else {
+      signal = this.getSignalByMappingId(this.trendChartWidget.signalY1).signalId;
+    }
+
+    this.timeSeries.getThresholdValueBySignalAndOrganizationID(signal, `organizationID=${this.data.organizationId}`)
+      .subscribe(response => {
+        // this.signals = response;
+        // console.log("Threshold Values: ",response)
+        let thresholds;
+        if (response && response.length > 0) {
+          thresholds = response[0];
+        }
+
+        if (thresholds && thresholds.lowCritical) {
+          var rangeLC = valueAxis.axisRanges.create();
+          rangeLC.value = -99999;
+          rangeLC.endValue = thresholds.lowCritical;
+          rangeLC.axisFill.fill = am4core.color("#dc3545");
+          rangeLC.axisFill.fillOpacity = 0.2; // (this.showThresh[idx]) ? 0.2 : 0;
+          rangeLC.grid.strokeOpacity = 0;
+        }
+        if (thresholds && thresholds.lowWarning) {
+          var rangeLW = valueAxis.axisRanges.create();
+          rangeLW.value = (thresholds.lowCritical) ? thresholds.lowCritical : -99999;
+          rangeLW.endValue = thresholds.lowWarning;
+          rangeLW.axisFill.fill = am4core.color("#ffc107");
+          rangeLW.axisFill.fillOpacity = 0.2; // (this.showThresh[idx]) ? 0.2 : 0;
+          rangeLW.grid.strokeOpacity = 0;
+        }
+        if (thresholds && thresholds.highWarning) {
+          var rangeHW = valueAxis.axisRanges.create();
+          rangeHW.value = (thresholds.highCritical) ? thresholds.highCritical : 1200000;
+          rangeHW.endValue = thresholds.highWarning;
+          rangeHW.axisFill.fill = am4core.color("#ffc107");
+          rangeHW.axisFill.fillOpacity = 0.2; // (this.showThresh[idx]) ? 0.2 : 0;
+          rangeHW.grid.strokeOpacity = 0;
+        }
+        if (thresholds && thresholds.highCritical) {
+          var rangeHC = valueAxis.axisRanges.create();
+          rangeHC.value = thresholds.highCritical;
+          rangeHW.endValue = 1200000;
+          // rangeHC.endValue = 99999;
+          rangeHC.axisFill.fill = am4core.color("#dc3545");
+          rangeHC.axisFill.fillOpacity = 0.2; // (this.showThresh[idx]) ? 0.2 : 0;
+          rangeHC.grid.strokeOpacity = 0;
+        }
+      })
+  }
 }

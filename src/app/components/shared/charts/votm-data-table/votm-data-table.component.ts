@@ -37,6 +37,8 @@ export class VotmDataTableComponent implements OnInit, OnDestroy {
   showStatus = true;
   title = '';
   timestamp = '';
+  isSignalsDataLoading = false;
+  isGetDashboardConfigLoading = false;
   signalTypes: any[] = [
     { type: 'Absolute Pressure', uom: 'psi', nominal: 1500, var: 5 },
     { type: 'Temperature', uom: '°F', nominal: 100, var: 2 },
@@ -121,21 +123,6 @@ export class VotmDataTableComponent implements OnInit, OnDestroy {
     this.signalRService.closeSignalRConnection();
     this.modalService.open(config, { size: 'lg' }).result.then((result) => {
       if (result === 'save') {
-        // this.configured = true;
-        // this.wConfig.showOrg = this.showOrg;
-        // this.wConfig.showLoc = this.showLoc;
-        // this.wConfig.showAsset = this.showAsset;
-        // this.wConfig.showSensor = this.showSensor;
-        // this.wConfig.showStatus = this.showStatus;
-        // this.wConfig.title = this.title;
-        // this.timestamp = moment(new Date()).tz(this.loggedInUser.userConfigSettings[0].timeZoneDescription)
-        //   .format(moment.localeData(this.loggedInUser.userConfigSettings[0].localeName)
-        //     .longDateFormat('L')) + ' '
-        //   + moment(new Date()).tz(this.loggedInUser.userConfigSettings[0].timeZoneDescription)
-        //     .format(moment.localeData(this.loggedInUser.userConfigSettings[0].localeName)
-        //       .longDateFormat('LTS'));
-
-
         const selectedSignals = [];
         this.signals.forEach(signal => {
           if (signal.sel) {
@@ -186,10 +173,13 @@ export class VotmDataTableComponent implements OnInit, OnDestroy {
       + moment(new Date()).tz(this.loggedInUser.userConfigSettings[0].timeZoneDescription)
         .format(moment.localeData(this.loggedInUser.userConfigSettings[0].localeName)
           .longDateFormat('LTS'));
-    this.liveSignalValues();
+    if (this.signals.length  > 0) {
+      this.liveSignalValues();
+    }
   }
 
   getDashboardWidget() {
+    this.isGetDashboardConfigLoading = true;
     this.dashboardService.getDashboardWidgets(this.data.dashboardId)
       .subscribe(response => {
         if (response && response.length > 0) {
@@ -207,7 +197,7 @@ export class VotmDataTableComponent implements OnInit, OnDestroy {
               this.configured = true;
               this.selectSignals();
               this.loadChart();
-
+              this.isGetDashboardConfigLoading = false;
             }
           });
 
@@ -369,16 +359,6 @@ export class VotmDataTableComponent implements OnInit, OnDestroy {
     return this.signalTypes.find(({ type }) => type === signal.type).uom;
   }
 
-
-  // getUpdatedData() {
-  //   this.timeSeries.getDataTable()
-  //     .subscribe(response => {
-  //       // response.signals = [];
-  //       // console.log("List of Data", response);
-  //       this.mapSignalDataTableValuesForOrganization(response);
-  //     });
-  // }
-
   getOrgTreeStructure(org, organizationLabel = null) {
     const orgLabel = (organizationLabel ? (organizationLabel + ' > ' ) : '') + org.shortName;
     if (org.locations) {
@@ -423,11 +403,12 @@ export class VotmDataTableComponent implements OnInit, OnDestroy {
   }
 
   getSignalStructure(signal, orgLabel, locLabel, assetLabel) {
-
+    let fullLabel = '';
     if (orgLabel) {
       let list = [];
       list = orgLabel.split(' > ');
       orgLabel = list[list.length - 1] + ' > ' + (locLabel ? (locLabel + ' > ') : '') + (assetLabel ? (assetLabel + ' > ') : '');
+      fullLabel += orgLabel;
     } else {
       orgLabel = (locLabel ? (locLabel + ' > ') : '') + (assetLabel ? (assetLabel + ' > ') : '');
     }
@@ -435,6 +416,7 @@ export class VotmDataTableComponent implements OnInit, OnDestroy {
       let list = [];
       list = locLabel.split(' > ');
       locLabel = list[list.length - 1] + ' > ' + (assetLabel ? (assetLabel + ' > ') : '');
+      fullLabel += locLabel;
     } else {
       locLabel = (assetLabel ? (assetLabel + ' > ') : '');
     }
@@ -442,6 +424,7 @@ export class VotmDataTableComponent implements OnInit, OnDestroy {
       let list = [];
       list = assetLabel.split(' > ');
       assetLabel = assetLabel + ' > ';
+      fullLabel += assetLabel;
     }
     console.log(orgLabel);
     console.log(locLabel);
@@ -451,6 +434,7 @@ export class VotmDataTableComponent implements OnInit, OnDestroy {
       organization: orgLabel,
       location: locLabel,
       asset: assetLabel,
+      fullLabel,
       name: signal.signalName, sel: false, value: signal.Value,
       bat: signal.Battery, rssi: signal.signalId,
       sensor: signal.sensorName, iconFile: signal.iconFile,
@@ -462,6 +446,7 @@ export class VotmDataTableComponent implements OnInit, OnDestroy {
   }
 
   getSignalsAssociatedAssetByOrgId(orgId: string) {
+    this.isSignalsDataLoading  = true;
     this.timeSeries.getSignalsAssociatedAssetByOrgId(orgId)
       .subscribe(async response => {
         // console.log('Time Series Signal', response);
@@ -469,27 +454,32 @@ export class VotmDataTableComponent implements OnInit, OnDestroy {
         if (response) {
           await this.getOrgTreeStructure(response);
           VotmCommon.getUniqueValues(this.signals);
+          this.isSignalsDataLoading = false;
           this.selectSignals();
         }
       });
   }
 
   getSignalsAssociatedByLocationId(locId: string) {
+    this.isSignalsDataLoading  = true;
     this.timeSeries.getTimeSeriesSignalsByLocationID(locId)
       .subscribe(async response => {
         // this.mapSignals(response);
         await this.getLocationTreeStructure(response, null, null);
-	VotmCommon.getUniqueValues(this.signals);
+        VotmCommon.getUniqueValues(this.signals);
+        this.isSignalsDataLoading = false;
         this.selectSignals();
       });
   }
 
   getSignalsAssociatedByAssetId(assetId: string) {
+    this.isSignalsDataLoading  = true;
     this.timeSeries.getTimeSeriesSignalsByAssetID(assetId)
       .subscribe(async response => {
         // this.mapSignals(response);
         await this.getAssetTreeStrucutre(response, null, null, null);
-	VotmCommon.getUniqueValues(this.signals);
+        VotmCommon.getUniqueValues(this.signals);
+        this.isSignalsDataLoading = false;
         this.selectSignals();
       });
   }
