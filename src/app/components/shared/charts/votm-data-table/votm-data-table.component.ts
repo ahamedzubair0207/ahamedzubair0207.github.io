@@ -14,6 +14,15 @@ import { SignalRService } from 'src/app/services/signalR/signal-r.service';
 import * as moment from 'moment-timezone';
 import { DataTableWidget } from 'src/app/models/data-table-widget.model';
 import { DashboardService } from 'src/app/services/dasboards/dashboard.service';
+
+
+const enum State {
+  Unknown,
+  Nominal,
+  Warn,
+  Critical
+}
+
 @Component({
   selector: 'app-votm-data-table',
   templateUrl: './votm-data-table.component.html',
@@ -35,6 +44,7 @@ export class VotmDataTableComponent implements OnInit, OnDestroy {
   showAsset = true;
   showSensor = false;
   showStatus = true;
+  private showState: boolean = false;
   title = '';
   timestamp = '';
   isSignalsDataLoading = false;
@@ -45,6 +55,8 @@ export class VotmDataTableComponent implements OnInit, OnDestroy {
     { type: 'humidity', uom: '%', nominal: 50, var: 1 },
     { type: 'Peak Current', uom: '%', nominal: 50, var: 3 }
   ];
+
+  
 
   signals: any = [];
   pageLabels: any;
@@ -328,6 +340,23 @@ export class VotmDataTableComponent implements OnInit, OnDestroy {
     } else {
       return 'icon-signal-100';
     }
+  }
+
+  getState(signal) {
+    if (signal.state == State.Critical) return "icon-critical-red";
+    else if (signal.state == State.Warn) return "icon-warn-yellow";
+    else if (signal.state == State.Nominal) return "icon-nominal-green";
+    else return "";
+  }
+
+  getStateBg(signal) {
+    let classes = {
+      "alert-danger": signal.state == State.Critical && this.showState,
+      "alert-warning": signal.state == State.Warn && this.showState,
+      "alert-success": signal.state == State.Nominal && this.showState,
+      "text-body": signal != State.Unknown && this.showState
+    };
+    return classes;
   }
 
   onOrgCheckboxChange() {

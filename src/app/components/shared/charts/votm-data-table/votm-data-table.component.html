@@ -14,6 +14,7 @@
             <table class="table table-sm table-bordered">
               <thead>
                 <tr>
+                  <th *ngIf="wConfig.showState" class="text-center"></th>
                   <th scope="col" class="" [style.width]="wConfig.showSensor || wConfig.showStatus ? '45%' : '50%'">Signal</th>
                   <th scope="col">Value</th>
                   <th scope="col" class="">Time</th>
@@ -101,7 +102,7 @@
   </div>
   <div class="modal-body">
       <div class="form-group">
-        <label class="form-group mandatory">Signals:</label>
+        <label class="form-group mandatory">{{pageLabels.Signals.labelName}}:</label>
         <div class="">
           <div class="input-group input-group-sm form-group">
             <input name="organizationsearch" class="form-control" id="searchBox" type="search" placeholder="Filter Signals"
@@ -122,8 +123,8 @@
             <table class="table table-sm table-bordered">
               <thead>
                 <tr>
-                  <th scope="col" class="">Signal Name</th>
-                  <th scope="col" class="">Signal Type</th>
+                  <th scope="col" class="">{{pageLabels.SignalName.labelName}}</th>
+                  <th scope="col" class="">{{pageLabels.SignalType.labelName}}</th>
                   <th scope="col" class="text-center">
                     <div class="custom-control custom-checkbox">
                       <input type="checkbox" id="sel-all" class="custom-control-input" [checked]="selAll"
@@ -175,42 +176,48 @@
         </div>
       </div>
     <div class="form-group">
-      <label for="title" class="col-form-label">Title:</label>
+      <label for="title" class="col-form-label">{{pageLabels.Title.labelName}}:</label>
       <div class="">
         <input type="text" class="form-control" id="title" [(ngModel)]="dataTableWidget.title" />
       </div>
     </div>
     <div class="form-group row">
-      <label class="col-12 col-form-label mandatory">Display:</label>
+      <label class="col-12 col-form-label mandatory">{{pageLabels.Display.labelName}}:</label>
 
       <div class="col-3">
         <div class="custom-control custom-switch" style="padding-top: calc(.25rem + 1px);">
           <input type="checkbox" class="custom-control-input" id="showOrg"  (change)="onOrgCheckboxChange($event)" [(ngModel)]="dataTableWidget.displayOrg" />
-          <label class="custom-control-label" for="showOrg">Organization</label>
+          <label class="custom-control-label" for="showOrg">{{pageLabels.Organization.labelName}}</label>
         </div>
       </div>
       <div class="col-3">
         <div class="custom-control custom-switch" style="padding-top: calc(.25rem + 1px);">
           <input type="checkbox" class="custom-control-input" id="showLoc" (change)="onLocCheckboxChange($event)"  [(ngModel)]="dataTableWidget.displayLoc" />
-          <label class="custom-control-label" for="showLoc">Location</label>
+          <label class="custom-control-label" for="showLoc">{{pageLabels.Location.labelName}}</label>
         </div>
       </div>
       <div class="col-3">
         <div class="custom-control custom-switch" style="padding-top: calc(.25rem + 1px);">
           <input type="checkbox" class="custom-control-input" id="showAsset" (change)="onAssetCheckboxChange($event)" [(ngModel)]="dataTableWidget.displayAsset" />
-          <label class="custom-control-label" for="showAsset">Asset</label>
+          <label class="custom-control-label" for="showAsset">{{pageLabels.Asset.labelName}}</label>
         </div>
       </div>
       <div class="col-3">
         <div class="custom-control custom-switch" style="padding-top: calc(.25rem + 1px);">
           <input type="checkbox" class="custom-control-input" id="showSensor" [(ngModel)]="dataTableWidget.displaySensor" />
-          <label class="custom-control-label" for="showSensor">Source Sensor</label>
+          <label class="custom-control-label" for="showSensor">{{pageLabels.SourceSensor.labelName}}</label>
         </div>
       </div>
       <div class="col-3">
         <div class="custom-control custom-switch" style="padding-top: calc(.25rem + 1px);">
           <input type="checkbox" class="custom-control-input" id="showStatus" [(ngModel)]="dataTableWidget.displayStatus" />
-          <label class="custom-control-label" for="showStatus">Status</label>
+          <label class="custom-control-label" for="showStatus">{{pageLabels.Status.labelName}}</label>
+        </div>
+      </div>
+      <div class="col-3">
+        <div class="custom-control custom-switch" style="padding-top: calc(.25rem + 1px);">
+          <input type="checkbox" class="custom-control-input" id="showState" [checked]="showState" (change)="showState = !showState"/>
+          <label class="custom-control-label" for="showState">Alarm State</label>
         </div>
       </div>
     </div>

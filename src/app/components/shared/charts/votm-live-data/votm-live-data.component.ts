@@ -41,6 +41,7 @@ export class VotmLiveDataComponent implements OnInit {
   signals: any = [];
   loggedInUser: any;
   timestamp = '';
+  yAxisType: string[] = ["", ""];
   trendChartWidget: TrendChartWidget = new TrendChartWidget();
   @ViewChild('graphDiv', null) graphDiv: ElementRef;
 
@@ -55,6 +56,26 @@ export class VotmLiveDataComponent implements OnInit {
     { "value": "ytd", "name": "Year to Date" },
     { "value": "year", "name": "One Year" },
     { "value": "all", "name": "All Available Data" }
+  ]
+
+  private signalTypes: any[] = [
+    { "type": "pressure", "uom": "psi", "nominal": 1500, "var": 5 },
+    { "type": "Temperature", "uom": "°F", "nominal": 100, "var": 2 },
+    { "type": "Elec_Current", "uom": "kV", "nominal": 80, "var": 3 },
+    { "type": "humidity", "uom": "%", "nominal": 50, "var": 1 },
+    { "type": "Battery", "uom": "V", "nominal": 50, "var": 4 },
+    { "type": "signal", "uom": "C", "nominal": 50, "var": 1 },
+    { "type": "Peak Current", "uom": "V", "nominal": 50, "var": 6 },
+    { "type": "Average Current", "uom": "V", "nominal": 50, "var": 7 },
+    { "type": "Y Peak Acceleration", "uom": "V", "nominal": 50, "var": 8 },
+    { "type": "mode", "uom": "%", "nominal": 50, "var": 9 },
+    { "type": "Gauge Pressure", "uom": "psi", "nominal": 50, "var": 10 },
+    { "type": "X Peak Acceleration", "uom": "%RH", "nominal": 50, "var": 11 },
+    { "type": "range", "uom": "%RH", "nominal": 50, "var": 12 },
+    { "type": "Polar Angle Peak Acceleration", "uom": "%RH", "nominal": 50, "var": 13 },
+    { "type": "Z Peak Acceleration", "uom": "%RH", "nominal": 50, "var": 14 },
+    { "type": "Absolute Pressure Count", "uom": "%RH", "nominal": 50, "var": 15 },
+    { "type": "Absolute Pressure", "uom": "%RH", "nominal": 50, "var": 16 }
   ]
   dashboardWidget: any;
   chart: am4charts.XYChart;
@@ -536,7 +557,7 @@ export class VotmLiveDataComponent implements OnInit {
     // this.zone.runOutsideAngular(() => {
     let chart = am4core.create(this.wId, am4charts.XYChart);
     chart.paddingRight = 20;
-    chart.dataSource.url = `${environment.protocol}://${environment.server}/${environment.virtualName}/${AppConstants.GET_UPDATEDTIMESERIES_SIGNAL}?AccountCode=${this.trendChartWidget.accountCode}&PropertyName=${this.trendChartWidget.propertyName}&PropertyValue=${this.trendChartWidget.propertyValue}&MeasuredValue=${this.trendChartWidget.measuredValue}&FromDateTime=${typeof (this.trendChartWidget.fromDateTime) === 'string' ? this.trendChartWidget.fromDateTime : this.trendChartWidget.fromDateTime.toISOString()}&ToDateTime=${typeof (this.trendChartWidget.toDateTime) === 'string' ? this.trendChartWidget.toDateTime : this.trendChartWidget.toDateTime.toISOString()}&BucketSize=${this.trendChartWidget.bucketSize}`;
+    chart.dataSource.url = `${environment.protocol}://${environment.server}/${environment.virtualName}/${AppConstants.GET_UPDATEDTIMESERIES_SIGNAL}?userId=03C7FB47-58EE-4C41-A9D6-2AD0BD43392A&organizationId=${this.data.organizationId}&AccountCode=${this.trendChartWidget.accountCode}&PropertyName=${this.trendChartWidget.propertyName}&PropertyValue=${this.trendChartWidget.propertyValue}&MeasuredValue=${this.trendChartWidget.measuredValue}&FromDateTime=${typeof (this.trendChartWidget.fromDateTime) === 'string' ? this.trendChartWidget.fromDateTime : this.trendChartWidget.fromDateTime.toISOString()}&ToDateTime=${typeof (this.trendChartWidget.toDateTime) === 'string' ? this.trendChartWidget.toDateTime : this.trendChartWidget.toDateTime.toISOString()}&BucketSize=${this.trendChartWidget.bucketSize}&precesion=2`;
     chart.dataSource.parser = new am4core.JSONParser();
     // xAxis.dateFormatter = new am4core.DateFormatter();
     // xAxis.dateFormatter.dateFormat = "MM-dd";
@@ -610,7 +631,7 @@ export class VotmLiveDataComponent implements OnInit {
   createAxisAndSeries(chart, signal, idx, color) {
     let series = chart.series.push(new am4charts.LineSeries());
     let valueAxis = (<am4charts.ValueAxis>chart.yAxes.getIndex(idx)); // ((signal.selY[0]) ? 0 : (this.yAxisSignals[0]) ? 1 : 0));
-    let uom = 'uom name'; // this.signalTypes.find(({ type }) => type === signal.type).uom;
+    let uom =  this.signalTypes.find(({ type }) => type === signal.type).uom; //'uom name';
     series.dataFields.dateX = "Date";
     series.dataFields.valueY = "SigAvg" + idx;
     series.yAxis = valueAxis;
@@ -667,8 +688,8 @@ export class VotmLiveDataComponent implements OnInit {
     let valueYAxis = chart.yAxes.push(new am4charts.ValueAxis());
     valueYAxis.tooltip.disabled = true;
     // Will Fix this title issue -- Ahamed
-    // let signalType = this.signalTypes.find(({ type }) => type === this.yAxisType[axis]);
-    valueYAxis.title.text = 'Uom Title'; // signalType ? signalType.uom.toUpperCase() : '';
+    let signalType = this.signalTypes.find(({ type }) => type === this.yAxisType[axis]);
+    valueYAxis.title.text = signalType ? signalType.uom.toUpperCase() : ''; //'Uom Title';
 
     valueYAxis.renderer.line.strokeOpacity = 1;
     valueYAxis.renderer.line.stroke = am4core.color("gray");
