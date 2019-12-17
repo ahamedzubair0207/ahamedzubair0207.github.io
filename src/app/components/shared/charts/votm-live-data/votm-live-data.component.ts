@@ -77,6 +77,7 @@ export class VotmLiveDataComponent implements OnInit {
     { "type": "Absolute Pressure Count", "uom": "%RH", "nominal": 50, "var": 15 },
     { "type": "Absolute Pressure", "uom": "%RH", "nominal": 50, "var": 16 }
   ]
+
   dashboardWidget: any;
   chart: am4charts.XYChart;
   rangeSeriesSet: boolean;
@@ -90,6 +91,7 @@ export class VotmLiveDataComponent implements OnInit {
   private rangeYAxisMax: number[] = [null, null];
   private autoScaleY: boolean[] = [true, true];
 
+
   constructor(private zone: NgZone, private modalService: NgbModal,
     private configSettingsService: ConfigSettingsService, private router: Router,
     private timeSeries: TimeSeriesService,
@@ -97,6 +99,7 @@ export class VotmLiveDataComponent implements OnInit {
     private dashboardService: DashboardService) {
     // this.id = Math.floor((Math.random() * 100) + 1);
   }
+  
 
   ngOnInit() {
     if (this.data) {
@@ -568,11 +571,11 @@ export class VotmLiveDataComponent implements OnInit {
     // chart.dataSource.parser.options
 
     // chart.dataSource.dateFormat = 'M/d/y h:m:s a';
-    chart.dataSource.reloadFrequency = 20000;
+    chart.dataSource.reloadFrequency = 30000;
     // chart.data = response; // timeseries;// this.generateChartData();
     // chart.dataSource.reloadFrequency = 3000;
     let title = chart.titles.create();
-    title.text = (this.trendChartWidget.chartTitle) ? this.trendChartWidget.chartTitle : 'Line-Chart';
+    title.text = (this.trendChartWidget.chartTitle) ? this.trendChartWidget.chartTitle : '';
     title.fontSize = 25;
     title.marginBottom = 30;
     let tempdateaxis = new am4charts.DateAxis();
