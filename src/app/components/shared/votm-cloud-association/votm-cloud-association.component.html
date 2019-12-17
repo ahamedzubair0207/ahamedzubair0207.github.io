@@ -468,5 +468,21 @@
 </div>
 
 
+<ng-template #alertCreateContent let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title">{{alertModalTitle}}</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <app-votm-cloud-alerts-create [AlertpageType]="alertpageType" [AlertcurOrgId]="organizationId" [AlertcurOrgName]="organizationName" [AlertorgId]="organizationId" [AlertaccessScopeName]="organizationName"></app-votm-cloud-alerts-create>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary btn-sm" (click)="modal.close('Close click')">Close</button>
+      <button type="button" class="btn btn-info btn-sm" id="alertRuleSaveBtn" (click)="onCreateAlertRule()"><i class="icon-warn"></i>Save Alert Rule</button>
+    </div>
+  </ng-template>
+
 
 

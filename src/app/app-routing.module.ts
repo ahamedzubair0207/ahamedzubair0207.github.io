@@ -141,32 +141,32 @@ const routes: Routes = [
     // canActivate: [ OktaAuthGuard ],
     data: { type: 'Edit' }
   },
-  {
-    path: 'org/view/:curOrgId/:curOrgName/:orgId/alertRule/create',
-    component: VotmCloudAlertsCreateComponent,
-    // canActivate: [ OktaAuthGuard ],
-    data: { type: 'Create' }
-  },
-  {
-    path: 'org/view/:curOrgId/:curOrgName/:orgId/alertRule/edit/:alertId',
-    component: VotmCloudAlertsCreateComponent, data: { type: 'Edit' }
-  },
-  {
-    path: 'org/view/:curOrgId/:curOrgName/:orgId/alertRule/view/:alertId',
-    component: VotmCloudAlertsCreateComponent, data: { type: 'View' }
-  },
-  {
-    path: 'org/edit/:curOrgId/:curOrgName/:orgId/alertRule/create',
-    component: VotmCloudAlertsCreateComponent, data: { type: 'Create' }
-  },
-  {
-    path: 'org/edit/:curOrgId/:curOrgName/:orgId/alertRule/edit/:alertId',
-    component: VotmCloudAlertsCreateComponent, data: { type: 'Edit' }
-  },
-  {
-    path: 'org/edit/:curOrgId/:curOrgName/:orgId/alertRule/view/:alertId',
-    component: VotmCloudAlertsCreateComponent, data: { type: 'View' }
-  },
+  // {
+  //   path: 'org/view/:curOrgId/:curOrgName/:orgId/alertRule/create',
+  //   component: VotmCloudAlertsCreateComponent,
+  //   // canActivate: [ OktaAuthGuard ],
+  //   data: { type: 'Create' }
+  // },
+  // {
+  //   path: 'org/view/:curOrgId/:curOrgName/:orgId/alertRule/edit/:alertId',
+  //   component: VotmCloudAlertsCreateComponent, data: { type: 'Edit' }
+  // },
+  // {
+  //   path: 'org/view/:curOrgId/:curOrgName/:orgId/alertRule/view/:alertId',
+  //   component: VotmCloudAlertsCreateComponent, data: { type: 'View' }
+  // },
+  // {
+  //   path: 'org/edit/:curOrgId/:curOrgName/:orgId/alertRule/create',
+  //   component: VotmCloudAlertsCreateComponent, data: { type: 'Create' }
+  // },
+  // {
+  //   path: 'org/edit/:curOrgId/:curOrgName/:orgId/alertRule/edit/:alertId',
+  //   component: VotmCloudAlertsCreateComponent, data: { type: 'Edit' }
+  // },
+  // {
+  //   path: 'org/edit/:curOrgId/:curOrgName/:orgId/alertRule/view/:alertId',
+  //   component: VotmCloudAlertsCreateComponent, data: { type: 'View' }
+  // },
   {
     path: 'org/sensorDetails/view/:sensorId',
     component: VotmCloudAdminSensorDetailsComponent,

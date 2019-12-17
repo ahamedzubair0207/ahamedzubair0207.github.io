@@ -53,6 +53,8 @@
     [showUnassoc]="showUnassoc"
     [showAssoc]="showAssoc"
     [locationId]="locationId"
+    [organizationId]="curOrganizationId"
+    [organizationName]="curOrganizationName"
     (detach)="onDetachSignalFromAsset($event)"
     (reload)="getLocationSignalAssociation()"
     (saveAssociation)="onSaveSignalAssociation($event)"
@@ -76,3 +78,6 @@
 <div class="center" *ngIf="!imgURL">
   <i  class="fa fa-spinner fa-2x fa-spin fa-fw"></i>
 </div>
+
+
+

@@ -15,11 +15,10 @@ import { NavigationService } from 'src/app/services/navigation/navigation.servic
   selector: 'app-votm-cloud-alerts-home',
   templateUrl: './votm-cloud-alerts-home.component.html',
   styleUrls: ['./votm-cloud-alerts-home.component.scss'],
-  encapsulation: ViewEncapsulation.None
 })
 export class VotmCloudAlertsHomeComponent implements OnInit {
 
-  @Input() alertList: Array<TableModule> =[];
+  @Input() alertList: Array<TableModule> = [];
   @Input() orgId: string;
   message: any;
   alertToDelete: string;

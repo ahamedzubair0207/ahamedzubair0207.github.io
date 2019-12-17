@@ -11,6 +11,7 @@ import { LocationSignalService } from '../../../services/locationSignal/location
 import { ToastrService } from 'ngx-toastr';
 import { Toaster } from '../../shared/votm-cloud-toaster/votm-cloud-toaster';
 import { Location } from 'src/app/models/location.model';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 declare var $: any;
 @Component({
   selector: 'app-votm-cloud-locations-signal',
@@ -41,6 +42,8 @@ export class VotmCloudLocationsSignalComponent implements OnInit {
   showAssoc = true;
   model = 'signal';
   pageType: string;
+  // alert modal vaiables
+
   constructor(
     private activatedRoute: ActivatedRoute,
     private route: Router,
@@ -50,7 +53,7 @@ export class VotmCloudLocationsSignalComponent implements OnInit {
     private alertsService: AlertsService,
     private domSanitizer: DomSanitizer,
     private toastr: ToastrService,
-    private eleRef: ElementRef
+    private ngbModal: NgbModal
   ) { }
 
   ngOnInit() {
@@ -65,7 +68,7 @@ export class VotmCloudLocationsSignalComponent implements OnInit {
       // console.log(this.curOrganizationId, '====', this.curOrganizationName, '====', this.organizationId);
 
       this.getLocationSignalAssociation();
-      this.getAlertRulesList();
+
     });
   }
 
@@ -148,6 +151,7 @@ export class VotmCloudLocationsSignalComponent implements OnInit {
         response => {
           this.getAllAvailableSignals();
           this.getLocationById();
+          this.getAlertRulesList();
           this.isGetAssociatedSignalsAPILoading = false;
           for (let i = 0; i < response.length; i++) {
             const signal = response[i];
@@ -237,9 +241,9 @@ export class VotmCloudLocationsSignalComponent implements OnInit {
   }
 
   onCreateAssociateRule(signal) {
-    this.route.navigate(['org', 'view', this.curOrganizationId, this.curOrganizationName,
-    this.organizationId ? this.organizationId : this.curOrganizationId, 'alertRule', 'create']);
-    this.sharedService.setSignalDataForAlert(signal);
+    // this.route.navigate(['org', 'view', this.curOrganizationId, this.curOrganizationName,
+    // this.organizationId ? this.organizationId : this.curOrganizationId, 'alertRule', 'create']);
+
   }
 
   onReturnToList() {
@@ -250,6 +254,7 @@ export class VotmCloudLocationsSignalComponent implements OnInit {
     this.getLocationSignalAssociation();
     this.toggleDisable();
   }
+
 
 
 }

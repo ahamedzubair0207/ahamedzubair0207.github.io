@@ -7,7 +7,7 @@
     height: calc(100% - 1.25rem);
     &.dt-titlespace {
       height: calc(100% - (#{$h3-font-size} * #{$headings-line-height}) - #{$headings-margin-bottom}) !important;
-      margin-top: 0;
+      margin-top: 1.3rem;
     }
     .table-fixed {
       height: 100%;
