@@ -200,13 +200,13 @@
 .icon-id-card:before { content: '\f2c2'; } /* '' */
 .icon-user-profile:before { content: '\f2c3'; } /* '' */
 
-.icon-warn-yellow { position: relative; margin-right: .41875rem !important; font-size: 120%; line-height: 80%; padding-left: 1.4rem; }
+.icon-warn-yellow { position: relative; margin-right: 0; font-size: 120%; line-height: 80%; padding-left: 1.4rem; display: inline; vertical-align: middle;}
 .icon-warn-yellow:before { content: "\e849"; position: absolute; left: 0; bottom: 0; color: #000000; margin: 0; }
 .icon-warn-yellow:after { content: "\e857"; position: absolute; left: 0; bottom: 0; color: yellow; margin: 0; }
-.icon-critical-red { position: relative; margin-right: 0.41875rem; font-size: 120%; line-height: 80%; padding-left: 1.25rem; }
+.icon-critical-red { position: relative; margin-right: 0; font-size: 120%; line-height: 80%; padding-left: 1.25rem; display: inline; vertical-align: middle;}
 .icon-critical-red:before { content: "\e848"; position: absolute; left: 0; bottom: 0; color: #ffffff; margin: 0; }
 .icon-critical-red:after { content: "\e856"; position: absolute; left: 0; bottom: 0; color: #dc3545; margin: 0; text-shadow: none; }
-.icon-nominal-green { position: relative; margin-right: 0.41875rem; font-size: 120%; line-height: 80%; padding-left: 1.25rem; }
+.icon-nominal-green { position: relative; margin-right: 0; font-size: 120%; line-height: 80%; padding-left: 1.25rem; display: inline; vertical-align: middle;}
 .icon-nominal-green:before { content: "\e84a"; position: absolute; left: 0; bottom: 0; color: #ffffff; margin: 0; }
 .icon-nominal-green:after { content: "\e862"; position: absolute; left: 0; bottom: 0; color: #28a745; margin: 0; text-shadow: none;
 }
