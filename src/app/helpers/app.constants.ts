@@ -83,6 +83,8 @@ export class AppConstants {
     public static GET_ALERT_THRESHOLD = '/Signal';
     public static UPDATE_ALERT_SIGNAL_MAPPING = 'Signal/AlertRuleMapping';
 
+    public static GET_CONTROLS_OF_FUNCTION = 'DerivedSignals';
+
 
     public static GET_SENSOR_TREE = '/SensorTree';
     public static GET_SENSOR_DETAIL_BY_ID = '/Sensor';

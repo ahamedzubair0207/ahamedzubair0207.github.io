@@ -772,7 +772,9 @@ export class VotmCloudAlertsCreateComponent implements OnInit, OnDestroy {
         });
       }
     });
-    this.alert.alertRuleSignalMapping.push({ signalMappingId: this.selectedSignal.signalMappingId });
+    if (this.selectedSignal) {
+      this.alert.alertRuleSignalMapping.push({ signalMappingId: this.selectedSignal.signalMappingId });
+    }
     // // console.log('onResponsibityChange ', this.alert);
     if (this.alertId) {
       this.alertsService.updateAlertRule(this.alert)

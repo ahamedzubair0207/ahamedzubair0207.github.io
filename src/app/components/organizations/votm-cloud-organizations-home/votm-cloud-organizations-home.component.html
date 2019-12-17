@@ -132,7 +132,15 @@
         <td class="align-left">{{rowData.contractStart.split(" ")[0]}}</td>
         <td class="align-left">{{rowData.contractEnd.split(" ")[0]}}</td>
         <td class="align-left">{{rowData.serviceLevel}}</td>
-        <td class="align-center"><i class="icon-go" style="color: #28a745;"></i></td>
+        <td class="align-center"><i [ngClass]="rowData.alarmStatus ?
+          (
+            rowData.alarmStatus.toLowerCase().includes('high') ? 'icon-critical text-danger' : (
+              rowData.alarmStatus.toLowerCase().includes('low') ? 'icon-warn text-warning' : (
+                rowData.alarmStatus.toLowerCase().includes('baseline') ? 'icon-info text-success' : ''
+              )
+            )
+          )
+          : 'icon-info text-success'" ></i></td>
         <td class="align-center">
           <a class="action-icon" container="body" ngbTooltip="Location"
             [routerLink]="['/loc/home', rowData.id, rowData.name]">

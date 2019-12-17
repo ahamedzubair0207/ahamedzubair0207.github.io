@@ -1,3 +1,73 @@
-<p>
-  votmcloud-derived-signal works!
-</p>
+<div class="row">
+    <div class="col-12 col-md-8 col-lg-8">
+      <div class="form-group">
+        <label for="">Calculated Signal Name</label>
+        <input type="text" [(ngModel)]="derivedSignal.derivedSignalName" class="form-control form-control-sm" id="" value="My Derived Signal">
+      </div>
+    </div>
+    <div class="col-12 col-md-4 col-lg-4">
+      <div class="form-group">
+        <label for="">Icon</label>
+        <ng-select class="custom" [(ngModel)]="derivedSignal.icon" name="sigIcon">
+          <ng-option value="company"><i class="icon-location"></i></ng-option>
+        </ng-select>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <div class="form-group">
+        <label for="">Function Name</label>
+
+        <ng-select class="custom" [ngStyle]="{'background-color':pageType==='View'?'#e9ecef':'#fff'}" [(ngModel)]="derivedSignal.functionId"
+        name="fucntionName" id="functionName" placeholder="Select Function" (change)="onChangeFunction()">
+          <ng-option value="E53B2CF2-3E91-418D-98FF-0A00FE4C955A">4-20mA AnalogMapping</ng-option>
+          <ng-option value="8A0ED103-2AB2-4D20-A995-CD4DE40F919C">Voltage Analog Mapping</ng-option>
+          <ng-option value="99DC9A00-8A05-4633-A043-F8DD1493F986">Fill Level</ng-option>
+        </ng-select>
+        <i>Every period sum the measurements during the period for up to 10 input signals.</i>
+      </div>
+    </div>
+  </div>
+  <fieldset *ngIf="functionControlKeys.length > 0" >
+    <legend>Function Inputs</legend>
+    <div class="row">
+      <div class="col-12 col-md-6 col-lg-6" *ngFor="let derivedControlsKey of functionControlKeys" >
+        <div class="form-group">
+          <label for="">{{derivedControlsKey}}</label>
+          <ng-container *ngIf="functionControls[derivedControlsKey].controlName.toLowerCase() === 'dropdown'" >
+            <ng-select class="custom"  name="sigIcon">
+              <ng-option value="company"><i class="icon-location"></i></ng-option>
+            </ng-select>
+          </ng-container>
+          <ng-container *ngIf="functionControls[derivedControlsKey].controlName.toLowerCase() === 'textbox'" >
+              <input type="text" class="form-control form-control-sm" id="" >
+          </ng-container>
+        </div>
+      </div>
+      <!-- <div class="col-12 col-md-6 col-lg-6">
+        <div class="form-group">
+          <label for="">Summable signal type</label>
+          <ng-select class="">
+            <ng-option value="company">Flow<i class="icon-location"></i></ng-option>
+          </ng-select>
+        </div>
+      </div>
+      <div class="col-12 col-md-6 col-lg-6">
+        <div class="form-group">
+          <label for="">Input Signal 1</label>
+          <ng-select class="">
+            <ng-option value="company">Compressor 1 Flow<i class="icon-location"></i></ng-option>
+          </ng-select>
+        </div>
+      </div>
+      <div class="col-12 col-md-6 col-lg-6">
+        <div class="form-group">
+          <label for="">Input Signal 2</label>
+          <ng-select class="">
+            <ng-option value="company">Compressor 2 Flow<i class="icon-location"></i></ng-option>
+          </ng-select>
+        </div>
+      </div> -->
+    </div>
+  </fieldset>

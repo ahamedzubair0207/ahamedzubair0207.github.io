@@ -11,7 +11,7 @@ import { LocationSignalService } from '../../../services/locationSignal/location
 import { ToastrService } from 'ngx-toastr';
 import { Toaster } from '../../shared/votm-cloud-toaster/votm-cloud-toaster';
 import { Location } from 'src/app/models/location.model';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
 import { SharedService } from 'src/app/services/shared.service';
 declare var $: any;
 
@@ -22,7 +22,7 @@ declare var $: any;
 })
 export class VotmCloudAssociationComponent implements OnChanges {
 
-  derivedSignalModal: any;
+  @ViewChild('derivedSignalContent', null)derivedSignalModalContent: ElementRef;
   selectedSignal; // selected signal to display overlay panel.
   toaster: Toaster = new Toaster(this.toastr);
   isGetAvailableSignalsAPILoading = false; // flag for loader for get available signals api
@@ -91,8 +91,12 @@ export class VotmCloudAssociationComponent implements OnChanges {
     private ngbModal: NgbModal,
     private alertsService: AlertsService,
     private sharedService: SharedService,
-    private activatedRoute: ActivatedRoute
-  ) { }
+    private activatedRoute: ActivatedRoute,
+    private ngbModalConfig: NgbModalConfig
+  ) {
+    ngbModalConfig.backdrop = 'static';
+    ngbModalConfig.keyboard = false;
+   }
 
   // Called when "save" button pressed from customImageOvelay widget
   ngOnChanges(changes: SimpleChanges) {
@@ -186,7 +190,7 @@ export class VotmCloudAssociationComponent implements OnChanges {
     newSignal['pctPos'] = { left: 0, top: 0 };
     this.droppedList.push(newSignal);
     // console.log(newSignal);
-    this.closeModal(this.derivedSignalModal);
+    // this.closeModal(this.derivedSignalModal);
   }
 
   onStart(event: any, index1, index2) {
@@ -479,22 +483,13 @@ export class VotmCloudAssociationComponent implements OnChanges {
     this.returnToList.emit();
   }
 
-  openmodal(id) {
-    // Get the modal
-    const modal = document.getElementById(id);
-    modal.style.display = 'block';
-    this.derivedSignalModal = document.getElementById(id);
-    // When the user clicks anywhere outside of the modal, close it
-    window.onclick = (event) => {
-      if (event.target === modal) {
-        modal.style.display = 'none';
-      }
-    };
-   }
-
-  closeModal(key) {
-    key.style.display = 'none';
+  openDerivedSignalmodal() {
+    this.ngbModal.open(this.derivedSignalModalContent, { size: 'lg', scrollable: true });
   }
+
+  // closeModal(key) {
+  //   key.style.display = 'none';
+  // }
 
   onCreateAlertRule() {
     this.alertsService.createAlertRuleEvent.emit();
