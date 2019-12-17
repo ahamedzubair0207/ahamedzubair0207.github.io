@@ -134,13 +134,13 @@
         <td class="align-left">{{rowData.serviceLevel}}</td>
         <td class="align-center"><i [ngClass]="rowData.alarmStatus ?
           (
-            rowData.alarmStatus.toLowerCase().includes('high') ? 'icon-critical text-danger' : (
-              rowData.alarmStatus.toLowerCase().includes('low') ? 'icon-warn text-warning' : (
-                rowData.alarmStatus.toLowerCase().includes('baseline') ? 'icon-info text-success' : ''
+            rowData.alarmStatus.toLowerCase().includes('high') ? 'icon-critical-red' : (
+              rowData.alarmStatus.toLowerCase().includes('low') ? 'icon-warn-yellow' : (
+                rowData.alarmStatus.toLowerCase().includes('baseline') ? 'icon-nominal-green' : ''
               )
             )
           )
-          : 'icon-info text-success'" ></i></td>
+          : 'icon-nominal-green'" ></i></td>
         <td class="align-center">
           <a class="action-icon" container="body" ngbTooltip="Location"
             [routerLink]="['/loc/home', rowData.id, rowData.name]">
