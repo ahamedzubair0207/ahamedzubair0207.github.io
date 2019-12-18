@@ -55,9 +55,6 @@ export class VotmDataTableComponent implements OnInit, OnDestroy {
     { type: 'humidity', uom: '%', nominal: 50, var: 1 },
     { type: 'Peak Current', uom: '%', nominal: 50, var: 3 }
   ];
-
-  
-
   signals: any = [];
   pageLabels: any;
   currentUrl: any;
@@ -437,7 +434,7 @@ export class VotmDataTableComponent implements OnInit, OnDestroy {
       let list = [];
       list = orgLabel.split(' > ');
       orgLabel = list[list.length - 1] + ' > ' + (locLabel ? (locLabel + ' > ') : '') + (assetLabel ? (assetLabel + ' > ') : '');
-      fullLabel += orgLabel;
+      fullLabel = orgLabel;
     } else {
       orgLabel = (locLabel ? (locLabel + ' > ') : '') + (assetLabel ? (assetLabel + ' > ') : '');
     }
@@ -445,7 +442,9 @@ export class VotmDataTableComponent implements OnInit, OnDestroy {
       let list = [];
       list = locLabel.split(' > ');
       locLabel = list[list.length - 1] + ' > ' + (assetLabel ? (assetLabel + ' > ') : '');
-      fullLabel += locLabel;
+      if (!fullLabel) {
+        fullLabel = locLabel;
+      }
     } else {
       locLabel = (assetLabel ? (assetLabel + ' > ') : '');
     }
@@ -453,7 +452,9 @@ export class VotmDataTableComponent implements OnInit, OnDestroy {
       let list = [];
       list = assetLabel.split(' > ');
       assetLabel = assetLabel + ' > ';
-      fullLabel += assetLabel;
+      if (!fullLabel) {
+        fullLabel += assetLabel;
+      }
     }
     console.log(orgLabel);
     console.log(locLabel);
@@ -464,7 +465,7 @@ export class VotmDataTableComponent implements OnInit, OnDestroy {
       location: locLabel,
       asset: assetLabel,
       fullLabel,
-      name: signal.signalName, sel: false, value: signal.Value,
+      name: signal.associationName, sel: false, value: signal.Value,
       bat: signal.Battery, rssi: signal.signalId,
       sensor: signal.sensorName, iconFile: signal.iconFile,
       signalId: signal.signalId,
