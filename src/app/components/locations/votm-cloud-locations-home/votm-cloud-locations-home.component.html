@@ -7,7 +7,7 @@
     <div class="col-6">
       <form class="col-12 col-md-6 col-lg-4 col-xl-4 pl-0">
         <div class="form-group">
-          <label for="typeahead-config" id="loc-filter-eve" class="mr-2">Type to filter events:</label>   
+          <label for="typeahead-config" id="loc-filter-eve" class="mr-2">Type to filter events:</label>
           <div class="input-group input-group-sm">
             <input class="form-control" name="searchFilterLoc" id="searchBox" [(ngModel)]="searchedText" type="search"
               placeholder="Search" aria-label="Search">
@@ -122,7 +122,15 @@
         <td class="align-left">{{rowData.parentOrgName}}</td>
         <td class="align-left">{{rowData.primaryDistributor}}</td>
         <td class="align-left">{{rowData.city}}, {{rowData.state}}</td>
-        <td class="align-center"><i class="icon-warn-yellow"></i></td>
+        <td class="align-center"><i  [ngClass]="rowData.alarmStatus ?
+          (
+            rowData.alarmStatus.toLowerCase().includes('high') ? 'icon-critical-red' : (
+              rowData.alarmStatus.toLowerCase().includes('low') ? 'icon-warn-yellow' : (
+                rowData.alarmStatus.toLowerCase().includes('baseline') ? 'icon-nominal-green' : ''
+              )
+            )
+          )
+          : ''" ></i></td>
         <td class="align-center">
           <a class="action-icon" container="body" ngbTooltip="Asset"
             [routerLink]="['/asset/home',rowData.parentOrgId, rowData.parentOrgName, rowData.id]">

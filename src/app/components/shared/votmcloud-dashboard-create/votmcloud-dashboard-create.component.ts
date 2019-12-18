@@ -42,7 +42,7 @@ export class VotmcloudDashboardCreateComponent implements OnInit {
 
   open() {
     this.modalService
-    .open(this.content, { ariaLabelledBy: 'modal-basic-title', backdrop: 'static', keyboard: false });
+    .open(this.content, { ariaLabelledBy: 'modal-basic-title', backdrop: 'static', keyboard: false});
   }
 
   onClose(flag) {
