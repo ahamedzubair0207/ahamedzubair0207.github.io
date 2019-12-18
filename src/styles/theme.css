@@ -2424,8 +2424,8 @@ body .ui-treetable .ui-treetable-summary {
 .ui-treetable-scrollable-header, .ui-treetable-scrollable-footer {
   background-color: #dee2e6 !important;
   border-right: 1px solid #c8c8c8 !important;
-  border-top: 1px solid #c8c8c8 !important;
-  border-bottom: 1px solid #c8c8c8 !important;
+  /* border-top: 1px solid #c8c8c8 !important; */
+  /* border-bottom: 1px solid #c8c8c8 !important; */
 }
 
 
@@ -2436,6 +2436,7 @@ body .ui-treetable .ui-treetable-thead > tr > th {
   color: #333333;
   background-color: #dee2e6 !important;
   border-left: 1px solid #c8c8c8 !important;
+  border-right: 0px solid #c8c8c8 !important;
 }
 body .ui-treetable .ui-treetable-tbody > tr > td {
   padding: 0.571em 0.857em;
