@@ -1,3 +1,4 @@
+import { VotmcloudDashboardCreateComponent } from './../../shared/votmcloud-dashboard-create/votmcloud-dashboard-create.component';
 // import { location } from './../../../../assets/projects/swimlane/ngx-datatable/src/lib/utils/facade/browser';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
@@ -90,6 +91,7 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
   @ViewChild('file', null) locationImage: any;
   @ViewChild('address1', null) address1: any;
   @ViewChild('confirmBoxDash', null) confirmBoxDash: VotmCloudConfimDialogComponent;
+  @ViewChild('addDashboardModal', null) addDashboardModal: VotmcloudDashboardCreateComponent;
   parentLocName: string;
   fileName: any;
   fileExtension: string;
@@ -98,7 +100,6 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
 
   countryObject: any[] = [];
   // Dashboard Item
-  addDashboardmodal: any;
   dashboardData: any;
   dashboardTemplates: {};
   delDashboardId: any;
@@ -135,7 +136,7 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
   deletedDashboardName: any;
 
   constructor(
-    private modalService: NgbModal,
+    private ngbModal: NgbModal,
     private locationService: LocationService,
     private configSettingsService: ConfigSettingsService,
     private domSanitizer: DomSanitizer,
@@ -678,7 +679,7 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
   }
 
   open(content) {
-    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then((result) => {
+    this.ngbModal.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
@@ -1017,18 +1018,7 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
     }
     // // console.log('dashboardDataById---', this.dashboardDataById);
     // Get the modal
-    let addDashboardmodal = document.getElementById('addDashboardModalWrapper');
-    addDashboardmodal.style.display = 'block';
-    this.addDashboardmodal = document.getElementById('addDashboardModalWrapper');
-    // Get the <span> element that closes the modal
-    var span = document.getElementsByClassName('close')[0];
-
-    // When the user clicks anywhere outside of the modal, close it
-    window.onclick = function (event) {
-      if (event.target === addDashboardmodal) {
-        addDashboardmodal.style.display = 'none';
-      }
-    };
+    this.addDashboardModal.open();
 
   }
 
@@ -1051,22 +1041,22 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
 
     this.dbLastIdNum++;
     this.newTabId = "dbtab-" + this.dbLastIdNum;
-
+    const dashboardObj = {...this.dashboardTab};
     if (this.dashboardTab.dashboardId) {
-      this.dbService.editDashboard(this.dashboardTab)
+      this.dbService.editDashboard(dashboardObj)
         .subscribe(response => {
           this.getAllDashboards();
           // let index = this.dashboardTabs.findIndex(x => x.dashboardId === this.dashboardTab.dashboardId);
           // this.dashboardTabs[index] = this.dashboardTab;
-          this.dashboardTab = new DashBoard();
+           this.dashboardTab = new DashBoard();
           this.toaster.onSuccess('Successfully Updated Dashboard', 'Updated');
         });
     } else {
-      this.dbService.saveDashboard(this.dashboardTab)
+      this.dbService.saveDashboard(dashboardObj)
         .subscribe(response => {
           // this.dashboardTabs.push(this.dashboardTab);
           this.getAllDashboards();
-          this.dashboardTab = new DashBoard();
+           this.dashboardTab = new DashBoard();
           this.toaster.onSuccess('Successfully Created Dashboard', 'Created');
         });
     }
@@ -1081,41 +1071,10 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
       });
   }
 
-  // onDashboardFormSubmit() {
-  //   // // console.log('onDashboardFormSubmit', this.dashboardDataById);
-  //   // this.addDashboardArray = {
-  //   //   id: '4',
-  //   //   templateName: 'Standard Asset Dashboard',
-  //   //   dashboardName: this.dashboardDataById.dashboardName
-  //   // };
-  //   // this.dashboardData.push(this.addDashboardArray);
-
-  //   if (!this.dashboardTabs) {
-  //     this.dashboardTabs = []
-  //   }
-
-  //   this.dashboardTab.locationId = this.locId;
-  //   this.dashboardTab.published = true;
-  //   this.dashboardTab.active = true;
-
-  //   this.dbLastIdNum++;
-  //   this.newTabId = "dbtab-" + this.dbLastIdNum;
-  //   this.dbItems.push(new DbItem(this.newTabId, this.dbLongName, this.dbShortName, this.selTemplate,
-  //     this.dbTemplates.find(({ name }) => name === this.selTemplate).component, ''));
-  //   // // console.log('this.dbItems---added', this.dbItems);
-  //   this.dbService.saveDashboard(this.dashboardTab)
-  //     .subscribe(response => {
-  //       this.dashboardTabs.push(this.dashboardTab);
-  //       this.dashboardTab = new DashBoard();
-  //       this.toaster.onSuccess('Successfully Created Dashboard', 'Created');
-  //       this.closeAddDashboardModal(true);
-  //     })
-
-  // }
-
   closeAddDashboardModal(event: any) {
     // // console.log('==', event);
-    this.addDashboardmodal.style.display = 'none';
+    this.ngbModal.dismissAll();
+    this.dashboardTab = new DashBoard();
     // if (event === 'save') {
     //
     // } else if (event === 'create') {

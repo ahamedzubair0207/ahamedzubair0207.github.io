@@ -102,7 +102,15 @@
         </td>
         <td class="align-left" container="body" [ngbTooltip]="rowData.parentOrganizationName">
           {{rowData.parentOrganizationName}}</td>
-        <td class="align-center" style="text-align: center;"><i class="icon-critical" style="color: #dc3545;"></i></td>
+        <td class="align-center" style="text-align: center;"><i  [ngClass]="rowData.alarmStatus ?
+          (
+            rowData.alarmStatus.toLowerCase().includes('high') ? 'icon-critical-red' : (
+              rowData.alarmStatus.toLowerCase().includes('low') ? 'icon-warn-yellow' : (
+                rowData.alarmStatus.toLowerCase().includes('baseline') ? 'icon-nominal-green' : ''
+              )
+            )
+          )
+          : ''" ></i></td>
         <td class="align-center"></td>
         <td class="align-center"></td>
         <td class="align-center">
@@ -121,7 +129,7 @@
       </tr>
     </ng-template>
   </p-treeTable>
-  <!-- 
+  <!--
 <ng-template #recursiveTableList let-list="assetList" let-lvl="level">
   <ng-container *ngFor="let item of list">
     <tr class="">
@@ -149,7 +157,7 @@
     </tr>
 
     <ng-container *ngFor="let subItem of item.node">
-     
+
       <tr *ngIf="item.opened && subItem.entityType == 'Asset'" class="">
         <th scope="row" (click)="subItem.opened = !subItem.opened" [ngStyle]="{'padding-left.px': 15*(lvl+2)}">
           <i class="icon-asset-robot"></i>

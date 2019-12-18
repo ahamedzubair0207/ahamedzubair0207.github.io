@@ -41,6 +41,9 @@ class UserConfigSettings {
     languageId: string;
     localeId: string;
     timeZoneId: string;
+    timeZoneDescription: string;
+    timeZoneName: string;
+    localeName: string;
     active: boolean;
     description: string;
     createdBy: string;

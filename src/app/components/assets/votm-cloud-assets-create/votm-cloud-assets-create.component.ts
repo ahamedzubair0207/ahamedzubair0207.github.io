@@ -22,6 +22,7 @@ import { DashboardService } from '../../../services/dasboards/dashboard.service'
 import { DbTplItem } from 'src/app/models/db-tpl-item';
 import { DbItem } from 'src/app/models/db-item';
 import { DashBoard } from 'src/app/models/dashboard.model';
+import { VotmcloudDashboardCreateComponent } from '../../shared/votmcloud-dashboard-create/votmcloud-dashboard-create.component';
 // Dashboard-david end
 declare var $: any;
 @Component({
@@ -70,7 +71,7 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
   @ViewChild('imageChangeConfirmBox', null) imageChangeConfirmBox: VotmCloudConfimDialogComponent;
   @ViewChild('documentChangeConfirmBox', null) documentChangeConfirmBox: VotmCloudConfimDialogComponent;
   @ViewChild('file', null) locationImage: ElementRef;
-
+  @ViewChild('addDashboardModal', null) addDashboardModal: VotmcloudDashboardCreateComponent;
   @ViewChild('fileInput', null) docFileInput: ElementRef;
   parentLocName: string;
   parentAssetName: string;
@@ -131,7 +132,6 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
   dashboardData: any;
   dashboardTemplates: {};
   addDashboardArray: any;
-  addDashboardmodal: HTMLElement;
   userdashboardData: { id: string; templateName: string; dashboardName: string; dashboardHTML: any; }[];
   dashboardDataById: { act: string; title: string; dashboardName: string; dashboardHTML: string; };
   grabOffset: any = null;
@@ -148,7 +148,7 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
   deletedDashboardName: any;
 
   constructor(
-    private modalService: NgbModal,
+    private ngbModal: NgbModal,
     private assetService: AssetsService,
     private configSettingsService: ConfigSettingsService,
     private domSanitizer: DomSanitizer,
@@ -612,7 +612,7 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
   //Delete Modal
   open(content) {
 
-    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then((result) => {
+    this.ngbModal.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then((result) => {
 
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
@@ -1227,7 +1227,7 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
     this.subscriptions.unsubscribe();
   }
 
-  openAddDashboardModal(dashboardAct: string, dashboardId: any, dashboardLongName: string, dashboardSortName: string) {
+  openAddDashboardModal(dashboardAct: string, dashboardItem: DashBoard) {
     // this.dashBoardDataByID = getDashboardById(dashboardId)
     // // console.log(dashboardLongName);
     if (dashboardAct === 'editDashboard') {
@@ -1237,9 +1237,10 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
         dashboardName: '',
         dashboardHTML: ''
       };
-      this.dbLongName = dashboardLongName;
-      this.dbShortName = dashboardSortName;
-      this.selTemplate = this.dbTemplates[0].name;
+      this.dashboardTab = dashboardItem;
+      // this.dbLongName = dashboardLongName;
+      // this.dbShortName = dashboardSortName;
+      // this.selTemplate = this.dbTemplates[0].name;
     } else if (dashboardAct === 'addDashboard') {
       this.dashboardDataById = {
         act: 'create',
@@ -1251,33 +1252,20 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
       this.dbShortName = '';
     }
     // // console.log('dashboardDataById---', this.dashboardDataById);
-
     // Get the modal
-    const addDashboardmodal = document.getElementById('addDashboardModalWrapper');
-    addDashboardmodal.style.display = 'block';
-    this.addDashboardmodal = document.getElementById('addDashboardModalWrapper');
-    // Get the <span> element that closes the modal
-    var span = document.getElementsByClassName('close')[0];
-
-    // When the user clicks anywhere outside of the modal, close it
-    window.onclick = function (event) {
-      if (event.target === addDashboardmodal) {
-        addDashboardmodal.style.display = 'none';
-      }
-    };
-
+    this.addDashboardModal.open();
   }
 
-  onDashboardFormSubmit() {
+  onDashboardFormSubmit(event) {
     if (!this.dashboardTabs) {
       this.dashboardTabs = []
     }
-
-    this.dashboardTab.assetId = this.assetId;
-    this.dashboardTab.organizationId = this.curOrgId;
-    this.dashboardTab.locationId = this.parentLocId;
-    this.dashboardTab.published = true;
-    this.dashboardTab.active = true;
+    const dashboardObj = event;
+    dashboardObj.assetId = this.assetId;
+    dashboardObj.organizationId = this.curOrgId;
+    dashboardObj.locationId = this.parentLocId;
+    dashboardObj.published = true;
+    dashboardObj.active = true;
 
     this.dbLastIdNum++;
     this.newTabId = "dbtab-" + this.dbLastIdNum;
@@ -1286,7 +1274,7 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
     // // console.log('this.dbItems---added', this.dbItems);
 
     if (this.dashboardTab.dashboardId) {
-      this.dbService.editDashboard(this.dashboardTab)
+      this.dbService.editDashboard(dashboardObj)
         .subscribe(response => {
           this.getAllDashboards();
           // let index = this.dashboardTabs.findIndex(x => x.dashboardId === this.dashboardTab.dashboardId);
@@ -1295,9 +1283,9 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
           this.toaster.onSuccess('Successfully Updated Dashboard', 'Updated');
         });
     } else {
-      this.dbService.saveDashboard(this.dashboardTab)
+      this.dbService.saveDashboard(dashboardObj)
       .subscribe(response => {
-        this.dashboardTabs.push(this.dashboardTab);
+        this.getAllDashboards();
         this.dashboardTab = new DashBoard();
         this.toaster.onSuccess('Successfully Created Dashboard', 'Created');
 
@@ -1317,7 +1305,8 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
 
   closeAddDashboardModal(event: any) {
     // // console.log('==', event);
-    this.addDashboardmodal.style.display = 'none';
+    this.ngbModal.dismissAll();
+    this.dashboardTab = new DashBoard();
     // if (event === 'save') {
     //
     // } else if (event === 'create') {
