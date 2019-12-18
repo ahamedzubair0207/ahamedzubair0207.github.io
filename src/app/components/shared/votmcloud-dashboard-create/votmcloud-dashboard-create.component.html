@@ -1,0 +1,103 @@
+<ng-template #addDashboardModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">{{ dashboardDataById.title }}</h4>
+    <button
+      type="button"
+      class="close"
+      aria-label="Close"
+      (click)="onClose(true)"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <div class="form-group col-6">
+        <label for="dbLongNameOrgLbl" class="">Dashboard Name</label>
+        <div class="">
+          <input
+            ngbAutoFocus
+            type="text"
+            class="form-control"
+            id="dbLongName"
+            name="dbLongNameOrg"
+            [(ngModel)]="dashboardTab.dashboardName"
+          />
+        </div>
+      </div>
+      <div class="form-group col-6">
+        <label for="dbShortNameOrgLbl" class="">Short Name</label>
+        <div class="">
+          <input
+            ngbAutoFocus
+            type="text"
+            class="form-control"
+            id="dbShortName"
+            name="dbShortNameOrgLbl"
+            maxlength="8"
+            [(ngModel)]="dashboardTab.shortName"
+          />
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="tplSelectOrg" class="">Template Name</label>
+      <div class="">
+        <ng-select
+          #tplSelect
+          labelForId="tplSelect"
+          class="custom"
+          [(ngModel)]="dashboardTab.templateName"
+          name="dbTemplateName"
+          [disabled]="dashboardDataById.act === 'edit'"
+        >
+          <ng-option
+            *ngFor="let dbTemplate of dbTemplates"
+            [value]="dbTemplate.name"
+            >{{ dbTemplate.name }}
+          </ng-option>
+        </ng-select>
+      </div>
+    </div>
+    <div class="">
+      <label for="" class="">Configured By</label>
+      <div class="input-group input-group-sm">
+        <input
+          type="text"
+          class="form-control"
+          id="dashboard-config-by"
+          readonly
+          [defaultValue]="loggedInUser.firstName + (loggedInUser.lastName ? (' ' + loggedInUser.lastName) : '')"
+        />
+        <div class="input-group-append">
+          <span class="input-group-text py-0">On</span>
+        </div>
+        <input
+          type="text"
+          class="form-control"
+          id="dashboard-created-On"
+          readonly
+          [defaultValue]="currentDate"
+        />
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button
+      type="button"
+      class="btn btn-secondary btn-sm"
+      id="add-dashboard-cancle"
+      (click)="onClose(true)"
+    >
+      Close
+    </button>
+    <button
+      type="button"
+      class="btn btn-info btn-sm"
+      id="add-dashboard-save"
+      (click)="onClose(false)"
+    >
+      Save
+    </button>
+  </div>
+</ng-template>

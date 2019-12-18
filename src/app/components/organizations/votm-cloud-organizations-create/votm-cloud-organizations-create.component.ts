@@ -1,3 +1,4 @@
+import { VotmcloudDashboardCreateComponent } from './../../shared/votmcloud-dashboard-create/votmcloud-dashboard-create.component';
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { NgbModal, ModalDismissReasons, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { OrganizationService } from 'src/app/services/organizations/organization.service';
@@ -81,6 +82,7 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
   @ViewChild('organizationForm', null) organizationForm: NgForm;
   @ViewChild('confirmBox', null) confirmBox: VotmCloudConfimDialogComponent;
   @ViewChild('confirmBoxDash', null) confirmBoxDash: VotmCloudConfimDialogComponent;
+  @ViewChild('addDashboardModal', null) addDashboardModal: VotmcloudDashboardCreateComponent;
   @ViewChild('file', null) logoImage: any;
   fileName: any;
   fileExtension: string;
@@ -93,7 +95,6 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
   countryObject: any[] = [];
 
   // Dashboard Item
-  addDashboardmodal: any;
   dashboardData: any;
   dashboardTemplates: {};
   delDashboardId: any;
@@ -133,7 +134,7 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
 
   constructor(
     private assetService: AssetsService,
-    private modalService: NgbModal,
+    private ngbModal: NgbModal,
     private alertRuleservice: AlertsService,
     private organizationService: OrganizationService,
     private configSettingsService: ConfigSettingsService,
@@ -144,6 +145,7 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
     private routerLocation: RouterLocation,
     private toastr: ToastrService,
     private sanitizer: DomSanitizer,
+
     private dbService: DashboardService, // Dashboard-david
   ) {
     this.UOM = 'Imperial';
@@ -716,7 +718,7 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
   }
 
   open(content) {
-    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then((result) => {
+    this.ngbModal.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
@@ -984,54 +986,37 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
       this.dbShortName = '';
     }
     // // console.log('dashboardDataById---', this.dashboardDataById);
-
     // Get the modal
-    let addDashboardmodal = document.getElementById('addDashboardModalWrapper');
-    addDashboardmodal.style.display = 'block';
-    this.addDashboardmodal = document.getElementById('addDashboardModalWrapper');
-    // Get the <span> element that closes the modal
-    var span = document.getElementsByClassName('close')[0];
-
-    // When the user clicks anywhere outside of the modal, close it
-    window.onclick = function (event) {
-      if (event.target === addDashboardmodal) {
-        addDashboardmodal.style.display = 'none';
-      }
-    };
-
+    this.addDashboardModal.open();
   }
 
-  onDashboardFormSubmit() {
-    // // console.log('onDashboardFormSubmit', this.dashboardDataById);
-    // this.addDashboardArray = {
-    //   id: '4',
-    //   templateName: 'Standard Asset Dashboard',
-    //   dashboardName: this.dashboardDataById.dashboardName
-    // };
-    // this.dashboardData.push(this.addDashboardArray);
+  onDashboardFormSubmit(event) {
+    console.log(event);
+    const dashboardObj = event;
     if (!this.dashboardTabs) {
-      this.dashboardTabs = []
+      this.dashboardTabs = [];
     }
 
-    this.dashboardTab.organizationId = this.orgId;
-    this.dashboardTab.published = true;
-    this.dashboardTab.active = true;
+    dashboardObj.organizationId = this.orgId;
+    dashboardObj.published = true;
+    dashboardObj.active = true;
 
     this.dbLastIdNum++;
     this.newTabId = "dbtab-" + this.dbLastIdNum;
+
     if (this.dashboardTab.dashboardId) {
-      this.dbService.editDashboard(this.dashboardTab)
+      this.dbService.editDashboard(dashboardObj)
         .subscribe(response => {
-          this.getAllDashboards(false);
-          this.activeTab = this.dashboardTab.dashboardId;
-          this.goToTab(this.activeTab);
+          this.getAllDashboards(true);
+          // this.activeTab = this.dashboardTab.dashboardId;
+          // this.goToTab(this.activeTab);
           // let index = this.dashboardTabs.findIndex(x => x.dashboardId === this.dashboardTab.dashboardId);
           // this.dashboardTabs[index] = this.dashboardTab;
           this.dashboardTab = new DashBoard();
           this.toaster.onSuccess('Successfully Updated Dashboard', 'Updated');
         });
     } else {
-      this.dbService.saveDashboard(this.dashboardTab)
+      this.dbService.saveDashboard(dashboardObj)
         .subscribe(response => {
           // this.dashboardTabs.push(this.dashboardTab);
           this.getAllDashboards(true);
@@ -1044,7 +1029,8 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
 
   closeAddDashboardModal(event: any) {
     // // console.log('==', event);
-    this.addDashboardmodal.style.display = 'none';
+    this.ngbModal.dismissAll();
+    this.dashboardTab = new DashBoard();
     // if (event === 'save') {
     //
     // } else if (event === 'create') {
@@ -1072,8 +1058,6 @@ export class VotmCloudOrganizationsCreateComponent implements OnInit, AfterViewI
           this.toaster.onFailure('Something went wrong on server. Please try after sometiime.', 'Delete Fail!');
         });
     }
-
-
   }
 
   getDashboardById(dashboardId: any) {
