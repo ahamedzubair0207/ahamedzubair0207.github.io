@@ -785,7 +785,7 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
 
 
 
-  deleteOrganizationById(event) {
+  deleteLocationById(event) {
     if (event) {
       this.locationService.deleteLocation(this.location.locationId)
         .subscribe(response => {

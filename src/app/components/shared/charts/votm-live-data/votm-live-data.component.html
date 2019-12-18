@@ -1,34 +1,14 @@
 <div class="border p-2 h-100 w-100 position-relative">
-    <div #graphDiv id="chartdiv" class="w-100 h-100">
+    <div #graphDiv id="{{ wId }}" class="w-100 h-100">
       <div class="text-center con-wid-preview" *ngIf="!configured">
         <img class="img-fluid img-fluid-custom" src="../../../../../assets/images/configure_trend_chart_widget.jpg">
     </div>
     </div>
 
-    <div class="text-right range-actions mr-2">
-      <div *ngIf="configured" class="btn-group btn-group-toggle" ngbRadioGroup name="radioBasic" [(ngModel)]="trendChartWidget.dateRange" (change)="onRadioGroupChange()">
-        <!-- <label ngbButtonLabel class="btn-outline-secondary btn-sm"> <input ngbButton type="radio" value="5m" />5m</label> -->
-        <label ngbButtonLabel class="btn-outline-secondary btn-sm"> <input ngbButton type="radio" value="1m" />1min</label>
-        <!-- <label ngbButtonLabel class="btn-outline-secondary btn-sm"> <input ngbButton type="radio" value="10m" />10m</label> -->
-        <label ngbButtonLabel class="btn-outline-secondary btn-sm"> <input ngbButton type="radio" value="1h" />1H</label>
-        <!-- <label ngbButtonLabel class="btn-outline-secondary btn-sm"> <input ngbButton type="radio" value="20m" />20m</label> -->
-        <label ngbButtonLabel class="btn-outline-secondary btn-sm"> <input ngbButton type="radio" value="1d" />1D</label>
-        <!-- <label ngbButtonLabel class="btn-outline-secondary btn-sm"> <input ngbButton type="radio" value="30m" />30m</label> -->
-        <label ngbButtonLabel class="btn-outline-secondary btn-sm"> <input ngbButton type="radio" value="1w" />1W</label>
-        <label ngbButtonLabel class="btn-outline-secondary btn-sm"> <input ngbButton type="radio" value="1mo" />1M</label>
-        <!-- <label ngbButtonLabel class="btn-outline-secondary btn-sm"> <input ngbButton type="radio" value="1h" />1H</label> -->
-        <label ngbButtonLabel class="btn-outline-secondary btn-sm"> <input ngbButton type="radio" value="3mo" />3M</label>
-        <!-- <label ngbButtonLabel class="btn-outline-secondary btn-sm"> <input ngbButton type="radio" value="10h" />10H</label> -->
-        <label ngbButtonLabel class="btn-outline-secondary btn-sm"> <input ngbButton type="radio" value="6mo" />6M</label>
-        <!-- <label ngbButtonLabel class="btn-outline-secondary btn-sm"> <input ngbButton type="radio" value="1d" />1D</label> -->
-         <label ngbButtonLabel class="btn-outline-secondary btn-sm"> <input ngbButton type="radio" value="year" />1Y</label>
-         <label ngbButtonLabel class="btn-outline-secondary btn-sm"> <input ngbButton type="radio" value="ytd" />YTD</label>
-        <label ngbButtonLabel class="btn-outline-secondary btn-sm"> <input ngbButton type="radio" value="all" />All</label>
-      </div>
-    </div>
+   
 
     <div class="text-right chart-actions mr-1">
-      <div *ngIf="configured" ngbDropdown placement="bottom-right">
+      <!-- <div *ngIf="configured" ngbDropdown placement="bottom-right">
         <a id="export" ngbDropdownToggle><i class="icon-export"></i></a>
         <div ngbDropdownMenu aria-labelledby="export">
           <button ngbDropdownItem>PNG</button>
@@ -60,8 +40,9 @@
         </div>
       </div>
       <a *ngIf="configured"><i class="icon-refresh" (click)="onRefreshClick()"></i></a>
-      <a (click)="open(config)" [class.d-none]="locked"><i class="icon-cog"></i></a>
-        <!-- <a (click)="open(config)"><i class="icon-cog"></i></a> -->
+      <a (click)="open(config)" [class.d-none]="locked"><i class="icon-cog"></i></a> -->
+        <a (click)="open(config)" [class.d-none]="locked"><i class="icon-cog"></i></a>
+        <a *ngIf="configured"><i class="icon-refresh" (click)="onRefreshClick()"></i></a>
     </div>
 </div>
 

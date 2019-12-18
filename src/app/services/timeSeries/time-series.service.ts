@@ -54,7 +54,6 @@ export class TimeSeriesService {
     );
   }
   // /v1/Dashboard/getTimeseriesDatatable
-
   getTimeSeriesSignalsByLocationID(locationId){
     // return this.http.get(AppConstants.GET_SIGNAL_ASSOCIATION + '/' + locId + '/LocationAssociation');
     return this.http.get(`${AppConstants.GET_SIGNAL_ASSOCIATION}/${locationId}/LocationTreeAssociation`)
