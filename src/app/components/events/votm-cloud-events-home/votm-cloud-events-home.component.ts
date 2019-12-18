@@ -30,6 +30,7 @@ export class VotmCloudEventsHomeComponent implements OnInit {
   @Input() assetId: string;
   closedBy: string;
   closedOn: string;
+  previouslyOpenedRow = -1;
   @ViewChild('eventLogTable', { static: false }) eventLogTable: any;
   toaster: Toaster = new Toaster(this.toastr);
 
@@ -59,7 +60,7 @@ export class VotmCloudEventsHomeComponent implements OnInit {
 
   }
 
-  toggleExpandRow(row) {
+  toggleExpandRow(row, index) {
     this.selectedAcknowledgement = row.clousureTypeId;
     this.closureActivity = row.eventActivtiyId;
     this.closureNote = row.description;
@@ -67,7 +68,13 @@ export class VotmCloudEventsHomeComponent implements OnInit {
     this.closedOn = !row.active ? row.closedOn : this.currentDate;
     // console.log('Toggled Expand Row!', row);
     this.eventLogTable.rowDetail.collapseAllRows();
-    this.eventLogTable.rowDetail.toggleExpandRow(row);
+
+    if (this.previouslyOpenedRow !== index) {
+      this.eventLogTable.rowDetail.toggleExpandRow(row);
+      this.previouslyOpenedRow = index;
+    } else {
+      this.previouslyOpenedRow = -1;
+    }
   }
 
   closeRow(row) {
@@ -102,7 +109,7 @@ export class VotmCloudEventsHomeComponent implements OnInit {
       eventActivtiyId: null,
       description: null
     };
-    if (this.selectedAcknowledgement === 2) {
+    if (this.selectedAcknowledgement === 2 || this.selectedAcknowledgement === 1) {
       obj['eventActivtiyId'] = null;
       obj['description'] = this.closureNote;
     }

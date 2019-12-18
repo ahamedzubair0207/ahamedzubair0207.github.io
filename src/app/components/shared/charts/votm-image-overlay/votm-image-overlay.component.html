@@ -10,7 +10,12 @@
         <img class="img-fluid img-fluid-custom" src="../../../../assets/images/configure_image_overlay_widget.jpg">
     </div>
     <div *ngIf="isImageOverlayConfigured && (imageOverlay.overlaySource === 'location' || imageOverlay.overlaySource === 'asset')" id="{{ 'image-overlay' + wId }}" class="h-100 w-100">
-        <div class=" h-100 assoc-pane" (window:resize)="onResize($event)">
+        <div *ngIf="imageOverlay.title" class="row">
+            <div class="col-12">
+              <h3>{{ imageOverlay.title }}</h3>
+            </div>
+          </div>
+        <div class=" h-100 assoc-pane" [class.dt-titlespace]="!imageOverlay.title" (window:resize)="onResize($event)">
 
             <!--  [src]="imgURL" -->
             <img #overlayImage [src]="widgetimgURL" class="assoc-img" (load)="onLoadLocImg()"  />

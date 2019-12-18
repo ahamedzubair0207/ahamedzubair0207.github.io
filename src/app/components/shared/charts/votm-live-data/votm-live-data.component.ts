@@ -90,6 +90,8 @@ export class VotmLiveDataComponent implements OnInit {
   private rangeYAxisMin: number[] = [null, null];
   private rangeYAxisMax: number[] = [null, null];
   private autoScaleY: boolean[] = [true, true];
+  userId: string = '03C7FB47-58EE-4C41-A9D6-2AD0BD43392A';
+  private showThresh: boolean[] = [false, false];
 
 
   constructor(private zone: NgZone, private modalService: NgbModal,
@@ -99,7 +101,7 @@ export class VotmLiveDataComponent implements OnInit {
     private dashboardService: DashboardService) {
     // this.id = Math.floor((Math.random() * 100) + 1);
   }
-  
+
 
   ngOnInit() {
     if (this.data) {
@@ -182,7 +184,7 @@ export class VotmLiveDataComponent implements OnInit {
         if (response) {
           this.passOrganizationsToMap(response);
           // this.selectSignals();
-         
+
           if (this.trendChartWidget) {
             this.loadChart();
           }
@@ -537,8 +539,68 @@ export class VotmLiveDataComponent implements OnInit {
     this.trendChartWidget.displayThrshold = value;
   }
 
+  toggleThresholds(axis) {
+    let opposite: number = (axis + 1) % 2;
+
+    this.showThresh[axis] = !this.showThresh[axis];
+    this.showThresh[opposite] = false;
+
+    this.chart.yAxes.values[axis].axisRanges.each((thresh) => thresh.axisFill.fillOpacity = (this.showThresh[axis]) ? 0.2 : 0);
+    if (this.chart.yAxes.values[opposite]) {
+      this.chart.yAxes.values[opposite].axisRanges.each((thresh) => thresh.axisFill.fillOpacity = 0);
+    }
+    for (let i = 0; i < this.chart.series.length; i += 2) {
+      if (this.chart.series.getIndex(i).yAxis === this.chart.yAxes.values[opposite] && this.showThresh[axis]) {
+        this.chart.series.getIndex(i).hide();
+        this.chart.series.getIndex(i + 1).hide();
+      } else {
+        this.chart.series.getIndex(i).show();
+        if (this.showMinMax) this.chart.series.getIndex(i + 1).show();
+      }
+    }
+  }
+
+  toggleMinMax() {
+    this.showMinMax = !this.showMinMax;
+
+    this.zone.runOutsideAngular(() => {
+      this.chart.series.each((series) => {
+        if (series.name === "minMax") {
+          if (this.showMinMax) series.show();
+          else series.hide();
+        }
+      });
+    });
+  }
+
+  toggleAutoScale(axis) {
+    this.autoScaleY[axis] = !this.autoScaleY[axis];
+
+    this.zone.runOutsideAngular(() => {
+      if (this.autoScaleY[axis]) {
+        (<am4charts.ValueAxis>this.chart.yAxes.getIndex(axis)).min = null;
+        (<am4charts.ValueAxis>this.chart.yAxes.getIndex(axis)).max = null;
+      } else {
+        (<am4charts.ValueAxis>this.chart.yAxes.getIndex(axis)).min = this.rangeYAxisMin[axis];
+        (<am4charts.ValueAxis>this.chart.yAxes.getIndex(axis)).max = this.rangeYAxisMax[axis];
+      }
+      this.chart.deepInvalidate();
+    });
+  }  
+
+  toggleLegend() {
+    this.showLegend = !this.showLegend;
+
+    this.zone.runOutsideAngular(() => {
+
+      if (this.showLegend) this.chart.legend.width = this.legendWidth;
+      else this.chart.legend.width = 0;
+
+    });
+  }
+
   loadChart() {
-    
+    console.log("loadChartloadChartloadChartloadChartloadChartloadChartloadChartloadChartloadChartloadChartloadChartloadChartloadChartloadChartloadChartloadChartloadChartloadChartloadChartloadChartloadChartloadChartloadChart")
     if (this.chart) {
       this.chart.dispose();
       this.rangeSeriesSet = false;
@@ -560,20 +622,22 @@ export class VotmLiveDataComponent implements OnInit {
     // this.zone.runOutsideAngular(() => {
     let chart = am4core.create(this.wId, am4charts.XYChart);
     chart.paddingRight = 20;
-    chart.dataSource.url = `${environment.protocol}://${environment.server}/${environment.virtualName}/${AppConstants.GET_UPDATEDTIMESERIES_SIGNAL}?userId=03C7FB47-58EE-4C41-A9D6-2AD0BD43392A&organizationId=${this.data.organizationId}&AccountCode=${this.trendChartWidget.accountCode}&PropertyName=${this.trendChartWidget.propertyName}&PropertyValue=${this.trendChartWidget.propertyValue}&MeasuredValue=${this.trendChartWidget.measuredValue}&FromDateTime=${typeof (this.trendChartWidget.fromDateTime) === 'string' ? this.trendChartWidget.fromDateTime : this.trendChartWidget.fromDateTime.toISOString()}&ToDateTime=${typeof (this.trendChartWidget.toDateTime) === 'string' ? this.trendChartWidget.toDateTime : this.trendChartWidget.toDateTime.toISOString()}&BucketSize=${this.trendChartWidget.bucketSize}&precesion=2`;
+    chart.dataSource.url = `${environment.protocol}://${environment.server}/${environment.virtualName}/${AppConstants.GET_UPDATEDTIMESERIES_SIGNAL}?userId=${this.userId}&organizationId=${this.data.organizationId}&AccountCode=${this.trendChartWidget.accountCode}&PropertyName=${this.trendChartWidget.propertyName}&PropertyValue=${this.trendChartWidget.propertyValue}&MeasuredValue=${this.trendChartWidget.measuredValue}&FromDateTime=${typeof (this.trendChartWidget.fromDateTime) === 'string' ? this.trendChartWidget.fromDateTime : this.trendChartWidget.fromDateTime.toISOString()}&ToDateTime=${typeof (this.trendChartWidget.toDateTime) === 'string' ? this.trendChartWidget.toDateTime : this.trendChartWidget.toDateTime.toISOString()}&BucketSize=${this.trendChartWidget.bucketSize}&precesion=2`;
     chart.dataSource.parser = new am4core.JSONParser();
     // xAxis.dateFormatter = new am4core.DateFormatter();
     // xAxis.dateFormatter.dateFormat = "MM-dd";
     chart.dataSource.parser.options.dateFormat = 'MM/d/yyyy h:mm:ss a';
     chart.dataSource.parser.options.dateFormatter = new am4core.DateFormatter();
     chart.dataSource.parser.options.dateFormatter.timezoneOffset = -360;
+    chart.dataSource.reloadFrequency = 60000;
 
-    // chart.dataSource.parser.options
 
-    // chart.dataSource.dateFormat = 'M/d/y h:m:s a';
-    chart.dataSource.reloadFrequency = 30000;
-    // chart.data = response; // timeseries;// this.generateChartData();
-    // chart.dataSource.reloadFrequency = 3000;
+    // chart.dataSource.adapter.add("parsedData", function(data) {
+    //   console.log('Chart Data ', data);
+    // });
+
+
+
     let title = chart.titles.create();
     title.text = (this.trendChartWidget.chartTitle) ? this.trendChartWidget.chartTitle : '';
     title.fontSize = 25;
@@ -615,16 +679,23 @@ export class VotmLiveDataComponent implements OnInit {
     // chart.cursor = new am4charts.XYCursor();
     // var that = this;
     chart.events.on("ready", (ev) => {
-      // for (let i = 0; i < 2; i++) {
-      //   if (this.selYAxisRange[i] === "rngMinMax") {
-      //     this.rangeYAxisMin[i] = (<am4charts.ValueAxis>this.chart.yAxes.getIndex(i)).minZoomed;
-      //     this.rangeYAxisMax[i] = (<am4charts.ValueAxis>this.chart.yAxes.getIndex(i)).maxZoomed;
-      //   }
-      //   if (this.selYAxisRange[i] !== "auto") {
-      //     (<am4charts.ValueAxis>this.chart.yAxes.getIndex(i)).min = this.rangeYAxisMin[i];
-      //     (<am4charts.ValueAxis>this.chart.yAxes.getIndex(i)).max = this.rangeYAxisMax[i];
-      //   }
-      // }
+      if (this.trendChartWidget.leftAxisRange === "rngMinMax") {
+        this.rangeYAxisMin[0] = (<am4charts.ValueAxis>this.chart.yAxes.getIndex(0)).minZoomed;
+        this.rangeYAxisMax[0] = (<am4charts.ValueAxis>this.chart.yAxes.getIndex(0)).maxZoomed;
+      }
+      if (this.trendChartWidget.rightAxisRange === "rngMinMax") {
+        this.rangeYAxisMin[1] = (<am4charts.ValueAxis>this.chart.yAxes.getIndex(1)).minZoomed;
+        this.rangeYAxisMax[1] = (<am4charts.ValueAxis>this.chart.yAxes.getIndex(1)).maxZoomed;
+      }
+
+        if (this.trendChartWidget.leftAxisRange !== "auto") {
+          (<am4charts.ValueAxis>this.chart.yAxes.getIndex(0)).min = this.rangeYAxisMin[0];
+          (<am4charts.ValueAxis>this.chart.yAxes.getIndex(0)).max = this.rangeYAxisMax[0];
+        }
+        if (this.trendChartWidget.rightAxisRange !== "auto") {
+          (<am4charts.ValueAxis>this.chart.yAxes.getIndex(1)).min = this.rangeYAxisMin[1];
+          (<am4charts.ValueAxis>this.chart.yAxes.getIndex(1)).max = this.rangeYAxisMax[1];
+        }
     });
     this.chart = chart;
   }
@@ -634,7 +705,7 @@ export class VotmLiveDataComponent implements OnInit {
   createAxisAndSeries(chart, signal, idx, color) {
     let series = chart.series.push(new am4charts.LineSeries());
     let valueAxis = (<am4charts.ValueAxis>chart.yAxes.getIndex(idx)); // ((signal.selY[0]) ? 0 : (this.yAxisSignals[0]) ? 1 : 0));
-    let uom =  this.signalTypes.find(({ type }) => type === signal.type).uom; //'uom name';
+    let uom = this.signalTypes.find(({ type }) => type === signal.type).uom; //'uom name';
     series.dataFields.dateX = "Date";
     series.dataFields.valueY = "SigAvg" + idx;
     series.yAxis = valueAxis;

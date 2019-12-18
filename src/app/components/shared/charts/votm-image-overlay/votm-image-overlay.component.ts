@@ -312,7 +312,7 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
 
 
   getImageOverlayConfiguration(overlaySource) {
-
+    console.log('imageoverlay     ', this.imageOverlay);
     this.isImageOverlayConfigured = true;
     this.associatedSignals = [];
     this.associatedAssets = [];
@@ -320,6 +320,7 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
 
       // console.log('locationID======', this.widgetlocImageID);
       this.getLocationById(this.imageOverlay.overlaySourceID); // get location Image data
+      console.log('showAsswt', this.imageOverlay.showSignals);
       if (this.imageOverlay.showSignals) {
         this.locationSignalService.getSignalAssociation(this.imageOverlay.overlaySourceID)
           .subscribe(
@@ -341,6 +342,7 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
             }
           );
       }
+      console.log('showAsswt', this.imageOverlay.showAsset);
       if (this.imageOverlay.showAsset) {
         this.locationService.getAssetAssociation(this.imageOverlay.overlaySourceID)
           .subscribe(

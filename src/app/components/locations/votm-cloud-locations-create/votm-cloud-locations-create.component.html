@@ -778,94 +778,11 @@
 
 
   <!-- Add/Edit Dashboard Model Start-->
-  <div id="addDashboardModalWrapper" class="modal">
-    <div class="modal-dialog modal-md modal-dialog-scrollable modal-dialog-centered" *ngIf="dashboardDataById">
-      <!-- Modal content -->
-      <form name="addDashboard" #dashBoardForm="ngForm" (ngSubmit)="onDashboardFormSubmit()"
-        class="form needs-validation" novalidate>
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">{{dashboardDataById.title}}</h5>
-            <button type="button" class="close" aria-label="Close" (click)="closeAddDashboardModal()">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body event-create-font">
-            <div class="row">
-              <div class="form-group col-6">
-                <label for="dbLongNameLocLbl" class="">Dashboard Name</label>
-                <input ngbAutoFocus type="text" class="form-control" id="dbLongName" name="dbLongNameLoc"
-                  [(ngModel)]="dashboardTab.dashboardName" />
-              </div>
-              <div class="form-group col-6">
-                <label for="dbShortNameLocLbl" class="">Short Name</label>
-                <input ngbAutoFocus type="text" class="form-control" id="dbShortName" name="dbShortNameLoc"
-                  maxlength="8" [(ngModel)]="dashboardTab.shortName" />
-              </div>
-            </div>
-            <div class="form-group">
-              <label for="tplSelectLbl" class="">Template Name</label>
-              <div class="">
-                <ng-select #tplSelect labelForId="tplSelect" class="custom" [(ngModel)]="dashboardTab.templateName"
-                  name="dbTemplateName" [disabled]="dashboardDataById.act==='edit'">
-                  <ng-option *ngFor="let dbTemplate of dbTemplates" [value]="dbTemplate.name">{{ dbTemplate.name }}
-                  </ng-option>
-                </ng-select>
-              </div>
-            </div>
-            <div class="">
-              <label for="" class="">Configured By</label>
-              <div class="input-group input-group-sm">
-                <input type="text" class="form-control" id="dashboard-config-by" readonly value="Sean Healy" />
-                <div class="input-group-append">
-                  <span class="input-group-text py-0">On</span>
-                </div>
-                <input type="text" class="form-control" id="dashboard-created-On" readonly
-                  placeholder="25/09/2019 03:19" />
-              </div>
-            </div>
-            <!-- <div class="form-group row">
-                    <label for="" class="col-md-3 col-form-label">Template Name</label>
-                    <div class="col-sm-7">
-                      <ng-select name="dashboardTemplate" #tplSelect labelForId="tplSelect" class="custom" [(ngModel)]="selTemplate">
-                        <ng-option *ngFor="let dbTemplate of dbTemplates" [value]="dbTemplate.name"> {{ dbTemplate.name }}</ng-option>
-                      </ng-select>
-                    </div>
-                  </div>
-                  <div class="form-group row">
-                    <label for="" class="col-md-3 col-form-label">Dashboard Name</label>
-                    <div class="col-md-7">
-                      <input type="text" class="form-control" id="dashboard-name" placeholder="" name="dashboardName"
-                        [(ngModel)]="dashboardDataById.dashboardName">
-                    </div>
-                  </div>
-                  <div class="form-group row">
-                    <label for="" class="col-md-3 col-form-label">Configured By</label>
-                    <div class="col-md-3">
-                      <input type="text" class="form-control" id="dashboard-config-by" readonly value="Sean Healy">
-                    </div>
-                    <label for="" class="col-sm-1 col-form-label">On</label>
-                    <div class="col-md-3">
-                      <div class="input-group">
-                        <input type="text" class="form-control" id="dashboard-created-On" readonly
-                          placeholder="25/09/2019 03:19">
-                      </div>
-                    </div>
-                  </div> -->
-
-          </div>
-          <div class="modal-footer">
-            <button id="add-dashboard-cancle-loc" type="button" class="btn btn-sm btn-secondary"
-              (click)="closeAddDashboardModal('cancel')" id="addDashboardCancle">Cancel
-            </button>
-            <button id="add-dashboard-save-loc" type="submit" class="btn btn-info btn-sm"
-              id="addDashboardAdd">Save</button>
-            <!-- <button id="add-dashboard-save" type="submit" class="btn btn-info btn-color btn-sm"
-                  (click)="closeAddDashboardModal(dashboardDataById.act)" id="addDashboardAdd">Save</button> -->
-          </div>
-        </div>
-      </form>
-    </div>
-  </div>
+  <app-votmcloud-dashboard-create #addDashboardModal
+  [dashboardDataById]="dashboardDataById"
+  [dashboardTab]="dashboardTab"
+  (save)="onDashboardFormSubmit($event)"
+  (cancel)="closeAddDashboardModal()">
+</app-votmcloud-dashboard-create>
   <!-- Add/Edit Dashboard Model End-->
 </ng-template>

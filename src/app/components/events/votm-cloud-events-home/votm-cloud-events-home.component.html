@@ -146,13 +146,13 @@
           [draggable]="false"
           [canAutoResize]="false"
         >
-          <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
+          <ng-template let-row="row" let-rowIndex="rowIndex" let-expanded="expanded" ngx-datatable-cell-template>
             <a
               href="javascript:void(0)"
               [class.datatable-icon-right]="!expanded"
               [class.datatable-icon-down]="expanded"
               title="Expand/Collapse Row"
-              (click)="toggleExpandRow(row)"
+              (click)="toggleExpandRow(row, rowIndex)"
             >
             </a>
           </ng-template>
