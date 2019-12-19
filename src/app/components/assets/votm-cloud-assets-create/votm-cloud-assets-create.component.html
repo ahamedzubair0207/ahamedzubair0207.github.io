@@ -470,7 +470,7 @@
       </div>
 
       <!-- Dashboard-david -->
-      <div class="tab-pane fade border border-top-0 mb-3 flex-grow-1" *ngFor="let dbItem of dashboardTabs"
+      <div class="tab-pane fade border border-top-0 flex-grow-1" *ngFor="let dbItem of dashboardTabs"
         id="DashboardID_{{dbItem.dashboardId}}" role="tabpanel">
         <app-votm-cloud-asset-dashboard [dbItem]="dbItem"></app-votm-cloud-asset-dashboard>
       </div>

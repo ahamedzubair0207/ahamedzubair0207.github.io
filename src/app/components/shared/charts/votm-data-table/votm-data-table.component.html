@@ -8,73 +8,90 @@
           <h3>{{ wConfig.title }}</h3>
         </div>
       </div>
-      <div class="row dt-div" [class.dt-titlespace]="wConfig.title != ''">
-        <div class="col-12 h-100">
-          <div class="table-fixed">
-            <table class="table table-sm table-bordered">
-              <thead>
-                <tr>
-                  <th *ngIf="wConfig.showState" class="text-center"></th>
-                  <th scope="col" class="" [style.width]="wConfig.showSensor || wConfig.showStatus ? '45%' : '50%'">Signal</th>
-                  <th scope="col">Value</th>
-                  <th scope="col" class="">Time</th>
-                  <th *ngIf="wConfig.showSensor" scope="col" class="text-center" style="width:6em">Sensor</th>
-                  <th *ngIf="wConfig.showStatus" scope="col" class="text-center" style="width:4.5em">Status</th>
-                </tr>
-              </thead>
-              <tbody *ngIf="!isSignalsDataLoading && !isGetDashboardConfigLoading" >
-                <ng-container *ngIf="signals.length > 0">
-                  <ng-container *ngFor="let signal of signals; index as i">
-                    <tr *ngIf="signal.sel">
-                        <td scope="col" class="" title="{{
-                          (wConfig.showOrg ? signal.organization :
-                            (wConfig.showLoc ? signal.location :
-                              (wConfig.showAsset ? signal.asset : '')
-                            )
-                          )
-                        }}
-                        {{ signal.name }}"><i class="pr-1 {{ signal.iconFile }}"></i>
-                          {{
-                            (wConfig.showOrg ? signal.organization :
-                              (wConfig.showLoc ? signal.location :
-                                (wConfig.showAsset ? signal.asset : '')
-                              )
-                            )
-                          }}
-                          {{ signal.name }}</td>
-                      <!-- <td scope="col" class="" title="{{ selPathName(signal) }}"><i class="pr-1 icon-sig-{{ signal.type }}"></i>{{ selPathName(signal) }}</td> -->
-                      <td scope="col" title="{{ signal.value }}">{{ signal.value }}</td>
-                      <td scope="col" class="" title="{{ timestamp }}">{{ signal.modifiedOn }}</td>
-                      <td *ngIf="wConfig.showSensor" scope="col" class="text-center">{{ signal.sensor }}</td>
-                      <td *ngIf="wConfig.showStatus" scope="col" class="text-center align-middle">
-                        <i class="{{ getBattery(signal) }}"></i><i class="{{ getRSSI(signal) }}"></i>
-                      </td>
-                    </tr>
-                  </ng-container>
-                </ng-container>
-                <ng-container *ngIf="signals.length === 0" >
+      <div class="row h-100 " [class.dt-titlespace]="wConfig.title">
+        <div class="col-12 h-100" >
+            <p-treeTable [value]="signalsTree"
+            [scrollable]="true"
+            [resizableColumns]="true"
+            class="dt"
+            [class.dt-titlespace]="wConfig.title"
+            (window:resize)="resizeTable($event)">
+            <ng-template pTemplate="colgroup">
+                <colgroup>
+                  <col *ngIf="wConfig.showState" style="width:2.5em" />
+                  <col />
+                  <col style="width:6em" />
+                  <col style="width:7em" />
+                  <col *ngIf="wConfig.showSensor" style="width:6em" />
+                  <col *ngIf="wConfig.showStatus" style="width:4.5em" />
+                </colgroup>
+              </ng-template>
+                <ng-template pTemplate="header">
                     <tr>
-                      <td colspan="3">
-                        No Data Found.
-                      </td>
+                        <th *ngIf="wConfig.showState" class="text-center" [ttSortableColumn]="'state'">
+                            <p-treeTableSortIcon [field]="'state'"></p-treeTableSortIcon>
+                          </th>
+                          <th ttResizableColumn [ttSortableColumn]="'name'">Signal<p-treeTableSortIcon [field]="'name'"></p-treeTableSortIcon></th>
+                          <th ttResizableColumn class="text-right" [ttSortableColumn]="'value'">Value<p-treeTableSortIcon [field]="'value'"></p-treeTableSortIcon></th>
+                          <th ttResizableColumn [ttSortableColumn]="'ts'">Time<p-treeTableSortIcon [field]="'modifiedOn'"></p-treeTableSortIcon></th>
+                          <th *ngIf="wConfig.showSensor" ttResizableColumn class="text-center" [ttSortableColumn]="'value'">
+                            Sensor<p-treeTableSortIcon [field]="'value'"></p-treeTableSortIcon>
+                          </th>
+                          <th *ngIf="wConfig.showStatus" class="text-center">Status</th>
                     </tr>
-                  </ng-container>
-                </tbody>
-                <tbody *ngIf="isSignalsDataLoading || isGetDashboardConfigLoading">
-                  <tr>
-                    <td colspan="3">
-                      <div>
-                          <i
-                          class="fa fa-spinner fa-2x fa-spin fa-fw"
-                        ></i>
-                      </div>
-                    </td>
-                  </tr>
-                </tbody>
-            </table>
+                </ng-template>
+                <ng-template pTemplate="body" let-rowNode let-rowData="rowData">
+                    <tr *ngIf="rowData.sel" [ngClass]="getStateBg(rowData)">
+                      <td *ngIf="wConfig.showState" class="text-center align-middle">
+                        <i class="mr-0 icon-critical-red"></i>
+                      </td>
+                      <td
+                    class="ui-resizable-column"
+                    title="{{
+                      (wConfig.showOrg ? rowData.organization :
+                        (wConfig.showLoc ? rowData.location :
+                          (wConfig.showAsset ? rowData.asset : '')
+                        )
+                      )
+                    }}
+                    {{ rowData.name }}"
+                  >
+                    <i class="pr-1 icon-sig-{{ rowData.type }}"></i
+                    >{{
+                      (wConfig.showOrg ? rowData.organization :
+                        (wConfig.showLoc ? rowData.location :
+                          (wConfig.showAsset ? rowData.asset : '')
+                        )
+                      )
+                    }}
+                    {{ rowData.name }}
+                  </td>
+                  <td
+                  class="ui-resizable-column text-right"
+                  title="{{ rowData.value }}"
+                >
+                  {{ rowData.value }}
+                </td>
+                <td class="ui-resizable-column" title="{{ rowData.modifiedOn }}">
+                  {{ rowData.modifiedOn }}
+                </td>
+                <td
+                  *ngIf="wConfig.showSensor"
+                  class="ui-resizable-column text-center"
+                >
+                  {{ rowData.sensor }}
+                </td>
+                <td *ngIf="wConfig.showStatus" class="text-center align-middle">
+                  <i class="{{ getBattery(rowData) }}"></i
+                  ><i class="{{ getRSSI(rowData) }}"></i>
+                </td>
+                    </tr>
+                  </ng-template>
+            </p-treeTable>
+
           </div>
         </div>
-      </div>
+
     </ng-container>
   </div>
 

@@ -1,23 +1,44 @@
-@import "../../../../../styles/_functions.scss", "../../../../../styles/_variables.scss";
+ @import "../../../../../styles/_functions.scss", "../../../../../styles/_variables.scss";
 
-.modal-body .table-fixed {
-    max-height: calc(((#{$line-height-base} * #{$font-size-base}) + (2 * #{$table-cell-padding-sm}) + 1px) * 7 + 2px);
-  }
-  .dt-div {
-    height: calc(100% - 1.25rem);
-    &.dt-titlespace {
-      height: calc(100% - (#{$h3-font-size} * #{$headings-line-height}) - #{$headings-margin-bottom}) !important;
-      
-    }
-    .table-fixed {
-      height: 100%;
-      > table {
-        table-layout: fixed;
-        td {
-          overflow: hidden;
-          text-overflow: ellipsis;
-          white-space: nowrap;
-        }
-      }
+
+
+.dt {
+  // .ui-table,
+  .ui-treetable {
+    margin-top: 1.25rem;
+    // .ui-table-scrollable-body,
+    .ui-treetable-scrollable-body {
+      max-height: calc(
+        100% - 1.25rem - (#{$line-height-base} * #{$font-size-base}) -
+          (2 * #{$table-cell-padding-sm}) - 1px
+      );
     }
   }
+  // &.dt-titlespace .ui-table,
+  &.dt-titlespace .ui-treetable {
+    margin-top: 0;
+    // .ui-table-scrollable-body,
+    .ui-treetable-scrollable-body {
+      max-height: calc(
+        100% - (#{$h3-font-size} * #{$headings-line-height}) - #{$headings-margin-bottom} -
+          (#{$line-height-base} * #{$font-size-base}) - (
+            2 * #{$table-cell-padding-sm}
+          ) - 1px
+      );
+    }
+  }
+  // .ui-table,
+  // .ui-table-scrollable-wrapper,
+  // .ui-table-scrollable-view,
+  .ui-treetable,
+  .ui-treetable-scrollable-wrapper,
+  .ui-treetable-scrollable-view {
+    height: 100%;
+  }
+  td,
+  th {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}

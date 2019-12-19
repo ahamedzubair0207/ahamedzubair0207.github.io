@@ -1,0 +1,240 @@
+.ui-treetable {
+  // position: relative;
+  table {
+    // border-collapse: collapse;
+    // width: 100%;
+    // table-layout: fixed;
+    border: $table-border-width solid $input-border-color;
+  }
+
+  .ui-treetable-thead {
+    background-color: $table-head-bg;
+  }
+  .ui-treetable-thead > tr > th,
+  .ui-treetable-tbody > tr > td,
+  .ui-treetable-tfoot > tr > td {
+    padding: $table-cell-padding-sm;
+    border-bottom: $table-border-width solid $input-border-color;
+    &:not(:last-child) {
+      border-right: $table-border-width solid $input-border-color;
+    }
+  }
+
+  // .ui-treetable-toggler {
+  //   cursor: pointer;
+  //   display: inline-block;
+  //   height: 1em;
+  //   position: relative;
+  //   top: 50%;
+  //   margin-top: -0.5em;
+  // }
+  // .ui-sortable-column {
+  //   cursor: pointer;
+  // }
+
+  // p-treetablesorticon {
+  //   vertical-align: middle;
+  // }
+
+  // .ui-treetable-chkbox {
+  //   margin: 0 0.25em;
+  //   vertical-align: middle;
+  // }
+
+  /* Paginator */
+  // .ui-paginator-top {
+  //   border-bottom: 0 none;
+  // }
+  // .ui-paginator-bottom {
+  //   border-top: 0 none;
+  // }
+
+  // .ui-column-resizer {
+  //   display: block;
+  //   position: absolute !important;
+  //   top: 0;
+  //   right: 0;
+  //   margin: 0;
+  //   width: 0.5em;
+  //   height: 100%;
+  //   padding: 0px;
+  //   cursor: col-resize;
+  //   border: 1px solid transparent;
+  // }
+
+  .ui-column-resizer-helper {
+    // width: 1px;
+    // position: absolute;
+    // z-index: 10;
+    // display: none;
+    background-color: $primary;
+  }
+}
+
+// .ui-treetable-auto-layout > .ui-treetable-wrapper {
+//   overflow-x: auto;
+//   > table {
+//     table-layout: auto;
+//   }
+// }
+
+/* Sections */
+.ui-treetable-caption,
+.ui-treetable-summary {
+  padding: $table-cell-padding-sm;
+  text-align: center;
+  font-weight: bold;
+  background-color: $gray-100;
+  color: $table-head-color;
+  border: $table-border-width solid $input-border-color;
+}
+
+.ui-treetable-caption {
+  border-bottom: 0 none;
+}
+
+.ui-treetable-summary {
+  border-top: 0 none;
+}
+
+/* Scrollable */
+.ui-treetable-scrollable-wrapper {
+  // position: relative;
+  table {
+    border: none;
+    tr:last-child {
+      > th,
+      > td {
+        border-bottom: none;
+      }
+    }
+  }
+}
+.ui-treetable-scrollable-header,
+.ui-treetable-scrollable-footer {
+  // overflow: hidden;
+  background-color: $table-head-bg;
+  color: $table-head-color;
+  font-weight: bold;
+  border: $table-border-width solid $input-border-color;
+}
+.ui-treetable-scrollable-header {
+  border-bottom: 0 none;
+}
+.ui-treetable-scrollable-footer {
+  border-top: 0 none;
+}
+
+.ui-treetable-scrollable-body {
+  // overflow: auto;
+  // position: relative;
+  background-color: $table-bg;
+  color: $table-color;
+  border: $table-border-width solid $input-border-color;
+  > table > .ui-treetable-tbody > tr:first-child > td {
+    border-top: 0 none;
+  }
+}
+
+// .ui-treetable-virtual-table {
+//   position: absolute;
+// }
+
+/* Frozen Columns */
+// .ui-treetable-frozen-view {
+//   .ui-treetable-scrollable-body {
+//     overflow: hidden;
+//   }
+//   > .ui-treetable-scrollable-body > table > .ui-treetable-tbody > tr > td:last-child {
+//     border-right: 0 none;
+//   }
+// }
+
+// .ui-treetable-unfrozen-view {
+//   position: absolute;
+//   top: 0px;
+// }
+
+/* Resizable */
+// .ui-treetable-resizable {
+//   > .ui-treetable-wrapper {
+//     overflow-x: auto;
+//   }
+//   .ui-treetable-thead > tr > th,
+//   .ui-treetable-tfoot > tr > td,
+//   .ui-treetable-tbody > tr > td {
+//     overflow: hidden;
+//   }
+//   .ui-resizable-column {
+//     background-clip: padding-box;
+//     position: relative;
+//   }
+// }
+
+// .ui-treetable-resizable-fit .ui-resizable-column:last-child .ui-column-resizer {
+//   display: none;
+// }
+
+/* Reorder */
+// .ui-treetable-reorder-indicator-up,
+// .ui-treetable-reorder-indicator-down {
+//   position: absolute;
+//   display: none;
+// }
+
+/* Responsive */
+// .ui-treetable-responsive .ui-treetable-tbody > tr > td .ui-column-title {
+//   display: none;
+// }
+
+// @media screen and (max-width: 40em) {
+//   .ui-treetable-responsive {
+//     .ui-treetable-thead > tr > th,
+//     .ui-treetable-tfoot > tr > td {
+//       display: none !important;
+//     }
+//     .ui-treetable-tbody {
+//       > tr > td {
+//         text-align: left;
+//         display: block;
+//         border: 0 none;
+//         width: 100% !important;
+//         -webkit-box-sizing: border-box;
+//         -moz-box-sizing: border-box;
+//         box-sizing: border-box;
+//         float: left;
+//         clear: left;
+//         .ui-column-title {
+//           padding: 0.4em;
+//           min-width: 30%;
+//           display: inline-block;
+//           margin: -0.4em 1em -0.4em -0.4em;
+//           font-weight: bold;
+//         }
+//       }
+//     }
+//   }
+// }
+
+/* Loader */
+// .ui-treetable-loading {
+//   position: absolute;
+//   width: 100%;
+//   height: 100%;
+//   // -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=10)";
+//   opacity: 0.1;
+//   z-index: 1;
+// }
+
+// .ui-treetable-loading-content {
+//   position: absolute;
+//   left: 50%;
+//   top: 50%;
+//   z-index: 2;
+//   margin-top: -1em;
+//   margin-left: -1em;
+// }
+
+// .ui-treetable .ui-treetable-loading-icon {
+//   font-size: 2em;
+// }
