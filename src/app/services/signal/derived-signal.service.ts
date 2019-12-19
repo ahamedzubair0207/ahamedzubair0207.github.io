@@ -10,6 +10,9 @@ export class DerivedSignalService {
 
   constructor(private http: CustomHttp, private httpClient: HttpClient) { }
 
+  getDerivedFunctions() {
+    return this.http.get(AppConstants.GET_DERIVED_SIGNALS_FUNCTION);
+  }
 
   getControlsByFunction(functionId) {
     return this.http.get(AppConstants.GET_CONTROLS_OF_FUNCTION + '/' + functionId + '/controls');
