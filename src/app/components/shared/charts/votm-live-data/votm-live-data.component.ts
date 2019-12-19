@@ -600,7 +600,6 @@ export class VotmLiveDataComponent implements OnInit {
   }
 
   loadChart() {
-    console.log("loadChartloadChartloadChartloadChartloadChartloadChartloadChartloadChartloadChartloadChartloadChartloadChartloadChartloadChartloadChartloadChartloadChartloadChartloadChartloadChartloadChartloadChartloadChart")
     if (this.chart) {
       this.chart.dispose();
       this.rangeSeriesSet = false;

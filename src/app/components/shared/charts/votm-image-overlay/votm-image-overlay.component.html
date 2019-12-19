@@ -15,7 +15,7 @@
               <h3>{{ imageOverlay.title }}</h3>
             </div>
           </div>
-        <div class=" h-100 assoc-pane" [class.dt-titlespace]="!imageOverlay.title" (window:resize)="onResize($event)">
+        <div class=" h-100 assoc-pane" [class.dt-titlespace]="imageOverlay.title != ''" (window:resize)="onResize($event)" >
 
             <!--  [src]="imgURL" -->
             <img #overlayImage [src]="widgetimgURL" class="assoc-img" (load)="onLoadLocImg()"  />

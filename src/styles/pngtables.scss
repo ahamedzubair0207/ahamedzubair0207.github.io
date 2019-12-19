@@ -1,0 +1,99 @@
+.ui-table,
+.ui-treetable {
+  table {
+    border: $table-border-width solid $input-border-color;
+  }
+  .ui-table-thead,
+  .ui-treetable-thead {
+    background-color: $table-head-bg;
+  }
+  .ui-table-thead > tr > th,
+  .ui-table-tbody > tr > td,
+  .ui-table-tfoot > tr > td,
+  .ui-treetable-thead > tr > th,
+  .ui-treetable-tbody > tr > td,
+  .ui-treetable-tfoot > tr > td {
+    padding: $table-cell-padding-sm;
+    border-bottom: $table-border-width solid $input-border-color;
+    &:not(:last-child) {
+      border-right: $table-border-width solid $input-border-color;
+    }
+  }
+  .ui-column-resizer-helper {
+    background-color: $primary;
+  }
+  .ui-sortable-column {
+    &:focus {
+      outline: none;
+    }
+    &:hover {
+      background-color: $gray-300;
+      p-sorticon,
+      p-treetablesorticon {
+        color: $table-head-color;
+      }
+    }
+  }
+  p-sorticon,
+  p-treetablesorticon {
+    color: lighten($table-head-color, 25%);
+  }
+}
+
+/* Sections */
+.ui-table-caption,
+.ui-table-summary,
+.ui-treetable-caption,
+.ui-treetable-summary {
+  padding: $table-cell-padding-sm;
+  text-align: center;
+  font-weight: bold;
+  background-color: $gray-100;
+  color: $table-head-color;
+  border: $table-border-width solid $input-border-color;
+}
+.ui-table-caption,
+.ui-treetable-caption {
+  border-bottom: 0 none;
+}
+.ui-table-summary,
+.ui-treetable-summary {
+  border-top: 0 none;
+}
+
+/* Scrollable */
+.ui-table-scrollable-wrapper,
+.ui-treetable-scrollable-wrapper {
+  table {
+    border: none;
+    tr:last-child {
+      > th,
+      > td {
+        border-bottom: none;
+      }
+    }
+  }
+}
+.ui-table-scrollable-header,
+.ui-table-scrollable-footer,
+.ui-treetable-scrollable-header,
+.ui-treetable-scrollable-footer {
+  background-color: $table-head-bg;
+  color: $table-head-color;
+  font-weight: bold;
+  border: $table-border-width solid $input-border-color;
+}
+.ui-table-scrollable-header,
+.ui-treetable-scrollable-header {
+  border-bottom: 0 none;
+}
+.ui-table-scrollable-footer,
+.ui-treetable-scrollable-footer {
+  border-top: 0 none;
+}
+.ui-table-scrollable-body,
+.ui-treetable-scrollable-body {
+  background-color: $table-bg;
+  color: $table-color;
+  border: $table-border-width solid $input-border-color;
+}

@@ -165,14 +165,22 @@
           </ng-template>
         </ngx-datatable-column>
         <ngx-datatable-column name="Event Name" width="100" prop="alertName"></ngx-datatable-column>
-        <ngx-datatable-column name="Event Time" width="100" prop="tresholdMetTime"></ngx-datatable-column>
+        <ngx-datatable-column name="Event Time" width="100">
+            <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                {{getUserLocaleDateTime(row.tresholdMetTime)}}
+            </ng-template>
+        </ngx-datatable-column>
         <ngx-datatable-column name="Asset/Loacation" width="100">
           <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
               {{row.assetName ? row.assetName : row.locationName}}
           </ng-template>
         </ngx-datatable-column>
         <ngx-datatable-column name="Signal" prop="singalName" width="100"></ngx-datatable-column>
-        <ngx-datatable-column name="Value" prop="signalValue" width="50"></ngx-datatable-column>
+        <ngx-datatable-column name="Value" width="50">
+            <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                {{row.signalValue}}
+            </ng-template>
+        </ngx-datatable-column>
         <ngx-datatable-column name="Note" prop="description" width="100"></ngx-datatable-column>
         <ngx-datatable-column name="State" width="50">
           <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>

@@ -21,7 +21,7 @@ export class VotmCloudEventsHomeComponent implements OnInit {
   eventsLogs: Eventlog [];
   addEventmodal: any;
   loggedInUser: any;
-  currentDate = (new Date()).toUTCString();
+  currentDate: string;
   selectedAcknowledgement = 1;
   closureActivity: string;
   closureNote: string;
@@ -33,7 +33,7 @@ export class VotmCloudEventsHomeComponent implements OnInit {
   previouslyOpenedRow = -1;
   @ViewChild('eventLogTable', { static: false }) eventLogTable: any;
   toaster: Toaster = new Toaster(this.toastr);
-
+  eventLogsTemp: any[] = [];
 
   // constructor() { }
   constructor(
@@ -45,6 +45,7 @@ export class VotmCloudEventsHomeComponent implements OnInit {
 
   ngOnInit() {
     this.loggedInUser = this.sharedService.getLoggedInUser();
+    this.currentDate = this.sharedService.getDateTimeInUserLocale(new Date());
     this.getEventActivities();
     this.getEventLogs();
   }
@@ -52,8 +53,43 @@ export class VotmCloudEventsHomeComponent implements OnInit {
   getEventLogs() {
     this.eventLogsService.getEventLogs(this.organizationId, this.locationId, this.assetId)
       .subscribe(response => {
-        this.eventsLogs = response;
+        this.eventLogsTemp = response;
+        for (let i = 0; i < this.eventLogsTemp.length; i++) {
+          this.getValueByUOM(this.eventLogsTemp[i], i);
+        }
       });
+  }
+
+  getValueByUOM(eventObj, index) {
+    console.log(index);
+    const arr = [];
+    arr.push({
+      uomValue: eventObj.signalValue,
+      signalId: eventObj.signalId,
+      sensorId: eventObj.sensorId
+    });
+    const obj = {
+      userId: this.loggedInUser.userId,
+      organizationId: eventObj.organizationId,
+      locationId: eventObj.locationId,
+      precision: 3,
+      uom: arr
+    };
+    this.sharedService.getUOMConversionData(obj).subscribe(
+      response => {
+        this.eventLogsTemp[index].signalValue = response[0].uomValue + (response[0].uomname ? ' ' + response[0].uomname : '');
+        if (index === this.eventLogsTemp.length - 1) {
+          const arr1 = [...this.eventLogsTemp];
+          this.eventsLogs = [...arr1];
+        }
+      }
+    );
+  }
+
+  getUserLocaleDateTime(time) {
+    if (time) {
+      return this.sharedService.getDateTimeInUserLocale(time);
+    }
   }
 
   getEventActivities() {

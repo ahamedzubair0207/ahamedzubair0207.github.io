@@ -7,9 +7,9 @@
 @import "styles/bootstrap.min.css";
 @import "styles/_functions.scss", "styles/_variables.scss";
 @import "styles/select.scss";
-@import "styles/theme.css";
+// @import "styles/theme.css";
 // @import "styles/side.css";
-@import "styles/pngtable.scss";
+@import "styles/pngtables.scss";
 
 @import '~bootstrap/scss/bootstrap-reboot';
 // @import '~bootstrap/scss/bootstrap-grid';
@@ -23,7 +23,7 @@
 // @import '~ngx-toastr/toastr';
 @import '~ngx-toastr/toastr-bs4-alert';
 @import '../node_modules/primeicons/primeicons.css';
-@import '../node_modules/primeng/resources/themes/nova-light/theme.css';
+// @import '../node_modules/primeng/resources/themes/nova-light/theme.css';
 @import '../node_modules/primeng/resources/primeng.min.css';
 
 @import '~@swimlane/ngx-datatable/index.css';
@@ -129,4 +129,8 @@ body a{
   z-index: -1;
   opacity: 0;
   right: 0 !important;
+}
+
+.ng-select.custom .ng-select-container{
+  font-size:.765625rem;
 }

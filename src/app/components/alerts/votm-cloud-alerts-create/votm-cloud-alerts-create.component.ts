@@ -124,7 +124,6 @@ export class VotmCloudAlertsCreateComponent implements OnInit, OnDestroy {
     });
     // // console.log('this.alertID===out===', this.alertId);
     this.selectedSignal = this.sharedService.getSignalDataForAlert();
-
     this.activeroute.paramMap.subscribe(params => {
       if (!this.AlertpageType) {
         this.curOrgId = params.get('curOrgId');
@@ -189,11 +188,9 @@ export class VotmCloudAlertsCreateComponent implements OnInit, OnDestroy {
         this.ALertRuleUserGroupSubscriber();
       } else {
         this.userGroupSubscribers = [];
-
         if (this.selectedSignal) {
           this.alert.signalTypeId = this.selectedSignal.signalId;
           // this.onSignalTypeChange(this.alert.signalTypeId);
-
           this.onChangeSignalType(this.alert.signalTypeId, '');
           this.assetsChecked[this.selectedSignal.signalMappingId] = true;
         }

@@ -778,7 +778,7 @@
       </div>
 
       <!-- Dynamic Tabs -->
-      <div class="tab-pane fade border border-top-0 mb-3 flex-grow-1" *ngFor="let dbItem of dashboardTabs"
+      <div class="tab-pane fade border border-top-0 flex-grow-1" *ngFor="let dbItem of dashboardTabs"
         [ngClass]="{ 'active show':activeTab===dbItem.dashboardId}" id="DashboardID_{{dbItem.dashboardId}}"
         data-toggle="tab" role="tabpanle">
         <app-votm-cloud-organization-dashboard [dbItem]="dbItem" *ngIf="activeTab === dbItem.dashboardId" ></app-votm-cloud-organization-dashboard>
