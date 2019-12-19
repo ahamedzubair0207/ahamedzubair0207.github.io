@@ -3,7 +3,7 @@ import { Observable, BehaviorSubject } from 'rxjs';
 import { CustomHttp } from './custom_http/custom_http.service';
 import { AppConstants } from '../helpers/app.constants';
 import { map } from 'rxjs/operators';
-
+import * as moment from 'moment-timezone';
 @Injectable({
   providedIn: 'root'
 })
@@ -98,6 +98,16 @@ export class SharedService {
 
   getUOMConversionData(body) {
     return this.http.post(AppConstants.UOM_CONVERSION, body);
+  }
+
+  getDateTimeInUserLocale(datetime) {
+    const loggedInUser = this.getLoggedInUser();
+    return moment(datetime).tz(loggedInUser.userConfigSettings[0].timeZoneDescription)
+    .format(moment.localeData(loggedInUser.userConfigSettings[0].localeName)
+      .longDateFormat('L')) + ' '
+    + moment(datetime).tz(loggedInUser.userConfigSettings[0].timeZoneDescription)
+      .format(moment.localeData(loggedInUser.userConfigSettings[0].localeName)
+        .longDateFormat('LTS'));
   }
 
 

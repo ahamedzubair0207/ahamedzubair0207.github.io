@@ -18,7 +18,7 @@ import { NavigationService } from 'src/app/services/navigation/navigation.servic
 })
 export class VotmCloudAlertsHomeComponent implements OnInit {
 
-  @Input() alertList: Array<TableModule> = [];
+  @Input() alertList: Array<TableModule> =[];
   @Input() orgId: string;
   message: any;
   alertToDelete: string;

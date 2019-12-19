@@ -11,12 +11,23 @@ export class VotmcloudDerivedSignalComponent implements OnInit {
 
   derivedSignal: DerivedSignal = new DerivedSignal();
   functionControls: any;
+  functions: any[] = [];
   functionControlKeys: any[] = [];
   constructor(
     private derivedSigService: DerivedSignalService
   ) { }
 
   ngOnInit() {
+    this.getFuncitonsList();
+  }
+
+  getFuncitonsList() {
+    this.functions = [];
+    this.derivedSigService.getDerivedFunctions().subscribe(
+      response => {
+        this.functions = response;
+      }
+    );
   }
 
   onChangeFunction() {

@@ -1,5 +1,5 @@
 import { SharedService } from 'src/app/services/shared.service';
-import { Component, OnInit, Input, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy, ViewEncapsulation } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { Toaster } from '../../votm-cloud-toaster/votm-cloud-toaster';
 import { DbItem } from 'src/app/models/db-item';
@@ -14,6 +14,7 @@ import { SignalRService } from 'src/app/services/signalR/signal-r.service';
 import * as moment from 'moment-timezone';
 import { DataTableWidget } from 'src/app/models/data-table-widget.model';
 import { DashboardService } from 'src/app/services/dasboards/dashboard.service';
+import { TreeNode } from 'primeng/api';
 
 
 const enum State {
@@ -27,7 +28,7 @@ const enum State {
   selector: 'app-votm-data-table',
   templateUrl: './votm-data-table.component.html',
   styleUrls: ['./votm-data-table.component.scss'],
-  providers: [NgbModalConfig, NgbModal]
+  encapsulation: ViewEncapsulation.None
 })
 export class VotmDataTableComponent implements OnInit, OnDestroy {
   @Input() data: DashBoard;
@@ -55,9 +56,6 @@ export class VotmDataTableComponent implements OnInit, OnDestroy {
     { type: 'humidity', uom: '%', nominal: 50, var: 1 },
     { type: 'Peak Current', uom: '%', nominal: 50, var: 3 }
   ];
-
-  
-
   signals: any = [];
   pageLabels: any;
   currentUrl: any;
@@ -67,6 +65,7 @@ export class VotmDataTableComponent implements OnInit, OnDestroy {
   dashboardWidget: any;
   dataTableWidget: DataTableWidget = new DataTableWidget();
   toaster: Toaster = new Toaster(this.toastr);
+  signalsTree: TreeNode[] = [];
 
   constructor(
     private router: Router,
@@ -95,7 +94,7 @@ export class VotmDataTableComponent implements OnInit, OnDestroy {
       this.wId = this.data.dashboardId + '-' + this.id;
       this.wConfig = (this.data.widgetConf) ?
       this.data.widgetConf :
-      { title: '', showSensor: false, showOrg: false, showLoc: false, showAsset: true, showStatus: true };
+      { title: '', showSensor: false, showOrg: false, showLoc: false, showAsset: true, showStatus: true, showState: true };
       if (this.data.dashboardId) {
         this.getDashboardWidget();
       }
@@ -136,6 +135,7 @@ export class VotmDataTableComponent implements OnInit, OnDestroy {
     this.modalService.open(config, { size: 'lg' }).result.then((result) => {
       if (result === 'save') {
         const selectedSignals = [];
+        this.signalsTree = [];
         this.signals.forEach(signal => {
           if (signal.sel) {
             selectedSignals.push(signal.signalMappingId);
@@ -192,6 +192,7 @@ export class VotmDataTableComponent implements OnInit, OnDestroy {
 
   getDashboardWidget() {
     this.isGetDashboardConfigLoading = true;
+    this.signalsTree = [];
     this.dashboardService.getDashboardWidgets(this.data.dashboardId)
       .subscribe(response => {
         if (response && response.length > 0) {
@@ -343,18 +344,23 @@ export class VotmDataTableComponent implements OnInit, OnDestroy {
   }
 
   getState(signal) {
-    if (signal.state == State.Critical) return "icon-critical-red";
-    else if (signal.state == State.Warn) return "icon-warn-yellow";
-    else if (signal.state == State.Nominal) return "icon-nominal-green";
-    else return "";
+    if (signal.state === State.Critical) {
+      return 'icon-critical-red';
+    } else if (signal.state === State.Warn) {
+      return 'icon-warn-yellow';
+    } else if (signal.state === State.Nominal) {
+      return 'icon-nominal-green';
+    } else {
+      return '';
+    }
   }
 
   getStateBg(signal) {
-    let classes = {
-      "alert-danger": signal.state == State.Critical && this.showState,
-      "alert-warning": signal.state == State.Warn && this.showState,
-      "alert-success": signal.state == State.Nominal && this.showState,
-      "text-body": signal != State.Unknown && this.showState
+    const classes = {
+      'alert-danger': signal.state === State.Critical && this.showState,
+      'alert-warning': signal.state === State.Warn && this.showState,
+      'alert-success': signal.state === State.Nominal && this.showState,
+      'text-body': signal !== State.Unknown && this.showState
     };
     return classes;
   }
@@ -374,6 +380,11 @@ export class VotmDataTableComponent implements OnInit, OnDestroy {
       this.dataTableWidget.displayOrg = false;
     }
     // console.log('onOrgCheckboxChange ', this.dataTableWidget)
+  }
+
+  resizeTable() {
+    // this.signals = [...this.signals];
+    this.signals = [...this.signals];
   }
 
   onAssetCheckboxChange() {
@@ -437,7 +448,7 @@ export class VotmDataTableComponent implements OnInit, OnDestroy {
       let list = [];
       list = orgLabel.split(' > ');
       orgLabel = list[list.length - 1] + ' > ' + (locLabel ? (locLabel + ' > ') : '') + (assetLabel ? (assetLabel + ' > ') : '');
-      fullLabel += orgLabel;
+      fullLabel = orgLabel;
     } else {
       orgLabel = (locLabel ? (locLabel + ' > ') : '') + (assetLabel ? (assetLabel + ' > ') : '');
     }
@@ -445,7 +456,9 @@ export class VotmDataTableComponent implements OnInit, OnDestroy {
       let list = [];
       list = locLabel.split(' > ');
       locLabel = list[list.length - 1] + ' > ' + (assetLabel ? (assetLabel + ' > ') : '');
-      fullLabel += locLabel;
+      if (!fullLabel) {
+        fullLabel = locLabel;
+      }
     } else {
       locLabel = (assetLabel ? (assetLabel + ' > ') : '');
     }
@@ -453,25 +466,31 @@ export class VotmDataTableComponent implements OnInit, OnDestroy {
       let list = [];
       list = assetLabel.split(' > ');
       assetLabel = assetLabel + ' > ';
-      fullLabel += assetLabel;
+      if (!fullLabel) {
+        fullLabel += assetLabel;
+      }
     }
     console.log(orgLabel);
     console.log(locLabel);
     console.log(assetLabel);
-    this.signals.push({
+    const obj = {
       type: signal.signalType,
       organization: orgLabel,
       location: locLabel,
       asset: assetLabel,
       fullLabel,
-      name: signal.signalName, sel: false, value: signal.Value,
+      name: signal.associationName, sel: false, value: signal.Value,
       bat: signal.Battery, rssi: signal.signalId,
       sensor: signal.sensorName, iconFile: signal.iconFile,
       signalId: signal.signalId,
       parkerDeviceId: signal.parkerDeviceId,
       modifiedOn: this.timestamp,
+      signalValue: 0,
+      state: '',
       signalMappingId: signal.signalMappingId
-    });
+    };
+    this.signals.push(obj);
+
   }
 
   getSignalsAssociatedAssetByOrgId(orgId: string) {
@@ -483,6 +502,13 @@ export class VotmDataTableComponent implements OnInit, OnDestroy {
         if (response) {
           await this.getOrgTreeStructure(response);
           VotmCommon.getUniqueValues(this.signals);
+          const arr = [];
+          this.signals.forEach(obj => {
+            arr.push({
+              data : obj
+            });
+          });
+          this.signalsTree = [...arr];
           this.isSignalsDataLoading = false;
           this.selectSignals();
         }
@@ -496,6 +522,13 @@ export class VotmDataTableComponent implements OnInit, OnDestroy {
         // this.mapSignals(response);
         await this.getLocationTreeStructure(response, null, null);
         VotmCommon.getUniqueValues(this.signals);
+        const arr = [];
+        this.signals.forEach(obj => {
+          arr.push({
+            data : obj
+          });
+        });
+        this.signalsTree = [...arr];
         this.isSignalsDataLoading = false;
         this.selectSignals();
       });
@@ -508,6 +541,13 @@ export class VotmDataTableComponent implements OnInit, OnDestroy {
         // this.mapSignals(response);
         await this.getAssetTreeStrucutre(response, null, null, null);
         VotmCommon.getUniqueValues(this.signals);
+        const arr = [];
+        this.signals.forEach(obj => {
+          arr.push({
+            data : obj
+          });
+        });
+        this.signalsTree = [...arr];
         this.isSignalsDataLoading = false;
         this.selectSignals();
       });
