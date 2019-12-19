@@ -283,7 +283,7 @@ export class BreadcrumbsComponent implements OnInit {
       });
 
       let orgIndex = 0;
-      if (organizationCount > 2) {
+      if (organizationCount > 3) {
         this.breadcrumbs.forEach((breadcrumb, index) => {
           if (breadcrumb.type === 'Organization') {
             orgIndex = orgIndex + 1;
@@ -292,7 +292,7 @@ export class BreadcrumbsComponent implements OnInit {
             } else if (orgIndex === organizationCount) {
               breadcrumb.isVisible = true;
             } else {
-              if (orgIndex === 2) {
+              if (orgIndex === 3) {
                 breadcrumb.showDots = true;
               }
               breadcrumb.isVisible = false;
@@ -307,7 +307,7 @@ export class BreadcrumbsComponent implements OnInit {
       }
 
       let locIndex = 0;
-      if (locationCount > 2) {
+      if (locationCount > 3) {
         this.breadcrumbs.forEach((breadcrumb, index) => {
           if (breadcrumb.type === 'Location') {
             locIndex = locIndex + 1;
@@ -316,7 +316,7 @@ export class BreadcrumbsComponent implements OnInit {
             } else if (locIndex === locationCount) {
               breadcrumb.isVisible = true;
             } else {
-              if (locIndex === 2) {
+              if (locIndex === 3) {
                 breadcrumb.showDots = true;
               }
               breadcrumb.isVisible = false;
@@ -331,7 +331,7 @@ export class BreadcrumbsComponent implements OnInit {
       }
 
       let assetIndex = 0;
-      if (assetCount > 2) {
+      if (assetCount > 3) {
         this.breadcrumbs.forEach((breadcrumb, index) => {
           if (breadcrumb.type === 'Asset') {
             assetIndex = assetIndex + 1;
@@ -340,7 +340,7 @@ export class BreadcrumbsComponent implements OnInit {
             } else if (assetIndex === assetCount) {
               breadcrumb.isVisible = true;
             } else {
-              if (assetIndex === 2) {
+              if (assetIndex === 3) {
                 breadcrumb.showDots = true;
               }
               breadcrumb.isVisible = false;
