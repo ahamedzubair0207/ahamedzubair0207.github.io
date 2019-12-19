@@ -159,9 +159,9 @@
         </ngx-datatable-column>
         <ngx-datatable-column name="Sev" width="30">
           <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
-              <i [ngClass]="row.alarmStatus.toLowerCase().includes('critical') ? 'icon-critical' :
-              row.alarmStatus.toLowerCase().includes('warning') ? 'icon-warn' :
-              row.alarmStatus.toLowerCase().includes('baseline') ? 'icon-info' : ''" ></i>
+              <i [ngClass]="row.alarmStatus.toLowerCase().includes('critical') ? 'icon-critical-red' :
+              row.alarmStatus.toLowerCase().includes('warning') ? 'icon-warn-yellow' :
+              row.alarmStatus.toLowerCase().includes('baseline') ? 'icon-info-blue' : ''" ></i>
           </ng-template>
         </ngx-datatable-column>
         <ngx-datatable-column name="Event Name" width="100" prop="alertName"></ngx-datatable-column>
