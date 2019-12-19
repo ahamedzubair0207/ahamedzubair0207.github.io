@@ -5,7 +5,7 @@
         <a href="#" class="nav-item nav-link dropdown"
           [ngStyle]="{'color': i === finalBreadcrumbs.length-1 ? 'white' : 'rgba(255,255,255,.5)'}"
           data-toggle="dropdown">{{i===finalBreadcrumbs.length-1?breadcrumb.name:breadcrumb.shortName}}<i
-            *ngIf="i!==finalBreadcrumbs.length-1" class="fa fa-chevron-right ml-2"></i></a>
+            *ngIf="i!==finalBreadcrumbs.length-1" class="icon-right-open ml-2"></i></a>
         <div class="dropdown-menu scrollable-menu">
           <a *ngFor="let item of breadcrumb.nodes" style="cursor: pointer" (click)="onItemSelection(item)"
             class="dropdown-item">{{item.name}}</a>
@@ -17,7 +17,7 @@
       <div *ngIf="breadcrumb.showDots && breadcrumb.type==='Organization'" class="nav-item dropdown underline-on-hover">
         <a href="#" style="color: white;" class="nav-item nav-link dropdown"
           data-toggle="dropdown">{{orgMinimizedBreadcrumbs.name}}<i style="color:grey;"
-            class="fa fa-chevron-right ml-2"></i></a>
+            class="icon-right-open ml-2"></i></a>
         <div class="dropdown-menu scrollable-menu">
           <a *ngFor="let item of orgMinimizedBreadcrumbs.nodes" style="cursor: pointer" (click)="onItemSelection(item)"
             class="dropdown-item">{{item.name}}</a>
@@ -28,7 +28,7 @@
       <div *ngIf="breadcrumb.showDots && breadcrumb.type==='Location'" class="nav-item dropdown underline-on-hover">
         <a href="#" style="color: white;" class="nav-item nav-link dropdown"
           data-toggle="dropdown">{{locMinimizedBreadcrumbs.name}}<i style="color:grey;"
-            class="fa fa-chevron-right ml-2"></i></a>
+            class="icon-right-open ml-2"></i></a>
         <div class="dropdown-menu scrollable-menu">
           <a *ngFor="let item of locMinimizedBreadcrumbs.nodes" style="cursor: pointer" (click)="onItemSelection(item)"
             class="dropdown-item">{{item.name}}</a>
@@ -39,7 +39,7 @@
       <div *ngIf="breadcrumb.showDots && breadcrumb.type==='Asset'" class="nav-item dropdown underline-on-hover">
         <a href="#" style="color: white;" class="nav-item nav-link dropdown"
           data-toggle="dropdown">{{assetMinimizedBreadcrumbs.name}}<i style="color:grey;"
-            class="fa fa-chevron-right ml-2"></i></a>
+            class="icon-right-open ml-2"></i></a>
         <div class="dropdown-menu scrollable-menu">
           <a *ngFor="let item of assetMinimizedBreadcrumbs.nodes" style="cursor: pointer"
             (click)="onItemSelection(item)" class="dropdown-item">{{item.name}}</a>
