@@ -37,7 +37,7 @@
   </header>
 
   <p-treeTable [scrollable]="true" #tt  [globalFilterFields]="['name']" [resizableColumns]="true"
-    [value]="organizationsList" [autoLayout]="true" id="orgTbl">
+    [value]="organizationsList" [autoLayout]="true" id="orgTbl" class="orgTable">
     <ng-template pTemplate="caption">
 
       <!-- <div class="row"> -->
@@ -92,7 +92,7 @@
       </colgroup>
     </ng-template>
     <ng-template pTemplate="header">
-      <tr style="background-color: #dee2e6;">
+      <tr>
         <th ttResizableColumn ttSortableColumn="name">Name
           <p-treeTableSortIcon field="name"></p-treeTableSortIcon>
         </th>
