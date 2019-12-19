@@ -7,16 +7,22 @@
   .ui-treetable-thead {
     background-color: $table-head-bg;
   }
-  .ui-table-thead > tr > th,
-  .ui-table-tbody > tr > td,
-  .ui-table-tfoot > tr > td,
-  .ui-treetable-thead > tr > th,
-  .ui-treetable-tbody > tr > td,
-  .ui-treetable-tfoot > tr > td {
-    padding: $table-cell-padding-sm;
-    border-bottom: $table-border-width solid $input-border-color;
-    &:not(:last-child) {
-      border-right: $table-border-width solid $input-border-color;
+  .ui-table-thead > tr,
+  .ui-table-tbody > tr,
+  .ui-table-tfoot > tr,
+  .ui-treetable-thead > tr,
+  .ui-treetable-tbody > tr,
+  .ui-treetable-tfoot > tr {
+    &:focus {
+      outline: none;
+    }
+    > th,
+    > td {
+      padding: $table-cell-padding-sm;
+      border-bottom: $table-border-width solid $input-border-color;
+      &:not(:last-child) {
+        border-right: $table-border-width solid $input-border-color;
+      }
     }
   }
   .ui-column-resizer-helper {
@@ -98,14 +104,12 @@
   border: $table-border-width solid $input-border-color;
 }
 
-
-.orgTable, .assetTable, .locationTable{
-
+.orgTable,
+.assetTable,
+.locationTable {
   .ui-treetable {
     .ui-treetable-scrollable-body {
-      max-height: calc(
-        100vh - 170px
-      );
+      max-height: calc(100vh - 170px);
     }
   }
   .ui-treetable,
