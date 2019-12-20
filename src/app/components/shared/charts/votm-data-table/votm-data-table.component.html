@@ -56,7 +56,7 @@
                     }}
                     {{ rowData.name }}"
                   >
-                    <i class="pr-1 icon-sig-{{ rowData.type }}"></i>{{
+                    <i class="pr-1 {{ rowData.iconFile }}"></i>{{
                       (wConfig.showOrg ? rowData.organization :
                         (wConfig.showLoc ? rowData.location :
                           (wConfig.showAsset ? rowData.asset : '')

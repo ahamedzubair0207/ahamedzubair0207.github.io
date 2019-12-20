@@ -53,7 +53,7 @@ export class VotmDataTableComponent implements OnInit, OnDestroy {
   isGetDashboardConfigLoading = false;
   signalTypes: any[] = [
     { type: 'Absolute Pressure', uom: 'psi', nominal: 1500, var: 5 },
-    { type: 'Temperature', uom: '°F', nominal: 100, var: 2 },
+    { type: 'temperature', uom: '°F', nominal: 100, var: 2 },
     { type: 'humidity', uom: '%', nominal: 50, var: 1 },
     { type: 'Peak Current', uom: '%', nominal: 50, var: 3 }
   ];
@@ -316,15 +316,11 @@ export class VotmDataTableComponent implements OnInit, OnDestroy {
 
   pathName(signal) {
 
-    return signal.org + ((signal.org) ? ' ❯ ' : '') +
-      signal.loc + ((signal.loc) ? ' ❯ ' : '') + signal.asset
-      + ((signal.asset) ? ' ❯ ' : '') + signal.name;
+    return signal.org + ((signal.org) ? ' ❯ ' : '') + signal.loc + ((signal.loc) ? ' ❯ ' : '') + signal.asset + ((signal.asset) ? ' ❯ ' : '') + signal.name;
   }
 
   selPathName(signal) {
-    return ((this.wConfig.showOrg) ? (signal.org + ((signal.org) ? ' ❯ ' : '')) : '') +
-      ((this.wConfig.showLoc) ? (signal.loc + ((signal.loc) ? ' ❯ ' : '')) : '') +
-      ((this.wConfig.showAsset) ? (signal.asset + ((signal.asset) ? ' ❯ ' : '')) : '') + signal.name;
+    return ((this.wConfig.showOrg) ? (signal.org + ((signal.org) ? ' ❯ ' : '')) : '') + ((this.wConfig.showLoc) ? (signal.loc + ((signal.loc) ? ' ❯ ' : '')) : '') +((this.wConfig.showAsset) ? (signal.asset + ((signal.asset) ? ' ❯ ' : '')) : '') + signal.name;
   }
 
   getBattery(signal) {
@@ -410,7 +406,7 @@ export class VotmDataTableComponent implements OnInit, OnDestroy {
   }
 
   getOrgTreeStructure(org, organizationLabel = null) {
-    const orgLabel = (organizationLabel ? (organizationLabel + ' > ' ) : '') + org.shortName;
+    const orgLabel = (organizationLabel ? (organizationLabel + ' ❯ ' ) : '') + org.shortName;
     if (org.locations) {
       org.locations.forEach(location => {
         this.getLocationTreeStructure(location, null, orgLabel);
@@ -424,7 +420,7 @@ export class VotmDataTableComponent implements OnInit, OnDestroy {
   }
 
   getLocationTreeStructure(location, locationLabel = null, orgLabel) {
-    const locLabel = (locationLabel ? (locationLabel + ' > ' ) : '') + location.shortName;
+    const locLabel = (locationLabel ? (locationLabel + ' ❯ ' ) : '') + location.shortName;
     location.signals.forEach(signal => {
         this.getSignalStructure(signal, orgLabel, locLabel, null);
     });
@@ -441,7 +437,7 @@ export class VotmDataTableComponent implements OnInit, OnDestroy {
   }
 
   getAssetTreeStrucutre(asset, assetLabel, locLabel, orgLabel) {
-    const aLabel = (assetLabel ? (assetLabel + ' > ' ) : '') + asset.shortName;
+    const aLabel = (assetLabel ? (assetLabel + ' ❯ ' ) : '') + asset.shortName;
     asset.signals.forEach(signal => {
       this.getSignalStructure(signal, orgLabel, locLabel, aLabel);
     });
@@ -456,26 +452,26 @@ export class VotmDataTableComponent implements OnInit, OnDestroy {
     let fullLabel = '';
     if (orgLabel) {
       let list = [];
-      list = orgLabel.split(' > ');
-      orgLabel = list[list.length - 1] + ' > ' + (locLabel ? (locLabel + ' > ') : '') + (assetLabel ? (assetLabel + ' > ') : '');
+      list = orgLabel.split(' ❯ ');
+      orgLabel = list[list.length - 1] + ' ❯ ' + (locLabel ? (locLabel + ' ❯ ') : '') + (assetLabel ? (assetLabel + ' ❯ ') : '');
       fullLabel = orgLabel;
     } else {
-      orgLabel = (locLabel ? (locLabel + ' > ') : '') + (assetLabel ? (assetLabel + ' > ') : '');
+      orgLabel = (locLabel ? (locLabel + ' ❯ ') : '') + (assetLabel ? (assetLabel + ' ❯ ') : '');
     }
     if (locLabel) {
       let list = [];
-      list = locLabel.split(' > ');
-      locLabel = list[list.length - 1] + ' > ' + (assetLabel ? (assetLabel + ' > ') : '');
+      list = locLabel.split(' ❯ ');
+      locLabel = list[list.length - 1] + ' ❯ ' + (assetLabel ? (assetLabel + ' ❯ ') : '');
       if (!fullLabel) {
         fullLabel = locLabel;
       }
     } else {
-      locLabel = (assetLabel ? (assetLabel + ' > ') : '');
+      locLabel = (assetLabel ? (assetLabel + ' ❯ ') : '');
     }
     if (assetLabel) {
       let list = [];
-      list = assetLabel.split(' > ');
-      assetLabel = assetLabel + ' > ';
+      list = assetLabel.split(' ❯ ');
+      assetLabel = assetLabel + ' ❯ ';
       if (!fullLabel) {
         fullLabel += assetLabel;
       }
