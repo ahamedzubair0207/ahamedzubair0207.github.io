@@ -43,7 +43,7 @@
                 <ng-template pTemplate="body" let-rowNode let-rowData="rowData">
                     <tr *ngIf="rowData.sel" [ngClass]="getStateBg(rowData)">
                       <td *ngIf="wConfig.showState" class="text-center align-middle">
-                        <i class="mr-0 icon-critical-red"></i>
+                        <i class="mr-0 {{getState(rowData)}}"></i>
                       </td>
                       <td
                     class="ui-resizable-column"
@@ -232,7 +232,7 @@
       </div>
       <div class="col-3">
         <div class="custom-control custom-switch" style="padding-top: calc(.25rem + 1px);">
-          <input type="checkbox" class="custom-control-input" id="showState" [checked]="showState" (change)="showState = !showState"/>
+          <input type="checkbox" class="custom-control-input" id="showState" [(ngModel)]="dataTableWidget.displayState"/>
           <label class="custom-control-label" for="showState">Alarm State</label>
         </div>
       </div>
