@@ -74,7 +74,7 @@ export class VotmCloudAdminUserManagementComponent implements OnInit, OnDestroy 
     this.users = [];
     // console.log('jherrrrrrrrrrrrrr');
     if (this.searchedText) {
-      this.userService.searchUsers(this.searchedText).subscribe(
+      this.userService.searchUsers(this.searchedText, 'user').subscribe(
         response => {
           response.forEach(user => user.name = user.firstName + ' ' + user.lastName);
           this.users = response;
@@ -238,6 +238,7 @@ export class VotmCloudAdminUserManagementComponent implements OnInit, OnDestroy 
 
   onClickOfCustomizePermissions() {
     const modal = document.getElementById('cus_data_per');
+    console.log(modal)
     modal.style.display = 'block';
     this.customizePermissionsModal = document.getElementById('cus_data_per');
     window.onclick =  (event) => {
