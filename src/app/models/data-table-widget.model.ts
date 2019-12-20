@@ -1,5 +1,5 @@
 export class DataTableWidget {
-    
+
     signals: string[];
     title: string;
     displayOrg: boolean;
@@ -7,5 +7,6 @@ export class DataTableWidget {
     displayAsset: boolean;
     displaySensor: boolean;
     displayStatus: boolean;
-    
+    displayState: boolean;
+
 }

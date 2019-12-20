@@ -143,7 +143,7 @@
                 </div>
               </div> -->
               <div class="center" *ngIf="!dragList">
-                <i class="fa fa-spinner fa-2x fa-spin fa-fw">Custom Image association</i>
+                <i class="fa fa-spinner fa-2x fa-spin fa-fw"></i>
               </div>
               <!-- <ng-container *ngFor="let sensor of dragList; let i = index"  >
                 <div *ngIf="showSensor(sensor.node)" class="sensor-item icon-sensonode">
@@ -171,16 +171,17 @@
                 </div>
               </ng-container> -->
               <div class="sensor-item icon-asset-robot">
-                  Assets
+                  Custom Assets
                 <div class="signal-list">
-                  <ng-container *ngFor="let entity of dragList; let j = index">
+                  <ng-container *ngFor="let entity of dragList; let i = index">
                     <div
-                      attr.signalIx="{{ j }}"
-                      class="signal-item icon-asset-robot border-0 transparent "
-                      [ngClass]="{ cursorpoint: !disable, cursordefault: disable}"
+                      attr.signalIx="{{ i }}"
+                      class="signal-item {{ entity.icon }} border-0 transparent "
+                      [ngClass]="{assoc: entity.associated, cursorpoint: !disable, cursordefault: disable}"
                       [dndDraggable]="entity"
                       [dndEffectAllowed]="'move'"
-                      (dndStart)="onStart($event, i, j)"
+                      [dndDisableIf]="entity.associated"
+                      (dndStart)="onStart($event, i)"
                     >
                       {{ entity.assetName }}
                     </div>

@@ -263,7 +263,7 @@
                           <app-votm-cloud-association
                             [imageURL]="widgetCustomImgURL"
                             [dragList]="entityList"
-                            [droppedList]=""
+                            [droppedList]="entityDroppedList"
                             [showDerivedSignal]="true"
                             [showSensorsDetail]="true"
                             [showEditIcon]="true"
@@ -284,7 +284,7 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-outline-secondary btn-sm" id="imageOverlayCancelBtn"
                         (click)="onClickOfCustomizeImageOverlayModalClose()">Cancel</button>
-                    <button type="button" class="btn btn-info btn-sm" id="configSave" (click)="saveImageOverlayConfiguration([], true)">
+                    <button type="button" class="btn btn-info btn-sm" id="configSave" (click)="saveImageOverlayConfiguration(entityDroppedList, true)">
                         Save
                     </button>
                 </div>

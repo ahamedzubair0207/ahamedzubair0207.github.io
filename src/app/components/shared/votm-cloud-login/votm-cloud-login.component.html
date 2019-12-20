@@ -18,12 +18,12 @@
         <form action="" role="form">
             <div class="form-group">
               <div class="login-inp-container">
-                <input type="text" class="form-control" name="email" id="login-email" placeholder="Email" required />
+                <input type="text" email [ngModel]="user.userName" class="form-control" name="email" id="login-email" placeholder="Email" required />
               </div>
             </div>
             <div class="form-group">
               <div class="login-inp-container">
-                <input type="password" class="form-control" placeholder="Password" id="login-pwd" required />
+                <input type="password" [ngModel]="user.password" class="form-control" placeholder="Password" id="login-pwd" required />
               </div>
             </div>
             <div class="form-group text-center">

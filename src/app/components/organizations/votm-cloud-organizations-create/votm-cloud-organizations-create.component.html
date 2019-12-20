@@ -655,7 +655,7 @@
                             (change)="preview(file.files)" />
                           <label class="custom-file-label" for="customFile">Choose file</label>
                           <!-- <label class="custom-file-label" for="customFile">{{message}}</label> -->
-                          <span id="imageLbl" style="font-weight: bold" class="custom-file-label"
+                          <span id="imageLbl" class="custom-file-label"
                             *ngIf="organization && organization.logo">{{organization.logo.imageName}}</span>
                         </div>
                       </div>
@@ -693,7 +693,7 @@
                     Location</button>
                   <button id="suborg-create" *ngIf="organization.organizationId"
                     (click)="createNestedOrganization($event)" type="button"
-                    class="btn btn-sm btn-outline-info ml-1 add-sub-org-btn"><i class="icon-organization-add"></i> Add
+                    class="btn btn-sm btn-outline-info ml-2 add-sub-org-btn"><i class="icon-organization-add"></i> Add
                     Suborganization</button>
 
 

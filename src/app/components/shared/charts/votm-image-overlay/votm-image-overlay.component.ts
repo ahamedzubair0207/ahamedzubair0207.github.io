@@ -49,6 +49,7 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
   parentOrgId: string;
   assetId: string;
   widgetImageOverlaySource: any;
+  imageOverlayDroppedList: any[] = [];
   // signalsCheckboxChecked = true;
   // assetsCheckboxChecked = true;
   @ViewChild('overlayImage', { static: false }) eloverlayImg: ElementRef;
@@ -76,6 +77,7 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
   assetDashboard = false;
   fileExtension: any;
   entityList: any[] = [];
+  entityDroppedList: any[] = [];
 
   constructor(
     private toastr: ToastrService,
@@ -507,7 +509,7 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
         active: true,
       };
     } else {
-      console.log('custom widget', droppedList);
+      console.log('custom widget dropped list===', droppedList);
       this.imageOverlay.droppedList = droppedList;
       // this.imageOverlay.customImage = this.customImage;
       body = {
@@ -752,6 +754,12 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
     // }
 
     assets.forEach(asset => {
+      asset.level = 0;
+      asset.isLink = true;
+      asset.associated = false;
+      asset.isClicked = false;
+      asset.pctPos = {};
+      asset.icon = 'icon-asset-robot';
       list.push(asset);
       if (asset.assets && asset.assets.length > 0) {
         list = this.getAssetChildNodeList(asset.assets, list);
@@ -848,13 +856,54 @@ export class VotmImageOverlayComponent implements OnInit, OnDestroy {
     this.entityList = [];
     this.dashboardService.getCustomImageAssetEntity(assetId)
       .subscribe(response => {
-        console.log('getCustomImageAssetEntity response asset entity == ', response);
         this.entityList = this.getAssetChildNodeList(response.assets, []);
         this.entityList = this.sharedService.toSortListAlphabetically(this.entityList, 'assetName');
         console.log('getCustomImageAssetEntity response assetsList after == ', this.entityList);
+
+        // const parentNode = {
+        //   active: response.active,
+        //   assetId: response.assetId,
+        //   assetName: response.assetName,
+        //   shortName: response.shortName,
+        //   signals: response.signals
+        // };
+
+        // this.entityList.unshift(parentNode);
+
+        // this.entityList = this.getFinalArray(this.entityList, []);
+
         // return;
       });
 
+  }
+
+  getFinalArray(listData: any[], list) {
+    for (let i = 0; i < listData.length; i++ ) {
+      if ( i > 0 ) {
+        listData[i].labelName = listData[i - 1].assetName  + ' > ' + listData[i].assetName;
+      } else {
+        listData[i].labelName = listData[i].assetName;
+      }
+      listData[i].isLink =  true;
+      // listData[i].associated = false;
+      listData[i].imageCordinates = {
+        x: 0,
+        y: 0
+      };
+      listData[i].icon = listData[i].signals[0] === undefined ? '' : listData[i].signals[0].iconFile;
+
+      for(const signals of listData[i].signals) {
+       const isAvtivatedObj = this.imageOverlayDroppedList.filter(s => s.signalMappingId === signals.signalMappingId);
+       if( isAvtivatedObj.length > 0 ) {
+        signals.associated = true;
+       } else {
+        signals.associated = false;
+       }
+      }
+    }
+
+    console.log('listData___________', listData);
+    return list = listData;
   }
 
   getLocationSignalAssociation(locationId) {

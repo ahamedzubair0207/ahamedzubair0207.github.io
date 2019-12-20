@@ -51,7 +51,7 @@ export class VotmCloudAlertsCreateComponent implements OnInit, OnDestroy {
     }
   ];
   signalTypes: any[] = [];
-
+  userSearchText = '';
   accessScopes: any[] = [];
   alertId: string;
   notifyUsers: any[] = [];
@@ -821,6 +821,21 @@ export class VotmCloudAlertsCreateComponent implements OnInit, OnDestroy {
           this.notifyUsers = [];
           this.notifyUsers = response;
         });
+    }
+  }
+
+  onUserSearch() {
+    this.notifyUsers = [];
+    // console.log('jherrrrrrrrrrrrrr');
+    if (this.userSearchText) {
+      this.userService.searchUsers(this.userSearchText, 'alertrule').subscribe(
+        response => {
+          response.forEach(user => user.name = user.firstName + ' ' + user.lastName);
+          this.notifyUsers = response;
+        }
+      );
+    } else {
+      this.onAddNotifiedUsersClick();
     }
   }
 

@@ -488,9 +488,10 @@
             <div class="modal-body table-responsive">
                 <form class="form-inline">
                     <label for="typeahead-config" id="user-filter">Type to filter:</label>
-                    <input class="form-control mr-sm-2 ml-2" type="search" placeholder="Search" aria-label="Search"
+                    <input class="form-control mr-sm-2 ml-2" type="search" placeholder="Search" aria-label="Search" name="userSearchText"
+                      [(ngModel)]="userSearchText"
                         id="avaUsersFilter">
-                    <button class="btn btn-outline-info btn-sm my-2 my-sm-0" type="submit"
+                    <button class="btn btn-outline-info btn-sm my-2 my-sm-0" type="button" (click)="onUserSearch()"
                         id="avaUsersFilterbtn">Search</button>
                 </form>
                 <table class="table table-sm table-bordered mt-2" id="avaUsersTb">
