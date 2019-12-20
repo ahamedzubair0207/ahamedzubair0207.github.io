@@ -4,6 +4,7 @@ import { DbTplItem } from '../../models/db-tpl-item';
 import { BasicDashboardComponent } from '../../components/dashboards/basic-dashboard/basic-dashboard.component';
 import { ScoutStyleDashboardComponent } from '../../components/dashboards/scout-style-dashboard/scout-style-dashboard.component';
 import { ParkerQcdDashboardComponent } from '../../components/dashboards/parker-qcd-dashboard/parker-qcd-dashboard.component';
+import { QcdParkerGvDashboardComponent } from '../../components/dashboards/qcd-parker-gv-dashboard/qcd-parker-gv-dashboard.component';
 import { CustomHttp } from '../custom_http/custom_http.service';
 import { AppConstants } from 'src/app/helpers/app.constants';
 import { map } from 'rxjs/operators';
@@ -20,7 +21,8 @@ export class DashboardService {
     return [
       new DbTplItem(ScoutStyleDashboardComponent, 'Scout Style Dashboard'),
       new DbTplItem(ParkerQcdDashboardComponent, 'Parker QCD Dashboard'),
-      new DbTplItem(BasicDashboardComponent, 'Basic Style Dashboard')
+      new DbTplItem(BasicDashboardComponent, 'Basic Style Dashboard'),
+      new DbTplItem(QcdParkerGvDashboardComponent, 'Golden Valley Dashboard')
     ];
   }
 

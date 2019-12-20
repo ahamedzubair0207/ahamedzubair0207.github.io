@@ -143,6 +143,7 @@ import { VotmDataTableComponent } from './components/shared/charts/votm-data-tab
 import { FloFullscreenModule } from '@flosportsinc/ng-fullscreen';
 import { VotmcloudDerivedSignalComponent } from './components/shared/votmcloud-derived-signal/votmcloud-derived-signal.component';
 import { VotmcloudDashboardCreateComponent } from './components/shared/votmcloud-dashboard-create/votmcloud-dashboard-create.component';
+import { QcdParkerGvDashboardComponent } from './components/dashboards/qcd-parker-gv-dashboard/qcd-parker-gv-dashboard.component';
 const oktaConfig = Object.assign({
   onAuthRequired: ({ oktaAuth, router }) => {
     // Redirect the user to your custom login page
@@ -227,7 +228,8 @@ const oktaConfig = Object.assign({
     DashboardDirective,
     VotmDataTableComponent,
     VotmcloudDerivedSignalComponent,
-    VotmcloudDashboardCreateComponent
+    VotmcloudDashboardCreateComponent,
+    QcdParkerGvDashboardComponent
   ],
 
 
@@ -269,6 +271,6 @@ const oktaConfig = Object.assign({
     }
   ],
   bootstrap: [AppComponent],
-  entryComponents: [BasicDashboardComponent, ScoutStyleDashboardComponent, ParkerQcdDashboardComponent]
+  entryComponents: [BasicDashboardComponent, ScoutStyleDashboardComponent, ParkerQcdDashboardComponent, QcdParkerGvDashboardComponent]
 })
 export class AppModule { }
