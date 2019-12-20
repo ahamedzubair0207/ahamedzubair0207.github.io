@@ -103,7 +103,7 @@ export class VotmCloudAssociationComponent implements OnChanges {
     for (const propName in changes) {
       if (propName === 'issaveCustomImageOverlayConfigurationPressed' && changes[propName].currentValue) {
         // console.log('Previous:', changes[propName].previousValue);
-        // console.log('Current:', changes[propName].currentValue);
+        console.log('Current:', changes[propName].currentValue);
         // console.log('firstChange:', changes[propName].firstChange);
         // Called & emit saveAssociation for parent (image overlay)component
         this.onSaveSignalAssociation();
@@ -196,8 +196,8 @@ export class VotmCloudAssociationComponent implements OnChanges {
   onStart(event: any, index1, index2) {
     this.closeAlertOPanel();
     this.closeEditOpanel();
-    // console.log(index1, index2);
-    if (index2 === undefined) {
+    console.log(index1, index2);
+    if (!this.customImageOverlay && index2 === undefined) {
       this.droppedList[index1].isClicked = false;
     }
     this.draggingSensorIx = event.srcElement.getAttribute('sensorIx');
@@ -217,33 +217,62 @@ export class VotmCloudAssociationComponent implements OnChanges {
       left: (pos.left / event.event.srcElement.offsetWidth).toFixed(5),
       top: (pos.top / event.event.srcElement.offsetHeight).toFixed(5)
     };
-    // console.log(signal.pctPos);
+    console.log('signalllllllll=======onDrop======', signal);
       // signal.pos = { 'left.%': pos.left, 'top.%': pos.top };
 
     // console.log(signal.pctPos.left, '========', signal.pctPos.top);
     if (!signal.associated) {
-      signal.associated = true;
-      signal.did = this.droppedList.length;
-      signal.isClicked = false;
-      signal.bound = this.dragList[this.draggingSensorIx].isLink;
-      signal.sourceSensor = this.dragList[this.draggingSensorIx].sensorId;
-      signal.sourceSignal = this.dragList[this.draggingSensorIx].node[this.draggingSignalIx].type;
-      this.droppedList.push(signal);
-      if (this.showSensorsDetail) {
-        this.dragList[this.draggingSensorIx].node[this.draggingSignalIx].associated = true;
-      } else {
-        this.dragList[this.draggingSignalIx].associated = true;
-      }
-      setTimeout( () => {
-        const index = this.droppedList.findIndex(signalObj => signalObj.did === signal.did);
-        const elem = this.eleRef.nativeElement.querySelector('#sig_edit_' + index);
-        // console.log(elem);
-        if (elem) {
-          elem.dispatchEvent(new Event('click'));
+      if (!this.customImageOverlay) {
+        signal.associated = true;
+        signal.did = this.droppedList.length;
+        signal.isClicked = false;
+        signal.bound = this.dragList[this.draggingSensorIx].isLink;
+        signal.sourceSensor = this.dragList[this.draggingSensorIx].sensorId;
+        signal.sourceSignal = this.dragList[this.draggingSensorIx].node[this.draggingSignalIx].type;
+        this.droppedList.push(signal);
+        if (this.showSensorsDetail) {
+          this.dragList[this.draggingSensorIx].node[this.draggingSignalIx].associated = true;
+        } else {
+          this.dragList[this.draggingSignalIx].associated = true;
         }
-      }, 50);
-      const index = this.droppedList.findIndex(signalObj => signalObj.did === signal.did);
-      this.droppedList[index].isClicked = true;
+        setTimeout( () => {
+          const index = this.droppedList.findIndex(signalObj => signalObj.did === signal.did);
+          const elem = this.eleRef.nativeElement.querySelector('#sig_edit_' + index);
+          // console.log(elem);
+          if (elem) {
+            elem.dispatchEvent(new Event('click'));
+          }
+        }, 50);
+        const index = this.droppedList.findIndex(signalObj => signalObj.did === signal.did);
+        this.droppedList[index].isClicked = true;
+
+      } else {
+
+        signal.associated = true;
+        signal.did = this.droppedList.length;
+        signal.isClicked = false;
+        signal.bound = this.dragList[this.draggingSignalIx].isLink;
+        signal.associationName = this.dragList[this.draggingSignalIx].assetName;
+        // signal.sourceSensor = this.dragList[this.draggingSensorIx].sensorId;
+        // signal.sourceSignal = this.dragList[this.draggingSensorIx].signals[this.draggingSignalIx].type;
+        signal.icon = this.dragList[this.draggingSignalIx].icon;
+
+        this.droppedList.push(signal);
+        this.dragList[this.draggingSignalIx].associated = true;
+
+        // to x,y open popup first time
+        setTimeout(() => {
+          const index = this.droppedList.findIndex(signalObj => signalObj.did === signal.did);
+          const elem = this.eleRef.nativeElement.querySelector('#sig_edit_' + index);
+          // console.log(elem);
+          if (elem) {
+            elem.dispatchEvent(new Event('click'));
+          }
+        }, 50);
+
+        const index = this.droppedList.findIndex(signalObj => signalObj.did === signal.did);
+        this.droppedList[index].isClicked = true;
+      }
     } else {
       // console.log(this.droppedList);
       // console.log(signal);
@@ -441,7 +470,7 @@ export class VotmCloudAssociationComponent implements OnChanges {
   }
 
   onSaveSignalAssociation() {
-    // console.log(this.droppedList);
+    console.log('onSaveSignalAssociation===', this.droppedList);
     this.editOPanel.hide();
     this.alertOPanel.hide();
     this.isSignalAssociationAPILoading = true;
