@@ -83,6 +83,7 @@ export class VotmDataTableComponent implements OnInit, OnDestroy {
     ngbModalConfig.keyboard = false;
   }
 
+  
   ngOnInit() {
     this.route.paramMap.subscribe((params: ParamMap) => {
       this.parentOrgId = params.get('curOrgId');

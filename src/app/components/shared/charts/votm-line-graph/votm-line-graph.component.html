@@ -7,7 +7,7 @@
   <!-- <div class="text-right" [class.d-none]="locked" (click)="open(config)"><i class="icon-cog" ></i></div>  , 1h, , , ,   -->
   
   <div class="text-right range-actions mr-2">
-    <div *ngIf="configured" class="btn-group btn-group-toggle" ngbRadioGroup name="radioBasic" [(ngModel)]="trendChartWidget.dateRange" (change)="onRadioGroupChange()">
+    <div *ngIf="configured" class="btn-group btn-group-toggle" ngbRadioGroup name="radioBasic" [(ngModel)]="trendChartWidget.dateRange" (onclick)="onRadioGroupChange()">
       <!-- <label ngbButtonLabel class="btn-outline-secondary btn-sm"> <input ngbButton type="radio" value="5m" />5m</label> -->
       <label ngbButtonLabel class="btn-outline-secondary btn-sm"> <input ngbButton type="radio" value="1m" />1min</label>
       <!-- <label ngbButtonLabel class="btn-outline-secondary btn-sm"> <input ngbButton type="radio" value="10m" />10m</label> -->

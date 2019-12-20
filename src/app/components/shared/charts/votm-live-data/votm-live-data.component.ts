@@ -74,8 +74,8 @@ export class VotmLiveDataComponent implements OnInit {
     { "type": "range", "uom": "%RH", "nominal": 50, "var": 12 },
     { "type": "Polar Angle Peak Acceleration", "uom": "%RH", "nominal": 50, "var": 13 },
     { "type": "Z Peak Acceleration", "uom": "%RH", "nominal": 50, "var": 14 },
-    { "type": "Absolute Pressure Count", "uom": "%RH", "nominal": 50, "var": 15 },
-    { "type": "Absolute Pressure", "uom": "%RH", "nominal": 50, "var": 16 }
+    { "type": "Absolute Pressure Count", "uom": "psi", "nominal": 50, "var": 15 },
+    { "type": "Absolute Pressure", "uom": "psi", "nominal": 50, "var": 16 }
   ]
 
   dashboardWidget: any;
@@ -219,8 +219,8 @@ export class VotmLiveDataComponent implements OnInit {
             location.signals.forEach(signal => {
               sigArray.push({
                 type: signal.signalType,
-                name: `${!isParent ? this.getShortName(response.organizationName) + ' > ' : ''}${this.getShortName(location.locationName)}
-                > ${signal.associationName}`, sel: false, value: signal.Value,
+                name: `${!isParent ? this.getShortName(response.organizationName) + ' ❯ ' : ''}${this.getShortName(location.locationName)}
+                ❯ ${signal.associationName}`, sel: false, value: signal.Value,
                 bat: signal.Battery, rssi: signal.signalId, sensor: signal.sensorName, iconFile: signal.iconFile,
                 signalId: signal.signalId,
                 parkerDeviceId: signal.parkerDeviceId,
@@ -235,9 +235,9 @@ export class VotmLiveDataComponent implements OnInit {
                 asset.signals.forEach(signal => {
                   sigArray.push({
                     type: signal.signalType,
-                    name: `${!isParent ? this.getShortName(response.organizationName) + ' > ' : ''}
-                    ${this.getShortName(location.locationName)}> ${this.getShortName(asset.assetName)}
-                    > ${signal.associationName}`, sel: false,
+                    name: `${!isParent ? this.getShortName(response.organizationName) + ' ❯ ' : ''}
+                    ${this.getShortName(location.locationName)}❯ ${this.getShortName(asset.assetName)}
+                    ❯ ${signal.associationName}`, sel: false,
                     value: signal.Value, bat: signal.Battery, rssi: signal.signalId, sensor: signal.sensorName, iconFile: signal.iconFile,
                     signalId: signal.signalId,
                     parkerDeviceId: signal.parkerDeviceId,
@@ -305,7 +305,7 @@ export class VotmLiveDataComponent implements OnInit {
   }
 
   getLocationTreeStructure(location, locationLabel = null, orgLabel) {
-    const locLabel = (locationLabel ? (locationLabel + ' > ') : '') + location.shortName;
+    const locLabel = (locationLabel ? (locationLabel + ' ❯ ') : '') + location.shortName;
     location.signals.forEach(signal => {
       this.getSignalStructure(signal, orgLabel, locLabel, null);
     });
@@ -322,7 +322,7 @@ export class VotmLiveDataComponent implements OnInit {
   }
 
   getAssetTreeStrucutre(asset, assetLabel, locLabel, orgLabel) {
-    const aLabel = (assetLabel ? (assetLabel + ' > ') : '') + asset.shortName;
+    const aLabel = (assetLabel ? (assetLabel + ' ❯ ') : '') + asset.shortName;
     asset.signals.forEach(signal => {
       this.getSignalStructure(signal, orgLabel, locLabel, aLabel);
     });
@@ -337,22 +337,22 @@ export class VotmLiveDataComponent implements OnInit {
 
     if (orgLabel) {
       let list = [];
-      list = orgLabel.split(' > ');
-      orgLabel = list[list.length - 1] + ' > ' + (locLabel ? (locLabel + ' > ') : '') + (assetLabel ? (assetLabel + ' > ') : '');
+      list = orgLabel.split(' ❯ ');
+      orgLabel = list[list.length - 1] + ' ❯ ' + (locLabel ? (locLabel + ' ❯ ') : '') + (assetLabel ? (assetLabel + ' ❯ ') : '');
     } else {
-      orgLabel = (locLabel ? (locLabel + ' > ') : '') + (assetLabel ? (assetLabel + ' > ') : '');
+      orgLabel = (locLabel ? (locLabel + ' ❯ ') : '') + (assetLabel ? (assetLabel + ' ❯ ') : '');
     }
     if (locLabel) {
       let list = [];
-      list = locLabel.split(' > ');
-      locLabel = list[list.length - 1] + ' > ' + (assetLabel ? (assetLabel + ' > ') : '');
+      list = locLabel.split(' ❯ ');
+      locLabel = list[list.length - 1] + ' ❯ ' + (assetLabel ? (assetLabel + ' ❯ ') : '');
     } else {
-      locLabel = (assetLabel ? (assetLabel + ' > ') : '');
+      locLabel = (assetLabel ? (assetLabel + ' ❯ ') : '');
     }
     if (assetLabel) {
       let list = [];
-      list = assetLabel.split(' > ');
-      assetLabel = assetLabel + ' > ';
+      list = assetLabel.split(' ❯ ');
+      assetLabel = assetLabel + ' ❯ ';
     }
     this.signals.push({
       type: signal.signalType,
@@ -615,7 +615,7 @@ export class VotmLiveDataComponent implements OnInit {
     // Add amCharts 4 license
     am4core.addLicense("CH192270209");
     // Add Maps license
-    am4core.addLicense("MP192270209");
+    // am4core.addLicense("MP192270209");
     am4core.options.commercialLicense = true;
     hideCredits: true;
     // this.zone.runOutsideAngular(() => {
@@ -648,7 +648,7 @@ export class VotmLiveDataComponent implements OnInit {
     dateAxis.tooltipDateFormat = "MM/dd/YYYY h:mm:ss a";
     if (this.trendChartWidget.signalY1)
       this.createValueAxis(chart, 0);
-    if (this.trendChartWidget.signalY1)
+    if (this.trendChartWidget.signalY2)
       this.createValueAxis(chart, 1);
     let colorSet = new am4core.ColorSet();
     colorSet.step = 2;
@@ -794,6 +794,7 @@ export class VotmLiveDataComponent implements OnInit {
         let thresholds;
         if (response && response.length > 0) {
           thresholds = response[0];
+          console.log("threshold", response);
         }
 
         if (thresholds && thresholds.lowCritical) {
@@ -801,7 +802,7 @@ export class VotmLiveDataComponent implements OnInit {
           rangeLC.value = -99999;
           rangeLC.endValue = thresholds.lowCritical;
           rangeLC.axisFill.fill = am4core.color("#dc3545");
-          rangeLC.axisFill.fillOpacity = 0.2; // (this.showThresh[idx]) ? 0.2 : 0;
+          rangeLC.axisFill.fillOpacity = (this.showThresh[idx]) ? 0.2 : 0; 
           rangeLC.grid.strokeOpacity = 0;
         }
         if (thresholds && thresholds.lowWarning) {
@@ -809,7 +810,7 @@ export class VotmLiveDataComponent implements OnInit {
           rangeLW.value = (thresholds.lowCritical) ? thresholds.lowCritical : -99999;
           rangeLW.endValue = thresholds.lowWarning;
           rangeLW.axisFill.fill = am4core.color("#ffc107");
-          rangeLW.axisFill.fillOpacity = 0.2; // (this.showThresh[idx]) ? 0.2 : 0;
+          rangeLW.axisFill.fillOpacity = (this.showThresh[idx]) ? 0.2 : 0;
           rangeLW.grid.strokeOpacity = 0;
         }
         if (thresholds && thresholds.highWarning) {
@@ -817,7 +818,7 @@ export class VotmLiveDataComponent implements OnInit {
           rangeHW.value = (thresholds.highCritical) ? thresholds.highCritical : 1200000;
           rangeHW.endValue = thresholds.highWarning;
           rangeHW.axisFill.fill = am4core.color("#ffc107");
-          rangeHW.axisFill.fillOpacity = 0.2; // (this.showThresh[idx]) ? 0.2 : 0;
+          rangeHW.axisFill.fillOpacity = (this.showThresh[idx]) ? 0.2 : 0;
           rangeHW.grid.strokeOpacity = 0;
         }
         if (thresholds && thresholds.highCritical) {
@@ -826,9 +827,14 @@ export class VotmLiveDataComponent implements OnInit {
           rangeHW.endValue = 1200000;
           // rangeHC.endValue = 99999;
           rangeHC.axisFill.fill = am4core.color("#dc3545");
-          rangeHC.axisFill.fillOpacity = 0.2; // (this.showThresh[idx]) ? 0.2 : 0;
+          rangeHC.axisFill.fillOpacity = (this.showThresh[idx]) ? 0.2 : 0;
           rangeHC.grid.strokeOpacity = 0;
         }
       })
+  }
+
+  onRadioGroupChange(dateRange: string) {
+    this.trendChartWidget.dateRange = dateRange;
+    this.saveConfiguration();
   }
 }
