@@ -24,9 +24,8 @@ export class UserService {
             );
     }
 
-    searchUsers(searchText: string): Observable<any> {
-      const params = new HttpParams().set('userName', searchText);
-      return this.http.get(AppConstants.USER_SEARCH, params);
+    searchUsers(searchText: string, type): Observable<any> {
+      return this.http.get(AppConstants.USER_SEARCH + '?userName=' + searchText + '&type=' + type);
     }
 
     getAllUsers() {

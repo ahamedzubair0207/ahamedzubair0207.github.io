@@ -301,7 +301,7 @@
                           <input class="custom-file-input ng-pristine ng-invalid" [disabled]="pageType==='View'" #file
                             type="file" id="asset-image" accept='image/*' (change)="onImageChangeClick()" />
                           <label class="custom-file-label" for="customFile">Choose file</label>
-                          <span id="imageLbl" style="font-weight: bold" *ngIf="asset && asset.logo"
+                          <span id="imageLbl" *ngIf="asset && asset.logo"
                             class="custom-file-label">{{asset.logo.imageName}}</span>
                           <!-- <label style="font-weight: bold" *ngIf="asset && asset.logo" class="custom-file-label"
                                                                         for="customFile">{{asset.logo.imageName}}</label> -->

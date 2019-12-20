@@ -15,6 +15,7 @@ import * as moment from 'moment-timezone';
 import { DataTableWidget } from 'src/app/models/data-table-widget.model';
 import { DashboardService } from 'src/app/services/dasboards/dashboard.service';
 import { TreeNode } from 'primeng/api';
+import { staticViewQueryIds } from '@angular/compiler';
 
 
 const enum State {
@@ -133,7 +134,7 @@ export class VotmDataTableComponent implements OnInit, OnDestroy {
 
   open(config) {
     this.signalRService.closeSignalRConnection();
-    this.modalService.open(config, { size: 'lg' }).result.then((result) => {
+    this.modalService.open(config, { size: 'lg', scrollable: true, backdrop: 'static', keyboard: false}).result.then((result) => {
       if (result === 'save') {
         const selectedSignals = [];
         this.signalsTree = [];
@@ -206,10 +207,18 @@ export class VotmDataTableComponent implements OnInit, OnDestroy {
               this.wConfig.showAsset = this.dataTableWidget.displayAsset;
               this.wConfig.showSensor = this.dataTableWidget.displaySensor;
               this.wConfig.showStatus = this.dataTableWidget.displayStatus;
+              this.wConfig.showState = this.dataTableWidget.displayState;
               this.wConfig.title = this.dataTableWidget.title;
               // console.log('this.dataTableWidget ', this.dataTableWidget);
               this.configured = true;
               this.selectSignals();
+              const arr = [];
+              this.signals.forEach(obj => {
+                arr.push({
+                  data : obj
+                });
+              });
+              this.signalsTree = [...arr];
               this.loadChart();
               this.isGetDashboardConfigLoading = false;
             }
@@ -358,10 +367,10 @@ export class VotmDataTableComponent implements OnInit, OnDestroy {
 
   getStateBg(signal) {
     const classes = {
-      'alert-danger': signal.state === State.Critical && this.showState,
-      'alert-warning': signal.state === State.Warn && this.showState,
-      'alert-success': signal.state === State.Nominal && this.showState,
-      'text-body': signal !== State.Unknown && this.showState
+      'alert-danger': signal.state === State.Critical && this.wConfig.showState,
+      'alert-warning': signal.state === State.Warn && this.wConfig.showState,
+      'alert-success': signal.state === State.Nominal && this.wConfig.showState,
+      'text-body': signal !== State.Unknown && this.wConfig.showState
     };
     return classes;
   }
@@ -487,15 +496,24 @@ export class VotmDataTableComponent implements OnInit, OnDestroy {
       parkerDeviceId: signal.parkerDeviceId,
       modifiedOn: this.timestamp,
       signalValue: 0,
-      state: '',
+      state: signal.alarmStatus ?
+      (signal.alarmStatus.toLowerCase().includes('high') ? State.Critical :
+        (
+          signal.alarmStatus.toLowerCase().includes('low') ? State.Warn :
+          (
+            signal.alarmStatus.toLowerCase().includes('baseline') ? State.Nominal : State.Unknown
+          )
+        )
+      )
+      : State.Unknown,
       signalMappingId: signal.signalMappingId
     };
     this.signals.push(obj);
-
   }
 
   getSignalsAssociatedAssetByOrgId(orgId: string) {
     this.isSignalsDataLoading  = true;
+    this.signalsTree = [];
     this.timeSeries.getSignalsAssociatedAssetByOrgId(orgId)
       .subscribe(async response => {
         // console.log('Time Series Signal', response);
@@ -518,6 +536,7 @@ export class VotmDataTableComponent implements OnInit, OnDestroy {
 
   getSignalsAssociatedByLocationId(locId: string) {
     this.isSignalsDataLoading  = true;
+    this.signalsTree = [];
     this.timeSeries.getTimeSeriesSignalsByLocationID(locId)
       .subscribe(async response => {
         // this.mapSignals(response);
@@ -537,6 +556,7 @@ export class VotmDataTableComponent implements OnInit, OnDestroy {
 
   getSignalsAssociatedByAssetId(assetId: string) {
     this.isSignalsDataLoading  = true;
+    this.signalsTree = [];
     this.timeSeries.getTimeSeriesSignalsByAssetID(assetId)
       .subscribe(async response => {
         // this.mapSignals(response);
