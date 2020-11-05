@@ -15,11 +15,11 @@ export class UomService {
   constructor(private http: CustomHttp) { }
 
 
-  getUomByOrgAndLocationId(body: string, orgId: any, locId: any){
-    return this.http.post(`${AppConstants.GET_UOM}?organizationId=${orgId}&userId=03C7FB47-58EE-4C41-A9D6-2AD0BD43392A&locationId=${locId}&precision=2`, body)
-    .pipe(
-      map(response => response)
-    );
-  }
+  // getUomByOrgAndLocationId(body: string, orgId: any, locId: any){
+  //   return this.http.post(`${AppConstants.GET_UOM}?organizationId=${orgId}&userId=03C7FB47-58EE-4C41-A9D6-2AD0BD43392A&locationId=${locId}&precision=2`, body)
+  //   .pipe(
+  //     map(response => response)
+  //   );
+  // }
 
 }

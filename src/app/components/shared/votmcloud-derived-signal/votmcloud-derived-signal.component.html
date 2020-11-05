@@ -18,7 +18,7 @@
     <div class="col-12">
       <div class="form-group">
         <label for="">Function Name</label>
-        <ng-select class="custom" [ngStyle]="{'background-color':pageType==='View'?'#e9ecef':'#fff'}" [(ngModel)]="derivedSignal.functionId"
+        <ng-select class="custom"  [(ngModel)]="derivedSignal.functionId"
         name="fucntionName" id="functionName" placeholder="Select Function" (change)="onChangeFunction()">
           <ng-option [value]="function.derivedFunctionId" *ngFor="let function of functions" >{{function.derivedFunctionName}}</ng-option>
         </ng-select>

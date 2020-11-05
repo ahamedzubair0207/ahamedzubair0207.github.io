@@ -68,7 +68,7 @@
 
       <!-- Location Details Tab  -->
       <div class="tab-pane fade border border-top-0 p-3 mb-3 shadow show active" id="loc-details-tab"
-        *ngIf="(!locId && pageLabels) || (locId && pageLabels && location)" role="tabpanle"
+        role="tabpanle"
         area-labelledby="loc-info-tab">
         <div class="d-flex flex-row">
           <ul class="nav nav-tabs nav-tabs-vertical nav-tabs-left pt-3" aria-orientation="vertical">
@@ -94,7 +94,7 @@
           <div class="tab-content w-100">
 
             <div class="tab-pane fade show active" id="loc-details" role="tabpanle" area-labelledby="loc-details"
-              *ngIf="(!locId && pageLabels) || (locId && pageLabels && location)">
+              >
               <div class="position-relative" *ngIf="pageType.toLowerCase() === 'view' || pageType.toLowerCase() === 'edit'" >
                 <div class="lock-tab border border-bottom-0">
                   <i class="icon-lock edit-view-lock" name="loclockbutton" *ngIf="pageType.toLowerCase() === 'view'"
@@ -142,7 +142,7 @@
 
                   <div class="col-12 col-md-6 col-lg-3 col-xl-3">
                     <div class="form-group">
-                      <label class="" for="parentorganization">{{pageLabels.ParentOrganization.labelName}}:</label>
+                      <label class="" for="parentorganization">Parent Organization:</label>
                       <div class="">
                         <input *ngIf="(parentLocId || locId); else elsePart" for="parentorganizationname" class="form-control"
                           type="text" placeholder="{{parentOrganizationInfo.parentOrganizationName}}" id="locDtlParentOrg" readonly
@@ -174,7 +174,7 @@
 
                   <div class="col-12 col-md-6 col-lg-4 col-xl-3">
                     <div class="form-group">
-                      <label class="" for="locationType">{{pageLabels.LocationType.labelName}}:</label>
+                      <label class="" for="locationType">Location Type:</label>
                       <div class="">
                         <input type="text" [(ngModel)]="location.locationType" class="form-control" placeholder="Enter Location Type"
                           [disabled]="pageType==='View'" #locationType="ngModel" name="locationType" maxlength="50"
@@ -204,7 +204,7 @@
 
                   <div class="col-12 col-md-6 col-lg-3 col-xl-3">
                     <div class="form-group">
-                      <label class="" for="parentLoc">{{pageLabels.ParentLocation.labelName}}:</label>
+                      <label class="" for="parentLoc">Parent Location:</label>
                       <div class="">
 
                         <input *ngIf="(parentLocId || locId); else elseLocationPart" for="parentLocname" class="form-control"
@@ -228,7 +228,7 @@
                   <div class="col-12 col-md-6 col-lg-3 col-xl-3">
                     <div class="form-group">
                       <label class="" id="primaryContact" votmrequired>
-                        {{pageLabels.PrimaryContact.labelName}}:</label>
+                        Primary Contact:</label>
                       <div class="">
                         <!-- No Validation Needed  -->
                         <input type="email" [disabled]="pageType==='View'" [(ngModel)]="location.primaryContact" class="form-control"
@@ -269,7 +269,7 @@
                   <div class="col-md-6">
                     <!-- Street Address  -->
                     <fieldset class="mb-3">
-                      <legend id="loc-street-add" votmrequired>{{pageLabels.BillingAddress.labelName}}</legend>
+                      <legend id="loc-street-add" votmrequired>Billing Address</legend>
 
                       <div class="row">
                         <div class="col-12 form-group">
@@ -359,7 +359,7 @@
                       </div>
                     </fieldset>
                     <div class="form-group">
-                      <label for="geoLocation" class="">{{pageLabels.GeoLocation.labelName}}:</label>
+                      <label for="geoLocation" class="">Geo Location:</label>
                       <div class="d-flex align-items-center">
                         <input type="text" [disabled]="pageType==='View'" [(ngModel)]="location.latitude"
                           class="geo-loc-long form-control" placeholder="Longitude" name="geoLocationLong" #geoLocationLong="ngModel"
@@ -377,7 +377,7 @@
                     </div>
                     <!-- Geo fence  -->
                     <div class="form-group">
-                      <label for="geofence" class="">{{pageLabels.GeoFence.labelName}}:</label>
+                      <label for="geofence" class="">Geo Fence:</label>
                       <div class="">
                         <div class="custom-control custom-radio custom-control-inline">
                           <input class="custom-control-input" (change)="onGeoUnitChange()" [disabled]="pageType==='View'" type="radio"
@@ -423,7 +423,7 @@
                     <div class="row">
                       <div class="col-12 col-md-6 col-lg-6 col-xl-6" *ngIf="applicationConfiguration">
                         <div class="form-group">
-                          <label class="" id="timezone" votmrequired>{{pageLabels.DefaultTimeZone.labelName}}:</label>
+                          <label class="" id="timezone" votmrequired>Default Time Zone:</label>
                           <div class="d-flex align-items-center">
                             <ng-select required #timezone="ngModel" [disabled]="pageType==='View'" [(ngModel)]="location.timeZoneId"
                               name="timezone" class="custom drop-down w-100" id="locDtlDfltTimezone1" placeholder="Click Lookup">
@@ -555,7 +555,7 @@
                   <div class="col-md-6">
                     <!-- Logo -->
                     <div class="form-group">
-                      <label for="locImage">{{pageLabels.LogoFile.labelName}}:</label>
+                      <label for="locImage">Logo File:</label>
                       <div class="custom-file">
                         <span style="color:rgb(106,96,85);" *ngIf="message">{{message}}</span>
                         <input class="custom-file-input ng-pristine ng-invalid" id="locDtlLocImg" type="file"

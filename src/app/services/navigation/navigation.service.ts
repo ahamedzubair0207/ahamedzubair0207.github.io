@@ -13,11 +13,11 @@ export class NavigationService {
     public lastOrganization: Subject<string> = new Subject<string>();
     constructor(private http: CustomHttp) { }
 
-    getAllSibling(type: string, id: string) {
-        // let params = new HttpParams().set("organizationId", orgId);
-        return this.http.get(`${AppConstants.NAVIGATION_URL}/${id}/${type}`)
-            .pipe(
-                map(response => response)
-            );
-    }
+    // getAllSibling(type: string, id: string) {
+    //     // let params = new HttpParams().set("organizationId", orgId);
+    //     return this.http.get(`${AppConstants.NAVIGATION_URL}/${id}/${type}`)
+    //         .pipe(
+    //             map(response => response)
+    //         );
+    // }
 }

@@ -75,7 +75,7 @@ export class VotmCloudAlertsCreateComponent implements OnInit, OnDestroy {
   uomTypeId: any;
   metricChangeMessage: string;
   previousMetricType: string = '';
-  userId = '03c7fb47-58ee-4c41-a9d6-2ad0bd43392a';
+  // userId = '03c7fb47-58ee-4c41-a9d6-2ad0bd43392a';
   orgHierarchy: string;
   @Input() requiredData: any;
   @Input() AlertpageType: any;
@@ -133,7 +133,7 @@ export class VotmCloudAlertsCreateComponent implements OnInit, OnDestroy {
         this.alert.organizationScopeId = this.orgId;
       }
       this.getAbsoluteThreshold();
-      this.getAllHierarchy();
+      // this.getAllHierarchy();
       this.navigationService.lastOrganization.subscribe(response => {
         this.accessScopeName = response;
       });
@@ -282,26 +282,26 @@ export class VotmCloudAlertsCreateComponent implements OnInit, OnDestroy {
 
   changeSignalType(event) {
     // // console.log('changeMetricType ', event);
-    if (event) {
-      this.previousMetricType = this.alert.signalTypeId;
-      this.alert.alertRuleSignalMapping = [];
-      this.selectedSignals = [];
-      this.treeSignalAssociationList = [];
-      this.assetsChecked = {};
+    // if (event) {
+    //   this.previousMetricType = this.alert.signalTypeId;
+    //   this.alert.alertRuleSignalMapping = [];
+    //   this.selectedSignals = [];
+    //   this.treeSignalAssociationList = [];
+    //   this.assetsChecked = {};
 
-      this.alertsService.getUomForSelectedSignalType(this.alert.signalTypeId, this.userId)
-        .subscribe(response => {
-          if (response) {
-            this.unitToShow = response.uomName;
-            this.alert.uomId = response.uomId;
-            this.alert.uomName = response.uomName;
-            this.alert.uomTypeId = response.uomTypeId;
-            this.getAlertRuleSignalAssociatedAssetByOrgId();
-          }
-        });
-    } else {
-      this.alert.signalTypeId = this.previousMetricType;
-    }
+    //   this.alertsService.getUomForSelectedSignalType(this.alert.signalTypeId, this.userId)
+    //     .subscribe(response => {
+    //       if (response) {
+    //         this.unitToShow = response.uomName;
+    //         this.alert.uomId = response.uomId;
+    //         this.alert.uomName = response.uomName;
+    //         this.alert.uomTypeId = response.uomTypeId;
+    //         this.getAlertRuleSignalAssociatedAssetByOrgId();
+    //       }
+    //     });
+    // } else {
+    //   this.alert.signalTypeId = this.previousMetricType;
+    // }
   }
 
   onSignalTypeChange(event) {
@@ -445,26 +445,26 @@ export class VotmCloudAlertsCreateComponent implements OnInit, OnDestroy {
     }
   }
 
-  getAllHierarchy() {
-    this.alertsService.getAllHierarchy(this.orgId, 'organization').subscribe(
-      response => {
-        response = response.slice().reverse();
-        let count = 1;
-        while (count <= response.length) {
-          for (const item of response) {
-            if (item.orderNo === count) {
-              this.orgHierarchy = (this.orgHierarchy ? this.orgHierarchy : '') + item.shortName;
-            }
-            console.log('adasdas', count,  '===', response.length);
-            if (count !== response.length) {
-              this.orgHierarchy = this.orgHierarchy + ' > ';
-            }
-          }
-          count++;
-        }
-      }
-    );
-  }
+  // getAllHierarchy() {
+  //   this.alertsService.getAllHierarchy(this.orgId, 'organization').subscribe(
+  //     response => {
+  //       response = response.slice().reverse();
+  //       let count = 1;
+  //       while (count <= response.length) {
+  //         for (const item of response) {
+  //           if (item.orderNo === count) {
+  //             this.orgHierarchy = (this.orgHierarchy ? this.orgHierarchy : '') + item.shortName;
+  //           }
+  //           console.log('adasdas', count,  '===', response.length);
+  //           if (count !== response.length) {
+  //             this.orgHierarchy = this.orgHierarchy + ' > ';
+  //           }
+  //         }
+  //         count++;
+  //       }
+  //     }
+  //   );
+  // }
 
   async createAssetCheckedProperties() {
     // // console.log('this.alertRuleSignalAssociatedAsset ', this.alertRuleSignalAssociatedAsset);

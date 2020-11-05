@@ -1,4 +1,4 @@
-<div #takeMeFullscreen id="dashboardIconContainer-{{dbItem.dashboardId}}" class="border-top-0 p-3 position-relative" style="background-color:white;">
+<div #takeMeFullscreen  class="border-top-0 p-3 position-relative" style="background-color:white;">
   <!-- <div class="lock-tab border border-bottom-0 mt-3 mr-3" id="resizeDashboardId-{{dbItem.id}}">
     <i class="icon-television pr-2" (click)="onClickOfKiosk()"></i>
     <i class="icon-resize-full-alt pr-2" title="Resize Full Screen"></i>
@@ -7,13 +7,13 @@
   <!-- <div class="m-3 text-right actualDashboardClass" id="actualDashboardId-{{dbItem.id}}">
     <i class="icon-resize-small border p-1 icon-resize-small-class" (click)="actualDashboard(dbItem.id)" title="Resize"></i>
   </div> -->
-  <div class=""  id="resizeDashboardId-{{dbItem.dashboardId}}">
+  <div class="" >
     <div class="lock-tab border border-bottom-0 mt-3 mr-3">
       <i class="icon-television pr-2"></i>
       <i [floClickToEnterFullscreen]="takeMeFullscreen" class="icon-resize-full-alt pr-2"></i>
       <i [ngClass]="locked ? 'icon-lock' : 'icon-lock-open'" (click)="toggleLock(dbItem)"></i>
     </div>
-    <app-dashboardhost [dbItem]="dbItem" [locked]="locked"></app-dashboardhost>
+    <app-dashboardhost  [locked]="locked"></app-dashboardhost>
   </div>
   <!-- <app-dashboardhost [dbItem]="dbItem"></app-dashboardhost> -->
 </div>

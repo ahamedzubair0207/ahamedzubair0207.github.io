@@ -44,20 +44,20 @@ export class VotmCloudEventsHomeComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.loggedInUser = this.sharedService.getLoggedInUser();
+    // this.loggedInUser = this.sharedService.getLoggedInUser();
     this.currentDate = this.sharedService.getDateTimeInUserLocale(new Date());
-    this.getEventActivities();
-    this.getEventLogs();
+    // this.getEventActivities();
+    // this.getEventLogs();
   }
 
   getEventLogs() {
-    this.eventLogsService.getEventLogs(this.organizationId, this.locationId, this.assetId)
-      .subscribe(response => {
-        this.eventLogsTemp = response;
-        for (let i = 0; i < this.eventLogsTemp.length; i++) {
-          this.getValueByUOM(this.eventLogsTemp[i], i);
-        }
-      });
+    // this.eventLogsService.getEventLogs(this.organizationId, this.locationId, this.assetId)
+    //   .subscribe(response => {
+    //     this.eventLogsTemp = response;
+    //     for (let i = 0; i < this.eventLogsTemp.length; i++) {
+    //       this.getValueByUOM(this.eventLogsTemp[i], i);
+    //     }
+    //   });
   }
 
   getValueByUOM(eventObj, index) {
@@ -149,14 +149,14 @@ export class VotmCloudEventsHomeComponent implements OnInit {
       obj['eventActivtiyId'] = null;
       obj['description'] = this.closureNote;
     }
-    this.eventLogsService.updateEventLog(obj).subscribe(
-      response => {
-        this.toaster.onSuccess('Event Log successfully updated', 'Updated');
-        this.getEventLogs();
-      }, error => {
-        this.toaster.onFailure('Error in Event Log updated', 'Updated');
-      }
-    );
+    // this.eventLogsService.updateEventLog(obj).subscribe(
+    //   response => {
+    //     this.toaster.onSuccess('Event Log successfully updated', 'Updated');
+    //     this.getEventLogs();
+    //   }, error => {
+    //     this.toaster.onFailure('Error in Event Log updated', 'Updated');
+    //   }
+    // );
   }
 
   openAddEventModal(content) {

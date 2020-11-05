@@ -76,9 +76,9 @@ export class UserService {
         return this.http.patch(AppConstants.EDIT_USER_NOTIFICATION, userObj);
     }
 
-    deleteUserFavorite(userFavoriteId: string) {
-        return this.http.delete(AppConstants.DELETE_USER_FAVORITE + '?userFavoriteId=' + userFavoriteId, {});
-    }
+    // deleteUserFavorite(userFavoriteId: string) {
+    //     return this.http.delete(AppConstants.DELETE_USER_FAVORITE + '?userFavoriteId=' + userFavoriteId, {});
+    // }
 
     getUserUOMDetail(userId) {
       return this.http.get(AppConstants.GET_USER_UOM + '/' + userId);

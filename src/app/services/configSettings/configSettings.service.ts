@@ -20,39 +20,39 @@ export class ConfigSettingsService {
   }
 
   // Need to interpolate strings for IDs once DB is in good shape
-  getCreateOrgScreenLabels(): Observable<any> {
-    return this.http.get(AppConstants.ORG_LBL)
-      .pipe(
-        map(response => response)
-      );
-  }
+  // getCreateOrgScreenLabels(): Observable<any> {
+  //   return this.http.get(AppConstants.ORG_LBL)
+  //     .pipe(
+  //       map(response => response)
+  //     );
+  // }
 
-  getTrendChartConfigScreenLabels(): Observable<any>{
-    return this.http.get(AppConstants.TRENDCHART_LBL)
-    .pipe(
-      map(response => response)
-    );
-  }
+  // getTrendChartConfigScreenLabels(): Observable<any>{
+  //   return this.http.get(AppConstants.TRENDCHART_LBL)
+  //   .pipe(
+  //     map(response => response)
+  //   );
+  // }
 
-  getDataTableConfigScreenLabels(): Observable<any>{
-    return this.http.get(AppConstants.DATA_TABLE_LBL)
-    .pipe(
-      map(response => response)
-    );
-  }
+  // getDataTableConfigScreenLabels(): Observable<any>{
+  //   return this.http.get(AppConstants.DATA_TABLE_LBL)
+  //   .pipe(
+  //     map(response => response)
+  //   );
+  // }
 
-  getImageOverLayConfigScreenLabels(): Observable<any>{
-    return this.http.get(AppConstants.IMAGE_OVERLAY_LBL)
-    .pipe(
-      map(response => response)
-    );
-  }
+  // getImageOverLayConfigScreenLabels(): Observable<any>{
+  //   return this.http.get(AppConstants.IMAGE_OVERLAY_LBL)
+  //   .pipe(
+  //     map(response => response)
+  //   );
+  // }
 
-  // Need to interpolate strings for IDs once DB is in good shape
-  getCreateLocScreenLabels(): Observable<any> {
-    return this.http.get(AppConstants.LOC_LBL)
-    .pipe(
-      map(response => response)
-    );
-  }
+  // // Need to interpolate strings for IDs once DB is in good shape
+  // getCreateLocScreenLabels(): Observable<any> {
+  //   return this.http.get(AppConstants.LOC_LBL)
+  //   .pipe(
+  //     map(response => response)
+  //   );
+  // }
 }

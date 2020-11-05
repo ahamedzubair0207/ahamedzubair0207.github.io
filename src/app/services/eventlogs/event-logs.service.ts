@@ -12,23 +12,23 @@ export class EventLogsService {
     private http: CustomHttp
   ) { }
 
-  getEventLogs(organizationId, locationId, assetId): Observable<any> {
-    let url = AppConstants.GET_ALERT_EVENT_LOG;
-    if (organizationId) {
-      url += '?organizationId=' + organizationId;
-    }
-    if (locationId) {
-      url += '&locationId=' + locationId;
-    }
-    if (assetId) {
-      url += '&assetId=' + assetId;
-    }
-    // console.log(url);
-    return this.http.get(url);
-  }
+  // getEventLogs(organizationId, locationId, assetId): Observable<any> {
+  //   let url = AppConstants.GET_ALERT_EVENT_LOG;
+  //   if (organizationId) {
+  //     url += '?organizationId=' + organizationId;
+  //   }
+  //   if (locationId) {
+  //     url += '&locationId=' + locationId;
+  //   }
+  //   if (assetId) {
+  //     url += '&assetId=' + assetId;
+  //   }
+  //   // console.log(url);
+  //   return this.http.get(url);
+  // }
 
-  updateEventLog(obj) {
-    return this.http.patch(AppConstants.UPDATE_ALERT_EVENT_LOG, obj);
-  }
+  // updateEventLog(obj) {
+  //   return this.http.patch(AppConstants.UPDATE_ALERT_EVENT_LOG, obj);
+  // }
 }
 

@@ -81,8 +81,8 @@ export class VotmCloudAssetsDashboardComponent implements OnInit {
     };
   }
 
-  onClickOfKioskModalClose() {
-    // Close modal popup
-    this.kioskMode.style.display = 'none';
-  }
+  // onClickOfKioskModalClose() {
+  //   // Close modal popup
+  //   this.kioskMode.style.display = 'none';
+  // }
 }

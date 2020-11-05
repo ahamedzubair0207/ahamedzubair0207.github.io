@@ -90,7 +90,7 @@ export class VotmLiveDataComponent implements OnInit {
   private rangeYAxisMin: number[] = [null, null];
   private rangeYAxisMax: number[] = [null, null];
   private autoScaleY: boolean[] = [true, true];
-  userId: string = '03C7FB47-58EE-4C41-A9D6-2AD0BD43392A';
+  // userId: string = '03C7FB47-58EE-4C41-A9D6-2AD0BD43392A';
   private showThresh: boolean[] = [false, false];
 
 
@@ -109,7 +109,7 @@ export class VotmLiveDataComponent implements OnInit {
     }
     this.trendChartWidget.dateRange = '1m';
     this.trendChartWidget.displayThrshold = 'none';
-    this.getScreenLabels();
+    // this.getScreenLabels();
     this.getSignalData();
     this.getDashboardWidget();
     this.loggedInUser = this.sharedService.getLoggedInUser();
@@ -377,13 +377,13 @@ export class VotmLiveDataComponent implements OnInit {
     return name;
   }
 
-  getScreenLabels() {
-    this.configSettingsService.getTrendChartConfigScreenLabels()
-      .subscribe(response => {
-        this.pageLabels = response;
-        // // console.log('Screens Labels', this.pageLabels);
-      });
-  }
+  // getScreenLabels() {
+  //   this.configSettingsService.getTrendChartConfigScreenLabels()
+  //     .subscribe(response => {
+  //       this.pageLabels = response;
+  //       // // console.log('Screens Labels', this.pageLabels);
+  //     });
+  // }
 
   open(config) {
     // // console.log('Config ', config)
@@ -621,7 +621,7 @@ export class VotmLiveDataComponent implements OnInit {
     // this.zone.runOutsideAngular(() => {
     let chart = am4core.create(this.wId, am4charts.XYChart);
     chart.paddingRight = 20;
-    chart.dataSource.url = `${environment.protocol}://${environment.server}/${environment.virtualName}/${AppConstants.GET_UPDATEDTIMESERIES_SIGNAL}?userId=${this.userId}&organizationId=${this.data.organizationId}&AccountCode=${this.trendChartWidget.accountCode}&PropertyName=${this.trendChartWidget.propertyName}&PropertyValue=${this.trendChartWidget.propertyValue}&MeasuredValue=${this.trendChartWidget.measuredValue}&FromDateTime=${typeof (this.trendChartWidget.fromDateTime) === 'string' ? this.trendChartWidget.fromDateTime : this.trendChartWidget.fromDateTime.toISOString()}&ToDateTime=${typeof (this.trendChartWidget.toDateTime) === 'string' ? this.trendChartWidget.toDateTime : this.trendChartWidget.toDateTime.toISOString()}&BucketSize=${this.trendChartWidget.bucketSize}&precesion=2`;
+    // chart.dataSource.url = `${environment.protocol}://${environment.server}/${environment.virtualName}/${AppConstants.GET_UPDATEDTIMESERIES_SIGNAL}?userId=${this.userId}&organizationId=${this.data.organizationId}&AccountCode=${this.trendChartWidget.accountCode}&PropertyName=${this.trendChartWidget.propertyName}&PropertyValue=${this.trendChartWidget.propertyValue}&MeasuredValue=${this.trendChartWidget.measuredValue}&FromDateTime=${typeof (this.trendChartWidget.fromDateTime) === 'string' ? this.trendChartWidget.fromDateTime : this.trendChartWidget.fromDateTime.toISOString()}&ToDateTime=${typeof (this.trendChartWidget.toDateTime) === 'string' ? this.trendChartWidget.toDateTime : this.trendChartWidget.toDateTime.toISOString()}&BucketSize=${this.trendChartWidget.bucketSize}&precesion=2`;
     chart.dataSource.parser = new am4core.JSONParser();
     // xAxis.dateFormatter = new am4core.DateFormatter();
     // xAxis.dateFormatter.dateFormat = "MM-dd";

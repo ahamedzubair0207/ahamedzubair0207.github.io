@@ -107,11 +107,11 @@ export class BreadcrumbsService {
     return this.displayList;
   }
 
-  getSiblings(crumbObj: any){
-    let endpoint = AppConstants.GET_SIBLINGS + '/' + crumbObj.id + '/' + crumbObj.entityType;
-    return this.custHttp.get(endpoint)
-    ;
-  }
+  // getSiblings(crumbObj: any){
+  //   let endpoint = AppConstants.GET_SIBLINGS + '/' + crumbObj.id + '/' + crumbObj.entityType;
+  //   return this.custHttp.get(endpoint)
+  //   ;
+  // }
 
   getCurrentLevel(){
     if(this.assetList.length > 0){

@@ -18,7 +18,7 @@ export const MENU_ITEMS: Array<{ id: string, enabled: boolean, url: string, icon
     {
         id: 'organizations',
         enabled: true,
-        url: 'org/home/7a59bdd8-6e1d-48f9-a961-aa60b2918dde/VOTM',
+        url: 'org/home',
         icon: 'menu-icon icon-org-company',
         name: 'Organizations',
         childs: []
@@ -40,7 +40,7 @@ export const MENU_ITEMS: Array<{ id: string, enabled: boolean, url: string, icon
     {
         id: 'locations',
         enabled: true,
-        url: 'loc/home/7a59bdd8-6e1d-48f9-a961-aa60b2918dde/VOTM',
+        url: 'loc/home',
         icon: 'menu-icon icon-location',
         name: 'Locations',
         childs: []
@@ -48,7 +48,7 @@ export const MENU_ITEMS: Array<{ id: string, enabled: boolean, url: string, icon
     {
         id: 'assets',
         enabled: true,
-        url: 'asset/home/7a59bdd8-6e1d-48f9-a961-aa60b2918dde/VOTM',
+        url: 'asset/home',
         icon: 'menu-icon icon-asset-robot',
         name: 'Assets',
         childs: []

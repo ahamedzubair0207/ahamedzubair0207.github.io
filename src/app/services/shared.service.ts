@@ -35,28 +35,28 @@ export class SharedService {
   }
 
   getFavorites() {
-    const userId = '03c7fb47-58ee-4c41-a9d6-2ad0bd43392a';
-    const type = 'user';
-    return this.http.get(AppConstants.GET_FAVORITES + '/' + userId + '/' + type)
-      .pipe(
-        map(response => response)
-      ).subscribe(response => {
-        this.favorites.next(response);
-      });
+    // const userId = '03c7fb47-58ee-4c41-a9d6-2ad0bd43392a';
+    // const type = 'user';
+    // return this.http.get(AppConstants.GET_FAVORITES + '/' + userId + '/' + type)
+    //   .pipe(
+    //     map(response => response)
+    //   ).subscribe(response => {
+    //     this.favorites.next(response);
+    //   });
   }
 
   postFavorites(body: any) {
-    return this.http.post(AppConstants.POST_FAVORITES, body)
-      .pipe(
-        map(response => response)
-      );
+    // return this.http.post(AppConstants.POST_FAVORITES, body)
+    //   .pipe(
+    //     map(response => response)
+    //   );
   }
 
   patchFavorites(body: any) {
-    return this.http.patch(AppConstants.PATCH_FAVORITES, body)
-      .pipe(
-        map(response => response)
-      );
+    // return this.http.patch(AppConstants.PATCH_FAVORITES, body)
+    //   .pipe(
+    //     map(response => response)
+    //   );
   }
 
   toTitleCase(str) {

@@ -101,7 +101,7 @@ export class VotmDataTableComponent implements OnInit, OnDestroy {
         this.getDashboardWidget();
       }
     }
-    this.getScreenLabels();
+    // this.getScreenLabels();
   }
 
   getSignalData() {
@@ -125,12 +125,12 @@ export class VotmDataTableComponent implements OnInit, OnDestroy {
     this.signalRService.closeSignalRConnection();
   }
 
-  getScreenLabels() {
-    this.configSettingsService.getDataTableConfigScreenLabels()
-      .subscribe(response => {
-        this.pageLabels = response;
-      });
-  }
+  // getScreenLabels() {
+  //   this.configSettingsService.getDataTableConfigScreenLabels()
+  //     .subscribe(response => {
+  //       this.pageLabels = response;
+  //     });
+  // }
 
   open(config) {
     this.signalRService.closeSignalRConnection();

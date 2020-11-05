@@ -13,20 +13,20 @@ export class AppComponent implements OnInit {
   title = 'votm-cloud';
   menuOpen: boolean;
   isAuthenticated: boolean;
-  loggedInUserData = {
-    userId: '03c7fb47-58ee-4c41-a9d6-2ad0bd43392a',
-    organizationId : '7a59bdd8-6e1d-48f9-a961-aa60b2918dde',
-    userName: 'Sean Haley',
-    userConfigSettings: [
-      {
-        localeId: '3c10d7d2-c95a-4c16-bb51-44a80ec63fba',
-        localeName: 'de-de',
-        timeZoneDescription: 'America/New_York'
-      }
-    ]
-  };
+  // loggedInUserData = {
+  //   userId: '03c7fb47-58ee-4c41-a9d6-2ad0bd43392a',
+  //   organizationId : '7a59bdd8-6e1d-48f9-a961-aa60b2918dde',
+  //   userName: 'Sean Haley',
+  //   userConfigSettings: [
+  //     {
+  //       localeId: '3c10d7d2-c95a-4c16-bb51-44a80ec63fba',
+  //       localeName: 'de-de',
+  //       timeZoneDescription: 'America/New_York'
+  //     }
+  //   ]
+  // };
   userFavourites: any[] = [];
-  constructor(public oktaAuth: OktaAuthService, private router: Router, private sharedService: SharedService) {
+  constructor(public oktaAuth: OktaAuthService, public router: Router, private sharedService: SharedService) {
     this.oktaAuth.$authenticationState.subscribe(isAuthenticated => this.isAuthenticated = isAuthenticated)
     this.sharedService.getMenuOpen().subscribe(newVal => this.menuOpen = newVal);
     if (FileReader.prototype.readAsBinaryString === undefined) {
@@ -50,18 +50,18 @@ export class AppComponent implements OnInit {
   }
 
   async ngOnInit() {
-    if (!this.sharedService.getItemFromLocalStorgae('loggedInUser')) {
-      this.sharedService.setItemInLocalStorage('loggedInUser', this.loggedInUserData);
-    }
-    this.router.events.pipe(
-      filter(e => e instanceof NavigationEnd)
-    ).subscribe( () => {
-      if (this.router.url !== '/login') {
-        this.sharedService.getFavorites();
-      }
-    });
-    console.log('user', this.sharedService.getItemFromLocalStorgae('loggedInUser'));
-    this.isAuthenticated = await this.oktaAuth.isAuthenticated();
+    // if (!this.sharedService.getItemFromLocalStorgae('loggedInUser')) {
+    //   this.sharedService.setItemInLocalStorage('loggedInUser', this.loggedInUserData);
+    // }
+    // this.router.events.pipe(
+    //   filter(e => e instanceof NavigationEnd)
+    // ).subscribe( () => {
+    //   if (this.router.url !== '/login') {
+    //     this.sharedService.getFavorites();
+    //   }
+    // });
+    // console.log('user', this.sharedService.getItemFromLocalStorgae('loggedInUser'));
+    // this.isAuthenticated = await this.oktaAuth.isAuthenticated();
   }
   logout() {
     this.oktaAuth.logout('/');

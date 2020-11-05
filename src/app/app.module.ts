@@ -131,7 +131,7 @@ import { VotmCloudAdminGroupManagementComponent } from './components/admin/votm-
 import { VotmCloudFavoritesComponent } from './components/favorites/votm-cloud-favorites/votm-cloud-favorites.component';
 
 import { VotmSmoothLineComponent } from './components/shared/charts/votm-smooth-line/votm-smooth-line.component';
-import { AmModule } from "@acaisoft/angular-azure-maps";
+// import { AmModule } from "@acaisoft/angular-azure-maps";
 import { VotmCloudAdminSensorAlertComponent } from './components/admin/votm-cloud-admin-sensor-alert/votm-cloud-admin-sensor-alert.component';
 import { VotmImageOverlayComponent } from './components/shared/charts/votm-image-overlay/votm-image-overlay.component';
 import { VotmMapOverlayComponent } from './components/shared/charts/votm-map-overlay/votm-map-overlay.component';
@@ -253,7 +253,7 @@ const oktaConfig = Object.assign({
     OktaAuthModule,
     TreeTableModule,
     TableModule,
-    AmModule,
+    // AmModule,
     DndModule,
     NgxDatatableModule,
     FloFullscreenModule

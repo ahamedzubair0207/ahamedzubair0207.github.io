@@ -194,20 +194,20 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
 
-    this.activatedRoute.paramMap.subscribe(params => {
-      this.asset.organizationId = this.curOrgId = params.get("parentOrgId");
-      this.asset.organizationName = this.curOrgName = params.get("parentOrgName");
-      this.asset.locationId = this.parentLocId = params.get("parentLocId");
-      this.asset.locationName = this.parentLocName = params.get("parentLocName");
-      this.asset.parentAssetId = this.parentAssetId = params.get("parentAssetId");
-      this.asset.parentAssetName = this.parentAssetName = params.get("parentAssetName");
-      this.assetId = params.get('assetId');
-      $('.nav-tabs a[href="#asset-details"]').tab('show');
-      this.onClickOfNavTab('asset-details');
-      if (this.assetId) {
-        this.getAssetById();
-      }
-    });
+    // this.activatedRoute.paramMap.subscribe(params => {
+    //   this.asset.organizationId = this.curOrgId = params.get("parentOrgId");
+    //   this.asset.organizationName = this.curOrgName = params.get("parentOrgName");
+    //   this.asset.locationId = this.parentLocId = params.get("parentLocId");
+    //   this.asset.locationName = this.parentLocName = params.get("parentLocName");
+    //   this.asset.parentAssetId = this.parentAssetId = params.get("parentAssetId");
+    //   this.asset.parentAssetName = this.parentAssetName = params.get("parentAssetName");
+    //   this.assetId = params.get('assetId');
+    //   $('.nav-tabs a[href="#asset-details"]').tab('show');
+    //   this.onClickOfNavTab('asset-details');
+    //   if (this.assetId) {
+    //     this.getAssetById();
+    //   }
+    // });
     this.pageType = this.activatedRoute.snapshot.data['type'];
     this.pageTitle = `${this.pageType} Asset`;
     this.activatedRoute.fragment.subscribe(
@@ -221,12 +221,12 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
       }
     );
     this.templateWarningMessage = 'This is message';
-    this.getAllAssets();
-    this.getAllOrganization();
-    this.getAllLocations();
-    this.getScreenLabels();
-    this.getAllAppInfo();
-    this.getAllDashboards();
+    // this.getAllAssets();
+    // this.getAllOrganization();
+    // this.getAllLocations();
+    // this.getScreenLabels();
+    // this.getAllAppInfo();
+    // this.getAllDashboards();
     // dashboard data
     this.dashboardData = this.getDashboards();
     this.getDashboardsTemplates();
@@ -391,14 +391,14 @@ export class VotmCloudAssetsCreateComponent implements OnInit, OnDestroy {
 
   }
 
-  getScreenLabels() {
-    this.screenLabelsLoader = true;
-    this.configSettingsService.getCreateLocScreenLabels()
-      .subscribe(response => {
-        this.pageLabels = response;
-        this.screenLabelsLoader = false;
-      });
-  }
+  // getScreenLabels() {
+  //   this.screenLabelsLoader = true;
+  //   this.configSettingsService.getCreateLocScreenLabels()
+  //     .subscribe(response => {
+  //       this.pageLabels = response;
+  //       this.screenLabelsLoader = false;
+  //     });
+  // }
 
   getAllAppInfo() {
     this.appInfoLoader = true;

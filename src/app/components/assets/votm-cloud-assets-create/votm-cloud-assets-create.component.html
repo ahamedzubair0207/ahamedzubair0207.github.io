@@ -54,7 +54,7 @@
     <div class="tab-content bg-white w-100">
 
       <div class="tab-pane fade border border-top-0 p-3 mb-3 shadow show active" id="asset-details-tab"
-        *ngIf="(!assetId && pageLabels) || (assetId && pageLabels && asset)" role="tabpanel"
+         role="tabpanel"
         area-labelledby="asset-info-tab">
         <div class="d-flex flex-row">
           <ul class="nav nav-tabs nav-tabs-vertical nav-tabs-left pt-3" aria-orientation="vertical">
@@ -77,7 +77,7 @@
 
           </ul>
           <div class="tab-content w-100">
-            <div class="tab-pane fade show active" *ngIf="(!assetId && pageLabels) || (assetId && pageLabels && asset)"
+            <div class="tab-pane fade show active" 
               id="asset-details" role="tabpanel" area-labelledby="asset-details-tab">
               <div class="position-relative" *ngIf="pageType.toLowerCase() === 'view' || pageType.toLowerCase() === 'edit'">
                 <div class="lock-tab border border-bottom-0"

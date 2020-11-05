@@ -95,10 +95,10 @@ export class VotmCloudPreferencesComponent implements OnInit, AfterViewInit {
       noti_info_web: new FormControl(null, [Validators.required])
     });
 
-    this.userId = '03c7fb47-58ee-4c41-a9d6-2ad0bd43392a';
-    this.getAllAppInfo();
+    // this.userId = '03c7fb47-58ee-4c41-a9d6-2ad0bd43392a';
+    // this.getAllAppInfo();
     this.uomMeasurement = 'Imperial';
-    this.getAllAlertsByUserId();
+    // this.getAllAlertsByUserId();
     // get loggedIn User Detail
 
 
@@ -389,19 +389,19 @@ export class VotmCloudPreferencesComponent implements OnInit, AfterViewInit {
   }
 
   onClickOfDeleteUserFavorite(event) {
-    if (event) {
-      this.userService.deleteUserFavorite(this.selectedUserFavoriteForDelete.userFavoriteId).subscribe(
-        response => {
-          this.toaster.onSuccess('Favorite Successfully deleted.', 'Deleted');
-          this.getUserDetailInfo();
-          this.sharedService.getFavorites(); // get favorites for side bar menu
-          this.selectedUserFavoriteForDelete = undefined;
-        }, error => {
-          this.toaster.onFailure('Error while deleting favorites.', 'Deleted');
-          this.selectedUserFavoriteForDelete = undefined;
-        }
-      );
-    }
+    // if (event) {
+    //   this.userService.deleteUserFavorite(this.selectedUserFavoriteForDelete.userFavoriteId).subscribe(
+    //     response => {
+    //       this.toaster.onSuccess('Favorite Successfully deleted.', 'Deleted');
+    //       this.getUserDetailInfo();
+    //       this.sharedService.getFavorites(); // get favorites for side bar menu
+    //       this.selectedUserFavoriteForDelete = undefined;
+    //     }, error => {
+    //       this.toaster.onFailure('Error while deleting favorites.', 'Deleted');
+    //       this.selectedUserFavoriteForDelete = undefined;
+    //     }
+    //   );
+    // }
   }
 
   onClickOfNotificationTab() {

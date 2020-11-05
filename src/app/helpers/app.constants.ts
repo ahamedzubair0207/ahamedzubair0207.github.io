@@ -34,9 +34,9 @@ export class AppConstants {
     public static GET_DASHBOARD_WIDGETS = '/DashboardWidget/dashboard/type';
     public static UPDATE_DASHBOARD_WIDGET = '/DashboardWidget';
 
-    public static GET_FAVORITES = '/UserManagement/UserFavorites';
-    public static POST_FAVORITES = '/UserManagement/UserFavorites';
-    public static PATCH_FAVORITES = '/UserManagement/UserFavorites';
+    // public static GET_FAVORITES = '/UserManagement/UserFavorites';
+    // public static POST_FAVORITES = '/UserManagement/UserFavorites';
+    // public static PATCH_FAVORITES = '/UserManagement/UserFavorites';
 
     public static GET_USER_UOM = 'UserManagement/UnitofMeasurement';
     public static ADD_USER_UOM = 'UserManagement/UnitofMeasurement';
@@ -57,7 +57,7 @@ export class AppConstants {
     public static GET_USER_DETAIL = '/UserManagement/UserDetail';
     public static EDIT_USER_NOTIFICATION = '/UserManagement/UserNotification';
 
-    public static DELETE_USER_FAVORITE = '/UserManagement/UserFavorites';
+    // public static DELETE_USER_FAVORITE = '/UserManagement/UserFavorites';
     public static GET_OPTIONSLISTDATA = '/Location/optionsListData';
 
     public static GET_ASSET_TREE = '/AssetTree/type/asset';
@@ -108,24 +108,24 @@ export class AppConstants {
     public static GET_ALERT_USERGROUPROLE = '/AlertRules/UserGroupRoles';
     public static EDIT_ALERT = '/AlertRule';
     public static DEL_ALERT = '/AlertRule';
-    public static GET_ALERT_ACCESSSCOPE = '/BreadcrumbNavigation/GetChildOrganization';
+    // public static GET_ALERT_ACCESSSCOPE = '/BreadcrumbNavigation/GetChildOrganization';
 
-    public static GET_ALERT_EVENT_LOG = 'AlertRules/EventLogs';
-    public static UPDATE_ALERT_EVENT_LOG = 'AlertRules/EventLogs';
+    // public static GET_ALERT_EVENT_LOG = 'AlertRules/EventLogs';
+    // public static UPDATE_ALERT_EVENT_LOG = 'AlertRules/EventLogs';
 
 
     public static GET_TIMESERIES_SIGNAL = '/SignalAssociatedwithAssetLocationByOrganization';
     public static POST_GETTIMESERIESAGGREGATEMULTIPLEDEVICES = '/TimeSeries/GetTimeSeriesAggregateMultipleDevices';
     public static GET_UPDATEDTIMESERIES_SIGNAL = '/TimeSeries/GetTimeSeriesMultipleSignals';
 
-    public static NAVIGATION_URL = '/BreadcrumbNavigation';
+    // public static NAVIGATION_URL = '/BreadcrumbNavigation';
 
     public static APP_INFO = 'ConfigSettings/Application';
 
     public static GET_SIGNAL_TYPE = 'Signals/SignalType';
     public static GET_USER_UOM_BY_SIGNAL_TYPE = 'Signals/SignalTypeUOM';
 
-    public static GET_SIBLINGS = '/BreadcrumbNavigation';
+    // public static GET_SIBLINGS = '/BreadcrumbNavigation';
 
     public static GET_GATEWAY_DETAIL_BY_TYPE_AND_ID = '/GatewayByOrganizationId';
     public static GET_GATEWAY_BY_ORG_ID = '/GatewayByOrganizationId';
@@ -140,11 +140,11 @@ export class AppConstants {
 
     // Need to change to configurable strings once DB is in good shape
     // public static ORG_LBL = 'ConfigSettings/fd027a29-f9b7-474d-a4f4-0462d027c535/ScreenLabel/95200C8D-9910-42F2-B26D-56E4BAC697B1';
-    public static ORG_LBL = 'ConfigSettings/fd027a29-f9b7-474d-a4f4-0462d027c535/ScreenLabel/95200C8D-9910-42F2-B26D-56E4BAC697B1?userId=03C7FB47-58EE-4C41-A9D6-2AD0BD43392A';
-    public static LOC_LBL = 'ConfigSettings/fd027a29-f9b7-474d-a4f4-0462d027c535/ScreenLabel/a2e85d4b-b6c1-4767-a7d7-ee0df88a6b92?userId=03C7FB47-58EE-4C41-A9D6-2AD0BD43392A';
-    public static TRENDCHART_LBL = 'ConfigSettings/fd027a29-f9b7-474d-a4f4-0462d027c535/ScreenLabel/C0319A43-FF57-4511-A79F-C3E2C1B148E2?userId=03C7FB47-58EE-4C41-A9D6-2AD0BD43392A';
-    public static IMAGE_OVERLAY_LBL = 'ConfigSettings/fd027a29-f9b7-474d-a4f4-0462d027c535/ScreenLabel/2B35D17E-17BA-42E0-ACF1-940ECEFF2D8B?userId=03C7FB47-58EE-4C41-A9D6-2AD0BD43392A';
-    public static DATA_TABLE_LBL = 'ConfigSettings/fd027a29-f9b7-474d-a4f4-0462d027c535/ScreenLabel/3AC69D83-3132-4756-B4AE-3B94C8E3A3FE?userId=03C7FB47-58EE-4C41-A9D6-2AD0BD43392A';
+    // public static ORG_LBL = 'ConfigSettings/fd027a29-f9b7-474d-a4f4-0462d027c535/ScreenLabel/95200C8D-9910-42F2-B26D-56E4BAC697B1?userId=03C7FB47-58EE-4C41-A9D6-2AD0BD43392A';
+    // public static LOC_LBL = 'ConfigSettings/fd027a29-f9b7-474d-a4f4-0462d027c535/ScreenLabel/a2e85d4b-b6c1-4767-a7d7-ee0df88a6b92?userId=03C7FB47-58EE-4C41-A9D6-2AD0BD43392A';
+    // public static TRENDCHART_LBL = 'ConfigSettings/fd027a29-f9b7-474d-a4f4-0462d027c535/ScreenLabel/C0319A43-FF57-4511-A79F-C3E2C1B148E2?userId=03C7FB47-58EE-4C41-A9D6-2AD0BD43392A';
+    // public static IMAGE_OVERLAY_LBL = 'ConfigSettings/fd027a29-f9b7-474d-a4f4-0462d027c535/ScreenLabel/2B35D17E-17BA-42E0-ACF1-940ECEFF2D8B?userId=03C7FB47-58EE-4C41-A9D6-2AD0BD43392A';
+    // public static DATA_TABLE_LBL = 'ConfigSettings/fd027a29-f9b7-474d-a4f4-0462d027c535/ScreenLabel/3AC69D83-3132-4756-B4AE-3B94C8E3A3FE?userId=03C7FB47-58EE-4C41-A9D6-2AD0BD43392A';
 
     public static GetLblUrl(orgId: string, scrId: string) {
         return '';

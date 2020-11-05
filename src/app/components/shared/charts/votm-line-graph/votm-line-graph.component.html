@@ -1,27 +1,27 @@
-<div class="border p-2 h-100 w-100 position-relative">
+<!-- <div class="border p-2 h-100 w-100 position-relative">
   <div #graphDiv id="{{ wId }}" class="w-100 h-100">
     <div class="text-center con-wid-preview" *ngIf="!configured">
       <img class="img-fluid img-fluid-custom" src="../../../../../assets/images/configure_trend_chart_widget.jpg">
   </div>
   </div>
-  <!-- <div class="text-right" [class.d-none]="locked" (click)="open(config)"><i class="icon-cog" ></i></div>  , 1h, , , ,   -->
+  <div class="text-right" [class.d-none]="locked" (click)="open(config)"><i class="icon-cog" ></i></div>  , 1h, , , ,  
   
   <div class="text-right range-actions mr-2">
     <div *ngIf="configured" class="btn-group btn-group-toggle" ngbRadioGroup name="radioBasic" [(ngModel)]="trendChartWidget.dateRange" (onclick)="onRadioGroupChange()">
-      <!-- <label ngbButtonLabel class="btn-outline-secondary btn-sm"> <input ngbButton type="radio" value="5m" />5m</label> -->
+      <label ngbButtonLabel class="btn-outline-secondary btn-sm"> <input ngbButton type="radio" value="5m" />5m</label>
       <label ngbButtonLabel class="btn-outline-secondary btn-sm"> <input ngbButton type="radio" value="1m" />1min</label>
-      <!-- <label ngbButtonLabel class="btn-outline-secondary btn-sm"> <input ngbButton type="radio" value="10m" />10m</label> -->
+      <label ngbButtonLabel class="btn-outline-secondary btn-sm"> <input ngbButton type="radio" value="10m" />10m</label>
       <label ngbButtonLabel class="btn-outline-secondary btn-sm"> <input ngbButton type="radio" value="1h" />1H</label>
-      <!-- <label ngbButtonLabel class="btn-outline-secondary btn-sm"> <input ngbButton type="radio" value="20m" />20m</label> -->
+      <label ngbButtonLabel class="btn-outline-secondary btn-sm"> <input ngbButton type="radio" value="20m" />20m</label>
       <label ngbButtonLabel class="btn-outline-secondary btn-sm"> <input ngbButton type="radio" value="1d" />1D</label>
-      <!-- <label ngbButtonLabel class="btn-outline-secondary btn-sm"> <input ngbButton type="radio" value="30m" />30m</label> -->
+      <label ngbButtonLabel class="btn-outline-secondary btn-sm"> <input ngbButton type="radio" value="30m" />30m</label>
       <label ngbButtonLabel class="btn-outline-secondary btn-sm"> <input ngbButton type="radio" value="1w" />1W</label>
       <label ngbButtonLabel class="btn-outline-secondary btn-sm"> <input ngbButton type="radio" value="1mo" />1M</label>
-      <!-- <label ngbButtonLabel class="btn-outline-secondary btn-sm"> <input ngbButton type="radio" value="1h" />1H</label> -->
+      <label ngbButtonLabel class="btn-outline-secondary btn-sm"> <input ngbButton type="radio" value="1h" />1H</label>
       <label ngbButtonLabel class="btn-outline-secondary btn-sm"> <input ngbButton type="radio" value="3mo" />3M</label>
-      <!-- <label ngbButtonLabel class="btn-outline-secondary btn-sm"> <input ngbButton type="radio" value="10h" />10H</label> -->
+      <label ngbButtonLabel class="btn-outline-secondary btn-sm"> <input ngbButton type="radio" value="10h" />10H</label>
       <label ngbButtonLabel class="btn-outline-secondary btn-sm"> <input ngbButton type="radio" value="6mo" />6M</label>
-      <!-- <label ngbButtonLabel class="btn-outline-secondary btn-sm"> <input ngbButton type="radio" value="1d" />1D</label> -->
+      <label ngbButtonLabel class="btn-outline-secondary btn-sm"> <input ngbButton type="radio" value="1d" />1D</label>
        <label ngbButtonLabel class="btn-outline-secondary btn-sm"> <input ngbButton type="radio" value="year" />1Y</label>
        <label ngbButtonLabel class="btn-outline-secondary btn-sm"> <input ngbButton type="radio" value="ytd" />YTD</label>
       <label ngbButtonLabel class="btn-outline-secondary btn-sm"> <input ngbButton type="radio" value="all" />All</label>
@@ -60,12 +60,12 @@
         </button>
       </div>
     </div>
-    <!-- <div *ngIf="configured">
+    <div *ngIf="configured">
       <i class="icon-clock" (click)="onRefreshClick()"></i>
-    </div> -->
+    </div>
     <a *ngIf="configured"><i class="icon-refresh" (click)="onRefreshClick()"></i></a>
     <a (click)="open(config)" [class.d-none]="locked"><i class="icon-cog"></i></a>
-    <!-- <a (click)="open(config)"  [class.d-none]="locked"><i class="icon-cog"></i></a> -->
+    <a (click)="open(config)"  [class.d-none]="locked"><i class="icon-cog"></i></a>
   </div>
   
 </div>
@@ -106,7 +106,7 @@
                       [disabled]="disableSignalAxis(i, 0)"
                       (change)="selectSignal(i, 0, signal.id)"
                     />
-                    <!-- [(ngModel)] = "signalCheckBoxes[signal.id]" -->
+                    [(ngModel)] = "signalCheckBoxes[signal.id]"
                     <label class="custom-control-label mr-n2" for="y1-{{ i }}"></label>
                   </div>
                 </td>
@@ -136,7 +136,7 @@
         <div class="">
           <ng-select autofocus labelForId="axisDateRngSelect" class="custom" [(ngModel)]="trendChartWidget.dateRange">
             <ng-option *ngFor="let dr of dateRange" [value]="dr.value">{{dr.name}}</ng-option>
-            <!-- <ng-option value="Min">One Minute</ng-option>
+            <ng-option value="Min">One Minute</ng-option>
               <ng-option value="Hour">One Hour</ng-option>
               <ng-option value="Day">One Day</ng-option>
               <ng-option value="Week">One Week</ng-option>
@@ -145,7 +145,7 @@
               <ng-option value="6Month">Six Months</ng-option>
               <ng-option value="YTD">Year to Date</ng-option>
               <ng-option value="Year">One Year</ng-option>
-              <ng-option value="All">All Available Data</ng-option> -->
+              <ng-option value="All">All Available Data</ng-option>
           </ng-select>
         </div>
       </div>
@@ -157,7 +157,7 @@
           <input type="text" class="form-control" id="title" [(ngModel)]="wConfig['title']" />
         </div>
       </div>
-      <!-- <div *ngIf="yAxisSignals[0] > 0" class="form-group form-row"> -->
+      <div *ngIf="yAxisSignals[0] > 0" class="form-group form-row">
       <div *ngIf="yAxisSignals[0] > 0" class="form-group form-row">
         <label for="LeftAxis" class="col-3 col-form-label mandatory">{{pageLabels.LeftAxisRange.labelName}}</label>
         <div class="col-3">
@@ -264,4 +264,4 @@
       <button type="button" class="btn btn-outline-secondary" (click)="modal.close()">Cancel</button>
       <button type="button" class="btn btn-primary" (click)="modal.close('save');">Save</button>
   </div>
-</ng-template>
+</ng-template> -->

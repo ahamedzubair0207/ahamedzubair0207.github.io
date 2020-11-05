@@ -52,12 +52,12 @@ export class AlertsService {
       );
   }
 
-  getAccessScopeByOrgId(orgId: string): Observable<any> {
-    return this.http.get(`${AppConstants.GET_ALERT_ACCESSSCOPE}/${orgId}`)
-      .pipe(
-        map(response => response)
-      );
-  }
+  // getAccessScopeByOrgId(orgId: string): Observable<any> {
+  //   return this.http.get(`${AppConstants.GET_ALERT_ACCESSSCOPE}/${orgId}`)
+  //     .pipe(
+  //       map(response => response)
+  //     );
+  // }
 
   getAllAlertsByOrgId(orgId: string): Observable<any> {
     return this.http.get(`${AppConstants.GET_ALERT_BYORGID}/${orgId}`)
@@ -117,9 +117,9 @@ export class AlertsService {
       );
   }
 
-  getAllHierarchy(id, type) {
-    return (this.http.get(AppConstants.NAVIGATION_URL + '?Id=' + id + '&type=' + type));
-  }
+  // getAllHierarchy(id, type) {
+  //   return (this.http.get(AppConstants.NAVIGATION_URL + '?Id=' + id + '&type=' + type));
+  // }
 
 
 

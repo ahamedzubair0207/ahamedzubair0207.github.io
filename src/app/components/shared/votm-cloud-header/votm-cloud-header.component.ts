@@ -81,25 +81,25 @@ export class VotmCloudHeaderComponent implements OnInit {
     //   'favoriteName': this.currentFavorite.favoriteName
     //   // 'favoriteOrder':12
     // }
-    if (this.currentFavorite && this.currentFavorite.userFavoriteId) {
-      this.sharedService.patchFavorites(this.currentFavorite)
-        .subscribe(response => {
-          // // console.log('post result ', response);
-          this.toaster.onSuccess('Favorite name updated successfully.', 'Updated');
-          this.sharedService.getFavorites();
-          this.currentFavorite = {};
-          // this.routerLocation.back();
-        });
-    } else {
-      this.sharedService.postFavorites(this.currentFavorite)
-        .subscribe(response => {
-          this.toaster.onSuccess('Successfully Added to the Favorites', 'Added');
-          this.sharedService.getFavorites();
-          this.currentFavorite = {};
-          this.previousFavoriteName = '';
-          // this.routerLocation.back();
-        });
-    }
+    // if (this.currentFavorite && this.currentFavorite.userFavoriteId) {
+    //   this.sharedService.patchFavorites(this.currentFavorite)
+    //     .subscribe(response => {
+    //       // // console.log('post result ', response);
+    //       this.toaster.onSuccess('Favorite name updated successfully.', 'Updated');
+    //       this.sharedService.getFavorites();
+    //       this.currentFavorite = {};
+    //       // this.routerLocation.back();
+    //     });
+    // } else {
+    //   this.sharedService.postFavorites(this.currentFavorite)
+    //     .subscribe(response => {
+    //       this.toaster.onSuccess('Successfully Added to the Favorites', 'Added');
+    //       this.sharedService.getFavorites();
+    //       this.currentFavorite = {};
+    //       this.previousFavoriteName = '';
+    //       // this.routerLocation.back();
+    //     });
+    // }
   }
 
   openmodal() {

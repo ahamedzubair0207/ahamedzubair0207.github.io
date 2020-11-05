@@ -32,17 +32,17 @@ export class VotmCloudLocationsHomeComponent implements OnInit {
   constructor(private locService: LocationService, private router: Router, private route: ActivatedRoute, private toastr: ToastrService) { }
 
   ngOnInit() {
-    this.route.paramMap.subscribe((params: ParamMap) => {
-      this.curLocId = params.get('locId');
-      this.curLocName = params.get('locName');
-      this.parentOrgId = params.get('orgId');
-      this.parentOrgName = params.get('orgName');
-      if (!this.curLocId) {
-        this.fetchlocationTree();
-      } else {
-        this.fetchlocationTreeById();
-      }
-    });
+    // this.route.paramMap.subscribe((params: ParamMap) => {
+    //   this.curLocId = params.get('locId');
+    //   this.curLocName = params.get('locName');
+    //   this.parentOrgId = params.get('orgId');
+    //   this.parentOrgName = params.get('orgName');
+    //   if (!this.curLocId) {
+    //     this.fetchlocationTree();
+    //   } else {
+    //     this.fetchlocationTreeById();
+    //   }
+    // });
     // this.fetchlocationTree();
   }
 
@@ -74,11 +74,11 @@ export class VotmCloudLocationsHomeComponent implements OnInit {
   }
 
   onCreateNewLocation() {
-    this.router.navigate([`loc/create/${this.parentOrgId}/${this.parentOrgName}`]);
+    this.router.navigate([`loc/create`]);
   }
 
   onCreateNewAsset() {
-    this.router.navigate([`asset/create/${this.parentOrgId}/${this.parentOrgName}`]);
+    this.router.navigate([`asset/create`]);
   }
 
   private fetchlocationTree() {

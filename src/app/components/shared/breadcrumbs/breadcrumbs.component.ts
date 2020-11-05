@@ -39,225 +39,225 @@ export class BreadcrumbsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.router.events.pipe(
-      filter(e => e instanceof RouterEvent)
-    ).subscribe((e: any) => {
-      if (this.currentUrl !== e.url) {
-        this.currentUrl = e.url;
-        this.getData();
-      }
-    });
+    // this.router.events.pipe(
+    //   filter(e => e instanceof RouterEvent)
+    // ).subscribe((e: any) => {
+    //   if (this.currentUrl !== e.url) {
+    //     this.currentUrl = e.url;
+    //     this.getData();
+    //   }
+    // });
   }
 
-  getData() {
-    this.mainOrganizationId = '7a59bdd8-6e1d-48f9-a961-aa60b2918dde';
-    this.mainOrganizationName = 'VOTM';
+  // getData() {
+  //   this.mainOrganizationId = '7a59bdd8-6e1d-48f9-a961-aa60b2918dde';
+  //   this.mainOrganizationName = 'VOTM';
 
-    // this.finalBreadcrumbs = [];
-    // this.locBreadcrumbs = [];
-    // this.assetBreadcrumbs = [];
-    // this.minimizedBreadcrumbs = {};
-    // this.orgMinimizedBreadcrumbs = {};
-    // this.locMinimizedBreadcrumbs = {};
-    // this.assetMinimizedBreadcrumbs = {};
-    // if (this.currentUrl.startsWith(`/org/home`)) {
-    //   let parts = this.currentUrl.split('/');
-    //   this.orgId = parts[3];
-    //   this.pageType = 'Organization';
-    //   this.breadcrumbs = [];
-    //   this.breadcrumbs.push({ name: parts[4], nodes: [] });
-    //   // this.loadOrganizations(this.orgId);
-    // } else
-    if (this.currentUrl.startsWith(`/org/edit`) || this.currentUrl.startsWith(`/org/view`)) {
-      const parts = this.currentUrl.split('/');
-      this.orgId = parts[5].indexOf('#') >= 0 ? parts[5].split('#')[0] : parts[5];
-      // this.orgName = parts[4];
-      this.pageType = 'Organization';
-      this.parentOrgId = parts[3];
-      this.breadcrumbs = [];
-      // console.log('OrgId ', this.orgId);
-      // if (this.orgId.toLowerCase() === this.parentOrgId.toLowerCase()) {
-      //   this.breadcrumbs.push({ name: parts[4], nodes: [] });
-      // } else {
-      this.loadOrganizations(this.orgId);
-      // }
-    } else if (this.currentUrl.startsWith(`/loc/edit`) || this.currentUrl.startsWith(`/loc/view`)) {
-      let parts = this.currentUrl.split('/');
-      if (parts.length >= 7) {
-        this.orgId = parts[5];
-        this.locId = parts[7];
-      } else {
-        this.orgId = parts[3];
-        this.locId = parts[5];
-      }
-      this.pageType = 'Location';
-      this.breadcrumbs = [];
-      this.loadOrganizations(this.orgId);
-    } else if (this.currentUrl.startsWith(`/asset/view`) || this.currentUrl.startsWith(`/asset/edit`)) {
-      let parts = this.currentUrl.split('/');
-      if (parts.length >= 9) {
-        this.orgId = parts[3];
-        this.locId = parts[5];
-        this.assetId = parts[9];
-      } else {
-        this.orgId = parts[3];
-        this.locId = parts[5];
-        this.assetId = parts[7];
-      }
-      this.pageType = 'Asset';
-      this.breadcrumbs = [];
-      this.loadOrganizations(this.orgId);
-    } else if (this.currentUrl.startsWith(`/loc/home`)) {
-      let parts = this.currentUrl.split('/');
-      this.orgId = parts[3];
-      this.pageType = 'Location Home';
-      this.breadcrumbs = [];
-      this.loadOrganizations(this.orgId);
-    } else if (this.currentUrl.startsWith(`/asset/home`)) {
-      let parts = this.currentUrl.split('/');
-      this.orgId = parts[3];
-      this.locId = parts[5];
-      this.pageType = 'Asset Home';
-      this.breadcrumbs = [];
-      this.loadOrganizations(this.orgId);
-    } else if (this.currentUrl.startsWith(`/org/create`)) {
-      let parts = this.currentUrl.split('/');
-      this.orgId = parts[3];
-      this.pageType = 'Organization Create';
-      this.breadcrumbs = [];
-      this.loadOrganizations(this.orgId);
-    } else if (this.currentUrl.startsWith(`/loc/create`)) {
-      let parts = this.currentUrl.split('/');
+  //   // this.finalBreadcrumbs = [];
+  //   // this.locBreadcrumbs = [];
+  //   // this.assetBreadcrumbs = [];
+  //   // this.minimizedBreadcrumbs = {};
+  //   // this.orgMinimizedBreadcrumbs = {};
+  //   // this.locMinimizedBreadcrumbs = {};
+  //   // this.assetMinimizedBreadcrumbs = {};
+  //   // if (this.currentUrl.startsWith(`/org/home`)) {
+  //   //   let parts = this.currentUrl.split('/');
+  //   //   this.orgId = parts[3];
+  //   //   this.pageType = 'Organization';
+  //   //   this.breadcrumbs = [];
+  //   //   this.breadcrumbs.push({ name: parts[4], nodes: [] });
+  //   //   // this.loadOrganizations(this.orgId);
+  //   // } else
+  //   if (this.currentUrl.startsWith(`/org/edit`) || this.currentUrl.startsWith(`/org/view`)) {
+  //     const parts = this.currentUrl.split('/');
+  //     this.orgId = parts[5].indexOf('#') >= 0 ? parts[5].split('#')[0] : parts[5];
+  //     // this.orgName = parts[4];
+  //     this.pageType = 'Organization';
+  //     this.parentOrgId = parts[3];
+  //     this.breadcrumbs = [];
+  //     // console.log('OrgId ', this.orgId);
+  //     // if (this.orgId.toLowerCase() === this.parentOrgId.toLowerCase()) {
+  //     //   this.breadcrumbs.push({ name: parts[4], nodes: [] });
+  //     // } else {
+  //     this.loadOrganizations(this.orgId);
+  //     // }
+  //   } else if (this.currentUrl.startsWith(`/loc/edit`) || this.currentUrl.startsWith(`/loc/view`)) {
+  //     let parts = this.currentUrl.split('/');
+  //     if (parts.length >= 7) {
+  //       this.orgId = parts[5];
+  //       this.locId = parts[7];
+  //     } else {
+  //       this.orgId = parts[3];
+  //       this.locId = parts[5];
+  //     }
+  //     this.pageType = 'Location';
+  //     this.breadcrumbs = [];
+  //     this.loadOrganizations(this.orgId);
+  //   } else if (this.currentUrl.startsWith(`/asset/view`) || this.currentUrl.startsWith(`/asset/edit`)) {
+  //     let parts = this.currentUrl.split('/');
+  //     if (parts.length >= 9) {
+  //       this.orgId = parts[3];
+  //       this.locId = parts[5];
+  //       this.assetId = parts[9];
+  //     } else {
+  //       this.orgId = parts[3];
+  //       this.locId = parts[5];
+  //       this.assetId = parts[7];
+  //     }
+  //     this.pageType = 'Asset';
+  //     this.breadcrumbs = [];
+  //     this.loadOrganizations(this.orgId);
+  //   } else if (this.currentUrl.startsWith(`/loc/home`)) {
+  //     let parts = this.currentUrl.split('/');
+  //     this.orgId = parts[3];
+  //     this.pageType = 'Location Home';
+  //     this.breadcrumbs = [];
+  //     this.loadOrganizations(this.orgId);
+  //   } else if (this.currentUrl.startsWith(`/asset/home`)) {
+  //     let parts = this.currentUrl.split('/');
+  //     this.orgId = parts[3];
+  //     this.locId = parts[5];
+  //     this.pageType = 'Asset Home';
+  //     this.breadcrumbs = [];
+  //     this.loadOrganizations(this.orgId);
+  //   } else if (this.currentUrl.startsWith(`/org/create`)) {
+  //     let parts = this.currentUrl.split('/');
+  //     this.orgId = parts[3];
+  //     this.pageType = 'Organization Create';
+  //     this.breadcrumbs = [];
+  //     this.loadOrganizations(this.orgId);
+  //   } else if (this.currentUrl.startsWith(`/loc/create`)) {
+  //     let parts = this.currentUrl.split('/');
 
-      if (parts.length > 5) {
-        this.locId = parts[3];
-        this.orgId = parts[5];
-        this.pageType = 'Create Sub Location';
-      } else {
-        this.orgId = parts[3];
-        this.pageType = 'Create Parent Location';
-      }
+  //     if (parts.length > 5) {
+  //       this.locId = parts[3];
+  //       this.orgId = parts[5];
+  //       this.pageType = 'Create Sub Location';
+  //     } else {
+  //       this.orgId = parts[3];
+  //       this.pageType = 'Create Parent Location';
+  //     }
 
-      this.breadcrumbs = [];
-      this.loadOrganizations(this.orgId);
-    } else if (this.currentUrl.startsWith(`/asset/create`)) {
-      let parts = this.currentUrl.split('/');
+  //     this.breadcrumbs = [];
+  //     this.loadOrganizations(this.orgId);
+  //   } else if (this.currentUrl.startsWith(`/asset/create`)) {
+  //     let parts = this.currentUrl.split('/');
 
-      if (parts.length > 5) {
-        this.locId = parts[5];
-        this.orgId = parts[3];
-        this.assetId = parts[7];
-        this.pageType = 'Create Sub Asset';
-      } else {
-        this.orgId = parts[3];
-        this.pageType = 'Create Parent Asset';
-      }
+  //     if (parts.length > 5) {
+  //       this.locId = parts[5];
+  //       this.orgId = parts[3];
+  //       this.assetId = parts[7];
+  //       this.pageType = 'Create Sub Asset';
+  //     } else {
+  //       this.orgId = parts[3];
+  //       this.pageType = 'Create Parent Asset';
+  //     }
 
-      this.breadcrumbs = [];
-      this.loadOrganizations(this.orgId);
-    } else {
-      // debugger;
-      if (!(this.currentUrl.startsWith(`/login`) || this.currentUrl === '/') ) {
-        this.pageType = '';
-        this.breadcrumbs = [];
-        this.loadOrganizations(this.mainOrganizationId);
-      }
-      // this.breadcrumbs.push({ name: this.mainOrganizationName, nodes: [] });
-    }
-  }
+  //     this.breadcrumbs = [];
+  //     this.loadOrganizations(this.orgId);
+  //   } else {
+  //     // debugger;
+  //     if (!(this.currentUrl.startsWith(`/login`) || this.currentUrl === '/') ) {
+  //       this.pageType = '';
+  //       this.breadcrumbs = [];
+  //       this.loadOrganizations(this.mainOrganizationId);
+  //     }
+  //     // this.breadcrumbs.push({ name: this.mainOrganizationName, nodes: [] });
+  //   }
+  // }
 
-  loadOrganizations(orgId: string) {
-    this.navigationService.getAllSibling('Organization', orgId)
-      .subscribe(response => {
-        if (response && response.length > 0) {
-          response = VotmCommon.getUniqueValues(response);
-          let childFound: boolean = false;
-          for (let i = 0; i < response.length; i++) {
-            if (response[i].id.toLowerCase() === orgId.toLowerCase()) {
-              this.breadcrumbs.push({ name: response[i].name, shortName: this.getShortName(response[i].name), showDots: false, type: 'Organization', id: response[i].id, nodes: response, isVisible: true });
-              if (response[i].parentId) {
-                this.loadOrganizations(response[i].parentId);
-              } else {
-                // this.breadcrumbs.push({ name: this.orgName, nodes: response });
-                this.breadcrumbs.reverse();
-                // this.checkForVisibility();
-                if (this.pageType === 'Location' || this.pageType === 'Asset' || this.pageType === 'Asset Home' || this.pageType === 'Create Sub Location'
-                  || this.pageType === 'Create Parent Asset' || this.pageType === 'Create Sub Asset') {
-                  this.locBreadcrumbs = [];
-                  if (this.locId) {
-                    this.loadLocations(this.locId);
-                  } else {
-                    this.checkForVisibility();
-                  }
-                } else {
+  // loadOrganizations(orgId: string) {
+  //   this.navigationService.getAllSibling('Organization', orgId)
+  //     .subscribe(response => {
+  //       if (response && response.length > 0) {
+  //         response = VotmCommon.getUniqueValues(response);
+  //         let childFound: boolean = false;
+  //         for (let i = 0; i < response.length; i++) {
+  //           if (response[i].id.toLowerCase() === orgId.toLowerCase()) {
+  //             this.breadcrumbs.push({ name: response[i].name, shortName: this.getShortName(response[i].name), showDots: false, type: 'Organization', id: response[i].id, nodes: response, isVisible: true });
+  //             if (response[i].parentId) {
+  //               this.loadOrganizations(response[i].parentId);
+  //             } else {
+  //               // this.breadcrumbs.push({ name: this.orgName, nodes: response });
+  //               this.breadcrumbs.reverse();
+  //               // this.checkForVisibility();
+  //               if (this.pageType === 'Location' || this.pageType === 'Asset' || this.pageType === 'Asset Home' || this.pageType === 'Create Sub Location'
+  //                 || this.pageType === 'Create Parent Asset' || this.pageType === 'Create Sub Asset') {
+  //                 this.locBreadcrumbs = [];
+  //                 if (this.locId) {
+  //                   this.loadLocations(this.locId);
+  //                 } else {
+  //                   this.checkForVisibility();
+  //                 }
+  //               } else {
 
-                  this.checkForVisibility();
-                  if (this.finalBreadcrumbs && this.finalBreadcrumbs.length > 0) {
-                    // this.navigationService.lastOrganization = this.finalBreadcrumbs[this.finalBreadcrumbs.length - 1].name
-                    // console.log('header emit');
+  //                 this.checkForVisibility();
+  //                 if (this.finalBreadcrumbs && this.finalBreadcrumbs.length > 0) {
+  //                   // this.navigationService.lastOrganization = this.finalBreadcrumbs[this.finalBreadcrumbs.length - 1].name
+  //                   // console.log('header emit');
 
-                    this.navigationService.lastOrganization.next(this.finalBreadcrumbs[this.finalBreadcrumbs.length - 1].name);
-                  }
-                }
-              }
-            }
-          }
-        }
-      });
-  }
+  //                   this.navigationService.lastOrganization.next(this.finalBreadcrumbs[this.finalBreadcrumbs.length - 1].name);
+  //                 }
+  //               }
+  //             }
+  //           }
+  //         }
+  //       }
+  //     });
+  // }
 
-  loadLocations(locId: string) {
-    this.navigationService.getAllSibling('Location', locId)
-      .subscribe(response => {
-        if (response && response.length > 0) {
-          response = VotmCommon.getUniqueValues(response);
-          for (let i = 0; i < response.length; i++) {
-            if (response[i].id.toLowerCase() === locId.toLowerCase()) {
-              this.locBreadcrumbs.push({ name: response[i].name, shortName: this.getShortName(response[i].name), showDots: false, type: 'Location', id: response[i].id, nodes: response, isVisible: true });
-              if (response[i].parentId) {
-                this.loadLocations(response[i].parentId);
-              } else {
-                this.locBreadcrumbs.reverse();
-                this.breadcrumbs = this.breadcrumbs.concat(this.locBreadcrumbs);
-                if (this.pageType === 'Asset' || this.pageType === 'Create Sub Asset') {
-                  this.assetBreadcrumbs = [];
-                  if (this.assetId) {
-                    this.loadAssets(this.assetId);
-                  } else {
-                    this.checkForVisibility();
-                  }
-                } else {
-                  this.checkForVisibility();
-                }
-              }
-            }
-          }
-        }
-      });
-  }
+  // loadLocations(locId: string) {
+  //   this.navigationService.getAllSibling('Location', locId)
+  //     .subscribe(response => {
+  //       if (response && response.length > 0) {
+  //         response = VotmCommon.getUniqueValues(response);
+  //         for (let i = 0; i < response.length; i++) {
+  //           if (response[i].id.toLowerCase() === locId.toLowerCase()) {
+  //             this.locBreadcrumbs.push({ name: response[i].name, shortName: this.getShortName(response[i].name), showDots: false, type: 'Location', id: response[i].id, nodes: response, isVisible: true });
+  //             if (response[i].parentId) {
+  //               this.loadLocations(response[i].parentId);
+  //             } else {
+  //               this.locBreadcrumbs.reverse();
+  //               this.breadcrumbs = this.breadcrumbs.concat(this.locBreadcrumbs);
+  //               if (this.pageType === 'Asset' || this.pageType === 'Create Sub Asset') {
+  //                 this.assetBreadcrumbs = [];
+  //                 if (this.assetId) {
+  //                   this.loadAssets(this.assetId);
+  //                 } else {
+  //                   this.checkForVisibility();
+  //                 }
+  //               } else {
+  //                 this.checkForVisibility();
+  //               }
+  //             }
+  //           }
+  //         }
+  //       }
+  //     });
+  // }
 
 
   // Asset breadCrumbs
-  loadAssets(assetId: string) {
-    this.navigationService.getAllSibling('Asset', assetId)
-      .subscribe(response => {
-        if (response && response.length > 0) {
-          response = VotmCommon.getUniqueValues(response);
-          for (let i = 0; i < response.length; i++) {
-            if (response[i].id.toLowerCase() === assetId.toLowerCase()) {
-              this.assetBreadcrumbs.push({ name: response[i].name, shortName: this.getShortName(response[i].name), showDots: false, type: 'Asset', id: response[i].id, nodes: response, isVisible: true });
-              if (response[i].parentId) {
-                this.loadAssets(response[i].parentId);
-              } else {
-                this.assetBreadcrumbs.reverse();
-                this.breadcrumbs = this.breadcrumbs.concat(this.assetBreadcrumbs);
-                this.checkForVisibility();
-              }
-            }
-          }
-        }
-      });
-  }
+  // loadAssets(assetId: string) {
+  //   this.navigationService.getAllSibling('Asset', assetId)
+  //     .subscribe(response => {
+  //       if (response && response.length > 0) {
+  //         response = VotmCommon.getUniqueValues(response);
+  //         for (let i = 0; i < response.length; i++) {
+  //           if (response[i].id.toLowerCase() === assetId.toLowerCase()) {
+  //             this.assetBreadcrumbs.push({ name: response[i].name, shortName: this.getShortName(response[i].name), showDots: false, type: 'Asset', id: response[i].id, nodes: response, isVisible: true });
+  //             if (response[i].parentId) {
+  //               this.loadAssets(response[i].parentId);
+  //             } else {
+  //               this.assetBreadcrumbs.reverse();
+  //               this.breadcrumbs = this.breadcrumbs.concat(this.assetBreadcrumbs);
+  //               this.checkForVisibility();
+  //             }
+  //           }
+  //         }
+  //       }
+  //     });
+  // }
 
   checkForVisibility() {
     this.isDotLoaded = false;

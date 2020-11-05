@@ -62,10 +62,10 @@
           <!-- </div> -->
         </div>
         <div class="col-8">
-          <button id="org-create" [routerLink]="['/org/create', curOrgId, curOrgName]" type="button"
+          <button id="org-create" [routerLink]="['/org/create']" type="button"
             class="btn btn-sm btn-info btn-group-right ml-2">
             <i class="pr-2 icon-organization-add"></i>Create Organization</button>
-          <button id="org-create-loc" [routerLink]="['/loc/create', curOrgId, curOrgName]" type="button"
+          <button id="org-create-loc" [routerLink]="['/loc/create']" type="button"
             class="btn btn-sm btn-info loc-table-fonts btn-group-right">
             <i class="pr-2 icon-location-add"></i>Create Location</button>
         </div>
@@ -182,5 +182,5 @@
 
 
 
-<app-votm-cloud-confim-dialog (onClose)="deleteOrganizationById($event)" #confirmBox [message]="message"
+<app-votm-cloud-confim-dialog #confirmBox [message]="message"
   headerMessage="Warning"></app-votm-cloud-confim-dialog>

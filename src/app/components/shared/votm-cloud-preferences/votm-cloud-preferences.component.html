@@ -16,7 +16,7 @@
       <div class="tab-pane fade show active" id="information">
         <form #userPreferenceForm="ngForm" class="needs-validation"
           (ngSubmit)="onuserPreferenceSubmit(userPreferenceForm.value)" novalidate>
-          <div class="row" *ngIf="userprofile">
+          <div class="row">
             <div class="col-12 col-md-6">
               <div class="row-flex">
                 <div class="form-group">
@@ -196,7 +196,7 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr *ngIf="userprofile.userFavorites === null || userprofile.userFavorites === 0">
+                      <tr>
                         <td colspan="2"> No Favorites data found.</td>
                       </tr>
                       <tr *ngFor="let userFav of userprofile.userFavorites; let i = index"
@@ -267,7 +267,7 @@
         <form [formGroup]="userNotificationForm">
           <fieldset class="">
             <legend>Notification Delivery Methods</legend>
-            <div class="row mb-3" *ngIf="userprofile">
+            <div class="row mb-3" >
               <div class="col-12 col-md-8 col-lg-8 ipad-pro-lg-12">
                 <div class="row mb-3">
                   <div class="col-sm-3">Critical Alarm</div>

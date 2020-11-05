@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, ParamMap } from "@angular/router";
-import { OrganizationService } from '../../../services/organizations/organization.service';
-import { BreadcrumbsService } from './../../../services/breadcrumbs/breadcrumbs.service';
+// import { OrganizationService } from '../../../services/organizations/organization.service';
+// import { BreadcrumbsService } from './../../../services/breadcrumbs/breadcrumbs.service';
 import { Router } from '@angular/router';
 import { VotmCloudConfimDialogComponent } from '../../shared/votm-cloud-confim-dialog/votm-cloud-confim-dialog.component';
 import { Toaster } from '../../shared/votm-cloud-toaster/votm-cloud-toaster';
@@ -32,16 +32,20 @@ export class VotmCloudOrganizationsHomeComponent implements OnInit {
   searchedText: any;
   loader: boolean;
 
-  constructor(private orgservice: OrganizationService, private organizationService: OrganizationService, private route: ActivatedRoute, private toastr: ToastrService, private router: Router, private breadcrumbs: BreadcrumbsService) { }
+  constructor(
+    // private orgservice: OrganizationService, private organizationService: OrganizationService, 
+    private route: ActivatedRoute, private toastr: ToastrService, private router: Router
+    // private breadcrumbs: BreadcrumbsService
+    ) { }
 
   ngOnInit() {
-    this.loader = true;
-    this.route.paramMap.subscribe((params: ParamMap) => {
-      this.curOrgId = params.get('orgId');
-      this.curOrgName = params.get('orgName');
-      // // console.log('ABCD ', params)
-      this.fetchOrgList();
-    });
+    // this.loader = true;
+    // this.route.paramMap.subscribe((params: ParamMap) => {
+    //   this.curOrgId = params.get('orgId');
+    //   this.curOrgName = params.get('orgName');
+    //   // // console.log('ABCD ', params)
+    //   // this.fetchOrgList();
+    // });
 
     // // console.log('ABCD ', this.route.snapshot.data['type'])
   }
@@ -53,45 +57,45 @@ export class VotmCloudOrganizationsHomeComponent implements OnInit {
     this.orgNameToDelete = name;
   }
 
-  deleteOrganizationById(event) {
-    if (event) {
-      this.orgservice.deleteOrganization(this.orgToDelete)
-        .subscribe(response => {
-          this.toaster.onSuccess(`You have deleted ${this.orgNameToDelete} successfully.`, 'Delete Success!');
-          this.orgNameToDelete = '';
-          this.fetchOrgList();
+  // deleteOrganizationById(event) {
+  //   if (event) {
+  //     this.orgservice.deleteOrganization(this.orgToDelete)
+  //       .subscribe(response => {
+  //         this.toaster.onSuccess(`You have deleted ${this.orgNameToDelete} successfully.`, 'Delete Success!');
+  //         this.orgNameToDelete = '';
+  //         this.fetchOrgList();
 
-        }, error => {
-          this.toaster.onFailure('Something went wrong on server. Please try after sometiime.', 'Delete Fail!');
-          this.orgNameToDelete = '';
-        });
-    }
-    this.orgToDelete = '';
+  //       }, error => {
+  //         this.toaster.onFailure('Something went wrong on server. Please try after sometiime.', 'Delete Fail!');
+  //         this.orgNameToDelete = '';
+  //       });
+  //   }
+  //   this.orgToDelete = '';
 
-  }
+  // }
 
-  getIntoContext(newOrg) {
-    this.breadcrumbs.addCrumb(newOrg);
-    // breadcrum into context
-    // [routerLink]="['/org/home', item.id, item.name]"
-  }
+  // getIntoContext(newOrg) {
+  //   this.breadcrumbs.addCrumb(newOrg);
+  //   // breadcrum into context
+  //   // [routerLink]="['/org/home', item.id, item.name]"
+  // }
 
   fetchOrgList() {
-    this.loader = true;
-    this.isGetOrganizationsApiLoading = true;
-    this.orgservice.getOrganizationTree(this.curOrgId).subscribe(
-      response => {
-        this.organizationsList =[];
-        if (response && response.length > 0) {
-          this.organizationsList = this.fillOrganizationData(response);
-        }
-        this.isGetOrganizationsApiLoading = false;
-        this.loader = false;
-      }, error => {
-        this.isGetOrganizationsApiLoading = false;
-        this.loader = false;
-      }
-    );
+    // this.loader = true;
+    // this.isGetOrganizationsApiLoading = true;
+    // this.orgservice.getOrganizationTree(this.curOrgId).subscribe(
+    //   response => {
+    //     this.organizationsList =[];
+    //     if (response && response.length > 0) {
+    //       this.organizationsList = this.fillOrganizationData(response);
+    //     }
+    //     this.isGetOrganizationsApiLoading = false;
+    //     this.loader = false;
+    //   }, error => {
+    //     this.isGetOrganizationsApiLoading = false;
+    //     this.loader = false;
+    //   }
+    // );
   }
 
   fillOrganizationData(organizations: any[]) {
@@ -110,42 +114,42 @@ export class VotmCloudOrganizationsHomeComponent implements OnInit {
   }
 
   getOptionsListData(listData: string) {
-    this.organizationService.getOptionsListData(listData)
-      .subscribe(response => {
-        if (listData === 'Service Levels') {
-          this.svcLevels = [];
-          this.svcLevels = response;
-        }
-        if (listData === 'Sensor Blocks') {
-          this.sensorBlocks = [];
-          this.sensorBlocks = response;
-        }
-        if (listData === 'Cellular Blocks') {
-          this.cellularBlocks = [];
-          this.cellularBlocks = response;
-        }
-      });
+    // this.organizationService.getOptionsListData(listData)
+    //   .subscribe(response => {
+    //     if (listData === 'Service Levels') {
+    //       this.svcLevels = [];
+    //       this.svcLevels = response;
+    //     }
+    //     if (listData === 'Sensor Blocks') {
+    //       this.sensorBlocks = [];
+    //       this.sensorBlocks = response;
+    //     }
+    //     if (listData === 'Cellular Blocks') {
+    //       this.cellularBlocks = [];
+    //       this.cellularBlocks = response;
+    //     }
+    //   });
   }
 
   onOrganizationSearch() {
-    this.loader = true;
-    if (this.searchedText) {
-      this.organizationsList = [];
-      this.organizationService.searchOrganizations(this.searchedText)
-        .subscribe(response => {
-          this.organizationsList = [];
-          if (response && response.length > 0) {
-            this.organizationsList = this.fillOrganizationData(response);
-          }
-          this.isGetOrganizationsApiLoading = false;
-          this.loader = false;
-        }, error => {
-          this.isGetOrganizationsApiLoading = false;
-          this.loader = false;
-        });
-    } else {
-      this.fetchOrgList();
-    }
+    // this.loader = true;
+    // if (this.searchedText) {
+    //   this.organizationsList = [];
+    //   this.organizationService.searchOrganizations(this.searchedText)
+    //     .subscribe(response => {
+    //       this.organizationsList = [];
+    //       if (response && response.length > 0) {
+    //         this.organizationsList = this.fillOrganizationData(response);
+    //       }
+    //       this.isGetOrganizationsApiLoading = false;
+    //       this.loader = false;
+    //     }, error => {
+    //       this.isGetOrganizationsApiLoading = false;
+    //       this.loader = false;
+    //     });
+    // } else {
+    //   this.fetchOrgList();
+    // }
   }
 
 }

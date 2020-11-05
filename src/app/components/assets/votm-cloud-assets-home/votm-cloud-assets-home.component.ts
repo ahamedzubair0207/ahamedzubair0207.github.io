@@ -46,21 +46,21 @@ export class VotmCloudAssetsHomeComponent implements OnInit {
     private breadcrumbs: BreadcrumbsService) { }
 
   ngOnInit() {
-    this.subscriptions.push(this.route.params.subscribe(
-      (params: Params) => {
-        this.parentOrgId = params.orgId;
-        this.parentOrgName = params.orgName;
-        this.locationId = params.locId;
-        if (!this.locationId) {
-          this.fetchAllAssetsTree();
-        } else {
-          this.fetchAssetsTreeById();
-        }
-      }));
+    // this.subscriptions.push(this.route.params.subscribe(
+    //   (params: Params) => {
+    //     this.parentOrgId = params.orgId;
+    //     this.parentOrgName = params.orgName;
+    //     this.locationId = params.locId;
+    //     if (!this.locationId) {
+    //       this.fetchAllAssetsTree();
+    //     } else {
+    //       this.fetchAssetsTreeById();
+    //     }
+    //   }));
   }
 
   onCreateAsset() {
-    this.router.navigate([`asset/create/${this.parentOrgId}/${this.parentOrgName}`]);
+    this.router.navigate([`asset/create`]);
   }
 
 

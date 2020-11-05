@@ -181,30 +181,30 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
     //       });
     //     }
     //   });
-    this.activatedRoute.paramMap.subscribe(params => {
-      this.curOrgId = params.get('curOrgId');
-      this.curOrgName = params.get('curOrgName');
-      this.parentLocId = params.get('parentLocId');
-      this.parentLocName = params.get('parentLocName');
-      this.locId = params.get('locId');
+    // this.activatedRoute.paramMap.subscribe(params => {
+    //   this.curOrgId = params.get('curOrgId');
+    //   this.curOrgName = params.get('curOrgName');
+    //   this.parentLocId = params.get('parentLocId');
+    //   this.parentLocName = params.get('parentLocName');
+    //   this.locId = params.get('locId');
 
-      if (!this.parentLocId && !this.locId) {
-        this.getAllOrganizations();
-        this.getAllLocationByOrganization(this.curOrgId);
-      }
-      if (!this.locId) {
-        this.locationObject();
-        this.setDefaultParentOrganizationOptions();
-      } else {
-        this.dahboardsLoader = true;
-        this.dbService.getAllDashboards(this.locId, 'location')
-          .subscribe(response => {
-            // console.log('get All Dashboard ', response);
-            this.dashboardTabs = response;
-            this.dahboardsLoader = false;
-          });
-      }
-    });
+    //   if (!this.parentLocId && !this.locId) {
+    //     this.getAllOrganizations();
+    //     this.getAllLocationByOrganization(this.curOrgId);
+    //   }
+    //   if (!this.locId) {
+    //     this.locationObject();
+    //     this.setDefaultParentOrganizationOptions();
+    //   } else {
+    //     this.dahboardsLoader = true;
+    //     this.dbService.getAllDashboards(this.locId, 'location')
+    //       .subscribe(response => {
+    //         // console.log('get All Dashboard ', response);
+    //         this.dashboardTabs = response;
+    //         this.dahboardsLoader = false;
+    //       });
+    //   }
+    // });
 
     this.countries = countyList;
 
@@ -250,10 +250,10 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
       parentOrganizationId: this.curOrgId,
       parentOrganizationName: this.curOrgName
     };
-    this.getScreenLabels();
-    this.getAllAppInfo();
-    this.location.organizationId = this.parentOrganizationInfo.parentOrganizationId;
-    this.location.parentLocationId = this.parentLocId;
+    // this.getScreenLabels();
+    // this.getAllAppInfo();
+    // this.location.organizationId = this.parentOrganizationInfo.parentOrganizationId;
+    // this.location.parentLocationId = this.parentLocId;
     this.tempMeasurement = 'Imperial';
     this.location.active = true;
     this.locMeasurementType = 'Imperial';
@@ -564,15 +564,15 @@ export class VotmCloudLocationsCreateComponent implements OnInit {
 
   }
 
-  getScreenLabels() {
-    this.screenLabelLoader = true;
-    this.configSettingsService.getCreateLocScreenLabels()
-      .subscribe(response => {
-        this.pageLabels = response;
+  // getScreenLabels() {
+  //   this.screenLabelLoader = true;
+  //   this.configSettingsService.getCreateLocScreenLabels()
+  //     .subscribe(response => {
+  //       this.pageLabels = response;
 
-        this.screenLabelLoader = false;
-      });
-  }
+  //       this.screenLabelLoader = false;
+  //     });
+  // }
 
   getAllAppInfo() {
     this.getAllAppInfoLoader = true;
